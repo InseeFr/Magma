@@ -1,0 +1,2 @@
+# Magma
+Metadata management API
