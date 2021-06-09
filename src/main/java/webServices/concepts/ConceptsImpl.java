@@ -5,10 +5,12 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import persistence.FreeMarkerUtils;
+import persistence.RdfService;
 import utils.config.Config;
 import utils.exceptions.RmesException;
 
-public class ConceptsImpl implements ConceptsServices {
+public class ConceptsImpl extends RdfService implements ConceptsServices {
 
 	@Override
     public String getDetailedConcept(String id) throws RmesException {
@@ -58,5 +60,8 @@ public class ConceptsImpl implements ConceptsServices {
         return repoGestion.getResponseAsArray(buildRequest("getAllConcepts.ftlh", params)).toString();
     }
 
+    private static String buildRequest(String fileName, HashMap<String, Object> params) throws RmesException {
+        return FreeMarkerUtils.buildRequest("concepts/", fileName, params);
+    }
 	
 }

@@ -1,4 +1,4 @@
-package persistance;
+package persistence;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -21,10 +21,10 @@ import org.eclipse.rdf4j.repository.http.HTTPRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import fr.insee.rmes.bauhaus_services.Constants;
-import fr.insee.rmes.bauhaus_services.rdf_utils.QueryUtils;
-import fr.insee.rmes.bauhaus_services.rdf_utils.RepositoryUtils;
-import fr.insee.rmes.exceptions.RmesException;
+import utils.Constants;
+import persistence.rdfQueries.QueryUtils;
+import persistence.RepositoryUtils;
+import utils.exceptions.RmesException;
 
 public abstract class RepositoryUtils {
 	

@@ -1,4 +1,4 @@
-package persistance;
+package persistence;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,11 +26,11 @@ import org.json.JSONObject;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
-import fr.insee.rmes.config.Config;
-import fr.insee.rmes.exceptions.RmesException;
-import fr.insee.rmes.persistance.ontologies.EVOC;
-import fr.insee.rmes.persistance.ontologies.INSEE;
-import fr.insee.rmes.persistance.ontologies.QB;
+import persistence.ontologies.EVOC;
+import persistence.ontologies.INSEE;
+import persistence.ontologies.QB;
+import utils.config.Config;
+import utils.exceptions.RmesException;
 
 @Component
 @DependsOn("AppContext")

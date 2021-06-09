@@ -182,8 +182,8 @@ public class Config {
 		Config.IGESA_USER = env.getProperty("fr.insee.rmes.bauhaus.igesa.user");
 		Config.IGESA_PASSWORD = env.getProperty("fr.insee.rmes.bauhaus.igesa.password");
 
-		Config.SWAGGER_HOST = env.getProperty("fr.insee.rmes.bauhaus.api.host");
-		Config.SWAGGER_BASEPATH = env.getProperty("fr.insee.rmes.bauhaus.api.basepath");
+		Config.SWAGGER_HOST = env.getProperty("fr.insee.rmes.magma.api.host");
+		Config.SWAGGER_BASEPATH = env.getProperty("fr.insee.rmes.magma.api.basepath");
 		Config.SWAGGER_URL = (Config.REQUIRES_SSL ? "https" : "http") + "://" + Config.SWAGGER_HOST + "/" + Config.SWAGGER_BASEPATH;
 	}
 
