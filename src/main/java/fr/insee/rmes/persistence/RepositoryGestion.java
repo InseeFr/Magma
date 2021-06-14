@@ -23,6 +23,7 @@ import org.eclipse.rdf4j.repository.RepositoryResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import fr.insee.rmes.persistence.ontologies.EVOC;
@@ -33,15 +34,19 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 @Component
 public class RepositoryGestion extends RepositoryUtils {
 
-
+	@Value("${fr.insee.rmes.magma.gestion.rdfServer}")
+	private static String RDF_SERVER;
+	@Value("${fr.insee.rmes.magma.gestion.repository}")
+	private static String GESTION_REPO;
+	
 	private static final String FAILURE_LOAD_OBJECT = "Failure load object : ";
 	private static final String FAILURE_REPLACE_GRAPH = "Failure replace graph : ";
 	private static final String FAILURE_DELETE_OBJECT = "Failure delete object";
 
 	static final Logger logger = LogManager.getLogger(RepositoryGestion.class);
 
-	public static final Repository REPOSITORY_GESTION = initRepository("fr.insee.rmes.magma.gestion.rdfServer",
-			"fr.insee.rmes.magma.gestion.repository");
+	public static final Repository REPOSITORY_GESTION = initRepository(RDF_SERVER,
+			GESTION_REPO);
 
 
 	
