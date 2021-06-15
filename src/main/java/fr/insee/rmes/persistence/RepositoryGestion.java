@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ws.rs.core.Response;
 
 import org.apache.http.HttpStatus;
@@ -35,9 +36,9 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 public class RepositoryGestion extends RepositoryUtils {
 
 	@Value("${fr.insee.rmes.magma.gestion.rdfServer}")
-	private static String RDF_SERVER;
+	private  String RDF_SERVER;
 	@Value("${fr.insee.rmes.magma.gestion.repository}")
-	private static String GESTION_REPO;
+	private  String GESTION_REPO;
 	
 	private static final String FAILURE_LOAD_OBJECT = "Failure load object : ";
 	private static final String FAILURE_REPLACE_GRAPH = "Failure replace graph : ";
@@ -45,11 +46,15 @@ public class RepositoryGestion extends RepositoryUtils {
 
 	static final Logger logger = LogManager.getLogger(RepositoryGestion.class);
 
-	public static final Repository REPOSITORY_GESTION = initRepository(RDF_SERVER,
-			GESTION_REPO);
+	public Repository REPOSITORY_GESTION ;
 
+	@PostConstruct  
+	   public void postConstruct(){
 
-	
+		REPOSITORY_GESTION = initRepository(RDF_SERVER,
+				GESTION_REPO);
+	   }
+
 	/**
 	 * Method which aims to produce response from a sparql query
 	 *
@@ -250,7 +255,7 @@ public class RepositoryGestion extends RepositoryUtils {
 
 	public void objectsValidation(List<IRI> collectionsToValidateList, Model model) throws RmesException {
 		try {
-			RepositoryConnection conn = RepositoryGestion.REPOSITORY_GESTION.getConnection();
+			RepositoryConnection conn = REPOSITORY_GESTION.getConnection();
 			for (IRI item : collectionsToValidateList) {
 				conn.remove(item, INSEE.VALIDATION_STATE, null);
 				conn.remove(item, INSEE.IS_VALIDATED, null);
@@ -264,7 +269,7 @@ public class RepositoryGestion extends RepositoryUtils {
 
 	public void objectValidation(IRI ressourceURI, Model model) throws RmesException {
 		try {
-			RepositoryConnection conn = RepositoryGestion.REPOSITORY_GESTION.getConnection();
+			RepositoryConnection conn = REPOSITORY_GESTION.getConnection();
 			conn.remove(ressourceURI, INSEE.VALIDATION_STATE, null);
 			conn.remove(ressourceURI, INSEE.IS_VALIDATED, null);
 			conn.add(model);
@@ -381,7 +386,7 @@ public class RepositoryGestion extends RepositoryUtils {
 	}
 
 	public RepositoryConnection getConnection() throws RmesException {
-		return getConnection(RepositoryGestion.REPOSITORY_GESTION);
+		return getConnection(REPOSITORY_GESTION);
 	}
 
 

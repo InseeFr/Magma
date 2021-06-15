@@ -15,13 +15,13 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 public class ConceptsImpl extends RdfService implements ConceptsServices {
 
 	@Value("${fr.insee.rmes.magma.lg1}")
-	public static String LG1;
+	public String LG1;
 	@Value("${fr.insee.rmes.magma.lg2}")
-	public static String LG2;	
+	public String LG2;	
 	@Value("${fr.insee.rmes.magma.baseGraph}")
-	public static String BASE_GRAPH;
+	public String BASE_GRAPH;
 	@Value("${fr.insee.rmes.magma.concepts.graph}")
-	public static String CONCEPTS_GRAPH;
+	public String CONCEPTS_GRAPH;
 	
 	
 	@Override

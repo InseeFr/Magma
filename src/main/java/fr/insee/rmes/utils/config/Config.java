@@ -24,7 +24,8 @@ public class Config {
 	@Value("${fr.insee.rmes.magma.lg2}")
 	public static String LG2;
 
-	public static String BASE_GRAPH = "";
+	@Value("${http://rdf.insee.fr/graphes/}")
+	public static String BASE_GRAPH;
 
 
 	public static String PASSWORD_GESTIONNAIRE = "";
