@@ -19,6 +19,7 @@
 		<url>http://www.insee.fr</url>
 	</organization>
 	<properties>
+		<packaging.mode>war</packaging.mode>
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
