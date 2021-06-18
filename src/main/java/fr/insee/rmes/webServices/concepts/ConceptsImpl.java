@@ -70,8 +70,4 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         return repoGestion.getResponseAsArray(buildRequest("getAllConcepts.ftlh", params)).toString();
     }
 
-    private static String buildRequest(String fileName, HashMap<String, Object> params) throws RmesException {
-        return FreeMarkerUtils.buildRequest("concepts/", fileName, params);
-    }
-	
 }
