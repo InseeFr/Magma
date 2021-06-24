@@ -1,7 +1,6 @@
 package fr.insee.rmes.webServices.ressources;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -9,6 +8,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,7 +39,7 @@ public class CodeListsResources {
 	CodeListsServices codeListsServices;
 
     @GET()
-    @Path("/listesCodes")
+    @GetMapping("/listesCodes")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getAllCodesLists", summary = "Get all codes lists")
     public Response getAllCodesLists() {
@@ -53,7 +53,7 @@ public class CodeListsResources {
     }
 
     @GET()
-    @Path("/listeCode/{notation}")
+    @GetMapping("/listeCode/{notation}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getCodesList", summary = "Get one codes list")
     public Response getCodesList(@PathParam(Constants.NOTATION) String notation) {

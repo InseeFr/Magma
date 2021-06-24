@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import fr.insee.rmes.model.ValidationStatus;
-import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
 public abstract class RdfService {
@@ -33,8 +32,8 @@ public abstract class RdfService {
         JSONObject lg1 = new JSONObject();
         JSONObject lg2 = new JSONObject();
 
-        lg1.put("langue", Config.LG1);
-        lg2.put("langue", Config.LG2);
+        lg1.put("langue", LG1);
+        lg2.put("langue", LG2);
         lg1.put("contenu", obj.getString("prefLabelLg1"));
         lg2.put("contenu", obj.getString("prefLabelLg2"));
 

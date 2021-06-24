@@ -1,7 +1,6 @@
 package fr.insee.rmes.webServices.ressources;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -9,6 +8,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,33 +37,33 @@ public class StructuresResources {
 
 	@Autowired
 	StructuresServices structuresServices;
-	
-	   @GET()
-	    @Path("/structures")
-	    @Produces(MediaType.APPLICATION_JSON)
-	    @Operation(operationId = "getAllStructures", summary = "Get all structures")
-	    public Response getAllStructures() {
-	        String jsonResultat;
-	        try {
-	            jsonResultat = structuresServices.getAllStructures();
-	        } catch (RmesException e) {
-	            return Response.status(e.getStatus()).entity(e.getDetails()).type(MediaType.TEXT_PLAIN).build();
-	        }
-	        return Response.status(HttpStatus.SC_OK).entity(jsonResultat).build();
-	    }
 
-	    @GET()
-	    @Path("/structure/{id}")
-	    @Produces(MediaType.APPLICATION_JSON)
-	    @Operation(operationId = "getStructure", summary = "Get a structure")
-	    public Response getStructure(@PathParam(Constants.ID) String id) {
-	        String jsonResultat;
-	        try {
-	            jsonResultat = structuresServices.getStructure(id);
-	        } catch (RmesException e) {
-	            return Response.status(e.getStatus()).entity(e.getDetails()).type(MediaType.TEXT_PLAIN).build();
-	        }
-	        return Response.status(HttpStatus.SC_OK).entity(jsonResultat).build();
-	    }
+	@GET()
+	@GetMapping("/structures")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(operationId = "getAllStructures", summary = "Get all structures")
+	public Response getAllStructures() {
+		String jsonResultat;
+		try {
+			jsonResultat = structuresServices.getAllStructures();
+		} catch (RmesException e) {
+			return Response.status(e.getStatus()).entity(e.getDetails()).type(MediaType.TEXT_PLAIN).build();
+		}
+		return Response.status(HttpStatus.SC_OK).entity(jsonResultat).build();
+	}
+
+	@GET()
+	@GetMapping("/structure/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(operationId = "getStructure", summary = "Get a structure")
+	public Response getStructure(@PathParam(Constants.ID) String id) {
+		String jsonResultat;
+		try {
+			jsonResultat = structuresServices.getStructure(id);
+		} catch (RmesException e) {
+			return Response.status(e.getStatus()).entity(e.getDetails()).type(MediaType.TEXT_PLAIN).build();
+		}
+		return Response.status(HttpStatus.SC_OK).entity(jsonResultat).build();
+	}
 
 }

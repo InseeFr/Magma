@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import fr.insee.rmes.model.ValidationStatus;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
