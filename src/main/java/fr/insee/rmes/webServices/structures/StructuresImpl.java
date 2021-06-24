@@ -4,18 +4,30 @@ import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import fr.insee.rmes.model.ValidationStatus;
 import fr.insee.rmes.persistence.RdfService;
-import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
+@Service 
 public class StructuresImpl extends RdfService implements StructuresServices {
 
+	@Value("${fr.insee.rmes.magma.concepts.graph}")
+	public String  CONCEPTS_GRAPH ;
+	@Value("${fr.insee.rmes.magma.codelists.graph}")
+	public String  CODELIST_GRAPH ;
+
+	@Value("${fr.insee.rmes.magma.structures.graph}")
+	public String STRUCTURES_COMPONENTS_GRAPH ;
+	@Value("${fr.insee.rmes.magma.structures.graph}")
+	public String STRUCTURES_GRAPH;
+	
 	@Override
 	public String getAllStructures() throws RmesException {
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_GRAPH", Config.STRUCTURES_GRAPH);
+		params.put("STRUCTURES_GRAPH", STRUCTURES_GRAPH);
 		JSONArray structures =  repoGestion.getResponseAsArray(buildRequest("getStructures.ftlh", params));
 
 		for (int i = 0; i < structures.length(); i++) {
@@ -27,29 +39,14 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		return structures.toString();
 	}
 
-	private String getValidationState(String validationState){
-		if(ValidationStatus.VALIDATED.toString().equalsIgnoreCase(validationState)){
-			return "Publiée";
-		}
-		if(ValidationStatus.MODIFIED.toString().equalsIgnoreCase(validationState)){
-			return "Provisoire, déjà publiée";
-		}
-		if(ValidationStatus.UNPUBLISHED.toString().equalsIgnoreCase(validationState)){
-			return "Provisoire, jamais publiée";
-		}
-
-		return validationState;
-	}
-
-
 	@Override
 	public String getStructure(String id) throws RmesException {
 		String defaultDate = "2020-01-01T00:00:00.000";
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_GRAPH", Config.STRUCTURES_GRAPH);
+		params.put("STRUCTURES_GRAPH", STRUCTURES_GRAPH);
 		params.put("STRUCTURE_ID", id);
-		params.put("LG1", Config.LG1);
-		params.put("LG2", Config.LG2);
+		params.put("LG1", LG1);
+		params.put("LG2", LG2);
 
 		JSONObject structure =  repoGestion.getResponseAsObject(buildRequest("getStructure.ftlh", params));
 
@@ -75,14 +72,14 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 
 	private void getStructureComponents(String id, JSONObject structure) throws RmesException {
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_GRAPH", Config.STRUCTURES_GRAPH);
-		params.put("STRUCTURES_COMPONENTS_GRAPH", Config.STRUCTURES_COMPONENTS_GRAPH);
-		params.put("CONCEPTS_GRAPH", Config.CONCEPTS_GRAPH);
-		params.put("CODELIST_GRAPH", Config.CODELIST_GRAPH);
+		params.put("STRUCTURES_GRAPH", STRUCTURES_GRAPH);
+		params.put("STRUCTURES_COMPONENTS_GRAPH", STRUCTURES_COMPONENTS_GRAPH);
+		params.put("CONCEPTS_GRAPH", CONCEPTS_GRAPH);
+		params.put("CODELIST_GRAPH", CODELIST_GRAPH);
 
 		params.put("STRUCTURE_ID", id);
-		params.put("LG1", Config.LG1);
-		params.put("LG2", Config.LG2);
+		params.put("LG1", LG1);
+		params.put("LG2", LG2);
 
 		JSONArray components = repoGestion.getResponseAsArray(buildRequest("getStructureComponents.ftlh", params));
 

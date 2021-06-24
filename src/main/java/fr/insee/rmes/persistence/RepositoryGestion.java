@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RestController;
 
 import fr.insee.rmes.persistence.ontologies.EVOC;
 import fr.insee.rmes.persistence.ontologies.INSEE;

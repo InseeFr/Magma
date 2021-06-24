@@ -5,12 +5,21 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
+import fr.insee.rmes.model.ValidationStatus;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
 public abstract class RdfService {
 
+	@Value("${fr.insee.rmes.magma.lg1}")
+	public String LG1;
+	@Value("${fr.insee.rmes.magma.lg2}")
+	public String LG2;	
+	@Value("${fr.insee.rmes.magma.baseGraph}")
+	public String BASE_GRAPH;
+	
 	@Autowired
 	protected RepositoryGestion repoGestion;
 	
@@ -33,5 +42,18 @@ public abstract class RdfService {
         label.put(lg2);
 
         return label;
+    }
+    
+    protected String getValidationState(String validationState){
+        if(ValidationStatus.VALIDATED.toString().equalsIgnoreCase(validationState)){
+            return "Publiée";
+        }
+        if(ValidationStatus.MODIFIED.toString().equalsIgnoreCase(validationState)){
+            return "Provisoire, déjà publiée";
+        }
+        if(ValidationStatus.UNPUBLISHED.toString().equalsIgnoreCase(validationState)){
+            return "Provisoire, jamais publiée";
+        }
+        return validationState;
     }
 }

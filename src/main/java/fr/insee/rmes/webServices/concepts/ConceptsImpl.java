@@ -7,19 +7,13 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import fr.insee.rmes.persistence.FreeMarkerUtils;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
 @Service
 public class ConceptsImpl extends RdfService implements ConceptsServices {
 
-	@Value("${fr.insee.rmes.magma.lg1}")
-	public String LG1;
-	@Value("${fr.insee.rmes.magma.lg2}")
-	public String LG2;	
-	@Value("${fr.insee.rmes.magma.baseGraph}")
-	public String BASE_GRAPH;
+
 	@Value("${fr.insee.rmes.magma.concepts.graph}")
 	public String CONCEPTS_GRAPH;
 	
