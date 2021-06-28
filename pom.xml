@@ -10,11 +10,11 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<packaging>${packaging.mode}</packaging>
-	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
-	<description>Magma: API to access metadata from gestion repository</description>
+	<groupId>fr.insee.rmes</groupId>
+	<artifactId>magma</artifactId>
+	<version>0.0.1</version>
+	<name>magma</name>
+	<description>Metadata management API</description>
 	<organization>
 		<name>INSEE</name>
 		<url>http://www.insee.fr</url>
@@ -58,6 +58,14 @@
 			<version>3.7.0</version>
 		</dependency>
 		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-multipart</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.eclipse.rdf4j</groupId>
 			<artifactId>rdf4j-repository-http</artifactId>
 			<version>3.7.0</version>
@@ -67,15 +75,16 @@
 			<artifactId>rdf4j-queryresultio-sparqljson</artifactId>
 			<version>3.7.0</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.5.2</version>
-		</dependency>
-			<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-			<version>2.3.31</version>
 		</dependency>
 	</dependencies>
 

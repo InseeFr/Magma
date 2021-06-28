@@ -1,18 +1,19 @@
-package fr.insee.rmes.webServices.codeLists;
+package fr.insee.rmes.webServices.codelists;
 
 import java.util.HashMap;
 import java.util.Iterator;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
+@Service
 public class CodeListImpl extends RdfService implements CodeListsServices {
-
 
     @Override
     public String getAllCodesLists() throws RmesException {

@@ -20,12 +20,14 @@ import org.eclipse.rdf4j.repository.RepositoryException;
 import org.eclipse.rdf4j.repository.http.HTTPRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 import fr.insee.rmes.persistence.RepositoryUtils;
 import fr.insee.rmes.persistence.rdfQueries.QueryUtils;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
+@Service
 public abstract class RepositoryUtils {
 	
 	private static final String BINDINGS = "bindings";

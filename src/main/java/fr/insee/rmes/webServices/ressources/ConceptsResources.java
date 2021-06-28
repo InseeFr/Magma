@@ -21,7 +21,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/magma")
+@RequestMapping("/api/magma2")
 @Tag(name = "Concepts", description = "Consultation Gestion API")
 @ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Success"),

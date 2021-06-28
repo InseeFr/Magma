@@ -6,10 +6,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import fr.insee.rmes.model.ValidationStatus;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
+@Service
 public abstract class RdfService {
 
 	@Value("${fr.insee.rmes.magma.lg1}")

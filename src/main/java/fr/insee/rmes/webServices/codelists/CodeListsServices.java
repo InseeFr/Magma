@@ -1,4 +1,4 @@
-package fr.insee.rmes.webServices.codeLists;
+package fr.insee.rmes.webServices.codelists;
 
 import org.springframework.stereotype.Service;
 

@@ -4,39 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.vocabulary.FOAF;
 import org.eclipse.rdf4j.model.vocabulary.SKOS;
 
-import fr.insee.rmes.persistence.ontologies.GEO;
-import fr.insee.rmes.persistence.ontologies.INSEE;
 import fr.insee.rmes.persistence.ontologies.ORG;
-import fr.insee.rmes.persistence.ontologies.QB;
-import fr.insee.rmes.persistence.ontologies.SDMX_MM;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 
 public enum ObjectType {
 	CONCEPT("concept", SKOS.CONCEPT,  Config.CONCEPTS_BASE_URI),
-	COLLECTION("collection", SKOS.COLLECTION,  Config.COLLECTIONS_BASE_URI),
-	FAMILY(Constants.FAMILY, INSEE.FAMILY, Config.OP_FAMILIES_BASE_URI),
-	SERIES("series", INSEE.SERIES, Config.OP_SERIES_BASE_URI),
-	OPERATION("operation", INSEE.OPERATION, Config.OPERATIONS_BASE_URI),
-	INDICATOR("indicator", INSEE.INDICATOR, Config.PRODUCTS_BASE_URI),
-	DOCUMENTATION("documentation", SDMX_MM.METADATA_REPORT, Config.DOCUMENTATIONS_BASE_URI),
-	DOCUMENT(Constants.DOCUMENT, FOAF.DOCUMENT, Config.DOCUMENTS_BASE_URI ),
-	LINK("link", FOAF.DOCUMENT, Config.LINKS_BASE_URI ),
-	GEO_STAT_TERRITORY("geoFeature", GEO.FEATURE, Config.DOCUMENTATIONS_GEO_BASE_URI),
 	ORGANIZATION("organization",ORG.ORGANIZATION, ""),
-	STRUCTURE("structure", QB.DATA_STRUCTURE_DEFINITION, Config.STRUCTURES_BASE_URI),
-
-	MEASURE_PROPERTY("measureProperty", QB.MEASURE_PROPERTY, Config.STRUCTURES_COMPONENTS_BASE_URI  + "mesure"),
-	ATTRIBUTE_PROPERTY("attributeProperty", QB.ATTRIBUTE_PROPERTY, Config.STRUCTURES_COMPONENTS_BASE_URI + "attribut"),
-	DIMENSION_PROPERTY("dimensionProperty", QB.DIMENSION_PROPERTY, Config.STRUCTURES_COMPONENTS_BASE_URI + "dimension"),
-
-
 	UNDEFINED(Constants.UNDEFINED,null, "");
 	
-	
+	//TODO
 
 	
 	private String labelType;

@@ -21,8 +21,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/magma")
-@Tag(name = "Concepts", description = "Consultation Gestion API")
+@RequestMapping("/api/magma1")
+@Tag(name = "Structures", description = "Consultation Gestion API - Structures")
 @ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Success"),
 		@ApiResponse(responseCode = "204", description = "No Content"),
@@ -38,7 +38,7 @@ public class StructuresResources {
 	@Autowired
 	StructuresServices structuresServices;
 
-	@GET()
+	@GET
 	@GetMapping("/structures")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getAllStructures", summary = "Get all structures")
@@ -52,7 +52,7 @@ public class StructuresResources {
 		return Response.status(HttpStatus.SC_OK).entity(jsonResultat).build();
 	}
 
-	@GET()
+	@GET
 	@GetMapping("/structure/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getStructure", summary = "Get a structure")

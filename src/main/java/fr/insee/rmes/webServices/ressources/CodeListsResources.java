@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.exceptions.RmesException;
-import fr.insee.rmes.webServices.codeLists.CodeListsServices;
+import fr.insee.rmes.webServices.codelists.CodeListsServices;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/magma")
-@Tag(name = "Concepts", description = "Consultation Gestion API")
+@RequestMapping("/api/magma3")
+@Tag(name = "Codelists", description = "Consultation Gestion API - Codelists")
 @ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Success"),
 		@ApiResponse(responseCode = "204", description = "No Content"),
@@ -32,13 +32,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 		@ApiResponse(responseCode = "404", description = "Not found"),
 		@ApiResponse(responseCode = "406", description = "Not Acceptable"),
 		@ApiResponse(responseCode = "500", description = "Internal server error")})
-
 public class CodeListsResources {
 
 	@Autowired
 	CodeListsServices codeListsServices;
 
-    @GET()
+    @GET
     @GetMapping("/listesCodes")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getAllCodesLists", summary = "Get all codes lists")
@@ -52,7 +51,7 @@ public class CodeListsResources {
         return Response.status(HttpStatus.SC_OK).entity(jsonResultat).build();
     }
 
-    @GET()
+    @GET
     @GetMapping("/listeCode/{notation}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getCodesList", summary = "Get one codes list")
