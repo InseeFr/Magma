@@ -20,7 +20,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
         String defaultDate = "2020-01-01T00:00:00.000";
 
         HashMap<String, Object> params = new HashMap<>();
-        params.put("CODELIST_GRAPH", Config.CODELIST_GRAPH);
+        params.put("CODELIST_GRAPH", CODELIST_GRAPH);
 
         JSONArray codesLists =  repoGestion.getResponseAsArray(buildRequest("getAllCodesLists.ftlh", params));
         for (int i = 0; i < codesLists.length(); i++) {
@@ -41,10 +41,10 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
         String defaultDate = "2020-01-01T00:00:00.000";
 
         HashMap<String, Object> params = new HashMap<>();
-        params.put("CODELIST_GRAPH", Config.CODELIST_GRAPH);
+        params.put("CODELIST_GRAPH", CODELIST_GRAPH);
         params.put("NOTATION", notation);
-        params.put("LG1", Config.LG1);
-        params.put("LG2", Config.LG2);
+        params.put("LG1", LG1);
+        params.put("LG2", LG2);
 
         JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest("getCodesList.ftlh", params));
 
@@ -71,10 +71,10 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 	
     private JSONArray getCodes(String notation) throws RmesException {
         HashMap<String, Object> params = new HashMap<>();
-        params.put("CODELIST_GRAPH", Config.CODELIST_GRAPH);
+        params.put("CODELIST_GRAPH", CODELIST_GRAPH);
         params.put("NOTATION", notation);
-        params.put("LG1", Config.LG1);
-        params.put("LG2", Config.LG2);
+        params.put("LG1", LG1);
+        params.put("LG2", LG2);
 
         JSONArray codes =  repoGestion.getResponseAsArray(buildRequest("getCodes.ftlh", params));
 

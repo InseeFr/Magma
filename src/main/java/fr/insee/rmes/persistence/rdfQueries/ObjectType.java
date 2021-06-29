@@ -15,9 +15,6 @@ public enum ObjectType {
 	ORGANIZATION("organization",ORG.ORGANIZATION, ""),
 	UNDEFINED(Constants.UNDEFINED,null, "");
 	
-	//TODO
-
-	
 	private String labelType;
 	private IRI uri;
 	private String baseUri;
@@ -40,10 +37,9 @@ public enum ObjectType {
 		return Config.BASE_URI_GESTION + this.baseUri;
 	}
 	
-
 	private static Map<String, ObjectType> lookupLabel = new HashMap<>();
 	private static Map<IRI, ObjectType> lookupUri = new HashMap<>();
-
+	
 	static {
 		// Populate out lookup when enum is created
 		for (ObjectType e : ObjectType.values()) {

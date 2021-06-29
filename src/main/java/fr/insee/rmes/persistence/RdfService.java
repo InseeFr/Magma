@@ -18,8 +18,20 @@ public abstract class RdfService {
 	public String LG1;
 	@Value("${fr.insee.rmes.magma.lg2}")
 	public String LG2;	
+	
 	@Value("${fr.insee.rmes.magma.baseGraph}")
 	public String BASE_GRAPH;
+	
+	@Value("${fr.insee.rmes.magma.concepts.baseURI}")
+	public static String CONCEPTS_BASE_URI;
+	@Value("${fr.insee.rmes.magma.structures.baseURI}")
+	public static String STRUCTURES_BASE_URI;
+	@Value("${fr.insee.rmes.magma.codeLists.baseURI}")
+	public static String CODELISTS_BASE_URI;
+	
+	@Value("${fr.insee.rmes.magma.codeLists.graph}")
+	public static Object CODELIST_GRAPH; 
+	
 	
 	@Autowired
 	protected RepositoryGestion repoGestion;
