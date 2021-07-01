@@ -22,7 +22,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
         HashMap<String, Object> params = new HashMap<>();
         params.put("CODELIST_GRAPH", CODELIST_GRAPH);
 
-        JSONArray codesLists =  repoGestion.getResponseAsArray(buildRequest("getAllCodesLists.ftlh", params));
+        JSONArray codesLists =  repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getAllCodesLists.ftlh", params));
         for (int i = 0; i < codesLists.length(); i++) {
             JSONObject codesList = codesLists.getJSONObject(i);
             if(!codesList.has("dateMiseAJour")){
@@ -46,7 +46,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
         params.put("LG1", LG1);
         params.put("LG2", LG2);
 
-        JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest("getCodesList.ftlh", params));
+        JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesList.ftlh", params));
 
         codesList.put("label", this.formatLabel(codesList));
         codesList.remove("prefLabelLg1");
@@ -76,7 +76,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
         params.put("LG1", LG1);
         params.put("LG2", LG2);
 
-        JSONArray codes =  repoGestion.getResponseAsArray(buildRequest("getCodes.ftlh", params));
+        JSONArray codes =  repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodes.ftlh", params));
 
         JSONObject childrenMapping = new JSONObject();
 

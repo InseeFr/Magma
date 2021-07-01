@@ -36,8 +36,8 @@ public abstract class RdfService {
 	@Autowired
 	protected RepositoryGestion repoGestion;
 	
-    protected static String buildRequest(String fileName, HashMap<String, Object> params) throws RmesException {
-        return FreeMarkerUtils.buildRequest("concepts/", fileName, params);
+    protected static String buildRequest(String path, String fileName, HashMap<String, Object> params) throws RmesException {
+        return FreeMarkerUtils.buildRequest(path, fileName, params);
     }
     
     protected JSONArray formatLabel(JSONObject obj) {

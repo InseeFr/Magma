@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import fr.insee.rmes.persistence.RdfService;
+import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
 @Service 
@@ -27,7 +28,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	public String getAllStructures() throws RmesException {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("STRUCTURES_GRAPH", STRUCTURES_GRAPH);
-		JSONArray structures =  repoGestion.getResponseAsArray(buildRequest("getStructures.ftlh", params));
+		JSONArray structures =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getStructures.ftlh", params));
 
 		for (int i = 0; i < structures.length(); i++) {
 			JSONObject structure = structures.getJSONObject(i);
@@ -47,7 +48,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		params.put("LG1", LG1);
 		params.put("LG2", LG2);
 
-		JSONObject structure =  repoGestion.getResponseAsObject(buildRequest("getStructure.ftlh", params));
+		JSONObject structure =  repoGestion.getResponseAsObject(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getStructure.ftlh", params));
 
 		structure.put("label", this.formatLabel(structure));
 		structure.remove("prefLabelLg1");
@@ -80,7 +81,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		params.put("LG1", LG1);
 		params.put("LG2", LG2);
 
-		JSONArray components = repoGestion.getResponseAsArray(buildRequest("getStructureComponents.ftlh", params));
+		JSONArray components = repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getStructureComponents.ftlh", params));
 
 		JSONArray measures = new JSONArray();
 		JSONArray dimensions = new JSONArray();

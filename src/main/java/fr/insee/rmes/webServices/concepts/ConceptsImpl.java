@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import fr.insee.rmes.persistence.RdfService;
+import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
 @Service
@@ -26,7 +27,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         params.put("ID", id);
         params.put("CONCEPTS_GRAPH", BASE_GRAPH+CONCEPTS_GRAPH);
 
-        JSONObject concept = repoGestion.getResponseAsObject(buildRequest("getDetailedConcept.ftlh", params));
+        JSONObject concept = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getDetailedConcept.ftlh", params));
         JSONArray labels = new JSONArray();
 
         String labelLg1 = concept.getString("prefLabelLg1");
@@ -47,7 +48,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
 
         concept.put("label", labels);
 
-        JSONArray conceptsSdmx = repoGestion.getResponseAsArray(buildRequest("getConceptsSdmx.ftlh", params));
+        JSONArray conceptsSdmx = repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptsSdmx.ftlh", params));
         if(conceptsSdmx.length() > 0){
             concept.put("conceptsSdmx", conceptsSdmx);
         }
@@ -61,7 +62,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         params.put("LG1", LG1);
         params.put("LG2", LG2);
         params.put("CONCEPTS_GRAPH", BASE_GRAPH+CONCEPTS_GRAPH);
-        return repoGestion.getResponseAsArray(buildRequest("getAllConcepts.ftlh", params)).toString();
+        return repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getAllConcepts.ftlh", params)).toString();
     }
 
 }
