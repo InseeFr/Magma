@@ -23,14 +23,14 @@ public abstract class RdfService {
 	public String BASE_GRAPH;
 	
 	@Value("${fr.insee.rmes.magma.concepts.baseURI}")
-	public static String CONCEPTS_BASE_URI;
+	public String CONCEPTS_BASE_URI;
 	@Value("${fr.insee.rmes.magma.structures.baseURI}")
-	public static String STRUCTURES_BASE_URI;
+	public String STRUCTURES_BASE_URI;
 	@Value("${fr.insee.rmes.magma.codeLists.baseURI}")
-	public static String CODELISTS_BASE_URI;
+	public String CODELISTS_BASE_URI;
 	
 	@Value("${fr.insee.rmes.magma.codeLists.graph}")
-	public static Object CODELIST_GRAPH; 
+	public Object CODELIST_GRAPH; 
 	
 	
 	@Autowired
