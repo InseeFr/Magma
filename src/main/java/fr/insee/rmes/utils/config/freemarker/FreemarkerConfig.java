@@ -1,12 +1,12 @@
 package fr.insee.rmes.utils.config.freemarker;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Locale;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.core.io.ClassPathResource;
 
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
@@ -65,21 +65,8 @@ public class FreemarkerConfig {
 	private static MultiTemplateLoader getTemplateLoader() throws IOException, URISyntaxException {
 		MultiTemplateLoader mtl = null;
 
-		//Get request files
-		FileTemplateLoader ftl1 = new FileTemplateLoader(
-				new File(
-						FreemarkerConfig.class.getClassLoader()
-						.getResource("queries")
-						//renvoie null
-						.toURI()
-						)
-				);
-		
-//		FileTemplateLoader ftl2 = new FileTemplateLoader(new File(FreemarkerConfig.class.getClassLoader().getResource("queries/concepts").toURI()));
-//		FileTemplateLoader ftl3 = new FileTemplateLoader(new File(FreemarkerConfig.class.getClassLoader().getResource("queries/codeLists").toURI()));
-//		FileTemplateLoader ftl4 = new FileTemplateLoader(new File(FreemarkerConfig.class.getClassLoader().getResource("queries/structures").toURI()));
+		FileTemplateLoader ftl1 = new FileTemplateLoader((new ClassPathResource("queries")).getFile());
 
-	//	mtl = new MultiTemplateLoader(new TemplateLoader[] { ftl4, ftl3, ftl2, ftl1 });
 		mtl = new MultiTemplateLoader(new TemplateLoader[] { ftl1 });
 	
 		return mtl;
