@@ -1,7 +1,6 @@
-package fr.insee.rmes.webServices.ressources;
+package fr.insee.rmes.api;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -13,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.insee.rmes.services.concepts.ConceptsServices;
 import fr.insee.rmes.utils.exceptions.RmesException;
-import fr.insee.rmes.webServices.concepts.ConceptsServices;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,7 +22,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/magma2")
+@RequestMapping("/concepts")
 @Tag(name = "Concepts", description = "Consultation Gestion API")
 @ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Success"),

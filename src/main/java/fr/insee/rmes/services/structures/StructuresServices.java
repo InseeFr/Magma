@@ -1,4 +1,4 @@
-package fr.insee.rmes.webServices.structures;
+package fr.insee.rmes.services.structures;
 
 import org.springframework.stereotype.Service;
 
