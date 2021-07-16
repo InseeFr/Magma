@@ -1,6 +1,6 @@
 package fr.insee.rmes.persistence;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,7 +36,7 @@ public abstract class RdfService {
 	@Autowired
 	protected RepositoryGestion repoGestion;
 	
-    protected static String buildRequest(String path, String fileName, HashMap<String, Object> params) throws RmesException {
+    protected static String buildRequest(String path, String fileName, Map<String, Object> params) throws RmesException {
         return FreeMarkerUtils.buildRequest(path, fileName, params);
     }
     
