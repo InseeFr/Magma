@@ -12,7 +12,7 @@ public class Config {
 	public static String STRUCTURES_BASE_URI;
 	@Value("${fr.insee.rmes.magma.codeLists.baseURI}")
 	public static String CODELISTS_BASE_URI;
-	@Value("${fr.insee.rmes.magma.sesame.gestion.baseURI}")
+	@Value("${fr.insee.rmes.magma.gestion.baseURI}")
 	public static String BASE_URI_GESTION;
 	
 	private Config() {
