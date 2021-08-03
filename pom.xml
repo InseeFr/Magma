@@ -22,6 +22,7 @@
 	<properties>
 		<packaging.mode>war</packaging.mode>
 		<java.version>11</java.version>
+		<RESOURCE_PATH>${project.basedir}/src/main/resources</RESOURCE_PATH>
 	</properties>
 	<dependencies>
 		<dependency>

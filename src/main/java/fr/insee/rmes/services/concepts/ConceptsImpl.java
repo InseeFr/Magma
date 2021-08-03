@@ -1,4 +1,4 @@
-package fr.insee.rmes.webServices.concepts;
+package fr.insee.rmes.services.concepts;
 
 import java.util.HashMap;
 
@@ -30,23 +30,23 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         JSONObject concept = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getDetailedConcept.ftlh", params));
         JSONArray labels = new JSONArray();
 
-        String labelLg1 = concept.getString("prefLabelLg1");
+        String labelLg1 = concept.getString(Constants.PREF_LABEL_LG1);
         JSONObject labelLg1Object = new JSONObject();
         labelLg1Object.put("langue", LG1);
         labelLg1Object.put("contenu", labelLg1);
         labels.put(labelLg1Object);
-        concept.remove("prefLabelLg1");
+        concept.remove(Constants.PREF_LABEL_LG1);
 
-        if(concept.has("prefLabelLg2")){
-            String labelLg2 = concept.getString("prefLabelLg2");
+        if(concept.has(Constants.PREF_LABEL_LG2)){
+            String labelLg2 = concept.getString(Constants.PREF_LABEL_LG2);
             JSONObject labelLg2Object = new JSONObject();
             labelLg2Object.put("langue", LG2);
             labelLg2Object.put("contenu", labelLg2);
             labels.put(labelLg2Object);
-            concept.remove("prefLabelLg2");
+            concept.remove(Constants.PREF_LABEL_LG2);
         }
 
-        concept.put("label", labels);
+        concept.put(Constants.LABEL, labels);
 
         JSONArray conceptsSdmx = repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptsSdmx.ftlh", params));
         if(conceptsSdmx.length() > 0){

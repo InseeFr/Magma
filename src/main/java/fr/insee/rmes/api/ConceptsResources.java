@@ -1,7 +1,6 @@
-package fr.insee.rmes.webServices.ressources;
+package fr.insee.rmes.api;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -9,20 +8,22 @@ import javax.ws.rs.core.Response;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.insee.rmes.utils.Constants;
+import fr.insee.rmes.services.concepts.ConceptsServices;
 import fr.insee.rmes.utils.exceptions.RmesException;
-import fr.insee.rmes.webServices.structures.StructuresServices;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/magma1")
-@Tag(name = "Structures", description = "Consultation Gestion API - Structures")
+@RequestMapping("/concepts")
+@Tag(name = "Concepts", description = "Consultation Gestion API")
 @ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Success"),
 		@ApiResponse(responseCode = "204", description = "No Content"),
@@ -32,20 +33,19 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 		@ApiResponse(responseCode = "404", description = "Not found"),
 		@ApiResponse(responseCode = "406", description = "Not Acceptable"),
 		@ApiResponse(responseCode = "500", description = "Internal server error")})
-
-public class StructuresResources {
+public class ConceptsResources {
 
 	@Autowired
-	StructuresServices structuresServices;
-
+	ConceptsServices conceptsService;
+	
 	@GET
-	@GetMapping("/structures")
+	@GetMapping("/concept/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getAllStructures", summary = "Get all structures")
-	public Response getAllStructures() {
+	@Operation(operationId = "getDetailedConcept", summary = "Informations sur la définition d'un concept statistique de l'Insee")
+	public Response getDetailedConcept(@Parameter(required = true, description = "Identifiant du concept (format : c[0-9]{4})", schema = @Schema(pattern = "c[0-9]{4}", type = "string"), example = "c2066") @PathVariable("id") String id) {
 		String jsonResultat;
 		try {
-			jsonResultat = structuresServices.getAllStructures();
+			jsonResultat = conceptsService.getDetailedConcept(id);
 		} catch (RmesException e) {
 			return Response.status(e.getStatus()).entity(e.getDetails()).type(MediaType.TEXT_PLAIN).build();
 		}
@@ -53,13 +53,13 @@ public class StructuresResources {
 	}
 
 	@GET
-	@GetMapping("/structure/{id}")
+	@GetMapping("/concepts")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getStructure", summary = "Get a structure")
-	public Response getStructure(@PathParam(Constants.ID) String id) {
+	@Operation(operationId = "getAllConcepts", summary = "Get all concepts")
+	public Response getAllConcepts() {
 		String jsonResultat;
 		try {
-			jsonResultat = structuresServices.getStructure(id);
+			jsonResultat = conceptsService.getAllConcepts();
 		} catch (RmesException e) {
 			return Response.status(e.getStatus()).entity(e.getDetails()).type(MediaType.TEXT_PLAIN).build();
 		}
