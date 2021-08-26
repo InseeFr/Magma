@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
+import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
 @Service
@@ -41,8 +42,8 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
     public String getCodesList(String notation) throws RmesException {
         Map<String, Object> params = initParams();
         params.put("NOTATION", notation);
-        params.put("LG1", LG1);
-        params.put("LG2", LG2);
+        params.put("LG1", Config.LG1);
+        params.put("LG2", Config.LG2);
 
         JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesList.ftlh", params));
 
@@ -69,15 +70,15 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
 	public Map<String, Object> initParams() {
 		Map<String, Object> params = new HashMap<>();
-        params.put("CODELIST_GRAPH", CODELIST_GRAPH);
+        params.put("CODELIST_GRAPH", Config.CODELIST_GRAPH);
 		return params;
 	}
 	
     private JSONArray getCodes(String notation) throws RmesException {
         Map<String, Object> params = initParams();
         params.put("NOTATION", notation);
-        params.put("LG1", LG1);
-        params.put("LG2", LG2);
+        params.put("LG1", Config.LG1);
+        params.put("LG2", Config.LG2);
 
         JSONArray codes =  repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodes.ftlh", params));
 

@@ -4,35 +4,32 @@ import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
+import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
 @Service
 public class ConceptsImpl extends RdfService implements ConceptsServices {
 
-
-	@Value("${fr.insee.rmes.magma.concepts.graph}")
-	public String CONCEPTS_GRAPH;
 	
 	
 	@Override
     public String getDetailedConcept(String id) throws RmesException {
         HashMap<String, Object> params = new HashMap<>();
-        params.put("LG1", LG1);
-        params.put("LG2", LG2);
+        params.put("LG1", Config.LG1);
+        params.put("LG2", Config.LG2);
         params.put("ID", id);
-        params.put("CONCEPTS_GRAPH", BASE_GRAPH+CONCEPTS_GRAPH);
+        params.put("CONCEPTS_GRAPH", Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
 
         JSONObject concept = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getDetailedConcept.ftlh", params));
         JSONArray labels = new JSONArray();
 
         String labelLg1 = concept.getString(Constants.PREF_LABEL_LG1);
         JSONObject labelLg1Object = new JSONObject();
-        labelLg1Object.put("langue", LG1);
+        labelLg1Object.put("langue", Config.LG1);
         labelLg1Object.put("contenu", labelLg1);
         labels.put(labelLg1Object);
         concept.remove(Constants.PREF_LABEL_LG1);
@@ -40,7 +37,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         if(concept.has(Constants.PREF_LABEL_LG2)){
             String labelLg2 = concept.getString(Constants.PREF_LABEL_LG2);
             JSONObject labelLg2Object = new JSONObject();
-            labelLg2Object.put("langue", LG2);
+            labelLg2Object.put("langue", Config.LG2);
             labelLg2Object.put("contenu", labelLg2);
             labels.put(labelLg2Object);
             concept.remove(Constants.PREF_LABEL_LG2);
@@ -59,9 +56,9 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
     @Override
     public String getAllConcepts() throws RmesException {
         HashMap<String, Object> params = new HashMap<>();
-        params.put("LG1", LG1);
-        params.put("LG2", LG2);
-        params.put("CONCEPTS_GRAPH", BASE_GRAPH+CONCEPTS_GRAPH);
+        params.put("LG1", Config.LG1);
+        params.put("LG2", Config.LG2);
+        params.put("CONCEPTS_GRAPH", Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
         return repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getAllConcepts.ftlh", params)).toString();
     }
 

@@ -5,32 +5,16 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import fr.insee.rmes.model.ValidationStatus;
+import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
 @Service
 public abstract class RdfService {
 
-	@Value("${fr.insee.rmes.magma.lg1}")
-	public String LG1;
-	@Value("${fr.insee.rmes.magma.lg2}")
-	public String LG2;	
-	
-	@Value("${fr.insee.rmes.magma.baseGraph}")
-	public String BASE_GRAPH;
-	
-	@Value("${fr.insee.rmes.magma.concepts.baseURI}")
-	public String CONCEPTS_BASE_URI;
-	@Value("${fr.insee.rmes.magma.structures.baseURI}")
-	public String STRUCTURES_BASE_URI;
-	@Value("${fr.insee.rmes.magma.codeLists.baseURI}")
-	public String CODELISTS_BASE_URI;
-	
-	@Value("${fr.insee.rmes.magma.codeLists.graph}")
-	public Object CODELIST_GRAPH; 
+
 	
 	
 	@Autowired
@@ -46,8 +30,8 @@ public abstract class RdfService {
         JSONObject lg1 = new JSONObject();
         JSONObject lg2 = new JSONObject();
 
-        lg1.put("langue", LG1);
-        lg2.put("langue", LG2);
+        lg1.put("langue", Config.LG1);
+        lg2.put("langue", Config.LG2);
         lg1.put("contenu", obj.getString("prefLabelLg1"));
         lg2.put("contenu", obj.getString("prefLabelLg2"));
 
