@@ -36,9 +36,9 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 public class RepositoryGestion extends RepositoryUtils {
 
 	@Value("${fr.insee.rmes.magma.gestion.rdfServer}")
-	private  String RDF_SERVER;
+	private String RDF_SERVER;
 	@Value("${fr.insee.rmes.magma.gestion.repository}")
-	private  String GESTION_REPO;
+	private String GESTION_REPO;
 	
 	private static final String FAILURE_LOAD_OBJECT = "Failure load object : ";
 	private static final String FAILURE_REPLACE_GRAPH = "Failure replace graph : ";
@@ -49,11 +49,9 @@ public class RepositoryGestion extends RepositoryUtils {
 	public Repository REPOSITORY_GESTION ;
 
 	@PostConstruct  
-	   public void postConstruct(){
-
-		REPOSITORY_GESTION = initRepository(RDF_SERVER,
-				GESTION_REPO);
-	   }
+	public void postConstruct(){
+		REPOSITORY_GESTION = initRepository(RDF_SERVER, GESTION_REPO);
+	}
 
 	/**
 	 * Method which aims to produce response from a sparql query
