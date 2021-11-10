@@ -15,7 +15,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+
+import fr.insee.rmes.utils.config.Config;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
@@ -26,6 +29,9 @@ public class Application extends SpringBootServletInitializer {
 
 	@Autowired
 	private Environment env;
+	
+	@Autowired
+	private Config config;
 
 	public static void main(String[] args) {
 		System.setProperty("spring.config.name", PROPERTIES_FILENAME);
@@ -40,20 +46,23 @@ public class Application extends SpringBootServletInitializer {
 
 		return builder
 				.properties("spring.config.location=classpath:/,file:///${catalina.base}/webapps/"+PROPERTIES_FILENAME+".properties")
-				.properties("spring.config.additional-location:classpath:rmeswsgi-magma.properties")
 				.sources(Application.class);
 	}
 
 	@PostConstruct
-	public void startupApplicationLog() {
-		printPropertiesInLog();
+	public void startupApplication() {
+		// Log properties
+		printPropertiesInLog(PROPERTIES_FILENAME);
+		printPropertiesInLog("rmeswsgi-magma");
+		//init Config class
+		config.init();
 	}
 
-	private void printPropertiesInLog() {
-		ResourceBundle rb = ResourceBundle.getBundle(PROPERTIES_FILENAME);
+	private void printPropertiesInLog(String filename) {
+		ResourceBundle rb = ResourceBundle.getBundle(filename);
 		List<String> properties = rb.keySet().stream().collect(Collectors.toList());
 		Collections.sort(properties);
-		LOG.info("========================Properties values================");
+		LOG.info("=============== Properties values from file "+filename+"================");
 		properties.forEach(key -> LOG.info("{} = {}", key, printValueWithoutPassword(key)));
 		LOG.info("==========================================================================");
 	}

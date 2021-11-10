@@ -1,44 +1,72 @@
 package fr.insee.rmes.utils.config;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
-@ConfigurationProperties
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
+@Component
+@PropertySource("classpath:rmeswsgi-magma.properties")
 public class Config {
 
-	@Value("${fr.insee.rmes.magma.concepts.baseURI}")
+	private static final Logger LOG = LoggerFactory.getLogger(Config.class);
+
+	@Autowired
+	private Environment env;
+
 	public static String CONCEPTS_BASE_URI;
-	@Value("${fr.insee.rmes.magma.structures.baseURI}")
 	public static String STRUCTURES_BASE_URI;
-	@Value("${fr.insee.rmes.magma.codeLists.baseURI}")
 	public static String CODELISTS_BASE_URI;
-	@Value("${fr.insee.rmes.magma.gestion.baseURI}")
 	public static String BASE_URI_GESTION;
-	
-	@Value("${fr.insee.rmes.magma.lg1}")
 	public static String LG1;
-	@Value("${fr.insee.rmes.magma.lg2}")
-	public static String LG2;	
-	
-	@Value("${fr.insee.rmes.magma.baseGraph}")
+	public static String LG2;
 	public static String BASE_GRAPH;
-	
-	@Value("${fr.insee.rmes.magma.codeLists.graph}")
-	public static String CODELIST_GRAPH; 
-	
-
-
-	@Value("${fr.insee.rmes.magma.concepts.graph}")
+	public static String CODELIST_GRAPH;
 	public static String CONCEPTS_GRAPH;
-	
-
-	@Value("${fr.insee.rmes.magma.structures.graph}")
-	public static String STRUCTURES_COMPONENTS_GRAPH ;
-	@Value("${fr.insee.rmes.magma.structures.graph}")
+	public static String STRUCTURES_COMPONENTS_GRAPH;
 	public static String STRUCTURES_GRAPH;
-	
-	private Config() {
-		throw new IllegalStateException("Utility class");
+
+	public void init() {
+		CONCEPTS_BASE_URI = env.getProperty("fr.insee.rmes.magma.concepts.baseURI");
+		STRUCTURES_BASE_URI = env.getProperty("fr.insee.rmes.magma.structures.baseURI");
+		CODELISTS_BASE_URI = env.getProperty("fr.insee.rmes.magma.codeLists.baseURI");
+		BASE_URI_GESTION = env.getProperty("fr.insee.rmes.magma.gestion.baseURI");
+		LG1 = env.getProperty("fr.insee.rmes.magma.lg1");
+		LG2 = env.getProperty("fr.insee.rmes.magma.lg2");
+		BASE_GRAPH = env.getProperty("fr.insee.rmes.magma.baseGraph");
+		CODELIST_GRAPH = env.getProperty("fr.insee.rmes.magma.codeLists.graph");
+		CONCEPTS_GRAPH = env.getProperty("fr.insee.rmes.magma.concepts.graph");
+		STRUCTURES_COMPONENTS_GRAPH = env.getProperty("fr.insee.rmes.magma.structures.graph");
+		STRUCTURES_GRAPH = env.getProperty("fr.insee.rmes.magma.structures.graph");
+
+		listStaticFieldsValue();
 	}
 
+	private void listStaticFieldsValue() {
+
+		LOG.info("=========== Config class static fields ==============");
+		
+		Field[] declaredFields = Config.class.getDeclaredFields();
+
+		for (Field currentField : declaredFields) {
+			if (Modifier.isStatic(currentField.getModifiers())) {
+				try {
+					LOG.info(currentField.getName() + "  " + (currentField.get(null)).toString());
+				} catch (IllegalArgumentException | IllegalAccessException iac) {
+					LOG.error("Error retrieving Config Values");
+				}
+
+			}
+
+		}
+		
+		LOG.info("======================================================");
+
+
+	}
 }
