@@ -30,6 +30,7 @@ public class Config {
 	public static String CONCEPTS_GRAPH;
 	public static String STRUCTURES_COMPONENTS_GRAPH;
 	public static String STRUCTURES_GRAPH;
+	public static String STRUCTURES_COMPONENTS_BASE_URI;
 
 	public void init() {
 		CONCEPTS_BASE_URI = env.getProperty("fr.insee.rmes.magma.concepts.baseURI");
@@ -41,8 +42,9 @@ public class Config {
 		BASE_GRAPH = env.getProperty("fr.insee.rmes.magma.baseGraph");
 		CODELIST_GRAPH = env.getProperty("fr.insee.rmes.magma.codeLists.graph");
 		CONCEPTS_GRAPH = env.getProperty("fr.insee.rmes.magma.concepts.graph");
-		STRUCTURES_COMPONENTS_GRAPH = env.getProperty("fr.insee.rmes.magma.structures.graph");
+		STRUCTURES_COMPONENTS_GRAPH = env.getProperty("fr.insee.rmes.magma.structures.components.graph");
 		STRUCTURES_GRAPH = env.getProperty("fr.insee.rmes.magma.structures.graph");
+		STRUCTURES_COMPONENTS_BASE_URI= env.getProperty("fr.insee.rmes.magma.structures.components.baseURI");
 
 		listStaticFieldsValue();
 	}

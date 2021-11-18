@@ -2,6 +2,7 @@ package fr.insee.rmes.services.codelists;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -21,12 +22,13 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 	private static final String DEFAULT_DATE = "2020-01-01T00:00:00.000";
 
 	@Override
-    public String getAllCodesLists() throws RmesException {
+    public List getAllCodesLists() throws RmesException {
         Map<String, Object> params = initParams();
 
         JSONArray codesLists =  repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getAllCodesLists.ftlh", params));
-        for (int i = 0; i < codesLists.length(); i++) {
-            JSONObject codesList = codesLists.getJSONObject(i);
+
+     /* for (int i = 0; i < codesLists.length(); i++) {
+            JSONObject  codesList= codesLists.getJSONObject(i);
             if(!codesList.has(DATE_MISE_A_JOUR)){
                 codesList.put(DATE_MISE_A_JOUR, DEFAULT_DATE);
             }
@@ -34,12 +36,14 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
                 String validationState = codesList.getString(STATUT_VALIDATION);
                 codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
             }
-        }
-        return codesLists.toString();
+        }*/
+
+        return codesLists.toList();
+
     }
 
     @Override
-    public String getCodesList(String notation) throws RmesException {
+    public Object getCodesList(String notation) throws RmesException {
         Map<String, Object> params = initParams();
         params.put("NOTATION", notation);
         params.put("LG1", Config.LG1);
@@ -65,15 +69,15 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
         codesList.put("codes", this.getCodes(notation));
 
-        return codesList.toString();
+        return codesList;
     }
 
 	public Map<String, Object> initParams() {
 		Map<String, Object> params = new HashMap<>();
-        params.put("CODELIST_GRAPH", Config.CODELIST_GRAPH);
+        params.put("CODELIST_GRAPH", Config.BASE_URI_GESTION+Config.CODELIST_GRAPH);
 		return params;
 	}
-	
+
     private JSONArray getCodes(String notation) throws RmesException {
         Map<String, Object> params = initParams();
         params.put("NOTATION", notation);

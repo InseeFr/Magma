@@ -4,9 +4,11 @@ import org.springframework.stereotype.Service;
 
 import fr.insee.rmes.utils.exceptions.RmesException;
 
+import java.util.List;
+
 @Service
 public interface ConceptsServices {
-    String getDetailedConcept(String id) throws RmesException;
+    Object getDetailedConcept(String id) throws RmesException;
 
-    String getAllConcepts() throws RmesException;
+    List getAllConcepts() throws RmesException;
 }

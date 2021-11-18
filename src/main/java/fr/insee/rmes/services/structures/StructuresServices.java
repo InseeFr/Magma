@@ -4,11 +4,13 @@ import org.springframework.stereotype.Service;
 
 import fr.insee.rmes.utils.exceptions.RmesException;
 
+import java.util.List;
+
 @Service
 public interface StructuresServices {
 
-	String getAllStructures() throws RmesException;
+	List getAllStructures() throws RmesException;
 
-	String getStructure(String id) throws RmesException;
+	Object getStructure(String id) throws RmesException;
 
 }

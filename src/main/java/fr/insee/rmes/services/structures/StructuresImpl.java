@@ -1,6 +1,7 @@
 package fr.insee.rmes.services.structures;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,10 +19,10 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 
 	
 	@Override
-	public String getAllStructures() throws RmesException {
+	public List getAllStructures() throws RmesException {
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_GRAPH", Config.STRUCTURES_GRAPH);
-		JSONArray structures =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getStructures.ftlh", params));
+		params.put("STRUCTURES_GRAPH", Config.BASE_URI_GESTION+Config.STRUCTURES_GRAPH);
+		JSONArray structures =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getAllStructures.ftlh", params));
 
 		for (int i = 0; i < structures.length(); i++) {
 			JSONObject structure = structures.getJSONObject(i);
@@ -29,14 +30,14 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 			structure.put("statutValidation", this.getValidationState(validationState));
 		}
 
-		return structures.toString();
+		return structures.toList();
 	}
 
 	@Override
-	public String getStructure(String id) throws RmesException {
+	public Object getStructure(String id) throws RmesException {
 		String defaultDate = "2020-01-01T00:00:00.000";
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_GRAPH", Config.STRUCTURES_GRAPH);
+		params.put("STRUCTURES_GRAPH", Config.BASE_URI_GESTION+Config.STRUCTURES_GRAPH);
 		params.put("STRUCTURE_ID", id);
 		params.put("LG1", Config.LG1);
 		params.put("LG2", Config.LG2);
@@ -60,15 +61,15 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		}
 
 		getStructureComponents(id, structure);
-		return structure.toString();
+		return structure;
 	}
 
 	private void getStructureComponents(String id, JSONObject structure) throws RmesException {
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_GRAPH", Config.STRUCTURES_GRAPH);
-		params.put("STRUCTURES_COMPONENTS_GRAPH", Config.STRUCTURES_COMPONENTS_GRAPH);
-		params.put("CONCEPTS_GRAPH", Config.CONCEPTS_GRAPH);
-		params.put("CODELIST_GRAPH", Config.CODELIST_GRAPH);
+		params.put("STRUCTURES_GRAPH", Config.BASE_GRAPH+Config.STRUCTURES_GRAPH);
+		params.put("STRUCTURES_COMPONENTS_GRAPH", Config.BASE_GRAPH+Config.STRUCTURES_COMPONENTS_GRAPH);
+		params.put("CONCEPTS_GRAPH", Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
+		params.put("CODELIST_GRAPH", Config.BASE_GRAPH+Config.CODELIST_GRAPH);
 
 		params.put("STRUCTURE_ID", id);
 		params.put("LG1", Config.LG1);
