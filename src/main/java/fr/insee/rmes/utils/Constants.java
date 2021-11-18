@@ -9,9 +9,11 @@ public class Constants {
 
 		/*C*/
 		public static final String CODELIST = "codeList";
+		public static final String CODELISTS_QUERIES_PATH = "codeLists/";
 		public static final String CODE_LIST_FREQ = "CL_FREQ";
 		public static final String CODE_LIST_SOURCE_CATEGORY = "CL_SOURCE_CATEGORY";
 		public static final String CONCEPT = "concept";
+		public static final String CONCEPTS_QUERIES_PATH = "concepts/";
 		public static final String CONTENT = "content";
 		public static final String CREATOR = "creator";
 		public static final String CREATORS = "creators";
@@ -91,6 +93,8 @@ public class Constants {
 		public static final String SERIES = "SERIES";
 		public static final String SEEALSO = "seeAlso";
 		public static final String STAMP = "stamp";
+		public static final String STRUCTURES = "STRUCTURES";
+		public static final String STRUCTURES_QUERIES_PATH = "structures/";
 		
 		/*T*/
 		public static final String TEXT_LG1 = "texte";
