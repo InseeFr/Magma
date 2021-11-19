@@ -27,7 +27,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
         JSONArray codesLists =  repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getAllCodesLists.ftlh", params));
 
-     /* for (int i = 0; i < codesLists.length(); i++) {
+      for (int i = 0; i < codesLists.length(); i++) {
             JSONObject  codesList= codesLists.getJSONObject(i);
             if(!codesList.has(DATE_MISE_A_JOUR)){
                 codesList.put(DATE_MISE_A_JOUR, DEFAULT_DATE);
@@ -36,7 +36,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
                 String validationState = codesList.getString(STATUT_VALIDATION);
                 codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
             }
-        }*/
+        }
 
         return codesLists.toList();
 
@@ -74,7 +74,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
 	public Map<String, Object> initParams() {
 		Map<String, Object> params = new HashMap<>();
-        params.put("CODELIST_GRAPH", Config.BASE_URI_GESTION+Config.CODELIST_GRAPH);
+        params.put("CODELIST_GRAPH", Config.BASE_GRAPH+Config.CODELIST_GRAPH);
 		return params;
 	}
 

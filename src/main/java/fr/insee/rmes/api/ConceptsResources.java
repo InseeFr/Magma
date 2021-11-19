@@ -4,7 +4,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import fr.insee.rmes.model.ConceptList;
+import fr.insee.rmes.dto.codeList.CodeList;
+import fr.insee.rmes.dto.ConceptList;
 import io.swagger.v3.oas.annotations.media.Content;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
@@ -32,12 +33,12 @@ import java.util.Objects;
 @RequestMapping(value="/concepts",produces = {"application/json"})
 @Tag(name = "Concepts", description = "Consultation Gestion API")
 @ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "Success"),
+		@ApiResponse(responseCode = "200", description = "Success",content = {@Content }),
 		/*@ApiResponse(responseCode = "204", description = "No Content"),
 		@ApiResponse(responseCode = "400", description = "Bad Request"),
 		@ApiResponse(responseCode = "401", description = "Unauthorized"),
 		@ApiResponse(responseCode = "403", description = "Forbidden"),*/
-		@ApiResponse(responseCode = "404", description = "Not found"),
+		@ApiResponse(responseCode = "404", description = "Not found",content = {@Content }),
 		/*@ApiResponse(responseCode = "406", description = "Not Acceptable"),*/
 		@ApiResponse(responseCode = "500", description = "Internal server error")})
 public class ConceptsResources {

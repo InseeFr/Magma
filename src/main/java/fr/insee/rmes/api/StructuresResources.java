@@ -4,7 +4,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import fr.insee.rmes.model.StructureList;
+import fr.insee.rmes.dto.Structure.StructureListId;
+import fr.insee.rmes.dto.codeList.CodeList;
+import fr.insee.rmes.dto.Structure.StructureList;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.lang3.StringUtils;
@@ -32,14 +34,14 @@ import java.util.Objects;
 @RequestMapping(value="/structures",produces = {"application/json"})
 @Tag(name = "Structures", description = "Consultation Gestion API - Structures")
 @ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "Success"),
+		@ApiResponse(responseCode = "200", description = "Success",content = {@Content }),
 		/*@ApiResponse(responseCode = "204", description = "No Content"),
 		@ApiResponse(responseCode = "400", description = "Bad Request"),
 		@ApiResponse(responseCode = "401", description = "Unauthorized"),
 		@ApiResponse(responseCode = "403", description = "Forbidden"),*/
-		@ApiResponse(responseCode = "404", description = "Not found"),
+		@ApiResponse(responseCode = "404", description = "Not found",content = {@Content }),
 		/*@ApiResponse(responseCode = "406", description = "Not Acceptable"),*/
-		@ApiResponse(responseCode = "500", description = "Internal server error")})
+		@ApiResponse(responseCode = "500", description = "Internal server error",content = {@Content })})
 
 public class StructuresResources {
 
@@ -63,7 +65,7 @@ public class StructuresResources {
 	@GET
 	@GetMapping("/structure/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getStructure", summary = "Get a structure", responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = StructureList.class)))})
+	@Operation(operationId = "getStructure", summary = "Get a structure", responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = StructureListId.class)))})
 	public ResponseEntity <Object> getStructure(@PathVariable(Constants.ID) String id) throws RmesException {
 		JSONObject jsonResult;
 		jsonResult = (JSONObject) structuresServices.getStructure(id);

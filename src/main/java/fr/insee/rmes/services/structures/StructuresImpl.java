@@ -21,7 +21,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	@Override
 	public List getAllStructures() throws RmesException {
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_GRAPH", Config.BASE_URI_GESTION+Config.STRUCTURES_GRAPH);
+		params.put("STRUCTURES_GRAPH", Config.BASE_GRAPH+Config.STRUCTURES_GRAPH);
 		JSONArray structures =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getAllStructures.ftlh", params));
 
 		for (int i = 0; i < structures.length(); i++) {
@@ -37,7 +37,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	public Object getStructure(String id) throws RmesException {
 		String defaultDate = "2020-01-01T00:00:00.000";
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_GRAPH", Config.BASE_URI_GESTION+Config.STRUCTURES_GRAPH);
+		params.put("STRUCTURES_GRAPH", Config.BASE_GRAPH+Config.STRUCTURES_GRAPH);
 		params.put("STRUCTURE_ID", id);
 		params.put("LG1", Config.LG1);
 		params.put("LG2", Config.LG2);
