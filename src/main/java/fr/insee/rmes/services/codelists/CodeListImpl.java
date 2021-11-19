@@ -2,7 +2,6 @@ package fr.insee.rmes.services.codelists;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -22,7 +21,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 	private static final String DEFAULT_DATE = "2020-01-01T00:00:00.000";
 
 	@Override
-    public List getAllCodesLists() throws RmesException {
+    public String getAllCodesLists() throws RmesException {
         Map<String, Object> params = initParams();
 
         JSONArray codesLists =  repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getAllCodesLists.ftlh", params));
@@ -38,12 +37,12 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
             }
         }
 
-        return codesLists.toList();
+        return codesLists.toString();
 
     }
 
     @Override
-    public Object getCodesList(String notation) throws RmesException {
+    public String getCodesList(String notation) throws RmesException {
         Map<String, Object> params = initParams();
         params.put("NOTATION", notation);
         params.put("LG1", Config.LG1);
@@ -69,7 +68,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
         codesList.put("codes", this.getCodes(notation));
 
-        return codesList;
+        return codesList.toString();
     }
 
 	public Map<String, Object> initParams() {

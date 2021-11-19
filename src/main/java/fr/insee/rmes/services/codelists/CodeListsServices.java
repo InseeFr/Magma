@@ -9,8 +9,8 @@ import java.util.List;
 @Service
 public interface CodeListsServices {
 
-	List getAllCodesLists() throws RmesException;
+	String getAllCodesLists() throws RmesException;
 
-	Object getCodesList(String notation) throws RmesException;
+	String getCodesList(String notation) throws RmesException;
 
 }
