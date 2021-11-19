@@ -17,42 +17,7 @@ public class CodeList {
 
     @Schema(description = "order")
     public String ordre;
-/*
-    @Schema(description="Uri")
-    public String Uri;
 
-    @Schema(description = "Id")
-    public String Id;
-
-    @Schema (description = "prefLabelLg1")
-    public String prefLabelLg1;
-
-    @Schema (description = "prefLabelLg2")
-    public String prefLabelLg2;
-
-    @Schema(description = "date of creation")
-    public String dateCreation;
-
-    @Schema(description = "End of validity")
-    public String dateFinValidite;
-
-    @Schema(description =  "codes")
-    public String codes;
-
-    @Schema(description= "label")
-    public String label;
-
-    @Schema(description= "langue")
-    public String langue;
-
-    @Schema(description= "contenu")
-    public String contenu;
-
-    @Schema(description = "parents")
-    public String parents;
-
-    @Schema(description = "enfants")
-    public String enfants;*/
 
         public CodeList(String notation, String dateMiseAJour, String statutValidation, String ordre) {
         this.notation = notation;
