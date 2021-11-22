@@ -1,7 +1,6 @@
 package fr.insee.rmes.services.concepts;
 
 import java.util.HashMap;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -59,7 +58,8 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
         params.put("CONCEPTS_GRAPH", Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
-        return repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getAllConcepts.ftlh", params)).toString();
+        JSONArray conceptLists= repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getAllConcepts.ftlh", params));
+        return conceptLists.toString();
     }
 
 }
