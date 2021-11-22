@@ -1,8 +1,6 @@
 package fr.insee.rmes.services.concepts;
 
 import java.util.HashMap;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -18,7 +16,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
 	
 	
 	@Override
-    public Object getDetailedConcept(String id) throws RmesException {
+    public String getDetailedConcept(String id) throws RmesException {
         HashMap<String, Object> params = new HashMap<>();
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
@@ -51,17 +49,17 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
             concept.put("conceptsSdmx", conceptsSdmx);
         }
 
-        return concept;
+        return concept.toString();
     }
 
     @Override
-    public List getAllConcepts() throws RmesException {
+    public String getAllConcepts() throws RmesException {
         HashMap<String, Object> params = new HashMap<>();
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
         params.put("CONCEPTS_GRAPH", Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
         JSONArray conceptLists= repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getAllConcepts.ftlh", params));
-        return conceptLists.toList();
+        return conceptLists.toString();
     }
 
 }

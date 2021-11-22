@@ -1,11 +1,9 @@
 package fr.insee.rmes.services.structures;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import fr.insee.rmes.persistence.RdfService;
@@ -19,7 +17,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 
 	
 	@Override
-	public List getAllStructures() throws RmesException {
+	public String getAllStructures() throws RmesException {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("STRUCTURES_GRAPH", Config.BASE_GRAPH+Config.STRUCTURES_GRAPH);
 		JSONArray structures =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getAllStructures.ftlh", params));
@@ -30,11 +28,11 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 			structure.put("statutValidation", this.getValidationState(validationState));
 		}
 
-		return structures.toList();
+		return structures.toString();
 	}
 
 	@Override
-	public Object getStructure(String id) throws RmesException {
+	public String getStructure(String id) throws RmesException {
 		String defaultDate = "2020-01-01T00:00:00.000";
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("STRUCTURES_GRAPH", Config.BASE_GRAPH+Config.STRUCTURES_GRAPH);
@@ -61,7 +59,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		}
 
 		getStructureComponents(id, structure);
-		return structure;
+		return structure.toString();
 	}
 
 	private void getStructureComponents(String id, JSONObject structure) throws RmesException {

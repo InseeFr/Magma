@@ -1,4 +1,4 @@
-package fr.insee.rmes.dto;
+package fr.insee.rmes.dto.concept;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

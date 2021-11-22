@@ -1,27 +1,23 @@
-package fr.insee.rmes.model;
+package fr.insee.rmes.dto.concept;
 
+import fr.insee.rmes.dto.LabelTwoLangs;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class ConceptList {
-    /*?id ?dateMiseAJour ?statutValidation ?agence
-    *  ?id ?prefLabelLg1 ?prefLabelLg2 ?namingHint ?dateCreation ?dateMiseAjour ?dateFinValidite ?statutValidation ?uri (max(?numVersion) as?version)*/
+import java.util.List;
 
-    @Schema(description ="ID" )
-    public String id;
+public class ConceptListId {
+
+
+    @Schema(description ="date of creation" )
+    public String dateCreation;
     @Schema(description ="date of update" )
     public String dateMiseAJour ;
     @Schema(description ="statut of validation" )
     public String statutValidation;
-    @Schema(description ="agency" )
-    public String agence;
-    @Schema(description ="prefLabelLg1" )
-    public String prefLabelLg1;
-    @Schema(description ="prefLabelLg2" )
-    public String prefLabelLg2;
-    @Schema(description ="namingHint" )
-    public String namingHint ;
-    @Schema(description ="date of creation" )
-    public String dateCreation;
+    @Schema(description ="ID" )
+    public String id;
+    @Schema(description="Label")
+    public List<LabelTwoLangs> label;
     @Schema(description ="dateFinValidite" )
     public String dateFinValidite;
     @Schema(description ="uri" )
@@ -29,7 +25,7 @@ public class ConceptList {
     @Schema(description ="version" )
     public String version;
 
-    public ConceptList() {
+    public ConceptListId() {
     }
 
     public String getId() {
@@ -54,38 +50,6 @@ public class ConceptList {
 
     public void setStatutValidation(String statutValidation) {
         this.statutValidation = statutValidation;
-    }
-
-    public String getAgence() {
-        return agence;
-    }
-
-    public void setAgence(String agence) {
-        this.agence = agence;
-    }
-
-    public String getPrefLabelLg1() {
-        return prefLabelLg1;
-    }
-
-    public void setPrefLabelLg1(String prefLabelLg1) {
-        this.prefLabelLg1 = prefLabelLg1;
-    }
-
-    public String getPrefLabelLg2() {
-        return prefLabelLg2;
-    }
-
-    public void setPrefLabelLg2(String prefLabelLg2) {
-        this.prefLabelLg2 = prefLabelLg2;
-    }
-
-    public String getNamingHint() {
-        return namingHint;
-    }
-
-    public void setNamingHint(String namingHint) {
-        this.namingHint = namingHint;
     }
 
     public String getDateCreation() {
@@ -119,7 +83,6 @@ public class ConceptList {
     public void setVersion(String version) {
         this.version = version;
     }
-
 
 
 

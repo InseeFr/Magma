@@ -4,12 +4,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import fr.insee.rmes.dto.codeList.CodeList;
-import fr.insee.rmes.dto.ConceptList;
+import fr.insee.rmes.dto.concept.ConceptList;
+import fr.insee.rmes.dto.concept.ConceptListId;
 import io.swagger.v3.oas.annotations.media.Content;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,13 +32,8 @@ import java.util.Objects;
 @Tag(name = "Concepts", description = "Consultation Gestion API")
 @ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Success",content = {@Content }),
-		/*@ApiResponse(responseCode = "204", description = "No Content"),
-		@ApiResponse(responseCode = "400", description = "Bad Request"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "403", description = "Forbidden"),*/
 		@ApiResponse(responseCode = "404", description = "Not found",content = {@Content }),
-		/*@ApiResponse(responseCode = "406", description = "Not Acceptable"),*/
-		@ApiResponse(responseCode = "500", description = "Internal server error")})
+		@ApiResponse(responseCode = "500", description = "Internal server error",content = {@Content })})
 public class ConceptsResources {
 
 	@Autowired
@@ -49,14 +42,13 @@ public class ConceptsResources {
 	@GET
 	@GetMapping("/concept/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getDetailedConcept", summary = "Informations sur la définition d'un concept statistique de l'Insee", responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ConceptList.class)))})
-	public ResponseEntity <Object> getDetailedConcept(@Parameter(required = true, description = "Identifiant du concept (format : c[0-9]{4})", schema = @Schema(pattern = "c[0-9]{4}", type = "string"), example = "c2066") @PathVariable("id") String id) throws RmesException {
-		JSONObject jsonResult;
-		jsonResult = (JSONObject) conceptsService.getDetailedConcept(id);
-		if (Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult.toString())) {
-			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("No result found");
-		} else {
-			return new ResponseEntity(jsonResult.toMap(), org.springframework.http.HttpStatus.valueOf(HttpStatus.SC_OK));
+	@Operation(operationId = "getDetailedConcept", summary = "Informations sur la définition d'un concept statistique de l'Insee", responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ConceptListId.class)))})
+	public ResponseEntity <String> getDetailedConcept(@Parameter(required = true, description = "Identifiant du concept (format : c[0-9]{4})", schema = @Schema(pattern = "c[0-9]{4}", type = "string"), example = "c2066") @PathVariable("id") String id) throws RmesException {
+		String jsonResult = conceptsService.getDetailedConcept(id);
+		if(jsonResult.isEmpty()){
+			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+		}else{
+			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
 		}
 	}
 
@@ -64,9 +56,8 @@ public class ConceptsResources {
 	@GetMapping("/concepts")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getAllConcepts", summary = "Get all concepts", responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ConceptList.class)))})
-	public ResponseEntity <Object> getAllConcepts() throws RmesException {
-		List jsonResult;
-		jsonResult = conceptsService.getAllConcepts();
+	public ResponseEntity <String> getAllConcepts() throws RmesException {
+		String jsonResult = conceptsService.getAllConcepts();
 		if(jsonResult.isEmpty()){
 			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("No result found");
 		}else {
