@@ -13,11 +13,17 @@ public class CodeListNotation {
     public List<CodeListDetails> codes;
     @Schema(description ="date of creation" )
     public String dateCreation;
-    @Schema(description = "Id")
+    @Schema(description = "statut of validation")
+    public String statutValidation;
+    @Schema(description ="dateFinValidite" )
+    public String dateFinValidite;
+    @Schema(description = "notation")
     public String id;
     @Schema(description = "label")
     public List <LabelTwoLangs> label;
-    @Schema(description = "Uri")
+    @Schema(description = "uri")
     public String uri;
+    @Schema(description = "version")
+    public String version;
 
 }

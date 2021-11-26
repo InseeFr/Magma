@@ -28,8 +28,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping(value="/codelist",produces = {"application/json"})
-@Tag(name = "Codelists", description = "Consultation Gestion API - Codelists")
+@RequestMapping(value="/",produces = {"application/json"})
+@Tag(name = "Codes lists", description = "Consultation Gestion API - listes de code")
 @ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Success",content = {@Content }),
 		@ApiResponse(responseCode = "404", description = "Not found",content = {@Content }),
@@ -41,7 +41,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	CodeListsServices codeListsServices;
 
     @GET
-    @GetMapping("/listeCode")
+    @GetMapping("/listesCodes")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getAllCodesLists", summary = "List of codes",
             responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = CodeList.class)))})
