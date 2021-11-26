@@ -26,11 +26,11 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
         JSONArray codesLists =  repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getAllCodesLists.ftlh", params));
 
-      for (int i = 0; i < codesLists.length(); i++) {
+     for (int i = 0; i < codesLists.length(); i++) {
             JSONObject  codesList= codesLists.getJSONObject(i);
-            if(!codesList.has(DATE_MISE_A_JOUR)){
+           /* if(!codesList.has(DATE_MISE_A_JOUR)){
                 codesList.put(DATE_MISE_A_JOUR, DEFAULT_DATE);
-            }
+            }*/
             if(codesList.has(STATUT_VALIDATION)){
                 String validationState = codesList.getString(STATUT_VALIDATION);
                 codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
@@ -59,8 +59,8 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
             codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
         }
 
-        if(!codesList.has("dateCréation")){
-            codesList.put("dateCréation", DEFAULT_DATE);
+        if(!codesList.has("dateCreation")){
+            codesList.put("dateCreation", DEFAULT_DATE);
         }
         if(!codesList.has(DATE_MISE_A_JOUR)){
             codesList.put(DATE_MISE_A_JOUR, DEFAULT_DATE);
