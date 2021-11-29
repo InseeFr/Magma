@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping(value="/concepts",produces = {"application/json"})
-@Tag(name = "Concepts", description = "Consultation Gestion API")
+@RequestMapping(value="/",produces = {"application/json"})
+@Tag(name = "Concepts", description = "Consultation Gestion API - Concepts")
 @ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Success",content = {@Content }),
 		@ApiResponse(responseCode = "404", description = "Not found",content = {@Content }),
@@ -42,7 +42,7 @@ public class ConceptsResources {
 	@GET
 	@GetMapping("/concept/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getDetailedConcept", summary = "Informations sur la définition d'un concept statistique de l'Insee", responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ConceptListId.class)))})
+	@Operation(operationId = "getDetailedConcept", summary = "Get one concept", responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ConceptListId.class)))})
 	public ResponseEntity <String> getDetailedConcept(@Parameter(required = true, description = "Identifiant du concept (format : c[0-9]{4})", schema = @Schema(pattern = "c[0-9]{4}", type = "string"), example = "c2066") @PathVariable("id") String id) throws RmesException {
 		String jsonResult = conceptsService.getDetailedConcept(id);
 		if(jsonResult.isEmpty()){
@@ -55,7 +55,7 @@ public class ConceptsResources {
 	@GET
 	@GetMapping("/concepts")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getAllConcepts", summary = "Get all concepts", responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ConceptList.class)))})
+	@Operation(operationId = "getAllConcepts", summary = "List of concepts", responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ConceptList.class)))})
 	public ResponseEntity <String> getAllConcepts() throws RmesException {
 		String jsonResult = conceptsService.getAllConcepts();
 		if(jsonResult.isEmpty()){

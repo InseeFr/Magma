@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping(value="/",produces = {"application/json"})
-@Tag(name = "Codes lists", description = "Consultation Gestion API - listes de code")
+@Tag(name = "Codes lists", description = "Consultation Gestion API - listes des codes")
 @ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Success",content = {@Content }),
 		@ApiResponse(responseCode = "404", description = "Not found",content = {@Content }),
@@ -43,7 +43,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
     @GET
     @GetMapping("/listesCodes")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(operationId = "getAllCodesLists", summary = "List of codes",
+    @Operation(operationId = "getAllCodesLists", summary = "Get all codes lists",
             responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = CodeList.class)))})
     public ResponseEntity <String> getallCodesLists() throws RmesException {
         String jsonResult = codeListsServices.getAllCodesLists();
@@ -56,7 +56,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
     }
 
     @GET
-    @GetMapping("/listeCode/{notation}")
+    @GetMapping("/listeCode/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getCodesList", summary = "Get one codes list",responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = CodeListNotation.class)))})
     public ResponseEntity<String> getCodesList(@PathVariable(Constants.NOTATION) String notation) throws RmesException {
