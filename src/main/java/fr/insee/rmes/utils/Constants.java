@@ -66,7 +66,7 @@ public class Constants {
 		public static final String MANAGER = "manager";
 
 		/*N*/
-		public static final String NOTATION = "notation";
+		public static final String NOTATION = "id";
 		
 		/*O*/
 		public static final String OPERATIONS = "operations";

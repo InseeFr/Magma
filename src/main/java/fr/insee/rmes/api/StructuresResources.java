@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping(value="/structures",produces = {"application/json"})
+@RequestMapping(value="/",produces = {"application/json"})
 @Tag(name = "Structures", description = "Consultation Gestion API - Structures")
 @ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Success",content = {@Content }),
