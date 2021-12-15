@@ -1,4 +1,4 @@
-SELECT ?id (?uriComposant as ?uri) ?type ?notation
+SELECT ?id (?uriComposant as ?uri) ?type ?notation ?dateCreation
     ?dateMiseAJour ?statutValidation ?prefLabelLg1 ?prefLabelLg2
     ?uriConcept ?idConcept ?representation
     ?uriListeCode ?idListeCode ?version ?uriComponentParentId ?uriComponentParentNotation
@@ -22,6 +22,7 @@ WHERE {
     }
 
     ?uriComposant skos:notation ?notation .
+    ?uriComposant dcterms:created ?dateCreation .
     ?uriComposant dcterms:modified ?dateMiseAJour .
     ?uriComposant insee:validationState ?statutValidation .
 
@@ -50,8 +51,6 @@ WHERE {
     OPTIONAL {
             BIND(CONCAT(STR(?idConceptDef),STR(?idConceptDsd)) AS ?idConcept)
         }
-
-
     OPTIONAL {
         ?uriComposant rdfs:range ?representation .
     }
