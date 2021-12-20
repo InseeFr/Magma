@@ -77,6 +77,7 @@ public class Constants {
 		public static final String OUTPUT = "output";
 		
 		/*P*/
+		public static final String POGUES_QUERIES_PATH = "pogues/";
 		public static final String PREF_LABEL_LG = "prefLabelLg";
 		public static final String PREF_LABEL_LG1 = "prefLabelLg1";
 		public static final String PREF_LABEL_LG2 = "prefLabelLg2";

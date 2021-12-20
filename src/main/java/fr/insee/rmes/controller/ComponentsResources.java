@@ -1,15 +1,12 @@
-package fr.insee.rmes.api;
+package fr.insee.rmes.controller;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import fr.insee.rmes.dto.Structure.StructureListId;
-import fr.insee.rmes.dto.codeList.CodeList;
 import fr.insee.rmes.dto.component.ComponentID;
 import fr.insee.rmes.dto.component.Components;
 import fr.insee.rmes.services.components.ComponentServices;
 import fr.insee.rmes.utils.Constants;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

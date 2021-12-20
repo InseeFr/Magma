@@ -1,8 +1,7 @@
-package fr.insee.rmes.api;
+package fr.insee.rmes.controller;
 
 import java.util.Objects;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -40,7 +39,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 	@Autowired
 	CodeListsServices codeListsServices;
 
-    @GET
+
     @GetMapping("/listesCodes")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getAllCodesLists", summary = "Get all codes lists",
@@ -55,7 +54,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
     }
 
-    @GET
+
     @GetMapping("/listeCode/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getCodesList", summary = "Get one codes list",responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = CodeListNotation.class)))})
