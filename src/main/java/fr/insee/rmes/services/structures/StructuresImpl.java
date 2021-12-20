@@ -21,7 +21,6 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("STRUCTURES_GRAPH", Config.BASE_GRAPH+Config.STRUCTURES_GRAPH);
 		JSONArray structures =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getAllStructures.ftlh", params));
-
 		for (int i = 0; i < structures.length(); i++) {
 			JSONObject structure = structures.getJSONObject(i);
 			String validationState = structure.getString("statutValidation");
