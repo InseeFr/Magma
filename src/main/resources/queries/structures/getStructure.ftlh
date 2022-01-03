@@ -1,4 +1,4 @@
-SELECT ?uri ?id ?notation ?prefLabelLg1 ?prefLabelLg2 ?dateCréation ?dateMiseAJour ?dateFinValidité ?statutValidation ?version
+SELECT ?uri ?id ?notation ?prefLabelLg1 ?prefLabelLg2 ?dateCreation ?dateMiseAJour ?dateFinValidité ?statutValidation ?version
 FROM <${STRUCTURES_GRAPH}>
 WHERE {
     ?uri rdf:type qb:DataStructureDefinition .

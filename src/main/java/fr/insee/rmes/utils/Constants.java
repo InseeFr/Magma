@@ -12,6 +12,7 @@ public class Constants {
 		public static final String CODELISTS_QUERIES_PATH = "codeLists/";
 		public static final String CODE_LIST_FREQ = "CL_FREQ";
 		public static final String CODE_LIST_SOURCE_CATEGORY = "CL_SOURCE_CATEGORY";
+		public static final String COMPONENTS_QUERIES_PATH = "components/";
 		public static final String CONCEPT = "concept";
 		public static final String CONCEPTS_QUERIES_PATH = "concepts/";
 		public static final String CONTENT = "content";
