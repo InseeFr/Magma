@@ -1,4 +1,4 @@
-package fr.insee.rmes.api;
+package fr.insee.rmes.controller;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
@@ -24,8 +24,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import java.util.List;
-import java.util.Objects;
+
 
 @RestController
 @RequestMapping(value="/",produces = {"application/json"})

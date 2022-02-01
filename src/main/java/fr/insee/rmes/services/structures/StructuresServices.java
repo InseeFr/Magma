@@ -13,4 +13,9 @@ public interface StructuresServices {
 
 	String getStructure(String id) throws RmesException;
 
+	String getAllComponents() throws RmesException;
+
+	String getComponent(String id) throws RmesException;
+
+
 }

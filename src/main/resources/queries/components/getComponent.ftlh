@@ -1,7 +1,8 @@
-SELECT ?id (?uriComposant as ?uri) ?type ?notation ?dateCreation
+SELECT ?id (?uriComposant as ?uri) ?type ?notation
     ?dateMiseAJour ?statutValidation ?prefLabelLg1 ?prefLabelLg2
     ?uriConcept ?idConcept ?representation
-    ?uriListeCode ?idListeCode ?version ?uriComponentParentId ?uriComponentParentNotation
+    ?uriListeCode ?idListeCode ?version ?uriComponentParentId ?uriComponentParentNotation ?dateCreation
+    ?minLength ?maxLength ?minInclusive ?maxInclusive ?pattern
 FROM <${STRUCTURES_COMPONENTS_GRAPH}>
 FROM <${CODELIST_GRAPH}>
 WHERE {
@@ -22,7 +23,6 @@ WHERE {
     }
 
     ?uriComposant skos:notation ?notation .
-    ?uriComposant dcterms:created ?dateCreation .
     ?uriComposant dcterms:modified ?dateMiseAJour .
     ?uriComposant insee:validationState ?statutValidation .
 
@@ -39,18 +39,12 @@ WHERE {
     }
 
     OPTIONAL {
-        ?uriComposant qb:concept ?uriConcept .
-        BIND(STRAFTER(STR(?uriConcept), "${CONCEPTS_BASE_URI}/") AS ?idConceptDef)
+        ?uriComposant dcterms:created ?dateCreation .
     }
-
     OPTIONAL {
         ?uriComposant qb:concept ?uriConcept .
-        BIND(STRAFTER(STR(?uriConcept), "dsd/") AS ?idConceptDsd)
+        BIND(STRAFTER(STR(?uriConcept), "${CONCEPTS_BASE_URI}/") AS ?idConcept)
     }
-
-    OPTIONAL {
-            BIND(CONCAT(STR(?idConceptDef),STR(?idConceptDsd)) AS ?idConcept)
-        }
     OPTIONAL {
         ?uriComposant rdfs:range ?representation .
     }
@@ -60,5 +54,21 @@ WHERE {
     }
     OPTIONAL {
         ?uriComposant pav:version ?version .
+    }
+
+    OPTIONAL {
+        ?uriComposant xsd:minLength ?minLength .
+    }
+    OPTIONAL {
+        ?uriComposant xsd:maxLength ?maxLength .
+    }
+    OPTIONAL {
+        ?uriComposant xsd:minInclusive ?minInclusive .
+    }
+    OPTIONAL {
+        ?uriComposant xsd:maxInclusive ?maxInclusive .
+    }
+    OPTIONAL {
+        ?uriComposant xsd:pattern ?pattern .
     }
 }

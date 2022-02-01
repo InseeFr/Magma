@@ -10,6 +10,8 @@ public class CodeListDetails {
 
     public String code;
 
+    public String ordre;
+
     public List<LabelTwoLangs> label;
 
     public String uri;
