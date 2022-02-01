@@ -94,14 +94,26 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.5.0</version>
 			</plugin>
 		</plugins>
 		<resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <targetPath>${project.build.outputDirectory}</targetPath>
-            </resource>
-        </resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<targetPath>${project.build.outputDirectory}</targetPath>
+			</resource>
+		</resources>
 	</build>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-snapshots</id>
+			<url>https://repo.spring.io/snapshot</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-milestones</id>
+			<url>https://repo.spring.io/milestone</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 </project>
