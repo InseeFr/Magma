@@ -1,11 +1,13 @@
 package fr.insee.rmes;
 
+
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
+
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -15,12 +17,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 import fr.insee.rmes.utils.config.Config;
 
+
 @SpringBootApplication
+
 public class Application extends SpringBootServletInitializer {
 
 	private static final String PROPERTIES_FILENAME = "rmeswsgi";

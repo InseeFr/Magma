@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 @Component
+
 @PropertySource("classpath:rmeswsgi-magma.properties")
 public class Config {
 
@@ -31,6 +32,9 @@ public class Config {
 	public static String STRUCTURES_COMPONENTS_GRAPH;
 	public static String STRUCTURES_GRAPH;
 	public static String STRUCTURES_COMPONENTS_BASE_URI;
+	public static String OPERATIONS_SERIES_GRAPH;
+	public static String OPERATIONS_BASE_URI;
+
 
 	public void init() {
 		CONCEPTS_BASE_URI = env.getProperty("fr.insee.rmes.magma.concepts.baseURI");
@@ -45,6 +49,9 @@ public class Config {
 		STRUCTURES_COMPONENTS_GRAPH = env.getProperty("fr.insee.rmes.magma.structures.components.graph");
 		STRUCTURES_GRAPH = env.getProperty("fr.insee.rmes.magma.structures.graph");
 		STRUCTURES_COMPONENTS_BASE_URI= env.getProperty("fr.insee.rmes.magma.structures.components.baseURI");
+		OPERATIONS_SERIES_GRAPH = env.getProperty("fr.insee.rmes.magma.operations.graph");
+		OPERATIONS_BASE_URI = env.getProperty("fr.insee.rmes.magma.operations.baseURI");
+
 
 		listStaticFieldsValue();
 	}
