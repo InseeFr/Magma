@@ -9,11 +9,13 @@ import fr.insee.rmes.dto.pogues.NodePogues;
 import fr.insee.rmes.dto.pogues.PoguesListId;
 import fr.insee.rmes.dto.pogues.PoguesListOperationByIdSerie;
 import fr.insee.rmes.services.pogues.PoguesServices;
+import fr.insee.rmes.utils.Constants;
 import io.swagger.v3.oas.annotations.media.Content;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,12 +59,12 @@ public class PoguesResources {
 
     }
 
-    @GetMapping("/operations/serie/{ID}/")
+    @GetMapping("/operations/serie/{id}/")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getCodeList", summary = "Get one serie",
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = PoguesListId.class)))})
 
-    public ResponseEntity<String> getCodeList(@PathParam("ID") String id) throws RmesException {
+    public ResponseEntity<String> getCodeList(@PathVariable("id") String id) throws RmesException {
         String jsonResult = poguesServices.getCodesList(id);
         if (jsonResult.isEmpty()) {
             return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
@@ -72,12 +74,12 @@ public class PoguesResources {
 
     }
 
-    @GetMapping("/operations/serie/{ID}/operations")
+    @GetMapping("/operations/serie/{id}/operations")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getOperationsBySerie", summary = "Get operations by serie",
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = PoguesListOperationByIdSerie.class)))})
 
-    public ResponseEntity<String> getOperationsBySerie(@PathParam("ID") String id) throws RmesException {
+    public ResponseEntity<String> getOperationsBySerie(@PathVariable("id") String id) throws RmesException {
         String jsonResult = poguesServices.getOperationsBySerie(id);
         if (jsonResult.isEmpty()) {
             return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
