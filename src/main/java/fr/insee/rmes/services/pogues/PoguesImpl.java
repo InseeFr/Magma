@@ -155,9 +155,14 @@ public class PoguesImpl extends RdfService implements PoguesServices {
             OperationsList.remove("seriesId");
 
             /* mise en forme id, sims*/
-            OperationsList.put("id",OperationsList.get("operationId"));
+            if (OperationsList.has("operationId")) {
+            OperationsList.put("id",OperationsList.get("operationId"));}
+
             OperationsList.remove("operationId");
-            OperationsList.put("idRapportQualite",OperationsList.get("simsId"));
+
+            if (OperationsList.has("simsId")) {
+                OperationsList.put("idRapportQualite", OperationsList.get("simsId"));
+                            }
             OperationsList.remove("simsId");
 
             if (OperationsList.has("operationLabelLg1") && OperationsList.has("operationLabelLg2") ) {
