@@ -6,6 +6,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import fr.insee.rmes.dto.pogues.NodePogues;
+import fr.insee.rmes.dto.pogues.OperationByCode;
 import fr.insee.rmes.dto.pogues.PoguesListId;
 import fr.insee.rmes.dto.pogues.PoguesListOperationByIdSerie;
 import fr.insee.rmes.services.pogues.PoguesServices;
@@ -88,5 +89,18 @@ public class PoguesResources {
         }
     }
 
+    @GetMapping("/operations/operation/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(operationId = "getOperationsBycode", summary = "Get operations by code",
+            responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = OperationByCode.class)))})
+
+    public ResponseEntity<String> getOperationByCode(@PathVariable("id") String id) throws RmesException {
+        String jsonResult = poguesServices.getOperationByCode(id);
+        if (jsonResult.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+        }
+    }
 
 }

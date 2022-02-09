@@ -2,9 +2,12 @@ package fr.insee.rmes.services.pogues;
 
 import java.util.HashMap;
 
+import java.util.List;
 import java.util.Map;
 
 
+import fr.insee.rmes.dto.pogues.NodePogues;
+import io.swagger.v3.core.util.Json;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,8 @@ import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+
+import javax.ws.rs.core.Response;
 
 @Service
 public class PoguesImpl extends RdfService implements PoguesServices {
@@ -140,6 +145,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         params.put("ID", id);
 
         JSONArray operationsList = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getOperationsBySerie.ftlh", params));
+
         for (int i = 0; i < operationsList.length(); i++) {
             JSONObject OperationsList = operationsList.getJSONObject(i);
 
@@ -187,7 +193,63 @@ public class PoguesImpl extends RdfService implements PoguesServices {
 
     }
 
+    @Override
+    public String getOperationByCode(String id) throws RmesException {
+        Map<String, Object> params = initParams();
+        params.put("ID", id);
+        JSONArray operationsList = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getOperationByCode.ftlh", params));
+        for (int i = 0; i < operationsList.length(); i++) {
+            JSONObject OperationsList = operationsList.getJSONObject(i);
 
+            if (OperationsList.has("seriesId") ) {
+                OperationsList.put("label", this.formatOperationSerieLabelPogues(OperationsList));
+                if (OperationsList.has("seriesAltLabelLg1") && OperationsList.has("seriesAltLabelLg2") ) {
+                    OperationsList.put("altLabel", this.formatAltLabelPogues(OperationsList));
+                         }
+                OperationsList.put("serie", this.formatOperationByCodeSeriePogues(OperationsList));
+            }
+
+            OperationsList.remove("seriesLabelLg1");
+            OperationsList.remove("seriesLabelLg2");
+            OperationsList.remove("seriesAltLabelLg1");
+            OperationsList.remove("seriesAltLabelLg2");
+            OperationsList.remove("altLabel");
+            OperationsList.remove("label");
+            OperationsList.remove("series");
+            OperationsList.remove("seriesId");
+
+            /* mise en forme id, sims*/
+            if (OperationsList.has("operationId")) {
+                OperationsList.put("id",OperationsList.get("operationId"));}
+
+            OperationsList.remove("operationId");
+
+            if (OperationsList.has("simsId")) {
+                OperationsList.put("idRapportQualite", OperationsList.get("simsId"));
+            }
+            OperationsList.remove("simsId");
+
+            if (OperationsList.has("operationLabelLg1") && OperationsList.has("operationLabelLg2") ) {
+                OperationsList.put("label", this.formatLabelOperationPogues(OperationsList));
+            }
+            OperationsList.remove("operationLabelLg1");
+            OperationsList.remove("operationLabelLg2");
+
+            if (OperationsList.has("operationAltLabelLg1") && OperationsList.has("operationAltLabelLg2") ) {
+                OperationsList.put("altLabel", this.formatOperationAltLabelPogues(OperationsList));
+            }
+
+            OperationsList.remove("operationAltLabelLg1");
+            OperationsList.remove("operationAltLabelLg2");
+            OperationsList.remove("typeLabelLg1");
+            OperationsList.remove("typeLabelLg2");
+
+
+
+        }
+        return operationsList.toString();
+
+    }
 
 
 
@@ -264,17 +326,15 @@ public class PoguesImpl extends RdfService implements PoguesServices {
     }
 
 
-    protected JSONArray formatTypePogues(JSONObject obj) {
-        JSONArray type = new JSONArray();
+    protected JSONObject formatTypePogues(JSONObject obj) {
+        JSONObject type = new JSONObject();
 
         JSONObject typeDetail = new JSONObject();
 
         typeDetail.put("id",obj.getString("typeId"));
         typeDetail.put("uri",obj.getString("type"));
         typeDetail.put("label",obj.get("label"));
-        type.put(typeDetail);
-
-
+        type= typeDetail;
         return type;
     }
 
@@ -295,8 +355,8 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         return label;
     }
 
-    protected JSONArray formatFamilyPogues(JSONObject obj) {
-        JSONArray family = new JSONArray();
+    protected JSONObject formatFamilyPogues(JSONObject obj) {
+        JSONObject family = new JSONObject();
         JSONObject familyDetail = new JSONObject();
 
 
@@ -304,7 +364,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         familyDetail.put("uri",obj.getString("family"));
         familyDetail.put("label",obj.get("label"));
 
-        family.put(familyDetail);
+        family=familyDetail;
         return family;
     }
 
@@ -325,14 +385,14 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         return label;
     }
 
-    protected JSONArray formatFrequencyPogues(JSONObject obj) {
-        JSONArray frequency = new JSONArray();
+    protected JSONObject formatFrequencyPogues(JSONObject obj) {
+        JSONObject frequency = new JSONObject();
         JSONObject frequencyDetail = new JSONObject();
 
         frequencyDetail.put("id",obj.getString("periodicityId"));
         frequencyDetail.put("uri",obj.getString("periodicity"));
         frequencyDetail.put("label",obj.get("label"));
-        frequency.put(frequencyDetail);
+        frequency=frequencyDetail;
 
         return frequency;
     }
@@ -362,6 +422,21 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         serieDetail.put("uri",obj.getString("series"));
         serieDetail.put("label",obj.get("label"));
         serie.put(serieDetail);
+
+
+        return serie;
+    }
+
+    protected JSONObject formatOperationByCodeSeriePogues(JSONObject obj) {
+        JSONObject serie = new JSONObject();
+
+        JSONObject serieDetail = new JSONObject();
+
+        serieDetail.put("id",obj.getString("seriesId"));
+        serieDetail.put("uri",obj.getString("series"));
+        serieDetail.put("label",obj.get("label"));
+        serieDetail.put("altLabel",obj.get("altLabel"));
+        serie=serieDetail;
 
 
         return serie;

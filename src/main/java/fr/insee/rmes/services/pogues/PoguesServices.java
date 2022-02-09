@@ -10,4 +10,6 @@ public interface PoguesServices {
     String getCodesList(String id) throws RmesException;
 
     String getOperationsBySerie(String id) throws RmesException;
+
+    String getOperationByCode(String id) throws RmesException;
 }
