@@ -18,18 +18,23 @@ SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?operationA
 			FILTER (lang(?operationLabelLg1) = '${LG1}') .
 			?uri skos:prefLabel ?operationLabelLg2 .
 			FILTER (lang(?operationLabelLg2) = '${LG2}') .
+
+    		OPTIONAL {
     		?uri skos:altLabel ?operationAltLabelLg1 .
 			FILTER (lang(?operationAltLabelLg1) = '${LG1}') .
     		?uri skos:altLabel ?operationAltLabelLg2 .
 			FILTER (lang(?operationAltLabelLg2) = '${LG2}') .
-			?uri dcterms:isPartOf ?uriSerie .
+			}
 
+  			OPTIONAL {
+  			?uri dcterms:isPartOf ?uriSerie .
   			?uriSerie dcterms:type ?type .
   			BIND(STRAFTER(STR(?type),'/categorieSource/') AS ?typeId)
            	?type skos:prefLabel ?typeLabelLg1 .
   			FILTER (lang(?typeLabelLg1) = '${LG1}')
   			?type skos:prefLabel ?typeLabelLg2 .
            	FILTER (lang(?typeLabelLg2) = '${LG2}')
+           	}
 
     		OPTIONAL { ?sims sdmx-mm:target ?uri .
              		?sims a sdmx-mm:MetadataReport .
