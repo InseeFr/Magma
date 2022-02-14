@@ -1,23 +1,14 @@
 package fr.insee.rmes.services.pogues;
 
 import java.util.HashMap;
-
-import java.util.List;
 import java.util.Map;
-
-
-import fr.insee.rmes.dto.pogues.NodePogues;
-import io.swagger.v3.core.util.Json;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
-
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
-
-import javax.ws.rs.core.Response;
 
 @Service
 public class PoguesImpl extends RdfService implements PoguesServices {
@@ -425,7 +416,8 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         serie.put("id",obj.getString("seriesId"));
         serie.put("uri",obj.getString("series"));
         serie.put("label",obj.get("label"));
-        serie.put("altLabel",obj.get("altLabel"));
+        if (obj.has("altLabel")) {
+        serie.put("altLabel",obj.get("altLabel"));}
 
         return serie;
     }
