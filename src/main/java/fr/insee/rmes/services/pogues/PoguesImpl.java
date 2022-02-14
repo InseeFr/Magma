@@ -329,12 +329,10 @@ public class PoguesImpl extends RdfService implements PoguesServices {
     protected JSONObject formatTypePogues(JSONObject obj) {
         JSONObject type = new JSONObject();
 
-        JSONObject typeDetail = new JSONObject();
+        type.put("id",obj.getString("typeId"));
+        type.put("uri",obj.getString("type"));
+        type.put("label",obj.get("label"));
 
-        typeDetail.put("id",obj.getString("typeId"));
-        typeDetail.put("uri",obj.getString("type"));
-        typeDetail.put("label",obj.get("label"));
-        type= typeDetail;
         return type;
     }
 
@@ -357,14 +355,11 @@ public class PoguesImpl extends RdfService implements PoguesServices {
 
     protected JSONObject formatFamilyPogues(JSONObject obj) {
         JSONObject family = new JSONObject();
-        JSONObject familyDetail = new JSONObject();
 
+        family.put("id",obj.getString("familyId"));
+        family.put("uri",obj.getString("family"));
+        family.put("label",obj.get("label"));
 
-        familyDetail.put("id",obj.getString("familyId"));
-        familyDetail.put("uri",obj.getString("family"));
-        familyDetail.put("label",obj.get("label"));
-
-        family=familyDetail;
         return family;
     }
 
@@ -387,12 +382,11 @@ public class PoguesImpl extends RdfService implements PoguesServices {
 
     protected JSONObject formatFrequencyPogues(JSONObject obj) {
         JSONObject frequency = new JSONObject();
-        JSONObject frequencyDetail = new JSONObject();
 
-        frequencyDetail.put("id",obj.getString("periodicityId"));
-        frequencyDetail.put("uri",obj.getString("periodicity"));
-        frequencyDetail.put("label",obj.get("label"));
-        frequency=frequencyDetail;
+
+        frequency.put("id",obj.getString("periodicityId"));
+        frequency.put("uri",obj.getString("periodicity"));
+        frequency.put("label",obj.get("label"));
 
         return frequency;
     }
@@ -413,16 +407,14 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         return label;
     }
 
-    protected JSONArray formatOperationSeriePogues(JSONObject obj) {
-        JSONArray serie = new JSONArray();
+    protected JSONObject formatOperationSeriePogues(JSONObject obj) {
 
-        JSONObject serieDetail = new JSONObject();
 
-        serieDetail.put("id",obj.getString("seriesId"));
-        serieDetail.put("uri",obj.getString("series"));
-        serieDetail.put("label",obj.get("label"));
-        serie.put(serieDetail);
+        JSONObject serie = new JSONObject();
 
+        serie.put("id",obj.getString("seriesId"));
+        serie.put("uri",obj.getString("series"));
+        serie.put("label",obj.get("label"));
 
         return serie;
     }
@@ -430,14 +422,10 @@ public class PoguesImpl extends RdfService implements PoguesServices {
     protected JSONObject formatOperationByCodeSeriePogues(JSONObject obj) {
         JSONObject serie = new JSONObject();
 
-        JSONObject serieDetail = new JSONObject();
-
-        serieDetail.put("id",obj.getString("seriesId"));
-        serieDetail.put("uri",obj.getString("series"));
-        serieDetail.put("label",obj.get("label"));
-        serieDetail.put("altLabel",obj.get("altLabel"));
-        serie=serieDetail;
-
+        serie.put("id",obj.getString("seriesId"));
+        serie.put("uri",obj.getString("series"));
+        serie.put("label",obj.get("label"));
+        serie.put("altLabel",obj.get("altLabel"));
 
         return serie;
     }
