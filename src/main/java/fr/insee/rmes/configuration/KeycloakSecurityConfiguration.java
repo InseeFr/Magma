@@ -93,7 +93,7 @@ public class KeycloakSecurityConfiguration {
                     .and()
                     // manage routes securisation here
                     .authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
-                    .antMatchers("/", "/swagger-ui-magma.html","/swagger-ui/swagger-ui.css","/swagger-ui/swagger-ui-bundle.js","/swagger-ui/swagger-ui-standalone-preset.js","/v3/api-docs/swagger-config","/v3/api-docs").permitAll()
+                    .antMatchers("/", "/swagger-ui-magma.html","/swagger-ui/**", "/v3/api-docs/**").permitAll()
                     .antMatchers("/user").permitAll()
                     .antMatchers("/admin").permitAll()
                     .antMatchers("/operations/series").permitAll()
