@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
@@ -22,46 +23,41 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@ConditionalOnProperty(name = "keycloak.enabled", havingValue = "true")
+// @KeycloakConfiguration englobe 3 annotations : @Configuration,
+// @EnableWebSecurity et @ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
+@KeycloakConfiguration
+// @EnableGlobalMethodSecurity permet d'activer la gestion de la sécurité par annotation
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 
-public class KeycloakSecurityConfiguration {
+public class KeycloakSecurityConfiguration extends KeycloakWebSecurityConfigurerAdapter {
+    // bug avec la montée de version de keycloak-spring-boot-starter à partir de la version 7.0.0.
+    // La découverte automatique de la configuration du Keycloak à  partir du fichier de properties ne fonctionne pas.
+    // Il faut déclarer un KeycloakSpringBootConfigResolver dans une classe de configuration à part
+    // https://stackoverflow.com/questions/57787768/issues-running-example-keycloak-spring-boot-app
+    @Bean
+    public KeycloakConfigResolver keycloakConfigResolver() {
+        return new KeycloakSpringBootConfigResolver();
+    }
+    @Bean
+    @Override
+    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+        // dans le cadre d'une API, nous ne voulons pas de stratégie d'authentification
+        // de session (keycloak.bearer-only=true)
+        return new NullAuthenticatedSessionStrategy();
+    }
 
-    @KeycloakConfiguration
-    @ConditionalOnProperty(name = "keycloak.enabled", havingValue = "true", matchIfMissing = true)
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
+        // SimpleAuthorityMapper évite que les rôles soient préfixés par "ROLE_"
+        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
+        // enregistrement de Keycloak comme fournisseur d'authentification auprès de
+        // Spring Security
+        auth.authenticationProvider(keycloakAuthenticationProvider);
+    }
 
-    public static class KeycloakConfigurationAdapter extends KeycloakWebSecurityConfigurerAdapter {
-
-        /**
-         * Defines the session authentication strategy.
-         */
-        @Bean
-        @Override
-        protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-            // required for bearer-only applications.
-            return new NullAuthenticatedSessionStrategy();
-        }
-
-        /**
-         * Registers the KeycloakAuthenticationProvider with the authentication manager.
-         */
-        @Autowired
-        public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-            KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
-            // simple Authority Mapper to avoid ROLE_
-            keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
-            auth.authenticationProvider(keycloakAuthenticationProvider);
-        }
-
-        /**
-         * Required to handle spring boot configurations
-         * @return
-         */
-        @Bean
-        public KeycloakConfigResolver KeycloakConfigResolver() {
-            return new KeycloakSpringBootConfigResolver();
-        }
-
-
-        /**
+       /**
          * Configuration spécifique à keycloak (ajouts de filtres, etc)
          * @param http
          * @throws Exception
@@ -107,10 +103,10 @@ public class KeycloakSecurityConfiguration {
                     .antMatchers("/composants").permitAll()
                     .antMatchers("/composant/{id}").permitAll()
                     .antMatchers("/concepts").permitAll()
-                    .antMatchers("/concept/{id}").permitAll()
+                    .antMatchers("/concept/{id}").hasRole("user")
                     .anyRequest().denyAll();
         }
 
     }
-}
+
 
