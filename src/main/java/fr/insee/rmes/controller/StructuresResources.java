@@ -10,6 +10,7 @@ import fr.insee.rmes.dto.component.ComponentID;
 import fr.insee.rmes.dto.component.Components;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,7 @@ public class StructuresResources {
 	@GET
 	@GetMapping("/structures")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getAllStructures", summary = "Get all structures", responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = StructureList.class)))})
+	@Operation(operationId = "getAllStructures", summary = "Get all structures",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = StructureList.class)))})
 	public ResponseEntity <String> getAllStructures() throws RmesException {
 		String jsonResult = structuresServices.getAllStructures();
 		if(jsonResult.isEmpty()){
@@ -55,7 +56,7 @@ public class StructuresResources {
 	@GET
 	@GetMapping("/structure/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getStructure", summary = "Get a structure", responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = StructureListId.class)))})
+	@Operation(operationId = "getStructure", summary = "Get a structure",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = StructureListId.class)))})
 	public ResponseEntity <String> getStructure(@PathVariable(Constants.ID) String id) throws RmesException {
 		String jsonResult = structuresServices.getStructure(id);
 		if(jsonResult.isEmpty()){
@@ -67,7 +68,7 @@ public class StructuresResources {
 
 	@GetMapping("/composants")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getAllComponents", summary = "Get all components",
+	@Operation(operationId = "getAllComponents", summary = "Get all components",security = @SecurityRequirement(name = "bearerScheme"),
 			responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array",implementation = Components.class)))})
 	public ResponseEntity<String> getAllComponents() throws RmesException {
 		String jsonResult = structuresServices.getAllComponents();
@@ -81,7 +82,7 @@ public class StructuresResources {
 
 	@GetMapping("/composant/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getComponent", summary = "Get a component", responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array",implementation = ComponentID.class)))})
+	@Operation(operationId = "getComponent", summary = "Get a component",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array",implementation = ComponentID.class)))})
 	public ResponseEntity <String> getComponent(@PathVariable(Constants.ID) String id) throws RmesException {
 		String jsonResult = structuresServices.getComponent(id);
 		if(jsonResult.isEmpty()){

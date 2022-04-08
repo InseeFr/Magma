@@ -5,6 +5,7 @@ import java.util.Objects;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
     @GetMapping("/listesCodes")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(operationId = "getAllCodesLists", summary = "Get all codes lists",
+    @Operation(operationId = "getAllCodesLists", summary = "Get all codes lists",security = @SecurityRequirement(name = "bearerScheme"),
             responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = CodeList.class)))})
     public ResponseEntity <String> getallCodesLists() throws RmesException {
         String jsonResult = codeListsServices.getAllCodesLists();
@@ -57,7 +58,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
     @GetMapping("/listeCode/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(operationId = "getCodesList", summary = "Get one codes list",responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = CodeListNotation.class)))})
+    @Operation(operationId = "getCodesList", summary = "Get one codes list",security = @SecurityRequirement(name = "bearerScheme"),responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = CodeListNotation.class)))})
     public ResponseEntity<String> getCodesList(@PathVariable(Constants.NOTATION) String notation) throws RmesException {
         String jsonResult = codeListsServices.getCodesList(notation);
         if(Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)){
