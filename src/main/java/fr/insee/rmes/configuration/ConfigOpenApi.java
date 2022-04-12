@@ -52,7 +52,7 @@ public class ConfigOpenApi {
     public OperationCustomizer ajouterKeycloak() {
         // configuration pour que Swagger utilise le jeton récupéré auprès de Keycloak
         return (operation, handlerMethod) -> {
-            return operation.addSecurityItem(new SecurityRequirement().addList(SCHEMEKEYCLOAK));
+            return operation.addSecurityItem(new SecurityRequirement().addList(SCHEMEKEYCLOAKBEARER));
         };
     }
 

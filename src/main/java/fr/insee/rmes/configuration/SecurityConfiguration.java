@@ -60,8 +60,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests(
                         authz -> authz.antMatchers(HttpMethod.OPTIONS).permitAll()
                                 .antMatchers("/", "/swagger-ui-magma.html","/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                                .antMatchers("/user").permitAll()
-                                .antMatchers("/admin").permitAll()
                                 .antMatchers("/operations/series").authenticated()
                                 .antMatchers("/operations/serie/{id}/operations").authenticated()
                                 .antMatchers("/operations/serie/{id}/").authenticated()
