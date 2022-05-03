@@ -4,8 +4,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import fr.insee.rmes.dto.concept.ConceptList;
-import fr.insee.rmes.dto.concept.ConceptListId;
+import fr.insee.rmes.dto.concept.AllConceptDTO;
+import fr.insee.rmes.dto.concept.ConceptByIdDTO;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.apache.http.HttpStatus;
@@ -42,7 +42,7 @@ public class ConceptsResources {
 	@GET
 	@GetMapping("/concept/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getDetailedConcept", summary = "Get one concept",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ConceptListId.class)))})
+	@Operation(operationId = "getDetailedConcept", summary = "Get one concept",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = AllConceptDTO.class)))})
 	public ResponseEntity <String> getDetailedConcept(@Parameter(required = true, description = "Identifiant du concept (format : c[0-9]{4})", schema = @Schema(pattern = "c[0-9]{4}", type = "string"), example = "c2066") @PathVariable("id") String id) throws RmesException {
 		String jsonResult = conceptsService.getDetailedConcept(id);
 		if(jsonResult.isEmpty()){
@@ -55,7 +55,7 @@ public class ConceptsResources {
 	@GET
 	@GetMapping("/concepts")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getAllConcepts", summary = "List of concepts",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ConceptList.class)))})
+	@Operation(operationId = "getAllConcepts", summary = "List of concepts",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ConceptByIdDTO.class)))})
 	public ResponseEntity <String> getAllConcepts() throws RmesException {
 		String jsonResult = conceptsService.getAllConcepts();
 		if(jsonResult.isEmpty()){
