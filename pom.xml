@@ -12,7 +12,7 @@
 	<packaging>${packaging.mode}</packaging>
 	<groupId>fr.insee.rmes</groupId>
 	<artifactId>magma</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<name>magma</name>
 	<description>Metadata management API</description>
 	<organization>
