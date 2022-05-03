@@ -1,12 +1,15 @@
 package fr.insee.rmes;
 
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 
 
 import org.apache.commons.lang3.StringUtils;
@@ -17,9 +20,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.env.Environment;
 
 import fr.insee.rmes.utils.config.Config;
+import org.springframework.web.context.WebApplicationContext;
 
 
 @SpringBootApplication
@@ -52,6 +59,15 @@ public class Application extends SpringBootServletInitializer {
 				.sources(Application.class);
 	}
 
+
+	@Bean
+	@Scope(scopeName = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+	// renvoie le principal mis dans la requête par Keycloak ou un principal avec un
+	// "name" null sinon
+	public Principal getPrincipal(HttpServletRequest httpRequest) {
+		return Optional.ofNullable(httpRequest.getUserPrincipal()).orElse(() -> null);
+	}
+
 	@PostConstruct
 	public void startupApplication() {
 		// Log properties
@@ -76,5 +92,7 @@ public class Application extends SpringBootServletInitializer {
 		}
 		return env.getProperty(key);
 	}
+
+
 
 }

@@ -3,11 +3,15 @@ package fr.insee.rmes.services.pogues;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 public interface PoguesServices {
-    String getAllCodesLists(Boolean survey) throws RmesException;
+    String getAllSeriesLists(Boolean survey) throws RmesException, IOException;
 
-    String getCodesList(String id) throws RmesException;
+    String getSerieById(String id) throws RmesException, IOException;
 
-    String getOperationsBySerie(String id) throws RmesException;
+    String getOperationsBySerieId(String id) throws RmesException, IOException;
+
+    String getOperationByCode(String id) throws RmesException, IOException;
 }

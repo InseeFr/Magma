@@ -1,10 +1,17 @@
 package fr.insee.rmes.controller;
 
-import java.util.Objects;
-
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
+import fr.insee.rmes.dto.codeList.AllListCodeDTO;
+import fr.insee.rmes.dto.codeList.ListCodeByIdDTO;
+import fr.insee.rmes.services.codelists.CodeListsServices;
+import fr.insee.rmes.utils.Constants;
+import fr.insee.rmes.utils.exceptions.RmesException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +21,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.insee.rmes.dto.codeList.CodeList;
-import fr.insee.rmes.dto.codeList.CodeListNotation;
-import fr.insee.rmes.services.codelists.CodeListsServices;
-import fr.insee.rmes.utils.Constants;
-import fr.insee.rmes.utils.exceptions.RmesException;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value="/",produces = {"application/json"})
@@ -42,8 +41,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
     @GetMapping("/listesCodes")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(operationId = "getAllCodesLists", summary = "Get all codes lists",
-            responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = CodeList.class)))})
+    @Operation(operationId = "getAllCodesLists", summary = "Get all codes lists",security = @SecurityRequirement(name = "bearerScheme"),
+            responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = AllListCodeDTO.class)))})
     public ResponseEntity <String> getallCodesLists() throws RmesException {
         String jsonResult = codeListsServices.getAllCodesLists();
         if(jsonResult.isEmpty()){
@@ -57,7 +56,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
     @GetMapping("/listeCode/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(operationId = "getCodesList", summary = "Get one codes list",responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = CodeListNotation.class)))})
+    @Operation(operationId = "getCodesList", summary = "Get one codes list",security = @SecurityRequirement(name = "bearerScheme"),responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdDTO.class)))})
     public ResponseEntity<String> getCodesList(@PathVariable(Constants.NOTATION) String notation) throws RmesException {
         String jsonResult = codeListsServices.getCodesList(notation);
         if(Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)){
