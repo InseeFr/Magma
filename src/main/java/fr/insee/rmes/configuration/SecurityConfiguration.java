@@ -71,6 +71,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                                 .antMatchers("/composants").authenticated()
                                 .antMatchers("/composant/{id}").authenticated()
                                 .antMatchers("/concepts").authenticated()
+                                .antMatchers("/concept/{id}").authenticated()
                                 .anyRequest().denyAll());
         // autorisation d'afficher des frames dans l'appli pour afficher la console h2
         // (risque de clickjacking)
