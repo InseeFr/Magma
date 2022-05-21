@@ -81,54 +81,6 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         }
         return mapper.writeValueAsString(seriesListDTOS);
 
-//        for (int i = 0; i < poguesCodesLists.length(); i++) {
-//            JSONObject PoguesCodesList = poguesCodesLists.getJSONObject(i);
-//
-//            if (PoguesCodesList.has("seriesAltLabelLg1") && PoguesCodesList.has("seriesAltLabelLg2") ) {
-//                PoguesCodesList.put("altLabel", this.formatAltLabelPogues(PoguesCodesList));
-//            }
-//            PoguesCodesList.remove("seriesAltLabelLg1");
-//            PoguesCodesList.remove("seriesAltLabelLg2");
-//
-//            if (PoguesCodesList.has("typeId")) {
-//                PoguesCodesList.put("label", this.formatTypeLabelPogues(PoguesCodesList));
-//                PoguesCodesList.put("type", this.formatTypePogues(PoguesCodesList));
-//
-//            }
-//            PoguesCodesList.remove("typeLabelLg1");
-//            PoguesCodesList.remove("typeLabelLg2");
-//            PoguesCodesList.remove("typeId");
-//
-//
-//            if (PoguesCodesList.has("familyId")) {
-//                PoguesCodesList.put("label", this.formatFamilyLabelPogues(PoguesCodesList));
-//                PoguesCodesList.put("famille", this.formatFamilyPogues(PoguesCodesList));
-//            }
-//
-//            PoguesCodesList.remove("familyLabelLg1");
-//            PoguesCodesList.remove("familyLabelLg2");
-//            PoguesCodesList.remove("familyId");
-//            PoguesCodesList.remove("family");
-//
-//            if (PoguesCodesList.has("periodicityId")) {
-//                PoguesCodesList.put("label", this.formatFrequencyLabelPogues(PoguesCodesList));
-//                PoguesCodesList.put("frequence", this.formatFrequencyPogues(PoguesCodesList));
-//            }
-//
-//            PoguesCodesList.remove("periodicityLabelLg1");
-//            PoguesCodesList.remove("periodicityLabelLg2");
-//            PoguesCodesList.remove("periodicityId");
-//            PoguesCodesList.remove("periodicity");
-//
-//            PoguesCodesList.put("label", this.formatLabelPogues(PoguesCodesList));
-//
-//            PoguesCodesList.remove("seriesLabelLg1");
-//            PoguesCodesList.remove("seriesLabelLg2");
-//
-//        }
-//        return poguesCodesLists.toString();
-
-
     }
 
     @Override
