@@ -38,6 +38,8 @@ public class DataSetDTO extends DataSetListDTO implements Serializable  {
     private String dateModification;
     @JsonProperty("dateCreation")
     private String dateCreation;
+    @JsonProperty ("statutValidation")
+    private String statutValidation;
     @JsonProperty("theme")
     @JsonInclude(NON_NULL)
     private List<ThemeDTO> themeDTOS;
@@ -65,6 +67,19 @@ public class DataSetDTO extends DataSetListDTO implements Serializable  {
         this.operationDTOS = operationDTOS;
     }
 
+    public DataSetDTO(String id, List<Titre> titre, String uri, String dateModification, String dateCreation, String statutValidation,List<ThemeDTO> themeDTOS, List<SerieDTO> serieDTOS, List<OperationDTO> operationDTOS) {
+        this.id = id;
+        this.titre = titre;
+        this.uri = uri;
+        this.dateModification = dateModification;
+        this.dateCreation = dateCreation;
+        this.statutValidation=statutValidation;
+        this.themeDTOS = themeDTOS;
+        this.serieDTOS = serieDTOS;
+        this.operationDTOS = operationDTOS;
+    }
+
+
     public DataSetDTO(String id, List<Titre> titre, String uri, String dateModification) {
         this.id = id;
         this.titre = titre;
@@ -72,6 +87,13 @@ public class DataSetDTO extends DataSetListDTO implements Serializable  {
         this.dateModification = dateModification;
     }
 
+    public DataSetDTO(String id, List<Titre> titre, String uri, String dateModification,String statutValidation) {
+        this.id = id;
+        this.titre = titre;
+        this.uri = uri;
+        this.dateModification = dateModification;
+        this.statutValidation= statutValidation;
+    }
 
     @JsonProperty("id")
     public String getId() {
@@ -120,6 +142,16 @@ public class DataSetDTO extends DataSetListDTO implements Serializable  {
     @JsonProperty("dateCreation")
     public void setDateCreation(String dateCreation) {
         this.dateCreation = dateCreation;
+    }
+
+    @JsonProperty("statutValidation")
+    public String getStatutValidation() {
+        return statutValidation;
+    }
+
+    @JsonProperty("statutValidation")
+    public void setStatutValidation(String statutValidation) {
+        this.statutValidation = statutValidation;
     }
 
     @JsonProperty("theme")

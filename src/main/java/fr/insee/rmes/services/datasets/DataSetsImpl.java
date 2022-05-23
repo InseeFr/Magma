@@ -43,7 +43,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             if (byDataSet.getTitreLg1()!=null) {
                 titres.add(titre1);
                 titres.add(titre2);   }
-            DataSetDTO dataSetDTO = new DataSetDTO(byDataSet.getId(),titres,byDataSet.getUri(),byDataSet.getDateMiseAJour());
+            DataSetDTO dataSetDTO = new DataSetDTO(byDataSet.getId(),titres,byDataSet.getUri(),byDataSet.getDateMiseAJour(),byDataSet.getStatutValidation());
             dataSetListDTOS.add(dataSetDTO);
         }
 
@@ -106,8 +106,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         Stream<String> streamOperation = operationStat.stream();
         List<String> operationUri = streamOperation.filter(v -> v.contains("/operation/"))
                 .collect(Collectors.toList());
-        System.out.println(operationUri.size());
-        System.out.println(Arrays.stream(new List[]{serieUri}).count());
 
         //traitement de(s) série(s)/opération(s) lié(s) au dataset
 
@@ -157,10 +155,10 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         // fusion de l'ensemble des objets précédents dans datasetDTO en fonction du contenu
 
-        DataSetDTO dataSetDTO = new DataSetDTO(dataSet.getId(), titre, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), themeListDTOS, serieListDTOS, operationListDTOS);
+        DataSetDTO dataSetDTO = new DataSetDTO(dataSet.getId(), titre, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(),themeListDTOS, serieListDTOS, operationListDTOS);
         ObjectMapper dataSetFinal = new ObjectMapper();
-        JsonNode test3=dataSetFinal.valueToTree(dataSetDTO);
-        Iterator<JsonNode> it= test3.iterator();
+        JsonNode dataSetFinalNode=dataSetFinal.valueToTree(dataSetDTO);
+        Iterator<JsonNode> it= dataSetFinalNode.iterator();
 
         while (it.hasNext()){
             JsonNode node=it.next();
@@ -171,7 +169,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
 
 
-        return test3.toString();
+        return dataSetFinalNode.toString();
     }
 
 

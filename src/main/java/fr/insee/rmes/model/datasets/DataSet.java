@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "dateCreation",
         "names",
         "dateMiseAJour",
+        "statutValidation",
         "operationStat",
         "titreLg1",
         "id",
@@ -27,7 +28,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("jsonschema2pojo")
 public class DataSet implements Serializable
 {
-
+    @JsonProperty("statutValidation")
+    private String statutValidation;
     @JsonProperty("dateCreation")
     private String dateCreation;
     @JsonProperty("names")
@@ -73,6 +75,18 @@ public class DataSet implements Serializable
         this.names = names;
         this.dateMiseAJour = dateMiseAJour;
         this.operationStat = serie;
+        this.titreLg1 = titreLg1;
+        this.id = id;
+        this.titreLg2 = titreLg2;
+        this.uri = uri;
+    }
+
+    public DataSet(String statutValidation, String dateCreation, String names, String dateMiseAJour, String operationStat, String titreLg1, String id, String titreLg2, String uri) {
+        this.statutValidation = statutValidation;
+        this.dateCreation = dateCreation;
+        this.names = names;
+        this.dateMiseAJour = dateMiseAJour;
+        this.operationStat = operationStat;
         this.titreLg1 = titreLg1;
         this.id = id;
         this.titreLg2 = titreLg2;
@@ -197,6 +211,16 @@ public class DataSet implements Serializable
     public DataSet withUri(String uri) {
         this.uri = uri;
         return this;
+    }
+
+    @JsonProperty("statutValidation")
+    public String getStatutValidation() {
+        return statutValidation;
+    }
+
+    @JsonProperty("statutValidation")
+    public void setStatutValidation(String statutValidation) {
+        this.statutValidation = statutValidation;
     }
 
     @JsonAnyGetter
