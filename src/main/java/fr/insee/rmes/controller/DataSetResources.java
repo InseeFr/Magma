@@ -36,7 +36,7 @@ public class DataSetResources {
 
     @GetMapping("/datasets/list")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(operationId = "getListDatasets", summary = "Get list of datsets", security = @SecurityRequirement(name = "bearerScheme"),
+    @Operation(operationId = "getListDatasets", summary = "Get list of datasets", security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "array", implementation = DataSetDTO.class)))})
     public ResponseEntity<String> getListDatasets() throws RmesException, JsonProcessingException {
         String jsonResult = dataSetsServices.getListDataSets();

@@ -161,7 +161,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         for (int i = 0; i < Arrays.stream(parts).count(); i++) {
 
             Map<String, Object> params2 = initParams();
-            params2.put("ID", parts[i].replace(" ", ""));
+            params2.put("URI", parts[i].replace(" ", ""));
             params2.put("LG1", Config.LG1);
             params2.put("LG2", Config.LG2);
 
