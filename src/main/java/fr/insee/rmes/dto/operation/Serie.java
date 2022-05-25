@@ -55,4 +55,7 @@ public class Serie implements Serializable
         this.series = series;
     }
 
+    public List<Label> getLabelSerie() {
+        return labelSerie;
+    }
 }
