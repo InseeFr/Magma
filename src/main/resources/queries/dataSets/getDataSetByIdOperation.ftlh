@@ -5,10 +5,11 @@ where {
    		   			?uri dcterms:isPartOf+ ?identifier .    		  	  			
     					FILTER(str(?uri) = '${URI}')
    				bind(strafter(str(?uri),"/operation/") as ?id)
+				Optional {
 				?uri skos:prefLabel ?labelOperation ;
     			skos:prefLabel ?labelOperationLg1 ;
            	    skos:prefLabel ?labelOperationLg2 .
     			FILTER (lang(?labelOperationLg1) = 'fr')
-				FILTER (lang(?labelOperationLg2) = 'en') 
+				FILTER (lang(?labelOperationLg2) = 'en') }
     
 }

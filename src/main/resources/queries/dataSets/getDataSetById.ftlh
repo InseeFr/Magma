@@ -7,7 +7,6 @@ where {
                 dcterms:identifier "${ID}" ;
     			dcterms:created+ ?dateCreation ;
                 dcterms:identifier ?id ;
-         		dcterms:title ?title ;
                 dcterms:title ?titreLg1 ;
            	    dcterms:title ?titreLg2 .
     			FILTER (lang(?titreLg1) = 'fr')

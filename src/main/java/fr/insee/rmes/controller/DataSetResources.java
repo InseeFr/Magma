@@ -37,7 +37,7 @@ public class DataSetResources {
     @GetMapping("/datasets/list")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getListDatasets", summary = "Get list of datsets", security = @SecurityRequirement(name = "bearerScheme"),
-            responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = DataSetDTO.class)))})
+            responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "array", implementation = DataSetDTO.class)))})
     public ResponseEntity<String> getListDatasets() throws RmesException, JsonProcessingException {
         String jsonResult = dataSetsServices.getListDataSets();
         if (jsonResult.isEmpty()) {
@@ -50,7 +50,7 @@ public class DataSetResources {
     @GetMapping("/datasets/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getDataSetById", summary = "Get one dataset", security = @SecurityRequirement(name = "bearerScheme"),
-            responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = DataSetDTO.class)))})
+            responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "string", implementation = DataSetDTO.class)))})
 
     public ResponseEntity<String> getDataSetByID(@PathVariable("id") String id) throws RmesException, JsonProcessingException {
 
