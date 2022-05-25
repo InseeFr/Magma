@@ -26,7 +26,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 })
 @Generated("jsonschema2pojo")
-public class DataSetDTO extends DataSetListDTO implements Serializable  {
+public class DataSetDTO implements Serializable  {
     @JsonProperty("id")
     private String id;
     @JsonProperty("titre")

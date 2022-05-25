@@ -19,7 +19,7 @@ import java.util.Map;
         "label",
 })
 @Generated("jsonschema2pojo")
-public class SerieDTO extends SerieListDTO implements Serializable{
+public class SerieDTO  implements Serializable{
     @JsonProperty("uri")
     private String uri;
     @JsonProperty("id")

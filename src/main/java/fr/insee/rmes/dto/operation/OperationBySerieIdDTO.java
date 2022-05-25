@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "id"
 })
 @Generated("jsonschema2pojo")
-public class OperationBySerieIdDTO extends OperationsBySerieIdDTO implements Serializable{
+public class OperationBySerieIdDTO  implements Serializable{
 
     @JsonProperty("altLabel")
     @Valid

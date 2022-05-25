@@ -22,7 +22,7 @@ import java.util.Map;
     "famille"
 })
 @Generated("jsonschema2pojo")
-public class SerieByIdDTO extends SeriesListDTO implements Serializable
+public class SerieByIdDTO  implements Serializable
 {
 
     @JsonProperty("altLabel")

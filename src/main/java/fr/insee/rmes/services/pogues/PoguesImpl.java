@@ -39,7 +39,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         SerieModel[] listSeries = jsonResponse.readValue(seriesList.toString(), SerieModel[].class);
 
         ObjectMapper mapper = new ObjectMapper();
-        List<SeriesListDTO> seriesListDTOS= new ArrayList<>();
+        List<SerieByIdDTO> seriesListDTOS= new ArrayList<>();
 
         for (SerieModel bySerie : listSeries) {
             AltLabel altLabelSerie1 = new AltLabel(Config.LG1, bySerie.getSeriesAltLabelLg1());
@@ -141,7 +141,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         OperationBySerieId[] operationBySerieId = jsonResponse.readValue(operationsList.toString(), OperationBySerieId[].class);
 
         ObjectMapper mapper = new ObjectMapper();
-        List<OperationsBySerieIdDTO> operationsBySerieIdDTOS= new ArrayList<>();
+        List<OperationBySerieIdDTO> operationsBySerieIdDTOS= new ArrayList<>();
         for (OperationBySerieId bySerieId : operationBySerieId) {
             Label labelSerie1 = new Label(Config.LG1, bySerieId.getSeriesLabelLg1());
             Label labelSerie2 = new Label(Config.LG2, bySerieId.getSeriesLabelLg2());

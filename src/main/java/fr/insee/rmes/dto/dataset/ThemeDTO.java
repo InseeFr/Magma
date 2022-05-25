@@ -18,7 +18,7 @@ import java.util.Map;
         "label",
 })
 @Generated("jsonschema2pojo")
-public class ThemeDTO extends ThemeListDTO implements Serializable{
+public class ThemeDTO  implements Serializable{
     @JsonProperty("uri")
     private String uri;
     @JsonProperty("label")
