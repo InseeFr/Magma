@@ -25,7 +25,6 @@ public abstract class RdfService {
 	protected RepositoryGestion repoGestion;
 	
     protected static String buildRequest(String path, String fileName, Map<String, Object> params) throws RmesException {
-        LOG.info("request path {}",path);
         return FreeMarkerUtils.buildRequest(path, fileName, params);
     }
     

@@ -6,6 +6,7 @@ import java.lang.reflect.Modifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -37,6 +38,16 @@ public class Config {
 	public static String OPERATIONS_SERIES_GRAPH;
 	public static String OPERATIONS_BASE_URI;
 
+	@Value("${fr.insee.rmes.magma.envir}")
+	private String envir;
+
+	@Value("${fr.insee.rmes.magma.force.ssl}")
+	private boolean requiresSsl = false;
+
+
+	public boolean isRequiresSsl() {
+		return requiresSsl;
+	}
 
 	public void init() {
 		CONCEPTS_BASE_URI = env.getProperty("fr.insee.rmes.magma.concepts.baseURI");
