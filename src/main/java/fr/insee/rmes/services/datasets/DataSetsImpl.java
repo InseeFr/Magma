@@ -152,31 +152,35 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return serieListDTOS;
     }
 
-    @NotNull
+
     private List<ThemeDTO> getThemeDTOS(JSONObject dataSetId) throws RmesException, JsonProcessingException {
         String[] parts = dataSetId.getString("names").split(",");
         List<ThemeDTO> themeListDTOS = new ArrayList<>();
 
-        for (int i = 0; i < Arrays.stream(parts).count(); i++) {
+        if (dataSetId.getString("names").isEmpty()) {
+          return   themeListDTOS;
+        } else {
+            for (int i = 0; i < Arrays.stream(parts).count(); i++) {
 
-            Map<String, Object> params2 = initParams();
-            params2.put("URI", parts[i].replace(" ", ""));
-            params2.put("LG1", Config.LG1);
-            params2.put("LG2", Config.LG2);
+                Map<String, Object> params2 = initParams();
+                params2.put("URI", parts[i].replace(" ", ""));
+                params2.put("LG1", Config.LG1);
+                params2.put("LG2", Config.LG2);
 
-            JSONObject dataSetId2 = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdTheme.ftlh", params2));
-            ObjectMapper jsonResponse2 = new ObjectMapper();
-            Theme theme1 = jsonResponse2.readValue(dataSetId2.toString(), Theme.class);
-            LabelDataSet labelDataSet1 = new LabelDataSet(Config.LG1, theme1.getLabelThemeLg1());
-            LabelDataSet labelDataSet2 = new LabelDataSet(Config.LG2, theme1.getLabelThemeLg2());
-            List<LabelDataSet> labelDataSets = new ArrayList<>();
-            labelDataSets.add(labelDataSet1);
-            labelDataSets.add(labelDataSet2);
-            ThemeDTO themeDTO = new ThemeDTO(dataSetId2.getString("uri"), labelDataSets);
-            themeListDTOS.add(themeDTO);
-            dataSetId2.clear();
+                JSONObject dataSetId2 = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdTheme.ftlh", params2));
+                ObjectMapper jsonResponse2 = new ObjectMapper();
+                Theme theme1 = jsonResponse2.readValue(dataSetId2.toString(), Theme.class);
+                LabelDataSet labelDataSet1 = new LabelDataSet(Config.LG1, theme1.getLabelThemeLg1());
+                LabelDataSet labelDataSet2 = new LabelDataSet(Config.LG2, theme1.getLabelThemeLg2());
+                List<LabelDataSet> labelDataSets = new ArrayList<>();
+                labelDataSets.add(labelDataSet1);
+                labelDataSets.add(labelDataSet2);
+                ThemeDTO themeDTO = new ThemeDTO(dataSetId2.getString("uri"), labelDataSets);
+                themeListDTOS.add(themeDTO);
+                dataSetId2.clear();
+            }
+            return themeListDTOS;
         }
-        return themeListDTOS;
     }
 
 
