@@ -28,7 +28,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     public String getListDataSets () throws RmesException, JsonProcessingException {
         Map<String, Object> params = initParams();
 
-        JSONArray listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH,"getListDataSets.ftlh", params));
+        JSONArray listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH,"getListDatasets.ftlh", params));
 
         ObjectMapper jsonResponse = new ObjectMapper();
         DataSet[] dataSets = jsonResponse.readValue(listDataSet.toString(), DataSet[].class);
