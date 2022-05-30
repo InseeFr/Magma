@@ -32,7 +32,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         ObjectMapper jsonResponse = new ObjectMapper();
         DataSet[] dataSets = jsonResponse.readValue(listDataSet.toString(), DataSet[].class);
-
         ObjectMapper mapper = new ObjectMapper();
         List<DataSetDTO> dataSetListDTOS= new ArrayList<>();
 
