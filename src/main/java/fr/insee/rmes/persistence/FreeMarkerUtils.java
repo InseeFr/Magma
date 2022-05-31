@@ -12,6 +12,7 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+
 public class FreeMarkerUtils {
 
 	private FreeMarkerUtils() {

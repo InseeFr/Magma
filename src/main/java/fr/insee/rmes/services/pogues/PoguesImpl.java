@@ -1,247 +1,198 @@
 package fr.insee.rmes.services.pogues;
 
-import java.util.HashMap;
-import java.util.Map;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.insee.rmes.dto.operation.*;
+import fr.insee.rmes.model.operation.OperationById;
+import fr.insee.rmes.model.operation.OperationBySerieId;
+import fr.insee.rmes.model.operation.SerieById;
+import fr.insee.rmes.model.operation.SerieModel;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class PoguesImpl extends RdfService implements PoguesServices {
 
     @Override
-    public String getAllCodesLists(Boolean survey) throws RmesException {
+    public String getAllSeriesLists(Boolean survey) throws RmesException, IOException {
         Map<String, Object> params = initParams();
-        JSONArray poguesCodesLists ;
+        JSONArray seriesList ;
 
         if ( survey) {
-             poguesCodesLists = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getAllCodesListsSurvey.ftlh", params));
+            seriesList = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getAllCodesListsSurvey.ftlh", params));
         }
         else {
-             poguesCodesLists = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getAllCodesLists.ftlh", params));
+            seriesList = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getAllCodesLists.ftlh", params));
         }
 
-        for (int i = 0; i < poguesCodesLists.length(); i++) {
-            JSONObject PoguesCodesList = poguesCodesLists.getJSONObject(i);
+        ObjectMapper jsonResponse = new ObjectMapper();
+        SerieModel[] listSeries = jsonResponse.readValue(seriesList.toString(), SerieModel[].class);
 
-            if (PoguesCodesList.has("seriesAltLabelLg1") && PoguesCodesList.has("seriesAltLabelLg2") ) {
-                PoguesCodesList.put("altLabel", this.formatAltLabelPogues(PoguesCodesList));
-            }
-            PoguesCodesList.remove("seriesAltLabelLg1");
-            PoguesCodesList.remove("seriesAltLabelLg2");
+        ObjectMapper mapper = new ObjectMapper();
+        List<SerieByIdDTO> seriesListDTOS= new ArrayList<>();
 
-            if (PoguesCodesList.has("typeId")) {
-                PoguesCodesList.put("label", this.formatTypeLabelPogues(PoguesCodesList));
-                PoguesCodesList.put("type", this.formatTypePogues(PoguesCodesList));
-
-            }
-            PoguesCodesList.remove("typeLabelLg1");
-            PoguesCodesList.remove("typeLabelLg2");
-            PoguesCodesList.remove("typeId");
-
-
-            if (PoguesCodesList.has("familyId")) {
-                PoguesCodesList.put("label", this.formatFamilyLabelPogues(PoguesCodesList));
-                PoguesCodesList.put("famille", this.formatFamilyPogues(PoguesCodesList));
-            }
-
-            PoguesCodesList.remove("familyLabelLg1");
-            PoguesCodesList.remove("familyLabelLg2");
-            PoguesCodesList.remove("familyId");
-            PoguesCodesList.remove("family");
-
-            if (PoguesCodesList.has("periodicityId")) {
-                PoguesCodesList.put("label", this.formatFrequencyLabelPogues(PoguesCodesList));
-                PoguesCodesList.put("frequence", this.formatFrequencyPogues(PoguesCodesList));
-            }
-
-            PoguesCodesList.remove("periodicityLabelLg1");
-            PoguesCodesList.remove("periodicityLabelLg2");
-            PoguesCodesList.remove("periodicityId");
-            PoguesCodesList.remove("periodicity");
-
-            PoguesCodesList.put("label", this.formatLabelPogues(PoguesCodesList));
-
-            PoguesCodesList.remove("seriesLabelLg1");
-            PoguesCodesList.remove("seriesLabelLg2");
+        for (SerieModel bySerie : listSeries) {
+            AltLabel altLabelSerie1 = new AltLabel(Config.LG1, bySerie.getSeriesAltLabelLg1());
+            AltLabel altLabelSerie2 = new AltLabel(Config.LG2, bySerie.getSeriesAltLabelLg2());
+                List<AltLabel> altLabelSerie = new ArrayList<>();
+                if (bySerie.getSeriesAltLabelLg1()!=null) {
+                    altLabelSerie.add(altLabelSerie1);
+                    altLabelSerie.add(altLabelSerie2);   }
+            Label labelSerie1= new Label(Config.LG1, bySerie.getSeriesLabelLg1());
+            Label labelSerie2= new Label(Config.LG2, bySerie.getSeriesLabelLg2());
+                List<Label> label = new ArrayList<>();
+                 if (bySerie.getSeriesLabelLg1()!=null) {
+                         label.add(labelSerie1);
+                         label.add(labelSerie2); }
+            Label labelType1=new Label(Config.LG1, bySerie.getTypeLabelLg1());
+            Label labelType2=new Label(Config.LG2, bySerie.getTypeLabelLg2());
+            List<Label> labelType=new ArrayList<>();
+                if (bySerie.getTypeLabelLg1()!=null) {
+                        labelType.add(labelType1);
+                        labelType.add(labelType2);}
+            Type typeSerie= new Type (bySerie.getTypeId(),labelType,bySerie.getType());
+            Label labelFreq1=new Label(Config.LG1, bySerie.getPeriodicityLabelLg1());
+            Label labelFreq2=new Label(Config.LG2, bySerie.getPeriodicityLabelLg2());
+            List<Label> labelFreq=new ArrayList<>();
+                if (bySerie.getPeriodicityLabelLg2()!=null) {
+                        labelFreq.add(labelFreq1);
+                        labelFreq.add(labelFreq2);}
+            Frequence frequenceSerie= new Frequence (bySerie.getPeriodicityId(),labelFreq,bySerie.getPeriodicity());
+            Label labelFamille1=new Label(Config.LG1, bySerie.getFamilyLabelLg1());
+            Label labelFamille2=new Label(Config.LG2, bySerie.getFamilyLabelLg2());
+            List<Label> labelFamille=new ArrayList<>();
+                if (bySerie.getFamilyLabelLg2()!=null) {
+                    labelFamille.add(labelFamille1);
+                    labelFamille.add(labelFamille2);}
+            Famille familleSerie= new Famille (bySerie.getFamilyId(),labelFamille,bySerie.getFamily());
+            SerieByIdDTO serieByIdDTO= new SerieByIdDTO(altLabelSerie,label,typeSerie,bySerie.getSeries(),bySerie.getId(),frequenceSerie,bySerie.getNbOperation(),familleSerie);
+            seriesListDTOS.add(serieByIdDTO);
 
         }
-        return poguesCodesLists.toString();
-
+        return mapper.writeValueAsString(seriesListDTOS);
 
     }
 
     @Override
-    public String getCodesList(String id) throws RmesException {
+    public String getSerieById(String id) throws RmesException, IOException {
         Map<String, Object> params = initParams();
 
         params.put("ID", id);
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
 
-        JSONObject codesList = repoGestion.getResponseAsObject(buildRequest(Constants.POGUES_QUERIES_PATH, "getCodesList.ftlh", params));
+        JSONObject serieId= repoGestion.getResponseAsObject(buildRequest(Constants.POGUES_QUERIES_PATH, "getCodesList.ftlh", params));
 
-        if (codesList.has("seriesAltLabelLg1") && codesList.has("seriesAltLabelLg2") ) {
-            codesList.put("altLabel", this.formatAltLabelPogues(codesList));
-        }
-        codesList.remove("seriesAltLabelLg1");
-        codesList.remove("seriesAltLabelLg2");
+        ObjectMapper jsonResponse =new ObjectMapper();
+        SerieById serieById = jsonResponse.readValue(serieId.toString(),SerieById.class);
 
-        if (codesList.has("typeId")) {
-            codesList.put("label", this.formatTypeLabelPogues(codesList));
-            codesList.put("type", this.formatTypePogues(codesList));
+        ObjectMapper mapper = new ObjectMapper();
+        AltLabel altLabelSerie1 = new AltLabel(Config.LG1,serieById.getSeriesAltLabelLg1());
+        AltLabel altLabelSerie2 = new AltLabel(Config.LG2, serieById.getSeriesAltLabelLg2());
+                 List<AltLabel> altLabelSerie = new ArrayList<>();
+                    altLabelSerie.add(altLabelSerie1);
+                    altLabelSerie.add(altLabelSerie2);
+        Label labelSerie1= new Label(Config.LG1, serieById.getSeriesLabelLg1());
+        Label labelSerie2= new Label(Config.LG2, serieById.getSeriesLabelLg2());
+                List<Label> label = new ArrayList<>();
+                    label.add(labelSerie1);
+                    label.add(labelSerie2);
+        Label labelType1=new Label(Config.LG1, serieById.getTypeLabelLg1());
+        Label labelType2=new Label(Config.LG1, serieById.getTypeLabelLg2());
+                List<Label> labelType=new ArrayList<>();
+                    labelType.add(labelType1);
+                    labelType.add(labelType2);
+                        Type typeSerie= new Type (serieById.getTypeId(),labelType,serieById.getType());
+        Label labelFreq1=new Label(Config.LG1, serieById.getPeriodicityLabelLg1());
+        Label labelFreq2=new Label(Config.LG1, serieById.getPeriodicityLabelLg2());
+            List<Label> labelFreq=new ArrayList<>();
+                    labelFreq.add(labelFreq1);
+                    labelFreq.add(labelFreq2);
+                        Frequence frequenceSerie= new Frequence (serieById.getPeriodicityId(),labelFreq,serieById.getPeriodicity());
+        Label labelFamille1=new Label(Config.LG1, serieById.getFamilyLabelLg1());
+        Label labelFamille2=new Label(Config.LG1, serieById.getFamilyLabelLg2());
+            List<Label> labelFamille=new ArrayList<>();
+                    labelFamille.add(labelFamille1);
+                    labelFamille.add(labelFamille2);
+                        Famille familleSerie= new Famille (serieById.getFamilyId(),labelFamille,serieById.getFamily());
 
-        }
-        codesList.remove("typeLabelLg1");
-        codesList.remove("typeLabelLg2");
-        codesList.remove("typeId");
+        SerieByIdDTO serieByIdDTO= new SerieByIdDTO(altLabelSerie,label,typeSerie,serieById.getSeries(),serieById.getId(),frequenceSerie,serieById.getNbOperation(),familleSerie);
 
+        return mapper.writeValueAsString(serieByIdDTO);
 
-        if (codesList.has("familyId")) {
-            codesList.put("label", this.formatFamilyLabelPogues(codesList));
-            codesList.put("famille", this.formatFamilyPogues(codesList));
-        }
-
-        codesList.remove("familyLabelLg1");
-        codesList.remove("familyLabelLg2");
-        codesList.remove("familyId");
-        codesList.remove("family");
-
-        if (codesList.has("periodicityId")) {
-            codesList.put("label", this.formatFrequencyLabelPogues(codesList));
-            codesList.put("frequence", this.formatFrequencyPogues(codesList));
-        }
-
-        codesList.remove("periodicityLabelLg1");
-        codesList.remove("periodicityLabelLg2");
-        codesList.remove("periodicityId");
-        codesList.remove("periodicity");
-
-        codesList.put("label", this.formatLabelPogues(codesList));
-
-        codesList.remove("seriesLabelLg1");
-        codesList.remove("seriesLabelLg2");
-
-
-        return codesList.toString();
     }
 
     @Override
-    public String getOperationsBySerie(String id) throws RmesException {
+    public String getOperationsBySerieId(String id) throws RmesException, IOException {
         Map<String, Object> params = initParams();
         params.put("ID", id);
-
         JSONArray operationsList = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getOperationsBySerie.ftlh", params));
+        ObjectMapper jsonResponse = new ObjectMapper();
+        OperationBySerieId[] operationBySerieId = jsonResponse.readValue(operationsList.toString(), OperationBySerieId[].class);
 
-        for (int i = 0; i < operationsList.length(); i++) {
-            JSONObject OperationsList = operationsList.getJSONObject(i);
-
-            if (OperationsList.has("seriesId") ) {
-                OperationsList.put("label", this.formatOperationSerieLabelPogues(OperationsList));
-                OperationsList.put("serie", this.formatOperationSeriePogues(OperationsList));
-            }
-
-            OperationsList.remove("seriesLabelLg1");
-            OperationsList.remove("seriesLabelLg2");
-            OperationsList.remove("label");
-            OperationsList.remove("series");
-            OperationsList.remove("seriesId");
-
-            /* mise en forme id, sims*/
-            if (OperationsList.has("operationId")) {
-            OperationsList.put("id",OperationsList.get("operationId"));}
-
-            OperationsList.remove("operationId");
-
-            if (OperationsList.has("simsId")) {
-                OperationsList.put("idRapportQualite", OperationsList.get("simsId"));
-                            }
-            OperationsList.remove("simsId");
-
-            if (OperationsList.has("operationLabelLg1") && OperationsList.has("operationLabelLg2") ) {
-                OperationsList.put("label", this.formatLabelOperationPogues(OperationsList));
-            }
-            OperationsList.remove("operationLabelLg1");
-            OperationsList.remove("operationLabelLg2");
-
-            if (OperationsList.has("operationAltLabelLg1") && OperationsList.has("operationAltLabelLg2") ) {
-                OperationsList.put("altLabel", this.formatOperationAltLabelPogues(OperationsList));
-            }
-
-            OperationsList.remove("operationAltLabelLg1");
-            OperationsList.remove("operationAltLabelLg2");
-            OperationsList.remove("typeLabelLg1");
-            OperationsList.remove("typeLabelLg2");
-
-
-
+        ObjectMapper mapper = new ObjectMapper();
+        List<OperationBySerieIdDTO> operationsBySerieIdDTOS= new ArrayList<>();
+        for (OperationBySerieId bySerieId : operationBySerieId) {
+            Label labelSerie1 = new Label(Config.LG1, bySerieId.getSeriesLabelLg1());
+            Label labelSerie2 = new Label(Config.LG2, bySerieId.getSeriesLabelLg2());
+                List<Label> label = new ArrayList<>();
+                    label.add(labelSerie1);
+                    label.add(labelSerie2);
+                        Serie serie = new Serie(bySerieId.getSeriesId(), label, bySerieId.getSeries());
+            Label labelOperation1 = new Label(Config.LG1, bySerieId.getOperationLabelLg1());
+            Label labelOperation2 = new Label(Config.LG2, bySerieId.getOperationLabelLg2());
+                List<Label> labelOperation = new ArrayList<>();
+                    labelOperation.add(labelOperation1);
+                    labelOperation.add(labelOperation2);
+            AltLabel altLabelOperation1 = new AltLabel(Config.LG1, bySerieId.getOperationAltLabelLg1());
+            AltLabel altLabelOperation2 = new AltLabel(Config.LG2, bySerieId.getOperationAltLabelLg2());
+                List<AltLabel> altLabelOperation = new ArrayList<>();
+                    altLabelOperation.add(altLabelOperation1);
+                    altLabelOperation.add(altLabelOperation2);
+                        OperationBySerieIdDTO operationBySerieIdDTO = new OperationBySerieIdDTO(altLabelOperation, labelOperation, bySerieId.getUri(), serie, bySerieId.getOperationId());
+            operationsBySerieIdDTOS.add(operationBySerieIdDTO);
         }
-        return operationsList.toString();
+
+        return mapper.writeValueAsString(operationsBySerieIdDTOS);
 
     }
 
     @Override
-    public String getOperationByCode(String id) throws RmesException {
+    public String getOperationByCode(String id) throws RmesException, IOException {
         Map<String, Object> params = initParams();
         params.put("ID", id);
-        JSONArray operationsList = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getOperationByCode.ftlh", params));
-        for (int i = 0; i < operationsList.length(); i++) {
-            JSONObject OperationsList = operationsList.getJSONObject(i);
+        JSONObject operationId = repoGestion.getResponseAsObject(buildRequest(Constants.POGUES_QUERIES_PATH, "getOperationByCode.ftlh", params));
 
-            if (OperationsList.has("seriesId") ) {
-                OperationsList.put("label", this.formatOperationSerieLabelPogues(OperationsList));
-                if (OperationsList.has("seriesAltLabelLg1") && OperationsList.has("seriesAltLabelLg2") ) {
-                    OperationsList.put("altLabel", this.formatAltLabelPogues(OperationsList));
-                         }
-                OperationsList.put("serie", this.formatOperationByCodeSeriePogues(OperationsList));
-            }
+        ObjectMapper jsonResponse =new ObjectMapper();
+        OperationById operationById = jsonResponse.readValue(operationId.toString(),OperationById.class);
 
-            OperationsList.remove("seriesLabelLg1");
-            OperationsList.remove("seriesLabelLg2");
-            OperationsList.remove("seriesAltLabelLg1");
-            OperationsList.remove("seriesAltLabelLg2");
-            OperationsList.remove("altLabel");
-            OperationsList.remove("label");
-            OperationsList.remove("series");
-            OperationsList.remove("seriesId");
+        ObjectMapper mapper = new ObjectMapper();
+        Label labelSerie1= new Label(Config.LG1, operationById.getSeriesLabelLg1());
+        Label labelSerie2= new Label(Config.LG2, operationById.getSeriesLabelLg2());
+            List<Label> label = new ArrayList<>();
+                label.add(labelSerie1);
+                label.add(labelSerie2);
+        Serie serie= new Serie(operationById.getSeriesId(), label, operationById.getSeries());
+        Label labelOperation1=new Label(Config.LG1,operationById.getOperationLabelLg1());
+        Label labelOperation2=new Label(Config.LG2,operationById.getOperationLabelLg2());
+            List<Label> labelOperation = new ArrayList<>();
+                labelOperation.add(labelOperation1);
+                labelOperation.add(labelOperation2);
+        OperationByIdDTO operationByIdDTO= new OperationByIdDTO(serie,operationById.getId(),labelOperation, operationById.getUri());
 
-            /* mise en forme id, sims*/
-            if (OperationsList.has("operationId")) {
-                OperationsList.put("id",OperationsList.get("operationId"));}
-
-            OperationsList.remove("operationId");
-
-            if (OperationsList.has("simsId")) {
-                OperationsList.put("idRapportQualite", OperationsList.get("simsId"));
-            }
-            OperationsList.remove("simsId");
-
-            if (OperationsList.has("operationLabelLg1") && OperationsList.has("operationLabelLg2") ) {
-                OperationsList.put("label", this.formatLabelOperationPogues(OperationsList));
-            }
-            OperationsList.remove("operationLabelLg1");
-            OperationsList.remove("operationLabelLg2");
-
-            if (OperationsList.has("operationAltLabelLg1") && OperationsList.has("operationAltLabelLg2") ) {
-                OperationsList.put("altLabel", this.formatOperationAltLabelPogues(OperationsList));
-            }
-
-            OperationsList.remove("operationAltLabelLg1");
-            OperationsList.remove("operationAltLabelLg2");
-            OperationsList.remove("typeLabelLg1");
-            OperationsList.remove("typeLabelLg2");
-
-
-
-        }
-        return operationsList.toString();
+        return mapper.writeValueAsString(operationByIdDTO);
 
     }
-
 
 
 
