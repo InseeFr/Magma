@@ -1,7 +1,7 @@
 package fr.insee.rmes.services.pogues;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.insee.rmes.dto.operation.*;
+import fr.insee.rmes.modelSwagger.operation.*;
 import fr.insee.rmes.model.operation.OperationById;
 import fr.insee.rmes.model.operation.OperationBySerieId;
 import fr.insee.rmes.model.operation.SerieById;
@@ -39,7 +39,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         SerieModel[] listSeries = jsonResponse.readValue(seriesList.toString(), SerieModel[].class);
 
         ObjectMapper mapper = new ObjectMapper();
-        List<SerieByIdDTO> seriesListDTOS= new ArrayList<>();
+        List<SerieByIdModelSwagger> seriesListModelSwaggerS= new ArrayList<>();
 
         for (SerieModel bySerie : listSeries) {
             AltLabel altLabelSerie1 = new AltLabel(Config.LG1, bySerie.getSeriesAltLabelLg1());
@@ -75,11 +75,11 @@ public class PoguesImpl extends RdfService implements PoguesServices {
                     labelFamille.add(labelFamille1);
                     labelFamille.add(labelFamille2);}
             Famille familleSerie= new Famille (bySerie.getFamilyId(),labelFamille,bySerie.getFamily());
-            SerieByIdDTO serieByIdDTO= new SerieByIdDTO(altLabelSerie,label,typeSerie,bySerie.getSeries(),bySerie.getId(),frequenceSerie,bySerie.getNbOperation(),familleSerie);
-            seriesListDTOS.add(serieByIdDTO);
+            SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,bySerie.getSeries(),bySerie.getId(),frequenceSerie,bySerie.getNbOperation(),familleSerie);
+            seriesListModelSwaggerS.add(serieByIdModelSwagger);
 
         }
-        return mapper.writeValueAsString(seriesListDTOS);
+        return mapper.writeValueAsString(seriesListModelSwaggerS);
 
     }
 
@@ -126,9 +126,9 @@ public class PoguesImpl extends RdfService implements PoguesServices {
                     labelFamille.add(labelFamille2);
                         Famille familleSerie= new Famille (serieById.getFamilyId(),labelFamille,serieById.getFamily());
 
-        SerieByIdDTO serieByIdDTO= new SerieByIdDTO(altLabelSerie,label,typeSerie,serieById.getSeries(),serieById.getId(),frequenceSerie,serieById.getNbOperation(),familleSerie);
+        SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,serieById.getSeries(),serieById.getId(),frequenceSerie,serieById.getNbOperation(),familleSerie);
 
-        return mapper.writeValueAsString(serieByIdDTO);
+        return mapper.writeValueAsString(serieByIdModelSwagger);
 
     }
 
@@ -141,7 +141,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         OperationBySerieId[] operationBySerieId = jsonResponse.readValue(operationsList.toString(), OperationBySerieId[].class);
 
         ObjectMapper mapper = new ObjectMapper();
-        List<OperationBySerieIdDTO> operationsBySerieIdDTOS= new ArrayList<>();
+        List<OperationBySerieIdModelSwagger> operationsBySerieIdModelSwaggerS= new ArrayList<>();
         for (OperationBySerieId bySerieId : operationBySerieId) {
             Label labelSerie1 = new Label(Config.LG1, bySerieId.getSeriesLabelLg1());
             Label labelSerie2 = new Label(Config.LG2, bySerieId.getSeriesLabelLg2());
@@ -159,11 +159,11 @@ public class PoguesImpl extends RdfService implements PoguesServices {
                 List<AltLabel> altLabelOperation = new ArrayList<>();
                     altLabelOperation.add(altLabelOperation1);
                     altLabelOperation.add(altLabelOperation2);
-                        OperationBySerieIdDTO operationBySerieIdDTO = new OperationBySerieIdDTO(altLabelOperation, labelOperation, bySerieId.getUri(), serie, bySerieId.getOperationId());
-            operationsBySerieIdDTOS.add(operationBySerieIdDTO);
+                        OperationBySerieIdModelSwagger operationBySerieIdModelSwagger = new OperationBySerieIdModelSwagger(altLabelOperation, labelOperation, bySerieId.getUri(), serie, bySerieId.getOperationId());
+            operationsBySerieIdModelSwaggerS.add(operationBySerieIdModelSwagger);
         }
 
-        return mapper.writeValueAsString(operationsBySerieIdDTOS);
+        return mapper.writeValueAsString(operationsBySerieIdModelSwaggerS);
 
     }
 
@@ -188,9 +188,9 @@ public class PoguesImpl extends RdfService implements PoguesServices {
             List<Label> labelOperation = new ArrayList<>();
                 labelOperation.add(labelOperation1);
                 labelOperation.add(labelOperation2);
-        OperationByIdDTO operationByIdDTO= new OperationByIdDTO(serie,operationById.getId(),labelOperation, operationById.getUri());
+        OperationByIdModelSwagger operationByIdModelSwagger= new OperationByIdModelSwagger(serie,operationById.getId(),labelOperation, operationById.getUri());
 
-        return mapper.writeValueAsString(operationByIdDTO);
+        return mapper.writeValueAsString(operationByIdModelSwagger);
 
     }
 

@@ -1,7 +1,7 @@
 package fr.insee.rmes.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import fr.insee.rmes.dto.dataset.DataSetDTO;
+import fr.insee.rmes.modelSwagger.dataset.DataSetModelSwagger;
 import fr.insee.rmes.services.datasets.DataSetsServices;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,7 +37,7 @@ public class DataSetResources {
     @GetMapping("/datasets/list")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getListDatasets", summary = "Get list of datasets", security = @SecurityRequirement(name = "bearerScheme"),
-            responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "array", implementation = DataSetDTO.class)))})
+            responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "array", implementation = DataSetModelSwagger.class)))})
     public ResponseEntity<String> getListDatasets() throws RmesException, JsonProcessingException {
         String jsonResult = dataSetsServices.getListDataSets();
         if (jsonResult.isEmpty()) {
@@ -50,7 +50,7 @@ public class DataSetResources {
     @GetMapping("/datasets/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getDataSetById", summary = "Get one dataset", security = @SecurityRequirement(name = "bearerScheme"),
-            responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "string", implementation = DataSetDTO.class)))})
+            responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "string", implementation = DataSetModelSwagger.class)))})
 
     public ResponseEntity<String> getDataSetByID(@PathVariable("id") String id) throws RmesException, JsonProcessingException {
 

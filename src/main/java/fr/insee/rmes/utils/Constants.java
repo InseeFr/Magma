@@ -20,6 +20,7 @@ public class Constants {
 		public static final String CREATORS = "creators";
 		public static final String CONTRIBUTOR = "contributor";
 		public static final String CONTRIBUTORS = "contributors";
+		public static final String COLLECTION = "collection";
 
 
 		/*D*/
@@ -98,6 +99,7 @@ public class Constants {
 		public static final String STAMP = "stamp";
 		public static final String STRUCTURES = "STRUCTURES";
 		public static final String STRUCTURES_QUERIES_PATH = "structures/";
+		public static final String STATUT_VALIDATION = "statutValidation";
 		
 		/*T*/
 		public static final String TEXT_LG1 = "texte";

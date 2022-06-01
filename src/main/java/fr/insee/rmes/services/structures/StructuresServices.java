@@ -1,8 +1,9 @@
 package fr.insee.rmes.services.structures;
 
-import org.springframework.stereotype.Service;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 
 
@@ -11,11 +12,11 @@ public interface StructuresServices {
 
 	String getAllStructures() throws RmesException;
 
-	String getStructure(String id) throws RmesException;
+	String getStructure(String id) throws RmesException, JsonProcessingException;
 
 	String getAllComponents() throws RmesException;
 
-	String getComponent(String id) throws RmesException;
+	JSONObject getComponent(String id) throws RmesException;
 
 
 }
