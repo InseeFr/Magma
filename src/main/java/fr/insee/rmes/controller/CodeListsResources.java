@@ -1,7 +1,7 @@
 package fr.insee.rmes.controller;
 
-import fr.insee.rmes.dto.codeList.AllListCodeDTO;
-import fr.insee.rmes.dto.codeList.ListCodeByIdDTO;
+import fr.insee.rmes.modelSwagger.codeList.AllListCodeModelSwagger;
+import fr.insee.rmes.modelSwagger.codeList.ListCodeByIdModelSwagger;
 import fr.insee.rmes.services.codelists.CodeListsServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.exceptions.RmesException;
@@ -42,7 +42,7 @@ import java.util.Objects;
     @GetMapping("/listesCodes")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getAllCodesLists", summary = "Get all codes lists",security = @SecurityRequirement(name = "bearerScheme"),
-            responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = AllListCodeDTO.class)))})
+            responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = AllListCodeModelSwagger.class)))})
     public ResponseEntity <String> getallCodesLists() throws RmesException {
         String jsonResult = codeListsServices.getAllCodesLists();
         if(jsonResult.isEmpty()){
@@ -56,7 +56,7 @@ import java.util.Objects;
 
     @GetMapping("/listeCode/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(operationId = "getCodesList", summary = "Get one codes list",security = @SecurityRequirement(name = "bearerScheme"),responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdDTO.class)))})
+    @Operation(operationId = "getCodesList", summary = "Get one codes list",security = @SecurityRequirement(name = "bearerScheme"),responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
     public ResponseEntity<String> getCodesList(@PathVariable(Constants.NOTATION) String notation) throws RmesException {
         String jsonResult = codeListsServices.getCodesList(notation);
         if(Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)){

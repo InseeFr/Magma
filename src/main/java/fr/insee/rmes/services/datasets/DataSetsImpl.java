@@ -3,7 +3,7 @@ package fr.insee.rmes.services.datasets;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.insee.rmes.dto.dataset.*;
+import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.model.datasets.DataSet;
 import fr.insee.rmes.model.datasets.Operation;
 import fr.insee.rmes.model.datasets.Serie;
@@ -33,16 +33,16 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         ObjectMapper jsonResponse = new ObjectMapper();
         DataSet[] dataSets = jsonResponse.readValue(listDataSet.toString(), DataSet[].class);
         ObjectMapper mapper = new ObjectMapper();
-        List<DataSetDTO> dataSetListDTOS= new ArrayList<>();
+        List<DataSetModelSwagger> dataSetListModelSwaggerS= new ArrayList<>();
 
         for (DataSet byDataSet : dataSets) {
 
             List<Titre> titres = getTitreList(byDataSet);
-            DataSetDTO dataSetDTO = new DataSetDTO(byDataSet.getId(),titres,byDataSet.getUri(),byDataSet.getDateMiseAJour(),byDataSet.getStatutValidation());
-            dataSetListDTOS.add(dataSetDTO);
+            DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(byDataSet.getId(),titres,byDataSet.getUri(),byDataSet.getDateMiseAJour(),byDataSet.getStatutValidation());
+            dataSetListModelSwaggerS.add(dataSetModelSwagger);
         }
 
-        return mapper.writeValueAsString(dataSetListDTOS);
+        return mapper.writeValueAsString(dataSetListModelSwaggerS);
 
     }
 
@@ -65,7 +65,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         List<Titre> titre = getTitreList(dataSet);
 
         //récupération variable contenant le ou les thèmes du dataset
-        List<ThemeDTO> themeListDTOS = getThemeDTOS(dataSetId);
+        List<ThemeModelSwagger> themeListModelSwaggerS = getThemeModelSwaggerS(dataSetId);
 
         //récupération de(s) série(s) ou de(s) opération(s) dont est issu le dataset
 
@@ -79,14 +79,14 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         //traitement de(s) série(s)/opération(s) lié(s) au dataset
 
-        List<SerieDTO> serieListDTOS = getSerieDTOS(serieUri);
-        List<OperationDTO> operationListDTOS = getOperationDTOS(operationUri);
+        List<SerieModelSwagger> serieListModelSwaggerS = getSerieModelSwaggerS(serieUri);
+        List<OperationModelSwagger> operationListModelSwaggerS = getOperationModelSwaggerS(operationUri);
 
-        // fusion de l'ensemble des objets précédents dans datasetDTO en fonction du contenu
+        // fusion de l'ensemble des objets précédents dans datasetModelSwagger en fonction du contenu
 
-        DataSetDTO dataSetDTO = new DataSetDTO(dataSet.getId(), titre, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(),themeListDTOS, serieListDTOS, operationListDTOS);
+        DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(dataSet.getId(), titre, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(),themeListModelSwaggerS, serieListModelSwaggerS, operationListModelSwaggerS);
         ObjectMapper dataSetFinal = new ObjectMapper();
-        JsonNode dataSetFinalNode=dataSetFinal.valueToTree(dataSetDTO);
+        JsonNode dataSetFinalNode=dataSetFinal.valueToTree(dataSetModelSwagger);
         Iterator<JsonNode> it= dataSetFinalNode.iterator();
 
         while (it.hasNext()){
@@ -101,9 +101,10 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return dataSetFinalNode.toString();
     }
 
+
     @NotNull
-    private List<OperationDTO> getOperationDTOS(List<String> operationUri) throws RmesException, JsonProcessingException {
-        List<OperationDTO> operationListDTOS = new ArrayList<>();
+    private List<OperationModelSwagger> getOperationModelSwaggerS(List<String> operationUri) throws RmesException, JsonProcessingException {
+        List<OperationModelSwagger> operationListModelSwaggerS = new ArrayList<>();
         for (String s : operationUri) {
 
             Map<String, Object> params4 = initParams();
@@ -119,17 +120,17 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             List<LabelDataSet> labelDataSets = new ArrayList<>();
             labelDataSets.add(labelDataSet1);
             labelDataSets.add(labelDataSet2);
-            OperationDTO operationDTO = new OperationDTO(operation.getUri(), operation.getId(), labelDataSets);
-            operationListDTOS.add(operationDTO);
+            OperationModelSwagger operationModelSwagger = new OperationModelSwagger(operation.getUri(), operation.getId(), labelDataSets);
+            operationListModelSwaggerS.add(operationModelSwagger);
 
 
         }
-        return operationListDTOS;
+        return operationListModelSwaggerS;
     }
 
     @NotNull
-    private List<SerieDTO> getSerieDTOS(List<String> serieUri) throws RmesException, JsonProcessingException {
-        List<SerieDTO> serieListDTOS = new ArrayList<>();
+    private List<SerieModelSwagger> getSerieModelSwaggerS(List<String> serieUri) throws RmesException, JsonProcessingException {
+        List<SerieModelSwagger> serieListModelSwaggerS = new ArrayList<>();
         for (String value : serieUri) {
 
             Map<String, Object> params3 = initParams();
@@ -145,20 +146,20 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             List<LabelDataSet> labelDataSets = new ArrayList<>();
             labelDataSets.add(labelDataSet1);
             labelDataSets.add(labelDataSet2);
-            SerieDTO serieDTO = new SerieDTO(serie.getUri(), serie.getId(), labelDataSets);
-            serieListDTOS.add(serieDTO);
+            SerieModelSwagger serieModelSwagger = new SerieModelSwagger(serie.getUri(), serie.getId(), labelDataSets);
+            serieListModelSwaggerS.add(serieModelSwagger);
 
         }
-        return serieListDTOS;
+        return serieListModelSwaggerS;
     }
 
 
-    private List<ThemeDTO> getThemeDTOS(JSONObject dataSetId) throws RmesException, JsonProcessingException {
+    private List<ThemeModelSwagger> getThemeModelSwaggerS(JSONObject dataSetId) throws RmesException, JsonProcessingException {
         String[] parts = dataSetId.getString("names").split(",");
-        List<ThemeDTO> themeListDTOS = new ArrayList<>();
+        List<ThemeModelSwagger> themeListModelSwaggerS = new ArrayList<>();
 
         if (dataSetId.getString("names").isEmpty()) {
-          return   themeListDTOS;
+          return   themeListModelSwaggerS;
         } else {
             for (int i = 0; i < Arrays.stream(parts).count(); i++) {
 
@@ -175,11 +176,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 List<LabelDataSet> labelDataSets = new ArrayList<>();
                 labelDataSets.add(labelDataSet1);
                 labelDataSets.add(labelDataSet2);
-                ThemeDTO themeDTO = new ThemeDTO(dataSetId2.getString("uri"), labelDataSets);
-                themeListDTOS.add(themeDTO);
+                ThemeModelSwagger themeModelSwagger = new ThemeModelSwagger(dataSetId2.getString("uri"), labelDataSets);
+                themeListModelSwaggerS.add(themeModelSwagger);
                 dataSetId2.clear();
             }
-            return themeListDTOS;
+            return themeListModelSwaggerS;
         }
     }
 

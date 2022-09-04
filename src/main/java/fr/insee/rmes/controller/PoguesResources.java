@@ -1,8 +1,8 @@
 package fr.insee.rmes.controller;
 
-import fr.insee.rmes.dto.operation.OperationByIdDTO;
-import fr.insee.rmes.dto.operation.OperationBySerieIdDTO;
-import fr.insee.rmes.dto.operation.SerieByIdDTO;
+import fr.insee.rmes.modelSwagger.operation.OperationByIdModelSwagger;
+import fr.insee.rmes.modelSwagger.operation.OperationBySerieIdModelSwagger;
+import fr.insee.rmes.modelSwagger.operation.SerieByIdModelSwagger;
 import fr.insee.rmes.services.pogues.PoguesServices;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,7 +44,7 @@ public class PoguesResources {
     @GetMapping("/operations/series")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getAllCodesLists", summary = "Get all series",security = @SecurityRequirement(name = "bearerScheme"),
-            responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdDTO.class)))})
+            responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdModelSwagger.class)))})
     public ResponseEntity<String> getAllSeriesLists(@Parameter(
             description = "param for survey only",
             required = false)@QueryParam("Survey")  Boolean survey) throws RmesException, IOException {
@@ -62,7 +62,7 @@ public class PoguesResources {
     @GetMapping("/operations/serie/{id}/")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getCodeList", summary = "Get one serie",security = @SecurityRequirement(name = "bearerScheme"),
-            responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdDTO.class)))})
+            responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdModelSwagger.class)))})
 
     public ResponseEntity<String> getCodeList(@PathVariable("id") String id) throws RmesException, IOException {
         String jsonResult = poguesServices.getSerieById(id);
@@ -77,7 +77,7 @@ public class PoguesResources {
     @GetMapping("/operations/serie/{id}/operations")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getOperationsBySerie", summary = "Get operations by serie",security = @SecurityRequirement(name = "bearerScheme"),
-            responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = OperationBySerieIdDTO.class)))})
+            responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = OperationBySerieIdModelSwagger.class)))})
 
     public ResponseEntity<String> getOperationsBySerie(@PathVariable("id") String id) throws RmesException, IOException {
         String jsonResult = poguesServices.getOperationsBySerieId(id);
@@ -91,7 +91,7 @@ public class PoguesResources {
     @GetMapping("/operations/operation/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getOperationsBycode", summary = "Get operations by code",security = @SecurityRequirement(name = "bearerScheme"),
-            responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = OperationByIdDTO.class)))})
+            responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = OperationByIdModelSwagger.class)))})
 
     public ResponseEntity<String> getOperationByCode(@PathVariable("id") String id) throws RmesException, IOException {
         String jsonResult = poguesServices.getOperationByCode(id);
