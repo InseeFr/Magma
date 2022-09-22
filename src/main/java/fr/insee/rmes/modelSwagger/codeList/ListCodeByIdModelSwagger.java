@@ -20,7 +20,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "id",
     "label",
     "uri",
-    "version"
+    "version",
+    "dateMiseAJour"
 })
 @Generated("jsonschema2pojo")
 public class ListCodeByIdModelSwagger implements Serializable
@@ -38,6 +39,8 @@ public class ListCodeByIdModelSwagger implements Serializable
     private String uri;
     @JsonProperty("version")
     private String version;
+    @JsonProperty("dateMiseAJour")
+    private String dateMiseAJour;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -57,14 +60,16 @@ public class ListCodeByIdModelSwagger implements Serializable
      * @param label
      * @param uri
      * @param version
+     * @param dateMiseAJour
      */
-    public ListCodeByIdModelSwagger(List<Code> codes, String id, List<Label__1> label, String uri, String version) {
+    public ListCodeByIdModelSwagger(List<Code> codes, String id, List<Label__1> label, String uri, String version, String dateMiseAJour) {
         super();
         this.codes = codes;
         this.id = id;
         this.label = label;
         this.uri = uri;
         this.version = version;
+        this.dateMiseAJour = dateMiseAJour;
     }
 
     @JsonProperty("codes")
@@ -135,6 +140,16 @@ public class ListCodeByIdModelSwagger implements Serializable
     @JsonProperty("version")
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    @JsonProperty("dateMiseAJour")
+    public String getDateMiseAJour() {
+        return dateMiseAJour;
+    }
+
+    @JsonProperty("dateMiseAJour")
+    public void setDateMiseAJour(String dateMiseAJour) {
+        this.dateMiseAJour = dateMiseAJour;
     }
 
     public ListCodeByIdModelSwagger withVersion(String version) {

@@ -53,12 +53,27 @@ import java.util.Objects;
 
     }
 
-
+    // en fait ici l'id correspond à la notation
     @GetMapping("/listeCode/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getCodesList", summary = "Get one codes list",security = @SecurityRequirement(name = "bearerScheme"),responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
     public ResponseEntity<String> getCodesList(@PathVariable(Constants.NOTATION) String notation) throws RmesException {
         String jsonResult = codeListsServices.getCodesList(notation);
+        if(Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)){
+            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+        }else{
+
+            return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+        }
+    }
+
+
+
+    @GetMapping("/listeCode/{id}/DateMiseAJour")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(operationId = "getCodesListByIdFilterByDateMAJ", summary = "Get DateMiseAJour from one codes list",security = @SecurityRequirement(name = "bearerScheme"),responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
+    public ResponseEntity<String> getCodesListDateMiseAJour(@PathVariable(Constants.NOTATION) String notation) throws RmesException {
+        String jsonResult = codeListsServices.getCodesListDateMiseAJour(notation);
         if(Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)){
             return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
         }else{
