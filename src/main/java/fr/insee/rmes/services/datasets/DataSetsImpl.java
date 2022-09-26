@@ -101,6 +101,60 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return dataSetFinalNode.toString();
     }
 
+    @Override
+    public String getDataSetByIDFilterByDateMaj (String id) throws RmesException, JsonProcessingException {
+        //parametrage de la requête
+        Map<String, Object> params = initParams();
+        params.put("ID", id);
+        params.put("LG1", Config.LG1);
+        params.put("LG2", Config.LG2);
+
+        //requête intiale
+        JSONObject dataSetId = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdDateMAJ.ftlh", params));
+        ObjectMapper jsonResponse = new ObjectMapper();
+        DataSet dataSet = jsonResponse.readValue(dataSetId.toString(), DataSet.class);
+
+        //récupération du titre du dataset
+        List<Titre> titre = getTitreList(dataSet);
+
+        //récupération variable contenant le ou les thèmes du dataset
+        List<ThemeModelSwagger> themeListModelSwaggerS = getThemeModelSwaggerS(dataSetId);
+
+        //récupération de(s) série(s) ou de(s) opération(s) dont est issu le dataset
+
+        List<String> operationStat = List.of(dataSetId.getString("operationStat").split(","));
+        Stream<String> streamSerie = operationStat.stream();
+        List<String> serieUri = streamSerie.filter(v -> v.contains("/serie/"))
+                .collect(Collectors.toList());
+        Stream<String> streamOperation = operationStat.stream();
+        List<String> operationUri = streamOperation.filter(v -> v.contains("/operation/"))
+                .collect(Collectors.toList());
+
+        //traitement de(s) série(s)/opération(s) lié(s) au dataset
+
+        List<SerieModelSwagger> serieListModelSwaggerS = getSerieModelSwaggerS(serieUri);
+        List<OperationModelSwagger> operationListModelSwaggerS = getOperationModelSwaggerS(operationUri);
+
+        // fusion de l'ensemble des objets précédents dans datasetModelSwagger en fonction du contenu
+
+        DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(dataSet.getId(), titre, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(),themeListModelSwaggerS, serieListModelSwaggerS, operationListModelSwaggerS);
+        ObjectMapper dataSetFinal = new ObjectMapper();
+        JsonNode dataSetFinalNode=dataSetFinal.valueToTree(dataSetModelSwagger);
+        Iterator<JsonNode> it= dataSetFinalNode.iterator();
+
+        while (it.hasNext()){
+            JsonNode node=it.next();
+            if (node.isContainerNode() && node.isEmpty()){
+                it.remove();
+            }
+
+        }
+
+
+        return dataSetFinalNode.toString();
+    }
+
+
 
     @NotNull
     private List<OperationModelSwagger> getOperationModelSwaggerS(List<String> operationUri) throws RmesException, JsonProcessingException {
