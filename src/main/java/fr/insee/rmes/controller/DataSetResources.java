@@ -55,7 +55,7 @@ public class DataSetResources {
                                                  ) throws RmesException, JsonProcessingException {
 
         // par défaut ce booléen est faux et donc on renvoie tout les infos d'un dataset
-        if (boolDateMiseAJour){
+        if (!boolDateMiseAJour){
             String jsonResult = dataSetsServices.getDataSetByID(id);
             if (jsonResult.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
