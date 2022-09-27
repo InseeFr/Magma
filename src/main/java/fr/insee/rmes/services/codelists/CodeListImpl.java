@@ -168,16 +168,12 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
         JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesListDateMAJ.ftlh", params));
 
-        codesList.put("label", this.formatLabel(codesList));
-        codesList.remove("prefLabelLg1");
-        codesList.remove("prefLabelLg2");
-
         if(codesList.has(STATUT_VALIDATION)){
             String validationState = codesList.getString(STATUT_VALIDATION);
             codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
         }
 
-        codesList.put("codes", this.getCodes(notation));
+//        codesList.put("codes", this.getCodes(notation));
 
         return codesList.toString();
     }
