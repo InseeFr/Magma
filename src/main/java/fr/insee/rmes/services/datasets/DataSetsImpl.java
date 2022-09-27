@@ -101,6 +101,36 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return dataSetFinalNode.toString();
     }
 
+    @Override
+    public String getDataSetByIDFilterByDateMaj (String id) throws RmesException, JsonProcessingException {
+        //parametrage de la requête
+        Map<String, Object> params = initParams();
+        params.put("ID", id);
+        params.put("LG1", Config.LG1);
+        params.put("LG2", Config.LG2);
+
+        //requête intiale
+        JSONObject dataSetId = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdDateMAJ.ftlh", params));
+        ObjectMapper jsonResponse = new ObjectMapper();
+        DataSet dataSet = jsonResponse.readValue(dataSetId.toString(), DataSet.class);
+
+
+        DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(dataSet.getId(), dataSet.getUri(), dataSet.getDateMiseAJour());
+        ObjectMapper dataSetFinal = new ObjectMapper();
+        JsonNode dataSetFinalNode=dataSetFinal.valueToTree(dataSetModelSwagger);
+        Iterator<JsonNode> it= dataSetFinalNode.iterator();
+
+        while (it.hasNext()){
+            JsonNode node=it.next();
+            if (node.isContainerNode() && node.isEmpty()){
+                it.remove();
+            }
+
+        }
+        return dataSetFinalNode.toString();
+    }
+
+
 
     @NotNull
     private List<OperationModelSwagger> getOperationModelSwaggerS(List<String> operationUri) throws RmesException, JsonProcessingException {

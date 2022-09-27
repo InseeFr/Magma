@@ -159,6 +159,25 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
         return result;
     }
 
+    @Override
+    public String getCodesListDateMiseAJour(String notation) throws RmesException{
+        Map<String, Object> params = initParams();
+        params.put("NOTATION", notation);
+        params.put("LG1", Config.LG1);
+        params.put("LG2", Config.LG2);
+
+        JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesListDateMAJ.ftlh", params));
+
+        if(codesList.has(STATUT_VALIDATION)){
+            String validationState = codesList.getString(STATUT_VALIDATION);
+            codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
+        }
+
+//        codesList.put("codes", this.getCodes(notation));
+
+        return codesList.toString();
+    }
+
 	public void mapOtherChildren(JSONObject childrenMapping, JSONObject code) {
 		if(code.has(Constants.PARENTS)){
 		    JSONArray children = new JSONArray();

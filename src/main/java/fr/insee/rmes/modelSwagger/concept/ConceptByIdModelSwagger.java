@@ -71,6 +71,16 @@ public class ConceptByIdModelSwagger implements Serializable
         this.uri = uri;
         this.version = version;
     }
+    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAjour, String statutValidation, String id,  String dateFinValidite, String uri, String version) {
+        this.dateCreation = dateCreation;
+        this.dateMiseAjour = dateMiseAjour;
+
+        this.statutValidation = statutValidation;
+        this.id = id;
+        this.dateFinValidite = dateFinValidite;
+        this.uri = uri;
+        this.version = version;
+    }
 
     public ConceptByIdModelSwagger(String dateCreation, String dateMiseAjour,  String statutValidation, String id, List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version, ConceptSDMX conceptSDMX) {
         this.dateCreation = dateCreation;
@@ -79,6 +89,18 @@ public class ConceptByIdModelSwagger implements Serializable
         this.statutValidation = statutValidation;
         this.id = id;
         this.labelConcept = labelConcept;
+        this.dateFinValidite = dateFinValidite;
+        this.uri = uri;
+        this.version = version;
+        this.conceptSDMX = conceptSDMX;
+    }
+
+    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAjour,  String statutValidation, String id,  String dateFinValidite, String uri, String version, ConceptSDMX conceptSDMX) {
+        this.dateCreation = dateCreation;
+        this.dateMiseAjour = dateMiseAjour;
+
+        this.statutValidation = statutValidation;
+        this.id = id;
         this.dateFinValidite = dateFinValidite;
         this.uri = uri;
         this.version = version;

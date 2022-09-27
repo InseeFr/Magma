@@ -15,10 +15,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import fr.insee.rmes.services.structures.StructuresServices;
 import fr.insee.rmes.utils.Constants;
@@ -58,13 +55,28 @@ public class StructuresResources {
 	@GetMapping("/structure/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getStructure", summary = "Get a structure",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = StructureByIdModelSwagger.class)))})
-	public ResponseEntity <String> getStructure(@PathVariable(Constants.ID) String id) throws RmesException, JsonProcessingException {
-		String jsonResult = structuresServices.getStructure(id);
-		if(jsonResult.isEmpty()){
-			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("No result found");
-		}else {
-			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+	public ResponseEntity <String> getStructure(@PathVariable(Constants.ID) String id,
+												@RequestParam(name = "DateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
+	) throws RmesException, JsonProcessingException {
+
+		// par défaut ce booléen est faux et donc on renvoie tout les infos d'un dataset
+		if (!boolDateMiseAJour){
+			String jsonResult = structuresServices.getStructure(id);
+			if(jsonResult.isEmpty()){
+				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("No result found");
+			}else {
+				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+			}
 		}
+		else {
+			String jsonResult = structuresServices.getStructureDateMAJ(id);
+			if(jsonResult.isEmpty()){
+				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("No result found");
+			}else {
+				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+			}
+		}
+
 	}
 
 	@GetMapping("/composants")
@@ -84,13 +96,29 @@ public class StructuresResources {
 	@GetMapping("/composant/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getComponent", summary = "Get a component",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array",implementation = ComponentByIdModelSwagger.class)))})
-	public ResponseEntity<Object> getComponentById(@PathVariable(Constants.ID) String id) {
-		String jsonResultat;
-		try {
-			jsonResultat = structuresServices.getComponent(id).toString();
-		} catch (RmesException e) {
-			return ResponseEntity.status(e.getStatus()).body(e.getDetails());
+	public ResponseEntity<Object> getComponentById(
+			@PathVariable(Constants.ID) String id,
+			@RequestParam(name = "DateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
+	) {
+		if (!boolDateMiseAJour){
+			String jsonResultat;
+			try {
+				jsonResultat = structuresServices.getComponent(id).toString();
+			} catch (RmesException e) {
+				return ResponseEntity.status(e.getStatus()).body(e.getDetails());
+			}
+			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResultat);
 		}
-		return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResultat);
+
+		else{
+			String jsonResultat;
+			try {
+				jsonResultat = structuresServices.getComponentDateMAJ(id).toString();
+			} catch (RmesException e) {
+				return ResponseEntity.status(e.getStatus()).body(e.getDetails());
+			}
+			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResultat);
+		}
+
 	}
 }

@@ -13,4 +13,6 @@ public interface DataSetsServices {
 
 
     String getDataSetByID(String id) throws RmesException, JsonProcessingException;
+
+    String getDataSetByIDFilterByDateMaj(String id) throws RmesException, JsonProcessingException;
 }

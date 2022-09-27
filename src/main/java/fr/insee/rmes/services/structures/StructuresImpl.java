@@ -100,6 +100,22 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		return  mapper.writeValueAsString(structureByID);//structureByID.toString();
 	}
 
+
+	@Override
+	public String getStructureDateMAJ(String id) throws RmesException, JsonProcessingException {
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("STRUCTURES_GRAPH", config.getBaseGraph() + config.getStructuresGraph());
+		params.put("STRUCTURE_ID", id);
+
+		JSONArray structureArray =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getStructureDateMAJ.ftlh", params));
+		JSONObject structure = (JSONObject) structureArray.get(0);
+
+		ObjectMapper mapper = new ObjectMapper();
+		StructureByIdModelSwagger structureByID = mapper.readValue(structure.toString(), StructureByIdModelSwagger.class);
+
+		return  mapper.writeValueAsString(structureByID);//structureByID.toString();
+	}
+
 	private JSONObject extractSdmx(String originalRelation) {
 		String iri = originalRelation.replace("urn:sdmx:org.sdmx.infomodel.metadatastructure.MetadataStructure=", "");
 		JSONObject relation = new JSONObject();
@@ -286,6 +302,18 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 			}
 		}
 
+		return component;
+	}
+
+
+	@Override
+	public JSONObject getComponentDateMAJ(String id) throws RmesException {
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("STRUCTURES_COMPONENTS_GRAPH", config.getBaseGraph() + config.STRUCTURES_COMPONENTS_GRAPH);
+		params.put("CODELIST_GRAPH", config.getBaseGraph() +config.getCodelistGraph());
+//		params.put("CONCEPTS_BASE_URI", config.getBaseGraph() +config.getConceptsBaseUri());
+		params.put("ID", id);
+		JSONObject component =  repoGestion.getResponseAsObject(buildRequest("getComponentDateMAJ.ftlh", params));
 		return component;
 	}
 

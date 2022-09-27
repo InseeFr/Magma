@@ -77,6 +77,11 @@ public class DataSetModelSwagger implements Serializable  {
         this.serieModelSwaggerS = serieModelSwaggerS;
         this.operationModelSwaggerS = operationModelSwaggerS;
     }
+    public DataSetModelSwagger(String id, String uri, String dateModification) {
+        this.id = id;
+        this.uri = uri;
+        this.dateModification = dateModification;
+    }
 
 
     public DataSetModelSwagger(String id, List<Titre> titre, String uri, String dateModification) {

@@ -58,6 +58,25 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
     }
 
     @Override
+    public String getDetailedConceptDateMAJ(String id) throws RmesException, JsonProcessingException {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("LG1", Config.LG1);
+        params.put("LG2", Config.LG2);
+        params.put("ID", id);
+        params.put("CONCEPTS_GRAPH", Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
+
+        JSONObject concept = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getDetailedConceptDateMAJ.ftlh", params));
+        ObjectMapper jsonResponse = new ObjectMapper();
+        ConceptById conceptById = jsonResponse.readValue(concept.toString(), ConceptById.class);
+
+        ObjectMapper mapper = new ObjectMapper();
+        ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAjour(),conceptById.getStatutValidation(),conceptById.getId(),conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion());
+        return mapper.writeValueAsString(conceptByIdModelSwagger);
+
+    }
+
+
+    @Override
     public String getAllConcepts() throws RmesException {
         HashMap<String, Object> params = new HashMap<>();
         params.put("LG1", Config.LG1);

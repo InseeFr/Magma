@@ -14,13 +14,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value="/",produces = {"application/json"})
@@ -52,16 +50,32 @@ public class DataSetResources {
     @Operation(operationId = "getDataSetById", summary = "Get one dataset", security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "string", implementation = DataSetModelSwagger.class)))})
 
-    public ResponseEntity<String> getDataSetByID(@PathVariable("id") String id) throws RmesException, JsonProcessingException {
+    public ResponseEntity<String> getDataSetByID(@PathVariable("id") String id,
+                                                 @RequestParam(name = "DateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
+                                                 ) throws RmesException, JsonProcessingException {
 
-        String jsonResult = dataSetsServices.getDataSetByID(id);
-        if (jsonResult.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+        // par défaut ce booléen est faux et donc on renvoie tout les infos d'un dataset
+        if (!boolDateMiseAJour){
+            String jsonResult = dataSetsServices.getDataSetByID(id);
+            if (jsonResult.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+            }
+        }
+        // Sinon, on renvoie juste la date MiseAJour
+        else {
+            String jsonResult = dataSetsServices.getDataSetByIDFilterByDateMaj(id);
+            if (jsonResult.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+            }
         }
 
+
     }
+
 
 
     }

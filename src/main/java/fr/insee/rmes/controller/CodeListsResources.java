@@ -16,10 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -53,18 +50,48 @@ import java.util.Objects;
 
     }
 
-
+    // en fait ici l'id correspond à la notation
     @GetMapping("/listeCode/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getCodesList", summary = "Get one codes list",security = @SecurityRequirement(name = "bearerScheme"),responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
-    public ResponseEntity<String> getCodesList(@PathVariable(Constants.NOTATION) String notation) throws RmesException {
-        String jsonResult = codeListsServices.getCodesList(notation);
-        if(Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)){
-            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
-        }else{
+    public ResponseEntity<String> getCodesList(
+            @PathVariable(Constants.NOTATION) String notation,
+            @RequestParam(name = "DateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
+    ) throws RmesException {
 
-            return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+        if (!boolDateMiseAJour){
+            String jsonResult = codeListsServices.getCodesList(notation);
+            if(Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)){
+                return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+            }else{
+
+                return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+            }
+        }
+        else {
+            String jsonResult = codeListsServices.getCodesListDateMiseAJour(notation);
+            if(Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)){
+                return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+            }else{
+
+                return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+            }
         }
     }
+
+
+
+//    @GetMapping("/listeCode/{id}/DateMiseAJour")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Operation(operationId = "getCodesListByIdFilterByDateMAJ", summary = "Get DateMiseAJour from one codes list",security = @SecurityRequirement(name = "bearerScheme"),responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
+//    public ResponseEntity<String> getCodesListDateMiseAJour(@PathVariable(Constants.NOTATION) String notation) throws RmesException {
+//        String jsonResult = codeListsServices.getCodesListDateMiseAJour(notation);
+//        if(Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)){
+//            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+//        }else{
+//
+//            return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+//        }
+//    }
 
 }

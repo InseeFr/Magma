@@ -19,4 +19,7 @@ public interface StructuresServices {
 	JSONObject getComponent(String id) throws RmesException;
 
 
+    String getStructureDateMAJ(String id) throws RmesException, JsonProcessingException;
+
+	JSONObject getComponentDateMAJ(String id) throws RmesException;
 }
