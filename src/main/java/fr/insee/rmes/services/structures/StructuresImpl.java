@@ -106,56 +106,9 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("STRUCTURES_GRAPH", config.getBaseGraph() + config.getStructuresGraph());
 		params.put("STRUCTURE_ID", id);
-		params.put("LG1", config.getLG1());
-		params.put("LG2", config.getLG2());
 
 		JSONArray structureArray =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getStructureDateMAJ.ftlh", params));
 		JSONObject structure = (JSONObject) structureArray.get(0);
-
-		structure.put("label", this.formatLabel(structure));
-		structure.remove("prefLabelLg1");
-		structure.remove("prefLabelLg2");
-
-
-		if(structureArray.length() > 1){
-			JSONArray necessairePour = new JSONArray();
-			for (int i = 0; i < structureArray.length(); i++) {
-				necessairePour.put(structureArray.getJSONObject(i).getString("necessairePour"));
-
-			}
-
-			structure.put("necessairePour", necessairePour);
-		}
-		if(structure.has("idRelation")){
-			structure.put("dsdSdmx", extractSdmx(structure.getString("idRelation")));
-			structure.remove("idRelation");
-		}
-		if(structure.has("idParent") && structure.has("uriParent")){
-			JSONObject parent = new JSONObject();
-			parent.put("id", structure.getString("idParent"));
-			parent.put("uri", structure.getString("uriParent"));
-
-			if(structure.has("idParentRelation")){
-				parent.put("dsdSdmx", extractSdmx(structure.getString("idParentRelation")));
-				structure.remove("idParentRelation");
-			}
-
-			structure.put("parent", parent);
-			structure.remove("idParent");
-			structure.remove("uriParent");
-		}
-		if(structure.has(Constants.STATUT_VALIDATION)){
-			String validationState = structure.getString(Constants.STATUT_VALIDATION);
-			structure.put(Constants.STATUT_VALIDATION, this.getValidationState(validationState));
-		}
-
-		if(!structure.has("dateCreation")){
-			structure.put("dateCreation", defaultDate);
-		}
-		if(!structure.has("dateMiseAJour")){
-			structure.put("dateMiseAJour", defaultDate);
-		}
-
 		getStructureComponents(id, structure);
 
 		ObjectMapper mapper = new ObjectMapper();
