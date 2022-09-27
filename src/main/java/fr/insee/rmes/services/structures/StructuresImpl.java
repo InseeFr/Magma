@@ -109,7 +109,6 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 
 		JSONArray structureArray =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getStructureDateMAJ.ftlh", params));
 		JSONObject structure = (JSONObject) structureArray.get(0);
-		getStructureComponents(id, structure);
 
 		ObjectMapper mapper = new ObjectMapper();
 		StructureByIdModelSwagger structureByID = mapper.readValue(structure.toString(), StructureByIdModelSwagger.class);
