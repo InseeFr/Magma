@@ -359,18 +359,9 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("STRUCTURES_COMPONENTS_GRAPH", config.getBaseGraph() + config.STRUCTURES_COMPONENTS_GRAPH);
 		params.put("CODELIST_GRAPH", config.getBaseGraph() +config.getCodelistGraph());
-		params.put("CONCEPTS_BASE_URI", config.getBaseGraph() +config.getConceptsBaseUri());
+//		params.put("CONCEPTS_BASE_URI", config.getBaseGraph() +config.getConceptsBaseUri());
 		params.put("ID", id);
-		params.put("LG1", config.getLG1());
-		params.put("LG2", config.getLG2());
-
-		JSONObject component =  repoGestion.getResponseAsObject(buildRequest("getComponent.ftlh", params));
-
-		component.put("label", this.formatLabel(component));
-		component.remove("prefLabelLg1");
-		component.remove("prefLabelLg2");
-
-
+		JSONObject component =  repoGestion.getResponseAsObject(buildRequest("getComponentDateMAJ.ftlh", params));
 		return component;
 	}
 
