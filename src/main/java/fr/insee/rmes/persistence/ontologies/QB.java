@@ -1,25 +1,32 @@
 package fr.insee.rmes.persistence.ontologies;
 
+
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Namespace;
 import org.eclipse.rdf4j.model.ValueFactory;
-import org.eclipse.rdf4j.model.impl.SimpleIRI;
 import org.eclipse.rdf4j.model.impl.SimpleNamespace;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
+import fr.insee.rmes.persistence.RdfUtils;
+
 public class QB {
-	
+
+	private QB() {
+		throw new IllegalStateException("Utility class");
+	}
+
+
 	public static final String NAMESPACE = "http://purl.org/linked-data/cube#";
 
 	/**
 	 * The recommended prefix for the Data Cube namespace: "qb"
 	 */
 	public static final String PREFIX = "qb";
-	
+
 	public static final Namespace NS = new SimpleNamespace(PREFIX, NAMESPACE);
-	
+
 	public static final IRI DATA_STRUCTURE_DEFINITION;
-	
+
 
 	public static final IRI COMPONENT;
 	public static final IRI COMPONENT_REQUIRED;
@@ -34,7 +41,7 @@ public class QB {
 
 	public static final IRI CODE_LIST;
 	public static final IRI CODED_PROPERTY;
-	
+
 
 	public static final IRI CONCEPT;
 	public static final IRI ORDER;
@@ -44,10 +51,10 @@ public class QB {
 		final ValueFactory f = SimpleValueFactory.getInstance();
 
 		DATA_STRUCTURE_DEFINITION = f.createIRI(NAMESPACE, "DataStructureDefinition");
-		
+
 
 		COMPONENT = f.createIRI(NAMESPACE, "component");
-		COMPONENT_SPECIFICATION = f.createIRI(NAMESPACE, "ComponentSpecification"); 
+		COMPONENT_SPECIFICATION = f.createIRI(NAMESPACE, "ComponentSpecification");
 		COMPONENT_ATTACHMENT = f.createIRI(NAMESPACE, "componentAttachment");
 		COMPONENT_REQUIRED = f.createIRI(NAMESPACE, "componentRequired");
 
@@ -60,14 +67,14 @@ public class QB {
 
 		CODE_LIST = f.createIRI(NAMESPACE, "codeList");
 		CODED_PROPERTY = f.createIRI(NAMESPACE, "CodedProperty");
-		
+
 		CONCEPT = f.createIRI(NAMESPACE, "concept");
 		ORDER = f.createIRI(NAMESPACE, "order");
 
 	}
 
 	public static String[] getURIForComponent(){
-		return new String[]{((SimpleIRI)MEASURE_PROPERTY).toString(), ((SimpleIRI)ATTRIBUTE_PROPERTY).toString(), ((SimpleIRI)DIMENSION_PROPERTY).toString()};
+		return new String[]{RdfUtils.toString(MEASURE_PROPERTY), RdfUtils.toString(ATTRIBUTE_PROPERTY), RdfUtils.toString(DIMENSION_PROPERTY)};
 
 	}
 

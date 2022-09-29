@@ -4,17 +4,15 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import fr.insee.rmes.dto.concept.AllConceptDTO;
-import fr.insee.rmes.dto.concept.ConceptByIdDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import fr.insee.rmes.modelSwagger.concept.AllConceptModelSwagger;
+import fr.insee.rmes.modelSwagger.concept.ConceptByIdModelSwagger;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import fr.insee.rmes.services.concepts.ConceptsServices;
 import fr.insee.rmes.utils.exceptions.RmesException;
@@ -42,20 +40,35 @@ public class ConceptsResources {
 	@GET
 	@GetMapping("/concept/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getDetailedConcept", summary = "Get one concept",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = AllConceptDTO.class)))})
-	public ResponseEntity <String> getDetailedConcept(@Parameter(required = true, description = "Identifiant du concept (format : c[0-9]{4})", schema = @Schema(pattern = "c[0-9]{4}", type = "string"), example = "c2066") @PathVariable("id") String id) throws RmesException {
-		String jsonResult = conceptsService.getDetailedConcept(id);
-		if(jsonResult.isEmpty()){
-			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
-		}else{
-			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+	@Operation(operationId = "getDetailedConcept", summary = "Get one concept",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = AllConceptModelSwagger.class)))})
+	public ResponseEntity <String> getDetailedConcept(@Parameter(required = true, description = "Identifiant du concept (format : c[0-9]{4})", schema = @Schema(pattern = "c[0-9]{4}", type = "string"), example = "c2066")
+			@PathVariable("id") String id,
+			@RequestParam(name = "DateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour)
+			throws RmesException, JsonProcessingException {
+
+		if (!boolDateMiseAJour){
+			String jsonResult = conceptsService.getDetailedConcept(id);
+			if(jsonResult.isEmpty()){
+				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+			}else{
+				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+			}
 		}
+		else{
+			String jsonResult = conceptsService.getDetailedConceptDateMAJ(id);
+			if(jsonResult.isEmpty()){
+				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+			}else{
+				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+			}
+		}
+
 	}
 
 	@GET
 	@GetMapping("/concepts")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getAllConcepts", summary = "List of concepts",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ConceptByIdDTO.class)))})
+	@Operation(operationId = "getAllConcepts", summary = "List of concepts",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ConceptByIdModelSwagger.class)))})
 	public ResponseEntity <String> getAllConcepts() throws RmesException {
 		String jsonResult = conceptsService.getAllConcepts();
 		if(jsonResult.isEmpty()){

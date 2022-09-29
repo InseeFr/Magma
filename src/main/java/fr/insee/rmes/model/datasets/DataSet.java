@@ -93,6 +93,16 @@ public class DataSet implements Serializable
         this.uri = uri;
     }
 
+    public DataSet(String idDataset1, String uriDataset1, String titreFrDataset1, String titreEnDataset1, String s, String publié, String s1) {
+            this.id=id;
+            this.uri=uri;
+            this.titreLg1=titreLg1;
+            this.titreLg2=titreLg2;
+            this.names = names;
+            this.statutValidation = statutValidation;
+            this.operationStat = operationStat;
+    }
+
     @JsonProperty("dateCreation")
     public String getDateCreation() {
         return dateCreation;
@@ -223,6 +233,10 @@ public class DataSet implements Serializable
         this.statutValidation = statutValidation;
     }
 
+    public String getOperationStat() {
+        return operationStat;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -232,6 +246,8 @@ public class DataSet implements Serializable
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+
 
     public DataSet withAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);

@@ -1,7 +1,7 @@
 package fr.insee.rmes.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import fr.insee.rmes.dto.dataset.DataSetDTO;
+import fr.insee.rmes.modelSwagger.dataset.DataSetModelSwagger;
 import fr.insee.rmes.services.datasets.DataSetsServices;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,13 +14,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value="/",produces = {"application/json"})
@@ -37,7 +35,7 @@ public class DataSetResources {
     @GetMapping("/datasets/list")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getListDatasets", summary = "Get list of datasets", security = @SecurityRequirement(name = "bearerScheme"),
-            responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "array", implementation = DataSetDTO.class)))})
+            responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "array", implementation = DataSetModelSwagger.class)))})
     public ResponseEntity<String> getListDatasets() throws RmesException, JsonProcessingException {
         String jsonResult = dataSetsServices.getListDataSets();
         if (jsonResult.isEmpty()) {
@@ -50,18 +48,34 @@ public class DataSetResources {
     @GetMapping("/datasets/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getDataSetById", summary = "Get one dataset", security = @SecurityRequirement(name = "bearerScheme"),
-            responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "string", implementation = DataSetDTO.class)))})
+            responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "string", implementation = DataSetModelSwagger.class)))})
 
-    public ResponseEntity<String> getDataSetByID(@PathVariable("id") String id) throws RmesException, JsonProcessingException {
+    public ResponseEntity<String> getDataSetByID(@PathVariable("id") String id,
+                                                 @RequestParam(name = "DateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
+                                                 ) throws RmesException, JsonProcessingException {
 
-        String jsonResult = dataSetsServices.getDataSetByID(id);
-        if (jsonResult.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+        // par défaut ce booléen est faux et donc on renvoie tout les infos d'un dataset
+        if (!boolDateMiseAJour){
+            String jsonResult = dataSetsServices.getDataSetByID(id);
+            if (jsonResult.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+            }
+        }
+        // Sinon, on renvoie juste la date MiseAJour
+        else {
+            String jsonResult = dataSetsServices.getDataSetByIDFilterByDateMaj(id);
+            if (jsonResult.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+            }
         }
 
+
     }
+
 
 
     }
