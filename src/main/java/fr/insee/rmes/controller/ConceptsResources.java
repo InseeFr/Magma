@@ -43,7 +43,7 @@ public class ConceptsResources {
 	@Operation(operationId = "getDetailedConcept", summary = "Get one concept",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = AllConceptModelSwagger.class)))})
 	public ResponseEntity <String> getDetailedConcept(@Parameter(required = true, description = "Identifiant du concept (format : c[0-9]{4})", schema = @Schema(pattern = "c[0-9]{4}", type = "string"), example = "c2066")
 			@PathVariable("id") String id,
-			@RequestParam(name = "DateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour)
+			@RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour)
 			throws RmesException, JsonProcessingException {
 
 		if (!boolDateMiseAJour){

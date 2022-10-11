@@ -56,7 +56,7 @@ public class StructuresResources {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getStructure", summary = "Get a structure",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = StructureByIdModelSwagger.class)))})
 	public ResponseEntity <String> getStructure(@PathVariable(Constants.ID) String id,
-												@RequestParam(name = "DateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
+												@RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
 	) throws RmesException, JsonProcessingException {
 
 		// par défaut ce booléen est faux et donc on renvoie tout les infos d'un dataset
@@ -98,7 +98,7 @@ public class StructuresResources {
 	@Operation(operationId = "getComponent", summary = "Get a component",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array",implementation = ComponentByIdModelSwagger.class)))})
 	public ResponseEntity<Object> getComponentById(
 			@PathVariable(Constants.ID) String id,
-			@RequestParam(name = "DateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
+			@RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
 	) {
 		if (!boolDateMiseAJour){
 			String jsonResultat;

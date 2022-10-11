@@ -56,7 +56,7 @@ import java.util.Objects;
     @Operation(operationId = "getCodesList", summary = "Get one codes list",security = @SecurityRequirement(name = "bearerScheme"),responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
     public ResponseEntity<String> getCodesList(
             @PathVariable(Constants.NOTATION) String notation,
-            @RequestParam(name = "DateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
+            @RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
     ) throws RmesException {
 
         if (!boolDateMiseAJour){
