@@ -2,10 +2,13 @@ package fr.insee.rmes.persistence;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.core.Response;
 
+import fr.insee.rmes.utils.keycloak.KeycloakServices;
 import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +23,7 @@ import org.eclipse.rdf4j.repository.RepositoryException;
 import org.eclipse.rdf4j.repository.http.HTTPRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import fr.insee.rmes.persistence.RepositoryUtils;
@@ -28,27 +32,53 @@ import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
 @Service
-public abstract class RepositoryUtils {
+public class RepositoryUtils {
 	
 	private static final String BINDINGS = "bindings";
 	private static final String RESULTS = "results";
 	private static final String EXECUTE_QUERY_FAILED = "Execute query failed : ";
 	
 	static final Logger logger = LogManager.getLogger(RepositoryUtils.class);
+	private static String accessToken= null;
+	private static KeycloakServices keycloakServices;
+
+
+	private static Map<String,HTTPRepository> repositories= new HashMap<>();
+	public RepositoryUtils (KeycloakServices keycloakService) {
+		RepositoryUtils.keycloakServices= keycloakService;
+	}
+
 
 
 	public static Repository initRepository(String sesameServer, String repositoryID) {
 		if (sesameServer==null||sesameServer.equals("")) {return null;}
+
+
+
 		Repository repo = new HTTPRepository(sesameServer, repositoryID);
 		try {
-			repo.init();
+			if(!keycloakServices.isTokenValid(accessToken) ) {
+
+				accessToken= keycloakServices.getKeycloakAccessToken();
+				repositories.clear();
+			}
 		} catch (Exception e) {
 			logger.error("Initialisation de la connection à la base sesame {} impossible", sesameServer);
 			logger.error(e.getMessage());
 		}
-		return repo;
+		String key=sesameServer+repositoryID;
+		if (repositories.containsKey(key)) {
+			return repositories.get(key);
+		}
+		HTTPRepository repository = new HTTPRepository(sesameServer, repositoryID);
+		repository.setAdditionalHttpHeaders(Map.of("Authorization","bearer "+ accessToken));
+		repository.init();
+		repositories.put(key,repository);
+		return repository;
 	}
-	
+
+
+
 	public RepositoryConnection getConnection(Repository repository) throws RmesException {
 		RepositoryConnection con = null;
 		try {
