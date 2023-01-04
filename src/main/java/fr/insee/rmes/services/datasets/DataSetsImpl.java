@@ -37,8 +37,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         for (DataSet byDataSet : dataSets) {
 
-            List<Titre> titres = getTitreList(byDataSet);
-            DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(byDataSet.getId(),titres,byDataSet.getUri(),byDataSet.getDateMiseAJour(),byDataSet.getStatutValidation());
+            List<Title> titles = getTitreList(byDataSet);
+            DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(byDataSet.getId(), titles,byDataSet.getUri(),byDataSet.getDateMiseAJour(),byDataSet.getStatutValidation());
             dataSetListModelSwaggerS.add(dataSetModelSwagger);
         }
 
@@ -62,7 +62,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         DataSet dataSet = jsonResponse.readValue(dataSetId.toString(), DataSet.class);
 
         //récupération du titre du dataset
-        List<Titre> titre = getTitreList(dataSet);
+        List<Title> title = getTitreList(dataSet);
 
         //récupération variable contenant le ou les thèmes du dataset
         List<ThemeModelSwagger> themeListModelSwaggerS = getThemeModelSwaggerS(dataSetId);
@@ -84,7 +84,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         // fusion de l'ensemble des objets précédents dans datasetModelSwagger en fonction du contenu
 
-        DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(dataSet.getId(), titre, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(),themeListModelSwaggerS, serieListModelSwaggerS, operationListModelSwaggerS);
+        DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(dataSet.getId(), title, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(),themeListModelSwaggerS, serieListModelSwaggerS, operationListModelSwaggerS);
         ObjectMapper dataSetFinal = new ObjectMapper();
         JsonNode dataSetFinalNode=dataSetFinal.valueToTree(dataSetModelSwagger);
         Iterator<JsonNode> it= dataSetFinalNode.iterator();
@@ -216,14 +216,14 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
     @NotNull
-    private List<Titre> getTitreList(DataSet byDataSet) {
-        Titre titre1 = new Titre(Config.LG1, byDataSet.getTitreLg1());
-        Titre titre2 = new Titre(Config.LG2, byDataSet.getTitreLg2());
-        List<Titre> titres = new ArrayList<>();
+    private List<Title> getTitreList(DataSet byDataSet) {
+        Title title1 = new Title(Config.LG1, byDataSet.getTitreLg1());
+        Title title2 = new Title(Config.LG2, byDataSet.getTitreLg2());
+        List<Title> titles = new ArrayList<>();
         if (byDataSet.getTitreLg1()!=null) {
-            titres.add(titre1);
-            titres.add(titre2);   }
-        return titres;
+            titles.add(title1);
+            titles.add(title2);   }
+        return titles;
     }
 
     public Map<String, Object> initParams () {

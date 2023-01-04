@@ -15,7 +15,7 @@ import java.util.Map;
     "content"
 })
 @Generated("jsonschema2pojo")
-public class Titre implements Serializable
+public class Title implements Serializable
 {
 
     @JsonProperty("lang")
@@ -33,7 +33,7 @@ public class Titre implements Serializable
      * No args constructor for use in serialization
      * 
      */
-    public Titre() {
+    public Title() {
     }
 
     /**
@@ -41,38 +41,38 @@ public class Titre implements Serializable
      * @param lang
      * @param content
      */
-    public Titre(String lang, String content) {
+    public Title(String lang, String content) {
         super();
         this.lang  = lang;
         this.content = content;
     }
 
     @JsonProperty("lang")
-    public String getLangue() {
+    public String getLang() {
         return lang;
     }
 
     @JsonProperty("lang")
-    public void setLangue(String lang) {
+    public void setLang(String lang) {
         this.lang = lang;
     }
 
-    public Titre withLangue(String lang) {
+    public Title withLang(String lang) {
         this.lang = lang;
         return this;
     }
 
     @JsonProperty("content")
-    public String getContenu() {
+    public String getContent() {
         return content;
     }
 
     @JsonProperty("content")
-    public void setContenu(String content) {
+    public void setContent(String content) {
         this.content = content;
     }
 
-    public Titre withContenu(String content) {
+    public Title withContent(String content) {
         this.content = content;
         return this;
     }
@@ -87,7 +87,7 @@ public class Titre implements Serializable
         this.additionalProperties.put(name, value);
     }
 
-    public Titre withAdditionalProperty(String name, Object value) {
+    public Title withAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
         return this;
     }

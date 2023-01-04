@@ -35,10 +35,10 @@ class DataSetsImplTest {
         for (DataSet byDataSet : dataSets) {
             Titre titre1 = new Titre(Config.LG1, byDataSet.getTitreLg1());
             Titre titre2 = new Titre(Config.LG2, byDataSet.getTitreLg2());
-            List<Titre> titres = new ArrayList<>();
-            titres.add(titre1);
-            titres.add(titre2);
-            DataSetModelSwagger dataSetSwagger = new DataSetModelSwagger(byDataSet.getId(),titres,byDataSet.getUri(),byDataSet.getDateMiseAJour(),byDataSet.getStatutValidation());
+            List<Titre> titles = new ArrayList<>();
+            titles.add(titre1);
+            titles.add(titre2);
+            DataSetModelSwagger dataSetSwagger = new DataSetModelSwagger(byDataSet.getId(),titles,byDataSet.getUri(),byDataSet.getDateMiseAJour(),byDataSet.getStatutValidation());
             dataSetListDTOS.add(dataSetSwagger);
         }
 
@@ -53,9 +53,9 @@ class DataSetsImplTest {
         DataSet dataSet =new DataSet("publie","01/01/2021","themeUn,ThemeDeux","01/01/2022","antecedent1/serie/1,antecedent1/serie/2,antecedent2/operation/1,antecedent2/operation/2","nomFrDataset","iddatset","nomDataset","UriDataset");
         Titre titre1 = new Titre("fr", dataSet.getTitreLg1());
         Titre titre2 = new Titre("en", dataSet.getTitreLg2());
-        List<Titre> titres = new ArrayList<>();
-        titres.add(titre1);
-        titres.add(titre2);
+        List<Titre> titles = new ArrayList<>();
+        titles.add(titre1);
+        titles.add(titre2);
 
         String[] parts = dataSet.getNames().split(",");
         List<ThemeModelSwagger> themeListDTOS = new ArrayList<>();
@@ -111,7 +111,7 @@ class DataSetsImplTest {
         }
         List<OperationModelSwagger> operationListDTOS =operationListSwaggerS;
 
-        DataSetModelSwagger dataSetSwagger = new DataSetModelSwagger(dataSet.getId(), titres, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(),themeListDTOS, serieListDTOS, operationListDTOS);
+        DataSetModelSwagger dataSetSwagger = new DataSetModelSwagger(dataSet.getId(), titles, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(),themeListDTOS, serieListDTOS, operationListDTOS);
         ObjectMapper dataSetFinal = new ObjectMapper();
         JsonNode dataSetFinalNode=dataSetFinal.valueToTree(dataSetSwagger);
         Iterator<JsonNode> it= dataSetFinalNode.iterator();

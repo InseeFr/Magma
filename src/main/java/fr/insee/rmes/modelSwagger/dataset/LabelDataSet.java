@@ -11,19 +11,19 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "langue",
-    "contenu"
+    "lang",
+    "content"
 })
 @Generated("jsonschema2pojo")
 public class LabelDataSet implements Serializable
 {
 
-    @JsonProperty("langue")
-    private String langue;
-    @JsonProperty("contenu")
-    @JsonAlias({"contenu","seriesLabelLg1","seriesLabelLg2","labelSerieLg1","labelSerieLg2","operationLabelLg1","operationLabelLg2","labelOperationLg1","labelOperationLg2","familyLabelLg1","familyLabelLg2","typeLabelLg1","typeLabelLg2",
+    @JsonProperty("lang")
+    private String lang;
+    @JsonProperty("content")
+    @JsonAlias({"content","seriesLabelLg1","seriesLabelLg2","labelSerieLg1","labelSerieLg2","operationLabelLg1","operationLabelLg2","labelOperationLg1","labelOperationLg2","familyLabelLg1","familyLabelLg2","typeLabelLg1","typeLabelLg2",
             "periodicityLabelLg1","periodicityLabelLg2","labelThemeLg1","labelThemeLg2"})
-    private String contenu;
+    private String content;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -38,42 +38,42 @@ public class LabelDataSet implements Serializable
 
     /**
      * 
-     * @param langue
-     * @param contenu
+     * @param lang
+     * @param content
      */
-    public LabelDataSet(String langue, String contenu) {
+    public LabelDataSet(String lang, String content) {
         super();
-        this.langue = langue;
-        this.contenu = contenu;
+        this.lang = lang;
+        this.content = content;
     }
 
-    @JsonProperty("langue")
-    public String getLangue() {
-        return langue;
+    @JsonProperty("lang")
+    public String getLang() {
+        return lang;
     }
 
-    @JsonProperty("langue")
-    public void setLangue(String langue) {
-        this.langue = langue;
+    @JsonProperty("lang")
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 
-    public LabelDataSet withLangue(String langue) {
-        this.langue = langue;
+    public LabelDataSet withLang(String lang) {
+        this.lang = lang;
         return this;
     }
 
-    @JsonProperty("contenu")
-    public String getContenu() {
-        return contenu;
+    @JsonProperty("content")
+    public String getContent() {
+        return content;
     }
 
-    @JsonProperty("contenu")
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
+    @JsonProperty("content")
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public LabelDataSet withContenu(String contenu) {
-        this.contenu = contenu;
+    public LabelDataSet withContent(String content) {
+        this.content = content;
         return this;
     }
 
