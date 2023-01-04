@@ -11,19 +11,19 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "langue",
-    "contenu"
+    "lang",
+    "content"
 })
 @Generated("jsonschema2pojo")
 public class Titre implements Serializable
 {
 
-    @JsonProperty("langue")
-    private String langue;
-    @JsonProperty("contenu")
-    @JsonAlias({"contenu","seriesLabelLg1","seriesLabelLg2","operationLabelLg1","operationLabelLg2","familyLabelLg1","familyLabelLg2","typeLabelLg1","typeLabelLg2",
+    @JsonProperty("lang")
+    private String lang;
+    @JsonProperty("content")
+    @JsonAlias({"content","seriesLabelLg1","seriesLabelLg2","operationLabelLg1","operationLabelLg2","familyLabelLg1","familyLabelLg2","typeLabelLg1","typeLabelLg2",
             "periodicityLabelLg1","periodicityLabelLg2","titreLg1","titreLg2"})
-    private String contenu;
+    private String content;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -38,42 +38,42 @@ public class Titre implements Serializable
 
     /**
      * 
-     * @param langue
-     * @param contenu
+     * @param lang
+     * @param content
      */
-    public Titre(String langue, String contenu) {
+    public Titre(String lang, String content) {
         super();
-        this.langue = langue;
-        this.contenu = contenu;
+        this.lang  = lang;
+        this.content = content;
     }
 
-    @JsonProperty("langue")
+    @JsonProperty("lang")
     public String getLangue() {
-        return langue;
+        return lang;
     }
 
-    @JsonProperty("langue")
-    public void setLangue(String langue) {
-        this.langue = langue;
+    @JsonProperty("lang")
+    public void setLangue(String lang) {
+        this.lang = lang;
     }
 
-    public Titre withLangue(String langue) {
-        this.langue = langue;
+    public Titre withLangue(String lang) {
+        this.lang = lang;
         return this;
     }
 
-    @JsonProperty("contenu")
+    @JsonProperty("content")
     public String getContenu() {
-        return contenu;
+        return content;
     }
 
-    @JsonProperty("contenu")
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
+    @JsonProperty("content")
+    public void setContenu(String content) {
+        this.content = content;
     }
 
-    public Titre withContenu(String contenu) {
-        this.contenu = contenu;
+    public Titre withContenu(String content) {
+        this.content = content;
         return this;
     }
 
