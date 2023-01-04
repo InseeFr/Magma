@@ -18,27 +18,27 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonPropertyOrder({
         "id",
         "uri",
-        "titre",
-        "dateMiseAJour",
-        "dateCreation",
-        "statut de validation"
+        "title",
+        "modified",
+        "created",
+        "validation state"
 
 })
 @Generated("jsonschema2pojo")
 public class DataSetModelSwagger implements Serializable  {
     @JsonProperty("id")
     private String id;
-    @JsonProperty("titre")
+    @JsonProperty("title")
     //@Valid
-    private List<Titre> titre ;
+    private List<Title> title ;
     @JsonProperty("uri")
     private String uri;
-    @JsonProperty("dateMiseAJour")
-    private String dateModification;
-    @JsonProperty("dateCreation")
-    private String dateCreation;
-    @JsonProperty ("statutValidation")
-    private String statutValidation;
+    @JsonProperty("modified")
+    private String modified;
+    @JsonProperty("created")
+    private String created;
+    @JsonProperty ("validationState")
+    private String validationState;
     @JsonProperty("theme")
     @JsonInclude(NON_NULL)
     private List<ThemeModelSwagger> themeModelSwaggerS;
@@ -55,48 +55,48 @@ public class DataSetModelSwagger implements Serializable  {
     public DataSetModelSwagger() {
     }
 
-    public DataSetModelSwagger(String id, List<Titre> titre, String uri, String dateModification, String dateCreation, List<ThemeModelSwagger> themeModelSwaggerS, List<SerieModelSwagger> serieModelSwaggerS, List<OperationModelSwagger> operationModelSwaggerS) {
+    public DataSetModelSwagger(String id, List<Title> title, String uri, String modified, String created, List<ThemeModelSwagger> themeModelSwaggerS, List<SerieModelSwagger> serieModelSwaggerS, List<OperationModelSwagger> operationModelSwaggerS) {
         this.id = id;
-        this.titre = titre;
+        this.title = title;
         this.uri = uri;
-        this.dateModification = dateModification;
-        this.dateCreation = dateCreation;
+        this.modified = modified;
+        this.created = created;
         this.themeModelSwaggerS = themeModelSwaggerS;
         this.serieModelSwaggerS = serieModelSwaggerS;
         this.operationModelSwaggerS = operationModelSwaggerS;
     }
 
-    public DataSetModelSwagger(String id, List<Titre> titre, String uri, String dateModification, String dateCreation, String statutValidation,List<ThemeModelSwagger> themeModelSwaggerS, List<SerieModelSwagger> serieModelSwaggerS, List<OperationModelSwagger> operationModelSwaggerS) {
+    public DataSetModelSwagger(String id, List<Title> title, String uri, String modified, String created, String validationState, List<ThemeModelSwagger> themeModelSwaggerS, List<SerieModelSwagger> serieModelSwaggerS, List<OperationModelSwagger> operationModelSwaggerS) {
         this.id = id;
-        this.titre = titre;
+        this.title = title;
         this.uri = uri;
-        this.dateModification = dateModification;
-        this.dateCreation = dateCreation;
-        this.statutValidation=statutValidation;
+        this.modified = modified;
+        this.created = created;
+        this.validationState=validationState;
         this.themeModelSwaggerS = themeModelSwaggerS;
         this.serieModelSwaggerS = serieModelSwaggerS;
         this.operationModelSwaggerS = operationModelSwaggerS;
     }
-    public DataSetModelSwagger(String id, String uri, String dateModification) {
+    public DataSetModelSwagger(String id, String uri, String modified) {
         this.id = id;
         this.uri = uri;
-        this.dateModification = dateModification;
+        this.modified = modified;
     }
 
 
-    public DataSetModelSwagger(String id, List<Titre> titre, String uri, String dateModification) {
+    public DataSetModelSwagger(String id, List<Title> title, String uri, String modified) {
         this.id = id;
-        this.titre = titre;
+        this.title = title;
         this.uri = uri;
-        this.dateModification = dateModification;
+        this.modified = modified;
     }
 
-    public DataSetModelSwagger(String id, List<Titre> titre, String uri, String dateModification,String statutValidation) {
+    public DataSetModelSwagger(String id, List<Title> title, String uri, String modified, String validationState) {
         this.id = id;
-        this.titre = titre;
+        this.title = title;
         this.uri = uri;
-        this.dateModification = dateModification;
-        this.statutValidation= statutValidation;
+        this.modified = modified;
+        this.validationState= validationState;
     }
 
     @JsonProperty("id")
@@ -108,14 +108,14 @@ public class DataSetModelSwagger implements Serializable  {
         this.id = id;
     }
 
-    @JsonProperty("titre")
-    public List<Titre> getTitre() {
-        return titre;
+    @JsonProperty("title")
+    public List<Title> getTitle() {
+        return title;
     }
 
-    @JsonProperty("titre")
-    public void setTitre(List<Titre> titres) {
-        this.titre = titres;
+    @JsonProperty("title")
+    public void setTitle(List<Title> titles) {
+        this.title = titles;
     }
 
     @JsonProperty("uri")
@@ -128,34 +128,34 @@ public class DataSetModelSwagger implements Serializable  {
         this.uri = uri;
     }
 
-    @JsonProperty("dateMiseAJour")
-    public String getDateModification() {
-        return dateModification;
+    @JsonProperty("modified")
+    public String getModified() {
+        return modified;
     }
 
-    @JsonProperty("dateMiseAJour")
-    public void setDateModification(String DateModification) {
-        this.dateModification = DateModification;
+    @JsonProperty("modified")
+    public void setCreated(String DateModification) {
+        this.modified = DateModification;
     }
 
-    @JsonProperty("dateCreation")
-    public String getDateCreation() {
-        return dateCreation;
+    @JsonProperty("created")
+    public String getCreated() {
+        return created;
     }
 
-    @JsonProperty("dateCreation")
-    public void setDateCreation(String dateCreation) {
-        this.dateCreation = dateCreation;
+    @JsonProperty("created")
+    public void setModified(String created) {
+        this.created = created;
     }
 
-    @JsonProperty("statutValidation")
-    public String getStatutValidation() {
-        return statutValidation;
+    @JsonProperty("validationState")
+    public String getValidationState() {
+        return validationState;
     }
 
-    @JsonProperty("statutValidation")
-    public void setStatutValidation(String statutValidation) {
-        this.statutValidation = statutValidation;
+    @JsonProperty("validationState")
+    public void setValidationState(String validationState) {
+        this.validationState = validationState;
     }
 
     @JsonProperty("theme")

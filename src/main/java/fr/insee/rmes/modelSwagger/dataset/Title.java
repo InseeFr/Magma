@@ -11,19 +11,19 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "langue",
-    "contenu"
+        "lang",
+        "content"
 })
 @Generated("jsonschema2pojo")
-public class Titre implements Serializable
+public class Title implements Serializable
 {
 
-    @JsonProperty("langue")
-    private String langue;
-    @JsonProperty("contenu")
-    @JsonAlias({"contenu","seriesLabelLg1","seriesLabelLg2","operationLabelLg1","operationLabelLg2","familyLabelLg1","familyLabelLg2","typeLabelLg1","typeLabelLg2",
+    @JsonProperty("lang")
+    private String lang;
+    @JsonProperty("content")
+    @JsonAlias({"content","seriesLabelLg1","seriesLabelLg2","operationLabelLg1","operationLabelLg2","familyLabelLg1","familyLabelLg2","typeLabelLg1","typeLabelLg2",
             "periodicityLabelLg1","periodicityLabelLg2","titreLg1","titreLg2"})
-    private String contenu;
+    private String content;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -31,49 +31,49 @@ public class Titre implements Serializable
 
     /**
      * No args constructor for use in serialization
-     * 
+     *
      */
-    public Titre() {
+    public Title() {
     }
 
     /**
-     * 
-     * @param langue
-     * @param contenu
+     *
+     * @param lang
+     * @param content
      */
-    public Titre(String langue, String contenu) {
+    public Title(String lang, String content) {
         super();
-        this.langue = langue;
-        this.contenu = contenu;
+        this.lang = lang;
+        this.content = content;
     }
 
-    @JsonProperty("langue")
-    public String getLangue() {
-        return langue;
+    @JsonProperty("lang")
+    public String getLang() {
+        return lang;
     }
 
-    @JsonProperty("langue")
-    public void setLangue(String langue) {
-        this.langue = langue;
+    @JsonProperty("lang")
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 
-    public Titre withLangue(String langue) {
-        this.langue = langue;
+    public Title withLang(String lang) {
+        this.lang = lang;
         return this;
     }
 
-    @JsonProperty("contenu")
-    public String getContenu() {
-        return contenu;
+    @JsonProperty("content")
+    public String getContent() {
+        return content;
     }
 
-    @JsonProperty("contenu")
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
+    @JsonProperty("content")
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public Titre withContenu(String contenu) {
-        this.contenu = contenu;
+    public Title withContent(String content) {
+        this.content = content;
         return this;
     }
 
@@ -87,7 +87,7 @@ public class Titre implements Serializable
         this.additionalProperties.put(name, value);
     }
 
-    public Titre withAdditionalProperty(String name, Object value) {
+    public Title withAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
         return this;
     }
