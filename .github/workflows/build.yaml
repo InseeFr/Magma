@@ -46,4 +46,4 @@ jobs:
         with:
           push: true
           file: Dockerfile
-          tags: inseefr/magma:latest 
+          tags: inseefr/magma-back-office:latest
