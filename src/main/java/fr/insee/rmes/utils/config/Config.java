@@ -42,7 +42,7 @@ public class Config {
 	private String envir;
 
 	@Value("${fr.insee.rmes.magma.force.ssl}")
-	private boolean requiresSsl = false;
+	private boolean requiresSsl = true;
 
 	@Value("${fr.insee.rmes.magma.lg1}")
 	private String lg1;
@@ -72,6 +72,11 @@ public class Config {
 
 	@Value("${fr.insee.rmes.magma.documentation.geographie.baseURI}")
 	private String documentationsGeoBaseUri;
+
+	@Value("${fr.insee.rmes.magma.api.host}")
+	private String swaggerHost;
+	@Value("${fr.insee.rmes.magma.api.basepath}")	//getSwaggerUrl to have the complete URL
+	private String swaggerBasepath;
 
 	public boolean isRequiresSsl() {
 		return requiresSsl;
@@ -122,6 +127,16 @@ public class Config {
 
 	}
 
+	public String getSwaggerHost() {
+		return swaggerHost;
+	}
+
+	public String getSwaggerBasepath() {
+		return swaggerBasepath;
+	}
+	public String getSwaggerUrl() {
+		return (requiresSsl ? "https" : "http") + "://" + swaggerHost + "/" + swaggerBasepath;
+	}
 	public static String getConceptsBaseUri() {
 		return CONCEPTS_BASE_URI;
 	}
