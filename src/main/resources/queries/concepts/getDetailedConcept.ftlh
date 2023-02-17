@@ -9,8 +9,8 @@ WHERE {
     FILTER (lang(?prefLabelLg2) = '${LG2}') .
     ?uri dcterms:created ?dateCreation .
     ?uri dcterms:modified ?dateMiseAjour .
-    ?uri insee:isValidated ?statutValidation .
-    OPTIONAL { ?uri dcterms:valid ?dateFinValidite . } .
+    ?uri insee:isValidated ?isValidated .
+    BIND( if(?isValidated,"Publié","Provisoire, jamais publiée") as ?statutValidation )    OPTIONAL { ?uri dcterms:valid ?dateFinValidite . } .
     OPTIONAL {
         ?uri skos:definition ?definition .
         ?definition dcterms:language "fr"^^xsd:language .

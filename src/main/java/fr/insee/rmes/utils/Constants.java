@@ -12,6 +12,7 @@ public class Constants {
 		public static final String CODELISTS_QUERIES_PATH = "codeLists/";
 		public static final String CODE_LIST_FREQ = "CL_FREQ";
 		public static final String CODE_LIST_SOURCE_CATEGORY = "CL_SOURCE_CATEGORY";
+		public static final String COMPONENTS_QUERIES_PATH = "components/";
 		public static final String CONCEPT = "concept";
 		public static final String CONCEPTS_QUERIES_PATH = "concepts/";
 		public static final String CONTENT = "content";
@@ -19,11 +20,13 @@ public class Constants {
 		public static final String CREATORS = "creators";
 		public static final String CONTRIBUTOR = "contributor";
 		public static final String CONTRIBUTORS = "contributors";
+		public static final String COLLECTION = "collection";
 
 
 		/*D*/
 		public static final String DATA_COLLECTOR = "dataCollector";
 		public static final String DATA_COLLECTORS = "dataCollectors";
+		public static final String DATASETS_QUERIES_PATH= "dataSets/";
 		public static final String DESCRIPTION_LG1 = "descriptionLg1";
 		public static final String DESCRIPTION_LG2 = "descriptionLg2";
 		public static final String DOCUMENT = "document";
@@ -66,7 +69,7 @@ public class Constants {
 		public static final String MANAGER = "manager";
 
 		/*N*/
-		public static final String NOTATION = "notation";
+		public static final String NOTATION = "id";
 		
 		/*O*/
 		public static final String OPERATIONS = "operations";
@@ -76,6 +79,7 @@ public class Constants {
 		public static final String OUTPUT = "output";
 		
 		/*P*/
+		public static final String POGUES_QUERIES_PATH = "pogues/";
 		public static final String PREF_LABEL_LG = "prefLabelLg";
 		public static final String PREF_LABEL_LG1 = "prefLabelLg1";
 		public static final String PREF_LABEL_LG2 = "prefLabelLg2";
@@ -95,6 +99,7 @@ public class Constants {
 		public static final String STAMP = "stamp";
 		public static final String STRUCTURES = "STRUCTURES";
 		public static final String STRUCTURES_QUERIES_PATH = "structures/";
+		public static final String STATUT_VALIDATION = "statutValidation";
 		
 		/*T*/
 		public static final String TEXT_LG1 = "texte";

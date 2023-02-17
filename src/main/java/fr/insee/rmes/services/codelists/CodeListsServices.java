@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import fr.insee.rmes.utils.exceptions.RmesException;
 
+
 @Service
 public interface CodeListsServices {
 
@@ -11,4 +12,5 @@ public interface CodeListsServices {
 
 	String getCodesList(String notation) throws RmesException;
 
+	String getCodesListDateMiseAJour(String notation) throws RmesException;
 }

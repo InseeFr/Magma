@@ -32,7 +32,7 @@ public class FreemarkerConfig {
         
 		try {
 			MultiTemplateLoader mtl = getTemplateLoader();
-			logger.info("Init freemarker templateloader {} , {}", FreemarkerConfig.class.getClassLoader().getResource("queries"), FreemarkerConfig.class.getClassLoader().getResource("xdocreport"));
+			logger.info("Init freemarker templateloader {}", FreemarkerConfig.class.getClassLoader().getResource("queries"));
 			cfg.setTemplateLoader(mtl);
 		} catch (IOException | URISyntaxException e) {
 			logger.error(e.getMessage());

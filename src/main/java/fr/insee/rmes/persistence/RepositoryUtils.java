@@ -237,6 +237,8 @@ public abstract class RepositoryUtils {
 			set.forEach(s -> jsonResults.put(s, ((JSONObject) json.get(s)).get(Constants.VALUE)));
 			arrayRes.put(jsonResults);
 		}
+
+
 		return arrayRes;
 	}
 	
