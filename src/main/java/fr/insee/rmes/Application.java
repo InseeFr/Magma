@@ -1,98 +1,32 @@
 package fr.insee.rmes;
 
-
-import java.security.Principal;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-
-
-import org.apache.commons.lang3.StringUtils;
+import fr.insee.rmes.configuration.PropertiesLogger;
+import fr.insee.rmes.utils.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.env.Environment;
-
-import fr.insee.rmes.utils.config.Config;
-import org.springframework.web.context.WebApplicationContext;
+import javax.annotation.PostConstruct;
 
 
-@SpringBootApplication
+@SpringBootApplication public class Application {
 
-public class Application extends SpringBootServletInitializer {
+        @Autowired
+        private Config config;
 
-	private static final String PROPERTIES_FILENAME = "rmeswsgi";
+        public static void main(String[] args) {
+                configureApplicationBuilder(new SpringApplicationBuilder()).build().run(args);        }
 
-	private static final Logger LOG = LoggerFactory.getLogger(Application.class);
+        public static SpringApplicationBuilder configureApplicationBuilder(SpringApplicationBuilder springApplicationBuilder){
+                return springApplicationBuilder.sources(Application.class)
+                    .listeners(new PropertiesLogger());
+        }
 
-	@Autowired
-	private Environment env;
-	
-	@Autowired
-	private Config config;
-
-	public static void main(String[] args) {
-		System.setProperty("spring.config.name", PROPERTIES_FILENAME);
-		SpringApplication.run(Application.class, args);
-	}
-
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		// Application name to find the properties that fits
-		// default = "application".
-		System.setProperty("spring.config.name", PROPERTIES_FILENAME);
-
-		return builder
-				.properties("spring.config.location=classpath:/,file:///${catalina.base}/webapps/"+PROPERTIES_FILENAME+".properties")
-				.sources(Application.class);
-	}
-
-
-	@Bean
-	@Scope(scopeName = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-	// renvoie le principal mis dans la requête par Keycloak ou un principal avec un
-	// "name" null sinon
-	public Principal getPrincipal(HttpServletRequest httpRequest) {
-		return Optional.ofNullable(httpRequest.getUserPrincipal()).orElse(() -> null);
-	}
-
-	@PostConstruct
-	public void startupApplication() {
-		// Log properties
-		printPropertiesInLog(PROPERTIES_FILENAME);
-		printPropertiesInLog("rmeswsgi-magma");
-		//init Config class
-		config.init();
-	}
-
-	private void printPropertiesInLog(String filename) {
-		ResourceBundle rb = ResourceBundle.getBundle(filename);
-		List<String> properties = rb.keySet().stream().collect(Collectors.toList());
-		Collections.sort(properties);
-		LOG.info("=============== Properties values from file "+filename+"================");
-		properties.forEach(key -> LOG.info("{} = {}", key, printValueWithoutPassword(key)));
-		LOG.info("==========================================================================");
-	}
-
-	private String printValueWithoutPassword(String key) {
-		if (StringUtils.containsAny(key, "password", "pwd", "keycloak.key")) {
-			return "******";
-		}
-		return env.getProperty(key);
-	}
-
-
+        @PostConstruct
+        public void startupApplication() {
+                config.init();
+        }
 
 }

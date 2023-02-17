@@ -3,7 +3,7 @@ package fr.insee.rmes.model.datasets;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.annotation.Generated;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;

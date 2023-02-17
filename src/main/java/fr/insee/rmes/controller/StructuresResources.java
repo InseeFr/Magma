@@ -1,29 +1,27 @@
 package fr.insee.rmes.controller;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-import fr.insee.rmes.modelSwagger.structure.AllStructureModelSwagger;
-import fr.insee.rmes.modelSwagger.structure.StructureByIdModelSwagger;
 import fr.insee.rmes.modelSwagger.component.AllComponentModelSwagger;
 import fr.insee.rmes.modelSwagger.component.ComponentByIdModelSwagger;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.apache.http.HttpStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import fr.insee.rmes.modelSwagger.structure.AllStructureModelSwagger;
+import fr.insee.rmes.modelSwagger.structure.StructureByIdModelSwagger;
 import fr.insee.rmes.services.structures.StructuresServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.core.MediaType;
 
 @RestController
 @RequestMapping(value="/",produces = {"application/json"})

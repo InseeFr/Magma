@@ -15,11 +15,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import java.util.Objects;
 
 @RestController
@@ -29,6 +29,7 @@ import java.util.Objects;
 		@ApiResponse(responseCode = "200", description = "Success",content = {@Content }),
 		@ApiResponse(responseCode = "404", description = "Not found",content = {@Content }),
 		@ApiResponse(responseCode = "500", description = "Internal server error",content = {@Content })})
+
 
     public class CodeListsResources {
 

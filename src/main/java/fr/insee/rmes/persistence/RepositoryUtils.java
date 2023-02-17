@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.util.Set;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
@@ -21,8 +21,6 @@ import org.eclipse.rdf4j.repository.http.HTTPRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
-
-import fr.insee.rmes.persistence.RepositoryUtils;
 import fr.insee.rmes.persistence.rdfQueries.QueryUtils;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.exceptions.RmesException;

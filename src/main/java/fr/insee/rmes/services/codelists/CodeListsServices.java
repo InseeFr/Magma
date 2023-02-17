@@ -1,8 +1,7 @@
 package fr.insee.rmes.services.codelists;
 
-import org.springframework.stereotype.Service;
-
 import fr.insee.rmes.utils.exceptions.RmesException;
+import org.springframework.stereotype.Service;
 
 
 @Service

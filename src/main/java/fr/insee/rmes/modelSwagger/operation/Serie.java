@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import javax.annotation.Generated;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;

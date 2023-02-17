@@ -1,8 +1,5 @@
 package fr.insee.rmes.utils.config;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 @Component
 
@@ -38,11 +38,13 @@ public class Config {
 	public static String OPERATIONS_SERIES_GRAPH;
 	public static String OPERATIONS_BASE_URI;
 
-	@Value("${fr.insee.rmes.magma.envir}")
-	private String envir;
+/*	@Value("${fr.insee.rmes.magma.envir}")
+	private String envir;*/
 
+/*
 	@Value("${fr.insee.rmes.magma.force.ssl}")
-	private boolean requiresSsl = true;
+	private boolean requiresSsl = false;
+*/
 
 	@Value("${fr.insee.rmes.magma.lg1}")
 	private String lg1;
@@ -72,7 +74,7 @@ public class Config {
 
 	@Value("${fr.insee.rmes.magma.documentation.geographie.baseURI}")
 	private String documentationsGeoBaseUri;
-
+/*
 	@Value("${fr.insee.rmes.magma.api.host}")
 	private String swaggerHost;
 	@Value("${fr.insee.rmes.magma.api.basepath}")	//getSwaggerUrl to have the complete URL
@@ -80,7 +82,7 @@ public class Config {
 
 	public boolean isRequiresSsl() {
 		return requiresSsl;
-	}
+	}*/
 
 	public void init() {
 		CONCEPTS_BASE_URI = env.getProperty("fr.insee.rmes.magma.concepts.baseURI");
@@ -126,7 +128,7 @@ public class Config {
 
 
 	}
-
+/*
 	public String getSwaggerHost() {
 		return swaggerHost;
 	}
@@ -136,7 +138,7 @@ public class Config {
 	}
 	public String getSwaggerUrl() {
 		return (requiresSsl ? "https" : "http") + "://" + swaggerHost + "/" + swaggerBasepath;
-	}
+	}*/
 	public static String getConceptsBaseUri() {
 		return CONCEPTS_BASE_URI;
 	}
