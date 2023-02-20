@@ -1,11 +1,11 @@
 package fr.insee.rmes.services.pogues;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.insee.rmes.modelSwagger.operation.*;
 import fr.insee.rmes.model.operation.OperationById;
 import fr.insee.rmes.model.operation.OperationBySerieId;
 import fr.insee.rmes.model.operation.SerieById;
 import fr.insee.rmes.model.operation.SerieModel;
+import fr.insee.rmes.modelSwagger.operation.*;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;

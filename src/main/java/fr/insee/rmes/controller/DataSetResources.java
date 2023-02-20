@@ -15,10 +15,8 @@ import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import java.util.Optional;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 @RestController
 @RequestMapping(value="/",produces = {"application/json"})

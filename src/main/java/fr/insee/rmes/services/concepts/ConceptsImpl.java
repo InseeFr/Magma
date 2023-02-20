@@ -1,23 +1,22 @@
 package fr.insee.rmes.services.concepts;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.insee.rmes.modelSwagger.concept.ConceptByIdModelSwagger;
-import fr.insee.rmes.modelSwagger.concept.LabelConcept;
 import fr.insee.rmes.model.concept.ConceptById;
 import fr.insee.rmes.model.concept.ConceptSDMX;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.stereotype.Service;
-
+import fr.insee.rmes.modelSwagger.concept.ConceptByIdModelSwagger;
+import fr.insee.rmes.modelSwagger.concept.LabelConcept;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class ConceptsImpl extends RdfService implements ConceptsServices {

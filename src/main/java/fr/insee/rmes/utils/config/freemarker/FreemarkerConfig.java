@@ -1,18 +1,17 @@
 package fr.insee.rmes.utils.config.freemarker;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Locale;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.core.io.ClassPathResource;
-
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.core.io.ClassPathResource;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Locale;
 
 
 public class FreemarkerConfig {
