@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
 
+
         @Autowired
         private Config config;
 
@@ -23,10 +24,12 @@ public class Application extends SpringBootServletInitializer {
                 return springApplicationBuilder.sources(Application.class)
                     .listeners(new PropertiesLogger());
         }
+
         @Override
         protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
                 return configureApplicationBuilder(builder);
         }
+
 
         @PostConstruct
         public void startupApplication() {

@@ -14,7 +14,9 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 import java.util.*;
+
 import java.util.stream.Collectors;
 
 @Configuration
@@ -25,6 +27,7 @@ public class SecurityConfig {
         // Démonstration avec un rôle protégeant l'accès à un des endpoints
         @Value("${fr.insee.sndil.starter.role.administrateur}")
         private String administrateurRole;
+
 
         @Value("${fr.insee.sndil.starter.role.user}")
         private String defaultRolesForUsers;
@@ -46,6 +49,7 @@ public class SecurityConfig {
                         authorize.requestMatchers(whiteList).permitAll()
                             .requestMatchers("/starter/healthcheck").permitAll()
                             .requestMatchers("/starter/healthcheckadmin").hasRole(administrateurRole)
+
                                 .requestMatchers("/structures").hasRole((defaultRolesForUsers))
                                 .requestMatchers("/structure/**").hasRole((defaultRolesForUsers))
                                 .requestMatchers("/operations/**").hasRole((defaultRolesForUsers))
@@ -56,6 +60,7 @@ public class SecurityConfig {
                                 .requestMatchers("/composants").hasRole((defaultRolesForUsers))
                                 .requestMatchers("/composant/**").hasRole((defaultRolesForUsers))
                                 .requestMatchers("/datasets/**").hasRole((defaultRolesForUsers))
+
                     )
                     .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
                     .oauth2ResourceServer(oauth2 -> oauth2.jwt().jwtAuthenticationConverter(jwtAuthenticationConverter()));
@@ -84,6 +89,7 @@ public class SecurityConfig {
                                         List<String> roles = (List<String>) claims.getOrDefault(claimPath[claimPath.length - 1], new ArrayList<>());
                                         //if we need to add customs roles to every connected user we could define this variable (static or from properties)
                                         roles.addAll(Collections.singleton(defaultRolesForUsers));
+
                                         return roles.stream().map(s -> new GrantedAuthority() {
                                                 @Override public String getAuthority() {
                                                         return ROLE_PREFIX + s;
