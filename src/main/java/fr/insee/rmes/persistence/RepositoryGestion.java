@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import jakarta.ws.rs.core.Response;
 
+import fr.insee.rmes.utils.config.Config;
 import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,7 +25,9 @@ import org.eclipse.rdf4j.repository.RepositoryResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import fr.insee.rmes.persistence.ontologies.EVOC;
@@ -32,8 +35,18 @@ import fr.insee.rmes.persistence.ontologies.INSEE;
 import fr.insee.rmes.persistence.ontologies.QB;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
+import static fr.insee.rmes.persistence.RepositoryUtils.initRepository;
+
 @Component
-public class RepositoryGestion extends RepositoryUtils {
+public class RepositoryGestion {
+
+	@Autowired
+	Config config;
+
+
+	@Autowired
+	private RepositoryUtils repositoryUtils;
+
 
 	@Value("${fr.insee.rmes.magma.gestion.rdfServer}")
 	private String RDF_SERVER;
@@ -53,6 +66,10 @@ public class RepositoryGestion extends RepositoryUtils {
 		REPOSITORY_GESTION = initRepository(RDF_SERVER, GESTION_REPO);
 	}
 
+
+	public void init() {
+		RepositoryUtils.initRepository(RDF_SERVER, GESTION_REPO);
+	}
 	/**
 	 * Method which aims to produce response from a sparql query
 	 *
@@ -60,8 +77,9 @@ public class RepositoryGestion extends RepositoryUtils {
 	 * @return String
 	 * @throws RmesException
 	 */
+
 	public String getResponse(String query) throws RmesException {
-		return getResponse(query, REPOSITORY_GESTION);
+		return RepositoryUtils.getResponse(query, RepositoryUtils.initRepository(RDF_SERVER, GESTION_REPO));
 	}
 
 	/**
@@ -72,7 +90,7 @@ public class RepositoryGestion extends RepositoryUtils {
 	 * @throws RmesException
 	 */
 	public Response.Status executeUpdate(String updateQuery) throws RmesException {
-		return executeUpdate(updateQuery, REPOSITORY_GESTION);
+		return  RepositoryUtils.executeUpdate(updateQuery, RepositoryUtils.initRepository(RDF_SERVER, GESTION_REPO));
 	}
 
 	/**
@@ -83,15 +101,15 @@ public class RepositoryGestion extends RepositoryUtils {
 	 * @throws RmesException
 	 */
 	public JSONObject getResponseAsObject(String query) throws RmesException {
-		return getResponseAsObject(query, REPOSITORY_GESTION);
+		return RepositoryUtils.getResponseAsObject(query,RepositoryUtils.initRepository(RDF_SERVER, GESTION_REPO));
 	}
 
 	public JSONArray getResponseAsArray(String query) throws RmesException {
-		return getResponseAsArray(query, REPOSITORY_GESTION);
+		return RepositoryUtils.getResponseAsArray(query,RepositoryUtils.initRepository(RDF_SERVER, GESTION_REPO));
 	}
 
 	public JSONArray getResponseAsJSONList(String query) throws RmesException {
-		return getResponseAsJSONList(query, REPOSITORY_GESTION);
+		return RepositoryUtils.getResponseAsJSONList(query,RepositoryUtils.initRepository(RDF_SERVER, GESTION_REPO));
 	}
 
 	/**
@@ -103,7 +121,7 @@ public class RepositoryGestion extends RepositoryUtils {
 	 * @throws JSONException
 	 */
 	public boolean getResponseAsBoolean(String query) throws RmesException {
-		return getResponseForAskQuery(query, REPOSITORY_GESTION);
+		return RepositoryUtils.getResponseForAskQuery(query,RepositoryUtils.initRepository(RDF_SERVER, GESTION_REPO));
 	}
 
 	public RepositoryResult<Statement> getStatements(RepositoryConnection con, Resource subject)
@@ -383,9 +401,8 @@ public class RepositoryGestion extends RepositoryUtils {
 		loadSimpleObject(geoIRI, model, null);		
 	}
 
-	public RepositoryConnection getConnection() throws RmesException {
-		return getConnection(REPOSITORY_GESTION);
+	public RepositoryConnection getConnection(Repository REPOSITORY_GESTION) throws RmesException {
+		return getConnection(this.REPOSITORY_GESTION);
 	}
-
 
 }

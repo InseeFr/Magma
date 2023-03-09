@@ -21,6 +21,8 @@ public class Config {
 	@Autowired
 	private Environment env;
 
+
+
 	public static String CONCEPTS_BASE_URI;
 	public static String STRUCTURES_BASE_URI;
 	public static String CODELISTS_BASE_URI;
@@ -38,13 +40,15 @@ public class Config {
 	public static String OPERATIONS_SERIES_GRAPH;
 	public static String OPERATIONS_BASE_URI;
 
-/*	@Value("${fr.insee.rmes.magma.envir}")
-	private String envir;*/
 
-/*
-	@Value("${fr.insee.rmes.magma.force.ssl}")
-	private boolean requiresSsl = false;
-*/
+	@Value ("${fr.insee.rmes.magma.api.keycloak.client.secret}")
+	private String secret;
+
+	@Value("${fr.insee.rmes.magma.api.keycloak.client.id}")
+	private String clientId;
+
+	@Value("${fr.insee.sndil.starter.springdoc.issuer-url-token}")
+	private String serverKeycloak;
 
 	@Value("${fr.insee.rmes.magma.lg1}")
 	private String lg1;
@@ -234,4 +238,10 @@ public class Config {
 	public String getDocumentationsGeoBaseUri() {
 		return documentationsGeoBaseUri;
 	}
+
+	public String getSecret() {	return secret; }
+
+	public String getClientId() { return clientId; }
+
+	public String getServerKeycloak() { return serverKeycloak; }
 }
