@@ -3,9 +3,7 @@ package fr.insee.rmes.modelSwagger.organisations;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import fr.insee.rmes.modelSwagger.organisations.Label;
-import jakarta.validation.Valid;
-
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
 
