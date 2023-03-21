@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.json.JSONArray;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -21,7 +22,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "id",
         "dateFinValidite",
         "uri",
-        "version"
+        "version",
+        "defcourte"
 })
 @Generated("jsonschema2pojo")
 public class ConceptById implements Serializable{
@@ -43,6 +45,10 @@ public class ConceptById implements Serializable{
     private String uri;
     @JsonProperty("version")
     private String version;
+
+    @JsonProperty("defcourte")
+    private JSONArray defcourte;
+
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -66,8 +72,9 @@ public class ConceptById implements Serializable{
      * @param dateFinValidite
      * @param uri
      * @param version
+     * @param defcourte
      */
-    public ConceptById(String dateCreation, String dateMiseAjour, String prefLabelLg1, String prefLabelLg2, String statutValidation, String id, String dateFinValidite, String uri, String version) {
+    public ConceptById(String dateCreation, String dateMiseAjour, String prefLabelLg1, String prefLabelLg2, String statutValidation, String id, String dateFinValidite, String uri, String version, JSONArray defcourte) {
         super();
         this.dateCreation = dateCreation;
         this.dateMiseAjour = dateMiseAjour;
@@ -78,6 +85,18 @@ public class ConceptById implements Serializable{
         this.dateFinValidite = dateFinValidite;
         this.uri = uri;
         this.version = version;
+        this.defcourte = defcourte;
+    }
+
+
+
+    @JsonProperty("defcourte")
+    public JSONArray getDefcourte() {
+        return defcourte;
+    }
+    @JsonProperty("defcourte")
+    public void setDefcourte(JSONArray defcourte) {
+        this.defcourte = defcourte;
     }
 
     @JsonProperty("dateCreation")
