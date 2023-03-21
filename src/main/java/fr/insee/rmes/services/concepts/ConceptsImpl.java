@@ -42,6 +42,10 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         if (labelConcept1.getLangue() !=null) {
             labelConcepts.add(labelConcept1);
             labelConcepts.add(labelConcept2);   }
+
+        JSONArray DefcourteArray = repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptDefinitionsCourtes.ftlh", params));
+        System.out.println(DefcourteArray.toString());
+
         JSONArray sdmxArray = repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptsSdmx.ftlh", params));
         ObjectMapper mapper = new ObjectMapper();
         if(sdmxArray.length() > 0){
