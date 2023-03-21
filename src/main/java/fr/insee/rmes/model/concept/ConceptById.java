@@ -46,8 +46,6 @@ public class ConceptById implements Serializable{
     @JsonProperty("version")
     private String version;
 
-    @JsonProperty("defcourte")
-    private JSONArray defcourte;
 
     @JsonIgnore
     @Valid
@@ -72,9 +70,8 @@ public class ConceptById implements Serializable{
      * @param dateFinValidite
      * @param uri
      * @param version
-     * @param defcourte
      */
-    public ConceptById(String dateCreation, String dateMiseAjour, String prefLabelLg1, String prefLabelLg2, String statutValidation, String id, String dateFinValidite, String uri, String version, JSONArray defcourte) {
+    public ConceptById(String dateCreation, String dateMiseAjour, String prefLabelLg1, String prefLabelLg2, String statutValidation, String id, String dateFinValidite, String uri, String version) {
         super();
         this.dateCreation = dateCreation;
         this.dateMiseAjour = dateMiseAjour;
@@ -85,19 +82,8 @@ public class ConceptById implements Serializable{
         this.dateFinValidite = dateFinValidite;
         this.uri = uri;
         this.version = version;
-        this.defcourte = defcourte;
     }
 
-
-
-    @JsonProperty("defcourte")
-    public JSONArray getDefcourte() {
-        return defcourte;
-    }
-    @JsonProperty("defcourte")
-    public void setDefcourte(JSONArray defcourte) {
-        this.defcourte = defcourte;
-    }
 
     @JsonProperty("dateCreation")
     public String getDateCreation() {

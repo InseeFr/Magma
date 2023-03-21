@@ -47,6 +47,8 @@ public class LabelConcept implements Serializable
         this.contenu = contenu;
     }
 
+
+
     @JsonProperty("langue")
     public String getLangue() {
         return langue;
