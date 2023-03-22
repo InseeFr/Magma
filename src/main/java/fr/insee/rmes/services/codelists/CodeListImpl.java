@@ -56,8 +56,8 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
             codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
         }
 
-        codesList.put("codes", this.getCodes(notation));
-
+        codesList.put("codesEquivalent", this.getCodes(notation));
+        codesList.remove(Constants.URI);
         return codesList.toString();
     }
 
@@ -156,7 +156,13 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
             }
             result.put(code);
         }
-        return result;
+        JSONArray resultWithoutURI = new JSONArray();
+        for (int i = 0; i < result.length(); i++) {
+            JSONObject resultObject = codes.getJSONObject(i);
+            resultObject.remove(Constants.URI);
+            resultWithoutURI.put(resultObject);
+        }
+        return resultWithoutURI;
     }
 
     @Override
