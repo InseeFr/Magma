@@ -38,16 +38,8 @@ public class Config {
 	public static String OPERATIONS_SERIES_GRAPH;
 	public static String OPERATIONS_BASE_URI;
 
-	@Value("${fr.insee.rmes.magma.envir}")
-	private String envir;
-
 	@Value("${fr.insee.rmes.magma.force.ssl}")
 	private boolean requiresSsl = false;
-
-	@Value("${fr.insee.rmes.magma.lg1}")
-	private String lg1;
-	@Value("${fr.insee.rmes.magma.lg2}")
-	private String lg2;
 
 	@Value("${fr.insee.rmes.magma.collections.baseURI}")
 	private String collectionsBaseUri;
@@ -108,7 +100,7 @@ public class Config {
 		for (Field currentField : declaredFields) {
 			if (Modifier.isStatic(currentField.getModifiers())) {
 				try {
-					LOG.info(currentField.getName() + "  " + (currentField.get(null)).toString());
+					LOG.info("{} {}",currentField.getName(), currentField.get(null) );
 				} catch (IllegalArgumentException | IllegalAccessException iac) {
 					LOG.error("Error retrieving Config Values");
 				}
@@ -122,67 +114,67 @@ public class Config {
 
 	}
 
-	public static String getConceptsBaseUri() {
+	public String getConceptsBaseUri() {
 		return CONCEPTS_BASE_URI;
 	}
 
-	public static String getStructuresBaseUri() {
+	public String getStructuresBaseUri() {
 		return STRUCTURES_BASE_URI;
 	}
 
-	public static String getCodelistsBaseUri() {
+	public String getCodelistsBaseUri() {
 		return CODELISTS_BASE_URI;
 	}
 
-	public static String getDatasetsBaseUri() {
+	public String getDatasetsBaseUri() {
 		return DATASETS_BASE_URI;
 	}
 
-	public static String getBaseUriGestion() {
+	public String getBaseUriGestion() {
 		return BASE_URI_GESTION;
 	}
 
-	public static String getLG1() {
+	public String getLG1() {
 		return LG1;
 	}
 
-	public static String getLG2() {
+	public String getLG2() {
 		return LG2;
 	}
 
-	public static String getBaseGraph() {
+	public String getBaseGraph() {
 		return BASE_GRAPH;
 	}
 
-	public static String getDatasetsGraph() {
+	public String getDatasetsGraph() {
 		return DATASETS_GRAPH;
 	}
 
-	public static String getCodelistGraph() {
+	public String getCodelistGraph() {
 		return CODELIST_GRAPH;
 	}
 
-	public static String getConceptsGraph() {
+	public String getConceptsGraph() {
 		return CONCEPTS_GRAPH;
 	}
 
-	public static String getStructuresComponentsGraph() {
+	public String getStructuresComponentsGraph() {
 		return STRUCTURES_COMPONENTS_GRAPH;
 	}
 
-	public static String getStructuresGraph() {
+	public String getStructuresGraph() {
 		return STRUCTURES_GRAPH;
 	}
 
-	public static String getStructuresComponentsBaseUri() {
+	public String getStructuresComponentsBaseUri() {
 		return STRUCTURES_COMPONENTS_BASE_URI;
 	}
 
-	public static String getOperationsSeriesGraph() {
+	public String getOperationsSeriesGraph() {
 		return OPERATIONS_SERIES_GRAPH;
 	}
 
-	public static String getOperationsBaseUri() {
+	public String getOperationsBaseUri() {
 		return OPERATIONS_BASE_URI;
 	}
 

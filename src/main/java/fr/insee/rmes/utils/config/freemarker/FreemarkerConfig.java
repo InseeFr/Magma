@@ -20,6 +20,8 @@ public class FreemarkerConfig {
 	static final Logger logger = LogManager.getLogger(FreemarkerConfig.class);
 
 	static Configuration cfg ;
+
+	private FreemarkerConfig(){}
 	
 	public static void init()  {
 		// Create your Configuration instance, and specify if up to what FreeMarker

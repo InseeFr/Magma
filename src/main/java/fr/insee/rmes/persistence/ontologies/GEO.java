@@ -8,6 +8,8 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 public class GEO {
 
+	private GEO(){}
+
     public static final String NAMESPACE = "http://www.opengis.net/ont/geosparql#";
 
 	public static final String PREFIX = "geo";

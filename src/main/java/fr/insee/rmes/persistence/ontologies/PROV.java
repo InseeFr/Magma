@@ -7,6 +7,8 @@ import org.eclipse.rdf4j.model.impl.SimpleNamespace;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 public class PROV {
+
+	private PROV(){}
 	
 	public static final String NAMESPACE = "http://www.w3.org/ns/prov#";
 

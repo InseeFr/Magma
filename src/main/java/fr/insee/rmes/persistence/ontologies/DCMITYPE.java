@@ -7,6 +7,8 @@ import org.eclipse.rdf4j.model.impl.SimpleNamespace;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 public class DCMITYPE {
+
+	private DCMITYPE(){}
 	
 	public static final String NAMESPACE = "http://purl.org/dc/dcmitype/";
 

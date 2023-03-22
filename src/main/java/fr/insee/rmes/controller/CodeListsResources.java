@@ -79,19 +79,4 @@ import java.util.Objects;
         }
     }
 
-
-
-//    @GetMapping("/listeCode/{id}/DateMiseAJour")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Operation(operationId = "getCodesListByIdFilterByDateMAJ", summary = "Get DateMiseAJour from one codes list",security = @SecurityRequirement(name = "bearerScheme"),responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
-//    public ResponseEntity<String> getCodesListDateMiseAJour(@PathVariable(Constants.NOTATION) String notation) throws RmesException {
-//        String jsonResult = codeListsServices.getCodesListDateMiseAJour(notation);
-//        if(Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)){
-//            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
-//        }else{
-//
-//            return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
-//        }
-//    }
-
 }
