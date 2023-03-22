@@ -6,13 +6,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.0</version>
+		<version>2.7.9</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<packaging>${packaging.mode}</packaging>
 	<groupId>fr.insee.rmes</groupId>
 	<artifactId>magma</artifactId>
-	<version>0.0.2</version>
+	<version>0.1.0</version>
 	<name>magma</name>
 	<description>Metadata management API</description>
 	<organization>
@@ -22,8 +22,11 @@
 	<properties>
 		<packaging.mode>war</packaging.mode>
 		<java.version>11</java.version>
-		<RESOURCE_PATH>${project.basedir}/src/main/resources</RESOURCE_PATH>
-		<keycloak.version>16.1.1</keycloak.version>
+		<keycloak.version>21.0.1</keycloak.version>
+		<json.version>20230227</json.version>
+		<rdf4j.version>4.2.3</rdf4j.version>
+		<springdoc.version>1.6.15</springdoc.version>
+		<jacoco.version>0.8.8</jacoco.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -63,32 +66,27 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-			<version>2.6.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-spring-boot-starter</artifactId>
-			<version>17.0.1</version>
-			<scope>compile</scope>
-
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20220320</version>
+			<version>${json.version}</version>
 		</dependency>
 		<!-- ajout de la dépendance pour JAXB suite au passage à Java 9+ qui ne l'inclut plus d'office -->
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
-			<version>3.0.2</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.eclipse.rdf4j/rdf4j-model -->
 		<dependency>
 			<groupId>org.eclipse.rdf4j</groupId>
 			<artifactId>rdf4j-model</artifactId>
-			<version>3.7.5</version>
+			<version>${rdf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
@@ -101,12 +99,12 @@
 		<dependency>
 			<groupId>org.eclipse.rdf4j</groupId>
 			<artifactId>rdf4j-repository-http</artifactId>
-			<version>3.7.5</version>
+			<version>${rdf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.rdf4j</groupId>
 			<artifactId>rdf4j-queryresultio-sparqljson</artifactId>
-			<version>3.7.5</version>
+			<version>${rdf4j.version}</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
@@ -117,55 +115,15 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.6.6</version>
+			<version>${springdoc.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.jacoco</groupId>
-			<artifactId>jacoco-maven-plugin</artifactId>
-			<version>0.8.7</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security.oauth.boot</groupId>
-			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
-			<version>2.6.3</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-plugin-api</artifactId>
-			<version>3.8.4</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-surefire-plugin</artifactId>
-			<version>2.22.2</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-oauth2-core</artifactId>
-			<version>5.6.2</version>
-			<scope>compile</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.github.ziplet</groupId>
-			<artifactId>ziplet</artifactId>
-			<version>2.4.1</version>
-		</dependency>
-        <dependency>
-            <groupId>org.modelmapper</groupId>
-            <artifactId>modelmapper</artifactId>
-            <version>3.1.0</version>
-            <scope>compile</scope>
-        </dependency>
+
+
     </dependencies>
 
 	<build>
@@ -173,22 +131,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.5.0</version>
 			</plugin>
-			<!-- permet de lancer les tests en UTF-8 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<!-- permet la surcharge de maven-surefire-plugin tout en fonctionnant avec jacoco -->
-					<argLine>@{argLine} -Dfile.encoding=UTF-8</argLine>
-				</configuration>
-			</plugin>
+
 			<!-- génère un rapport sur la couverture de tests -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.7</version>
+				<version>${jacoco.version}</version>
 				<executions>
 					<execution>
 						<id>default-prepare-agent</id>
@@ -213,16 +162,5 @@
 			</resource>
 		</resources>
 	</build>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>spring-snapshots</id>
-			<url>https://repo.spring.io/snapshot</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>spring-milestones</id>
-			<url>https://repo.spring.io/milestone</url>
-		</pluginRepository>
-	</pluginRepositories>
 
 </project>
