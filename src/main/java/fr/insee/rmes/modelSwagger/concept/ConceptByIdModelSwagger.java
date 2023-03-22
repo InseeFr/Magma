@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import fr.insee.rmes.model.concept.ConceptDefCourte;
 import fr.insee.rmes.model.concept.ConceptSDMX;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -48,6 +49,9 @@ public class ConceptByIdModelSwagger implements Serializable
     private String version;
     @JsonProperty("conceptsSdmx")
     private ConceptSDMX[] conceptsSDMX;
+
+    @JsonProperty("definitionCourte")
+    private List<ConceptDefCourte> definitionCourte;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -60,21 +64,21 @@ public class ConceptByIdModelSwagger implements Serializable
     public ConceptByIdModelSwagger() {
     }
 
-    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAjour, String statutValidation, String id,  List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version) {
+    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAjour, String statutValidation, String id,  List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version, List<ConceptDefCourte> definitionCourte) {
         this.dateCreation = dateCreation;
         this.dateMiseAjour = dateMiseAjour;
-
+        this.definitionCourte=definitionCourte;
         this.statutValidation = statutValidation;
         this.id = id;
         this.labelConcept = labelConcept;
         this.dateFinValidite = dateFinValidite;
         this.uri = uri;
         this.version = version;
+        this.definitionCourte = definitionCourte;
     }
     public ConceptByIdModelSwagger(String dateCreation, String dateMiseAjour, String statutValidation, String id,  String dateFinValidite, String uri, String version) {
         this.dateCreation = dateCreation;
         this.dateMiseAjour = dateMiseAjour;
-
         this.statutValidation = statutValidation;
         this.id = id;
         this.dateFinValidite = dateFinValidite;
@@ -82,10 +86,9 @@ public class ConceptByIdModelSwagger implements Serializable
         this.version = version;
     }
 
-    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAjour,  String statutValidation, String id, List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version, ConceptSDMX[] conceptsSDMXArray) {
+    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAjour,  String statutValidation, String id, List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version, ConceptSDMX[] conceptsSDMXArray, List<ConceptDefCourte> definitionCourte) {
         this.dateCreation = dateCreation;
         this.dateMiseAjour = dateMiseAjour;
-
         this.statutValidation = statutValidation;
         this.id = id;
         this.labelConcept = labelConcept;
@@ -93,12 +96,12 @@ public class ConceptByIdModelSwagger implements Serializable
         this.uri = uri;
         this.version = version;
         this.conceptsSDMX = conceptsSDMXArray;
+        this.definitionCourte = definitionCourte;
     }
 
     public ConceptByIdModelSwagger(String dateCreation, String dateMiseAjour,  String statutValidation, String id,  String dateFinValidite, String uri, String version, ConceptSDMX[] conceptsSDMXArray) {
         this.dateCreation = dateCreation;
         this.dateMiseAjour = dateMiseAjour;
-
         this.statutValidation = statutValidation;
         this.id = id;
         this.dateFinValidite = dateFinValidite;
@@ -118,6 +121,7 @@ public class ConceptByIdModelSwagger implements Serializable
      * @param dateFinValidite
      * @param uri
      * @param version
+     * @param definitionCourte
      */
 
 
@@ -229,6 +233,23 @@ public class ConceptByIdModelSwagger implements Serializable
     @JsonProperty("version")
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    @JsonProperty("conceptsSDMX")
+    public ConceptSDMX[] getConceptsSDMX() {
+        return conceptsSDMX;
+    }
+    @JsonProperty("conceptsSDMX")
+    public void setConceptsSDMX(ConceptSDMX[] conceptsSDMX) {
+        this.conceptsSDMX = conceptsSDMX;
+    }
+    @JsonProperty("definitionCourte")
+    public List<ConceptDefCourte> getDefinitionCourte() {
+        return definitionCourte;
+    }
+    @JsonProperty("definitionCourte")
+    public void setDefinitionCourte(List<ConceptDefCourte> definitionCourte) {
+        this.definitionCourte = definitionCourte;
     }
 
     public ConceptByIdModelSwagger withVersion(String version) {
