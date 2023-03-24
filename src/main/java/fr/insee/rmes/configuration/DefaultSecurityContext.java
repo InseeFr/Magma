@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled=false, prePostEnabled = true)
-@ConditionalOnProperty(name = "fr.insee.rmes.magma.envir", havingValue = "dev", matchIfMissing = true)
+@ConditionalOnExpression("!'PROD'.equals('${fr.insee.rmes.magma.envir}')")
 public class DefaultSecurityContext extends WebSecurityConfigurerAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultSecurityContext.class);
