@@ -7,6 +7,8 @@ import org.eclipse.rdf4j.model.impl.SimpleNamespace;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 public class PAV {
+
+	private PAV(){}
 	
 	public static final String NAMESPACE = "http://purl.org/pav/";
 

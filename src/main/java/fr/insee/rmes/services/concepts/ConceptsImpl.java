@@ -22,15 +22,16 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 @Service
 public class ConceptsImpl extends RdfService implements ConceptsServices {
 
-	
-	
-	@Override
+
+    private static final String CONCEPTS_GRAPH = "CONCEPTS_GRAPH";
+
+    @Override
     public String getDetailedConcept(String id) throws RmesException, JsonProcessingException {
         HashMap<String, Object> params = new HashMap<>();
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
         params.put("ID", id);
-        params.put("CONCEPTS_GRAPH", Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
+        params.put(CONCEPTS_GRAPH, Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
 
         JSONObject concept = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getDetailedConcept.ftlh", params));
         ObjectMapper jsonResponse = new ObjectMapper();
@@ -63,7 +64,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
         params.put("ID", id);
-        params.put("CONCEPTS_GRAPH", Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
+        params.put(CONCEPTS_GRAPH, Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
 
         JSONObject concept = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getDetailedConceptDateMAJ.ftlh", params));
         ObjectMapper jsonResponse = new ObjectMapper();
@@ -81,7 +82,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         HashMap<String, Object> params = new HashMap<>();
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
-        params.put("CONCEPTS_GRAPH", Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
+        params.put(CONCEPTS_GRAPH, Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
         JSONArray conceptLists= repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getAllConcepts.ftlh", params));
         return conceptLists.toString();
     }

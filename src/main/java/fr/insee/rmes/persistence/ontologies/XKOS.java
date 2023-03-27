@@ -14,6 +14,8 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
  */
 public class XKOS {
 
+	private XKOS(){}
+
 	/**
 	 * The XKOS namespace: http://rdf-vocabulary.ddialliance.org/xkos#
 	 */

@@ -7,6 +7,8 @@ import org.eclipse.rdf4j.model.impl.SimpleNamespace;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 public class SDMX_MM {
+
+	private SDMX_MM(){}
 	/**
 	 * The namespace
 	 */

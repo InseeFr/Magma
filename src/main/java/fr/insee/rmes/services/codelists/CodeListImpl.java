@@ -15,12 +15,10 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 
 @Service
 public class CodeListImpl extends RdfService implements CodeListsServices {
-
-    private static final String DATE_MISE_A_JOUR = "dateMiseAJour";
 	private static final String STATUT_VALIDATION = "statutValidation";
-	private static final String DEFAULT_DATE = "2020-01-01T00:00:00.000";
+    private static final String NOTATION = "NOTATION";
 
-	@Override
+    @Override
     public String getAllCodesLists() throws RmesException {
         Map<String, Object> params = initParams();
 
@@ -41,7 +39,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
     @Override
     public String getCodesList(String notation) throws RmesException {
         Map<String, Object> params = initParams();
-        params.put("NOTATION", notation);
+        params.put(NOTATION, notation);
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
 
@@ -70,7 +68,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
     private JSONArray getCodes(String notation) throws RmesException {
         HashMap<String, Object> params = new HashMap<>();
         params.put("CODELIST_GRAPH", Config.BASE_GRAPH + config.getCodelistGraph());
-        params.put("NOTATION", notation);
+        params.put(NOTATION, notation);
         params.put("LG1", config.getLG1());
         params.put("LG2", config.getLG2());
 
@@ -162,7 +160,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
     @Override
     public String getCodesListDateMiseAJour(String notation) throws RmesException{
         Map<String, Object> params = initParams();
-        params.put("NOTATION", notation);
+        params.put(NOTATION, notation);
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
 
@@ -172,8 +170,6 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
             String validationState = codesList.getString(STATUT_VALIDATION);
             codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
         }
-
-//        codesList.put("codes", this.getCodes(notation));
 
         return codesList.toString();
     }

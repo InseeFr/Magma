@@ -18,8 +18,6 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 @Service
 public abstract class RdfService {
 
-
-    private static final Logger LOG = LoggerFactory.getLogger(RdfService.class);
 	
 	@Autowired
 	protected RepositoryGestion repoGestion;

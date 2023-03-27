@@ -12,7 +12,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.PKIXParameters;
 
 
-class keystoreTest {
+class KeystoreTest {
 
 
     @Test

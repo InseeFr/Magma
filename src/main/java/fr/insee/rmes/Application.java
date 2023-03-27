@@ -30,7 +30,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 
 @SpringBootApplication
-
 public class Application extends SpringBootServletInitializer {
 
 	private static final String PROPERTIES_FILENAME = "rmeswsgi";
@@ -81,7 +80,7 @@ public class Application extends SpringBootServletInitializer {
 		ResourceBundle rb = ResourceBundle.getBundle(filename);
 		List<String> properties = rb.keySet().stream().collect(Collectors.toList());
 		Collections.sort(properties);
-		LOG.info("=============== Properties values from file "+filename+"================");
+		LOG.info("=============== Properties values from file {} ================", filename);
 		properties.forEach(key -> LOG.info("{} = {}", key, printValueWithoutPassword(key)));
 		LOG.info("==========================================================================");
 	}
