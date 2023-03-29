@@ -1,0 +1,8 @@
+fr:
+  insee:
+    rmes:
+      magma:
+        envir: QF
+        force:
+          ssl: false
+
