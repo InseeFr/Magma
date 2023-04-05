@@ -85,8 +85,8 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
         ArrayList<JSONObject> FormattedCodeAndChildrenMapping = getFormattedCodeAndChildrenMapping(codes, levels);
 
-        JSONObject formattedCodes = FormattedCodeAndChildrenMapping.get(1);
-        JSONObject childrenMapping = FormattedCodeAndChildrenMapping.get(0);
+        JSONObject formattedCodes = FormattedCodeAndChildrenMapping.get(0);
+        JSONObject childrenMapping = FormattedCodeAndChildrenMapping.get(1);
 
         JSONArray result =  getResult(formattedCodes, childrenMapping, codes);
 
@@ -162,7 +162,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
                 formattedCodes.put(code.getString(Constants.URI), code);
             }
         }
-        ArrayList <JSONObject> rep = new ArrayList<>();
+        ArrayList<JSONObject> rep = new ArrayList<>();
         rep.add(formattedCodes);
         rep.add(childrenMapping);
 
