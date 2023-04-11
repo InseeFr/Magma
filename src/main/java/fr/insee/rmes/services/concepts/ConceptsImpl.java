@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.insee.rmes.model.concept.ConceptDefCourte;
 import fr.insee.rmes.modelSwagger.concept.ConceptByIdModelSwagger;
 import fr.insee.rmes.modelSwagger.concept.LabelConcept;
 import fr.insee.rmes.model.concept.ConceptById;
@@ -23,7 +24,9 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 public class ConceptsImpl extends RdfService implements ConceptsServices {
 
 
+
     private static final String CONCEPTS_GRAPH = "CONCEPTS_GRAPH";
+
 
     @Override
     public String getDetailedConcept(String id) throws RmesException, JsonProcessingException {
@@ -34,6 +37,18 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         params.put(CONCEPTS_GRAPH, Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
 
         JSONObject concept = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getDetailedConcept.ftlh", params));
+        JSONObject defcourtefr = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptDefCourteFR.ftlh", params));
+        JSONObject defcourteen = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptDefCourteEN.ftlh", params));
+
+        ConceptDefCourte defCourtesFR = new ConceptDefCourte((String) defcourtefr.get("contenu"),Config.LG1);
+        ConceptDefCourte defCourteEN = new ConceptDefCourte((String) defcourteen.get("contenu"),Config.LG2);
+        List <ConceptDefCourte> defCourtes = new ArrayList<>();
+        defCourtes.add(defCourtesFR);
+        defCourtes.add(defCourteEN);
+
+
+
+
         ObjectMapper jsonResponse = new ObjectMapper();
         ConceptById conceptById = jsonResponse.readValue(concept.toString(), ConceptById.class);
 
@@ -44,15 +59,17 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
             labelConcepts.add(labelConcept1);
             labelConcepts.add(labelConcept2);   }
 
-        JSONObject sdmx = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptsSdmx.ftlh", params));
+
+
+        JSONArray sdmxArray = repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptsSdmx.ftlh", params));
         ObjectMapper mapper = new ObjectMapper();
-        if(sdmx.length() > 0){
+        if(sdmxArray.length() > 0){
             ObjectMapper jsonResponse2 = new ObjectMapper();
-            ConceptSDMX conceptSDMX = jsonResponse2.readValue(sdmx.toString(), ConceptSDMX.class);
-            ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAjour(),conceptById.getStatutValidation(),conceptById.getId(),labelConcepts,conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion(),conceptSDMX);
+            ConceptSDMX[] conceptsSDMX = jsonResponse2.readValue(sdmxArray.toString(), ConceptSDMX[].class);
+            ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAjour(),conceptById.getStatutValidation(),conceptById.getId(),labelConcepts,conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion(),conceptsSDMX, defCourtes);
             return mapper.writeValueAsString(conceptByIdModelSwagger);
         } else {
-            ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAjour(),conceptById.getStatutValidation(),conceptById.getId(),labelConcepts,conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion());
+            ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAjour(),conceptById.getStatutValidation(),conceptById.getId(),labelConcepts,conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion(), defCourtes);
             return mapper.writeValueAsString(conceptByIdModelSwagger);
         }
 
@@ -86,5 +103,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         JSONArray conceptLists= repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getAllConcepts.ftlh", params));
         return conceptLists.toString();
     }
+
+
 
 }
