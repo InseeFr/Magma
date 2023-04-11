@@ -29,7 +29,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping(value="/",produces = {"application/json"})
-@Tag(name = "Pogues", description = "Consultation Gestion API - Pogues")
+@Tag(name = "Series-Opérations", description = "Consultation des Séries et Opérations de la base de gestion")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success",content = {@Content }),
         @ApiResponse(responseCode = "404", description = "Not found",content = {@Content }),
@@ -43,7 +43,7 @@ public class PoguesResources {
 
     @GetMapping("/operations/series")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(operationId = "getAllCodesLists", summary = "Get all series",security = @SecurityRequirement(name = "bearerScheme"),
+    @Operation(operationId = "getAllSeries", summary = "Get all series",security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdModelSwagger.class)))})
     public ResponseEntity<String> getAllSeriesLists(@Parameter(
             description = "param for survey only",
@@ -61,7 +61,7 @@ public class PoguesResources {
 
     @GetMapping("/operations/serie/{id}/")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(operationId = "getCodeList", summary = "Get one serie",security = @SecurityRequirement(name = "bearerScheme"),
+    @Operation(operationId = "getSerieById", summary = "Get one serie",security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdModelSwagger.class)))})
 
     public ResponseEntity<String> getCodeList(@PathVariable("id") String id) throws RmesException, IOException {
