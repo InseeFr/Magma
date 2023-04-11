@@ -86,8 +86,6 @@ public class Constants {
 		public static final String PUBLISHER = "publisher";
 		public static final String PUBLISHERS = "publishers";
 
-	    public static final String ORGANISATIONS_QUERIES_PATH = "organisations/";
-
 
 		/*R*/
 		public static final String RANGE_TYPE = "rangeType";

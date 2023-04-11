@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.json.JSONArray;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -22,8 +21,7 @@ import org.json.JSONArray;
         "id",
         "dateFinValidite",
         "uri",
-        "version",
-        "defcourte"
+        "version"
 })
 @Generated("jsonschema2pojo")
 public class ConceptById implements Serializable{
@@ -45,8 +43,6 @@ public class ConceptById implements Serializable{
     private String uri;
     @JsonProperty("version")
     private String version;
-
-
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -83,7 +79,6 @@ public class ConceptById implements Serializable{
         this.uri = uri;
         this.version = version;
     }
-
 
     @JsonProperty("dateCreation")
     public String getDateCreation() {
