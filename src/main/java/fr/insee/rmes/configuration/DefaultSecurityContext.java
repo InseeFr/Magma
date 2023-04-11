@@ -1,15 +1,12 @@
 package fr.insee.rmes.configuration;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
-import java.util.List;
-import java.util.Optional;
-
+import fr.insee.rmes.utils.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -20,14 +17,15 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import fr.insee.rmes.utils.config.Config;
-//import fr.insee.rmes.config.auth.user.User;
-//import fr.insee.rmes.config.auth.user.UserProvider;
+import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled=false, prePostEnabled = true)
-@ConditionalOnMissingBean(SecurityConfiguration.class)
+@ConditionalOnExpression("!'PROD'.equals('${fr.insee.rmes.magma.envir}')")
 public class DefaultSecurityContext extends WebSecurityConfigurerAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultSecurityContext.class);
@@ -63,9 +61,5 @@ public class DefaultSecurityContext extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-//    @Bean
-//    public UserProvider getUserProvider() {
-//        return auth -> new User();
-//    }
 
 }

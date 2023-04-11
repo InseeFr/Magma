@@ -22,8 +22,6 @@ public class ConfigOpenApi {
 
     @Value("${fr.insee.rmes.magma.api.host}")
     public String apiScheme;
-
-    private final String SCHEMEKEYCLOAK = "oAuthScheme";
     private final String SCHEMEKEYCLOAKBEARER= "bearerScheme";
     @Bean
     public OpenAPI customOpenAPIKeycloak() {
@@ -37,12 +35,6 @@ public class ConfigOpenApi {
                                 .bearerFormat("JWT")
                 )
         ) ;
-//   openapi.components(new Components().addSecuritySchemes(SCHEMEKEYCLOAK, new SecurityScheme()
-//                .type(SecurityScheme.Type.OAUTH2).in(SecurityScheme.In.HEADER).description("Authentification keycloak")
-//                .flows(new OAuthFlows().authorizationCode(new OAuthFlow()
-//                        .authorizationUrl(keycloakUrl + "/realms/" + realmName + "/protocol/openid-connect/auth")
-//                        .tokenUrl(keycloakUrl + "/realms/" + realmName + "/protocol/openid-connect/token")
-//                        .refreshUrl(keycloakUrl + "/realms/" + realmName + "/protocol/openid-connect/token")))));
         return openapi;
     }
 

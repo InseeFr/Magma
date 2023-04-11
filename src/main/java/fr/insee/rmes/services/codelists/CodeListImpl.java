@@ -17,10 +17,10 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 @Service
 public class CodeListImpl extends RdfService implements CodeListsServices {
 
-
     private static final String DATE_MISE_A_JOUR = "dateMiseAJour";
     private static final String STATUT_VALIDATION = "statutValidation";
     private static final String DEFAULT_DATE = "2020-01-01T00:00:00.000";
+    private static final String NOTATION = "NOTATION";
 
     @Override
     public String getAllCodesLists() throws RmesException {
@@ -42,7 +42,9 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
     @Override
     public String getCodesList(String notation) throws RmesException {
+
         Map<String, Object> params = initParamsNotation(notation);
+
         JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesList.ftlh", params));
 
         codesList.put("label", this.formatLabel(codesList));
@@ -197,7 +199,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
     @Override
     public String getCodesListDateMiseAJour(String notation) throws RmesException{
         Map<String, Object> params = initParams();
-        params.put("NOTATION", notation);
+        params.put(NOTATION, notation);
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
 
@@ -207,8 +209,6 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
             String validationState = codesList.getString(STATUT_VALIDATION);
             codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
         }
-
-//        codesList.put("codes", this.getCodes(notation));
 
         return codesList.toString();
     }

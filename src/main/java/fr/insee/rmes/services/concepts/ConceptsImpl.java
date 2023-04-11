@@ -23,6 +23,7 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 public class ConceptsImpl extends RdfService implements ConceptsServices {
 
 
+    private static final String CONCEPTS_GRAPH = "CONCEPTS_GRAPH";
 
     @Override
     public String getDetailedConcept(String id) throws RmesException, JsonProcessingException {
@@ -30,7 +31,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
         params.put("ID", id);
-        params.put("CONCEPTS_GRAPH", Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
+        params.put(CONCEPTS_GRAPH, Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
 
         JSONObject concept = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getDetailedConcept.ftlh", params));
         ObjectMapper jsonResponse = new ObjectMapper();
@@ -42,12 +43,13 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         if (labelConcept1.getLangue() !=null) {
             labelConcepts.add(labelConcept1);
             labelConcepts.add(labelConcept2);   }
-        JSONArray sdmxArray = repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptsSdmx.ftlh", params));
+
+        JSONObject sdmx = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptsSdmx.ftlh", params));
         ObjectMapper mapper = new ObjectMapper();
-        if(sdmxArray.length() > 0){
+        if(sdmx.length() > 0){
             ObjectMapper jsonResponse2 = new ObjectMapper();
-            ConceptSDMX[] conceptsSDMX =jsonResponse2.readValue(sdmxArray.toString(), ConceptSDMX[].class);
-            ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAjour(),conceptById.getStatutValidation(),conceptById.getId(),labelConcepts,conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion(),conceptsSDMX);
+            ConceptSDMX conceptSDMX = jsonResponse2.readValue(sdmx.toString(), ConceptSDMX.class);
+            ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAjour(),conceptById.getStatutValidation(),conceptById.getId(),labelConcepts,conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion(),conceptSDMX);
             return mapper.writeValueAsString(conceptByIdModelSwagger);
         } else {
             ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAjour(),conceptById.getStatutValidation(),conceptById.getId(),labelConcepts,conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion());
@@ -62,7 +64,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
         params.put("ID", id);
-        params.put("CONCEPTS_GRAPH", Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
+        params.put(CONCEPTS_GRAPH, Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
 
         JSONObject concept = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getDetailedConceptDateMAJ.ftlh", params));
         ObjectMapper jsonResponse = new ObjectMapper();
@@ -80,7 +82,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         HashMap<String, Object> params = new HashMap<>();
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
-        params.put("CONCEPTS_GRAPH", Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
+        params.put(CONCEPTS_GRAPH, Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
         JSONArray conceptLists= repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getAllConcepts.ftlh", params));
         return conceptLists.toString();
     }

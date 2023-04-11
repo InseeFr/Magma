@@ -8,6 +8,8 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 public class EVOC {
 
+	private EVOC(){}
+
 	public static final String NAMESPACE = "http://eurovoc.europa.eu/schema#";
 
 	/**

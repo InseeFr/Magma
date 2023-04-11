@@ -35,6 +35,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 public class StructuresResources {
 
+	private static final String NO_RESULT_FOUND = "No result found";
 	@Autowired
 	StructuresServices structuresServices;
 
@@ -45,7 +46,7 @@ public class StructuresResources {
 	public ResponseEntity <String> getAllStructures() throws RmesException {
 		String jsonResult = structuresServices.getAllStructures();
 		if(jsonResult.isEmpty()){
-			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("No result found");
+			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body(NO_RESULT_FOUND);
 		}else {
 			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
 		}
@@ -63,7 +64,7 @@ public class StructuresResources {
 		if (!boolDateMiseAJour){
 			String jsonResult = structuresServices.getStructure(id);
 			if(jsonResult.isEmpty()){
-				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("No result found");
+				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body(NO_RESULT_FOUND);
 			}else {
 				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
 			}
@@ -71,7 +72,7 @@ public class StructuresResources {
 		else {
 			String jsonResult = structuresServices.getStructureDateMAJ(id);
 			if(jsonResult.isEmpty()){
-				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("No result found");
+				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body(NO_RESULT_FOUND);
 			}else {
 				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
 			}

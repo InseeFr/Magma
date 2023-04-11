@@ -8,6 +8,8 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 public class DCTERMS {
 
+	private DCTERMS(){}
+
 	public static final String NAMESPACE = "http://purl.org/dc/terms/";
 
 	/**

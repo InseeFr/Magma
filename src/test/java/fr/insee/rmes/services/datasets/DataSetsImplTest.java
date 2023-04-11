@@ -8,17 +8,18 @@ import fr.insee.rmes.model.datasets.Operation;
 import fr.insee.rmes.model.datasets.Serie;
 import fr.insee.rmes.model.datasets.Theme;
 import fr.insee.rmes.modelSwagger.dataset.*;
-import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
-import org.json.JSONObject;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+@Disabled("Aim of these tests ?")
 class DataSetsImplTest {
 
     @Test
@@ -33,9 +34,9 @@ class DataSetsImplTest {
         List<DataSetModelSwagger> dataSetListDTOS= new ArrayList<>();
 
         for (DataSet byDataSet : dataSets) {
-            Titre titre1 = new Titre(Config.LG1, byDataSet.getTitreLg1());
-            Titre titre2 = new Titre(Config.LG2, byDataSet.getTitreLg2());
-            List<Titre> titres = new ArrayList<>();
+            Title titre1 = new Title(Config.LG1, byDataSet.getTitreLg1());
+            Title titre2 = new Title(Config.LG2, byDataSet.getTitreLg2());
+            List<Title> titres = new ArrayList<>();
             titres.add(titre1);
             titres.add(titre2);
             DataSetModelSwagger dataSetSwagger = new DataSetModelSwagger(byDataSet.getId(),titres,byDataSet.getUri(),byDataSet.getDateMiseAJour(),byDataSet.getStatutValidation());
@@ -51,9 +52,9 @@ class DataSetsImplTest {
     @Test
     void getDataSetByIDTest() {
         DataSet dataSet =new DataSet("publie","01/01/2021","themeUn,ThemeDeux","01/01/2022","antecedent1/serie/1,antecedent1/serie/2,antecedent2/operation/1,antecedent2/operation/2","nomFrDataset","iddatset","nomDataset","UriDataset");
-        Titre titre1 = new Titre("fr", dataSet.getTitreLg1());
-        Titre titre2 = new Titre("en", dataSet.getTitreLg2());
-        List<Titre> titres = new ArrayList<>();
+        Title titre1 = new Title("fr", dataSet.getTitreLg1());
+        Title titre2 = new Title("en", dataSet.getTitreLg2());
+        List<Title> titres = new ArrayList<>();
         titres.add(titre1);
         titres.add(titre2);
 

@@ -9,6 +9,8 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import fr.insee.rmes.utils.Constants;
 
 public class INSEE {
+
+	private INSEE(){}
 	
 	public static final String NAMESPACE = "http://rdf.insee.fr/def/base#";
 

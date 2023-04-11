@@ -7,6 +7,9 @@ import org.eclipse.rdf4j.model.impl.SimpleNamespace;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 public class ORG {
+
+	private ORG(){}
+
 	/**
 	 * The ORG namespace: http://www.w3.org/ns/org#
 	 */

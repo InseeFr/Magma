@@ -17,14 +17,14 @@ import fr.insee.rmes.model.concept.ConceptSDMX;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "dateCreation",
-        "dateMiseAjour",
-        "statutValidation",
-        "id",
-        "label",
-        "dateFinValidite",
-        "uri",
-        "version"
+    "dateCreation",
+    "dateMiseAjour",
+    "statutValidation",
+    "id",
+    "label",
+    "dateFinValidite",
+    "uri",
+    "version"
 })
 @Generated("jsonschema2pojo")
 public class ConceptByIdModelSwagger implements Serializable
@@ -47,7 +47,7 @@ public class ConceptByIdModelSwagger implements Serializable
     @JsonProperty("version")
     private String version;
     @JsonProperty("conceptsSdmx")
-    private ConceptSDMX[] conceptsSDMX;
+    private ConceptSDMX conceptSDMX;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -55,7 +55,7 @@ public class ConceptByIdModelSwagger implements Serializable
 
     /**
      * No args constructor for use in serialization
-     *
+     * 
      */
     public ConceptByIdModelSwagger() {
     }
@@ -82,7 +82,7 @@ public class ConceptByIdModelSwagger implements Serializable
         this.version = version;
     }
 
-    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAjour,  String statutValidation, String id, List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version, ConceptSDMX[] conceptsSDMXArray) {
+    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAjour,  String statutValidation, String id, List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version, ConceptSDMX conceptSDMX) {
         this.dateCreation = dateCreation;
         this.dateMiseAjour = dateMiseAjour;
 
@@ -92,10 +92,10 @@ public class ConceptByIdModelSwagger implements Serializable
         this.dateFinValidite = dateFinValidite;
         this.uri = uri;
         this.version = version;
-        this.conceptsSDMX = conceptsSDMXArray;
+        this.conceptSDMX = conceptSDMX;
     }
 
-    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAjour,  String statutValidation, String id,  String dateFinValidite, String uri, String version, ConceptSDMX[] conceptsSDMXArray) {
+    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAjour,  String statutValidation, String id,  String dateFinValidite, String uri, String version, ConceptSDMX conceptSDMX) {
         this.dateCreation = dateCreation;
         this.dateMiseAjour = dateMiseAjour;
 
@@ -104,11 +104,11 @@ public class ConceptByIdModelSwagger implements Serializable
         this.dateFinValidite = dateFinValidite;
         this.uri = uri;
         this.version = version;
-        this.conceptsSDMX = conceptsSDMXArray;
+        this.conceptSDMX = conceptSDMX;
     }
 
     /**
-     *
+     * 
      * @param dateCreation
      * @param dateMiseAjour
      * @param prefLabelLg1
