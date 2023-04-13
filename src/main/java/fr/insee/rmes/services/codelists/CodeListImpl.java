@@ -1,18 +1,17 @@
 package fr.insee.rmes.services.codelists;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.stereotype.Service;
-
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 @Service
 public class CodeListImpl extends RdfService implements CodeListsServices {
@@ -72,7 +71,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
     public Map<String, Object> initParamsNotation(String notation) {
         Map<String, Object> params = new HashMap<>();
         params.put("CODELIST_GRAPH", Config.BASE_GRAPH+Config.CODELIST_GRAPH);
-        params.put("NOTATION", notation);
+        params.put(NOTATION, notation);
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
         return params;
@@ -106,7 +105,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
             JSONObject code = codes.getJSONObject(i);
 
             HashMap<String, Object> closeMatchParams = new HashMap<>();
-            closeMatchParams.put("CONCEPTS_GRAPH", Config.BASE_GRAPH + config.getCodelistGraph());
+            closeMatchParams.put("CONCEPTS_GRAPH", Config.BASE_GRAPH + Config.getCodelistGraph());
             closeMatchParams.put("CONCEPT_ID", code.getString("code"));
             JSONArray closeMatch = repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCloseMatch.ftlh", closeMatchParams));
 

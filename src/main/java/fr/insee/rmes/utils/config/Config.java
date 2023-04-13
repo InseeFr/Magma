@@ -11,6 +11,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 @Component
 
 @PropertySource("classpath:rmeswsgi-magma.properties")
@@ -69,6 +71,7 @@ public class Config {
 		return requiresSsl;
 	}
 
+	@PostConstruct
 	public void init() {
 		CONCEPTS_BASE_URI = env.getProperty("fr.insee.rmes.magma.concepts.baseURI");
 		STRUCTURES_BASE_URI = env.getProperty("fr.insee.rmes.magma.structures.baseURI");
@@ -150,7 +153,7 @@ public class Config {
 		return DATASETS_GRAPH;
 	}
 
-	public String getCodelistGraph() {
+	public static String getCodelistGraph() {
 		return CODELIST_GRAPH;
 	}
 

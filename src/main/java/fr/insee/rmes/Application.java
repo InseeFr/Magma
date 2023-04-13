@@ -38,9 +38,6 @@ public class Application extends SpringBootServletInitializer {
 
 	@Autowired
 	private Environment env;
-	
-	@Autowired
-	private Config config;
 
 	public static void main(String[] args) {
 		System.setProperty("spring.config.name", PROPERTIES_FILENAME);
@@ -73,7 +70,6 @@ public class Application extends SpringBootServletInitializer {
 		printPropertiesInLog(PROPERTIES_FILENAME);
 		printPropertiesInLog("rmeswsgi-magma");
 		//init Config class
-		config.init();
 	}
 
 	private void printPropertiesInLog(String filename) {

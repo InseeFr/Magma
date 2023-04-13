@@ -1,19 +1,14 @@
 package fr.insee.rmes.persistence;
 
-import java.util.Map;
-
-
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import fr.insee.rmes.model.ValidationStatus;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public abstract class RdfService {
@@ -22,7 +17,7 @@ public abstract class RdfService {
 	@Autowired
 	protected RepositoryGestion repoGestion;
 
-    @Autowired
+    @Autowired(required = false)
     protected Config config;
 	
     protected static String buildRequest(String path, String fileName, Map<String, Object> params) throws RmesException {

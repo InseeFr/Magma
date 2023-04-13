@@ -24,15 +24,13 @@ public class RmesException extends Exception {
 	 * @param details
 	 */
 	public RmesException(int status, String message, String details) {
-		super();
+		super("Error "+status+" : "+message);
 		this.status = status;
 		this.details = createDetails(null, message, details);		
 	}
 
 	public RmesException(int status, String message, JSONArray details) {
-		super();
-		this.status = status;
-		this.details = createDetails(null, message, details.toString());
+		this(status,message, details.toString());
 	}
 
 	public RmesException(int status, int errorCode, String message, String details) {
