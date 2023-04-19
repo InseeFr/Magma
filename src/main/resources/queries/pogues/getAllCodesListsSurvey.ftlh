@@ -11,7 +11,9 @@
            		FILTER (lang(?seriesLabelLg1) = '${LG1}')
            		?series skos:prefLabel ?seriesLabelLg2 .
            		FILTER (lang(?seriesLabelLg2) = '${LG2}')
-				
+
+ 				?series dc:creator ?creator .
+
            		?series dcterms:isPartOf ?family .  
            		?family a insee:StatisticalOperationFamily .  
            		?family skos:prefLabel ?familyLabelLg1 .  
