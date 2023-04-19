@@ -114,8 +114,8 @@ class PoguesImplTest {
 
     @Test
     void getAllSeriesListsTest() throws JsonProcessingException {
-        SerieModel Series1 = new SerieModel("type","famille","frequenceId","periodicityLabelLg2","periodicityLabelLg1","serieUri","typeLabelLg1","typeLabelLg2","frequence","typeId","idserie","serieLabelLg1","serieAltLabelLg1","un nombre","famille","familyLabelLg1","serieAltLabelLg2","familyLabelLg2","serieLabelLg2");
-        SerieModel Series2 = new SerieModel("type","famille","frequenceId","periodicityLabelLg2","periodicityLabelLg1","serieUri","typeLabelLg1","typeLabelLg2","frequence","typeId","idserie","serieLabelLg1","serieAltLabelLg1","un nombre","famille","familyLabelLg1","serieAltLabelLg2","familyLabelLg2","serieLabelLg2");
+        SerieModel Series1 = new SerieModel("type","famille","frequenceId","periodicityLabelLg2","periodicityLabelLg1","serieUri","typeLabelLg1","typeLabelLg2","frequence","typeId","idserie","serieLabelLg1","serieAltLabelLg1","un nombre","famille","familyLabelLg1","serieAltLabelLg2","familyLabelLg2","serieLabelLg2","proprietaire");
+        SerieModel Series2 = new SerieModel("type","famille","frequenceId","periodicityLabelLg2","periodicityLabelLg1","serieUri","typeLabelLg1","typeLabelLg2","frequence","typeId","idserie","serieLabelLg1","serieAltLabelLg1","un nombre","famille","familyLabelLg1","serieAltLabelLg2","familyLabelLg2","serieLabelLg2","proprietaire");
         ArrayList<SerieModel> listSeries= new ArrayList <SerieModel>();
         listSeries.add(Series1);
         listSeries.add(Series2);

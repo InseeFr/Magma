@@ -33,7 +33,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "familyLabelLg1",
     "seriesAltLabelLg2",
     "familyLabelLg2",
-    "seriesLabelLg2"
+    "seriesLabelLg2",
+    "proprietaire"
 })
 @Generated("jsonschema2pojo")
 public class SerieModel implements Serializable
@@ -77,6 +78,8 @@ public class SerieModel implements Serializable
     private String familyLabelLg2;
     @JsonProperty("seriesLabelLg2")
     private String seriesLabelLg2;
+    @JsonProperty("proprietaire")
+    private String proprietaire;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -110,8 +113,9 @@ public class SerieModel implements Serializable
      * @param seriesAltLabelLg2
      * @param familyLabelLg2
      * @param seriesLabelLg2
+     * @param proprietaire
      */
-    public SerieModel(String type, String familyId, String periodicityId, String periodicityLabelLg2, String periodicityLabelLg1, String series, String typeLabelLg1, String typeLabelLg2, String periodicity, String typeId, String id, String seriesLabelLg1, String seriesAltLabelLg1, String nbOperation, String family, String familyLabelLg1, String seriesAltLabelLg2, String familyLabelLg2, String seriesLabelLg2) {
+    public SerieModel(String type, String familyId, String periodicityId, String periodicityLabelLg2, String periodicityLabelLg1, String series, String typeLabelLg1, String typeLabelLg2, String periodicity, String typeId, String id, String seriesLabelLg1, String seriesAltLabelLg1, String nbOperation, String family, String familyLabelLg1, String seriesAltLabelLg2, String familyLabelLg2, String seriesLabelLg2, String proprietaire) {
         super();
         this.type = type;
         this.familyId = familyId;
@@ -132,6 +136,7 @@ public class SerieModel implements Serializable
         this.seriesAltLabelLg2 = seriesAltLabelLg2;
         this.familyLabelLg2 = familyLabelLg2;
         this.seriesLabelLg2 = seriesLabelLg2;
+        this.proprietaire = proprietaire;
     }
 
     @JsonProperty("type")
@@ -142,6 +147,19 @@ public class SerieModel implements Serializable
     @JsonProperty("type")
     public void setType(String type) {
         this.type = type;
+    }
+
+    @JsonProperty("proprietaire")
+    public String getProprietaire() {
+        return proprietaire;
+    }
+    @JsonProperty("proprietaire")
+    public void setProprietaire(String proprietaire) {
+        this.proprietaire = proprietaire;
+    }
+
+    public void setAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
     }
 
     public SerieModel withType(String type) {
