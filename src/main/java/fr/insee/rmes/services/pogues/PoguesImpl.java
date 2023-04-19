@@ -188,7 +188,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
             List<Label> labelOperation = new ArrayList<>();
                 labelOperation.add(labelOperation1);
                 labelOperation.add(labelOperation2);
-        OperationByIdModelSwagger operationByIdModelSwagger= new OperationByIdModelSwagger(serie,operationById.getId(),labelOperation, operationById.getUri());
+        OperationByIdModelSwagger operationByIdModelSwagger= new OperationByIdModelSwagger(serie,operationById.getId(),labelOperation, operationById.getUri(),operationById.getProprietaire());
 
         return mapper.writeValueAsString(operationByIdModelSwagger);
 

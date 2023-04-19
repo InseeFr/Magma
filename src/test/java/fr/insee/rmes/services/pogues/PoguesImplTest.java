@@ -20,7 +20,7 @@ class PoguesImplTest {
     @Test
     void getOperationByCodeTest() throws JsonProcessingException {
 
-        OperationById operationById= new OperationById("serie","idoperation","operationLabelLg1","operationLabelLg2","serieLabelLg1","uri","serieId","serieLabelLg2");
+        OperationById operationById= new OperationById("serie","idoperation","operationLabelLg1","operationLabelLg2","serieLabelLg1","uri","serieId","serieLabelLg2","proprietaire");
         ObjectMapper mapper = new ObjectMapper();
         Label labelSerie1= new Label(Config.LG1, operationById.getSeriesLabelLg1());
         Label labelSerie2= new Label(Config.LG2, operationById.getSeriesLabelLg2());
@@ -33,7 +33,7 @@ class PoguesImplTest {
         List<Label> labelOperation = new ArrayList<>();
         labelOperation.add(labelOperation1);
         labelOperation.add(labelOperation2);
-        OperationByIdModelSwagger operationByIdSwagger = new OperationByIdModelSwagger(serie,operationById.getId(),labelOperation, operationById.getUri());
+        OperationByIdModelSwagger operationByIdSwagger = new OperationByIdModelSwagger(serie,operationById.getId(),labelOperation, operationById.getUri(), operationById.getProprietaire());
         mapper.writeValueAsString(operationByIdSwagger);
     }
 
