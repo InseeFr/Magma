@@ -1,4 +1,4 @@
-SELECT ?id (?uriComposant as ?uri) ?type ?notation
+SELECT ?id (?uriComposant as ?uri) ?type ?idMetier
     ?dateMiseAJour ?statutValidation ?prefLabelLg1 ?prefLabelLg2
     ?uriConcept ?idConcept ?representation
     ?uriListeCode ?idListeCode
@@ -24,7 +24,7 @@ WHERE {
         BIND("Attribut" as ?type) .
     }
 
-    ?uriComposant skos:notation ?notation .
+    ?uriComposant skos:notation ?idMetier .
     ?uriComposant dcterms:modified ?dateMiseAJour .
     ?uriComposant insee:validationState ?statutValidation .
 
