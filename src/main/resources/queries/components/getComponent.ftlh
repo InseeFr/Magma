@@ -53,8 +53,6 @@ WHERE {
     OPTIONAL {
         ?uriComposant qb:codeList ?uriListeCode .
         ?uriListeCode skos:notation ?idListeCode .
-        ?uriListeCode prov:wasDerivedFrom ?uriParentListCode .
-        ?uriParentListCode skos:notation ?idParentListCode .
     }
 
     OPTIONAL {
