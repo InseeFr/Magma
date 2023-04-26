@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+
 @Service 
 public class StructuresImpl extends RdfService implements StructuresServices {
 
@@ -38,6 +39,8 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	private static final String URI_COMPONENT_PARENT_ID = "uriComponentParentId";
 	private static final String URI_LISTE_CODE = "uriListeCode";
 	private static final String REPRESENTATION = "representation";
+
+	private static final String LISTE_CODE = "ListeCode";
 	private static final String ID_LISTE_CODE = "idListeCode";
 	private static final String URI_PARENT_LISTE_CODE = "uriParentListCode";
 	private static final String ID_PARENT_LISTE_CODE = "idParentListCode";
@@ -216,7 +219,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put(STRUCTURES_COMPONENTS_GRAPH_KEY, config.getBaseGraph() + Config.STRUCTURES_COMPONENTS_GRAPH);
 		params.put(CODELIST_GRAPH_KEY, config.getBaseGraph() +config.getCodelistGraph());
-		params.put("CONCEPTS_BASE_URI", config.getBaseGraph() +config.getConceptsBaseUri());
+		params.put("CONCEPTS_BASE_URI", config.getBaseInsee() +config.getConceptsBaseUri());
 		params.put("ID", id);
 		params.put("LG1", config.getLG1());
 		params.put("LG2", config.getLG2());
@@ -248,31 +251,21 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 
 		if(component.has(URI_LISTE_CODE)){
 			component.put(REPRESENTATION, "liste de code");
-
-			JSONArray codes = getCodes(component.getString(ID_LISTE_CODE));
-			JSONObject listCode = new JSONObject();
-			listCode.put("uri", component.getString(URI_LISTE_CODE));
-			listCode.put("id", component.getString(ID_LISTE_CODE));
-			listCode.put("codes", codes);
-
-
-			if(component.has(URI_PARENT_LISTE_CODE) && component.has(ID_PARENT_LISTE_CODE)){
-				listCode.put("ParentListeCode", new JSONObject()
-						.append("id", component.getString(ID_PARENT_LISTE_CODE))
-						.append("uri", component.getString(URI_PARENT_LISTE_CODE)));
-				component.remove(URI_PARENT_LISTE_CODE);
-				component.remove(ID_PARENT_LISTE_CODE);
-			}
-			component.put("listeCode", listCode);
+			component.put(LISTE_CODE,component.getString(ID_LISTE_CODE));
 			component.remove(URI_LISTE_CODE);
 			component.remove(ID_LISTE_CODE);
 		}
 
 		if(component.has(URI_CONCEPT)){
-
 			JSONObject concept = new JSONObject();
-			concept.put("uri", component.getString(URI_CONCEPT));
 			concept.put("id", component.getString("idConcept"));
+			HashMap<String, Object> paramsSDMX = new HashMap<>();
+			paramsSDMX.put("LG1", Config.LG1);
+			paramsSDMX.put("LG2", Config.LG2);
+			paramsSDMX.put("ID", component.getString("idConcept"));
+			paramsSDMX.put("CONCEPTS_GRAPH", Config.BASE_GRAPH+ Config.CONCEPTS_GRAPH);
+			JSONObject conceptsSdmx = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptsSdmx.ftlh", paramsSDMX));;
+			concept.put("conceptsSdmx",conceptsSdmx);
 			this.addCloseMatch(concept);
 			component.put(Constants.CONCEPT, concept);
 			component.remove(URI_CONCEPT);
