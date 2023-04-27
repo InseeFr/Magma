@@ -219,7 +219,6 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put(STRUCTURES_COMPONENTS_GRAPH_KEY, config.getBaseGraph() + Config.STRUCTURES_COMPONENTS_GRAPH);
 		params.put(CODELIST_GRAPH_KEY, config.getBaseGraph() +config.getCodelistGraph());
-		params.put("CONCEPTS_BASE_URI", config.getBaseGraph() +config.getConceptsBaseUri());
 		params.put("ID", id);
 		params.put("LG1", config.getLG1());
 		params.put("LG2", config.getLG2());

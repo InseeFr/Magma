@@ -1,5 +1,5 @@
 SELECT ?id (?uriComposant as ?uri) ?type ?idMetier
-    ?dateMiseAJour ?statutValidation ?prefLabelLg1 ?prefLabelLg2
+    ?dateMiseAJour ?statutValidation ?prefLabelLg1 ?prefLabelLg2 ?altLabelLg1 ?altLabelLg2
     ?uriConcept ?idConcept ?representation
     ?uriListeCode ?idListeCode
     ?uriParentListCode ?idParentListCode
@@ -23,9 +23,7 @@ WHERE {
        ?uriComposant rdf:type qb:AttributeProperty .
         BIND("Attribut" as ?type) .
     }
-
     ?uriComposant skos:notation ?idMetier .
-    ?uriComposant dcterms:modified ?dateMiseAJour .
     ?uriComposant insee:validationState ?statutValidation .
 
     ?uriComposant rdfs:label ?prefLabelLg1 .
@@ -34,6 +32,9 @@ WHERE {
     ?uriComposant rdfs:label ?prefLabelLg2 .
     FILTER (lang(?prefLabelLg2) = '${LG2}') .
 
+    OPTIONAL {
+        ?uriComposant dcterms:modified ?dateMiseAJour .
+    }
     OPTIONAL {
         ?uriComposant skos:broader ?uriComponentParent .
         ?uriComponentParent dcterms:identifier ?uriComponentParentId .
@@ -45,7 +46,7 @@ WHERE {
     }
     OPTIONAL {
         ?uriComposant qb:concept ?uriConcept .
-        BIND(STRAFTER(STR(?uriConcept), "${CONCEPTS_BASE_URI}/") AS ?idConcept)
+        BIND(STRAFTER(STR(?uriConcept), "http://bauhaus/concepts/definition/") AS ?idConcept)
     }
     OPTIONAL {
         ?uriComposant rdfs:range ?representation .
@@ -73,5 +74,8 @@ WHERE {
     }
     OPTIONAL {
         ?uriComposant xsd:pattern ?pattern .
+    }
+    OPTIONAL {
+    ?uriComposant skos:altLabel ?nom .
     }
 }
