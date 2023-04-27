@@ -18,7 +18,6 @@ public class Config {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Config.class);
 
-
 	@Autowired
 	private Environment env;
 
@@ -30,7 +29,6 @@ public class Config {
 	public static String LG1;
 	public static String LG2;
 	public static String BASE_GRAPH;
-	public static String BASE_INSEE;
 	public static String DATASETS_GRAPH;
 	public static String CODELIST_GRAPH;
 	public static String CONCEPTS_GRAPH;
@@ -80,7 +78,6 @@ public class Config {
 		LG1 = env.getProperty("fr.insee.rmes.magma.lg1");
 		LG2 = env.getProperty("fr.insee.rmes.magma.lg2");
 		BASE_GRAPH = env.getProperty("fr.insee.rmes.magma.baseGraph");
-		BASE_INSEE = env.getProperty("fr.insee.rmes.magma.baseInsee");
 		DATASETS_GRAPH=env.getProperty("fr.insee.rmes.magma.datasets.graph") ;
 		CODELIST_GRAPH = env.getProperty("fr.insee.rmes.magma.codeLists.graph");
 		CONCEPTS_GRAPH = env.getProperty("fr.insee.rmes.magma.concepts.graph");
@@ -149,10 +146,6 @@ public class Config {
 		return BASE_GRAPH;
 	}
 
-	public String getBaseInsee() {
-		return BASE_INSEE;
-	}
-
 	public String getDatasetsGraph() {
 		return DATASETS_GRAPH;
 	}
@@ -216,7 +209,5 @@ public class Config {
 	public String getDocumentationsGeoBaseUri() {
 		return documentationsGeoBaseUri;
 	}
-
-
 
 }
