@@ -32,6 +32,12 @@ WHERE {
     ?uriComposant rdfs:label ?prefLabelLg2 .
     FILTER (lang(?prefLabelLg2) = '${LG2}') .
 
+    ?uriComposant skos:altLabel ?altLabelLg1 .
+    FILTER (lang(?altLabelLg1) = '${LG1}') .
+
+    ?uriComposant skos:altLabel ?altLabelLg2 .
+    FILTER (lang(?altLabelLg2) = '${LG2}') .
+
     OPTIONAL {
         ?uriComposant dcterms:modified ?dateMiseAJour .
     }

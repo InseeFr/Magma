@@ -26,6 +26,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	private static final String STRUCTURES_GRAPH = "STRUCTURES_GRAPH";
 	private static final String STRUCTURE_ID = "STRUCTURE_ID";
 	private static final String LABEL = "label";
+	private static final String NOM = "nom";
 	
 	private static final String ID_RELATION="idRelation";
 	private static final String ID_PARENT = "idParent";
@@ -226,6 +227,9 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		JSONObject component =  repoGestion.getResponseAsObject(buildRequest("getComponent.ftlh", params));
 
 		component.put(LABEL, this.formatLabel(component));
+		component.put(NOM,this.formatNom(component));
+		component.remove("altLabelLg1");
+		component.remove("altLabelLg2");
 		component.remove("prefLabelLg1");
 		component.remove("prefLabelLg2");
 
