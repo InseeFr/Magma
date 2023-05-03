@@ -41,7 +41,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	private static final String URI_LISTE_CODE = "uriListeCode";
 	private static final String REPRESENTATION = "representation";
 
-	private static final String LISTE_CODE = "ListeCode";
+	private static final String LISTE_CODE = "listeDeCodes";
 	private static final String ID_LISTE_CODE = "idListeCode";
 	private static final String URI_PARENT_LISTE_CODE = "uriParentListCode";
 	private static final String ID_PARENT_LISTE_CODE = "idParentListCode";
