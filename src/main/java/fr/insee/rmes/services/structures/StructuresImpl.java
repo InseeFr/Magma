@@ -253,7 +253,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		}
 
 		if(component.has(URI_LISTE_CODE)){
-			component.put(REPRESENTATION, "liste de code");
+			component.put(REPRESENTATION, component.getString(REPRESENTATION));
 			component.put(LISTE_CODE,component.getString(ID_LISTE_CODE));
 			component.remove(URI_LISTE_CODE);
 			component.remove(ID_LISTE_CODE);
