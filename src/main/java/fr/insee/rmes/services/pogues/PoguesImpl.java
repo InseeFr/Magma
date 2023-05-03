@@ -75,7 +75,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
                     labelFamille.add(labelFamille1);
                     labelFamille.add(labelFamille2);}
             Famille familleSerie= new Famille (bySerie.getFamilyId(),labelFamille,bySerie.getFamily());
-            SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,bySerie.getSeries(),bySerie.getId(),frequenceSerie,bySerie.getNbOperation(),familleSerie);
+            SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,bySerie.getSeries(),bySerie.getId(),frequenceSerie,bySerie.getNbOperation(),familleSerie, bySerie.getProprietaire());
             seriesListModelSwaggerS.add(serieByIdModelSwagger);
 
         }
@@ -188,7 +188,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
             List<Label> labelOperation = new ArrayList<>();
                 labelOperation.add(labelOperation1);
                 labelOperation.add(labelOperation2);
-        OperationByIdModelSwagger operationByIdModelSwagger= new OperationByIdModelSwagger(serie,operationById.getId(),labelOperation, operationById.getUri());
+        OperationByIdModelSwagger operationByIdModelSwagger= new OperationByIdModelSwagger(serie,operationById.getId(),labelOperation, operationById.getUri(),operationById.getProprietaire());
 
         return mapper.writeValueAsString(operationByIdModelSwagger);
 
