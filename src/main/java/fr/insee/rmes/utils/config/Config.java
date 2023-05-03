@@ -209,4 +209,5 @@ public class Config {
 	public String getDocumentationsGeoBaseUri() {
 		return documentationsGeoBaseUri;
 	}
+
 }

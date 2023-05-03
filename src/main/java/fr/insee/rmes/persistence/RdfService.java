@@ -45,6 +45,23 @@ public abstract class RdfService {
 
         return label;
     }
+
+    protected JSONArray formatNom(JSONObject obj) {
+        JSONArray nom = new JSONArray();
+
+        JSONObject lg1 = new JSONObject();
+        JSONObject lg2 = new JSONObject();
+
+        lg1.put("langue", Config.LG1);
+        lg2.put("langue", Config.LG2);
+        lg1.put("contenu", obj.getString("altLabelLg1"));
+        lg2.put("contenu", obj.getString("altLabelLg2"));
+
+        nom.put(lg1);
+        nom.put(lg2);
+
+        return nom;
+    }
     
     protected String getValidationState(String validationState){
         if(ValidationStatus.VALIDATED.toString().equalsIgnoreCase(validationState)){
