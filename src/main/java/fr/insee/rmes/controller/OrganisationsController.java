@@ -57,13 +57,12 @@ public class OrganisationsController {
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = OrganisationsModelSwagger.class)))})
 
     public ResponseEntity<String> getOrganisationById(@PathVariable("id") String id) throws RmesException, IOException {
-        String jsonResult = organisationsServices.getOrganisationById(id);
+        String jsonResult = String.valueOf(organisationsServices.getOrganisationById(id));
         if (jsonResult.isEmpty()) {
             return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
         } else {
             return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
         }
-
     }
 
 }
