@@ -13,6 +13,7 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import javax.xml.soap.SAAJResult;
 import java.util.HashMap;
@@ -176,25 +177,33 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 				component.put(ORDRE, componentSpecification.getString(ORDRE));
 			}
 			if(componentSpecification.has("attachement")){
-				component.put("attachement", componentSpecification.getString("attachment").replace(QB.NAMESPACE, ""));
+				component.put("attachement", componentSpecification.getString("attachement").replace(QB.NAMESPACE, ""));
 			}
 			if(componentSpecification.has(OBLIGATOIRE)){
 				component.put(OBLIGATOIRE, componentSpecification.getString(OBLIGATOIRE).equalsIgnoreCase("true") ? "oui": "non");
 			}
 
 			if(idComponent.startsWith("a")){
-				attributes.put(component);
+				extracted(attributes, component);
 			}
 			if(idComponent.startsWith("m")){
-				measures.put(component);
+				extracted(measures, component);
 			}
 			if(idComponent.startsWith("d")){
-				dimensions.put(component);
+				extracted(dimensions, component);
 			}
 		}
 		structure.put("attributs", attributes);
 		structure.put("mesures", measures);
 		structure.put("dimensions", dimensions);
+	}
+
+	private void extracted(JSONArray sortie, JSONObject component) {
+		JSONObject entree = component;
+		entree.remove("label");
+		entree.remove("uri");
+		entree.remove("concept");
+		sortie.put(entree);
 	}
 
 	private static final String STATUT_VALIDATION = "statutValidation";
@@ -225,6 +234,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		params.put("LG2", config.getLG2());
 
 		JSONObject component =  repoGestion.getResponseAsObject(buildRequest("getComponent.ftlh", params));
+
 
 		component.put(LABEL, this.formatLabel(component));
 		component.put(NOM,this.formatNom(component));
