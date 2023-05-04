@@ -12,7 +12,11 @@ import java.util.List;
 @JsonPropertyOrder({
         "id",
         "uri",
-        "label"
+        "label",
+        "altLabel",
+        "abreviation",
+        "uniteDe",
+        "sousTelleDe"
 })
 public class OrganisationsModelSwagger implements Serializable {
     @JsonProperty("id")
@@ -25,6 +29,15 @@ public class OrganisationsModelSwagger implements Serializable {
     @Valid
     private List<Label> labelOrganisation = null;
 
+    @JsonProperty("altlabel")
+    private List<Label> altlabelOrganisation = null;
+    @JsonProperty("abreviation")
+    private String abreviation;
+
+    @JsonProperty("uniteDe")
+    private String uniteDe;
+    @JsonProperty("sousTelleDe")
+    private String sousTelleDe;
 
     public OrganisationsModelSwagger(String organisationId,List<Label> labelOrganisation) {
         super();
@@ -49,6 +62,37 @@ public class OrganisationsModelSwagger implements Serializable {
         return uri;
     }
 
+    public List<Label> getAltlabelOrganisation() {
+        return altlabelOrganisation;
+    }
+
+    public void setAltlabelOrganisation(List<Label> altlabelOrganisation) {
+        this.altlabelOrganisation = altlabelOrganisation;
+    }
+
+    public String getAbreviation() {
+        return abreviation;
+    }
+
+    public void setAbreviation(String abreviation) {
+        this.abreviation = abreviation;
+    }
+
+    public String getUniteDe() {
+        return uniteDe;
+    }
+
+    public void setUniteDe(String uniteDe) {
+        this.uniteDe = uniteDe;
+    }
+
+    public String getSousTelleDe() {
+        return sousTelleDe;
+    }
+
+    public void setSousTelleDe(String sousTelleDe) {
+        this.sousTelleDe = sousTelleDe;
+    }
 }
 
 

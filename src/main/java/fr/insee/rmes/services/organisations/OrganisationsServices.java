@@ -10,5 +10,5 @@ import java.io.IOException;
 public interface OrganisationsServices {
 
     String getAllOrganisations() throws RmesException, IOException;
-    JSONObject getOrganisationById(String id) throws RmesException, IOException;
+    String getOrganisationById(String id) throws RmesException, IOException;
 }

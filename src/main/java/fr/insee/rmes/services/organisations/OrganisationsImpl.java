@@ -61,7 +61,7 @@ public class OrganisationsImpl extends RdfService implements OrganisationsServic
     }
 
     @Override
-    public JSONObject getOrganisationById(String id) throws RmesException, IOException {
+    public String getOrganisationById(String id) throws RmesException, IOException {
         Map<String, Object> params = initParams();
         params.put("ID", id);
 
@@ -88,22 +88,22 @@ public class OrganisationsImpl extends RdfService implements OrganisationsServic
             altlabel.add(altlabel2);
         }
         OrganisationsModelSwagger organisationsListModelSwagger= new OrganisationsModelSwagger(operationById.getId(), operationById.getUri(),label);
-        JSONObject jsonrep = new JSONObject(mapper.writeValueAsString(organisationsListModelSwagger));
+
         if (operationById.getAbreviation() != null){
-            jsonrep.put("abreviation",operationById.getAbreviation());
+            organisationsListModelSwagger.setAbreviation(operationById.getAbreviation());
         }
         if (altlabel != null){
-            jsonrep.put("altlabel",altlabel);
+            organisationsListModelSwagger.setAltlabelOrganisation(altlabel);
         }
         if (operationById.getUniteDe() != null){
-            jsonrep.put("uniteDe",operationById.getUniteDe());
+            organisationsListModelSwagger.setUniteDe(operationById.getUniteDe());
         }
         if (operationById.getSousTelleDe() != null){
-            jsonrep.put("sousTelleDe",operationById.getSousTelleDe());
+            organisationsListModelSwagger.setSousTelleDe(operationById.getSousTelleDe());
         }
 
 
-        return jsonrep;
+        return mapper.writeValueAsString(organisationsListModelSwagger);
 
     }
 

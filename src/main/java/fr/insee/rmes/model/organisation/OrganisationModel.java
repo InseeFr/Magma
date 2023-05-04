@@ -87,7 +87,7 @@ public class OrganisationModel implements Serializable {
     }
 
     public void setUniteDe(String uniteDe) {
-        uniteDe = uniteDe;
+        this.uniteDe = uniteDe;
     }
 
     public String getSousTelleDe() {
