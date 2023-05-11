@@ -34,25 +34,25 @@ public class OrganisationModel implements Serializable {
     @JsonProperty("sousTelleDe")
     private String sousTelleDe;
     @JsonProperty("prefLabelLg2")
-    private String preflabelLg2;
+    private String prefLabelLg2;
     @JsonProperty("prefLabelLg1")
-    private String preflabelLg1;
+    private String prefLabelLg1;
 
     @JsonProperty("altLabelLg2")
-    private String altlabelLg2;
+    private String altLabelLg2;
     @JsonProperty("altLabelLg1")
-    private String altlabelLg1;
+    private String altLabelLg1;
 
-    public OrganisationModel(String id, String uri,String abreviation,String preflabelLg2, String preflabelLg1, String altlabelLg1 ,String altlabelLg2, String uniteDe, String sousTelleDe) {
-        this.uri = uri;
+    public OrganisationModel(String id, String uri, String abreviation, String uniteDe, String sousTelleDe, String prefLabelLg2, String prefLabelLg1, String altLabelLg2, String altLabelLg1) {
         this.id = id;
+        this.uri = uri;
+        this.abreviation = abreviation;
         this.uniteDe = uniteDe;
         this.sousTelleDe = sousTelleDe;
-        this.abreviation = abreviation;
-        this.preflabelLg2 = preflabelLg2;
-        this.preflabelLg1 = preflabelLg1;
-        this.altlabelLg2 = altlabelLg2;
-        this.altlabelLg1 = altlabelLg1;
+        this.prefLabelLg2 = prefLabelLg2;
+        this.prefLabelLg1 = prefLabelLg1;
+        this.altLabelLg2 = altLabelLg2;
+        this.altLabelLg1 = altLabelLg1;
     }
 
     public OrganisationModel() {
@@ -98,35 +98,35 @@ public class OrganisationModel implements Serializable {
         this.sousTelleDe = sousTelleDe;
     }
 
-    public String getPreflabelLg2() {
-        return preflabelLg2;
+    public String getPrefLabelLg2() {
+        return prefLabelLg2;
     }
 
-    public void setPreflabelLg2(String preflabelLg2) {
-        this.preflabelLg2 = preflabelLg2;
+    public void setPrefLabelLg2(String prefLabelLg2) {
+        this.prefLabelLg2 = prefLabelLg2;
     }
 
-    public String getPreflabelLg1() {
-        return preflabelLg1;
+    public String getPrefLabelLg1() {
+        return prefLabelLg1;
     }
 
-    public void setPreflabelLg1(String preflabelLg1) {
-        this.preflabelLg1 = preflabelLg1;
+    public void setPrefLabelLg1(String prefLabelLg1) {
+        this.prefLabelLg1 = prefLabelLg1;
     }
 
-    public String getAltlabelLg2() {
-        return altlabelLg2;
+    public String getAltLabelLg2() {
+        return altLabelLg2;
     }
 
-    public void setAltlabelLg2(String altlabelLg2) {
-        this.altlabelLg2 = altlabelLg2;
+    public void setAltLabelLg2(String altLabelLg2) {
+        this.altLabelLg2 = altLabelLg2;
     }
 
-    public String getAltlabelLg1() {
-        return altlabelLg1;
+    public String getAltLabelLg1() {
+        return altLabelLg1;
     }
 
-    public void setAltlabelLg1(String altlabelLg1) {
-        this.altlabelLg1 = altlabelLg1;
+    public void setAltLabelLg1(String altLabelLg1) {
+        this.altLabelLg1 = altLabelLg1;
     }
 }
