@@ -45,7 +45,7 @@ public class DataSetResources {
         }
     }
 
-    @GetMapping("/datasets/{id}")
+    @GetMapping("/dataset/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getDataSetById", summary = "Get one dataset", security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "string", implementation = DataSetModelSwagger.class)))})
