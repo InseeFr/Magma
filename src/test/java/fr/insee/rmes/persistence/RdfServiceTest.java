@@ -1,0 +1,37 @@
+package fr.insee.rmes.persistence;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+class RdfServiceTest {
+
+    private RdfService rdfService;
+
+    @BeforeEach
+    void init(){
+        rdfService=new RdfService() {};
+    }
+
+    @Test
+    @DisplayName("Test de formatLabel, cas nominal")
+    void formatLabelTest_nominal() throws JSONException{
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("prefLabelLg1", "description en français");
+        jsonObject.put("prefLabelLg2", "english description");
+        JSONArray expected=new JSONArray("[{\"contenu\":\"description en français\"},{\"contenu\":\"english description\"}]");
+        JSONAssert.assertEquals(expected, rdfService.formatLabel(jsonObject), false);
+    }
+
+    @Test
+    void formatLabelTest_empty() {
+        JSONObject jsonObject=new JSONObject();
+        assertThrows(JSONException.class, ()->rdfService.formatLabel(jsonObject));
+    }
+}
