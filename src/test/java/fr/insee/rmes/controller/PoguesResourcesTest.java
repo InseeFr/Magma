@@ -1,5 +1,8 @@
 package fr.insee.rmes.controller;
 
+import fr.insee.rmes.services.pogues.PoguesServices;
+import fr.insee.rmes.utils.exceptions.RmesException;
+import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -9,6 +12,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.http.ResponseEntity;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,18 +30,23 @@ class PoguesResourcesTest {
     private JSONArray operationsList;
 
     @Test
-    void getallCodesLists() {
+    void getAllSeriesListsTest() throws RmesException, IOException {
+        System.out.println(ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build());
+        PoguesResources p = new PoguesResources();
+//        PoguesServices pp = p.poguesServices;
+        String toto = p.getAllSeriesLists(false);
+        System.out.println(ResponseEntity.status(HttpStatus.SC_OK).body(toto));
     }
 
     @Test
-    void getCodeList() {
+    void getCodeListTest() {
     }
 
     @Test
-    void getOperationsBySerie() {
+    void getOperationsBySerieTest() {
     }
 
     @Test
-    void getOperationByCode() {
+    void getOperationByCodeTest() {
     }
 }
