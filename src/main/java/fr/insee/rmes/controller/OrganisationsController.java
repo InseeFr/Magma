@@ -63,7 +63,6 @@ public class OrganisationsController {
         } else {
             return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
         }
-
     }
 
 }

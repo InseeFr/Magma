@@ -10,24 +10,49 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "Id",
-        "LabelLg2",
-        "LabelLg1",
-
+        "uri",
+        "abreviation",
+        "prefLabelLg2",
+        "prefLabelLg1",
+        "altLabelLg2",
+        "altLabelLg1",
+        "uniteDe",
+        "sousTelleDe"
 })
 @Generated("jsonschema2pojo")
 public class OrganisationModel implements Serializable {
 
     @JsonProperty("Id")
     private String id;
-    @JsonProperty("LabelLg2")
-    private String labelLg2;
-    @JsonProperty("LabelLg1")
-    private String labelLg1;
+    @JsonProperty("uri")
+    private String uri;
+    @JsonProperty("abreviation")
+    private String abreviation;
 
-    public OrganisationModel(String id, String labelLg2, String labelLg1) {
+    @JsonProperty("uniteDe")
+    private String uniteDe;
+    @JsonProperty("sousTelleDe")
+    private String sousTelleDe;
+    @JsonProperty("prefLabelLg2")
+    private String prefLabelLg2;
+    @JsonProperty("prefLabelLg1")
+    private String prefLabelLg1;
+
+    @JsonProperty("altLabelLg2")
+    private String altLabelLg2;
+    @JsonProperty("altLabelLg1")
+    private String altLabelLg1;
+
+    public OrganisationModel(String id, String uri, String abreviation, String uniteDe, String sousTelleDe, String prefLabelLg2, String prefLabelLg1, String altLabelLg2, String altLabelLg1) {
         this.id = id;
-        this.labelLg2 = labelLg2;
-        this.labelLg1 = labelLg1;
+        this.uri = uri;
+        this.abreviation = abreviation;
+        this.uniteDe = uniteDe;
+        this.sousTelleDe = sousTelleDe;
+        this.prefLabelLg2 = prefLabelLg2;
+        this.prefLabelLg1 = prefLabelLg1;
+        this.altLabelLg2 = altLabelLg2;
+        this.altLabelLg1 = altLabelLg1;
     }
 
     public OrganisationModel() {
@@ -41,19 +66,67 @@ public class OrganisationModel implements Serializable {
         this.id = id;
     }
 
-    public String getLabelLg2() {
-        return labelLg2;
+    public String getUri() {
+        return uri;
     }
 
-    public void setLabelLg2(String labelLg2) {
-        this.labelLg2 = labelLg2;
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
-    public String getLabelLg1() {
-        return labelLg1;
+    public String getAbreviation() {
+        return abreviation;
     }
 
-    public void setLabelLg1(String labelLg1) {
-        this.labelLg1 = labelLg1;
+    public void setAbreviation(String abreviation) {
+        this.abreviation = abreviation;
+    }
+
+    public String getUniteDe() {
+        return uniteDe;
+    }
+
+    public void setUniteDe(String uniteDe) {
+        this.uniteDe = uniteDe;
+    }
+
+    public String getSousTelleDe() {
+        return sousTelleDe;
+    }
+
+    public void setSousTelleDe(String sousTelleDe) {
+        this.sousTelleDe = sousTelleDe;
+    }
+
+    public String getPrefLabelLg2() {
+        return prefLabelLg2;
+    }
+
+    public void setPrefLabelLg2(String prefLabelLg2) {
+        this.prefLabelLg2 = prefLabelLg2;
+    }
+
+    public String getPrefLabelLg1() {
+        return prefLabelLg1;
+    }
+
+    public void setPrefLabelLg1(String prefLabelLg1) {
+        this.prefLabelLg1 = prefLabelLg1;
+    }
+
+    public String getAltLabelLg2() {
+        return altLabelLg2;
+    }
+
+    public void setAltLabelLg2(String altLabelLg2) {
+        this.altLabelLg2 = altLabelLg2;
+    }
+
+    public String getAltLabelLg1() {
+        return altLabelLg1;
+    }
+
+    public void setAltLabelLg1(String altLabelLg1) {
+        this.altLabelLg1 = altLabelLg1;
     }
 }
