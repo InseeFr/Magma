@@ -57,13 +57,15 @@ public class OperationByIdModelSwagger implements Serializable
      * @param uri
      * @param proprietaire
      */
-    public OperationByIdModelSwagger(Serie serie, String operationId, List<Label> labelOperation, String uri, String proprietaire) {
-        super();
+
+    public OperationByIdModelSwagger(Serie serie, String operationId, List<Label> labelOperation, String uri) {
         this.serie = serie;
         this.operationId = operationId;
         this.labelOperation = labelOperation;
         this.uri = uri;
-        this.proprietaire = proprietaire;
     }
 
+    public void setProprietaire(String proprietaire) {
+        this.proprietaire = proprietaire;
+    }
 }
