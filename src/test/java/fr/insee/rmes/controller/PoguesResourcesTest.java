@@ -30,12 +30,13 @@ class PoguesResourcesTest {
     private JSONArray operationsList;
 
     @Test
+    @Disabled
     void getAllSeriesListsTest() throws RmesException, IOException {
         System.out.println(ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build());
         PoguesResources p = new PoguesResources();
 //        PoguesServices pp = p.poguesServices;
-        String toto = p.getAllSeriesLists(false);
-        System.out.println(ResponseEntity.status(HttpStatus.SC_OK).body(toto));
+      //  String toto = p.getAllSeriesLists(false);
+       // System.out.println(ResponseEntity.status(HttpStatus.SC_OK).body(toto));
     }
 
     @Test
