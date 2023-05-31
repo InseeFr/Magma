@@ -50,6 +50,26 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
     @Override
     public String getDataSetByID (String id) throws RmesException, JsonProcessingException {
+        JsonNode dataSetFinalNode = emptyDataSetModelSwagger(findDataSetModelSwagger(id));
+        return dataSetFinalNode.toString();
+    }
+
+    private JsonNode emptyDataSetModelSwagger(DataSetModelSwagger dataSetModelSwagger) {
+        ObjectMapper dataSetFinal = new ObjectMapper();
+        JsonNode dataSetFinalNode = dataSetFinal.valueToTree(dataSetModelSwagger);
+        Iterator<JsonNode> it = dataSetFinalNode.iterator();
+
+        while (it.hasNext()) {
+            JsonNode node = it.next();
+            if (node.isContainerNode() && node.isEmpty()) {
+                it.remove();
+            }
+
+        }
+        return dataSetFinalNode;
+    }
+
+    protected DataSetModelSwagger findDataSetModelSwagger(String id) throws RmesException, JsonProcessingException {
         //parametrage de la requête
         Map<String, Object> params = initParams();
         params.put("ID", id);
@@ -84,21 +104,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         // fusion de l'ensemble des objets précédents dans datasetModelSwagger en fonction du contenu
 
-        DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(dataSet.getId(), title, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(),themeListModelSwaggerS, serieListModelSwaggerS, operationListModelSwaggerS);
-        ObjectMapper dataSetFinal = new ObjectMapper();
-        JsonNode dataSetFinalNode=dataSetFinal.valueToTree(dataSetModelSwagger);
-        Iterator<JsonNode> it= dataSetFinalNode.iterator();
-
-        while (it.hasNext()){
-            JsonNode node=it.next();
-            if (node.isContainerNode() && node.isEmpty()){
-                it.remove();
-            }
-
-        }
-
-
-        return dataSetFinalNode.toString();
+        return new DataSetModelSwagger(dataSet.getId(), title, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(),themeListModelSwaggerS, serieListModelSwaggerS, operationListModelSwaggerS);
     }
 
     @Override
@@ -116,20 +122,16 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
         DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(dataSet.getId(), dataSet.getUri(), dataSet.getDateMiseAJour());
-        ObjectMapper dataSetFinal = new ObjectMapper();
-        JsonNode dataSetFinalNode=dataSetFinal.valueToTree(dataSetModelSwagger);
-        Iterator<JsonNode> it= dataSetFinalNode.iterator();
-
-        while (it.hasNext()){
-            JsonNode node=it.next();
-            if (node.isContainerNode() && node.isEmpty()){
-                it.remove();
-            }
-
-        }
+        JsonNode dataSetFinalNode = emptyDataSetModelSwagger(dataSetModelSwagger);
         return dataSetFinalNode.toString();
     }
 
+    @Override
+    public Distribution findDistributions(String id) throws RmesException, JsonProcessingException {
+
+        var datasetModelSwagger=findDataSetModelSwagger(id);
+        return new Distribution(datasetModelSwagger.getId(), datasetModelSwagger.getUri());
+    }
 
 
     @NotNull

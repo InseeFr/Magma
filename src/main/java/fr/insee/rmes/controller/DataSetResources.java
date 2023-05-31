@@ -2,6 +2,7 @@ package fr.insee.rmes.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.rmes.modelSwagger.dataset.DataSetModelSwagger;
+import fr.insee.rmes.modelSwagger.dataset.Distribution;
 import fr.insee.rmes.services.datasets.DataSetsServices;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,12 +22,12 @@ import javax.ws.rs.core.MediaType;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value="/",produces = {"application/json"})
+@RequestMapping(value = "/", produces = {"application/json"})
 @Tag(name = "datasets", description = "Consultation Magma API - datasets")
 @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Success",content = {@Content }),
-        @ApiResponse(responseCode = "404", description = "Not found",content = {@Content }),
-        @ApiResponse(responseCode = "500", description = "Internal server error",content = {@Content })})
+        @ApiResponse(responseCode = "200", description = "Success", content = {@Content}),
+        @ApiResponse(responseCode = "404", description = "Not found", content = {@Content}),
+        @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content})})
 public class DataSetResources {
 
     @Autowired
@@ -52,10 +53,10 @@ public class DataSetResources {
 
     public ResponseEntity<String> getDataSetByID(@PathVariable("id") String id,
                                                  @RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
-                                                 ) throws RmesException, JsonProcessingException {
+    ) throws RmesException, JsonProcessingException {
 
         // par défaut ce booléen est faux et donc on renvoie tout les infos d'un dataset
-        if (!boolDateMiseAJour){
+        if (!boolDateMiseAJour) {
             String jsonResult = dataSetsServices.getDataSetByID(id);
             if (jsonResult.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
@@ -77,8 +78,14 @@ public class DataSetResources {
     }
 
 
+    @GetMapping("/dataset/{id}/distributions")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResponseEntity<Distribution> getDataSetDistributionsById(@PathVariable String id) throws RmesException, JsonProcessingException {
 
+        return ResponseEntity.ok(dataSetsServices.findDistributions(id));
     }
+
+}
 
 
 
