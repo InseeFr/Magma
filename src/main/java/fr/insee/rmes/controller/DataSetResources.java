@@ -3,6 +3,7 @@ package fr.insee.rmes.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.rmes.modelSwagger.dataset.DataSetModelSwagger;
 import fr.insee.rmes.modelSwagger.dataset.Distribution;
+import fr.insee.rmes.modelSwagger.dataset.Distributions;
 import fr.insee.rmes.services.datasets.DataSetsServices;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -80,9 +81,9 @@ public class DataSetResources {
 
     @GetMapping("/dataset/{id}/distributions")
     @Produces(MediaType.APPLICATION_JSON)
-    public ResponseEntity<Distribution> getDataSetDistributionsById(@PathVariable String id) throws RmesException, JsonProcessingException {
+    public ResponseEntity<Distributions> getDataSetDistributionsById(@PathVariable String id) throws RmesException, JsonProcessingException {
 
-        return ResponseEntity.ok(dataSetsServices.findDistributions(id));
+        return ResponseEntity.ok(dataSetsServices.getDataSetDistributionsById(id));
     }
 
 }

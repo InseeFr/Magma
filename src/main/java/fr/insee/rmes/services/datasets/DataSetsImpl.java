@@ -133,7 +133,24 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return new Distribution(datasetModelSwagger.getId(), datasetModelSwagger.getUri());
     }
 
+    @Override
+    public Distributions getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException {
+        //parametrage de la requête
+        Map<String, Object> params = initParams();
+        params.put("ID", id);
+        params.put("LG1", Config.LG1);
+        params.put("LG2", Config.LG2);
 
+        //requête intiale
+        JSONObject DistributionsByID = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDistributionsByID.ftlh", params));
+        ObjectMapper jsonResponse = new ObjectMapper();
+
+
+
+        Distributions distributions = jsonResponse.readValue(DistributionsByID.toString(), Distributions.class);
+
+        return null;
+    }
     @NotNull
     private List<OperationModelSwagger> getOperationModelSwaggerS(List<String> operationUri) throws RmesException, JsonProcessingException {
         List<OperationModelSwagger> operationListModelSwaggerS = new ArrayList<>();
