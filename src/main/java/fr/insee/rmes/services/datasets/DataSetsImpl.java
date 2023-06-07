@@ -142,12 +142,13 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         params.put("LG2", Config.LG2);
 
         //requête intiale
-        JSONObject DistributionsByID = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDistributionsByID.ftlh", params));
+
+        JSONObject distributionsId = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDistributionsById.ftlh", params));
         ObjectMapper jsonResponse = new ObjectMapper();
 
 
 
-        Distributions distributions = jsonResponse.readValue(DistributionsByID.toString(), Distributions.class);
+        Distributions distributions = jsonResponse.readValue(distributionsId.toString(), Distributions.class);
 
         return null;
     }
