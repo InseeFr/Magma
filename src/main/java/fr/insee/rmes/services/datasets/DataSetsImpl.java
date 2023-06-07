@@ -146,6 +146,10 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         JSONObject distributionsId = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDistributionsById.ftlh", params));
         ObjectMapper jsonResponse = new ObjectMapper();
 
+//        Creer Title & Description comme des titres
+
+
+
 
 
         Distributions distributions = jsonResponse.readValue(distributionsId.toString(), Distributions.class);
