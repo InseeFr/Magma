@@ -33,7 +33,7 @@ class PoguesImplTest {
         List<Label> labelOperation = new ArrayList<>();
         labelOperation.add(labelOperation1);
         labelOperation.add(labelOperation2);
-        OperationByIdModelSwagger operationByIdSwagger = new OperationByIdModelSwagger(serie,operationById.getId(),labelOperation, operationById.getUri(), operationById.getProprietaire());
+        OperationByIdModelSwagger operationByIdSwagger = new OperationByIdModelSwagger(serie,operationById.getId(),labelOperation, operationById.getUri());
         mapper.writeValueAsString(operationByIdSwagger);
     }
 
