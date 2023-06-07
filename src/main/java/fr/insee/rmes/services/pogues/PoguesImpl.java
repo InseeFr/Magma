@@ -188,10 +188,12 @@ public class PoguesImpl extends RdfService implements PoguesServices {
             List<Label> labelOperation = new ArrayList<>();
                 labelOperation.add(labelOperation1);
                 labelOperation.add(labelOperation2);
-        OperationByIdModelSwagger operationByIdModelSwagger= new OperationByIdModelSwagger(serie,operationById.getId(),labelOperation, operationById.getUri(),operationById.getProprietaire());
 
+        OperationByIdModelSwagger operationByIdModelSwagger= new OperationByIdModelSwagger(serie,operationById.getId(),labelOperation, operationById.getUri());
+        if (operationById.getProprietaire() != null){
+            operationByIdModelSwagger.setProprietaire(operationById.getProprietaire());
+        }
         return mapper.writeValueAsString(operationByIdModelSwagger);
-
     }
 
 
@@ -200,8 +202,6 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         params.put("CODELIST_GRAPH", Config.BASE_GRAPH+Config.CODELIST_GRAPH);
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
-
-
         return params;
     }
 

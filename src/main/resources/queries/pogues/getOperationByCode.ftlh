@@ -15,7 +15,9 @@ SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?uri ?serie
     FILTER (lang(?seriesLabelLg2) = 'en')
 	}
 
+    OPTIONAL {
     ?series dc:creator ?proprietaire .
+    }
 
     OPTIONAL {
 	?uri skos:prefLabel ?operationLabelLg1 . 
