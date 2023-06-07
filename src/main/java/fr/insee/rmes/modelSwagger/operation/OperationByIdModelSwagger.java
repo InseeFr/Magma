@@ -59,6 +59,7 @@ public class OperationByIdModelSwagger implements Serializable
      */
 
     public OperationByIdModelSwagger(Serie serie, String operationId, List<Label> labelOperation, String uri) {
+        super();
         this.serie = serie;
         this.operationId = operationId;
         this.labelOperation = labelOperation;
