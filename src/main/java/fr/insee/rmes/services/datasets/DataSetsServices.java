@@ -1,8 +1,8 @@
 package fr.insee.rmes.services.datasets;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import fr.insee.rmes.model.datasets.Distributions;
 import fr.insee.rmes.modelSwagger.dataset.Distribution;
-import fr.insee.rmes.modelSwagger.dataset.Distributions;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
 
@@ -16,5 +16,5 @@ public interface DataSetsServices {
 
     Distribution findDistributions(String id) throws RmesException, JsonProcessingException;
 
-    Distributions getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException;
+    Distributions[] getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException;
 }

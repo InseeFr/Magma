@@ -1,9 +1,10 @@
-package fr.insee.rmes.modelSwagger.dataset;
+package fr.insee.rmes.model.datasets;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import fr.insee.rmes.modelSwagger.dataset.Title;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,6 @@ import lombok.ToString;
 import javax.annotation.Generated;
 import java.util.List;
 @RequiredArgsConstructor
-@ToString
 @AllArgsConstructor
 @JsonPropertyOrder({
         "identifier",
@@ -128,5 +128,20 @@ public class Distributions {
 
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "identifier='" + identifier + '\'' +
+                ", byteSize='" + byteSize + '\'' +
+                ", created='" + created + '\'' +
+                ", description=" + description +
+                ", downloadURL=" + downloadURL +
+                ", format='" + format + '\'' +
+                ", modified='" + modified + '\'' +
+                ", title=" + title +
+                ", uri='" + uri + '\'' +
+                '}';
     }
 }

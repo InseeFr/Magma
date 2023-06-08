@@ -3,11 +3,8 @@ package fr.insee.rmes.services.datasets;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
-import fr.insee.rmes.model.datasets.DataSet;
-import fr.insee.rmes.model.datasets.Operation;
-import fr.insee.rmes.model.datasets.Serie;
-import fr.insee.rmes.model.datasets.Theme;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
@@ -134,7 +131,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
     @Override
-    public Distributions getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException {
+    public Distributions[] getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException {
         //parametrage de la requête
         Map<String, Object> params = initParams();
         params.put("ID", id);
@@ -143,47 +140,48 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         //requête intiale
 
-        JSONObject distributionsId = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDistributionsById.ftlh", params));
-        ObjectMapper jsonResponse = new ObjectMapper();
+        JSONArray distributionsId = repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDistributionsById.ftlh", params));
+        Distributions[] distributionsById = new Distributions[2];
 
-        JSONObject distributionsById = distributionsId;
+        for (int i=0; i < distributionsId.length(); i++) {
+            ObjectMapper jsonResponse = new ObjectMapper();
+            JSONObject distributionsTemp = distributionsId.getJSONObject(i);
 
+            if ((distributionsTemp.has("descriptionLg2")) & (distributionsTemp.has("descriptionLg1"))) {
+                Title descriptionLg1 = new Title(Config.LG1, (String) distributionsTemp.get("descriptionLg1"));
+                Title descriptionLg2 = new Title(Config.LG2, (String) distributionsTemp.get("descriptionLg2"));
+                List<Title> description = new ArrayList<>();
+                description.add(descriptionLg1);
+                description.add(descriptionLg2);
+                distributionsTemp.remove("descriptionLg1");
+                distributionsTemp.remove("descriptionLg2");
+                distributionsTemp.put("description", description);
 
-//        Creer Title & Description comme des titres
-        if ((distributionsId.has("descriptionLg2") ) & (distributionsId.has("descriptionLg1") )){
-            Title descriptionLg1 = new Title(Config.LG1 , (String) distributionsId.get("descriptionLg1"));
-            Title descriptionLg2 = new Title(Config.LG2, (String) distributionsId.get("descriptionLg2"));
-            List<Title> description =  new ArrayList<>();
-            description.add(descriptionLg1);
-            description.add(descriptionLg2);
-            distributionsById.remove("descriptionLg1");
-            distributionsById.remove("descriptionLg2");
-            distributionsById.put("description", description);
+            }
 
+            if ((distributionsTemp.has("titleLg1")) & (distributionsTemp.has("titleLg2"))) {
+                Title titleLg1 = new Title(Config.LG1, (String) distributionsTemp.get("titleLg1"));
+                Title titleLg2 = new Title(Config.LG2, (String) distributionsTemp.get("titleLg2"));
+                List<Title> title = new ArrayList<>();
+                title.add(titleLg1);
+                title.add(titleLg2);
+                distributionsTemp.remove("titleLg1");
+                distributionsTemp.remove("titleLg2");
+                distributionsTemp.put("title", title);
+            }
+
+            if (distributionsTemp.has("downloadURL")) {
+                List<String> downloadURL = new ArrayList<>();
+                downloadURL.add((String) distributionsTemp.get("downloadURL"));
+                distributionsTemp.remove("downloadURL");
+                distributionsTemp.put("downloadURL", downloadURL);
+            }
+            Distributions distributions = jsonResponse.readValue(distributionsTemp.toString(), Distributions.class);
+            distributionsById[i] = distributions;
         }
 
-        if ((distributionsId.has("titleLg1") ) & (distributionsId.has("titleLg2"))){
-            Title titleLg1 = new Title(Config.LG1 , (String) distributionsId.get("titleLg1"));
-            Title titleLg2 = new Title(Config.LG2, (String) distributionsId.get("titleLg2"));
-            List<Title> title =  new ArrayList<>();
-            title.add(titleLg1);
-            title.add(titleLg2);
-            distributionsById.remove("titleLg1");
-            distributionsById.remove("titleLg2");
-            distributionsById.put("title",title);
-        }
+        return  distributionsById;
 
-        if (distributionsId.has("downloadURL")){
-            List<String> downloadURL = new ArrayList<>();
-            downloadURL.add((String) distributionsId.get("downloadURL"));
-            distributionsById.remove("downloadURL");
-            distributionsById.put("downloadURL",downloadURL);
-        }
-
-
-        Distributions distributions = jsonResponse.readValue(distributionsById.toString(), Distributions.class);
-
-        return distributions;
     }
     @NotNull
     private List<OperationModelSwagger> getOperationModelSwaggerS(List<String> operationUri) throws RmesException, JsonProcessingException {
