@@ -146,15 +146,44 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         JSONObject distributionsId = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDistributionsById.ftlh", params));
         ObjectMapper jsonResponse = new ObjectMapper();
 
+        JSONObject distributionsById = distributionsId;
+
+
 //        Creer Title & Description comme des titres
+        if ((distributionsId.has("descriptionLg2") ) & (distributionsId.has("descriptionLg1") )){
+            Title descriptionLg1 = new Title(Config.LG1 , (String) distributionsId.get("descriptionLg1"));
+            Title descriptionLg2 = new Title(Config.LG2, (String) distributionsId.get("descriptionLg2"));
+            List<Title> description =  new ArrayList<>();
+            description.add(descriptionLg1);
+            description.add(descriptionLg2);
+            distributionsById.remove("descriptionLg1");
+            distributionsById.remove("descriptionLg2");
+            distributionsById.put("description", description);
+
+        }
+
+        if ((distributionsId.has("titleLg1") ) & (distributionsId.has("titleLg2"))){
+            Title titleLg1 = new Title(Config.LG1 , (String) distributionsId.get("titleLg1"));
+            Title titleLg2 = new Title(Config.LG2, (String) distributionsId.get("titleLg2"));
+            List<Title> title =  new ArrayList<>();
+            title.add(titleLg1);
+            title.add(titleLg2);
+            distributionsById.remove("titleLg1");
+            distributionsById.remove("titleLg2");
+            distributionsById.put("title",title);
+        }
+
+        if (distributionsId.has("downloadURL")){
+            List<String> downloadURL = new ArrayList<>();
+            downloadURL.add((String) distributionsId.get("downloadURL"));
+            distributionsById.remove("downloadURL");
+            distributionsById.put("downloadURL",downloadURL);
+        }
 
 
+        Distributions distributions = jsonResponse.readValue(distributionsById.toString(), Distributions.class);
 
-
-
-        Distributions distributions = jsonResponse.readValue(distributionsId.toString(), Distributions.class);
-
-        return null;
+        return distributions;
     }
     @NotNull
     private List<OperationModelSwagger> getOperationModelSwaggerS(List<String> operationUri) throws RmesException, JsonProcessingException {

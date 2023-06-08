@@ -2,10 +2,13 @@ package fr.insee.rmes.modelSwagger.dataset;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.annotation.Generated;
 import java.util.List;
-
+@RequiredArgsConstructor
+@AllArgsConstructor
 @JsonPropertyOrder({
         "identifier",
         "byteSize",
@@ -40,6 +43,11 @@ public class Distributions {
     private List<Title> title;
     @JsonProperty("uri")
     private String uri;
+
+    public Distributions(String identifier, String uri) {
+        this.identifier = identifier;
+        this.uri = uri;
+    }
 
     public String getIdentifier() {
         return identifier;
