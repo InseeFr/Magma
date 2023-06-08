@@ -1,13 +1,18 @@
 package fr.insee.rmes.modelSwagger.dataset;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import javax.annotation.Generated;
 import java.util.List;
 @RequiredArgsConstructor
+@ToString
 @AllArgsConstructor
 @JsonPropertyOrder({
         "identifier",
@@ -19,26 +24,30 @@ import java.util.List;
         "modified",
         "title",
         "uri"
-
-
 })
 @Generated("jsonschema2pojo")
 public class Distributions {
     @JsonProperty("identifier")
     private String identifier;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("byteSize")
     private String byteSize;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("created")
     private String created;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("description")
     private List<Title> description;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("downloadURL")
-
     private List<String> downloadURL;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("format")
     private String format;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("modified")
     private String modified;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("title")
     private List<Title> title;
     @JsonProperty("uri")
