@@ -3,11 +3,8 @@ package fr.insee.rmes.services.datasets;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
-import fr.insee.rmes.model.datasets.DataSet;
-import fr.insee.rmes.model.datasets.Operation;
-import fr.insee.rmes.model.datasets.Serie;
-import fr.insee.rmes.model.datasets.Theme;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
@@ -50,6 +47,26 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
     @Override
     public String getDataSetByID (String id) throws RmesException, JsonProcessingException {
+        JsonNode dataSetFinalNode = emptyDataSetModelSwagger(findDataSetModelSwagger(id));
+        return dataSetFinalNode.toString();
+    }
+
+    private JsonNode emptyDataSetModelSwagger(DataSetModelSwagger dataSetModelSwagger) {
+        ObjectMapper dataSetFinal = new ObjectMapper();
+        JsonNode dataSetFinalNode = dataSetFinal.valueToTree(dataSetModelSwagger);
+        Iterator<JsonNode> it = dataSetFinalNode.iterator();
+
+        while (it.hasNext()) {
+            JsonNode node = it.next();
+            if (node.isContainerNode() && node.isEmpty()) {
+                it.remove();
+            }
+
+        }
+        return dataSetFinalNode;
+    }
+
+    protected DataSetModelSwagger findDataSetModelSwagger(String id) throws RmesException, JsonProcessingException {
         //parametrage de la requête
         Map<String, Object> params = initParams();
         params.put("ID", id);
@@ -84,21 +101,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         // fusion de l'ensemble des objets précédents dans datasetModelSwagger en fonction du contenu
 
-        DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(dataSet.getId(), title, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(),themeListModelSwaggerS, serieListModelSwaggerS, operationListModelSwaggerS);
-        ObjectMapper dataSetFinal = new ObjectMapper();
-        JsonNode dataSetFinalNode=dataSetFinal.valueToTree(dataSetModelSwagger);
-        Iterator<JsonNode> it= dataSetFinalNode.iterator();
-
-        while (it.hasNext()){
-            JsonNode node=it.next();
-            if (node.isContainerNode() && node.isEmpty()){
-                it.remove();
-            }
-
-        }
-
-
-        return dataSetFinalNode.toString();
+        return new DataSetModelSwagger(dataSet.getId(), title, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(),themeListModelSwaggerS, serieListModelSwaggerS, operationListModelSwaggerS);
     }
 
     @Override
@@ -116,22 +119,70 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
         DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(dataSet.getId(), dataSet.getUri(), dataSet.getDateMiseAJour());
-        ObjectMapper dataSetFinal = new ObjectMapper();
-        JsonNode dataSetFinalNode=dataSetFinal.valueToTree(dataSetModelSwagger);
-        Iterator<JsonNode> it= dataSetFinalNode.iterator();
-
-        while (it.hasNext()){
-            JsonNode node=it.next();
-            if (node.isContainerNode() && node.isEmpty()){
-                it.remove();
-            }
-
-        }
+        JsonNode dataSetFinalNode = emptyDataSetModelSwagger(dataSetModelSwagger);
         return dataSetFinalNode.toString();
     }
 
+    @Override
+    public Distribution findDistributions(String id) throws RmesException, JsonProcessingException {
 
+        var datasetModelSwagger = findDataSetModelSwagger(id);
+        return new Distribution(datasetModelSwagger.getId(), datasetModelSwagger.getUri());
+    }
 
+    @Override
+    public Distributions[] getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException {
+        //parametrage de la requête
+        Map<String, Object> params = initParams();
+        params.put("ID", id);
+        params.put("LG1", Config.LG1);
+        params.put("LG2", Config.LG2);
+
+        //requête intiale
+
+        JSONArray distributionsId = repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDistributionsById.ftlh", params));
+        Distributions[] distributionsById = new Distributions[2];
+
+        for (int i=0; i < distributionsId.length(); i++) {
+            ObjectMapper jsonResponse = new ObjectMapper();
+            JSONObject distributionsTemp = distributionsId.getJSONObject(i);
+
+            if ((distributionsTemp.has("descriptionLg2")) & (distributionsTemp.has("descriptionLg1"))) {
+                Title descriptionLg1 = new Title(Config.LG1, (String) distributionsTemp.get("descriptionLg1"));
+                Title descriptionLg2 = new Title(Config.LG2, (String) distributionsTemp.get("descriptionLg2"));
+                List<Title> description = new ArrayList<>();
+                description.add(descriptionLg1);
+                description.add(descriptionLg2);
+                distributionsTemp.remove("descriptionLg1");
+                distributionsTemp.remove("descriptionLg2");
+                distributionsTemp.put("description", description);
+
+            }
+
+            if ((distributionsTemp.has("titleLg1")) & (distributionsTemp.has("titleLg2"))) {
+                Title titleLg1 = new Title(Config.LG1, (String) distributionsTemp.get("titleLg1"));
+                Title titleLg2 = new Title(Config.LG2, (String) distributionsTemp.get("titleLg2"));
+                List<Title> title = new ArrayList<>();
+                title.add(titleLg1);
+                title.add(titleLg2);
+                distributionsTemp.remove("titleLg1");
+                distributionsTemp.remove("titleLg2");
+                distributionsTemp.put("title", title);
+            }
+
+            if (distributionsTemp.has("downloadURL")) {
+                List<String> downloadURL = new ArrayList<>();
+                downloadURL.add((String) distributionsTemp.get("downloadURL"));
+                distributionsTemp.remove("downloadURL");
+                distributionsTemp.put("downloadURL", downloadURL);
+            }
+            Distributions distributions = jsonResponse.readValue(distributionsTemp.toString(), Distributions.class);
+            distributionsById[i] = distributions;
+        }
+
+        return  distributionsById;
+
+    }
     @NotNull
     private List<OperationModelSwagger> getOperationModelSwaggerS(List<String> operationUri) throws RmesException, JsonProcessingException {
         List<OperationModelSwagger> operationListModelSwaggerS = new ArrayList<>();

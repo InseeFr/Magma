@@ -2,13 +2,14 @@
 package fr.insee.rmes.modelSwagger.dataset;
 
 import com.fasterxml.jackson.annotation.*;
+import lombok.ToString;
 
 import javax.annotation.Generated;
 import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
+@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "lang",
@@ -24,9 +25,6 @@ public class Title implements Serializable
     @JsonAlias({"content","seriesLabelLg1","seriesLabelLg2","operationLabelLg1","operationLabelLg2","familyLabelLg1","familyLabelLg2","typeLabelLg1","typeLabelLg2",
             "periodicityLabelLg1","periodicityLabelLg2","titreLg1","titreLg2"})
     private String content;
-    @JsonIgnore
-    @Valid
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private final static long serialVersionUID = -3598103317305309574L;
 
     /**
@@ -74,21 +72,6 @@ public class Title implements Serializable
 
     public Title withContent(String content) {
         this.content = content;
-        return this;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-    public Title withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
         return this;
     }
 
