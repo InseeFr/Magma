@@ -126,7 +126,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     @Override
     public Distribution findDistributions(String id) throws RmesException, JsonProcessingException {
 
-        var datasetModelSwagger=findDataSetModelSwagger(id);
+        var datasetModelSwagger = findDataSetModelSwagger(id);
         return new Distribution(datasetModelSwagger.getId(), datasetModelSwagger.getUri());
     }
 
