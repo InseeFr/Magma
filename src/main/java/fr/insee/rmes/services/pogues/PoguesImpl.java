@@ -15,10 +15,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PoguesImpl extends RdfService implements PoguesServices {
@@ -40,6 +37,8 @@ public class PoguesImpl extends RdfService implements PoguesServices {
 
         ObjectMapper mapper = new ObjectMapper();
         List<SerieByIdModelSwagger> seriesListModelSwaggerS= new ArrayList<>();
+
+
 
         for (SerieModel bySerie : listSeries) {
             AltLabel altLabelSerie1 = new AltLabel(Config.LG1, bySerie.getSeriesAltLabelLg1());
@@ -77,11 +76,47 @@ public class PoguesImpl extends RdfService implements PoguesServices {
             Famille familleSerie= new Famille (bySerie.getFamilyId(),labelFamille,bySerie.getFamily());
             SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,bySerie.getSeries(),bySerie.getId(),frequenceSerie,bySerie.getNbOperation(),familleSerie, bySerie.getProprietaire());
             seriesListModelSwaggerS.add(serieByIdModelSwagger);
-
         }
+
+        HashMap<String, List<String>> mapIdProprietaire = new HashMap<>();
+
+        for (SerieByIdModelSwagger serie : seriesListModelSwaggerS){
+            String propietaireTemporaire = serie.getProprietaire().get(0);
+            if (mapIdProprietaire.containsKey(serie.getId())){
+                List <String> templist = mapIdProprietaire.get(serie.getId());
+                if(!templist.contains(propietaireTemporaire)){
+                    templist.add(propietaireTemporaire);
+                    mapIdProprietaire.remove(serie.getId());
+                    mapIdProprietaire.put(serie.getId(),templist);
+                }
+            }
+            else {
+                List <String> templist = new ArrayList<>();
+                templist.add(propietaireTemporaire);
+                mapIdProprietaire.put(serie.getId(),templist);
+            }
+        }
+        System.out.println(mapIdProprietaire.toString());
+        List <SerieByIdModelSwagger> serieASupprimer = new ArrayList<>();
+        for (SerieByIdModelSwagger serie : seriesListModelSwaggerS){
+            if (mapIdProprietaire.containsKey(serie.getId())){
+                serie.setProprietaire(mapIdProprietaire.get(serie.getId()));
+                mapIdProprietaire.remove(serie.getId());
+            }
+            else {
+                serieASupprimer.add(serie);
+            }
+        }
+
+        for (SerieByIdModelSwagger serie : serieASupprimer){
+            seriesListModelSwaggerS.remove(serie);
+        }
+
+
         return mapper.writeValueAsString(seriesListModelSwaggerS);
 
     }
+
 
     @Override
     public String getSerieById(String id) throws RmesException, IOException {
