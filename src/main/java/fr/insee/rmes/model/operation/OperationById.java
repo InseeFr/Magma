@@ -3,6 +3,7 @@ package fr.insee.rmes.model.operation;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
 import javax.validation.Valid;
@@ -54,7 +55,7 @@ public class OperationById implements Serializable
     private String seriesLabelLg2;
 
     @JsonProperty("proprietaire")
-    private String proprietaire;
+    private List<String> proprietaire;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -81,7 +82,7 @@ public class OperationById implements Serializable
      * @param seriesLabelLg2
      * @param proprietaire
      */
-    public OperationById(String series, String id, String operationLabelLg1, String operationLabelLg2, String seriesLabelLg1, String uri, String seriesId, String seriesLabelLg2, String proprietaire   ) {
+    public OperationById(String series, String id, String operationLabelLg1, String operationLabelLg2, String seriesLabelLg1, String uri, String seriesId, String seriesLabelLg2, List<String> proprietaire   ) {
         super();
         this.series = series;
         this.id = id;
@@ -211,11 +212,11 @@ public class OperationById implements Serializable
     }
 
     @JsonProperty("proprietaire")
-    public String getProprietaire() {
+    public List<String> getProprietaire() {
         return proprietaire;
     }
     @JsonProperty("proprietaire")
-    public void setProprietaire(String proprietaire) {
+    public void setProprietaire(List<String> proprietaire) {
         this.proprietaire = proprietaire;
     }
 

@@ -126,10 +126,18 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
 
-        JSONObject serieId= repoGestion.getResponseAsObject(buildRequest(Constants.POGUES_QUERIES_PATH, "getCodesList.ftlh", params));
+        JSONArray serieId= repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getCodesList.ftlh", params));
+
+        JSONObject serieIdwithOneProprietaire = serieId.getJSONObject(0);
+        List <String> proprietaires = new ArrayList<>();
+        for (int i = 0; i < serieId.length(); ++i){
+            JSONObject jsonobjectOfSerieId = serieId.getJSONObject(i);
+            String proprietaire  = jsonobjectOfSerieId.getString("proprietaire");
+            proprietaires.add(proprietaire);
+        }
 
         ObjectMapper jsonResponse =new ObjectMapper();
-        SerieById serieById = jsonResponse.readValue(serieId.toString(),SerieById.class);
+        SerieById serieById = jsonResponse.readValue(serieIdwithOneProprietaire.toString(),SerieById.class);
 
         ObjectMapper mapper = new ObjectMapper();
         AltLabel altLabelSerie1 = new AltLabel(Config.LG1,serieById.getSeriesAltLabelLg1());
@@ -161,7 +169,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
                     labelFamille.add(labelFamille2);
                         Famille familleSerie= new Famille (serieById.getFamilyId(),labelFamille,serieById.getFamily());
 
-        SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,serieById.getSeries(),serieById.getId(),frequenceSerie,serieById.getNbOperation(),familleSerie);
+        SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,serieById.getSeries(),serieById.getId(),frequenceSerie,serieById.getNbOperation(),familleSerie,proprietaires);
 
         return mapper.writeValueAsString(serieByIdModelSwagger);
 

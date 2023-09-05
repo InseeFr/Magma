@@ -36,7 +36,7 @@ public class OperationByIdModelSwagger implements Serializable
     @JsonProperty("uri")
     private String uri;
     @JsonProperty("proprietaire")
-    private String proprietaire;
+    private List<String> proprietaire;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -66,7 +66,7 @@ public class OperationByIdModelSwagger implements Serializable
         this.uri = uri;
     }
 
-    public void setProprietaire(String proprietaire) {
+    public void setProprietaire(List<String> proprietaire) {
         this.proprietaire = proprietaire;
     }
 }
