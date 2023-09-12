@@ -66,10 +66,10 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         if(sdmxArray.length() > 0){
             ObjectMapper jsonResponse2 = new ObjectMapper();
             ConceptSDMX[] conceptsSDMX = jsonResponse2.readValue(sdmxArray.toString(), ConceptSDMX[].class);
-            ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAjour(),conceptById.getStatutValidation(),conceptById.getId(),labelConcepts,conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion(),conceptsSDMX, defCourtes);
+            ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAJour(),conceptById.getStatutValidation(),conceptById.getId(),labelConcepts,conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion(),conceptsSDMX, defCourtes);
             return mapper.writeValueAsString(conceptByIdModelSwagger);
         } else {
-            ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAjour(),conceptById.getStatutValidation(),conceptById.getId(),labelConcepts,conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion(), defCourtes);
+            ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAJour(),conceptById.getStatutValidation(),conceptById.getId(),labelConcepts,conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion(), defCourtes);
             return mapper.writeValueAsString(conceptByIdModelSwagger);
         }
 
@@ -88,7 +88,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         ConceptById conceptById = jsonResponse.readValue(concept.toString(), ConceptById.class);
 
         ObjectMapper mapper = new ObjectMapper();
-        ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAjour(),conceptById.getStatutValidation(),conceptById.getId(),conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion());
+        ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAJour(),conceptById.getStatutValidation(),conceptById.getId(),conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion());
         return mapper.writeValueAsString(conceptByIdModelSwagger);
 
     }
