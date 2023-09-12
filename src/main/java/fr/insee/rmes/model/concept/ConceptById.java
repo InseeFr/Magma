@@ -10,12 +10,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.json.JSONArray;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "dateCreation",
-        "dateMiseAjour",
+        "dateMiseAJour",
         "prefLabelLg1",
         "prefLabelLg2",
         "statutValidation",
@@ -29,8 +28,8 @@ import org.json.JSONArray;
 public class ConceptById implements Serializable{
     @JsonProperty("dateCreation")
     private String dateCreation;
-    @JsonProperty("dateMiseAjour")
-    private String dateMiseAjour;
+    @JsonProperty("dateMiseAJour")
+    private String dateMiseAJour;
     @JsonProperty("prefLabelLg1")
     private String prefLabelLg1;
     @JsonProperty("prefLabelLg2")
@@ -62,7 +61,7 @@ public class ConceptById implements Serializable{
     /**
      *
      * @param dateCreation
-     * @param dateMiseAjour
+     * @param dateMiseAJour
      * @param prefLabelLg1
      * @param prefLabelLg2
      * @param statutValidation
@@ -71,10 +70,10 @@ public class ConceptById implements Serializable{
      * @param uri
      * @param version
      */
-    public ConceptById(String dateCreation, String dateMiseAjour, String prefLabelLg1, String prefLabelLg2, String statutValidation, String id, String dateFinValidite, String uri, String version) {
+    public ConceptById(String dateCreation, String dateMiseAJour, String prefLabelLg1, String prefLabelLg2, String statutValidation, String id, String dateFinValidite, String uri, String version) {
         super();
         this.dateCreation = dateCreation;
-        this.dateMiseAjour = dateMiseAjour;
+        this.dateMiseAJour = dateMiseAJour;
         this.prefLabelLg1 = prefLabelLg1;
         this.prefLabelLg2 = prefLabelLg2;
         this.statutValidation = statutValidation;
@@ -100,18 +99,18 @@ public class ConceptById implements Serializable{
         return this;
     }
 
-    @JsonProperty("dateMiseAjour")
-    public String getDateMiseAjour() {
-        return dateMiseAjour;
+    @JsonProperty("dateMiseAJour")
+    public String getDateMiseAJour() {
+        return dateMiseAJour;
     }
 
-    @JsonProperty("dateMiseAjour")
-    public void setDateMiseAjour(String dateMiseAjour) {
-        this.dateMiseAjour = dateMiseAjour;
+    @JsonProperty("dateMiseAJour")
+    public void setDateMiseAJour(String dateMiseAJour) {
+        this.dateMiseAJour = dateMiseAJour;
     }
 
-    public ConceptById withDateMiseAjour(String dateMiseAjour) {
-        this.dateMiseAjour = dateMiseAjour;
+    public ConceptById withDateMiseAjour(String dateMiseAJour) {
+        this.dateMiseAJour = dateMiseAJour;
         return this;
     }
 

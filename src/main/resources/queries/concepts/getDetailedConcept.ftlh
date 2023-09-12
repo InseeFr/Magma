@@ -1,4 +1,4 @@
-SELECT ?id ?prefLabelLg1 ?prefLabelLg2 ?namingHint ?dateCreation ?dateMiseAjour ?dateFinValidite ?statutValidation ?uri (max(?numVersion) as?version)
+SELECT ?id ?prefLabelLg1 ?prefLabelLg2 ?namingHint ?dateCreation ?dateMiseAJour ?dateFinValidite ?statutValidation ?uri (max(?numVersion) as?version)
 FROM <${CONCEPTS_GRAPH}>
 WHERE {
     ?uri skos:prefLabel ?prefLabelLg1 .
@@ -8,14 +8,14 @@ WHERE {
     ?uri skos:prefLabel ?prefLabelLg2 .
     FILTER (lang(?prefLabelLg2) = '${LG2}') .
     ?uri dcterms:created ?dateCreation .
-    ?uri dcterms:modified ?dateMiseAjour .
+    ?uri dcterms:modified ?dateMiseAJour .
     ?uri insee:isValidated ?isValidated .
-    BIND( if(?isValidated,"Publié","Provisoire, jamais publiée") as ?statutValidation )    OPTIONAL { ?uri dcterms:valid ?dateFinValidite . } .
+    BIND( if(?isValidated,"Publiée","Provisoire, jamais publiée") as ?statutValidation )    OPTIONAL { ?uri dcterms:valid ?dateFinValidite . } .
     OPTIONAL {
         ?uri skos:definition ?definition .
         ?definition dcterms:language "fr"^^xsd:language .
         ?definition insee:conceptVersion ?numVersion .
     } .
 }
-GROUP BY ?id ?uri ?prefLabelLg1 ?prefLabelLg2 ?namingHint ?dateCreation ?dateMiseAjour ?dateFinValidite ?statutValidation
+GROUP BY ?id ?uri ?prefLabelLg1 ?prefLabelLg2 ?namingHint ?dateCreation ?dateMiseAJour ?dateFinValidite ?statutValidation
 LIMIT 1
