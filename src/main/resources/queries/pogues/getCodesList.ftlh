@@ -2,7 +2,7 @@
 						 ?typeId ?type  ?typeLabelLg1 ?typeLabelLg2
 						 (count(?operationId) as ?nbOperation)
 						 ?familyId ?family ?familyLabelLg1 ?familyLabelLg2  
-						 ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2
+						 ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2 ?proprietaire
 
             
            	{  
@@ -47,8 +47,9 @@
 					?type skos:prefLabel ?typeLabelLg2 .
            			FILTER (lang(?typeLabelLg2) = '${LG2}')
 
-           		} 
+           		}
 
+				OPTIONAL { ?series dc:creator ?proprietaire . }
 
            		OPTIONAL { ?sims sdmx-mm:target ?series .  
            			?sims a sdmx-mm:MetadataReport .  
@@ -65,8 +66,8 @@
 
             
            	} group by ?id ?seriesLabelLg1 ?seriesLabelLg2 ?series ?seriesAltLabelLg1 ?seriesAltLabelLg2
-						    ?typeId ?type  ?typeLabelLg1 ?typeLabelLg2 ?familyId ?family ?familyLabelLg1 ?familyLabelLg2
-						        ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2
-			  order by ?id ?seriesLabelLg1 ?seriesLabelLg2 ?series ?seriesAltLabelLg1 ?seriesAltLabelLg2
-                       	    ?typeId ?type  ?typeLabelLg1 ?typeLabelLg2 ?familyId ?family ?familyLabelLg1 ?familyLabelLg2
-                       	     ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2
+ ?typeId ?type  ?typeLabelLg1 ?typeLabelLg2 ?familyId ?family ?familyLabelLg1 ?familyLabelLg2
+ ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2 ?proprietaire
+ order by ?id ?seriesLabelLg1 ?seriesLabelLg2 ?series ?seriesAltLabelLg1 ?seriesAltLabelLg2
+ ?typeId ?type  ?typeLabelLg1 ?typeLabelLg2 ?familyId ?family ?familyLabelLg1 ?familyLabelLg2
+ ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2 ?proprietaire

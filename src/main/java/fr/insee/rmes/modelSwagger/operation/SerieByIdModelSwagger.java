@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.*;
 import javax.annotation.Generated;
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,8 @@ public class SerieByIdModelSwagger  implements Serializable
     @Valid
     private Famille famille;
     @JsonProperty("proprietaire")
-    private String proprietaire;
+    private List<String> proprietaire;
+
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -86,6 +88,21 @@ public class SerieByIdModelSwagger  implements Serializable
     }
 
     public SerieByIdModelSwagger(List<AltLabel> altLabel, List<Label> label, Type type, String series, String id, Frequence frequence, String nbOperation, Famille famille, String proprietaire) {
+        super();
+        this.altLabel = altLabel;
+        this.label = label;
+        this.type = type;
+        this.series = series;
+        this.id = id;
+        this.frequence = frequence;
+        this.nbOperation = nbOperation;
+        this.famille = famille;
+        List <String> proptemp = new ArrayList<>();
+        proptemp.add(proprietaire);
+        this.proprietaire = proptemp;
+    }
+
+    public SerieByIdModelSwagger(List<AltLabel> altLabel, List<Label> label, Type type, String series, String id, Frequence frequence, String nbOperation, Famille famille, List <String> proprietaire) {
         super();
         this.altLabel = altLabel;
         this.label = label;
@@ -142,11 +159,11 @@ public class SerieByIdModelSwagger  implements Serializable
         this.type = type;
     }
     @JsonProperty("proprietaire")
-    public String getProprietaire() {
+    public List <String> getProprietaire() {
         return proprietaire;
     }
     @JsonProperty("proprietaire")
-    public void setProprietaire(String proprietaire) {
+    public void setProprietaire(List <String> proprietaire) {
         this.proprietaire = proprietaire;
     }
 
