@@ -96,7 +96,6 @@ public class PoguesImpl extends RdfService implements PoguesServices {
                 mapIdProprietaire.put(serie.getId(),templist);
             }
         }
-        System.out.println(mapIdProprietaire.toString());
         List <SerieByIdModelSwagger> serieASupprimer = new ArrayList<>();
         for (SerieByIdModelSwagger serie : seriesListModelSwaggerS){
             if (mapIdProprietaire.containsKey(serie.getId())){
