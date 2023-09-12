@@ -5,5 +5,5 @@ WHERE {
     BIND(STRAFTER(STR(?concept),'/concepts/definition/') AS ?id) .
     ?concept dcterms:modified ?dateMiseAJour .
     ?concept insee:isValidated ?isValidated .
-    BIND( if(?isValidated,"Publié","Provisoire, jamais publiée") as ?statutValidation )
+    BIND( if(?isValidated,"Publiée","Provisoire, jamais publiée") as ?statutValidation )
 }
