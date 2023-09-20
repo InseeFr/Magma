@@ -10,7 +10,9 @@ WHERE {
     ?uri dcterms:created ?dateCreation .
     ?uri dcterms:modified ?dateMiseAJour .
     ?uri insee:isValidated ?isValidated .
-    ?uri adms:identifier ?identifierADMS .
+    OPTIONAL{
+        ?uri adms:identifier ?identifierADMS .
+    } .
     BIND( if(?isValidated,"Publiée","Provisoire, jamais publiée") as ?statutValidation )    OPTIONAL { ?uri dcterms:valid ?dateFinValidite . } .
     OPTIONAL {
         ?uri skos:definition ?definition .

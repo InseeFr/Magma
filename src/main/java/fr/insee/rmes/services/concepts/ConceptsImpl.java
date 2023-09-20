@@ -41,15 +41,14 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         JSONObject defcourtefr = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptDefCourteFR.ftlh", params));
         JSONObject defcourteen = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptDefCourteEN.ftlh", params));
 
+        String name = "";
         if (concept.has("identifierADMS")) {
             String identifierADMS = concept.getString("identifierADMS");
             params.put("identifierADMS", identifierADMS);
             params.put(ADMS_GRAPH, Config.BASE_GRAPH + Config.ADMS_GRAPH);
 
             JSONObject nameADMS = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH, "getNameADMS.ftlh", params));
-            String name = nameADMS.getString("name");
-        }else {
-            String name = "";
+            name = nameADMS.getString("name");
         }
 
         ConceptDefCourte defCourtesFR = new ConceptDefCourte((String) defcourtefr.get("contenu"),Config.LG1);
