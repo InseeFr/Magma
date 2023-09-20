@@ -55,7 +55,7 @@ public class OperationById implements Serializable
     private String seriesLabelLg2;
 
     @JsonProperty("proprietaire")
-    private List<String> proprietaire;
+    private String proprietaire;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -82,7 +82,7 @@ public class OperationById implements Serializable
      * @param seriesLabelLg2
      * @param proprietaire
      */
-    public OperationById(String series, String id, String operationLabelLg1, String operationLabelLg2, String seriesLabelLg1, String uri, String seriesId, String seriesLabelLg2, List<String> proprietaire   ) {
+    public OperationById(String series, String id, String operationLabelLg1, String operationLabelLg2, String seriesLabelLg1, String uri, String seriesId, String seriesLabelLg2, String proprietaire   ) {
         super();
         this.series = series;
         this.id = id;
@@ -212,11 +212,12 @@ public class OperationById implements Serializable
     }
 
     @JsonProperty("proprietaire")
-    public List<String> getProprietaire() {
+    public String getProprietaire() {
         return proprietaire;
     }
+
     @JsonProperty("proprietaire")
-    public void setProprietaire(List<String> proprietaire) {
+    public void setProprietaire(String proprietaire) {
         this.proprietaire = proprietaire;
     }
 
