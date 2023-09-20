@@ -131,8 +131,10 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         List <String> proprietaires = new ArrayList<>();
         for (int i = 0; i < serieId.length(); ++i){
             JSONObject jsonobjectOfSerieId = serieId.getJSONObject(i);
-            String proprietaire  = jsonobjectOfSerieId.getString("proprietaire");
-            proprietaires.add(proprietaire);
+            if (jsonobjectOfSerieId.has("proprietaire")) {
+                String proprietaire = jsonobjectOfSerieId.getString("proprietaire");
+                proprietaires.add(proprietaire);
+            }
         }
 
         ObjectMapper jsonResponse =new ObjectMapper();
