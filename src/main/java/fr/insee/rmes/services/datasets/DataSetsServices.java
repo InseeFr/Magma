@@ -16,5 +16,5 @@ public interface DataSetsServices {
 
     Distribution findDistributions(String id) throws RmesException, JsonProcessingException;
 
-    Distributions[] getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException;
+    Distributions getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException;
 }

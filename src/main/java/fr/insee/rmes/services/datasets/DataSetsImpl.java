@@ -131,7 +131,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
     @Override
-    public Distributions[] getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException {
+    public Distributions getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException {
         //parametrage de la requête
         Map<String, Object> params = initParams();
         params.put("ID", id);
@@ -141,46 +141,46 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         //requête intiale
 
         JSONArray distributionsId = repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDistributionsById.ftlh", params));
-        Distributions[] distributionsById = new Distributions[2];
+        Distributions[] distributionsById = new Distributions[0];
 
+        List<String> listURL = new ArrayList<>();
+        JSONObject distributionReponse = distributionsId.getJSONObject(0);
         for (int i=0; i < distributionsId.length(); i++) {
-            ObjectMapper jsonResponse = new ObjectMapper();
-            JSONObject distributionsTemp = distributionsId.getJSONObject(i);
+            JSONObject distributionTemp = distributionsId.getJSONObject(i);
+            String urli = distributionTemp.getString("downloadURL");
+            listURL.add(urli);
+        }
+        distributionReponse.remove("downloadURL");
+        distributionReponse.put("downloadURL",listURL);
 
-            if ((distributionsTemp.has("descriptionLg2")) & (distributionsTemp.has("descriptionLg1"))) {
-                Title descriptionLg1 = new Title(Config.LG1, (String) distributionsTemp.get("descriptionLg1"));
-                Title descriptionLg2 = new Title(Config.LG2, (String) distributionsTemp.get("descriptionLg2"));
-                List<Title> description = new ArrayList<>();
-                description.add(descriptionLg1);
-                description.add(descriptionLg2);
-                distributionsTemp.remove("descriptionLg1");
-                distributionsTemp.remove("descriptionLg2");
-                distributionsTemp.put("description", description);
 
-            }
+        if ((distributionReponse.has("descriptionLg2")) & (distributionReponse.has("descriptionLg1"))) {
+            Title descriptionLg1 = new Title(Config.LG1, (String) distributionReponse.get("descriptionLg1"));
+            Title descriptionLg2 = new Title(Config.LG2, (String) distributionReponse.get("descriptionLg2"));
+            List<Title> description = new ArrayList<>();
+            description.add(descriptionLg1);
+            description.add(descriptionLg2);
+            distributionReponse.remove("descriptionLg1");
+            distributionReponse.remove("descriptionLg2");
+            distributionReponse.put("description", description);
 
-            if ((distributionsTemp.has("titleLg1")) & (distributionsTemp.has("titleLg2"))) {
-                Title titleLg1 = new Title(Config.LG1, (String) distributionsTemp.get("titleLg1"));
-                Title titleLg2 = new Title(Config.LG2, (String) distributionsTemp.get("titleLg2"));
-                List<Title> title = new ArrayList<>();
-                title.add(titleLg1);
-                title.add(titleLg2);
-                distributionsTemp.remove("titleLg1");
-                distributionsTemp.remove("titleLg2");
-                distributionsTemp.put("title", title);
-            }
-
-            if (distributionsTemp.has("downloadURL")) {
-                List<String> downloadURL = new ArrayList<>();
-                downloadURL.add((String) distributionsTemp.get("downloadURL"));
-                distributionsTemp.remove("downloadURL");
-                distributionsTemp.put("downloadURL", downloadURL);
-            }
-            Distributions distributions = jsonResponse.readValue(distributionsTemp.toString(), Distributions.class);
-            distributionsById[i] = distributions;
         }
 
-        return  distributionsById;
+        if ((distributionReponse.has("titleLg1")) & (distributionReponse.has("titleLg2"))) {
+            Title titleLg1 = new Title(Config.LG1, (String) distributionReponse.get("titleLg1"));
+            Title titleLg2 = new Title(Config.LG2, (String) distributionReponse.get("titleLg2"));
+            List<Title> title = new ArrayList<>();
+            title.add(titleLg1);
+            title.add(titleLg2);
+            distributionReponse.remove("titleLg1");
+            distributionReponse.remove("titleLg2");
+            distributionReponse.put("title", title);
+        }
+
+        ObjectMapper jsonResponse = new ObjectMapper();
+        Distributions distributionFinale = jsonResponse.readValue(distributionReponse.toString(), Distributions.class);
+
+        return distributionFinale;
 
     }
     @NotNull
