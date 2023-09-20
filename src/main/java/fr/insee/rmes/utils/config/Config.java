@@ -81,6 +81,7 @@ public class Config {
 		DATASETS_GRAPH=env.getProperty("fr.insee.rmes.magma.datasets.graph") ;
 		CODELIST_GRAPH = env.getProperty("fr.insee.rmes.magma.codeLists.graph");
 		CONCEPTS_GRAPH = env.getProperty("fr.insee.rmes.magma.concepts.graph");
+		ADMS_GRAPH = env.getProperty("fr.insee.rmes.magma.adms.graph");
 		STRUCTURES_COMPONENTS_GRAPH = env.getProperty("fr.insee.rmes.magma.structures.components.graph");
 		STRUCTURES_GRAPH = env.getProperty("fr.insee.rmes.magma.structures.graph");
 		STRUCTURES_COMPONENTS_BASE_URI= env.getProperty("fr.insee.rmes.magma.structures.components.baseURI");

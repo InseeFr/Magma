@@ -1,0 +1,2 @@
+SELECT ?name
+FROM <${ADMS_GRAPH}>
