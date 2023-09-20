@@ -32,6 +32,7 @@ public class Config {
 	public static String DATASETS_GRAPH;
 	public static String CODELIST_GRAPH;
 	public static String CONCEPTS_GRAPH;
+	public static String ADMS_GRAPH;
 	public static String STRUCTURES_COMPONENTS_GRAPH;
 	public static String STRUCTURES_GRAPH;
 	public static String STRUCTURES_COMPONENTS_BASE_URI;

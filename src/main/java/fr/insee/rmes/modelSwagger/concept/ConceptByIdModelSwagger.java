@@ -15,7 +15,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import fr.insee.rmes.model.concept.ConceptDefCourte;
 import fr.insee.rmes.model.concept.ConceptSDMX;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "dateCreation",
@@ -25,7 +27,8 @@ import fr.insee.rmes.model.concept.ConceptSDMX;
         "label",
         "dateFinValidite",
         "uri",
-        "version"
+        "version",
+        "name"
 })
 @Generated("jsonschema2pojo")
 public class ConceptByIdModelSwagger implements Serializable
@@ -52,6 +55,9 @@ public class ConceptByIdModelSwagger implements Serializable
 
     @JsonProperty("definitionCourte")
     private List<ConceptDefCourte> definitionCourte;
+
+    @JsonProperty("name")
+    private String name;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -64,7 +70,7 @@ public class ConceptByIdModelSwagger implements Serializable
     public ConceptByIdModelSwagger() {
     }
 
-    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAJour, String statutValidation, String id, List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version, List<ConceptDefCourte> definitionCourte) {
+    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAJour, String statutValidation, String id, List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version, List<ConceptDefCourte> definitionCourte,String name) {
         this.dateCreation = dateCreation;
         this.dateMiseAJour = dateMiseAJour;
         this.definitionCourte=definitionCourte;
@@ -75,6 +81,7 @@ public class ConceptByIdModelSwagger implements Serializable
         this.uri = uri;
         this.version = version;
         this.definitionCourte = definitionCourte;
+        this.name = name;
     }
     public ConceptByIdModelSwagger(String dateCreation, String dateMiseAJour, String statutValidation, String id, String dateFinValidite, String uri, String version) {
         this.dateCreation = dateCreation;
@@ -86,7 +93,7 @@ public class ConceptByIdModelSwagger implements Serializable
         this.version = version;
     }
 
-    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAJour, String statutValidation, String id, List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version, ConceptSDMX[] conceptsSDMXArray, List<ConceptDefCourte> definitionCourte) {
+    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAJour, String statutValidation, String id, List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version, ConceptSDMX[] conceptsSDMXArray, List<ConceptDefCourte> definitionCourte, String name) {
         this.dateCreation = dateCreation;
         this.dateMiseAJour = dateMiseAJour;
         this.statutValidation = statutValidation;
@@ -97,6 +104,7 @@ public class ConceptByIdModelSwagger implements Serializable
         this.version = version;
         this.conceptsSDMX = conceptsSDMXArray;
         this.definitionCourte = definitionCourte;
+        this.name = name;
     }
 
     public ConceptByIdModelSwagger(String dateCreation, String dateMiseAJour, String statutValidation, String id, String dateFinValidite, String uri, String version, ConceptSDMX[] conceptsSDMXArray) {
@@ -122,6 +130,7 @@ public class ConceptByIdModelSwagger implements Serializable
      * @param uri
      * @param version
      * @param definitionCourte
+     * @param name
      */
 
 
@@ -218,6 +227,14 @@ public class ConceptByIdModelSwagger implements Serializable
     @JsonProperty("uri")
     public void setUri(String uri) {
         this.uri = uri;
+    }
+    @JsonProperty("name")
+    public String getName() {
+        return name;
+    }
+    @JsonProperty("name")
+    public void setName(String name) {
+        this.name = name;
     }
 
     public ConceptByIdModelSwagger withUri(String uri) {

@@ -22,7 +22,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "dateFinValidite",
         "uri",
         "version",
-        "defcourte"
+        "defcourte",
+        "name"
 })
 @Generated("jsonschema2pojo")
 public class ConceptById implements Serializable{
@@ -44,6 +45,8 @@ public class ConceptById implements Serializable{
     private String uri;
     @JsonProperty("version")
     private String version;
+    @JsonProperty("name")
+    private String name;
 
 
     @JsonIgnore
@@ -69,8 +72,9 @@ public class ConceptById implements Serializable{
      * @param dateFinValidite
      * @param uri
      * @param version
+     * @param name
      */
-    public ConceptById(String dateCreation, String dateMiseAJour, String prefLabelLg1, String prefLabelLg2, String statutValidation, String id, String dateFinValidite, String uri, String version) {
+    public ConceptById(String dateCreation, String dateMiseAJour, String prefLabelLg1, String prefLabelLg2, String statutValidation, String id, String dateFinValidite, String uri, String version, String name) {
         super();
         this.dateCreation = dateCreation;
         this.dateMiseAJour = dateMiseAJour;
@@ -81,6 +85,7 @@ public class ConceptById implements Serializable{
         this.dateFinValidite = dateFinValidite;
         this.uri = uri;
         this.version = version;
+        this.name =name;
     }
 
 
@@ -213,6 +218,17 @@ public class ConceptById implements Serializable{
     public void setVersion(String version) {
         this.version = version;
     }
+    @JsonProperty("name")
+    public String getName() {
+        return name;
+    }
+    @JsonProperty("name")
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+
 
     public ConceptById withVersion(String version) {
         this.version = version;
