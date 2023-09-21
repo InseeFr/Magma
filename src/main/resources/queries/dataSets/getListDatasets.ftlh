@@ -3,6 +3,7 @@ FROM <${DATASETS_GRAPH}>
 where { 
      ?uri dcterms:created ?origine ;
       dcterms:identifier ?id .
+     FILTER(IRI(CONCAT('http://bauhaus/datasets/',STR(?id))) = ?uri) .
 
      ?uri dcterms:title ?titreLg1 .
            	FILTER (lang(?titreLg1) = 'fr')
