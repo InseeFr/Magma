@@ -26,6 +26,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
 
 
     private static final String CONCEPTS_GRAPH = "CONCEPTS_GRAPH";
+    private static final String ADMS_GRAPH = "ADMS_GRAPH";
 
 
     @Override
@@ -40,17 +41,20 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         JSONObject defcourtefr = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptDefCourteFR.ftlh", params));
         JSONObject defcourteen = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptDefCourteEN.ftlh", params));
 
-        ConceptDefCourte defCourtesFR = new ConceptDefCourte((String) defcourtefr.get("contenu"),Config.LG1);
-        ConceptDefCourte defCourteEN = new ConceptDefCourte((String) defcourteen.get("contenu"),Config.LG2);
+
+
         List <ConceptDefCourte> defCourtes = new ArrayList<>();
-        defCourtes.add(defCourtesFR);
-        defCourtes.add(defCourteEN);
-
-
-
-
+        if (defcourtefr.has("contenu")) {
+            ConceptDefCourte defCourtesFR = new ConceptDefCourte((String) defcourtefr.get("contenu"), Config.LG1);
+            defCourtes.add(defCourtesFR);
+        }
+        if (defcourteen.has("contenu")) {
+            ConceptDefCourte defCourteEN = new ConceptDefCourte((String) defcourteen.get("contenu"), Config.LG2);
+            defCourtes.add(defCourteEN);
+        }
         ObjectMapper jsonResponse = new ObjectMapper();
         ConceptById conceptById = jsonResponse.readValue(concept.toString(), ConceptById.class);
+
 
         LabelConcept labelConcept1 = new LabelConcept(Config.LG1, conceptById.getPrefLabelLg1());
         LabelConcept labelConcept2 = new LabelConcept(Config.LG2, conceptById.getPrefLabelLg2());
@@ -63,16 +67,27 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
 
         JSONArray sdmxArray = repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptsSdmx.ftlh", params));
         ObjectMapper mapper = new ObjectMapper();
+        ConceptByIdModelSwagger conceptByIdModelSwagger = new ConceptByIdModelSwagger();
         if(sdmxArray.length() > 0){
             ObjectMapper jsonResponse2 = new ObjectMapper();
             ConceptSDMX[] conceptsSDMX = jsonResponse2.readValue(sdmxArray.toString(), ConceptSDMX[].class);
-            ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAJour(),conceptById.getStatutValidation(),conceptById.getId(),labelConcepts,conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion(),conceptsSDMX, defCourtes);
-            return mapper.writeValueAsString(conceptByIdModelSwagger);
+            conceptByIdModelSwagger = new ConceptByIdModelSwagger(conceptById.getDateCreation(), conceptById.getDateMiseAJour(), conceptById.getStatutValidation(), conceptById.getId(), labelConcepts, conceptById.getDateFinValidite(), conceptById.getUri(), conceptById.getVersion(), conceptsSDMX, defCourtes);
+
         } else {
-            ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAJour(),conceptById.getStatutValidation(),conceptById.getId(),labelConcepts,conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion(), defCourtes);
-            return mapper.writeValueAsString(conceptByIdModelSwagger);
+            conceptByIdModelSwagger = new ConceptByIdModelSwagger(conceptById.getDateCreation(), conceptById.getDateMiseAJour(), conceptById.getStatutValidation(), conceptById.getId(), labelConcepts, conceptById.getDateFinValidite(), conceptById.getUri(), conceptById.getVersion(), defCourtes);
         }
 
+        if (concept.has("identifierADMS")) {
+            String identifierADMS = concept.getString("identifierADMS");
+            params.put("identifierADMS", identifierADMS);
+            params.put(ADMS_GRAPH, Config.BASE_GRAPH + Config.ADMS_GRAPH);
+
+            JSONObject nameADMS = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH, "getNameADMS.ftlh", params));
+            String name = nameADMS.getString("name");
+            conceptByIdModelSwagger.setName(name);
+        }
+
+        return mapper.writeValueAsString(conceptByIdModelSwagger);
     }
 
     @Override

@@ -1,4 +1,4 @@
-SELECT ?id ?prefLabelLg1 ?prefLabelLg2 ?namingHint ?dateCreation ?dateMiseAJour ?dateFinValidite ?statutValidation ?uri (max(?numVersion) as?version)
+SELECT ?id ?prefLabelLg1 ?prefLabelLg2 ?namingHint ?dateCreation ?dateMiseAJour ?dateFinValidite ?statutValidation ?identifierADMS ?uri (max(?numVersion) as?version)
 FROM <${CONCEPTS_GRAPH}>
 WHERE {
     ?uri skos:prefLabel ?prefLabelLg1 .
@@ -10,6 +10,9 @@ WHERE {
     ?uri dcterms:created ?dateCreation .
     ?uri dcterms:modified ?dateMiseAJour .
     ?uri insee:isValidated ?isValidated .
+    OPTIONAL{
+        ?uri adms:identifier ?identifierADMS .
+    } .
     BIND( if(?isValidated,"Publiée","Provisoire, jamais publiée") as ?statutValidation )    OPTIONAL { ?uri dcterms:valid ?dateFinValidite . } .
     OPTIONAL {
         ?uri skos:definition ?definition .
@@ -17,5 +20,5 @@ WHERE {
         ?definition insee:conceptVersion ?numVersion .
     } .
 }
-GROUP BY ?id ?uri ?prefLabelLg1 ?prefLabelLg2 ?namingHint ?dateCreation ?dateMiseAJour ?dateFinValidite ?statutValidation
+GROUP BY ?id ?uri ?prefLabelLg1 ?prefLabelLg2 ?namingHint ?dateCreation ?dateMiseAJour ?dateFinValidite ?statutValidation ?identifierADMS
 LIMIT 1

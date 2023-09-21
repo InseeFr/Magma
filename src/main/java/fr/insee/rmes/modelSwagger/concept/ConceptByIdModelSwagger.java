@@ -15,7 +15,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import fr.insee.rmes.model.concept.ConceptDefCourte;
 import fr.insee.rmes.model.concept.ConceptSDMX;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "dateCreation",
@@ -25,7 +27,8 @@ import fr.insee.rmes.model.concept.ConceptSDMX;
         "label",
         "dateFinValidite",
         "uri",
-        "version"
+        "version",
+        "name"
 })
 @Generated("jsonschema2pojo")
 public class ConceptByIdModelSwagger implements Serializable
@@ -52,6 +55,9 @@ public class ConceptByIdModelSwagger implements Serializable
 
     @JsonProperty("definitionCourte")
     private List<ConceptDefCourte> definitionCourte;
+
+    @JsonProperty("name")
+    private String name;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -122,6 +128,7 @@ public class ConceptByIdModelSwagger implements Serializable
      * @param uri
      * @param version
      * @param definitionCourte
+     * @param name
      */
 
 
@@ -218,6 +225,14 @@ public class ConceptByIdModelSwagger implements Serializable
     @JsonProperty("uri")
     public void setUri(String uri) {
         this.uri = uri;
+    }
+    @JsonProperty("name")
+    public String getName() {
+        return name;
+    }
+    @JsonProperty("name")
+    public void setName(String name) {
+        this.name = name;
     }
 
     public ConceptByIdModelSwagger withUri(String uri) {
