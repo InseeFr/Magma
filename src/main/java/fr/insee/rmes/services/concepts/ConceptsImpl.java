@@ -41,23 +41,17 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         JSONObject defcourtefr = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptDefCourteFR.ftlh", params));
         JSONObject defcourteen = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptDefCourteEN.ftlh", params));
 
-        if (concept.has("identifierADMS")) {
-            String identifierADMS = concept.getString("identifierADMS");
-            params.put("identifierADMS", identifierADMS);
-            params.put(ADMS_GRAPH, Config.BASE_GRAPH + Config.ADMS_GRAPH);
-
-            JSONObject nameADMS = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH, "getNameADMS.ftlh", params));
-            String name = nameADMS.getString("name");
-            concept.put("name",name);
-        }
 
 
-        ConceptDefCourte defCourtesFR = new ConceptDefCourte((String) defcourtefr.get("contenu"),Config.LG1);
-        ConceptDefCourte defCourteEN = new ConceptDefCourte((String) defcourteen.get("contenu"),Config.LG2);
         List <ConceptDefCourte> defCourtes = new ArrayList<>();
-        defCourtes.add(defCourtesFR);
-        defCourtes.add(defCourteEN);
-
+        if (defcourtefr.has("contenu")) {
+            ConceptDefCourte defCourtesFR = new ConceptDefCourte((String) defcourtefr.get("contenu"), Config.LG1);
+            defCourtes.add(defCourtesFR);
+        }
+        if (defcourteen.has("contenu")) {
+            ConceptDefCourte defCourteEN = new ConceptDefCourte((String) defcourteen.get("contenu"), Config.LG2);
+            defCourtes.add(defCourteEN);
+        }
         ObjectMapper jsonResponse = new ObjectMapper();
         ConceptById conceptById = jsonResponse.readValue(concept.toString(), ConceptById.class);
 
@@ -77,11 +71,22 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         if(sdmxArray.length() > 0){
             ObjectMapper jsonResponse2 = new ObjectMapper();
             ConceptSDMX[] conceptsSDMX = jsonResponse2.readValue(sdmxArray.toString(), ConceptSDMX[].class);
-            conceptByIdModelSwagger = new ConceptByIdModelSwagger(conceptById.getDateCreation(), conceptById.getDateMiseAJour(), conceptById.getStatutValidation(), conceptById.getId(), labelConcepts, conceptById.getDateFinValidite(), conceptById.getUri(), conceptById.getVersion(), conceptsSDMX, defCourtes, name);
+            conceptByIdModelSwagger = new ConceptByIdModelSwagger(conceptById.getDateCreation(), conceptById.getDateMiseAJour(), conceptById.getStatutValidation(), conceptById.getId(), labelConcepts, conceptById.getDateFinValidite(), conceptById.getUri(), conceptById.getVersion(), conceptsSDMX, defCourtes);
 
         } else {
-            conceptByIdModelSwagger = new ConceptByIdModelSwagger(conceptById.getDateCreation(), conceptById.getDateMiseAJour(), conceptById.getStatutValidation(), conceptById.getId(), labelConcepts, conceptById.getDateFinValidite(), conceptById.getUri(), conceptById.getVersion(), defCourtes, name);
+            conceptByIdModelSwagger = new ConceptByIdModelSwagger(conceptById.getDateCreation(), conceptById.getDateMiseAJour(), conceptById.getStatutValidation(), conceptById.getId(), labelConcepts, conceptById.getDateFinValidite(), conceptById.getUri(), conceptById.getVersion(), defCourtes);
         }
+
+        if (concept.has("identifierADMS")) {
+            String identifierADMS = concept.getString("identifierADMS");
+            params.put("identifierADMS", identifierADMS);
+            params.put(ADMS_GRAPH, Config.BASE_GRAPH + Config.ADMS_GRAPH);
+
+            JSONObject nameADMS = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH, "getNameADMS.ftlh", params));
+            String name = nameADMS.getString("name");
+            conceptByIdModelSwagger.setName(name);
+        }
+
         return mapper.writeValueAsString(conceptByIdModelSwagger);
     }
 

@@ -70,7 +70,7 @@ public class ConceptByIdModelSwagger implements Serializable
     public ConceptByIdModelSwagger() {
     }
 
-    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAJour, String statutValidation, String id, List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version, List<ConceptDefCourte> definitionCourte,String name) {
+    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAJour, String statutValidation, String id, List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version, List<ConceptDefCourte> definitionCourte) {
         this.dateCreation = dateCreation;
         this.dateMiseAJour = dateMiseAJour;
         this.definitionCourte=definitionCourte;
@@ -81,7 +81,6 @@ public class ConceptByIdModelSwagger implements Serializable
         this.uri = uri;
         this.version = version;
         this.definitionCourte = definitionCourte;
-        this.name = name;
     }
     public ConceptByIdModelSwagger(String dateCreation, String dateMiseAJour, String statutValidation, String id, String dateFinValidite, String uri, String version) {
         this.dateCreation = dateCreation;
@@ -93,7 +92,7 @@ public class ConceptByIdModelSwagger implements Serializable
         this.version = version;
     }
 
-    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAJour, String statutValidation, String id, List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version, ConceptSDMX[] conceptsSDMXArray, List<ConceptDefCourte> definitionCourte, String name) {
+    public ConceptByIdModelSwagger(String dateCreation, String dateMiseAJour, String statutValidation, String id, List<LabelConcept> labelConcept, String dateFinValidite, String uri, String version, ConceptSDMX[] conceptsSDMXArray, List<ConceptDefCourte> definitionCourte) {
         this.dateCreation = dateCreation;
         this.dateMiseAJour = dateMiseAJour;
         this.statutValidation = statutValidation;
@@ -104,7 +103,6 @@ public class ConceptByIdModelSwagger implements Serializable
         this.version = version;
         this.conceptsSDMX = conceptsSDMXArray;
         this.definitionCourte = definitionCourte;
-        this.name = name;
     }
 
     public ConceptByIdModelSwagger(String dateCreation, String dateMiseAJour, String statutValidation, String id, String dateFinValidite, String uri, String version, ConceptSDMX[] conceptsSDMXArray) {
