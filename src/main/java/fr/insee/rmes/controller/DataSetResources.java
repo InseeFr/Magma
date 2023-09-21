@@ -79,7 +79,7 @@ public class DataSetResources {
 
     @GetMapping("/dataset/{id}/distributions")
     @Produces(MediaType.APPLICATION_JSON)
-    public ResponseEntity<Distributions[]>  getDataSetDistributionsById(@PathVariable String id) throws RmesException, JsonProcessingException {
+    public ResponseEntity<Distributions>  getDataSetDistributionsById(@PathVariable String id) throws RmesException, JsonProcessingException {
 
         return ResponseEntity.ok(dataSetsServices.getDataSetDistributionsById(id));
     }
