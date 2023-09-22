@@ -79,7 +79,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
 
         if (concept.has("identifierADMS")) {
             String identifierADMS = concept.getString("identifierADMS");
-            params.put("identifierADMS", identifierADMS);
+            params.put("IDENTIFIERADMS", identifierADMS);
             params.put(ADMS_GRAPH, Config.BASE_GRAPH + Config.ADMS_GRAPH);
 
             JSONObject nameADMS = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH, "getNameADMS.ftlh", params));
