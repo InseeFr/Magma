@@ -140,14 +140,13 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
 
-        //requête intiale
+        //requête initiale
 
         JSONArray distributionsId = repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDistributionsById.ftlh", params));
 //        Distributions[] distributionsById = new Distributions[0];
 
-        List<String> listURL = new ArrayList<>();
         /*liste des identifiers (identifiants des distributions) avec leur liste de downloadURL associés*/
-        Map<String,List<String>> myMap = new HashMap<String,List<String>>();
+        Map<String,List<String>> myMap = new HashMap<>();
         for (int i=0; i < distributionsId.length(); i++) {
             JSONObject distributioni = distributionsId.getJSONObject(i);
             String identifianti = distributioni.getString("identifier");
@@ -157,6 +156,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 List<String> listeDownload = new ArrayList<>();
                 listeDownload.add(downloadURLi);
                 myMap.put(identifianti,listeDownload);
+                System.out.println(listeDownload);
             }
             else{
                 List<String> listeDownload=myMap.get(identifianti);
@@ -172,15 +172,21 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         for (int i=0; i < distributionsId.length(); i++) {
             JSONObject distributionTemp = distributionsId.getJSONObject(i);
             String identifiant = distributionTemp.getString("identifier");
+//            String urls = myMap.get(identifiant).toString();
             List<String> urls = myMap.get(identifiant);
             distributionTemp.remove("downloadURL");
-            distributionTemp.put("downloadURL", (List<String>) urls);
+            System.out.println(myMap.get(identifiant));
+            distributionTemp.put("downloadURL",urls);
             /*mapping pour que le résultat ait la tête d'une distribution (ordre et type des variables, etc)*/
             ObjectMapper jsonResponse = new ObjectMapper();
-            Distributions distributionMappee = jsonResponse.readValue(distributionTemp.toString(), Distributions.class);
+            System.out.println(distributionTemp);
+            System.out.println(distributionsId);
+            System.out.println(distributionReponse2);
+//            Distributions distributionMappee = jsonResponse.readValue(distributionTemp.toString(), Distributions.class);
 
 
-            distributionReponse2.put(distributionTemp) ;
+
+
             if ((distributionTemp.has("descriptionLg2")) & (distributionTemp.has("descriptionLg1"))) {
                 Title descriptionLg1 = new Title(Config.LG1, (String) distributionTemp.get("descriptionLg1"));
                 Title descriptionLg2 = new Title(Config.LG2, (String) distributionTemp.get("descriptionLg2"));
@@ -203,6 +209,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 distributionTemp.remove("titleLg2");
                 distributionTemp.put("title", title);
             }
+
+            distributionReponse2.put(distributionTemp) ;
         }
 
 
