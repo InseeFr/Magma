@@ -50,7 +50,7 @@ public class ConceptByIdModelSwagger implements Serializable
     private String uri;
     @JsonProperty("version")
     private String version;
-    @JsonProperty("conceptsSdmx")
+    @JsonProperty("conceptsSDMX")
     private ConceptSDMX[] conceptsSDMX;
 
     @JsonProperty("definitionCourte")
