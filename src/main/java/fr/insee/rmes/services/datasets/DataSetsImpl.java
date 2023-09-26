@@ -147,6 +147,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         /*liste des identifiers (identifiants des distributions) avec leur liste de downloadURL associés*/
         Map<String,List<String>> myMap = new HashMap<>();
+        List<String> listeId = new ArrayList<>();
+
         for (int i=0; i < distributionsId.length(); i++) {
             JSONObject distributioni = distributionsId.getJSONObject(i);
             String identifianti = distributioni.getString("identifier");
@@ -156,7 +158,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 List<String> listeDownload = new ArrayList<>();
                 listeDownload.add(downloadURLi);
                 myMap.put(identifianti,listeDownload);
-                System.out.println(listeDownload);
+                listeId.add(identifianti);
             }
             else{
                 List<String> listeDownload=myMap.get(identifianti);
@@ -172,51 +174,54 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         for (int i=0; i < distributionsId.length(); i++) {
             JSONObject distributionTemp = distributionsId.getJSONObject(i);
             String identifiant = distributionTemp.getString("identifier");
-//            String urls = myMap.get(identifiant).toString();
-            List<String> urls = myMap.get(identifiant);
-            distributionTemp.remove("downloadURL");
-            System.out.println(myMap.get(identifiant));
-            distributionTemp.put("downloadURL",urls);
-            /*mapping pour que le résultat ait la tête d'une distribution (ordre et type des variables, etc)*/
-            ObjectMapper jsonResponse = new ObjectMapper();
-            System.out.println(distributionTemp);
-            System.out.println(distributionsId);
-            System.out.println(distributionReponse2);
+            if (listeId.contains(identifiant)) {
+                //            String urls = myMap.get(identifiant).toString();
+                List<String> urls = myMap.get(identifiant);
+                distributionTemp.remove("downloadURL");
+                System.out.println(myMap.get(identifiant));
+                distributionTemp.put("downloadURL", urls);
+
+                /*mapping pour que le résultat ait la tête d'une distribution (ordre et type des variables, etc)*/
+                ObjectMapper jsonResponse = new ObjectMapper();
+//            System.out.println(distributionTemp);
+//            System.out.println(distributionsId);
+//            System.out.println(distributionReponse2);
 //            Distributions distributionMappee = jsonResponse.readValue(distributionTemp.toString(), Distributions.class);
 
+                if ((distributionTemp.has("descriptionLg2")) & (distributionTemp.has("descriptionLg1"))) {
+                    Title descriptionLg1 = new Title(Config.LG1, (String) distributionTemp.get("descriptionLg1"));
+                    Title descriptionLg2 = new Title(Config.LG2, (String) distributionTemp.get("descriptionLg2"));
+                    List<Title> description = new ArrayList<>();
+                    description.add(descriptionLg1);
+                    description.add(descriptionLg2);
+                    distributionTemp.remove("descriptionLg1");
+                    distributionTemp.remove("descriptionLg2");
+                    distributionTemp.put("description", description);
 
+                }
 
+                if ((distributionTemp.has("titleLg1")) & (distributionTemp.has("titleLg2"))) {
+                    Title titleLg1 = new Title(Config.LG1, (String) distributionTemp.get("titleLg1"));
+                    Title titleLg2 = new Title(Config.LG2, (String) distributionTemp.get("titleLg2"));
+                    List<Title> title = new ArrayList<>();
+                    title.add(titleLg1);
+                    title.add(titleLg2);
+                    distributionTemp.remove("titleLg1");
+                    distributionTemp.remove("titleLg2");
+                    distributionTemp.put("title", title);
+                }
 
-            if ((distributionTemp.has("descriptionLg2")) & (distributionTemp.has("descriptionLg1"))) {
-                Title descriptionLg1 = new Title(Config.LG1, (String) distributionTemp.get("descriptionLg1"));
-                Title descriptionLg2 = new Title(Config.LG2, (String) distributionTemp.get("descriptionLg2"));
-                List<Title> description = new ArrayList<>();
-                description.add(descriptionLg1);
-                description.add(descriptionLg2);
-                distributionTemp.remove("descriptionLg1");
-                distributionTemp.remove("descriptionLg2");
-                distributionTemp.put("description", description);
-
+                distributionReponse2.put(distributionTemp);
+                listeId.remove(identifiant);
             }
-
-            if ((distributionTemp.has("titleLg1")) & (distributionTemp.has("titleLg2"))) {
-                Title titleLg1 = new Title(Config.LG1, (String) distributionTemp.get("titleLg1"));
-                Title titleLg2 = new Title(Config.LG2, (String) distributionTemp.get("titleLg2"));
-                List<Title> title = new ArrayList<>();
-                title.add(titleLg1);
-                title.add(titleLg2);
-                distributionTemp.remove("titleLg1");
-                distributionTemp.remove("titleLg2");
-                distributionTemp.put("title", title);
-            }
-
-            distributionReponse2.put(distributionTemp) ;
         }
 
 
-//        ObjectMapper jsonResponse = new ObjectMapper();
-//        Distributions[] distributionsFinales = new Distributions[]{jsonResponse.readValue(distributionReponse2.toString(), Distributions.class)};
-        return distributionsById;
+        ObjectMapper jsonResponse = new ObjectMapper();
+        System.out.println(distributionReponse2.toString());
+        Distribution testdistrib = jsonResponse.readValue(distributionReponse2.getJSONObject(0).toString(), Distributions.class);
+        Distributions[] distributionsFinales = new Distributions[]{jsonResponse.readValue(distributionReponse2.toString(), Distributions.class)};
+        return distributionsFinales;
     }
 
 //        distributionReponse.remove("downloadURL");
