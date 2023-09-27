@@ -133,61 +133,64 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     @Override
     public Distributions[] getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException {
         //parametrage de la requête
-
-
         Map<String, Object> params = initParams();
         params.put("ID", id);
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
 
         //requête initiale
-
         JSONArray distributionsId = repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDistributionsById.ftlh", params));
-//        Distributions[] distributionsById = new Distributions[0];
 
         /*liste des identifiers (identifiants des distributions) avec leur liste de downloadURL associés*/
-        Map<String,List<String>> myMap = new HashMap<>();
-        List<String> listeId = new ArrayList<>();
+        Map<String,List<String>> mapIdentifiersAndDownloadUrls = new HashMap<>();
+        List<String> listIdentifiers = new ArrayList<>();
 
+        //Boucle pour créer la listIdentifiers et associer les identifiers à leur liste de DownloadUrls (via mapIdentifiersAndDownloadUrls)
         for (int i=0; i < distributionsId.length(); i++) {
+            // On récupère la ième distribution de distributionsId et on y récupère son identfier et sa downloadURL (pas encore de liste de downloadURL)
             JSONObject distributioni = distributionsId.getJSONObject(i);
-            String identifianti = distributioni.getString("identifier");
+            String identifieri = distributioni.getString("identifier");
             String downloadURLi = distributioni.getString("downloadURL");
 
-            if (!myMap.containsKey(identifianti)){
-                List<String> listeDownload = new ArrayList<>();
-                listeDownload.add(downloadURLi);
-                myMap.put(identifianti,listeDownload);
-                listeId.add(identifianti);
+            // si on n'a pas encore vu cet identifier alors on l'ajoute à la liste et à la map
+            // puis on lui crée une listDownloadUrls (qui ne contient qu'un élément pour l'instant)
+            if (!mapIdentifiersAndDownloadUrls.containsKey(identifieri)){
+                List<String> listDownloadUrls = new ArrayList<>();
+                listDownloadUrls.add(downloadURLi);
+                mapIdentifiersAndDownloadUrls.put(identifieri,listDownloadUrls);
+                listIdentifiers.add(identifieri);
             }
+            // si on a déjà traité l'identifier, on récupère sa listDownloadUrls pour y ajouter un downloadURL
             else{
-                List<String> listeDownload=myMap.get(identifianti);
-                listeDownload.add(downloadURLi);
-                myMap.put(identifianti,listeDownload);
+                List<String> listDownloadUrls=mapIdentifiersAndDownloadUrls.get(identifieri);
+                listDownloadUrls.add(downloadURLi);
+                mapIdentifiersAndDownloadUrls.put(identifieri,listDownloadUrls);
             }
         }
 
-//        JSONObject distributionReponse = distributionsId.getJSONObject(0);
-//List<String> distributionReponse2 = new ArrayList<>();
-        JSONArray distributionReponse2 = new JSONArray();
-        Distributions[] distributionsById = new Distributions[0];
+        // tailleRep la taille de listIdentifiers
+        Integer tailleRep  = listIdentifiers.toArray().length;
+        // On crée une liste de Distributions de la taille de listIdentifiers
+        // C'est distributionReponse que l'on va renvoyer en sortie
+        Distributions[] distributionReponse =  new Distributions[tailleRep];
+        // On va faire une boucle for de la taille de distributionsId pour traiter toutes les distributions de la reponse de la requete SPARQL
+        // taille de distributionsId >= tailleRep (il peut y avoir plusieurs downloadURL par identifier)
         for (int i=0; i < distributionsId.length(); i++) {
+            // On récupère le ième JSONObject de distributionsId
             JSONObject distributionTemp = distributionsId.getJSONObject(i);
+            // on récupère l'identifiant de ce ième JSONObject
             String identifiant = distributionTemp.getString("identifier");
-            if (listeId.contains(identifiant)) {
-                //            String urls = myMap.get(identifiant).toString();
-                List<String> urls = myMap.get(identifiant);
+            // Si listIdentifiers contient l'identifier alors on traite  le ième JSONObject sinon on ne le traite pas
+            // Si il n'y est pas, cela veut dire qu'on a déjà traité cet identifiant (car on l'a déjà supprimé de listIdentifiers)
+            if (listIdentifiers.contains(identifiant)) {
+                // on récupère la listDownloadUrls associée à l'identifiant (via mapIdentifiersAndDownloadUrls)
+                // puis on remove downloadURL du ième JSONObject pour y mettre listDownloadUrls à la place
+                List<String> listDownloadUrls = mapIdentifiersAndDownloadUrls.get(identifiant);
                 distributionTemp.remove("downloadURL");
-                System.out.println(myMap.get(identifiant));
-                distributionTemp.put("downloadURL", urls);
+                distributionTemp.put("downloadURL", listDownloadUrls);
 
-                /*mapping pour que le résultat ait la tête d'une distribution (ordre et type des variables, etc)*/
-                ObjectMapper jsonResponse = new ObjectMapper();
-//            System.out.println(distributionTemp);
-//            System.out.println(distributionsId);
-//            System.out.println(distributionReponse2);
-//            Distributions distributionMappee = jsonResponse.readValue(distributionTemp.toString(), Distributions.class);
-
+                // si le ième JSONObject a un attribut descriptionLg2 & un attribut descriptionLg1 alors on met en forme
+                //un attribut description qui contient les deux. Puis on l'ajoute à distributionTemp
                 if ((distributionTemp.has("descriptionLg2")) & (distributionTemp.has("descriptionLg1"))) {
                     Title descriptionLg1 = new Title(Config.LG1, (String) distributionTemp.get("descriptionLg1"));
                     Title descriptionLg2 = new Title(Config.LG2, (String) distributionTemp.get("descriptionLg2"));
@@ -200,6 +203,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
                 }
 
+                // si le ième JSONObject a un attribut titleLg1 & un attribut titleLg2 alors on met en forme
+                //un attribut title qui contient les deux. Puis, on l'ajoute à distributionTemp
                 if ((distributionTemp.has("titleLg1")) & (distributionTemp.has("titleLg2"))) {
                     Title titleLg1 = new Title(Config.LG1, (String) distributionTemp.get("titleLg1"));
                     Title titleLg2 = new Title(Config.LG2, (String) distributionTemp.get("titleLg2"));
@@ -211,53 +216,19 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                     distributionTemp.put("title", title);
                 }
 
-                distributionReponse2.put(distributionTemp);
-                listeId.remove(identifiant);
+                /*mapping pour que le résultat ait la tête d'une distribution (ordre et type des variables, etc)*/
+                ObjectMapper jsonResponse = new ObjectMapper();
+                Distributions distributionFinale = jsonResponse.readValue(distributionTemp.toString(), Distributions.class);
+                // dans distributionReponse on met les distributions dans le bon ordre (l'ordre dans lequel on les rencontre à  la sortie de la requête SPARQL)
+                // tailleRep - listIdentifiers.toArray().length correspond (aux nombres d'identifiants) - (le nombre d'identifiants qu'il reste à traiter)
+                distributionReponse[tailleRep - listIdentifiers.toArray().length] = distributionFinale;
+                // on enlève l'identifiant déjà traité de la liste des identifiants
+                listIdentifiers.remove(identifiant);
             }
         }
-
-
-        ObjectMapper jsonResponse = new ObjectMapper();
-        System.out.println(distributionReponse2.toString());
-        Distribution testdistrib = jsonResponse.readValue(distributionReponse2.getJSONObject(0).toString(), Distributions.class);
-        Distributions[] distributionsFinales = new Distributions[]{jsonResponse.readValue(distributionReponse2.toString(), Distributions.class)};
-        return distributionsFinales;
+        return distributionReponse;
     }
 
-//        distributionReponse.remove("downloadURL");
-//        distributionReponse.put("downloadURL",listURL);
-
-
-//        if ((distributionReponse.has("descriptionLg2")) & (distributionReponse.has("descriptionLg1"))) {
-//            Title descriptionLg1 = new Title(Config.LG1, (String) distributionReponse.get("descriptionLg1"));
-//            Title descriptionLg2 = new Title(Config.LG2, (String) distributionReponse.get("descriptionLg2"));
-//            List<Title> description = new ArrayList<>();
-//            description.add(descriptionLg1);
-//            description.add(descriptionLg2);
-//            distributionReponse.remove("descriptionLg1");
-//            distributionReponse.remove("descriptionLg2");
-//            distributionReponse.put("description", description);
-//
-//        }
-//
-//        if ((distributionReponse.has("titleLg1")) & (distributionReponse.has("titleLg2"))) {
-//            Title titleLg1 = new Title(Config.LG1, (String) distributionReponse.get("titleLg1"));
-//            Title titleLg2 = new Title(Config.LG2, (String) distributionReponse.get("titleLg2"));
-//            List<Title> title = new ArrayList<>();
-//            title.add(titleLg1);
-//            title.add(titleLg2);
-//            distributionReponse.remove("titleLg1");
-//            distributionReponse.remove("titleLg2");
-//            distributionReponse.put("title", title);
-//        }
-//
-//        ObjectMapper jsonResponse = new ObjectMapper();
-//        Distributions distributionFinale = jsonResponse.readValue(distributionReponse.toString(), Distributions.class);
-
-//        return distributionFinale;
-
-
-//    }
     @NotNull
     private List<OperationModelSwagger> getOperationModelSwaggerS(List<String> operationUri) throws RmesException, JsonProcessingException {
         List<OperationModelSwagger> operationListModelSwaggerS = new ArrayList<>();
