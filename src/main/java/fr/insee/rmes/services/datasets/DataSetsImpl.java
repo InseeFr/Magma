@@ -131,7 +131,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
     @Override
-    public Distributions[] getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException {
+    public Distributions getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException {
         //parametrage de la requête
         Map<String, Object> params = initParams();
         params.put("ID", id);

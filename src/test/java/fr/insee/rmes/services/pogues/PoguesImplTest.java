@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Disabled("aim of these tests ?")
@@ -20,7 +21,8 @@ class PoguesImplTest {
     @Test
     void getOperationByCodeTest() throws JsonProcessingException {
 
-        OperationById operationById= new OperationById("serie","idoperation","operationLabelLg1","operationLabelLg2","serieLabelLg1","uri","serieId","serieLabelLg2","proprietaire");
+
+        OperationById operationById= new OperationById("serie","idoperation","operationLabelLg1","operationLabelLg2","serieLabelLg1","uri","serieId","serieLabelLg2", "proprietaire");
         ObjectMapper mapper = new ObjectMapper();
         Label labelSerie1= new Label(Config.LG1, operationById.getSeriesLabelLg1());
         Label labelSerie2= new Label(Config.LG2, operationById.getSeriesLabelLg2());

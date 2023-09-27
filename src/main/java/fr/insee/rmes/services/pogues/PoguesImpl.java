@@ -15,10 +15,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PoguesImpl extends RdfService implements PoguesServices {
@@ -40,6 +37,8 @@ public class PoguesImpl extends RdfService implements PoguesServices {
 
         ObjectMapper mapper = new ObjectMapper();
         List<SerieByIdModelSwagger> seriesListModelSwaggerS= new ArrayList<>();
+
+
 
         for (SerieModel bySerie : listSeries) {
             AltLabel altLabelSerie1 = new AltLabel(Config.LG1, bySerie.getSeriesAltLabelLg1());
@@ -77,11 +76,46 @@ public class PoguesImpl extends RdfService implements PoguesServices {
             Famille familleSerie= new Famille (bySerie.getFamilyId(),labelFamille,bySerie.getFamily());
             SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,bySerie.getSeries(),bySerie.getId(),frequenceSerie,bySerie.getNbOperation(),familleSerie, bySerie.getProprietaire());
             seriesListModelSwaggerS.add(serieByIdModelSwagger);
-
         }
+
+        HashMap<String, List<String>> mapIdProprietaire = new HashMap<>();
+
+        for (SerieByIdModelSwagger serie : seriesListModelSwaggerS){
+            String propietaireTemporaire = serie.getProprietaire().get(0);
+            if (mapIdProprietaire.containsKey(serie.getId())){
+                List <String> templist = mapIdProprietaire.get(serie.getId());
+                if(!templist.contains(propietaireTemporaire)){
+                    templist.add(propietaireTemporaire);
+                    mapIdProprietaire.remove(serie.getId());
+                    mapIdProprietaire.put(serie.getId(),templist);
+                }
+            }
+            else {
+                List <String> templist = new ArrayList<>();
+                templist.add(propietaireTemporaire);
+                mapIdProprietaire.put(serie.getId(),templist);
+            }
+        }
+        List <SerieByIdModelSwagger> serieASupprimer = new ArrayList<>();
+        for (SerieByIdModelSwagger serie : seriesListModelSwaggerS){
+            if (mapIdProprietaire.containsKey(serie.getId())){
+                serie.setProprietaire(mapIdProprietaire.get(serie.getId()));
+                mapIdProprietaire.remove(serie.getId());
+            }
+            else {
+                serieASupprimer.add(serie);
+            }
+        }
+
+        for (SerieByIdModelSwagger serie : serieASupprimer){
+            seriesListModelSwaggerS.remove(serie);
+        }
+
+
         return mapper.writeValueAsString(seriesListModelSwaggerS);
 
     }
+
 
     @Override
     public String getSerieById(String id) throws RmesException, IOException {
@@ -91,10 +125,20 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
 
-        JSONObject serieId= repoGestion.getResponseAsObject(buildRequest(Constants.POGUES_QUERIES_PATH, "getCodesList.ftlh", params));
+        JSONArray serieId= repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getCodesList.ftlh", params));
+
+        JSONObject serieIdwithOneProprietaire = serieId.getJSONObject(0);
+        List <String> proprietaires = new ArrayList<>();
+        for (int i = 0; i < serieId.length(); ++i){
+            JSONObject jsonobjectOfSerieId = serieId.getJSONObject(i);
+            if (jsonobjectOfSerieId.has("proprietaire")) {
+                String proprietaire = jsonobjectOfSerieId.getString("proprietaire");
+                proprietaires.add(proprietaire);
+            }
+        }
 
         ObjectMapper jsonResponse =new ObjectMapper();
-        SerieById serieById = jsonResponse.readValue(serieId.toString(),SerieById.class);
+        SerieById serieById = jsonResponse.readValue(serieIdwithOneProprietaire.toString(),SerieById.class);
 
         ObjectMapper mapper = new ObjectMapper();
         AltLabel altLabelSerie1 = new AltLabel(Config.LG1,serieById.getSeriesAltLabelLg1());
@@ -108,25 +152,25 @@ public class PoguesImpl extends RdfService implements PoguesServices {
                     label.add(labelSerie1);
                     label.add(labelSerie2);
         Label labelType1=new Label(Config.LG1, serieById.getTypeLabelLg1());
-        Label labelType2=new Label(Config.LG1, serieById.getTypeLabelLg2());
+        Label labelType2=new Label(Config.LG2, serieById.getTypeLabelLg2());
                 List<Label> labelType=new ArrayList<>();
                     labelType.add(labelType1);
                     labelType.add(labelType2);
                         Type typeSerie= new Type (serieById.getTypeId(),labelType,serieById.getType());
         Label labelFreq1=new Label(Config.LG1, serieById.getPeriodicityLabelLg1());
-        Label labelFreq2=new Label(Config.LG1, serieById.getPeriodicityLabelLg2());
+        Label labelFreq2=new Label(Config.LG2, serieById.getPeriodicityLabelLg2());
             List<Label> labelFreq=new ArrayList<>();
                     labelFreq.add(labelFreq1);
                     labelFreq.add(labelFreq2);
                         Frequence frequenceSerie= new Frequence (serieById.getPeriodicityId(),labelFreq,serieById.getPeriodicity());
         Label labelFamille1=new Label(Config.LG1, serieById.getFamilyLabelLg1());
-        Label labelFamille2=new Label(Config.LG1, serieById.getFamilyLabelLg2());
+        Label labelFamille2=new Label(Config.LG2, serieById.getFamilyLabelLg2());
             List<Label> labelFamille=new ArrayList<>();
                     labelFamille.add(labelFamille1);
                     labelFamille.add(labelFamille2);
                         Famille familleSerie= new Famille (serieById.getFamilyId(),labelFamille,serieById.getFamily());
 
-        SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,serieById.getSeries(),serieById.getId(),frequenceSerie,serieById.getNbOperation(),familleSerie);
+        SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,serieById.getSeries(),serieById.getId(),frequenceSerie,serieById.getNbOperation(),familleSerie,proprietaires);
 
         return mapper.writeValueAsString(serieByIdModelSwagger);
 

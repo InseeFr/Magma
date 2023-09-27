@@ -3,6 +3,7 @@ package fr.insee.rmes.model.operation;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
 import javax.validation.Valid;
@@ -214,6 +215,7 @@ public class OperationById implements Serializable
     public String getProprietaire() {
         return proprietaire;
     }
+
     @JsonProperty("proprietaire")
     public void setProprietaire(String proprietaire) {
         this.proprietaire = proprietaire;
