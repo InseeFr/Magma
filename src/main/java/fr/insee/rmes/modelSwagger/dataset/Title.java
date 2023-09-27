@@ -74,4 +74,5 @@ public class Title implements Serializable
         this.content = content;
         return this;
     }
+
 }
