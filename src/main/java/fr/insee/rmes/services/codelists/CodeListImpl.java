@@ -8,10 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CodeListImpl extends RdfService implements CodeListsServices {
@@ -55,7 +52,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
             codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
         }
 
-        codesList.put("codesEquivalent", this.getCodes(notation));
+        codesList.put("codes", this.getCodes(notation));
         codesList.remove(Constants.URI);
         return codesList.toString();
     }
@@ -104,18 +101,16 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
         for (int i = 0; i < codes.length(); i++) {
             JSONObject code = codes.getJSONObject(i);
 
-            HashMap<String, Object> closeMatchParams = new HashMap<>();
-            closeMatchParams.put("CONCEPTS_GRAPH", Config.BASE_GRAPH + config.getCodelistGraph());
-            closeMatchParams.put("CONCEPT_ID", code.getString("code"));
-            JSONArray closeMatch = repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCloseMatch.ftlh", closeMatchParams));
+            HashMap<String, Object> matchParams = new HashMap<>();
+            matchParams.put("CONCEPTS_GRAPH", Config.BASE_GRAPH + config.getCodelistGraph());
+            matchParams.put("CONCEPT_ID", code.getString("code"));
+            JSONArray match = repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getMatch.ftlh", matchParams));
 
-            if(closeMatch.length() > 0){
-                JSONArray codesEquivalents = new JSONArray();
-                for(int j = 0; j < closeMatch.length(); j++){
-                    JSONObject codeEquivalent = new JSONObject();
-                    codeEquivalent.put("code", closeMatch.getJSONObject(j).getString("closeMatchNotation"));
-                    codeEquivalent.put("uri", closeMatch.getJSONObject(j).getString("closeMatch"));
-                    codesEquivalents.put(codeEquivalent);
+            if(match.length() > 0){
+                List<String> codesEquivalents = new ArrayList<>();
+                for(int j = 0; j < match.length(); j++){
+                    String codeEquivalent = match.getJSONObject(j).getString("matchNotation");
+                    codesEquivalents.add(codeEquivalent);
                 }
                 code.put("codesEquivalents", codesEquivalents);
             }
