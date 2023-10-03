@@ -103,7 +103,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
             HashMap<String, Object> matchParams = new HashMap<>();
             matchParams.put("CONCEPTS_GRAPH", Config.BASE_GRAPH + config.getCodelistGraph());
-            matchParams.put("CONCEPT_ID", code.getString("code"));
+            matchParams.put("URI",code.getString("uri"));
             JSONArray match = repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getMatch.ftlh", matchParams));
 
             if(match.length() > 0){
