@@ -39,6 +39,8 @@ public class Config {
 	public static String OPERATIONS_SERIES_GRAPH;
 	public static String OPERATIONS_BASE_URI;
 
+	public static String ORGANISATIONS_GRAPH;
+
 	@Value("${fr.insee.rmes.magma.force.ssl}")
 	private boolean requiresSsl = false;
 
@@ -88,7 +90,7 @@ public class Config {
 		STRUCTURES_COMPONENTS_BASE_URI= env.getProperty("fr.insee.rmes.magma.structures.components.baseURI");
 		OPERATIONS_SERIES_GRAPH = env.getProperty("fr.insee.rmes.magma.operations.graph");
 		OPERATIONS_BASE_URI = env.getProperty("fr.insee.rmes.magma.operations.baseURI");
-
+		ORGANISATIONS_GRAPH = env.getProperty("fr.insee.rmes.magma.organisations.graph");
 
 		listStaticFieldsValue();
 	}
