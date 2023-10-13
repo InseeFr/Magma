@@ -76,8 +76,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         params.put("STRUCTURES_GRAPH",Config.BASE_GRAPH + Config.STRUCTURES_GRAPH);
         params.put("CODES_GRAPH",Config.BASE_GRAPH + Config.CODELIST_GRAPH);
         params.put("OPERATIONS_GRAPH",Config.BASE_GRAPH + Config.OPERATIONS_SERIES_GRAPH);
-        params.put("DATASETS_GRAPH",Config.BASE_GRAPH + Config.DATASETS_GRAPH);
         params.put("ORGANISATIONS_GRAPH",Config.BASE_GRAPH + Config.ORGANISATIONS_GRAPH);
+        params.put("ONTOLOGIES_GRAPH",Config.BASE_GRAPH + Config.ONTOLOGIES_BASE_URI);
 
         //requête intiale
         //TODO vérifier les bons OPTIONAl dans la requête SPARQl

@@ -16,6 +16,7 @@ FROM <${ORGANISATIONS_GRAPH}>
 FROM <${OPERATIONS_GRAPH}>
 FROM <${CODES_GRAPH}>
 FROM <${STRUCTURES_GRAPH}>
+FROM <${ONTOLOGIES_GRAPH}>
 
 
 WHERE {
@@ -35,8 +36,7 @@ WHERE {
 		FILTER (lang(?titleLg1) = '${LG1}')
 		FILTER (lang(?titleLg2) = '${LG2}')
 
-<#--		Normalement disseminationStatus non OPTIONAL-->
-		OPTIONAL {?disseminationStatus skos:prefLabel ?labeldisseminationStatusLg1 .
+		?disseminationStatus skos:prefLabel ?labeldisseminationStatusLg1 .
 		FILTER (lang(?labeldisseminationStatusLg1) = "fr") .
 
 		OPTIONAL{?uri pav:version ?version} .
