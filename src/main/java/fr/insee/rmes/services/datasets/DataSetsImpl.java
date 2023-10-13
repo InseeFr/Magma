@@ -34,7 +34,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         for (DataSet byDataSet : dataSets) {
 
-            List<Title> titres = getTitreList(byDataSet.getTitreLg1(),byDataSet.getTitreLg2());
+            List<Title> titres = setTitreList(byDataSet.getTitreLg1(),byDataSet.getTitreLg2());
             DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(byDataSet.getId(),titres,byDataSet.getUri(),byDataSet.getDateMiseAJour(),byDataSet.getStatutValidation());
             dataSetListModelSwaggerS.add(dataSetModelSwagger);
         }
@@ -81,28 +81,79 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         //requête intiale
         //TODO vérifier les bons OPTIONAl dans la requête SPARQl
-        //TODO variabiliser la requête SPARQL
         JSONObject dataSetId = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById.ftlh", params));
         ObjectMapper jsonResponse = new ObjectMapper();
         DataSet dataSet = jsonResponse.readValue(dataSetId.toString(), DataSet.class);
 
+
+
         //récupération du titre
-        List<Title> title = getTitreList(dataSetId.getString("titleLg1"),dataSetId.getString("titleLg2"));
+        List<Title> title = setTitreList(dataSetId.getString("titleLg1"),dataSetId.getString("titleLg2"));
+
+        DataSetModelSwagger reponse = new DataSetModelSwagger(dataSetId.getString("id"),title,dataSetId.getString("uri"),dataSetId.getString("modified"),dataSetId.getString("created"),dataSetId.getString("validationState"),dataSetId.getString("contributor"),dataSetId.getString("creator"),dataSetId.getString("disseminationStatus"));
+
 
         //TODO faire tests sur les optionals
+        //TODO rassembler les variables dans la query
 
         //récupération du subtitle
-        List<Title> subtitle = getTitreList(dataSetId.getString("subtitleLg1"),dataSetId.getString("subtitleLg2"));
+        List<Title> subtitle = setTitreList(dataSetId.getString("subtitleLg1"),dataSetId.getString("subtitleLg2"));
         //récupération de l'abstract
-        List<Title> abstractDataset = getTitreList(dataSetId.getString("abstractLg1"),dataSetId.getString("abstractLg2"));
+        List<Title> abstractDataset = setTitreList(dataSetId.getString("abstractLg1"),dataSetId.getString("abstractLg2"));
         //récupération de la description
-        List<Title> description = getTitreList(dataSetId.getString("descriptionLg1"),dataSetId.getString("descriptionLg2"));
+        List<Title> description = setTitreList(dataSetId.getString("descriptionLg1"),dataSetId.getString("descriptionLg2"));
         //récupération de la scopeNote
-        List<Title> scopeNote = getTitreList(dataSetId.getString("scopeNoteLg1"),dataSetId.getString("scopeNoteLg2"));
+        List<Title> scopeNote = setTitreList(dataSetId.getString("scopeNoteLg1"),dataSetId.getString("scopeNoteLg2"));
         //récupération de la landingPage
-        List<Title> landingPage = getTitreList(dataSetId.getString("landingPageLg1"),dataSetId.getString("landingPageLg2"));
+        List<Title> landingPage = setTitreList(dataSetId.getString("landingPageLg1"),dataSetId.getString("landingPageLg2"));
         //récupération du processStep
-        List<Title> processStep = getTitreList(dataSetId.getString("processStepLg1"),dataSetId.getString("processStepLg2"));
+        List<Title> processStep = setTitreList(dataSetId.getString("processStepLg1"),dataSetId.getString("processStepLg2"));
+        //récupération de publisher
+        JSONObject publisher = new JSONObject();
+        publisher.put("id",dataSetId.getString("idPublisher"));
+        publisher.put("label", setTitreList(dataSetId.getString("labelPublisherLg1"),dataSetId.getString("labelPublisherLg2")));
+        //récupération de wasGeneratedBy
+        JSONObject wasGeneratedBy = new JSONObject();
+        wasGeneratedBy.put("id",dataSetId.getString("wasGeneratedById"));
+        wasGeneratedBy.put("label", setTitreList(dataSetId.getString("labelwasGeneratedByLg1"),dataSetId.getString("labelwasGeneratedByLg2")));
+        //récupération de type
+        List<Title> type = setTitreList(dataSetId.getString("labeltypeLg1"),dataSetId.getString("labeltypeLg2"));
+        //récupération de archiveUnit
+        JSONObject archiveUnit = new JSONObject();
+        archiveUnit.put("id",dataSetId.getString("idarchiveUnit"));
+        archiveUnit.put("label", setTitreList(dataSetId.getString("labelarchiveUnitLg1"),dataSetId.getString("labelarchiveUnitLg2")));
+        //récupération de accessRights
+        if (dataSetId.has("labelaccessRightsLg1") && dataSetId.has("labelaccessRightsLg2")){
+            List<Title> accessRights = setTitreList(dataSetId.getString("labelaccessRightsLg1"),dataSetId.getString("labelaccessRightsLg2"));
+        }
+        //récupération de confidentialityStatus
+        List<Title> confidentialityStatus = setTitreList(dataSetId.getString("labelconfidentialityStatusLg1"),dataSetId.getString("labelconfidentialityStatusLg2"));
+        //récupération de accrualPeriodicity
+        List<Title> accrualPeriodicity = setTitreList(dataSetId.getString("labelaccrualPeriodicityLg1"),dataSetId.getString("labelaccrualPeriodicityLg2"));
+        //récupération de temporal
+        JSONObject temporal = new JSONObject();
+        temporal.put("startPeriod",dataSetId.getString("startPeriod"));
+        temporal.put("endPeriod",dataSetId.getString("endPeriod"));
+
+        //récupération de temporalResolution
+        JSONArray temporalResolution =new JSONArray();
+        List<Title> titleTemporalResolution = setTitreList(dataSetId.getString("labeltemporalResolutionLg1"),dataSetId.getString("labeltemporalResolutionLg2"));
+        temporalResolution.put(titleTemporalResolution);
+        //récupération de spatial
+        JSONObject spatial = new JSONObject();
+        spatial.put("id",dataSetId.getString("spatialId"));
+        spatial.put("label", setTitreList(dataSetId.getString("labelspatialLg1"),dataSetId.getString("labelspatialLg2")));
+        //récupération de spatialResolution
+        JSONObject spatialResolution = new JSONObject();
+        spatialResolution.put("id",dataSetId.getString("spatialResolutionId"));
+        spatialResolution.put("label", setTitreList(dataSetId.getString("labelspatialResolutionLg1"),dataSetId.getString("labelspatialResolutionLg2")));
+        //récupération de statisticalUnit
+        List<Title> statisticalUnit = setTitreList(dataSetId.getString("labelstatisticalUnitLg1"),dataSetId.getString("labelstatisticalUnitLg2"));
+        //récupération de structure
+        JSONObject structure = new JSONObject();
+        structure.put("id",dataSetId.getString("structureId"));
+        structure.put("dsd",dataSetId.getString("dsd"));
+
 
 
 
@@ -126,7 +177,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         // fusion de l'ensemble des objets précédents dans datasetModelSwagger en fonction du contenu
 
+
+
         return new DataSetModelSwagger(dataSet.getId(), title, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(),themeListModelSwaggerS, serieListModelSwaggerS, operationListModelSwaggerS);
+
+
     }
 
     @Override
@@ -217,7 +272,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 // si le ième JSONObject a un attribut descriptionLg2 & un attribut descriptionLg1 alors on met en forme
                 //un attribut description qui contient les deux. Puis on l'ajoute à distributionTemp
                 if ((distributionTemp.has("descriptionLg2")) & (distributionTemp.has("descriptionLg1"))) {
-                    List<Title> description = getTitreList(distributionTemp.getString("descriptionLg1"),(distributionTemp.getString("descriptionLg2")));
+                    List<Title> description = setTitreList(distributionTemp.getString("descriptionLg1"),(distributionTemp.getString("descriptionLg2")));
                     distributionTemp.remove("descriptionLg2");
                     distributionTemp.remove("descriptionLg1");
                     distributionTemp.put("description", description);
@@ -226,7 +281,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 // si le ième JSONObject a un attribut titleLg1 & un attribut titleLg2 alors on met en forme
                 //un attribut title qui contient les deux. Puis, on l'ajoute à distributionTemp
                 if ((distributionTemp.has("titleLg1")) & (distributionTemp.has("titleLg2"))) {
-                    List<Title> title = getTitreList(distributionTemp.getString("titleLg1"),distributionTemp.getString("titleLg2"));
+                    List<Title> title = setTitreList(distributionTemp.getString("titleLg1"),distributionTemp.getString("titleLg2"));
                     distributionTemp.remove("titleLg1");
                     distributionTemp.remove("titleLg2");
                     distributionTemp.put("title", title);
@@ -331,7 +386,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
     @NotNull
-    private List<Title> getTitreList(String elementLg1, String elementLg2) {
+    private List<Title> setTitreList(String elementLg1, String elementLg2) {
         Title titre1 = new Title(Config.LG1, elementLg1);
         Title titre2 = new Title(Config.LG2, elementLg2);
         List<Title> titres = new ArrayList<>();

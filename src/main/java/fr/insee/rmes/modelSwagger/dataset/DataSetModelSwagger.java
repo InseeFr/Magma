@@ -18,10 +18,13 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonPropertyOrder({
         "id",
         "uri",
-        "title",
-        "modified",
         "created",
-        "validation state"
+        "modified",
+        "disseminationStatus",
+        "validationState",
+        "creator",
+        "contributor",
+        "title"
 
 })
 @Generated("jsonschema2pojo")
@@ -39,6 +42,16 @@ public class DataSetModelSwagger implements Serializable  {
     private String created;
     @JsonProperty ("validationState")
     private String validationState;
+
+    @JsonProperty("contributor")
+    private String contributor;
+
+    @JsonProperty("creator")
+    private String creator;
+
+    @JsonProperty("disseminationStatus")
+    private String disseminationStatus;
+
     @JsonProperty("theme")
     @JsonInclude(NON_NULL)
     private List<ThemeModelSwagger> themeModelSwaggerS;
@@ -55,15 +68,16 @@ public class DataSetModelSwagger implements Serializable  {
     public DataSetModelSwagger() {
     }
 
-    public DataSetModelSwagger(String id, List<Title> title, String uri, String modified, String created, List<ThemeModelSwagger> themeModelSwaggerS, List<SerieModelSwagger> serieModelSwaggerS, List<OperationModelSwagger> operationModelSwaggerS) {
+    public DataSetModelSwagger(String id, List<Title> title, String uri, String modified, String created, String validationState, String contributor, String creator, String disseminationStatus) {
         this.id = id;
         this.title = title;
         this.uri = uri;
         this.modified = modified;
         this.created = created;
-        this.themeModelSwaggerS = themeModelSwaggerS;
-        this.serieModelSwaggerS = serieModelSwaggerS;
-        this.operationModelSwaggerS = operationModelSwaggerS;
+        this.validationState = validationState;
+        this.contributor = contributor;
+        this.creator = creator;
+        this.disseminationStatus = disseminationStatus;
     }
 
     public DataSetModelSwagger(String id, List<Title> title, String uri, String modified, String created, String validationState, List<ThemeModelSwagger> themeModelSwaggerS, List<SerieModelSwagger> serieModelSwaggerS, List<OperationModelSwagger> operationModelSwaggerS) {
@@ -84,12 +98,6 @@ public class DataSetModelSwagger implements Serializable  {
     }
 
 
-    public DataSetModelSwagger(String id, List<Title> title, String uri, String modified) {
-        this.id = id;
-        this.title = title;
-        this.uri = uri;
-        this.modified = modified;
-    }
 
     public DataSetModelSwagger(String id, List<Title> title, String uri, String modified, String validationState) {
         this.id = id;
@@ -156,6 +164,30 @@ public class DataSetModelSwagger implements Serializable  {
     @JsonProperty("validationState")
     public void setValidationState(String validationState) {
         this.validationState = validationState;
+    }
+    @JsonProperty("contributor")
+    public String getContributor() {
+        return contributor;
+    }
+    @JsonProperty("contributor")
+    public void setContributor(String contributor) {
+        this.contributor = contributor;
+    }
+    @JsonProperty("creator")
+    public String getCreator() {
+        return creator;
+    }
+    @JsonProperty("creator")
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+    @JsonProperty("disseminationStatus")
+    public String getDisseminationStatus() {
+        return disseminationStatus;
+    }
+    @JsonProperty("disseminationStatus")
+    public void setDisseminationStatus(String disseminationStatus) {
+        this.disseminationStatus = disseminationStatus;
     }
 
     @JsonProperty("theme")
