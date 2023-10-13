@@ -41,6 +41,8 @@ public class Config {
 
 	public static String ORGANISATIONS_GRAPH;
 
+	public static String ONTOLOGIES_BASE_URI;
+
 	@Value("${fr.insee.rmes.magma.force.ssl}")
 	private boolean requiresSsl = false;
 
@@ -91,6 +93,7 @@ public class Config {
 		OPERATIONS_SERIES_GRAPH = env.getProperty("fr.insee.rmes.magma.operations.graph");
 		OPERATIONS_BASE_URI = env.getProperty("fr.insee.rmes.magma.operations.baseURI");
 		ORGANISATIONS_GRAPH = env.getProperty("fr.insee.rmes.magma.organisations.graph");
+		ONTOLOGIES_BASE_URI = env.getProperty("fr.insee.rmes.magma.ontologies.baseURI");
 
 		listStaticFieldsValue();
 	}
