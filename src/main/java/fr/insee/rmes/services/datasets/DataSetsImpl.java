@@ -119,12 +119,15 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         //récupération de type
         List<Title> type = setTitreList(dataSetId.getString("labeltypeLg1"),dataSetId.getString("labeltypeLg2"));
         //récupération de archiveUnit
-        JSONObject archiveUnit = new JSONObject();
-        archiveUnit.put("id",dataSetId.getString("idarchiveUnit"));
-        archiveUnit.put("label", setTitreList(dataSetId.getString("labelarchiveUnitLg1"),dataSetId.getString("labelarchiveUnitLg2")));
+        JSONArray archiveUnit = new JSONArray();
+        JSONObject jsonArchiveUnit = new JSONObject();
+        jsonArchiveUnit.put("id",dataSetId.getString("idarchiveUnit"));
+        jsonArchiveUnit.put("label", setTitreList(dataSetId.getString("labelarchiveUnitLg1"),dataSetId.getString("labelarchiveUnitLg2")));
+        archiveUnit.put(jsonArchiveUnit);
         //récupération de accessRights
         if (dataSetId.has("labelaccessRightsLg1") && dataSetId.has("labelaccessRightsLg2")){
             List<Title> accessRights = setTitreList(dataSetId.getString("labelaccessRightsLg1"),dataSetId.getString("labelaccessRightsLg2"));
+
         }
         //récupération de confidentialityStatus
         List<Title> confidentialityStatus = setTitreList(dataSetId.getString("labelconfidentialityStatusLg1"),dataSetId.getString("labelconfidentialityStatusLg2"));
@@ -144,9 +147,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         spatial.put("id",dataSetId.getString("spatialId"));
         spatial.put("label", setTitreList(dataSetId.getString("labelspatialLg1"),dataSetId.getString("labelspatialLg2")));
         //récupération de spatialResolution
-        JSONObject spatialResolution = new JSONObject();
-        spatialResolution.put("id",dataSetId.getString("spatialResolutionId"));
-        spatialResolution.put("label", setTitreList(dataSetId.getString("labelspatialResolutionLg1"),dataSetId.getString("labelspatialResolutionLg2")));
+        JSONArray spatialResolution = new JSONArray();
+        JSONObject jsonSpatialResolution = new JSONObject();
+        jsonSpatialResolution.put("id",dataSetId.getString("spatialResolutionId"));
+        jsonSpatialResolution.put("label", setTitreList(dataSetId.getString("labelspatialResolutionLg1"),dataSetId.getString("labelspatialResolutionLg2")));
+        spatialResolution.put(jsonSpatialResolution);
         //récupération de statisticalUnit
         List<Title> statisticalUnit = setTitreList(dataSetId.getString("labelstatisticalUnitLg1"),dataSetId.getString("labelstatisticalUnitLg2"));
         //récupération de structure

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.annotation.Generated;
 import javax.validation.Valid;
@@ -42,15 +44,62 @@ public class DataSetModelSwagger implements Serializable  {
     private String created;
     @JsonProperty ("validationState")
     private String validationState;
-
     @JsonProperty("contributor")
     private String contributor;
-
     @JsonProperty("creator")
     private String creator;
-
     @JsonProperty("disseminationStatus")
     private String disseminationStatus;
+
+    @JsonProperty("subtitle")
+    private List<Title> subtitle;
+    @JsonProperty("abstract")
+    private List<Title> abstractDataset;
+    @JsonProperty("description")
+    private List<Title> description;
+    @JsonProperty("scopeNote")
+    private List<Title> scopeNote;
+    @JsonProperty("landingPage")
+    private List<Title> landingPage;
+    @JsonProperty("processStep")
+    private List<Title> processStep;
+    @JsonProperty("publisher")
+    private JSONObject publisher;
+    @JsonProperty("wasGeneratedBy")
+    private JSONObject wasGeneratedBy;
+    @JsonProperty("type")
+    private List<Title> type;
+    @JsonProperty("archiveUnit")
+    private JSONArray archiveUnit;
+    @JsonProperty("accessRights")
+    private List<Title> accessRights;
+    @JsonProperty("confidentialityStatus")
+    private List<Title> confidentialityStatus;
+    @JsonProperty("accrualPeriodicity")
+    private List<Title> accrualPeriodicity;
+    @JsonProperty("temporal")
+    private JSONObject temporal;
+    @JsonProperty("temporalResolution")
+    private JSONArray temporalResolution;
+    @JsonProperty("spatial")
+    private JSONObject spatial;
+    @JsonProperty("spatialResolution")
+    private JSONArray spatialResolution;
+    @JsonProperty("statisticalUnit")
+    private List<Title> statisticalUnit;
+    @JsonProperty("structure")
+    private JSONObject structure;
+    @JsonProperty("version")
+    private String version;
+    @JsonProperty("issued")
+    private String issued;
+    @JsonProperty("numObservations")
+    private String numObservations;
+    @JsonProperty("numSeries")
+    private String numSeries;
+
+
+
 
     @JsonProperty("theme")
     @JsonInclude(NON_NULL)
