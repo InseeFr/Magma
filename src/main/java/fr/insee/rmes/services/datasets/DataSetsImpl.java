@@ -72,12 +72,12 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         params.put("ID", id);
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
-        params.put("ADMS_GRAPH",Config.BASE_GRAPH +  Config.ADMS_GRAPH);
-        params.put("STRUCTURES_GRAPH",Config.BASE_GRAPH + Config.STRUCTURES_GRAPH);
-        params.put("CODES_GRAPH",Config.BASE_GRAPH + Config.CODELIST_GRAPH);
-        params.put("OPERATIONS_GRAPH",Config.BASE_GRAPH + Config.OPERATIONS_SERIES_GRAPH);
-        params.put("DATASETS_GRAPH",Config.BASE_GRAPH + Config.DATASETS_GRAPH);
-        params.put("ORGANISATIONS_GRAPH",Config.BASE_GRAPH + Config.ORGANISATIONS_GRAPH);
+        params.put("ADMS_GRAPH", Config.BASE_GRAPH + Config.ADMS_GRAPH);
+        params.put("STRUCTURES_GRAPH", Config.BASE_GRAPH + Config.STRUCTURES_GRAPH);
+        params.put("CODES_GRAPH", Config.BASE_GRAPH + Config.CODELIST_GRAPH);
+        params.put("OPERATIONS_GRAPH", Config.BASE_GRAPH + Config.OPERATIONS_SERIES_GRAPH);
+        params.put("DATASETS_GRAPH", Config.BASE_GRAPH + Config.DATASETS_GRAPH);
+        params.put("ORGANISATIONS_GRAPH", Config.BASE_GRAPH + Config.ORGANISATIONS_GRAPH);
 
         //requête intiale
         //TODO vérifier les bons OPTIONAl dans la requête SPARQl
@@ -86,79 +86,146 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         DataSet dataSet = jsonResponse.readValue(dataSetId.toString(), DataSet.class);
 
 
-
         //récupération du titre
-        List<Title> title = setTitreList(dataSetId.getString("titleLg1"),dataSetId.getString("titleLg2"));
+        List<Title> title = setTitreList(dataSetId.getString("titleLg1"), dataSetId.getString("titleLg2"));
 
-        DataSetModelSwagger reponse = new DataSetModelSwagger(dataSetId.getString("id"),title,dataSetId.getString("uri"),dataSetId.getString("modified"),dataSetId.getString("created"),dataSetId.getString("validationState"),dataSetId.getString("contributor"),dataSetId.getString("creator"),dataSetId.getString("disseminationStatus"));
+        DataSetModelSwagger reponse = new DataSetModelSwagger(dataSetId.getString("id"), title, dataSetId.getString("uri"), dataSetId.getString("modified"), dataSetId.getString("created"), dataSetId.getString("validationState"), dataSetId.getString("contributor"), dataSetId.getString("creator"), dataSetId.getString("disseminationStatus"));
 
 
         //TODO faire tests sur les optionals
         //TODO rassembler les variables dans la query
 
         //récupération du subtitle
-        List<Title> subtitle = setTitreList(dataSetId.getString("subtitleLg1"),dataSetId.getString("subtitleLg2"));
+        if (dataSetId.has("subtitleLg1") && dataSetId.has("subtitleLg2")) {
+            List<Title> subtitle = setTitreList(dataSetId.getString("subtitleLg1"), dataSetId.getString("subtitleLg2"));
+            reponse.setSubtitle(subtitle);
+        }
         //récupération de l'abstract
-        List<Title> abstractDataset = setTitreList(dataSetId.getString("abstractLg1"),dataSetId.getString("abstractLg2"));
+        if (dataSetId.has("abstractLg1") && dataSetId.has("abstractLg2")) {
+            List<Title> abstractDataset = setTitreList(dataSetId.getString("abstractLg1"), dataSetId.getString("abstractLg2"));
+            reponse.setAbstractDataset(abstractDataset);
+        }
         //récupération de la description
-        List<Title> description = setTitreList(dataSetId.getString("descriptionLg1"),dataSetId.getString("descriptionLg2"));
+        if (dataSetId.has("descriptionLg1") && dataSetId.has("descriptionLg2")) {
+            List<Title> description = setTitreList(dataSetId.getString("descriptionLg1"), dataSetId.getString("descriptionLg2"));
+            reponse.setDescription(description);
+        }
         //récupération de la scopeNote
-        List<Title> scopeNote = setTitreList(dataSetId.getString("scopeNoteLg1"),dataSetId.getString("scopeNoteLg2"));
+        if (dataSetId.has("scopeNoteLg1") && dataSetId.has("scopeNoteLg2")) {
+            List<Title> scopeNote = setTitreList(dataSetId.getString("scopeNoteLg1"), dataSetId.getString("scopeNoteLg2"));
+            reponse.setScopeNote(scopeNote);
+        }
         //récupération de la landingPage
-        List<Title> landingPage = setTitreList(dataSetId.getString("landingPageLg1"),dataSetId.getString("landingPageLg2"));
+        if (dataSetId.has("landingPageLg1") && dataSetId.has("landingPageLg2")) {
+            List<Title> landingPage = setTitreList(dataSetId.getString("landingPageLg1"), dataSetId.getString("landingPageLg2"));
+            reponse.setLandingPage(landingPage);
+        }
         //récupération du processStep
-        List<Title> processStep = setTitreList(dataSetId.getString("processStepLg1"),dataSetId.getString("processStepLg2"));
+        if (dataSetId.has("processStepLg1") && dataSetId.has("processStepLg2")) {
+            List<Title> processStep = setTitreList(dataSetId.getString("processStepLg1"), dataSetId.getString("processStepLg2"));
+            reponse.setProcessStep(processStep);
+        }
         //récupération de publisher
-        JSONObject publisher = new JSONObject();
-        publisher.put("id",dataSetId.getString("idPublisher"));
-        publisher.put("label", setTitreList(dataSetId.getString("labelPublisherLg1"),dataSetId.getString("labelPublisherLg2")));
+        if (dataSetId.has("idPublisher")) {
+            JSONObject publisher = new JSONObject();
+            publisher.put("id", dataSetId.getString("idPublisher"));
+            publisher.put("label", setTitreList(dataSetId.getString("labelPublisherLg1"), dataSetId.getString("labelPublisherLg2")));
+            reponse.setPublisher(publisher);
+        }
         //récupération de wasGeneratedBy
-        JSONObject wasGeneratedBy = new JSONObject();
-        wasGeneratedBy.put("id",dataSetId.getString("wasGeneratedById"));
-        wasGeneratedBy.put("label", setTitreList(dataSetId.getString("labelwasGeneratedByLg1"),dataSetId.getString("labelwasGeneratedByLg2")));
+        if (dataSetId.has("wasGeneratedById")) {
+            JSONObject wasGeneratedBy = new JSONObject();
+            wasGeneratedBy.put("id", dataSetId.getString("wasGeneratedById"));
+            wasGeneratedBy.put("label", setTitreList(dataSetId.getString("labelwasGeneratedByLg1"), dataSetId.getString("labelwasGeneratedByLg2")));
+            reponse.setWasGeneratedBy(wasGeneratedBy);
+        }
         //récupération de type
-        List<Title> type = setTitreList(dataSetId.getString("labeltypeLg1"),dataSetId.getString("labeltypeLg2"));
+        if (dataSetId.has("labeltypeLg1") && dataSetId.has("labeltypeLg2")) {
+            List<Title> type = setTitreList(dataSetId.getString("labeltypeLg1"), dataSetId.getString("labeltypeLg2"));
+            reponse.setType(type);
+        }
         //récupération de archiveUnit
-        JSONArray archiveUnit = new JSONArray();
-        JSONObject jsonArchiveUnit = new JSONObject();
-        jsonArchiveUnit.put("id",dataSetId.getString("idarchiveUnit"));
-        jsonArchiveUnit.put("label", setTitreList(dataSetId.getString("labelarchiveUnitLg1"),dataSetId.getString("labelarchiveUnitLg2")));
-        archiveUnit.put(jsonArchiveUnit);
+        if (dataSetId.has("idarchiveUnit")) {
+            JSONArray archiveUnit = new JSONArray();
+            JSONObject jsonArchiveUnit = new JSONObject();
+            jsonArchiveUnit.put("id", dataSetId.getString("idarchiveUnit"));
+            jsonArchiveUnit.put("label", setTitreList(dataSetId.getString("labelarchiveUnitLg1"), dataSetId.getString("labelarchiveUnitLg2")));
+            archiveUnit.put(jsonArchiveUnit);
+            reponse.setArchiveUnit(archiveUnit);
+        }
         //récupération de accessRights
-        if (dataSetId.has("labelaccessRightsLg1") && dataSetId.has("labelaccessRightsLg2")){
-            List<Title> accessRights = setTitreList(dataSetId.getString("labelaccessRightsLg1"),dataSetId.getString("labelaccessRightsLg2"));
-
+        if (dataSetId.has("labelaccessRightsLg1") && dataSetId.has("labelaccessRightsLg2")) {
+            List<Title> accessRights = setTitreList(dataSetId.getString("labelaccessRightsLg1"), dataSetId.getString("labelaccessRightsLg2"));
+            reponse.setAccessRights(accessRights);
         }
         //récupération de confidentialityStatus
-        List<Title> confidentialityStatus = setTitreList(dataSetId.getString("labelconfidentialityStatusLg1"),dataSetId.getString("labelconfidentialityStatusLg2"));
+        if (dataSetId.has("labelconfidentialityStatusLg1") && dataSetId.has("labelconfidentialityStatusLg2")) {
+            List<Title> confidentialityStatus = setTitreList(dataSetId.getString("labelconfidentialityStatusLg1"), dataSetId.getString("labelconfidentialityStatusLg2"));
+            reponse.setConfidentialityStatus(confidentialityStatus);
+        }
         //récupération de accrualPeriodicity
-        List<Title> accrualPeriodicity = setTitreList(dataSetId.getString("labelaccrualPeriodicityLg1"),dataSetId.getString("labelaccrualPeriodicityLg2"));
+        if (dataSetId.has("labelaccrualPeriodicityLg1") && dataSetId.has("labelaccrualPeriodicityLg2")) {
+            List<Title> accrualPeriodicity = setTitreList(dataSetId.getString("labelaccrualPeriodicityLg1"), dataSetId.getString("labelaccrualPeriodicityLg2"));
+            reponse.setAccrualPeriodicity(accrualPeriodicity);
+        }
         //récupération de temporal
-        JSONObject temporal = new JSONObject();
-        temporal.put("startPeriod",dataSetId.getString("startPeriod"));
-        temporal.put("endPeriod",dataSetId.getString("endPeriod"));
-
+        if (dataSetId.has("startPeriod") && dataSetId.has("endPeriod")) {
+            JSONObject temporal = new JSONObject();
+            temporal.put("startPeriod", dataSetId.getString("startPeriod"));
+            temporal.put("endPeriod", dataSetId.getString("endPeriod"));
+            reponse.setTemporal(temporal);
+        }
         //récupération de temporalResolution
-        JSONArray temporalResolution =new JSONArray();
-        List<Title> titleTemporalResolution = setTitreList(dataSetId.getString("labeltemporalResolutionLg1"),dataSetId.getString("labeltemporalResolutionLg2"));
+        if (dataSetId.has("labeltemporalResolutionLg1") && dataSetId.has("labeltemporalResolutionLg2")){
+            JSONArray temporalResolution = new JSONArray();
+        List<Title> titleTemporalResolution = setTitreList(dataSetId.getString("labeltemporalResolutionLg1"), dataSetId.getString("labeltemporalResolutionLg2"));
         temporalResolution.put(titleTemporalResolution);
+        reponse.setTemporalResolution(temporalResolution);
+        }
         //récupération de spatial
-        JSONObject spatial = new JSONObject();
-        spatial.put("id",dataSetId.getString("spatialId"));
-        spatial.put("label", setTitreList(dataSetId.getString("labelspatialLg1"),dataSetId.getString("labelspatialLg2")));
+        if (dataSetId.has("spatialId")) {
+            JSONObject spatial = new JSONObject();
+            spatial.put("id", dataSetId.getString("spatialId"));
+            spatial.put("label", setTitreList(dataSetId.getString("labelspatialLg1"), dataSetId.getString("labelspatialLg2")));
+            reponse.setSpatial(spatial);
+        }
         //récupération de spatialResolution
-        JSONArray spatialResolution = new JSONArray();
-        JSONObject jsonSpatialResolution = new JSONObject();
-        jsonSpatialResolution.put("id",dataSetId.getString("spatialResolutionId"));
-        jsonSpatialResolution.put("label", setTitreList(dataSetId.getString("labelspatialResolutionLg1"),dataSetId.getString("labelspatialResolutionLg2")));
-        spatialResolution.put(jsonSpatialResolution);
+        if (dataSetId.has("spatialResolutionId")) {
+            JSONArray spatialResolution = new JSONArray();
+            JSONObject jsonSpatialResolution = new JSONObject();
+            jsonSpatialResolution.put("id", dataSetId.getString("spatialResolutionId"));
+            jsonSpatialResolution.put("label", setTitreList(dataSetId.getString("labelspatialResolutionLg1"), dataSetId.getString("labelspatialResolutionLg2")));
+            spatialResolution.put(jsonSpatialResolution);
+            reponse.setSpatialResolution(spatialResolution);
+        }
         //récupération de statisticalUnit
-        List<Title> statisticalUnit = setTitreList(dataSetId.getString("labelstatisticalUnitLg1"),dataSetId.getString("labelstatisticalUnitLg2"));
+        if (dataSetId.has("labelstatisticalUnitLg1") && dataSetId.has("labelstatisticalUnitLg2")){
+            List<Title> statisticalUnit = setTitreList(dataSetId.getString("labelstatisticalUnitLg1"),dataSetId.getString("labelstatisticalUnitLg2"));
+            reponse.setStatisticalUnit(statisticalUnit);
+        }
         //récupération de structure
-        JSONObject structure = new JSONObject();
-        structure.put("id",dataSetId.getString("structureId"));
-        structure.put("dsd",dataSetId.getString("dsd"));
-
+        if (dataSetId.has("structureId") && dataSetId.has("dsd")) {
+            JSONObject structure = new JSONObject();
+            structure.put("id", dataSetId.getString("structureId"));
+            structure.put("dsd", dataSetId.getString("dsd"));
+            reponse.setStructure(structure);
+        }
+        //récupération de issued
+        if (dataSetId.has("issued")){
+            reponse.setIssued(dataSetId.getString("issued"));
+        }
+        //récupération de version
+        if (dataSetId.has("version")){
+            reponse.setVersion(dataSetId.getString("version"));
+        }
+        //récupération de numObservations
+        if (dataSetId.has("numObservations")){
+            reponse.setNumObservations(dataSetId.getString("numObservations"));
+        }
+        //récupération de numSeries
+        if (dataSetId.has("numSeries")){
+            reponse.setNumSeries(dataSetId.getString("numSeries"));
+        }
 
 
 
@@ -184,8 +251,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
 
-        return new DataSetModelSwagger(dataSet.getId(), title, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(),themeListModelSwaggerS, serieListModelSwaggerS, operationListModelSwaggerS);
-
+        return reponse;
 
     }
 

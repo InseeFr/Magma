@@ -234,6 +234,99 @@ public class DataSetModelSwagger implements Serializable  {
     public String getDisseminationStatus() {
         return disseminationStatus;
     }
+
+    public void setSubtitle(List<Title> subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    public void setAbstractDataset(List<Title> abstractDataset) {
+        this.abstractDataset = abstractDataset;
+    }
+
+    public void setDescription(List<Title> description) {
+        this.description = description;
+    }
+
+    public void setScopeNote(List<Title> scopeNote) {
+        this.scopeNote = scopeNote;
+    }
+
+    public void setLandingPage(List<Title> landingPage) {
+        this.landingPage = landingPage;
+    }
+
+    public void setProcessStep(List<Title> processStep) {
+        this.processStep = processStep;
+    }
+
+    public void setPublisher(JSONObject publisher) {
+        this.publisher = publisher;
+    }
+
+    public void setWasGeneratedBy(JSONObject wasGeneratedBy) {
+        this.wasGeneratedBy = wasGeneratedBy;
+    }
+
+    public void setType(List<Title> type) {
+        this.type = type;
+    }
+
+    public void setArchiveUnit(JSONArray archiveUnit) {
+        this.archiveUnit = archiveUnit;
+    }
+
+    public void setAccessRights(List<Title> accessRights) {
+        this.accessRights = accessRights;
+    }
+
+    public void setConfidentialityStatus(List<Title> confidentialityStatus) {
+        this.confidentialityStatus = confidentialityStatus;
+    }
+
+    public void setAccrualPeriodicity(List<Title> accrualPeriodicity) {
+        this.accrualPeriodicity = accrualPeriodicity;
+    }
+
+    public void setTemporal(JSONObject temporal) {
+        this.temporal = temporal;
+    }
+
+    public void setTemporalResolution(JSONArray temporalResolution) {
+        this.temporalResolution = temporalResolution;
+    }
+
+    public void setSpatial(JSONObject spatial) {
+        this.spatial = spatial;
+    }
+
+    public void setSpatialResolution(JSONArray spatialResolution) {
+        this.spatialResolution = spatialResolution;
+    }
+
+    public void setStatisticalUnit(List<Title> statisticalUnit) {
+        this.statisticalUnit = statisticalUnit;
+    }
+
+    public void setStructure(JSONObject structure) {
+        this.structure = structure;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public void setIssued(String issued) {
+        this.issued = issued;
+    }
+
+    public void setNumObservations(String numObservations) {
+        this.numObservations = numObservations;
+    }
+
+    public void setNumSeries(String numSeries) {
+        this.numSeries = numSeries;
+    }
+
     @JsonProperty("disseminationStatus")
     public void setDisseminationStatus(String disseminationStatus) {
         this.disseminationStatus = disseminationStatus;
