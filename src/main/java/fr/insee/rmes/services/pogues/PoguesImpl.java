@@ -125,7 +125,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         params.put("LG1", Config.LG1);
         params.put("LG2", Config.LG2);
 
-        JSONArray serieId= repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getCodesList.ftlh", params));
+        JSONArray serieId= repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getSerieById.ftlh", params));
 
         JSONObject serieIdwithOneProprietaire = serieId.getJSONObject(0);
         List <String> proprietaires = new ArrayList<>();

@@ -41,8 +41,7 @@
            		OPTIONAL { 
            			?series dcterms:type ?type .
            			BIND(STRAFTER(STR(?type),'/codes/categorieSource/') AS ?typeId) .
-           			FILTER regex(?typeLabelLg1,'Enquête' )
-           			?type skos:prefLabel ?typeLabelLg1 .  
+           			?type skos:prefLabel ?typeLabelLg1 .
            			FILTER (lang(?typeLabelLg1) = '${LG1}')
 					?type skos:prefLabel ?typeLabelLg2 .
            			FILTER (lang(?typeLabelLg2) = '${LG2}')
