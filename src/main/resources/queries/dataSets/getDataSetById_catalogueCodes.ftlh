@@ -15,13 +15,13 @@ WHERE {
 		?uri a dcat:Dataset ;
 		dcterms:identifier "${ID}" ;
 
-		OPTIONAL{?uri dct:temporalResolution ?temporalResolution   .
+		OPTIONAL{?uri dcterms:temporalResolution ?temporalResolution   .
 		?temporalResolution skos:prefLabel ?labeltemporalResolutionLg1 .
 		FILTER (lang(?labeltemporalResolutionLg1) = '${LG1}')}
 		OPTIONAL {?temporalResolution skos:prefLabel ?labeltemporalResolutionLg2 .
 		FILTER (lang(?labeltemporalResolutionLg2) = '${LG2}') .}
 
-		OPTIONAL{?uri dct:spatial ?spatial   .
+		OPTIONAL{?uri dcterms:spatial ?spatial   .
 		?spatial skos:notation ?spatialId .
 		?spatial skos:prefLabel ?labelspatialLg1 .
 		FILTER (lang(?labelspatialLg1) = '${LG1}') .
@@ -41,13 +41,13 @@ WHERE {
 		?statisticalUnit skos:prefLabel ?labelstatisticalUnitLg2 .
 		FILTER (lang(?labelstatisticalUnitLg2) = '${LG2}') .}
 
-		OPTIONAL{?uri dct:type ?type .
+		OPTIONAL{?uri dcterms:type ?type .
 		?type skos:prefLabel ?labeltypeLg1 .
 		FILTER(lang(?labeltypeLg1)= '${LG1}') .
 		?type skos:prefLabel ?labeltypeLg2 .
 		FILTER(lang(?labeltypeLg2)= '${LG2}') .}
 
-		OPTIONAL{?uri dct:accessRights ?accessRights .
+		OPTIONAL{?uri dcterms:accessRights ?accessRights .
 		?accessRights skos:prefLabel ?labelaccessRightsLg1 .
 		FILTER(lang(?labelaccessRightsLg1)= '${LG1}')
 		?accessRights skos:prefLabel ?labelaccessRightsLg2 .
@@ -59,7 +59,7 @@ WHERE {
 		?accessRights skos:prefLabel ?labelconfidentialityStatusLg2 .
 		FILTER(lang(?labelconfidentialityStatusLg2)= '${LG2}') .}
 
-		OPTIONAL{?uri dct:accrualPeriodicity ?accrualPeriodicity .
+		OPTIONAL{?uri dcterms:accrualPeriodicity ?accrualPeriodicity .
 		?accrualPeriodicity skos:prefLabel ?labelaccrualPeriodicityLg1 .
 		FILTER(lang(?labelaccrualPeriodicityLg1)= '${LG1}')
 		?accrualPeriodicity skos:prefLabel ?labelaccrualPeriodicityLg2 .

@@ -1,12 +1,12 @@
 SELECT DISTINCT ?id ?uri  ?creator ?contributor
 ?titleLg1 ?titleLg2 ?statutValidation
 ?dateCreation ?dateModification ?dateEmission
-?subtitleLg1 ?subtitleLg2 ?abstractLg1 ?abstractLg2 ?endPeriod ?startPeriod
+?subtitleLg1 ?subtitleLg2 ?abstractLg1 ?abstractLg2
 ?descriptionLg1 ?descriptionLg2 ?scopeNoteLg1 ?scopeNoteLg2 ?landingPageLg1 ?landingPageLg2
 ?processStepLg1 ?processStepLg2
 ?version  ?numObservations ?numSeries
 ?endPeriod ?startPeriod
-
+(GROUP_CONCAT(DISTINCT ?result;separator=" , ") AS ?names) (GROUP_CONCAT(DISTINCT ?antecedent;separator=" , ") AS ?operationStat)
 FROM <${DATASETS_GRAPH}>
 
 
@@ -37,14 +37,14 @@ WHERE {
 		OPTIONAL {?uri insee:subtitle ?subtitleLg2 .
 		FILTER (lang(?subtitleLg2) = '${LG2}')}
 
-		OPTIONAL {?uri dct:abstract ?abstractLg1 .
+		OPTIONAL {?uri dcterms:abstract ?abstractLg1 .
 		FILTER (lang(?abstractLg1) = '${LG1}')}
-		OPTIONAL {?uri dct:abstract ?abstractLg2 .
+		OPTIONAL {?uri dcterms:abstract ?abstractLg2 .
 		FILTER (lang(?abstractLg2) = '${LG2}')}
 
-		OPTIONAL {?uri dct:description ?descriptionLg1 .
+		OPTIONAL {?uri dcterms:description ?descriptionLg1 .
 		FILTER (lang(?descriptionLg1) = '${LG1}')}
-		OPTIONAL {?uri dct:description ?descriptionLg2 .
+		OPTIONAL {?uri dcterms:description ?descriptionLg2 .
 		FILTER (lang(?descriptionLg2) = '${LG2}')}
 
 		OPTIONAL {?uri skos:scopeNote ?scopeNoteLg1 .
@@ -64,8 +64,15 @@ WHERE {
 
 		OPTIONAL {?uri dcterms:issued ?dateEmission . }
 
-		OPTIONAL {?uri dct:temporal/dcat:startDate ?startPeriod . }
-		OPTIONAL {?uri dct:temporal/dcat:endDate ?endPeriod . }
+		OPTIONAL {?uri dcterms:temporal/dcat:startDate ?startPeriod . }
+		OPTIONAL {?uri dcterms:temporal/dcat:endDate ?endPeriod . }
 
 
-}
+} GROUP BY ?id ?uri  ?creator ?contributor
+?titleLg1 ?titleLg2 ?statutValidation
+?dateCreation ?dateModification ?dateEmission
+?subtitleLg1 ?subtitleLg2 ?abstractLg1 ?abstractLg2
+?descriptionLg1 ?descriptionLg2 ?scopeNoteLg1 ?scopeNoteLg2 ?landingPageLg1 ?landingPageLg2
+?processStepLg1 ?processStepLg2
+?version  ?numObservations ?numSeries
+?endPeriod ?startPeriod

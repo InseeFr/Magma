@@ -22,6 +22,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonPropertyOrder({
         "id",
         "uri",
+        "identifier",
         "created",
         "modified",
         "disseminationStatus",
@@ -53,6 +54,8 @@ public class DataSetModelSwagger implements Serializable  {
     @JsonProperty("disseminationStatus")
     private String disseminationStatus;
 
+    @JsonProperty("identifier")
+    private String identifier;
     @JsonProperty("subtitle")
     private List<Title> subtitle;
     @JsonProperty("abstract")
@@ -62,13 +65,13 @@ public class DataSetModelSwagger implements Serializable  {
     @JsonProperty("scopeNote")
     private List<Title> scopeNote;
     @JsonProperty("landingPage")
-    private List<Title> landingPage;
+    private List<LandingPage> landingPage;
     @JsonProperty("processStep")
     private List<Title> processStep;
     @JsonProperty("publisher")
     private IdLabel publisher;
     @JsonProperty("wasGeneratedBy")
-    private IdLabel wasGeneratedBy;
+    private List<IdLabel> wasGeneratedBy;
     @JsonProperty("type")
     private List<Title> type;
     @JsonProperty("archiveUnit")
@@ -78,7 +81,7 @@ public class DataSetModelSwagger implements Serializable  {
     @JsonProperty("confidentialityStatus")
     private List<Title> confidentialityStatus;
     @JsonProperty("accrualPeriodicity")
-    private List<Title> accrualPeriodicity;
+    private Label accrualPeriodicity;
     @JsonProperty("temporal")
     private Temporal temporal;
     @JsonProperty("temporalResolution")
@@ -96,9 +99,9 @@ public class DataSetModelSwagger implements Serializable  {
     @JsonProperty("issued")
     private String issued;
     @JsonProperty("numObservations")
-    private String numObservations;
+    private Integer numObservations;
     @JsonProperty("numSeries")
-    private String numSeries;
+    private Integer numSeries;
 
 
 
@@ -237,6 +240,9 @@ public class DataSetModelSwagger implements Serializable  {
         return disseminationStatus;
     }
 
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
     public void setSubtitle(List<Title> subtitle) {
         this.subtitle = subtitle;
     }
@@ -253,7 +259,7 @@ public class DataSetModelSwagger implements Serializable  {
         this.scopeNote = scopeNote;
     }
 
-    public void setLandingPage(List<Title> landingPage) {
+    public void setLandingPage(List<LandingPage> landingPage) {
         this.landingPage = landingPage;
     }
 
@@ -263,7 +269,7 @@ public class DataSetModelSwagger implements Serializable  {
 
 
 
-    public void setWasGeneratedBy(IdLabel wasGeneratedBy) {
+    public void setWasGeneratedBy(List<IdLabel> wasGeneratedBy) {
         this.wasGeneratedBy = wasGeneratedBy;
     }
 
@@ -281,7 +287,7 @@ public class DataSetModelSwagger implements Serializable  {
         this.confidentialityStatus = confidentialityStatus;
     }
 
-    public void setAccrualPeriodicity(List<Title> accrualPeriodicity) {
+    public void setAccrualPeriodicity(Label accrualPeriodicity) {
         this.accrualPeriodicity = accrualPeriodicity;
     }
 
@@ -313,11 +319,11 @@ public class DataSetModelSwagger implements Serializable  {
         this.issued = issued;
     }
 
-    public void setNumObservations(String numObservations) {
+    public void setNumObservations(Integer numObservations) {
         this.numObservations = numObservations;
     }
 
-    public void setNumSeries(String numSeries) {
+    public void setNumSeries(Integer numSeries) {
         this.numSeries = numSeries;
     }
 

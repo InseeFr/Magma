@@ -8,7 +8,7 @@ WHERE {
 		?uri a dcat:Dataset ;
 		dcterms:identifier "${ID}" ;
 
-		OPTIONAL {?structure dct:identifier ?structureId .
+		OPTIONAL {?structure dcterms:identifier ?structureId .
 		?structure skos:notation ?dsd .}
 
 }

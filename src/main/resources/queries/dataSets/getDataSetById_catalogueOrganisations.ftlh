@@ -7,8 +7,8 @@ WHERE {
 		?uri a dcat:Dataset ;
 		dcterms:identifier "${ID}" ;
 
-		OPTIONAL{?uri dct:publisher ?publisher  .
-		?publisher dct:identifier ?idPublisher .
+		OPTIONAL{?uri dcterms:publisher ?publisher  .
+		?publisher dcterms:identifier ?idPublisher .
 		?publisher skos:prefLabel ?labelPublisherLg1 .
 		FILTER(lang(?labelPublisherLg1)= '${LG1}') .
 		?publisher skos:prefLabel ?labelPublisherLg2 .

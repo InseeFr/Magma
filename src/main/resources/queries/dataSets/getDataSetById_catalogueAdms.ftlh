@@ -1,5 +1,5 @@
 SELECT DISTINCT
-?idarchiveUnit ?labelarchiveUnitLg1 ?labelarchiveUnitLg2
+?idarchiveUnit ?labelarchiveUnitLg1 ?labelarchiveUnitLg2 ?identifier
 FROM <${DATASETS_GRAPH}>
 FROM <${ADMS_GRAPH}>
 
