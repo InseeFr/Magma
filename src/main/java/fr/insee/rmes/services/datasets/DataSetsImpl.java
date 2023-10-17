@@ -127,16 +127,13 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
         //récupération de publisher
         if (dataSetId.has("idPublisher")) {
-            JSONObject publisher = new JSONObject();
-            publisher.put("id", dataSetId.getString("idPublisher"));
-            publisher.put("label", setTitreList(dataSetId.getString("labelPublisherLg1"), dataSetId.getString("labelPublisherLg2")));
+            IdLabel publisher = setIdLabel(dataSetId.getString("idPublisher"),dataSetId.getString("labelPublisherLg1"),dataSetId.getString("labelPublisherLg2"));
             reponse.setPublisher(publisher);
         }
         //récupération de wasGeneratedBy
         if (dataSetId.has("wasGeneratedById")) {
-            JSONObject wasGeneratedBy = new JSONObject();
-            wasGeneratedBy.put("id", dataSetId.getString("wasGeneratedById"));
-            wasGeneratedBy.put("label", setTitreList(dataSetId.getString("labelwasGeneratedByLg1"), dataSetId.getString("labelwasGeneratedByLg2")));
+            IdLabel wasGeneratedBy = setIdLabel(dataSetId.getString("wasGeneratedById"),dataSetId.getString("labelwasGeneratedByLg1"),dataSetId.getString("labelwasGeneratedByLg2"));
+            wasGeneratedBy.setType("type");
             reponse.setWasGeneratedBy(wasGeneratedBy);
         }
         //récupération de type
@@ -146,11 +143,9 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
         //récupération de archiveUnit
         if (dataSetId.has("idarchiveUnit")) {
-            JSONArray archiveUnit = new JSONArray();
-            JSONObject jsonArchiveUnit = new JSONObject();
-            jsonArchiveUnit.put("id", dataSetId.getString("idarchiveUnit"));
-            jsonArchiveUnit.put("label", setTitreList(dataSetId.getString("labelarchiveUnitLg1"), dataSetId.getString("labelarchiveUnitLg2")));
-            archiveUnit.put(jsonArchiveUnit);
+            List<IdLabel> archiveUnit = new ArrayList<>();
+            IdLabel idLabelArchiveUnit = setIdLabel(dataSetId.getString("idarchiveUnit"),dataSetId.getString("labelarchiveUnitLg1"),dataSetId.getString("labelarchiveUnitLg2"));
+            archiveUnit.add(idLabelArchiveUnit);
             reponse.setArchiveUnit(archiveUnit);
         }
         //récupération de accessRights
@@ -170,32 +165,27 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
         //récupération de temporal
         if (dataSetId.has("startPeriod") && dataSetId.has("endPeriod")) {
-            JSONObject temporal = new JSONObject();
-            temporal.put("startPeriod", dataSetId.getString("startPeriod"));
-            temporal.put("endPeriod", dataSetId.getString("endPeriod"));
+            Temporal temporal = new Temporal(dataSetId.getString("startPeriod"),dataSetId.getString("endPeriod"));
             reponse.setTemporal(temporal);
         }
         //récupération de temporalResolution
         if (dataSetId.has("labeltemporalResolutionLg1") && dataSetId.has("labeltemporalResolutionLg2")){
-            JSONArray temporalResolution = new JSONArray();
-        List<Title> titleTemporalResolution = setTitreList(dataSetId.getString("labeltemporalResolutionLg1"), dataSetId.getString("labeltemporalResolutionLg2"));
-        temporalResolution.put(titleTemporalResolution);
-        reponse.setTemporalResolution(temporalResolution);
+            List<Label> temporalResolution = new ArrayList<>();
+            List<Title> titleTemporalResolution = setTitreList(dataSetId.getString("labeltemporalResolutionLg1"), dataSetId.getString("labeltemporalResolutionLg2"));
+            Label labelTemporalResolution = new Label(titleTemporalResolution);
+            temporalResolution.add(labelTemporalResolution);
+            reponse.setTemporalResolution(temporalResolution);
         }
         //récupération de spatial
         if (dataSetId.has("spatialId")) {
-            JSONObject spatial = new JSONObject();
-            spatial.put("id", dataSetId.getString("spatialId"));
-            spatial.put("label", setTitreList(dataSetId.getString("labelspatialLg1"), dataSetId.getString("labelspatialLg2")));
+            IdLabel spatial = setIdLabel(dataSetId.getString("spatialId"),dataSetId.getString("labelspatialLg1"),dataSetId.getString("labelspatialLg2"));
             reponse.setSpatial(spatial);
         }
         //récupération de spatialResolution
         if (dataSetId.has("spatialResolutionId")) {
-            JSONArray spatialResolution = new JSONArray();
-            JSONObject jsonSpatialResolution = new JSONObject();
-            jsonSpatialResolution.put("id", dataSetId.getString("spatialResolutionId"));
-            jsonSpatialResolution.put("label", setTitreList(dataSetId.getString("labelspatialResolutionLg1"), dataSetId.getString("labelspatialResolutionLg2")));
-            spatialResolution.put(jsonSpatialResolution);
+            List<IdLabel> spatialResolution = new ArrayList<>();
+            IdLabel idLabelSpatialResolution = setIdLabel(dataSetId.getString("spatialResolutionId"),dataSetId.getString("labelspatialResolutionLg1"),dataSetId.getString("labelspatialResolutionLg2"));
+            spatialResolution.add(idLabelSpatialResolution);
             reponse.setSpatialResolution(spatialResolution);
         }
         //récupération de statisticalUnit
@@ -205,9 +195,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
         //récupération de structure
         if (dataSetId.has("structureId") && dataSetId.has("dsd")) {
-            JSONObject structure = new JSONObject();
-            structure.put("id", dataSetId.getString("structureId"));
-            structure.put("dsd", dataSetId.getString("dsd"));
+            Structure structure = new Structure(dataSetId.getString("structureId"),dataSetId.getString("dsd"));
             reponse.setStructure(structure);
         }
         //récupération de issued
@@ -254,6 +242,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return reponse;
 
     }
+
 
     @Override
     public String getDataSetByIDFilterByDateMaj (String id) throws RmesException, JsonProcessingException {
@@ -465,6 +454,14 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         titres.add(titre2);
         return titres;
     }
+
+
+    private IdLabel setIdLabel(String id, String labelLg1, String labelLg2) {
+        List<Title> titleList = setTitreList(labelLg1,labelLg2);
+        IdLabel idLabel = new IdLabel(id,titleList);
+        return idLabel;
+    }
+
 
     public Map<String, Object> initParams () {
             Map<String, Object> params = new HashMap<>();

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -64,13 +66,13 @@ public class DataSetModelSwagger implements Serializable  {
     @JsonProperty("processStep")
     private List<Title> processStep;
     @JsonProperty("publisher")
-    private JSONObject publisher;
+    private IdLabel publisher;
     @JsonProperty("wasGeneratedBy")
-    private JSONObject wasGeneratedBy;
+    private IdLabel wasGeneratedBy;
     @JsonProperty("type")
     private List<Title> type;
     @JsonProperty("archiveUnit")
-    private JSONArray archiveUnit;
+    private List<IdLabel> archiveUnit;
     @JsonProperty("accessRights")
     private List<Title> accessRights;
     @JsonProperty("confidentialityStatus")
@@ -78,17 +80,17 @@ public class DataSetModelSwagger implements Serializable  {
     @JsonProperty("accrualPeriodicity")
     private List<Title> accrualPeriodicity;
     @JsonProperty("temporal")
-    private JSONObject temporal;
+    private Temporal temporal;
     @JsonProperty("temporalResolution")
-    private JSONArray temporalResolution;
+    private List<Label> temporalResolution;
     @JsonProperty("spatial")
-    private JSONObject spatial;
+    private IdLabel spatial;
     @JsonProperty("spatialResolution")
-    private JSONArray spatialResolution;
+    private List<IdLabel> spatialResolution;
     @JsonProperty("statisticalUnit")
     private List<Title> statisticalUnit;
     @JsonProperty("structure")
-    private JSONObject structure;
+    private Structure structure;
     @JsonProperty("version")
     private String version;
     @JsonProperty("issued")
@@ -259,11 +261,9 @@ public class DataSetModelSwagger implements Serializable  {
         this.processStep = processStep;
     }
 
-    public void setPublisher(JSONObject publisher) {
-        this.publisher = publisher;
-    }
 
-    public void setWasGeneratedBy(JSONObject wasGeneratedBy) {
+
+    public void setWasGeneratedBy(IdLabel wasGeneratedBy) {
         this.wasGeneratedBy = wasGeneratedBy;
     }
 
@@ -271,9 +271,7 @@ public class DataSetModelSwagger implements Serializable  {
         this.type = type;
     }
 
-    public void setArchiveUnit(JSONArray archiveUnit) {
-        this.archiveUnit = archiveUnit;
-    }
+
 
     public void setAccessRights(List<Title> accessRights) {
         this.accessRights = accessRights;
@@ -287,27 +285,23 @@ public class DataSetModelSwagger implements Serializable  {
         this.accrualPeriodicity = accrualPeriodicity;
     }
 
-    public void setTemporal(JSONObject temporal) {
+    public void setTemporal(Temporal temporal) {
         this.temporal = temporal;
     }
 
-    public void setTemporalResolution(JSONArray temporalResolution) {
+    public void setTemporalResolution(List<Label> temporalResolution) {
         this.temporalResolution = temporalResolution;
     }
 
-    public void setSpatial(JSONObject spatial) {
-        this.spatial = spatial;
-    }
 
-    public void setSpatialResolution(JSONArray spatialResolution) {
-        this.spatialResolution = spatialResolution;
-    }
+
+
 
     public void setStatisticalUnit(List<Title> statisticalUnit) {
         this.statisticalUnit = statisticalUnit;
     }
 
-    public void setStructure(JSONObject structure) {
+    public void setStructure(Structure structure) {
         this.structure = structure;
     }
 
@@ -325,6 +319,22 @@ public class DataSetModelSwagger implements Serializable  {
 
     public void setNumSeries(String numSeries) {
         this.numSeries = numSeries;
+    }
+
+    public void setPublisher(IdLabel publisher) {
+        this.publisher = publisher;
+    }
+
+    public void setArchiveUnit(List<IdLabel> archiveUnit) {
+        this.archiveUnit = archiveUnit;
+    }
+
+    public void setSpatial(IdLabel spatial) {
+        this.spatial = spatial;
+    }
+
+    public void setSpatialResolution(List<IdLabel> spatialResolution) {
+        this.spatialResolution = spatialResolution;
     }
 
     @JsonProperty("disseminationStatus")
