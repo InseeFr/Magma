@@ -89,7 +89,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         //récupération du titre
         List<Title> title = setTitreList(dataSetId.getString("titleLg1"), dataSetId.getString("titleLg2"));
 
-        DataSetModelSwagger reponse = new DataSetModelSwagger(dataSetId.getString("id"), title, dataSetId.getString("uri"), dataSetId.getString("modified"), dataSetId.getString("created"), dataSetId.getString("validationState"), dataSetId.getString("contributor"), dataSetId.getString("creator"), dataSetId.getString("disseminationStatus"));
+        DataSetModelSwagger reponse = new DataSetModelSwagger(dataSetId.getString("id"), title, dataSetId.getString("uri"), dataSetId.getString("dateModification"), dataSetId.getString("dateCreation"), dataSetId.getString("statutValidation"), dataSetId.getString("contributor"), dataSetId.getString("creator"), dataSetId.getString("labeldisseminationStatusLg1"));
 
 
         //TODO faire tests sur les optionals
@@ -211,8 +211,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setStructure(structure);
         }
         //récupération de issued
-        if (dataSetId.has("issued")){
-            reponse.setIssued(dataSetId.getString("issued"));
+        if (dataSetId.has("dateEmission")){
+            reponse.setIssued(dataSetId.getString("dateEmission"));
         }
         //récupération de version
         if (dataSetId.has("version")){
@@ -230,22 +230,22 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
         //récupération variable contenant le ou les thèmes du dataset
-        List<ThemeModelSwagger> themeListModelSwaggerS = getThemeModelSwaggerS(dataSetId);
+//        List<ThemeModelSwagger> themeListModelSwaggerS = getThemeModelSwaggerS(dataSetId);
 
         //récupération de(s) série(s) ou de(s) opération(s) dont est issu le dataset
 
-        List<String> operationStat = List.of(dataSetId.getString("operationStat").split(","));
-        Stream<String> streamSerie = operationStat.stream();
-        List<String> serieUri = streamSerie.filter(v -> v.contains("/serie/"))
-                .collect(Collectors.toList());
-        Stream<String> streamOperation = operationStat.stream();
-        List<String> operationUri = streamOperation.filter(v -> v.contains("/operation/"))
-                .collect(Collectors.toList());
+//        List<String> operationStat = List.of(dataSetId.getString("operationStat").split(","));
+//        Stream<String> streamSerie = operationStat.stream();
+//        List<String> serieUri = streamSerie.filter(v -> v.contains("/serie/"))
+//                .collect(Collectors.toList());
+//        Stream<String> streamOperation = operationStat.stream();
+//        List<String> operationUri = streamOperation.filter(v -> v.contains("/operation/"))
+//                .collect(Collectors.toList());
 
         //traitement de(s) série(s)/opération(s) lié(s) au dataset
 
-        List<SerieModelSwagger> serieListModelSwaggerS = getSerieModelSwaggerS(serieUri);
-        List<OperationModelSwagger> operationListModelSwaggerS = getOperationModelSwaggerS(operationUri);
+//        List<SerieModelSwagger> serieListModelSwaggerS = getSerieModelSwaggerS(serieUri);
+//        List<OperationModelSwagger> operationListModelSwaggerS = getOperationModelSwaggerS(operationUri);
 
         // fusion de l'ensemble des objets précédents dans datasetModelSwagger en fonction du contenu
 

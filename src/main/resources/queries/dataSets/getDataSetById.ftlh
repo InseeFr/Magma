@@ -50,14 +50,14 @@ WHERE {
 		OPTIONAL {?uri insee:subtitle ?subtitleLg2 .
 		FILTER (lang(?subtitleLg2) = '${LG2}')}
 
-		OPTIONAL {?uri dct:abstract ?abstractLg1 .
+		OPTIONAL {?uri dcterms:abstract ?abstractLg1 .
 		FILTER (lang(?abstractLg1) = '${LG1}')}
-		OPTIONAL {?uri dct:abstract ?abstractLg2 .
+		OPTIONAL {?uri dcterms:abstract ?abstractLg2 .
 		FILTER (lang(?abstractLg2) = '${LG2}')}
 
-		OPTIONAL {?uri dct:description ?descriptionLg1 .
+		OPTIONAL {?uri dcterms:description ?descriptionLg1 .
 		FILTER (lang(?descriptionLg1) = '${LG1}')}
-		OPTIONAL {?uri dct:description ?descriptionLg2 .
+		OPTIONAL {?uri dcterms:description ?descriptionLg2 .
 		FILTER (lang(?descriptionLg2) = '${LG2}')}
 
 		OPTIONAL {?uri skos:scopeNote ?scopeNoteLg1 .
@@ -77,17 +77,17 @@ WHERE {
 
 		OPTIONAL {?uri dcterms:issued ?dateEmission . }
 
-		OPTIONAL {?uri dct:temporal/dcat:startDate ?startPeriod . }
-		OPTIONAL {?uri dct:temporal/dcat:endDate ?endPeriod . }
+		OPTIONAL {?uri dcterms:temporal/dcat:startDate ?startPeriod . }
+		OPTIONAL {?uri dcterms:temporal/dcat:endDate ?endPeriod . }
 
 
-		OPTIONAL{?uri dct:temporalResolution ?temporalResolution   .
+		OPTIONAL{?uri dcterms:temporalResolution ?temporalResolution   .
 		?temporalResolution skos:prefLabel ?labeltemporalResolutionLg1 .
 		FILTER (lang(?labeltemporalResolutionLg1) = '${LG1}')}
 		OPTIONAL {?temporalResolution skos:prefLabel ?labeltemporalResolutionLg2 .
 		FILTER (lang(?labeltemporalResolutionLg2) = '${LG2}') .}
 
-		OPTIONAL{?uri dct:spatial ?spatial   .
+		OPTIONAL{?uri dcterms:spatial ?spatial   .
 		?spatial skos:notation ?spatialId .
 		?spatial skos:prefLabel ?labelspatialLg1 .
 		FILTER (lang(?labelspatialLg1) = '${LG1}') .
@@ -107,14 +107,14 @@ WHERE {
 		?statisticalUnit skos:prefLabel ?labelstatisticalUnitLg2 .
 		FILTER (lang(?labelstatisticalUnitLg2) = '${LG2}') .}
 
-		OPTIONAL {?structure dct:identifier ?structureId .
+		OPTIONAL {?structure dcterms:identifier ?structureId .
 		?structure skos:notation ?dsd .}
 
 		OPTIONAL{?uri adms:identifier ?identifierADMS  .
 		?identifierADMS skos:notation ?identifier . }
 
-		OPTIONAL{?uri dct:publisher ?publisher  .
-		?publisher dct:identifier ?idPublisher .
+		OPTIONAL{?uri dcterms:publisher ?publisher  .
+		?publisher dcterms:identifier ?idPublisher .
 		?publisher skos:prefLabel ?labelPublisherLg1 .
 		FILTER(lang(?labelPublisherLg1)= '${LG1}') .
 		?publisher skos:prefLabel ?labelPublisherLg2 .
@@ -127,7 +127,7 @@ WHERE {
 		?wasGeneratedBy skos:prefLabel ?labelwasGeneratedByLg2 .
 		FILTER(lang(?labelwasGeneratedByLg2)= '${LG2}') .}
 
-		OPTIONAL{?uri dct:type ?type .
+		OPTIONAL{?uri dcterms:type ?type .
 		?type skos:prefLabel ?labeltypeLg1 .
 		FILTER(lang(?labeltypeLg1)= '${LG1}') .
 		?type skos:prefLabel ?labeltypeLg2 .
@@ -140,7 +140,7 @@ WHERE {
 		?archiveUnit skos:prefLabel ?labelarchiveUnitLg2 .
 		FILTER(lang(?labelarchiveUnitLg2)= '${LG2}') .}
 
-		OPTIONAL{?uri dct:accessRights ?accessRights .
+		OPTIONAL{?uri dcterms:accessRights ?accessRights .
 		?accessRights skos:prefLabel ?labelaccessRightsLg1 .
 		FILTER(lang(?labelaccessRightsLg1)= '${LG1}')
 		?accessRights skos:prefLabel ?labelaccessRightsLg2 .
@@ -152,7 +152,7 @@ WHERE {
 		?accessRights skos:prefLabel ?labelconfidentialityStatusLg2 .
 		FILTER(lang(?labelconfidentialityStatusLg2)= '${LG2}') .}
 
-		OPTIONAL{?uri dct:accrualPeriodicity ?accrualPeriodicity .
+		OPTIONAL{?uri dcterms:accrualPeriodicity ?accrualPeriodicity .
 		?accrualPeriodicity skos:prefLabel ?labelaccrualPeriodicityLg1 .
 		FILTER(lang(?labelaccrualPeriodicityLg1)= '${LG1}')
 		?accrualPeriodicity skos:prefLabel ?labelaccrualPeriodicityLg2 .
@@ -160,4 +160,16 @@ WHERE {
 
 
 }
+GROUP BY ?id ?uri ?titleLg1 ?titleLg2 ?creator ?contributor ?labeldisseminationStatusLg1
+?subtitleLg1 ?subtitleLg2 ?abstractLg1 ?abstractLg2 ?endPeriod ?startPeriod
+?descriptionLg1 ?descriptionLg2 ?scopeNoteLg1 ?scopeNoteLg2 ?landingPageLg1 ?landingPageLg2
+?processStepLg1 ?processStepLg2
+?version ?dateCreation ?dateModification ?dateEmission  ?statutValidation ?numObservations ?numSeries
+?identifier ?idPublisher ?labelPublisherLg1 ?labelPublisherLg2 ?wasGeneratedById ?labelwasGeneratedByLg1  ?labelwasGeneratedByLg2
+?labeltypeLg1 ?labeltypeLg2 ?idarchiveUnit ?labelarchiveUnitLg1 ?labelarchiveUnitLg2 ?labelaccessRightsLg1 ?labelaccessRightsLg2
+?labelconfidentialityStatusLg1 ?labelconfidentialityStatusLg2
+?labeltemporalResolutionLg1 ?labeltemporalResolutionLg2 ?spatialResolutionId ?labelspatialLg1 ?labelspatialLg2
+?labelspatialResolutionLg1 ?labelspatialResolutionLg2 ?spatialId
+?labelstatisticalUnitLg1 ?labelstatisticalUnitLg2 ?dsd ?structureId
+?labelaccrualPeriodicityLg1 ?labelaccrualPeriodicityLg2
 
