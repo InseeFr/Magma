@@ -74,13 +74,13 @@ class DataSetsImplTest {
             themeListDTOS = themeListDTOS;
         } else {
             for (int i = 0; i < Arrays.stream(parts).count(); i++) {
-                Theme theme1 = new Theme("uriTheme", "labelThemeFR", "labelThemeEn");
+                Theme theme1 = new Theme("uriTheme", "labelThemeFR", "labelThemeEn","themeTaxonomy");
                 LabelDataSet labelDataSet1 = new LabelDataSet(Config.LG1, theme1.getLabelThemeLg1());
                 LabelDataSet labelDataSet2 = new LabelDataSet(Config.LG2, theme1.getLabelThemeLg2());
                 List<LabelDataSet> labelDataSets = new ArrayList<>();
                 labelDataSets.add(labelDataSet1);
                 labelDataSets.add(labelDataSet2);
-                ThemeModelSwagger themeSwagger = new ThemeModelSwagger(theme1.getUri(), labelDataSets);
+                ThemeModelSwagger themeSwagger = new ThemeModelSwagger(theme1.getUri(), labelDataSets, theme1.getThemeTaxonomy());
                 themeListDTOS.add(themeSwagger);
 
             }
