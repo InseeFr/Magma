@@ -6,7 +6,7 @@ SELECT DISTINCT ?id ?uri  ?creator ?contributor
 ?processStepLg1 ?processStepLg2
 ?version  ?numObservations ?numSeries
 ?endPeriod ?startPeriod
-(GROUP_CONCAT(DISTINCT ?result;separator=" , ") AS ?names) (GROUP_CONCAT(DISTINCT ?antecedent;separator=" , ") AS ?operationStat)
+(GROUP_CONCAT(DISTINCT ?themes;separator=" , ") AS ?names) (GROUP_CONCAT(DISTINCT ?wasGeneratedBy;separator=" , ") AS ?operationStat)
 FROM <${DATASETS_GRAPH}>
 
 
@@ -26,6 +26,8 @@ WHERE {
 		FILTER (lang(?titleLg1) = '${LG1}')
 		FILTER (lang(?titleLg2) = '${LG2}')
 
+		OPTIONAL {?uri prov:wasGeneratedBy ?wasGeneratedBy } .
+		OPTIONAL {?uri dcat:theme ?themes } .
 		OPTIONAL{?uri pav:version ?version} .
 		OPTIONAL{?uri insee:numObservations ?numObservations} .
 		OPTIONAL{?uri stat-dcat-ap:numSeries ?numSeries}

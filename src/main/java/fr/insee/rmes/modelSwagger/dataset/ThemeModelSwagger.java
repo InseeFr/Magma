@@ -16,6 +16,7 @@ import java.util.Map;
 @JsonPropertyOrder({
         "uri",
         "label",
+        "themeTaxonomy"
 })
 @Generated("jsonschema2pojo")
 public class ThemeModelSwagger  implements Serializable{
@@ -24,13 +25,17 @@ public class ThemeModelSwagger  implements Serializable{
     @JsonProperty("label")
     @Valid
     private List<LabelDataSet> labelDataSet = null;
+
+    @JsonProperty("themeTaxonomy")
+    private String themeTaxonomy;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public ThemeModelSwagger(String uri, List<LabelDataSet> labelDataSet) {
+    public ThemeModelSwagger(String uri, List<LabelDataSet> labelDataSet, String themeTaxonomy) {
         this.uri = uri;
         this.labelDataSet = labelDataSet;
+        this.themeTaxonomy = themeTaxonomy;
     }
 
     @JsonProperty("uri")
@@ -51,5 +56,14 @@ public class ThemeModelSwagger  implements Serializable{
     @JsonProperty("label")
     public void setLabel(List<LabelDataSet> labelDataSet) {
         this.labelDataSet = labelDataSet;
+    }
+
+    @JsonProperty("themeTaxonomy")
+    public String getThemeTaxonomy() {
+        return themeTaxonomy;
+    }
+    @JsonProperty("themeTaxonomy")
+    public void setThemeTaxonomy(String themeTaxonomy) {
+        this.themeTaxonomy = themeTaxonomy;
     }
 }

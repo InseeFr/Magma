@@ -66,7 +66,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return dataSetFinalNode;
     }
 
-    protected DataSetModelSwagger findDataSetModelSwagger(String id) throws RmesException{
+    protected DataSetModelSwagger findDataSetModelSwagger(String id) throws RmesException, JsonProcessingException {
         //paramétrage de la requête
         Map<String, Object> params = initParams();
         params.put("ID", id);
@@ -82,7 +82,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         JSONObject catalogue_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogue.ftlh", params));
         JSONObject adms_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueAdms.ftlh", params));
         JSONObject codes_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueCodes.ftlh", params));
-//        JSONObject concepts_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueConcepts.ftlh", params));
         JSONObject ontologies_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueOntologies.ftlh", params));
         JSONObject operations_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueOperations.ftlh", params));
         JSONObject organisations_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueOrganisations.ftlh", params));
@@ -226,27 +225,28 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
 
+
         //récupération variable contenant le ou les thèmes du dataset
-//        List<ThemeModelSwagger> themeListModelSwaggerS = getThemeModelSwaggerS(dataSetId);
+        if (catalogue_result.has("names")) {
+            List<ThemeModelSwagger> themeListModelSwaggerS = getThemeModelSwaggerS(catalogue_result);
+            reponse.setThemeModelSwagger(themeListModelSwaggerS);
+        }
 
-        //récupération de(s) série(s) ou de(s) opération(s) dont est issu le dataset
-
-        List<String> operationStat = List.of(catalogue_result.getString("operationStat").split(","));
-        Stream<String> streamSerie = operationStat.stream();
-        List<String> serieUri = streamSerie.filter(v -> v.contains("/serie/"))
-                .collect(Collectors.toList());
-        Stream<String> streamOperation = operationStat.stream();
-        List<String> operationUri = streamOperation.filter(v -> v.contains("/operation/"))
-                .collect(Collectors.toList());
-
-//        traitement de(s) série(s)/opération(s) lié(s) au dataset
-
-//        List<SerieModelSwagger> serieListModelSwaggerS = getSerieModelSwaggerS(serieUri);
-//        List<OperationModelSwagger> operationListModelSwaggerS = getOperationModelSwaggerS(operationUri);
-
-        // fusion de l'ensemble des objets précédents dans datasetModelSwagger en fonction du contenu
-
-
+        if (catalogue_result.has("operationStat")) {
+            //récupération de(s) série(s) ou de(s) opération(s) dont est issu le dataset
+            List<String> operationStat = List.of(catalogue_result.getString("operationStat").split(","));
+            Stream<String> streamSerie = operationStat.stream();
+            List<String> serieUri = streamSerie.filter(v -> v.contains("/serie/"))
+                    .collect(Collectors.toList());
+            Stream<String> streamOperation = operationStat.stream();
+            List<String> operationUri = streamOperation.filter(v -> v.contains("/operation/"))
+                    .collect(Collectors.toList());
+            //traitement de(s) série(s)/opération(s) lié(s) au dataset
+            List<SerieModelSwagger> serieListModelSwaggerS = getSerieModelSwaggerS(serieUri);
+            List<OperationModelSwagger> operationListModelSwaggerS = getOperationModelSwaggerS(operationUri);
+            reponse.setSerieModelSwagger(serieListModelSwaggerS);
+            reponse.setOperationModelSwagger(operationListModelSwaggerS);
+        }
 
         return reponse;
 
@@ -436,6 +436,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 params2.put("URI", parts[i].replace(" ", ""));
                 params2.put("LG1", Config.LG1);
                 params2.put("LG2", Config.LG2);
+                params2.put("CONCEPTS_GRAPH",config.BASE_GRAPH + Config.CONCEPTS_BASE_URI);
 
                 JSONObject dataSetId2 = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdTheme.ftlh", params2));
                 ObjectMapper jsonResponse2 = new ObjectMapper();
@@ -445,7 +446,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 List<LabelDataSet> labelDataSets = new ArrayList<>();
                 labelDataSets.add(labelDataSet1);
                 labelDataSets.add(labelDataSet2);
-                ThemeModelSwagger themeModelSwagger = new ThemeModelSwagger(dataSetId2.getString("uri"), labelDataSets);
+                ThemeModelSwagger themeModelSwagger = new ThemeModelSwagger(dataSetId2.getString("uri"), labelDataSets,dataSetId2.getString("themeTaxonomy"));
                 themeListModelSwaggerS.add(themeModelSwagger);
                 dataSetId2.clear();
             }

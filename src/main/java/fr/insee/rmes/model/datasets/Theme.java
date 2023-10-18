@@ -12,7 +12,8 @@ import java.util.Map;
 @JsonPropertyOrder({
         "uri",
         "labelThemeLg1",
-        "labelThemeLg2"
+        "labelThemeLg2",
+        "themeTaxonomy"
 })
 @Generated("jsonschema2pojo")
 public class Theme implements Serializable  {
@@ -22,6 +23,9 @@ public class Theme implements Serializable  {
     private String labelThemeLg1;
     @JsonProperty("labelThemeLg2")
     private String labelThemeLg2;
+    @JsonProperty("themeTaxonomy")
+    private String themeTaxonomy;
+
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -29,12 +33,15 @@ public class Theme implements Serializable  {
     public Theme() {
     }
 
-    public Theme(String uri, String labelThemeLg1, String labelThemeLg2) {
-        super();
+    public Theme(String uri, String labelThemeLg1, String labelThemeLg2, String themeTaxonomy) {
         this.uri = uri;
         this.labelThemeLg1 = labelThemeLg1;
         this.labelThemeLg2 = labelThemeLg2;
+        this.themeTaxonomy = themeTaxonomy;
     }
+
+
+
     @JsonProperty("uri")
     public String getUri() {
         return uri;
@@ -59,6 +66,16 @@ public class Theme implements Serializable  {
     public void setLabelThemeLg2(String labelThemeLg2) {
         this.labelThemeLg2 = labelThemeLg2;
     }
+
+    @JsonProperty("themeTaxonomy")
+    public String getThemeTaxonomy() {
+        return themeTaxonomy;
+    }
+    @JsonProperty("themeTaxonomy")
+    public void setThemeTaxonomy(String themeTaxonomy) {
+        this.themeTaxonomy = themeTaxonomy;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return additionalProperties;

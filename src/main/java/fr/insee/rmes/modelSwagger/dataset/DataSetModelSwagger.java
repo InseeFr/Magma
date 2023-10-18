@@ -28,6 +28,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "modified",
         "disseminationStatus",
         "validationState",
+        "version",
         "creator",
         "contributor",
         "publisher",
@@ -52,7 +53,9 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "statisticalUnit",
         "structure",
         "numObservations",
-        "numSeries"
+        "numSeries",
+        "operation",
+        "serie"
 })
 @Generated("jsonschema2pojo")
 public class DataSetModelSwagger implements Serializable  {
@@ -377,7 +380,7 @@ public class DataSetModelSwagger implements Serializable  {
 
     @JsonProperty("theme")
     public void setThemeModelSwagger(List<ThemeModelSwagger> themeListModelSwagger) {
-        this.themeModelSwaggerS = themeModelSwaggerS;
+        this.themeModelSwaggerS = themeListModelSwagger;
     }
 
     @JsonProperty("serie")
@@ -386,7 +389,7 @@ public class DataSetModelSwagger implements Serializable  {
     }
     @JsonProperty("serie")
     public void setSerieModelSwagger(List<SerieModelSwagger> serieModelSwagger) {
-        this.serieModelSwaggerS = serieModelSwaggerS;
+        this.serieModelSwaggerS = serieModelSwagger;
     }
 
     @JsonProperty("operation")
@@ -395,6 +398,6 @@ public class DataSetModelSwagger implements Serializable  {
     }
     @JsonProperty("operation")
     public void setOperationModelSwagger(List<OperationModelSwagger> operationModelSwagger) {
-        this.operationModelSwaggerS = operationModelSwaggerS;
+        this.operationModelSwaggerS = operationModelSwagger;
     }
 }
