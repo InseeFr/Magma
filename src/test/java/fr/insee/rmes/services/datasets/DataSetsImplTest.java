@@ -121,7 +121,7 @@ class DataSetsImplTest {
         }
         List<OperationModelSwagger> operationListDTOS = operationListSwaggerS;
 
-        DataSetModelSwagger dataSetSwagger = new DataSetModelSwagger(dataSet.getId(), titres, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(), themeListDTOS, serieListDTOS, operationListDTOS);
+        DataSetModelSwagger dataSetSwagger = new DataSetModelSwagger(dataSet.getId(), titres, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(), themeListDTOS);
         ObjectMapper dataSetFinal = new ObjectMapper();
         JsonNode dataSetFinalNode = dataSetFinal.valueToTree(dataSetSwagger);
         Iterator<JsonNode> it = dataSetFinalNode.iterator();

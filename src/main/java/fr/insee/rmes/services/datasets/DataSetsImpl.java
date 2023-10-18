@@ -75,7 +75,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         params.put("ADMS_GRAPH",Config.BASE_GRAPH +  Config.ADMS_GRAPH);
         params.put("STRUCTURES_GRAPH",Config.BASE_GRAPH + Config.STRUCTURES_GRAPH);
         params.put("CODES_GRAPH",Config.BASE_GRAPH + Config.CODELIST_GRAPH);
-        params.put("OPERATIONS_GRAPH",Config.BASE_GRAPH + Config.OPERATIONS_SERIES_GRAPH);
         params.put("ORGANISATIONS_GRAPH",Config.BASE_GRAPH + Config.ORGANISATIONS_GRAPH);
         params.put("ONTOLOGIES_GRAPH",Config.BASE_GRAPH + Config.ONTOLOGIES_BASE_URI);
 
@@ -83,7 +82,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         JSONObject adms_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueAdms.ftlh", params));
         JSONObject codes_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueCodes.ftlh", params));
         JSONObject ontologies_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueOntologies.ftlh", params));
-        JSONObject operations_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueOperations.ftlh", params));
         JSONObject organisations_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueOrganisations.ftlh", params));
         JSONObject structures_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueStructures.ftlh", params));
 
@@ -130,14 +128,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         if (organisations_result.has("idPublisher")) {
             IdLabel publisher = setIdLabel(organisations_result.getString("idPublisher"),organisations_result.getString("labelPublisherLg1"),organisations_result.getString("labelPublisherLg2"));
             reponse.setPublisher(publisher);
-        }
-        //récupération de wasGeneratedBy
-        if (operations_result.has("wasGeneratedById")) {
-            List<IdLabel> wasGeneratedBy = new ArrayList<>();
-            IdLabel wasGeneratedByIdLabel = setIdLabel(operations_result.getString("wasGeneratedById"),operations_result.getString("labelwasGeneratedByLg1"),operations_result.getString("labelwasGeneratedByLg2"));
-            wasGeneratedByIdLabel.setType(operations_result.getString("typeWasGeneratedBy"));
-            wasGeneratedBy.add(wasGeneratedByIdLabel);
-            reponse.setWasGeneratedBy(wasGeneratedBy);
         }
         //récupération de type
         if (codes_result.has("labeltypeLg1") && codes_result.has("labeltypeLg2")) {
@@ -227,30 +217,22 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
         //récupération variable contenant le ou les thèmes du dataset
-        if (catalogue_result.has("names")) {
-            List<ThemeModelSwagger> themeListModelSwaggerS = getThemeModelSwaggerS(catalogue_result);
-            reponse.setThemeModelSwagger(themeListModelSwaggerS);
-        }
+//        if (catalogue_result.has("names")) {
+//            List<ThemeModelSwagger> themeListModelSwaggerS = getThemeModelSwaggerS(catalogue_result);
+//            reponse.setThemeModelSwagger(themeListModelSwaggerS);
+//        }
 
         if (catalogue_result.has("operationStat")) {
             //récupération de(s) série(s) ou de(s) opération(s) dont est issu le dataset
             List<String> operationStat = List.of(catalogue_result.getString("operationStat").split(","));
-            Stream<String> streamSerie = operationStat.stream();
-            List<String> serieUri = streamSerie.filter(v -> v.contains("/serie/"))
-                    .collect(Collectors.toList());
-            Stream<String> streamOperation = operationStat.stream();
-            List<String> operationUri = streamOperation.filter(v -> v.contains("/operation/"))
-                    .collect(Collectors.toList());
-            //traitement de(s) série(s)/opération(s) lié(s) au dataset
-            List<SerieModelSwagger> serieListModelSwaggerS = getSerieModelSwaggerS(serieUri);
-            List<OperationModelSwagger> operationListModelSwaggerS = getOperationModelSwaggerS(operationUri);
-            reponse.setSerieModelSwagger(serieListModelSwaggerS);
-            reponse.setOperationModelSwagger(operationListModelSwaggerS);
+            List<IdLabel> wasGeneratedByList = getWasGeneratedBy(operationStat);
+            reponse.setWasGeneratedBy(wasGeneratedByList);
         }
 
         return reponse;
 
     }
+
 
 
     @Override
@@ -370,58 +352,24 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
 
+    private List<IdLabel> getWasGeneratedBy(List<String> operationStat) throws RmesException {
+        List<IdLabel> wasGeneratedBy = new ArrayList<>();
+        for (String s : operationStat){
+            Map<String, Object> params = initParams();
+            params.put("URI", s.replace(" ", ""));
+            params.put("LG1", Config.LG1);
+            params.put("LG2", Config.LG2);
+            params.put("OPERATIONS_GRAPH",Config.BASE_GRAPH + Config.OPERATIONS_SERIES_GRAPH);
+            params.put("ONTOLOGIES_GRAPH",Config.BASE_GRAPH + Config.ONTOLOGIES_BASE_URI);
 
-    @NotNull
-    private List<OperationModelSwagger> getOperationModelSwaggerS(List<String> operationUri) throws RmesException, JsonProcessingException {
-        List<OperationModelSwagger> operationListModelSwaggerS = new ArrayList<>();
-        for (String s : operationUri) {
-
-            Map<String, Object> params4 = initParams();
-            params4.put("URI", s.replace(" ", ""));
-            params4.put("LG1", Config.LG1);
-            params4.put("LG2", Config.LG2);
-
-            JSONObject dataSetId3 = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdOperation.ftlh", params4));
-            ObjectMapper jsonResponse4 = new ObjectMapper();
-            Operation operation = jsonResponse4.readValue(dataSetId3.toString(), Operation.class);
-            LabelDataSet labelDataSet1 = new LabelDataSet(Config.LG1, operation.getlabelOperationLg1());
-            LabelDataSet labelDataSet2 = new LabelDataSet(Config.LG2, operation.getlabelOperationLg2());
-            List<LabelDataSet> labelDataSets = new ArrayList<>();
-            labelDataSets.add(labelDataSet1);
-            labelDataSets.add(labelDataSet2);
-            OperationModelSwagger operationModelSwagger = new OperationModelSwagger(operation.getUri(), operation.getId(), labelDataSets);
-            operationListModelSwaggerS.add(operationModelSwagger);
-
-
+            JSONObject wasGeneratedByQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdWasGeneratedBy.ftlh", params));
+            List<Title> wasGeneratedByTitles = setTitreList(wasGeneratedByQuery.getString("labelwasGeneratedByLg1"),wasGeneratedByQuery.getString("labelwasGeneratedByLg2"));
+            IdLabel wasGeneratedByIdLabel = new IdLabel(wasGeneratedByQuery.getString("wasGeneratedById"),wasGeneratedByTitles);
+            wasGeneratedByIdLabel.setType(wasGeneratedByQuery.getString("typeWasGeneratedBy"));
+            wasGeneratedBy.add(wasGeneratedByIdLabel);
         }
-        return operationListModelSwaggerS;
+        return wasGeneratedBy;
     }
-
-    @NotNull
-    private List<SerieModelSwagger> getSerieModelSwaggerS(List<String> serieUri) throws RmesException, JsonProcessingException {
-        List<SerieModelSwagger> serieListModelSwaggerS = new ArrayList<>();
-        for (String value : serieUri) {
-
-            Map<String, Object> params3 = initParams();
-            params3.put("URI", value.replace(" ", ""));
-            params3.put("LG1", Config.LG1);
-            params3.put("LG2", Config.LG2);
-
-            JSONObject dataSetId3 = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdSerie.ftlh", params3));
-            ObjectMapper jsonResponse3 = new ObjectMapper();
-            Serie serie = jsonResponse3.readValue(dataSetId3.toString(), Serie.class);
-            LabelDataSet labelDataSet1 = new LabelDataSet(Config.LG1, serie.getLabelSerieLg1());
-            LabelDataSet labelDataSet2 = new LabelDataSet(Config.LG2, serie.getLabelSerieLg2());
-            List<LabelDataSet> labelDataSets = new ArrayList<>();
-            labelDataSets.add(labelDataSet1);
-            labelDataSets.add(labelDataSet2);
-            SerieModelSwagger serieModelSwagger = new SerieModelSwagger(serie.getUri(), serie.getId(), labelDataSets);
-            serieListModelSwaggerS.add(serieModelSwagger);
-
-        }
-        return serieListModelSwaggerS;
-    }
-
 
     private List<ThemeModelSwagger> getThemeModelSwaggerS(JSONObject dataSetId) throws RmesException, JsonProcessingException {
         String[] parts = dataSetId.getString("names").split(",");
@@ -432,13 +380,13 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         } else {
             for (int i = 0; i < Arrays.stream(parts).count(); i++) {
 
-                Map<String, Object> params2 = initParams();
-                params2.put("URI", parts[i].replace(" ", ""));
-                params2.put("LG1", Config.LG1);
-                params2.put("LG2", Config.LG2);
-                params2.put("CONCEPTS_GRAPH",config.BASE_GRAPH + Config.CONCEPTS_BASE_URI);
+                Map<String, Object> params = initParams();
+                params.put("URI", parts[i].replace(" ", ""));
+                params.put("LG1", Config.LG1);
+                params.put("LG2", Config.LG2);
+                params.put("CONCEPTS_GRAPH",config.BASE_GRAPH + Config.CONCEPTS_BASE_URI);
 
-                JSONObject dataSetId2 = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdTheme.ftlh", params2));
+                JSONObject dataSetId2 = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdTheme.ftlh", params));
                 ObjectMapper jsonResponse2 = new ObjectMapper();
                 Theme theme1 = jsonResponse2.readValue(dataSetId2.toString(), Theme.class);
                 LabelDataSet labelDataSet1 = new LabelDataSet(Config.LG1, theme1.getLabelThemeLg1());
