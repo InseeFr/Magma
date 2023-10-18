@@ -24,13 +24,35 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "uri",
         "identifier",
         "created",
+        "issued",
         "modified",
         "disseminationStatus",
         "validationState",
         "creator",
         "contributor",
-        "title"
-
+        "publisher",
+        "title",
+        "subtitle",
+        "abstract",
+        "description",
+        "scopeNote",
+        "wasGeneratedBy",
+        "type",
+        "archiveUnit",
+        "accessRights",
+        "confidentialityStatus",
+        "theme",
+        "landingPage",
+        "processStep",
+        "accrualPeriodicity",
+        "temporal",
+        "temporalResolution",
+        "spatial",
+        "spatialResolution",
+        "statisticalUnit",
+        "structure",
+        "numObservations",
+        "numSeries"
 })
 @Generated("jsonschema2pojo")
 public class DataSetModelSwagger implements Serializable  {
