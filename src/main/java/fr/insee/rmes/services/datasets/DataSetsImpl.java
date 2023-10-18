@@ -213,14 +213,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setIdentifier(adms_result.getString("identifier"));
         }
 
-
-
-
         //récupération variable contenant le ou les thèmes du dataset
-//        if (catalogue_result.has("names")) {
-//            List<ThemeModelSwagger> themeListModelSwaggerS = getThemeModelSwaggerS(catalogue_result);
-//            reponse.setThemeModelSwagger(themeListModelSwaggerS);
-//        }
+        if (catalogue_result.has("names")) {
+            List<ThemeModelSwagger> themeListModelSwaggerS = getThemeModelSwaggerS(catalogue_result);
+            reponse.setThemeModelSwagger(themeListModelSwaggerS);
+        }
 
         if (catalogue_result.has("operationStat")) {
             //récupération de(s) série(s) ou de(s) opération(s) dont est issu le dataset
