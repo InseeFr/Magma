@@ -60,7 +60,7 @@ class CodeListImplTest {
         label.put(lg1);
         label.put(lg2);
         codeA.put("label",label);
-        codeA.toString();
+        codeA.toString()
     }
 
     @Test
