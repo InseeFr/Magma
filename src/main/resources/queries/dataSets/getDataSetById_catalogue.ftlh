@@ -28,7 +28,7 @@ WHERE {
 
 		OPTIONAL{?uri pav:version ?version} .
 		OPTIONAL{?uri insee:numObservations ?numObservations} .
-		OPTIONAL{?uri <http://data.europa.eu/m8g/numSeries> ?numSeries}
+		OPTIONAL{?uri stat-dcat-ap:numSeries ?numSeries}
 		OPTIONAL{?uri insee:structure ?structure  } .
 
 

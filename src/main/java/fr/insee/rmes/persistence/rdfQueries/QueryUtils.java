@@ -30,6 +30,7 @@ public class QueryUtils {
 					+ "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> \n"
 					+ "PREFIX dcmitype:<http://purl.org/dc/dcmitype/> \n"
 					+ "PREFIX adms:<http://www.w3.org/ns/adms#> \n"
+					+ "PREFIX stat-dcat-ap:<http://data.europa.eu/m8g/> \n"
 					+ "PREFIX dcat: <http://www.w3.org/ns/dcat#> \n \n" ;
 
 
