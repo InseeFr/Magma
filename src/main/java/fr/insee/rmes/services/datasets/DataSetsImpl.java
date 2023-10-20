@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class DataSetsImpl extends RdfService implements DataSetsServices {
@@ -134,13 +132,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             List<Title> type = setTitreList(codes_result.getString("labeltypeLg1"), codes_result.getString("labeltypeLg2"));
             reponse.setType(type);
         }
-        //récupération de archiveUnit
-        if (adms_result.has("idarchiveUnit")) {
-            List<IdLabel> archiveUnit = new ArrayList<>();
-            IdLabel idLabelArchiveUnit = setIdLabel(adms_result.getString("idarchiveUnit"),adms_result.getString("labelarchiveUnitLg1"),adms_result.getString("labelarchiveUnitLg2"));
-            archiveUnit.add(idLabelArchiveUnit);
-            reponse.setArchiveUnit(archiveUnit);
-        }
+
         //récupération de accessRights
         if (codes_result.has("labelaccessRightsLg1") && codes_result.has("labelaccessRightsLg2")) {
             List<Title> accessRights = setTitreList(codes_result.getString("labelaccessRightsLg1"), codes_result.getString("labelaccessRightsLg2"));
@@ -162,26 +154,13 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             Temporal temporal = new Temporal(catalogue_result.getString("startPeriod"),catalogue_result.getString("endPeriod"));
             reponse.setTemporal(temporal);
         }
-        //récupération de temporalResolution
-        if (codes_result.has("labeltemporalResolutionLg1") && codes_result.has("labeltemporalResolutionLg2")){
-            List<Label> temporalResolution = new ArrayList<>();
-            List<Title> titleTemporalResolution = setTitreList(codes_result.getString("labeltemporalResolutionLg1"), codes_result.getString("labeltemporalResolutionLg2"));
-            Label labelTemporalResolution = new Label(titleTemporalResolution);
-            temporalResolution.add(labelTemporalResolution);
-            reponse.setTemporalResolution(temporalResolution);
-        }
+
         //récupération de spatial
         if (codes_result.has("spatialId")) {
             IdLabel spatial = setIdLabel(codes_result.getString("spatialId"),codes_result.getString("labelspatialLg1"),codes_result.getString("labelspatialLg2"));
             reponse.setSpatial(spatial);
         }
-        //récupération de spatialResolution
-        if (codes_result.has("spatialResolutionId")) {
-            List<IdLabel> spatialResolution = new ArrayList<>();
-            IdLabel idLabelSpatialResolution = setIdLabel(codes_result.getString("spatialResolutionId"),codes_result.getString("labelspatialResolutionLg1"),codes_result.getString("labelspatialResolutionLg2"));
-            spatialResolution.add(idLabelSpatialResolution);
-            reponse.setSpatialResolution(spatialResolution);
-        }
+
         //récupération de statisticalUnit
         if (codes_result.has("labelstatisticalUnitLg1") && codes_result.has("labelstatisticalUnitLg2")){
             List<Title> statisticalUnit = setTitreList(codes_result.getString("labelstatisticalUnitLg1"),codes_result.getString("labelstatisticalUnitLg2"));
@@ -225,6 +204,27 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             List<IdLabel> wasGeneratedByList = getWasGeneratedBy(operationStat);
             reponse.setWasGeneratedBy(wasGeneratedByList);
         }
+        //récupération de archiveUnit
+        if (adms_result.has("archiveUnits")) {
+            List<String> urisArchiveUnit = List.of(adms_result.getString("archiveUnits").split(","));
+            List<IdLabel> archiveUnitList = getArchiveUnit(urisArchiveUnit);
+            reponse.setArchiveUnit(archiveUnitList);
+        }
+        //récupération de temporalResolution
+        if (codes_result.has("temporalResolutions") ){
+            List<String> uristemporalResolution = List.of(codes_result.getString("temporalResolutions").split(","));
+            List<Label> temporalResolutionList = getTemporalResolution(uristemporalResolution);
+            reponse.setTemporalResolution(temporalResolutionList);
+        }
+
+        //récupération de spatialResolution
+        if (codes_result.has("spatialResolutions")) {
+            List<String> urisSpatialResolution = List.of(codes_result.getString("spatialResolutions").split(","));
+            List<IdLabel> spatialResolutionList = getSpatialResolution(urisSpatialResolution);
+            reponse.setSpatialResolution(spatialResolutionList);
+
+        }
+
 
         return reponse;
 
@@ -367,6 +367,59 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
         return wasGeneratedBy;
     }
+
+    private List<IdLabel> getArchiveUnit(List<String> urisArchiveUnit) throws RmesException {
+        List<IdLabel> archiveUnit = new ArrayList<>();
+        for (String s : urisArchiveUnit){
+            Map<String, Object> params = initParams();
+            params.put("URI", s.replace(" ", ""));
+            params.put("LG1", Config.LG1);
+            params.put("LG2", Config.LG2);
+            params.put("ADMS_GRAPH",Config.BASE_GRAPH +  Config.ADMS_GRAPH);
+
+            JSONObject archiveUnitQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdArchiveUnit.ftlh", params));
+            List<Title> archiveUnitTitles = setTitreList(archiveUnitQuery.getString("labelarchiveUnitLg1"),archiveUnitQuery.getString("labelarchiveUnitLg2"));
+            IdLabel archiveUnitIdLabel = new IdLabel(archiveUnitQuery.getString("idarchiveUnit"),archiveUnitTitles);
+            archiveUnit.add(archiveUnitIdLabel);
+        }
+        return archiveUnit;
+    }
+
+    private List<Label> getTemporalResolution(List<String> uristemporalResolution) throws RmesException {
+        List<Label> temporalResolution = new ArrayList<>();
+        for (String s : uristemporalResolution){
+            Map<String, Object> params = initParams();
+            params.put("URI", s.replace(" ", ""));
+            params.put("LG1", Config.LG1);
+            params.put("LG2", Config.LG2);
+            params.put("CODES_GRAPH",Config.BASE_GRAPH + Config.CODELIST_GRAPH);
+
+            JSONObject temporalResolutionQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDatasetByIdTemporalResolution.ftlh", params));
+            List<Title> temporalResolutionTitles = setTitreList(temporalResolutionQuery.getString("labeltemporalResolutionLg1"),temporalResolutionQuery.getString("labeltemporalResolutionLg2"));
+            Label temporalResolutionLabel = new Label(temporalResolutionTitles);
+            temporalResolution.add(temporalResolutionLabel);
+        }
+        return temporalResolution;
+    }
+
+
+    private List<IdLabel> getSpatialResolution(List<String> urisSpatialResolution) throws RmesException {
+        List<IdLabel> spatialResolution = new ArrayList<>();
+        for (String s : urisSpatialResolution){
+            Map<String, Object> params = initParams();
+            params.put("URI", s.replace(" ", ""));
+            params.put("LG1", Config.LG1);
+            params.put("LG2", Config.LG2);
+            params.put("CODES_GRAPH",Config.BASE_GRAPH + Config.CODELIST_GRAPH);
+
+            JSONObject spatialResolutionQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDatasetByIdSpatialResolution.ftlh", params));
+            List<Title> spatialResolutionTitles = setTitreList(spatialResolutionQuery.getString("labelspatialResolutionLg1"),spatialResolutionQuery.getString("labelspatialResolutionLg2"));
+            IdLabel spatialResolutionIdLabel = new IdLabel(spatialResolutionQuery.getString("spatialResolutionId"),spatialResolutionTitles);
+            spatialResolution.add(spatialResolutionIdLabel);
+        }
+        return spatialResolution;
+    }
+
 
     private List<ThemeModelSwagger> getThemeModelSwaggerS(JSONObject dataSetId) throws RmesException, JsonProcessingException {
         String[] parts = dataSetId.getString("names").split(",");

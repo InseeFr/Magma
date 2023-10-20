@@ -2,11 +2,10 @@ SELECT DISTINCT
 ?labeltypeLg1 ?labeltypeLg2
 ?labelaccessRightsLg1 ?labelaccessRightsLg2
 ?labelconfidentialityStatusLg1 ?labelconfidentialityStatusLg2
-?labeltemporalResolutionLg1 ?labeltemporalResolutionLg2
 ?spatialId ?labelspatialLg1 ?labelspatialLg2
-?spatialResolutionId ?labelspatialResolutionLg1 ?labelspatialResolutionLg2
 ?labelstatisticalUnitLg1 ?labelstatisticalUnitLg2
 ?labelaccrualPeriodicityLg1 ?labelaccrualPeriodicityLg2
+(GROUP_CONCAT(DISTINCT ?temporalResolution;separator=" , ") AS ?temporalResolutions) (GROUP_CONCAT(DISTINCT ?spatialResolution;separator=" , ") AS ?spatialResolutions)
 FROM <${DATASETS_GRAPH}>
 FROM <${CODES_GRAPH}>
 
@@ -15,11 +14,7 @@ WHERE {
 		?uri a dcat:Dataset ;
 		dcterms:identifier "${ID}" ;
 
-		OPTIONAL{?uri dcterms:temporalResolution ?temporalResolution   .
-		?temporalResolution skos:prefLabel ?labeltemporalResolutionLg1 .
-		FILTER (lang(?labeltemporalResolutionLg1) = '${LG1}')}
-		OPTIONAL {?temporalResolution skos:prefLabel ?labeltemporalResolutionLg2 .
-		FILTER (lang(?labeltemporalResolutionLg2) = '${LG2}') .}
+		OPTIONAL{?uri dcterms:temporalResolution ?temporalResolution .}
 
 		OPTIONAL{?uri dcterms:spatial ?spatial   .
 		?spatial skos:notation ?spatialId .
@@ -28,12 +23,7 @@ WHERE {
 		?spatial skos:prefLabel ?labelspatialLg2 .
 		FILTER (lang(?labelspatialLg2) = '${LG2}') .}
 
-		OPTIONAL{?uri insee:spatialResolution ?spatialResolution  .
-		?spatialResolution skos:notation ?spatialResolutionId .
-		?spatialResolution skos:prefLabel ?labelspatialResolutionLg1 .
-		FILTER (lang(?labelspatialResolutionLg1) = '${LG1}') .
-		?spatialResolution skos:prefLabel ?labelspatialResolutionLg2 .
-		FILTER (lang(?labelspatialResolutionLg2) = '${LG2}') .}
+		OPTIONAL{?uri insee:spatialResolution ?spatialResolution  .}
 
 		OPTIONAL{?uri insee:statisticalUnit ?statisticalUnit .
 		?statisticalUnit skos:prefLabel ?labelstatisticalUnitLg1 .
@@ -67,3 +57,9 @@ WHERE {
 
 
 }
+GROUP BY ?labeltypeLg1 ?labeltypeLg2
+?labelaccessRightsLg1 ?labelaccessRightsLg2
+?labelconfidentialityStatusLg1 ?labelconfidentialityStatusLg2
+?spatialId ?labelspatialLg1 ?labelspatialLg2
+?labelstatisticalUnitLg1 ?labelstatisticalUnitLg2
+?labelaccrualPeriodicityLg1 ?labelaccrualPeriodicityLg2

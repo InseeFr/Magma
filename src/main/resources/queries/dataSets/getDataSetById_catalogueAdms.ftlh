@@ -1,5 +1,6 @@
 SELECT DISTINCT
-?idarchiveUnit ?labelarchiveUnitLg1 ?labelarchiveUnitLg2 ?identifier
+?identifier
+(GROUP_CONCAT(DISTINCT ?archiveUnit;separator=" , ") AS ?archiveUnits)
 FROM <${DATASETS_GRAPH}>
 FROM <${ADMS_GRAPH}>
 
@@ -10,11 +11,7 @@ WHERE {
 		OPTIONAL{?uri adms:identifier ?identifierADMS  .
 		?identifierADMS skos:notation ?identifier . }
 
-		OPTIONAL{?uri insee:archiveUnit ?archiveUnit .
-		?archiveUnit skos:notation ?idarchiveUnit .
-		?archiveUnit skos:prefLabel ?labelarchiveUnitLg1 .
-		FILTER(lang(?labelarchiveUnitLg1)= '${LG1}')
-		?archiveUnit skos:prefLabel ?labelarchiveUnitLg2 .
-		FILTER(lang(?labelarchiveUnitLg2)= '${LG2}') .}
+		OPTIONAL{?uri insee:archiveUnit ?archiveUnit .}
 
 }
+GROUP BY ?identifier
