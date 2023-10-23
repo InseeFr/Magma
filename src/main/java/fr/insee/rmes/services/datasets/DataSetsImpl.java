@@ -19,15 +19,15 @@ import java.util.*;
 @Service
 public class DataSetsImpl extends RdfService implements DataSetsServices {
 
-    @Override
+    public Map<String,Object> params = initParams();
+    public ObjectMapper objectMapper = new ObjectMapper();
+       @Override
     public String getListDataSets () throws RmesException, JsonProcessingException {
-        Map<String, Object> params = initParams();
 
         JSONArray listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH,"getListDatasets.ftlh", params));
 
-        ObjectMapper jsonResponse = new ObjectMapper();
-        DataSet[] dataSets = jsonResponse.readValue(listDataSet.toString(), DataSet[].class);
-        ObjectMapper mapper = new ObjectMapper();
+
+        DataSet[] dataSets = objectMapper.readValue(listDataSet.toString(), DataSet[].class);
         List<DataSetModelSwagger> dataSetListModelSwaggerS= new ArrayList<>();
 
         for (DataSet byDataSet : dataSets) {
@@ -37,7 +37,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             dataSetListModelSwaggerS.add(dataSetModelSwagger);
         }
 
-        return mapper.writeValueAsString(dataSetListModelSwaggerS);
+        return objectMapper.writeValueAsString(dataSetListModelSwaggerS);
 
     }
 
@@ -50,8 +50,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
     private JsonNode emptyDataSetModelSwagger(DataSetModelSwagger dataSetModelSwagger) {
-        ObjectMapper dataSetFinal = new ObjectMapper();
-        JsonNode dataSetFinalNode = dataSetFinal.valueToTree(dataSetModelSwagger);
+        JsonNode dataSetFinalNode = objectMapper.valueToTree(dataSetModelSwagger);
         Iterator<JsonNode> it = dataSetFinalNode.iterator();
 
         while (it.hasNext()) {
@@ -66,15 +65,9 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
     protected DataSetModelSwagger findDataSetModelSwagger(String id) throws RmesException, JsonProcessingException {
         //paramétrage de la requête
-        Map<String, Object> params = initParams();
+
         params.put("ID", id);
-        params.put("LG1", Config.LG1);
-        params.put("LG2", Config.LG2);
-        params.put("ADMS_GRAPH",Config.BASE_GRAPH +  Config.ADMS_GRAPH);
-        params.put("STRUCTURES_GRAPH",Config.BASE_GRAPH + Config.STRUCTURES_GRAPH);
-        params.put("CODES_GRAPH",Config.BASE_GRAPH + Config.CODELIST_GRAPH);
-        params.put("ORGANISATIONS_GRAPH",Config.BASE_GRAPH + Config.ORGANISATIONS_GRAPH);
-        params.put("ONTOLOGIES_GRAPH",Config.BASE_GRAPH + Config.ONTOLOGIES_BASE_URI);
+
 
         JSONObject catalogue_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogue.ftlh", params));
         JSONObject adms_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueAdms.ftlh", params));
@@ -88,6 +81,12 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         List<LangContent> title = setTitreList(catalogue_result.getString("titleLg1"), catalogue_result.getString("titleLg2"));
 
         DataSetModelSwagger reponse = new DataSetModelSwagger(catalogue_result.getString("id"), title, catalogue_result.getString("uri"), catalogue_result.getString("dateModification"), catalogue_result.getString("dateCreation"), catalogue_result.getString("statutValidation"), catalogue_result.getString("contributor"), catalogue_result.getString("creator"), ontologies_result.getString("labeldisseminationStatusLg1"));
+
+        testPresenceVariablePuisAjout(reponse,catalogue_result,adms_result,codes_result,organisations_result,structures_result);
+        return reponse;
+    }
+
+    private void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
         //récupération du subtitle
         if (catalogue_result.has("subtitleLg1") && catalogue_result.has("subtitleLg2")) {
             List<LangContent> subtitle = setTitreList(catalogue_result.getString("subtitleLg1"), catalogue_result.getString("subtitleLg2"));
@@ -224,26 +223,18 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setSpatialResolution(spatialResolutionList);
 
         }
-
-
-        return reponse;
-
     }
-
 
 
     @Override
     public String getDataSetByIDFilterByDateMaj (String id) throws RmesException, JsonProcessingException {
         //parametrage de la requête
-        Map<String, Object> params = initParams();
+
         params.put("ID", id);
-        params.put("LG1", Config.LG1);
-        params.put("LG2", Config.LG2);
 
         //requête intiale
         JSONObject dataSetId = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdDateMAJ.ftlh", params));
-        ObjectMapper jsonResponse = new ObjectMapper();
-        DataSet dataSet = jsonResponse.readValue(dataSetId.toString(), DataSet.class);
+        DataSet dataSet = objectMapper.readValue(dataSetId.toString(), DataSet.class);
 
 
         DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(dataSet.getId(), dataSet.getUri(), dataSet.getDateMiseAJour());
@@ -261,10 +252,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     @Override
     public Distributions[] getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException {
         //parametrage de la requête
-        Map<String, Object> params = initParams();
-        params.put("ID", id);
-        params.put("LG1", Config.LG1);
-        params.put("LG2", Config.LG2);
+       params.put("ID", id);
 
         //requête initiale
         JSONArray distributionsId = repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDistributionsById.ftlh", params));
@@ -297,7 +285,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
 
         // tailleRep la taille de listIdentifiers
-        Integer tailleRep  = listIdentifiers.toArray().length;
+        int tailleRep  = listIdentifiers.toArray().length;
         // On crée une liste de Distributions de la taille de listIdentifiers
         // C'est distributionReponse que l'on va renvoyer en sortie
         Distributions[] distributionReponse =  new Distributions[tailleRep];
@@ -336,8 +324,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 }
 
                 /*mapping pour que le résultat ait la tête d'une distribution (ordre et type des variables, etc)*/
-                ObjectMapper jsonResponse = new ObjectMapper();
-                Distributions distributionFinale = jsonResponse.readValue(distributionTemp.toString(), Distributions.class);
+                Distributions distributionFinale = objectMapper.readValue(distributionTemp.toString(), Distributions.class);
                 // dans distributionReponse on met les distributions dans le bon ordre (l'ordre dans lequel on les rencontre à  la sortie de la requête SPARQL)
                 // tailleRep - listIdentifiers.toArray().length correspond (aux nombres d'identifiants) - (le nombre d'identifiants qu'il reste à traiter)
                 distributionReponse[tailleRep - listIdentifiers.toArray().length] = distributionFinale;
@@ -352,12 +339,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     private List<IdLabel> getWasGeneratedBy(List<String> operationStat) throws RmesException {
         List<IdLabel> wasGeneratedBy = new ArrayList<>();
         for (String s : operationStat){
-            Map<String, Object> params = initParams();
             params.put("URI", s.replace(" ", ""));
-            params.put("LG1", Config.LG1);
-            params.put("LG2", Config.LG2);
-            params.put("OPERATIONS_GRAPH",Config.BASE_GRAPH + Config.OPERATIONS_SERIES_GRAPH);
-            params.put("ONTOLOGIES_GRAPH",Config.BASE_GRAPH + Config.ONTOLOGIES_BASE_URI);
 
             JSONObject wasGeneratedByQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdWasGeneratedBy.ftlh", params));
             List<LangContent> wasGeneratedByTitles = setTitreList(wasGeneratedByQuery.getString("labelwasGeneratedByLg1"),wasGeneratedByQuery.getString("labelwasGeneratedByLg2"));
@@ -371,11 +353,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     private List<IdLabel> getArchiveUnit(List<String> urisArchiveUnit) throws RmesException {
         List<IdLabel> archiveUnit = new ArrayList<>();
         for (String s : urisArchiveUnit){
-            Map<String, Object> params = initParams();
+
             params.put("URI", s.replace(" ", ""));
-            params.put("LG1", Config.LG1);
-            params.put("LG2", Config.LG2);
-            params.put("ADMS_GRAPH",Config.BASE_GRAPH +  Config.ADMS_GRAPH);
 
             JSONObject archiveUnitQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdArchiveUnit.ftlh", params));
             List<LangContent> archiveUnitTitles = setTitreList(archiveUnitQuery.getString("labelarchiveUnitLg1"),archiveUnitQuery.getString("labelarchiveUnitLg2"));
@@ -388,11 +367,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     private List<Label> getTemporalResolution(List<String> uristemporalResolution) throws RmesException {
         List<Label> temporalResolution = new ArrayList<>();
         for (String s : uristemporalResolution){
-            Map<String, Object> params = initParams();
+
             params.put("URI", s.replace(" ", ""));
-            params.put("LG1", Config.LG1);
-            params.put("LG2", Config.LG2);
-            params.put("CODES_GRAPH",Config.BASE_GRAPH + Config.CODELIST_GRAPH);
 
             JSONObject temporalResolutionQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDatasetByIdTemporalResolution.ftlh", params));
             List<LangContent> temporalResolutionTitles = setTitreList(temporalResolutionQuery.getString("labeltemporalResolutionLg1"),temporalResolutionQuery.getString("labeltemporalResolutionLg2"));
@@ -406,11 +382,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     private List<IdLabel> getSpatialResolution(List<String> urisSpatialResolution) throws RmesException {
         List<IdLabel> spatialResolution = new ArrayList<>();
         for (String s : urisSpatialResolution){
-            Map<String, Object> params = initParams();
+
             params.put("URI", s.replace(" ", ""));
-            params.put("LG1", Config.LG1);
-            params.put("LG2", Config.LG2);
-            params.put("CODES_GRAPH",Config.BASE_GRAPH + Config.CODELIST_GRAPH);
 
             JSONObject spatialResolutionQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDatasetByIdSpatialResolution.ftlh", params));
             List<LangContent> spatialResolutionTitles = setTitreList(spatialResolutionQuery.getString("labelspatialResolutionLg1"),spatialResolutionQuery.getString("labelspatialResolutionLg2"));
@@ -430,15 +403,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         } else {
             for (int i = 0; i < Arrays.stream(parts).count(); i++) {
 
-                Map<String, Object> params = initParams();
                 params.put("URI", parts[i].replace(" ", ""));
-                params.put("LG1", Config.LG1);
-                params.put("LG2", Config.LG2);
-                params.put("CONCEPTS_GRAPH",config.BASE_GRAPH + Config.CONCEPTS_BASE_URI);
 
                 JSONObject dataSetId2 = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdTheme.ftlh", params));
-                ObjectMapper jsonResponse2 = new ObjectMapper();
-                Theme theme1 = jsonResponse2.readValue(dataSetId2.toString(), Theme.class);
+                params.remove("URI");
+                Theme theme1 = objectMapper.readValue(dataSetId2.toString(), Theme.class);
                 LabelDataSet labelDataSet1 = new LabelDataSet(Config.LG1, theme1.getLabelThemeLg1());
                 LabelDataSet labelDataSet2 = new LabelDataSet(Config.LG2, theme1.getLabelThemeLg2());
                 List<LabelDataSet> labelDataSets = new ArrayList<>();
@@ -466,17 +435,21 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
     private IdLabel setIdLabel(String id, String labelLg1, String labelLg2) {
         List<LangContent> titleList = setTitreList(labelLg1,labelLg2);
-        IdLabel idLabel = new IdLabel(id,titleList);
-        return idLabel;
+        return new IdLabel(id,titleList);
     }
 
-
-    public Map<String, Object> initParams () {
-            Map<String, Object> params = new HashMap<>();
-            params.put("DATASETS_GRAPH", Config.BASE_GRAPH + Config.DATASETS_GRAPH);
-            return params;
-        }
-
-
-
+    public Map<String, Object> initParams() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("DATASETS_GRAPH", Config.BASE_GRAPH + Config.DATASETS_GRAPH);
+        params.put("LG1", Config.LG1);
+        params.put("LG2", Config.LG2);
+        params.put("ADMS_GRAPH",Config.BASE_GRAPH +  Config.ADMS_GRAPH);
+        params.put("STRUCTURES_GRAPH",Config.BASE_GRAPH + Config.STRUCTURES_GRAPH);
+        params.put("CODES_GRAPH",Config.BASE_GRAPH + Config.CODELIST_GRAPH);
+        params.put("CONCEPTS_GRAPH",Config.BASE_GRAPH + Config.CONCEPTS_BASE_URI);
+        params.put("ORGANISATIONS_GRAPH",Config.BASE_GRAPH + Config.ORGANISATIONS_GRAPH);
+        params.put("OPERATIONS_GRAPH",Config.BASE_GRAPH + Config.OPERATIONS_SERIES_GRAPH);
+        params.put("ONTOLOGIES_GRAPH",Config.BASE_GRAPH + Config.ONTOLOGIES_BASE_URI);
+        return params;
     }
+}
