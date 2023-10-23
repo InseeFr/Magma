@@ -21,14 +21,14 @@ public class IdLabel implements Serializable {
     @JsonProperty("id")
     private String id;
     @JsonProperty("label")
-    private List<Title> label;
+    private List<LangContent> label;
 
     @JsonProperty("type")
     private String type;
     public IdLabel() {
     }
 
-    public IdLabel(String id, List<Title> label) {
+    public IdLabel(String id, List<LangContent> label) {
         this.id = id;
         this.label = label;
     }
@@ -45,12 +45,12 @@ public class IdLabel implements Serializable {
     }
 
     @JsonProperty("label")
-    public List<Title> getLabel() {
+    public List<LangContent> getLabel() {
         return label;
     }
 
     @JsonProperty("label")
-    public void setLabel(List<Title> label) {
+    public void setLabel(List<LangContent> label) {
         this.label = label;
     }
 

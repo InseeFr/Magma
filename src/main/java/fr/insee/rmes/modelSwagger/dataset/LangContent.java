@@ -5,10 +5,8 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.ToString;
 
 import javax.annotation.Generated;
-import javax.validation.Valid;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -16,7 +14,7 @@ import java.util.Map;
         "content"
 })
 @Generated("jsonschema2pojo")
-public class Title implements Serializable
+public class LangContent implements Serializable
 {
 
     @JsonProperty("lang")
@@ -31,7 +29,7 @@ public class Title implements Serializable
      * No args constructor for use in serialization
      *
      */
-    public Title() {
+    public LangContent() {
     }
 
     /**
@@ -39,7 +37,7 @@ public class Title implements Serializable
      * @param lang
      * @param content
      */
-    public Title(String lang, String content) {
+    public LangContent(String lang, String content) {
         super();
         this.lang = lang;
         this.content = content;
@@ -55,7 +53,7 @@ public class Title implements Serializable
         this.lang = lang;
     }
 
-    public Title withLang(String lang) {
+    public LangContent withLang(String lang) {
         this.lang = lang;
         return this;
     }
@@ -70,7 +68,7 @@ public class Title implements Serializable
         this.content = content;
     }
 
-    public Title withContent(String content) {
+    public LangContent withContent(String content) {
         this.content = content;
         return this;
     }

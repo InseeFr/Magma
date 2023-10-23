@@ -1,14 +1,11 @@
 package fr.insee.rmes.model.datasets;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import fr.insee.rmes.modelSwagger.dataset.Title;
+import fr.insee.rmes.modelSwagger.dataset.LangContent;
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 import javax.annotation.Generated;
 import java.util.List;
@@ -37,7 +34,7 @@ public class Distributions {
     private String created;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("description")
-    private List<Title> description;
+    private List<LangContent> description;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("downloadURL")
     private List<String> downloadURL;
@@ -49,7 +46,7 @@ public class Distributions {
     private String modified;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("title")
-    private List<Title> title;
+    private List<LangContent> title;
     @JsonProperty("uri")
     private String uri;
 
@@ -82,11 +79,11 @@ public class Distributions {
         this.created = created;
     }
 
-    public List<Title> getDescription() {
+    public List<LangContent> getDescription() {
         return description;
     }
 
-    public void setDescription(List<Title> description) {
+    public void setDescription(List<LangContent> description) {
         this.description = description;
     }
 
@@ -114,11 +111,11 @@ public class Distributions {
         this.modified = modified;
     }
 
-    public List<Title> getTitle() {
+    public List<LangContent> getTitle() {
         return title;
     }
 
-    public void setTitle(List<Title> title) {
+    public void setTitle(List<LangContent> title) {
         this.title = title;
     }
 

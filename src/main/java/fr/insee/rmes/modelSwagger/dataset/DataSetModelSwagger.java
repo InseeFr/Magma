@@ -4,10 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.annotation.Generated;
 import javax.validation.Valid;
@@ -17,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+
+
 
 @JsonInclude(NON_NULL)
 @JsonPropertyOrder({
@@ -55,13 +55,18 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "numObservations",
         "numSeries"
 })
+
 @Generated("jsonschema2pojo")
+@Setter
+@Getter
+
 public class DataSetModelSwagger implements Serializable  {
+
     @JsonProperty("id")
     private String id;
     @JsonProperty("title")
     //@Valid
-    private List<Title> title ;
+    private List<LangContent> title ;
     @JsonProperty("uri")
     private String uri;
     @JsonProperty("modified")
@@ -74,35 +79,36 @@ public class DataSetModelSwagger implements Serializable  {
     private String contributor;
     @JsonProperty("creator")
     private String creator;
+
     @JsonProperty("disseminationStatus")
     private String disseminationStatus;
 
     @JsonProperty("identifier")
     private String identifier;
     @JsonProperty("subtitle")
-    private List<Title> subtitle;
+    private List<LangContent> subtitle;
     @JsonProperty("abstract")
-    private List<Title> abstractDataset;
+    private List<LangContent> abstractDataset;
     @JsonProperty("description")
-    private List<Title> description;
+    private List<LangContent> description;
     @JsonProperty("scopeNote")
-    private List<Title> scopeNote;
+    private List<LangContent> scopeNote;
     @JsonProperty("landingPage")
     private List<LandingPage> landingPage;
     @JsonProperty("processStep")
-    private List<Title> processStep;
+    private List<LangContent> processStep;
     @JsonProperty("publisher")
     private IdLabel publisher;
     @JsonProperty("wasGeneratedBy")
     private List<IdLabel> wasGeneratedBy;
     @JsonProperty("type")
-    private List<Title> type;
+    private List<LangContent> type;
     @JsonProperty("archiveUnit")
     private List<IdLabel> archiveUnit;
     @JsonProperty("accessRights")
-    private List<Title> accessRights;
+    private List<LangContent> accessRights;
     @JsonProperty("confidentialityStatus")
-    private List<Title> confidentialityStatus;
+    private List<LangContent> confidentialityStatus;
     @JsonProperty("accrualPeriodicity")
     private Label accrualPeriodicity;
     @JsonProperty("temporal")
@@ -114,7 +120,7 @@ public class DataSetModelSwagger implements Serializable  {
     @JsonProperty("spatialResolution")
     private List<IdLabel> spatialResolution;
     @JsonProperty("statisticalUnit")
-    private List<Title> statisticalUnit;
+    private List<LangContent> statisticalUnit;
     @JsonProperty("structure")
     private Structure structure;
     @JsonProperty("version")
@@ -140,7 +146,7 @@ public class DataSetModelSwagger implements Serializable  {
     public DataSetModelSwagger() {
     }
 
-    public DataSetModelSwagger(String id, List<Title> title, String uri, String modified, String created, String validationState, String contributor, String creator, String disseminationStatus) {
+    public DataSetModelSwagger(String id, List<LangContent> title, String uri, String modified, String created, String validationState, String contributor, String creator, String disseminationStatus) {
         this.id = id;
         this.title = title;
         this.uri = uri;
@@ -161,14 +167,14 @@ public class DataSetModelSwagger implements Serializable  {
 
 
 
-    public DataSetModelSwagger(String id, List<Title> title, String uri, String modified, String validationState) {
+    public DataSetModelSwagger(String id, List<LangContent> title, String uri, String modified, String validationState) {
         this.id = id;
         this.title = title;
         this.uri = uri;
         this.modified = modified;
         this.validationState= validationState;
     }
-    public DataSetModelSwagger(String id, List<Title> title, String uri, String modified, String created, String validationState, List<ThemeModelSwagger> themeModelSwaggerS) {
+    public DataSetModelSwagger(String id, List<LangContent> title, String uri, String modified, String created, String validationState, List<ThemeModelSwagger> themeModelSwaggerS) {
         this.id = id;
         this.title = title;
         this.uri = uri;
@@ -178,200 +184,5 @@ public class DataSetModelSwagger implements Serializable  {
         this.themeModelSwaggerS = themeModelSwaggerS;
     }
 
-    @JsonProperty("id")
-    public String getId() {
-        return id;
-    }
-    @JsonProperty("id")
-    public void setId(String id) {
-        this.id = id;
-    }
 
-    @JsonProperty("title")
-    public List<Title> getTitle() {
-        return title;
-    }
-
-    @JsonProperty("title")
-    public void setTitle(List<Title> titles) {
-        this.title = titles;
-    }
-
-    @JsonProperty("uri")
-    public String getUri() {
-        return uri;
-    }
-
-    @JsonProperty("uri")
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
-
-    @JsonProperty("modified")
-    public String getModified() {
-        return modified;
-    }
-
-    @JsonProperty("modified")
-    public void setCreated(String DateModification) {
-        this.modified = DateModification;
-    }
-
-    @JsonProperty("created")
-    public String getCreated() {
-        return created;
-    }
-
-    @JsonProperty("created")
-    public void setModified(String created) {
-        this.created = created;
-    }
-
-    @JsonProperty("validationState")
-    public String getValidationState() {
-        return validationState;
-    }
-
-    @JsonProperty("validationState")
-    public void setValidationState(String validationState) {
-        this.validationState = validationState;
-    }
-    @JsonProperty("contributor")
-    public String getContributor() {
-        return contributor;
-    }
-    @JsonProperty("contributor")
-    public void setContributor(String contributor) {
-        this.contributor = contributor;
-    }
-    @JsonProperty("creator")
-    public String getCreator() {
-        return creator;
-    }
-    @JsonProperty("creator")
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-    @JsonProperty("disseminationStatus")
-    public String getDisseminationStatus() {
-        return disseminationStatus;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-    public void setSubtitle(List<Title> subtitle) {
-        this.subtitle = subtitle;
-    }
-
-    public void setAbstractDataset(List<Title> abstractDataset) {
-        this.abstractDataset = abstractDataset;
-    }
-
-    public void setDescription(List<Title> description) {
-        this.description = description;
-    }
-
-    public void setScopeNote(List<Title> scopeNote) {
-        this.scopeNote = scopeNote;
-    }
-
-    public void setLandingPage(List<LandingPage> landingPage) {
-        this.landingPage = landingPage;
-    }
-
-    public void setProcessStep(List<Title> processStep) {
-        this.processStep = processStep;
-    }
-
-
-
-    public void setWasGeneratedBy(List<IdLabel> wasGeneratedBy) {
-        this.wasGeneratedBy = wasGeneratedBy;
-    }
-
-    public void setType(List<Title> type) {
-        this.type = type;
-    }
-
-
-
-    public void setAccessRights(List<Title> accessRights) {
-        this.accessRights = accessRights;
-    }
-
-    public void setConfidentialityStatus(List<Title> confidentialityStatus) {
-        this.confidentialityStatus = confidentialityStatus;
-    }
-
-    public void setAccrualPeriodicity(Label accrualPeriodicity) {
-        this.accrualPeriodicity = accrualPeriodicity;
-    }
-
-    public void setTemporal(Temporal temporal) {
-        this.temporal = temporal;
-    }
-
-    public void setTemporalResolution(List<Label> temporalResolution) {
-        this.temporalResolution = temporalResolution;
-    }
-
-
-
-
-
-    public void setStatisticalUnit(List<Title> statisticalUnit) {
-        this.statisticalUnit = statisticalUnit;
-    }
-
-    public void setStructure(Structure structure) {
-        this.structure = structure;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public void setIssued(String issued) {
-        this.issued = issued;
-    }
-
-    public void setNumObservations(Integer numObservations) {
-        this.numObservations = numObservations;
-    }
-
-    public void setNumSeries(Integer numSeries) {
-        this.numSeries = numSeries;
-    }
-
-    public void setPublisher(IdLabel publisher) {
-        this.publisher = publisher;
-    }
-
-    public void setArchiveUnit(List<IdLabel> archiveUnit) {
-        this.archiveUnit = archiveUnit;
-    }
-
-    public void setSpatial(IdLabel spatial) {
-        this.spatial = spatial;
-    }
-
-    public void setSpatialResolution(List<IdLabel> spatialResolution) {
-        this.spatialResolution = spatialResolution;
-    }
-
-    @JsonProperty("disseminationStatus")
-    public void setDisseminationStatus(String disseminationStatus) {
-        this.disseminationStatus = disseminationStatus;
-    }
-
-    @JsonProperty("theme")
-    public List<ThemeModelSwagger> getThemeModelSwagger() {
-        return themeModelSwaggerS;
-    }
-
-    @JsonProperty("theme")
-    public void setThemeModelSwagger(List<ThemeModelSwagger> themeListModelSwagger) {
-        this.themeModelSwaggerS = themeListModelSwagger;
-    }
 }

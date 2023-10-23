@@ -14,7 +14,6 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
@@ -44,9 +43,9 @@ class DataSetsImplTest {
         List<DataSetModelSwagger> dataSetListDTOS = new ArrayList<>();
 
         for (DataSet byDataSet : dataSets) {
-            Title titre1 = new Title(Config.LG1, byDataSet.getTitreLg1());
-            Title titre2 = new Title(Config.LG2, byDataSet.getTitreLg2());
-            List<Title> titres = new ArrayList<>();
+            LangContent titre1 = new LangContent(Config.LG1, byDataSet.getTitreLg1());
+            LangContent titre2 = new LangContent(Config.LG2, byDataSet.getTitreLg2());
+            List<LangContent> titres = new ArrayList<>();
             titres.add(titre1);
             titres.add(titre2);
             DataSetModelSwagger dataSetSwagger = new DataSetModelSwagger(byDataSet.getId(), titres, byDataSet.getUri(), byDataSet.getDateMiseAJour(), byDataSet.getStatutValidation());
@@ -61,9 +60,9 @@ class DataSetsImplTest {
     @Test
     void getDataSetByIDTest() {
         DataSet dataSet = new DataSet("publie", "01/01/2021", "themeUn,ThemeDeux", "01/01/2022", "antecedent1/serie/1,antecedent1/serie/2,antecedent2/operation/1,antecedent2/operation/2", "nomFrDataset", "iddatset", "nomDataset", "UriDataset");
-        Title titre1 = new Title("fr", dataSet.getTitreLg1());
-        Title titre2 = new Title("en", dataSet.getTitreLg2());
-        List<Title> titres = new ArrayList<>();
+        LangContent titre1 = new LangContent("fr", dataSet.getTitreLg1());
+        LangContent titre2 = new LangContent("en", dataSet.getTitreLg2());
+        List<LangContent> titres = new ArrayList<>();
         titres.add(titre1);
         titres.add(titre2);
 

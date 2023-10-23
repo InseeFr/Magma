@@ -17,22 +17,22 @@ import java.util.List;
 public class Label {
 
     @JsonProperty("label")
-    private List<Title> label;
+    private List<LangContent> label;
 
     public Label() {
     }
 
-    public Label(List<Title> label) {
+    public Label(List<LangContent> label) {
         this.label = label;
     }
 
     @JsonProperty("label")
-    public List<Title> getLabel() {
+    public List<LangContent> getLabel() {
         return label;
     }
 
     @JsonProperty("label")
-    public void setLabel(List<Title> label) {
+    public void setLabel(List<LangContent> label) {
         this.label = label;
     }
 }
