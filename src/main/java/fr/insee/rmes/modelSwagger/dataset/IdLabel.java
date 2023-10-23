@@ -3,6 +3,8 @@ package fr.insee.rmes.modelSwagger.dataset;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.annotation.Generated;
@@ -17,6 +19,8 @@ import java.util.List;
         "label"
 })
 @Generated("jsonschema2pojo")
+@Getter
+@Setter
 public class IdLabel implements Serializable {
     @JsonProperty("id")
     private String id;
@@ -33,29 +37,4 @@ public class IdLabel implements Serializable {
         this.label = label;
     }
 
-    @JsonProperty("id")
-    public String getId() {
-        return id;
-    }
-
-
-    @JsonProperty("id")
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @JsonProperty("label")
-    public List<LangContent> getLabel() {
-        return label;
-    }
-
-    @JsonProperty("label")
-    public void setLabel(List<LangContent> label) {
-        this.label = label;
-    }
-
-    @JsonProperty("type")
-    public void setType(String type) {
-        this.type = type;
-    }
 }
