@@ -3,6 +3,8 @@ package fr.insee.rmes.modelSwagger.dataset;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.annotation.Generated;
@@ -15,15 +17,14 @@ import java.io.Serializable;
         "endPeriod"
 })
 @Generated("jsonschema2pojo")
+@Getter
+@Setter
 public class Temporal implements Serializable {
     @JsonProperty("startPeriod")
     private String startPeriod;
 
     @JsonProperty("endPeriod")
     private String endPeriod;
-
-    public Temporal() {
-    }
 
     public Temporal(String startPeriod, String endPeriod) {
         this.startPeriod = startPeriod;
