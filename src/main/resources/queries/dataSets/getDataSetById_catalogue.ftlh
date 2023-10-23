@@ -22,7 +22,7 @@ WHERE {
 		dcterms:modified ?dateModification ;
 		dcterms:title ?titleLg1 ;
 		dcterms:title ?titleLg2 ;
-		BIND( if(?isValidated,"Publiée","Provisoire, jamais publiée") as ?statutValidation )
+		BIND( if(?isValidated="Unpublished","Provisoire, jamais publiée","Publiée") as ?statutValidation )
 		FILTER (lang(?titleLg1) = '${LG1}')
 		FILTER (lang(?titleLg2) = '${LG2}')
 
