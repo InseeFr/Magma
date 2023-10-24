@@ -8,6 +8,7 @@ import fr.insee.rmes.model.datasets.Operation;
 import fr.insee.rmes.model.datasets.Serie;
 import fr.insee.rmes.model.datasets.Theme;
 import fr.insee.rmes.modelSwagger.dataset.*;
+import fr.insee.rmes.services.utils.ResponseUtilsTest;
 import fr.insee.rmes.stubs.DataSetsImplStub;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
@@ -138,6 +139,16 @@ class DataSetsImplTest {
     void findDistributions_test(String id) throws RmesException, JsonProcessingException {
         var dataSetImpl = new DataSetsImplStub();
         assertThat(dataSetImpl.findDistributions(id)).isEqualTo(new Distribution(id, URI_TEST));
+    }
+
+    @Test
+    void setTitreListTest(){
+        LangContent titre1 = new LangContent(Config.LG1, "elementLg1");
+        LangContent titre2 = new LangContent(Config.LG2, "elementLg2");
+        List<LangContent> titres = new ArrayList<>();
+        titres.add(titre1);
+        titres.add(titre2);
+        assertThat(titres.toString().equals(ResponseUtilsTest.EXPECTED_JSON_SET_TITRE_LIST));
     }
 
 }
