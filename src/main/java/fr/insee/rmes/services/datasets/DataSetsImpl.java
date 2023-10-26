@@ -413,7 +413,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 List<LabelDataSet> labelDataSets = new ArrayList<>();
                 labelDataSets.add(labelDataSet1);
                 labelDataSets.add(labelDataSet2);
-                ThemeModelSwagger themeModelSwagger = new ThemeModelSwagger(dataSetId2.getString("uri"), labelDataSets,dataSetId2.getString("themeTaxonomy"));
+                ThemeModelSwagger themeModelSwagger = new ThemeModelSwagger(theme1.getUri(), labelDataSets,theme1.getThemeTaxonomy());
                 themeListModelSwaggerS.add(themeModelSwagger);
                 dataSetId2.clear();
             }
@@ -434,8 +434,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
     private IdLabel setIdLabel(String id, String labelLg1, String labelLg2) {
-        List<LangContent> titleList = setTitreList(labelLg1,labelLg2);
-        return new IdLabel(id,titleList);
+        List<LangContent> langContentList = setTitreList(labelLg1,labelLg2);
+        return new IdLabel(id,langContentList);
     }
 
     public Map<String, Object> initParams() {
