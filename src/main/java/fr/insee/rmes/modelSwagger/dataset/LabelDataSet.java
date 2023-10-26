@@ -2,6 +2,7 @@
 package fr.insee.rmes.modelSwagger.dataset;
 
 import com.fasterxml.jackson.annotation.*;
+import lombok.ToString;
 
 import javax.annotation.Generated;
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import java.util.Map;
         "content"
 })
 @Generated("jsonschema2pojo")
+@ToString
 public class LabelDataSet implements Serializable
 {
 
@@ -24,9 +26,6 @@ public class LabelDataSet implements Serializable
     @JsonAlias({"content","seriesLabelLg1","seriesLabelLg2","labelSerieLg1","labelSerieLg2","operationLabelLg1","operationLabelLg2","labelOperationLg1","labelOperationLg2","familyLabelLg1","familyLabelLg2","typeLabelLg1","typeLabelLg2",
             "periodicityLabelLg1","periodicityLabelLg2","labelThemeLg1","labelThemeLg2"})
     private String content;
-    @JsonIgnore
-    @Valid
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private final static long serialVersionUID = -3598103317305309574L;
 
     /**
@@ -77,19 +76,5 @@ public class LabelDataSet implements Serializable
         return this;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-    public LabelDataSet withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
 
 }

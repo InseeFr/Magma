@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.ToString;
 
 import javax.annotation.Generated;
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import java.util.Map;
         "themeTaxonomy"
 })
 @Generated("jsonschema2pojo")
+@ToString
 public class ThemeModelSwagger  implements Serializable{
     @JsonProperty("uri")
     private String uri;
@@ -28,9 +30,6 @@ public class ThemeModelSwagger  implements Serializable{
 
     @JsonProperty("themeTaxonomy")
     private String themeTaxonomy;
-    @JsonIgnore
-    @Valid
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public ThemeModelSwagger(String uri, List<LabelDataSet> labelDataSet, String themeTaxonomy) {
         this.uri = uri;
