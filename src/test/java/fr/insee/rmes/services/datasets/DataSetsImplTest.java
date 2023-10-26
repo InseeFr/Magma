@@ -12,19 +12,18 @@ import fr.insee.rmes.services.utils.ResponseUtilsTest;
 import fr.insee.rmes.stubs.DataSetsImplStub;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Disabled("Aim of these tests ?")
 public
@@ -143,12 +142,68 @@ class DataSetsImplTest {
 
     @Test
     void setTitreListTest(){
-        LangContent titre1 = new LangContent(Config.LG1, "elementLg1");
-        LangContent titre2 = new LangContent(Config.LG2, "elementLg2");
+        LangContent titre1 = new LangContent("fr", "elementLg1");
+        LangContent titre2 = new LangContent("en", "elementLg2");
         List<LangContent> titres = new ArrayList<>();
         titres.add(titre1);
         titres.add(titre2);
-        assertThat(titres.toString().equals(ResponseUtilsTest.EXPECTED_JSON_SET_TITRE_LIST));
+        assertTrue(titres.toString().equals(ResponseUtilsTest.EXPECTED_JSON_SET_TITRE_LIST));
     }
+
+    @Test
+    void initParamsTest(){
+        Map<String, Object> params = new HashMap<>();
+        params.put("DATASETS_GRAPH", "DatasetGraphTest");
+        params.put("LG1", "fr");
+        params.put("LG2", "en");
+        params.put("ADMS_GRAPH","AdmsGraphTest");
+        params.put("STRUCTURES_GRAPH","StructureGraphTest");
+        params.put("CODES_GRAPH","CodesGraphTest");
+        params.put("CONCEPTS_GRAPH","ConceptsGraphTest");
+        params.put("ORGANISATIONS_GRAPH","OrganisationsGraphTest");
+        params.put("OPERATIONS_GRAPH","OperationsGraphTest");
+        params.put("ONTOLOGIES_GRAPH","OntologiesGraphTest");
+        assertTrue(params.toString().equals(ResponseUtilsTest.EXPECTED_MAP_INIT_PARAMS));
+    }
+
+
+    //inutile je pense
+    @Test
+    void setIdLabelTest(){
+        List<LangContent> langContentList = new ArrayList<>();
+        LangContent langContent1 = new LangContent("fr","content1");
+        LangContent langContent2 = new LangContent("en","content2");
+        langContentList.add(langContent1);
+        langContentList.add(langContent2);
+        IdLabel idlabeltest = new IdLabel("id",langContentList);
+        assertTrue(idlabeltest.toString().equals(ResponseUtilsTest.EXPECTED_LANGCONTENTLIST_SET_ID_LABEL));
+        idlabeltest.setType("type");
+        assertTrue(idlabeltest.toString().equals(ResponseUtilsTest.EXPECTED_LANGCONTENTLIST_SET_ID_LABEL_WITH_TYPE));
+    }
+
+    //TODO petite méthode d'extraction des URIs
+    @Test
+    void getThemeModelSwaggerSTest(){
+        String liste_uris = "uri0, uri1 ,uri2 , uri3";
+        String[] parts = liste_uris.split(",");
+        List<ThemeModelSwagger> themeListModelSwaggerS = new ArrayList<>();
+        for (int i = 0; i <  Arrays.stream(parts).count(); i++){
+            Map<String, Object> params = new HashMap<>();
+            params.put("URI",parts[i].replace(" ", ""));
+            String expectedParams = "{URI=uri"+i+"}";
+            assertTrue(params.toString().equals(expectedParams));
+            params.remove("URI");
+            Theme themetest = new Theme("uri"+i,"labelThemeLg1"+i,"labelThemeLg2"+i,"themeTaxonomy"+i);
+            LabelDataSet labelDataSet1 = new LabelDataSet("fr", themetest.getLabelThemeLg1());
+            LabelDataSet labelDataSet2 = new LabelDataSet("en", themetest.getLabelThemeLg2());
+            List<LabelDataSet> labelDataSets = new ArrayList<>();
+            labelDataSets.add(labelDataSet1);
+            labelDataSets.add(labelDataSet2);
+            ThemeModelSwagger themeModelSwagger = new ThemeModelSwagger(themetest.getUri(), labelDataSets,themetest.getThemeTaxonomy());
+            themeListModelSwaggerS.add(themeModelSwagger);
+        }
+        assertTrue(themeListModelSwaggerS.toString().equals(ResponseUtilsTest.EXPECTED_THEMELIST_GET_THEME_MODEL_SWAGGERS));
+    }
+
 
 }
