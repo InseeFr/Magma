@@ -33,7 +33,10 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         for (DataSet byDataSet : dataSets) {
 
             List<LangContent> titres = setTitreList(byDataSet.getTitreLg1(),byDataSet.getTitreLg2());
-            DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(byDataSet.getId(),titres,byDataSet.getUri(),byDataSet.getDateMiseAJour(),byDataSet.getStatutValidation());
+            Id id1 = new Id(byDataSet.getId());
+            Uri uri = new Uri(byDataSet.getUri());
+            Modified modified = new Modified (byDataSet.getDateMiseAJour());
+            DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(id1,titres,uri, modified, byDataSet.getStatutValidation());
             dataSetListModelSwaggerS.add(dataSetModelSwagger);
         }
 
@@ -80,7 +83,14 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         //récupération du titre
         List<LangContent> title = setTitreList(catalogue_result.getString("titleLg1"), catalogue_result.getString("titleLg2"));
 
-        DataSetModelSwagger reponse = new DataSetModelSwagger(catalogue_result.getString("id"), title, catalogue_result.getString("uri"), catalogue_result.getString("dateModification"), catalogue_result.getString("dateCreation"), catalogue_result.getString("statutValidation"), catalogue_result.getString("contributor"), catalogue_result.getString("creator"), ontologies_result.getString("labeldisseminationStatusLg1"));
+        Id id1=new Id(catalogue_result.getString("id"));
+        Uri uri = new Uri(catalogue_result.getString("uri"));
+        Modified modified = new Modified(catalogue_result.getString("dateModification"));
+        Created created = new Created(catalogue_result.getString("dateCreation"));
+        Contributor contributor = new Contributor(catalogue_result.getString("contributor"));
+        Creator creator = new Creator(catalogue_result.getString("creator"));
+        DisseminationStatus disseminationStatus = new DisseminationStatus(ontologies_result.getString("labeldisseminationStatusLg1"));
+        DataSetModelSwagger reponse = new DataSetModelSwagger(id1, title, uri, modified, created, catalogue_result.getString("statutValidation"), contributor, creator, disseminationStatus);
 
         testPresenceVariablePuisAjout(reponse,catalogue_result,adms_result,codes_result,organisations_result,structures_result);
         return reponse;
@@ -227,17 +237,19 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
     @Override
-    public String getDataSetByIDFilterByDateMaj (String id) throws RmesException, JsonProcessingException {
+    public String getDataSetByIDSummary(String id) throws RmesException, JsonProcessingException {
         //parametrage de la requête
 
         params.put("ID", id);
 
         //requête intiale
-        JSONObject dataSetId = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdDateMAJ.ftlh", params));
+        JSONObject dataSetId = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIDSummary.ftlh", params));
         DataSet dataSet = objectMapper.readValue(dataSetId.toString(), DataSet.class);
 
-
-        DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(dataSet.getId(), dataSet.getUri(), dataSet.getDateMiseAJour());
+        Id id1=new Id(dataSet.getId());
+        Uri uri = new Uri(dataSet.getUri());
+        Modified modified = new Modified(dataSet.getDateMiseAJour());
+        DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(id1, uri, modified);
         JsonNode dataSetFinalNode = emptyDataSetModelSwagger(dataSetModelSwagger);
         return dataSetFinalNode.toString();
     }
@@ -246,7 +258,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     public Distribution findDistributions(String id) throws RmesException, JsonProcessingException {
 
         var datasetModelSwagger = findDataSetModelSwagger(id);
-        return new Distribution(datasetModelSwagger.getId(), datasetModelSwagger.getUri());
+        Uri uri = new Uri(datasetModelSwagger.getUri().toString());
+        return new Distribution(datasetModelSwagger.getId(), uri);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import fr.insee.rmes.model.datasets.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -63,25 +64,25 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 public class DataSetModelSwagger implements Serializable  {
 
     @JsonProperty("id")
-    private String id;
+    private Id id;
     @JsonProperty("title")
     //@Valid
     private List<LangContent> title ;
     @JsonProperty("uri")
-    private String uri;
+    private Uri uri;
     @JsonProperty("modified")
-    private String modified;
+    private Modified modified;
     @JsonProperty("created")
-    private String created;
+    private Created created;
     @JsonProperty ("validationState")
     private String validationState;
     @JsonProperty("contributor")
-    private String contributor;
+    private Contributor contributor;
     @JsonProperty("creator")
-    private String creator;
+    private Creator creator;
 
     @JsonProperty("disseminationStatus")
-    private String disseminationStatus;
+    private DisseminationStatus disseminationStatus;
 
     @JsonProperty("identifier")
     private String identifier;
@@ -146,7 +147,7 @@ public class DataSetModelSwagger implements Serializable  {
     public DataSetModelSwagger() {
     }
 
-    public DataSetModelSwagger(String id, List<LangContent> title, String uri, String modified, String created, String validationState, String contributor, String creator, String disseminationStatus) {
+    public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified, Created created, String validationState, Contributor contributor, Creator creator, DisseminationStatus disseminationStatus) {
         this.id = id;
         this.title = title;
         this.uri = uri;
@@ -159,22 +160,21 @@ public class DataSetModelSwagger implements Serializable  {
     }
 
 
-    public DataSetModelSwagger(String id, String uri, String modified) {
+    public DataSetModelSwagger(Id id, Uri uri, Modified modified) {
         this.id = id;
         this.uri = uri;
         this.modified = modified;
     }
 
 
-
-    public DataSetModelSwagger(String id, List<LangContent> title, String uri, String modified, String validationState) {
+    public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified, String validationState) {
         this.id = id;
         this.title = title;
         this.uri = uri;
         this.modified = modified;
         this.validationState= validationState;
     }
-    public DataSetModelSwagger(String id, List<LangContent> title, String uri, String modified, String created, String validationState, List<ThemeModelSwagger> themeModelSwaggerS) {
+    public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified, Created created, String validationState, List<ThemeModelSwagger> themeModelSwaggerS) {
         this.id = id;
         this.title = title;
         this.uri = uri;
@@ -183,6 +183,5 @@ public class DataSetModelSwagger implements Serializable  {
         this.validationState = validationState;
         this.themeModelSwaggerS = themeModelSwaggerS;
     }
-
 
 }
