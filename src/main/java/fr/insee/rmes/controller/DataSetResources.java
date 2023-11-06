@@ -65,7 +65,7 @@ public class DataSetResources {
         }
         // Sinon, on renvoie juste la date MiseAJour
         else {
-            String jsonResult = dataSetsServices.getDataSetByIDFilterByDateMaj(id);
+            String jsonResult = dataSetsServices.getDataSetByIDSummary(id);
             if (jsonResult.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
             } else {
