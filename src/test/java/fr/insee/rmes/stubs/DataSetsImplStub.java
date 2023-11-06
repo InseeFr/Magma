@@ -1,5 +1,7 @@
 package fr.insee.rmes.stubs;
 
+import fr.insee.rmes.model.datasets.Id;
+import fr.insee.rmes.model.datasets.Uri;
 import fr.insee.rmes.modelSwagger.dataset.DataSetModelSwagger;
 import fr.insee.rmes.services.datasets.DataSetsImpl;
 
@@ -9,6 +11,8 @@ public class DataSetsImplStub extends DataSetsImpl {
 
     @Override
     protected DataSetModelSwagger findDataSetModelSwagger(String id) {
-        return new DataSetModelSwagger(id, URI_TEST, null);
+        Id id1 = new Id(id);
+        Uri uri = new Uri(URI_TEST);
+        return new DataSetModelSwagger(id1, uri, null);
     }
 }
