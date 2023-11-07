@@ -12,7 +12,7 @@ public interface DataSetsServices {
 
     String getDataSetByID(String id) throws RmesException, JsonProcessingException;
 
-    String getDataSetByIDFilterByDateMaj(String id) throws RmesException, JsonProcessingException;
+    String getDataSetByIDSummary(String id) throws RmesException, JsonProcessingException;
 
     Distribution findDistributions(String id) throws RmesException, JsonProcessingException;
 

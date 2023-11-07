@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import fr.insee.rmes.model.datasets.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.annotation.Generated;
 import javax.validation.Valid;
@@ -14,23 +17,57 @@ import java.util.Map;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
+
+
 @JsonInclude(NON_NULL)
 @JsonPropertyOrder({
         "id",
         "uri",
-        "title",
-        "modified",
+        "identifier",
         "created",
-        "validation state"
-
+        "issued",
+        "modified",
+        "disseminationStatus",
+        "validationState",
+        "version",
+        "creator",
+        "contributor",
+        "publisher",
+        "title",
+        "subtitle",
+        "abstract",
+        "description",
+        "scopeNote",
+        "wasGeneratedBy",
+        "type",
+        "archiveUnit",
+        "accessRights",
+        "confidentialityStatus",
+        "theme",
+        "landingPage",
+        "processStep",
+        "accrualPeriodicity",
+        "temporal",
+        "temporalResolution",
+        "spatial",
+        "spatialResolution",
+        "statisticalUnit",
+        "structure",
+        "numObservations",
+        "numSeries"
 })
+
 @Generated("jsonschema2pojo")
+@Setter
+@Getter
+
 public class DataSetModelSwagger implements Serializable  {
+
     @JsonProperty("id")
     private String id;
     @JsonProperty("title")
     //@Valid
-    private List<Title> title ;
+    private List<LangContent> title ;
     @JsonProperty("uri")
     private String uri;
     @JsonProperty("modified")
@@ -39,15 +76,70 @@ public class DataSetModelSwagger implements Serializable  {
     private String created;
     @JsonProperty ("validationState")
     private String validationState;
+    @JsonProperty("contributor")
+    private String contributor;
+    @JsonProperty("creator")
+    private String creator;
+
+    @JsonProperty("disseminationStatus")
+    private String disseminationStatus;
+
+    @JsonProperty("identifier")
+    private String identifier;
+    @JsonProperty("subtitle")
+    private List<LangContent> subtitle;
+    @JsonProperty("abstract")
+    private List<LangContent> abstractDataset;
+    @JsonProperty("description")
+    private List<LangContent> description;
+    @JsonProperty("scopeNote")
+    private List<LangContent> scopeNote;
+    @JsonProperty("landingPage")
+    private List<LandingPage> landingPage;
+    @JsonProperty("processStep")
+    private List<LangContent> processStep;
+    @JsonProperty("publisher")
+    private IdLabel publisher;
+    @JsonProperty("wasGeneratedBy")
+    private List<IdLabel> wasGeneratedBy;
+    @JsonProperty("type")
+    private List<LangContent> type;
+    @JsonProperty("archiveUnit")
+    private List<IdLabel> archiveUnit;
+    @JsonProperty("accessRights")
+    private List<LangContent> accessRights;
+    @JsonProperty("confidentialityStatus")
+    private List<LangContent> confidentialityStatus;
+    @JsonProperty("accrualPeriodicity")
+    private Label accrualPeriodicity;
+    @JsonProperty("temporal")
+    private Temporal temporal;
+    @JsonProperty("temporalResolution")
+    private List<Label> temporalResolution;
+    @JsonProperty("spatial")
+    private IdLabel spatial;
+    @JsonProperty("spatialResolution")
+    private List<IdLabel> spatialResolution;
+    @JsonProperty("statisticalUnit")
+    private List<LangContent> statisticalUnit;
+    @JsonProperty("structure")
+    private Structure structure;
+    @JsonProperty("version")
+    private String version;
+    @JsonProperty("issued")
+    private String issued;
+    @JsonProperty("numObservations")
+    private Integer numObservations;
+    @JsonProperty("numSeries")
+    private Integer numSeries;
+
+
+
+
     @JsonProperty("theme")
     @JsonInclude(NON_NULL)
     private List<ThemeModelSwagger> themeModelSwaggerS;
-    @JsonProperty("serie")
-    @JsonInclude(NON_NULL)
-    private List<SerieModelSwagger> serieModelSwaggerS;
-    @JsonProperty("operation")
-    @JsonInclude(NON_NULL)
-    private List<OperationModelSwagger> operationModelSwaggerS;
+
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -55,134 +147,50 @@ public class DataSetModelSwagger implements Serializable  {
     public DataSetModelSwagger() {
     }
 
-    public DataSetModelSwagger(String id, List<Title> title, String uri, String modified, String created, List<ThemeModelSwagger> themeModelSwaggerS, List<SerieModelSwagger> serieModelSwaggerS, List<OperationModelSwagger> operationModelSwaggerS) {
-        this.id = id;
+    public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified, Created created, String validationState, Contributor contributor, Creator creator, DisseminationStatus disseminationStatus) {
+        this.id = id.toString();
         this.title = title;
-        this.uri = uri;
-        this.modified = modified;
-        this.created = created;
-        this.themeModelSwaggerS = themeModelSwaggerS;
-        this.serieModelSwaggerS = serieModelSwaggerS;
-        this.operationModelSwaggerS = operationModelSwaggerS;
-    }
-
-    public DataSetModelSwagger(String id, List<Title> title, String uri, String modified, String created, String validationState, List<ThemeModelSwagger> themeModelSwaggerS, List<SerieModelSwagger> serieModelSwaggerS, List<OperationModelSwagger> operationModelSwaggerS) {
-        this.id = id;
-        this.title = title;
-        this.uri = uri;
-        this.modified = modified;
-        this.created = created;
-        this.validationState=validationState;
-        this.themeModelSwaggerS = themeModelSwaggerS;
-        this.serieModelSwaggerS = serieModelSwaggerS;
-        this.operationModelSwaggerS = operationModelSwaggerS;
-    }
-    public DataSetModelSwagger(String id, String uri, String modified) {
-        this.id = id;
-        this.uri = uri;
-        this.modified = modified;
+        this.uri = uri.toString();
+        this.modified = modified.toString();
+        this.created = created.toString();
+        this.validationState = validationState;
+        this.contributor = contributor.toString();
+        this.creator = creator.toString();
+        this.disseminationStatus = disseminationStatus.toString();
     }
 
 
-    public DataSetModelSwagger(String id, List<Title> title, String uri, String modified) {
-        this.id = id;
-        this.title = title;
-        this.uri = uri;
-        this.modified = modified;
+    public DataSetModelSwagger(Id id, Uri uri, Modified modified) {
+        this.id = id.toString();
+        this.uri = uri.toString();
+        this.modified = modified.toString();
     }
 
-    public DataSetModelSwagger(String id, List<Title> title, String uri, String modified, String validationState) {
-        this.id = id;
+
+    public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified, String validationState) {
+        this.id = id.toString();
         this.title = title;
-        this.uri = uri;
-        this.modified = modified;
+        this.uri = uri.toString();
+        this.modified = modified.toString();
         this.validationState= validationState;
     }
-
-    @JsonProperty("id")
-    public String getId() {
-        return id;
-    }
-    @JsonProperty("id")
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @JsonProperty("title")
-    public List<Title> getTitle() {
-        return title;
-    }
-
-    @JsonProperty("title")
-    public void setTitle(List<Title> titles) {
-        this.title = titles;
-    }
-
-    @JsonProperty("uri")
-    public String getUri() {
-        return uri;
-    }
-
-    @JsonProperty("uri")
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
-
-    @JsonProperty("modified")
-    public String getModified() {
-        return modified;
-    }
-
-    @JsonProperty("modified")
-    public void setCreated(String DateModification) {
-        this.modified = DateModification;
-    }
-
-    @JsonProperty("created")
-    public String getCreated() {
-        return created;
-    }
-
-    @JsonProperty("created")
-    public void setModified(String created) {
-        this.created = created;
-    }
-
-    @JsonProperty("validationState")
-    public String getValidationState() {
-        return validationState;
-    }
-
-    @JsonProperty("validationState")
-    public void setValidationState(String validationState) {
+    public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified, Created created, String validationState, List<ThemeModelSwagger> themeModelSwaggerS) {
+        this.id = id.toString();
+        this.title = title;
+        this.uri = uri.toString();
+        this.modified = modified.toString();
+        this.created = created.toString();
         this.validationState = validationState;
-    }
-
-    @JsonProperty("theme")
-    public List<ThemeModelSwagger> getThemeModelSwagger() {
-        return themeModelSwaggerS;
-    }
-
-    @JsonProperty("theme")
-    public void setThemeModelSwagger(List<ThemeModelSwagger> themeListModelSwagger) {
         this.themeModelSwaggerS = themeModelSwaggerS;
     }
 
-    @JsonProperty("serie")
-    public List<SerieModelSwagger> getSerieModelSwagger() {
-        return serieModelSwaggerS;
-    }
-    @JsonProperty("serie")
-    public void setSerieModelSwagger(List<SerieModelSwagger> serieModelSwagger) {
-        this.serieModelSwaggerS = serieModelSwaggerS;
+    public Id getIdWithTypeId(){
+        Id id = new Id(this.id);
+        return id;
     }
 
-    @JsonProperty("operation")
-    public List<OperationModelSwagger> getOperationModelSwagger() {
-        return operationModelSwaggerS;
-    }
-    @JsonProperty("operation")
-    public void setOperationModelSwagger(List<OperationModelSwagger> operationModelSwagger) {
-        this.operationModelSwaggerS = operationModelSwaggerS;
+    public Uri getUriWithTypeUri(){
+        Uri uri = new Uri(this.uri);
+        return uri;
     }
 }

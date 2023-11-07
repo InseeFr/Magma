@@ -3,32 +3,20 @@ package fr.insee.rmes.services.datasets;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.insee.rmes.model.datasets.DataSet;
-import fr.insee.rmes.model.datasets.Operation;
-import fr.insee.rmes.model.datasets.Serie;
-import fr.insee.rmes.model.datasets.Theme;
+import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
-import fr.insee.rmes.stubs.DataSetsImplStub;
+import fr.insee.rmes.services.utils.ResponseUtilsTest;
 import fr.insee.rmes.utils.config.Config;
-import fr.insee.rmes.utils.exceptions.RmesException;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Disabled("Aim of these tests ?")
-public
-class DataSetsImplTest {
+//@Disabled("Aim of these tests ?")
+public class DataSetsImplTest {
 
     public static final String URI_TEST = "http://uri.test";
 
@@ -44,12 +32,15 @@ class DataSetsImplTest {
         List<DataSetModelSwagger> dataSetListDTOS = new ArrayList<>();
 
         for (DataSet byDataSet : dataSets) {
-            Title titre1 = new Title(Config.LG1, byDataSet.getTitreLg1());
-            Title titre2 = new Title(Config.LG2, byDataSet.getTitreLg2());
-            List<Title> titres = new ArrayList<>();
+            LangContent titre1 = new LangContent(Config.LG1, byDataSet.getTitreLg1());
+            LangContent titre2 = new LangContent(Config.LG2, byDataSet.getTitreLg2());
+            Id id1 = new Id(byDataSet.getId());
+            Uri uri = new Uri(byDataSet.getUri());
+            Modified modified = new Modified (byDataSet.getDateMiseAJour());
+            List<LangContent> titres = new ArrayList<>();
             titres.add(titre1);
             titres.add(titre2);
-            DataSetModelSwagger dataSetSwagger = new DataSetModelSwagger(byDataSet.getId(), titres, byDataSet.getUri(), byDataSet.getDateMiseAJour(), byDataSet.getStatutValidation());
+            DataSetModelSwagger dataSetSwagger = new DataSetModelSwagger(id1, titres, uri, modified, byDataSet.getStatutValidation());
             dataSetListDTOS.add(dataSetSwagger);
         }
 
@@ -61,9 +52,9 @@ class DataSetsImplTest {
     @Test
     void getDataSetByIDTest() {
         DataSet dataSet = new DataSet("publie", "01/01/2021", "themeUn,ThemeDeux", "01/01/2022", "antecedent1/serie/1,antecedent1/serie/2,antecedent2/operation/1,antecedent2/operation/2", "nomFrDataset", "iddatset", "nomDataset", "UriDataset");
-        Title titre1 = new Title("fr", dataSet.getTitreLg1());
-        Title titre2 = new Title("en", dataSet.getTitreLg2());
-        List<Title> titres = new ArrayList<>();
+        LangContent titre1 = new LangContent("fr", dataSet.getTitreLg1());
+        LangContent titre2 = new LangContent("en", dataSet.getTitreLg2());
+        List<LangContent> titres = new ArrayList<>();
         titres.add(titre1);
         titres.add(titre2);
 
@@ -74,13 +65,13 @@ class DataSetsImplTest {
             themeListDTOS = themeListDTOS;
         } else {
             for (int i = 0; i < Arrays.stream(parts).count(); i++) {
-                Theme theme1 = new Theme("uriTheme", "labelThemeFR", "labelThemeEn");
+                Theme theme1 = new Theme("uriTheme", "labelThemeFR", "labelThemeEn","themeTaxonomy");
                 LabelDataSet labelDataSet1 = new LabelDataSet(Config.LG1, theme1.getLabelThemeLg1());
                 LabelDataSet labelDataSet2 = new LabelDataSet(Config.LG2, theme1.getLabelThemeLg2());
                 List<LabelDataSet> labelDataSets = new ArrayList<>();
                 labelDataSets.add(labelDataSet1);
                 labelDataSets.add(labelDataSet2);
-                ThemeModelSwagger themeSwagger = new ThemeModelSwagger(theme1.getUri(), labelDataSets);
+                ThemeModelSwagger themeSwagger = new ThemeModelSwagger(theme1.getUri(), labelDataSets, theme1.getThemeTaxonomy());
                 themeListDTOS.add(themeSwagger);
 
             }
@@ -120,8 +111,11 @@ class DataSetsImplTest {
             operationListSwaggerS.add(operationSwagger);
         }
         List<OperationModelSwagger> operationListDTOS = operationListSwaggerS;
-
-        DataSetModelSwagger dataSetSwagger = new DataSetModelSwagger(dataSet.getId(), titres, dataSet.getUri(), dataSet.getDateMiseAJour(), dataSet.getDateCreation(), dataSet.getStatutValidation(), themeListDTOS, serieListDTOS, operationListDTOS);
+        Id id1 = new Id(dataSet.getId());
+        Uri uri = new Uri(dataSet.getUri());
+        Modified modified = new Modified (dataSet.getDateMiseAJour());
+        Created created = new Created(dataSet.getDateCreation());
+        DataSetModelSwagger dataSetSwagger = new DataSetModelSwagger(id1, titres, uri, modified, created, dataSet.getStatutValidation(), themeListDTOS);
         ObjectMapper dataSetFinal = new ObjectMapper();
         JsonNode dataSetFinalNode = dataSetFinal.valueToTree(dataSetSwagger);
         Iterator<JsonNode> it = dataSetFinalNode.iterator();
@@ -134,11 +128,72 @@ class DataSetsImplTest {
         }
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"1", "2", "", "toto"})
-    void findDistributions_test(String id) throws RmesException, JsonProcessingException {
-        var dataSetImpl = new DataSetsImplStub();
-        assertThat(dataSetImpl.findDistributions(id)).isEqualTo(new Distribution(id, URI_TEST));
+    @Test
+    void setTitreListTest(){
+        LangContent titre1 = new LangContent("fr", "elementLg1");
+        LangContent titre2 = new LangContent("en", "elementLg2");
+        List<LangContent> titres = new ArrayList<>();
+        titres.add(titre1);
+        titres.add(titre2);
+        assertTrue(titres.toString().equals(ResponseUtilsTest.EXPECTED_JSON_SET_TITRE_LIST));
     }
+
+
+
+    @Test
+    void initParamsTest(){
+        Map<String, Object> params = new HashMap<>();
+        params.put("DATASETS_GRAPH", "DatasetGraphTest");
+        params.put("LG1", "fr");
+        params.put("LG2", "en");
+        params.put("ADMS_GRAPH","AdmsGraphTest");
+        params.put("STRUCTURES_GRAPH","StructureGraphTest");
+        params.put("CODES_GRAPH","CodesGraphTest");
+        params.put("CONCEPTS_GRAPH","ConceptsGraphTest");
+        params.put("ORGANISATIONS_GRAPH","OrganisationsGraphTest");
+        params.put("OPERATIONS_GRAPH","OperationsGraphTest");
+        params.put("ONTOLOGIES_GRAPH","OntologiesGraphTest");
+        assertTrue(params.toString().equals(ResponseUtilsTest.EXPECTED_MAP_INIT_PARAMS));
+    }
+
+
+    //inutile je pense
+    @Test
+    void setIdLabelTest(){
+        List<LangContent> langContentList = new ArrayList<>();
+        LangContent langContent1 = new LangContent("fr","content1");
+        LangContent langContent2 = new LangContent("en","content2");
+        langContentList.add(langContent1);
+        langContentList.add(langContent2);
+        IdLabel idlabeltest = new IdLabel("id",langContentList);
+        assertTrue(idlabeltest.toString().equals(ResponseUtilsTest.EXPECTED_LANGCONTENTLIST_SET_ID_LABEL));
+        idlabeltest.setType("type");
+        assertTrue(idlabeltest.toString().equals(ResponseUtilsTest.EXPECTED_LANGCONTENTLIST_SET_ID_LABEL_WITH_TYPE));
+    }
+
+    //TODO petite méthode d'extraction des URIs
+    @Test
+    void getThemeModelSwaggerSTest(){
+        String liste_uris = "uri0, uri1 ,uri2 , uri3";
+        String[] parts = liste_uris.split(",");
+        List<ThemeModelSwagger> themeListModelSwaggerS = new ArrayList<>();
+        for (int i = 0; i <  Arrays.stream(parts).count(); i++){
+            Map<String, Object> params = new HashMap<>();
+            params.put("URI",parts[i].replace(" ", ""));
+            String expectedParams = "{URI=uri"+i+"}";
+            assertTrue(params.toString().equals(expectedParams));
+            params.remove("URI");
+            Theme themetest = new Theme("uri"+i,"labelThemeLg1"+i,"labelThemeLg2"+i,"themeTaxonomy"+i);
+            LabelDataSet labelDataSet1 = new LabelDataSet("fr", themetest.getLabelThemeLg1());
+            LabelDataSet labelDataSet2 = new LabelDataSet("en", themetest.getLabelThemeLg2());
+            List<LabelDataSet> labelDataSets = new ArrayList<>();
+            labelDataSets.add(labelDataSet1);
+            labelDataSets.add(labelDataSet2);
+            ThemeModelSwagger themeModelSwagger = new ThemeModelSwagger(themetest.getUri(), labelDataSets,themetest.getThemeTaxonomy());
+            themeListModelSwaggerS.add(themeModelSwagger);
+        }
+        assertTrue(themeListModelSwaggerS.toString().equals(ResponseUtilsTest.EXPECTED_THEMELIST_GET_THEME_MODEL_SWAGGERS));
+    }
+
 
 }
