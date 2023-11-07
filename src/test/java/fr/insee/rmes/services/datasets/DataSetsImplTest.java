@@ -7,10 +7,7 @@ import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.services.utils.ResponseUtilsTest;
 import fr.insee.rmes.utils.config.Config;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,9 +15,8 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Disabled("Aim of these tests ?")
-public
-class DataSetsImplTest {
+//@Disabled("Aim of these tests ?")
+public class DataSetsImplTest {
 
     public static final String URI_TEST = "http://uri.test";
 
@@ -132,18 +128,6 @@ class DataSetsImplTest {
         }
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"1", "2", "", "toto"})
-    /*void findDistributions_test(String id) throws RmesException, JsonProcessingException {
-        var dataSetImpl = new DataSetsImplStub();
-        Id id1 = new Id(id);
-        Uri uri = new Uri(URI_TEST);
-        Distribution distribution = new Distribution(id1,uri);
-        Distribution distribution2 = dataSetImpl.findDistributions(id);
-        System.out.println(distribution.toString());
-        assertTrue((dataSetImpl.findDistributions(id).toString()).equals(distribution.toString()));
-    }*/
-
     @Test
     void setTitreListTest(){
         LangContent titre1 = new LangContent("fr", "elementLg1");
@@ -153,6 +137,8 @@ class DataSetsImplTest {
         titres.add(titre2);
         assertTrue(titres.toString().equals(ResponseUtilsTest.EXPECTED_JSON_SET_TITRE_LIST));
     }
+
+
 
     @Test
     void initParamsTest(){
