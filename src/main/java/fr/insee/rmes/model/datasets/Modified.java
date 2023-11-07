@@ -11,4 +11,9 @@ public class Modified {
     public Modified(String modified) {
         this.modified=modified;
     }
+
+    @Override
+    public String toString() {
+        return modified ;
+    }
 }

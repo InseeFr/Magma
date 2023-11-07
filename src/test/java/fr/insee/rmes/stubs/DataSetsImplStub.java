@@ -15,4 +15,5 @@ public class DataSetsImplStub extends DataSetsImpl {
         Uri uri = new Uri(URI_TEST);
         return new DataSetModelSwagger(id1, uri, null);
     }
+
 }

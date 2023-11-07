@@ -64,25 +64,25 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 public class DataSetModelSwagger implements Serializable  {
 
     @JsonProperty("id")
-    private Id id;
+    private String id;
     @JsonProperty("title")
     //@Valid
     private List<LangContent> title ;
     @JsonProperty("uri")
-    private Uri uri;
+    private String uri;
     @JsonProperty("modified")
-    private Modified modified;
+    private String modified;
     @JsonProperty("created")
-    private Created created;
+    private String created;
     @JsonProperty ("validationState")
     private String validationState;
     @JsonProperty("contributor")
-    private Contributor contributor;
+    private String contributor;
     @JsonProperty("creator")
-    private Creator creator;
+    private String creator;
 
     @JsonProperty("disseminationStatus")
-    private DisseminationStatus disseminationStatus;
+    private String disseminationStatus;
 
     @JsonProperty("identifier")
     private String identifier;
@@ -148,40 +148,49 @@ public class DataSetModelSwagger implements Serializable  {
     }
 
     public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified, Created created, String validationState, Contributor contributor, Creator creator, DisseminationStatus disseminationStatus) {
-        this.id = id;
+        this.id = id.toString();
         this.title = title;
-        this.uri = uri;
-        this.modified = modified;
-        this.created = created;
+        this.uri = uri.toString();
+        this.modified = modified.toString();
+        this.created = created.toString();
         this.validationState = validationState;
-        this.contributor = contributor;
-        this.creator = creator;
-        this.disseminationStatus = disseminationStatus;
+        this.contributor = contributor.toString();
+        this.creator = creator.toString();
+        this.disseminationStatus = disseminationStatus.toString();
     }
 
 
     public DataSetModelSwagger(Id id, Uri uri, Modified modified) {
-        this.id = id;
-        this.uri = uri;
-        this.modified = modified;
+        this.id = id.toString();
+        this.uri = uri.toString();
+        this.modified = modified.toString();
     }
 
 
     public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified, String validationState) {
-        this.id = id;
+        this.id = id.toString();
         this.title = title;
-        this.uri = uri;
-        this.modified = modified;
+        this.uri = uri.toString();
+        this.modified = modified.toString();
         this.validationState= validationState;
     }
     public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified, Created created, String validationState, List<ThemeModelSwagger> themeModelSwaggerS) {
-        this.id = id;
+        this.id = id.toString();
         this.title = title;
-        this.uri = uri;
-        this.modified = modified;
-        this.created = created;
+        this.uri = uri.toString();
+        this.modified = modified.toString();
+        this.created = created.toString();
         this.validationState = validationState;
         this.themeModelSwaggerS = themeModelSwaggerS;
     }
 
+    public Id getIdWithTypeId(){
+        Id id = new Id(this.id);
+        return id;
+    }
+
+    public Uri getUriWithTypeUri(){
+        Uri uri = new Uri(this.uri);
+        return uri;
+    }
 }
