@@ -23,7 +23,7 @@
 		<packaging.mode>war</packaging.mode>
 		<java.version>11</java.version>
 		<keycloak.version>21.0.1</keycloak.version>
-		<json.version>20230227</json.version>
+		<json.version>20231013</json.version>
 		<rdf4j.version>4.2.3</rdf4j.version>
 		<springdoc.version>1.6.15</springdoc.version>
 		<jacoco.version>0.8.8</jacoco.version>
