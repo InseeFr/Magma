@@ -1,10 +1,10 @@
  SELECT 				 ?id ?seriesLabelLg1 ?seriesLabelLg2 ?series ?seriesAltLabelLg1 ?seriesAltLabelLg2
-						 ?typeId ?type  ?typeLabelLg1 ?typeLabelLg2
+						 ?typeId ?type  ?typeLabelLg1 ?typeLabelLg2 ?proprietaire
 						 (count(?operationId) as ?nbOperation)
 						 ?familyId ?family ?familyLabelLg1 ?familyLabelLg2  
-						 ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2 ?proprietaire
-
- {
+						 ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2
+            
+           	{  
 			    ?series a insee:StatisticalOperationSeries .
 			    BIND(STRAFTER(STR(?series),'/operations/serie/') AS ?id) .
            		?series skos:prefLabel ?seriesLabelLg1 .
@@ -12,7 +12,7 @@
            		?series skos:prefLabel ?seriesLabelLg2 .
            		FILTER (lang(?seriesLabelLg2) = '${LG2}')
 
- 				?series dc:creator ?proprietaire .
+ 				OPTIONAL {?series dc:creator ?proprietaire .}
 
            		?series dcterms:isPartOf ?family .  
            		?family a insee:StatisticalOperationFamily .  
@@ -38,33 +38,27 @@
 
            		} 
             
-           		OPTIONAL { 
+
            			?series dcterms:type ?type .
            			BIND(STRAFTER(STR(?type),'/codes/categorieSource/') AS ?typeId) .
-           			?type skos:prefLabel ?typeLabelLg1 .
+					FILTER(?typeId in ("S"))
+					?type skos:prefLabel ?typeLabelLg1 .
            			FILTER (lang(?typeLabelLg1) = '${LG1}')
 					?type skos:prefLabel ?typeLabelLg2 .
            			FILTER (lang(?typeLabelLg2) = '${LG2}')
 
-           		} 
+
             
            		OPTIONAL { ?sims sdmx-mm:target ?series .  
            			?sims a sdmx-mm:MetadataReport .  
            			BIND(STRAFTER(STR(?sims),'/qualite/rapport/') AS ?simsId) .  
            		} 
 
-           		BIND(EXISTS{?series rdfs:seeAlso ?seeAlso} AS ?hasSeeAlso) 
-           		BIND(EXISTS{?series dcterms:isReplacedBy ?isReplacedBy} AS ?hasIsReplacedBy) 
-           		BIND(EXISTS{?series dcterms:replaces ?replaces} AS ?hasReplaces) 
-           		BIND(EXISTS{?series dcterms:hasPart ?operation} AS ?hasOperation) 
-           		BIND(EXISTS{?indic prov:wasGeneratedBy ?series} AS ?hasIndic) 
-           		BIND(EXISTS{?series dcterms:publisher ?publisher} AS ?hasPublisher) 
-           		BIND(EXISTS{?series dcterms:contributor ?contrib} AS ?hasContributor) 
 
             
            	} group by ?id ?seriesLabelLg1 ?seriesLabelLg2 ?series ?seriesAltLabelLg1 ?seriesAltLabelLg2
 						    ?typeId ?type  ?typeLabelLg1 ?typeLabelLg2 ?familyId ?family ?familyLabelLg1 ?familyLabelLg2
 						        ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2 ?proprietaire
- order by ?id ?seriesLabelLg1 ?seriesLabelLg2 ?series ?seriesAltLabelLg1 ?seriesAltLabelLg2
+			  order by ?id ?seriesLabelLg1 ?seriesLabelLg2 ?series ?seriesAltLabelLg1 ?seriesAltLabelLg2
                        	    ?typeId ?type  ?typeLabelLg1 ?typeLabelLg2 ?familyId ?family ?familyLabelLg1 ?familyLabelLg2
                        	     ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2 ?proprietaire

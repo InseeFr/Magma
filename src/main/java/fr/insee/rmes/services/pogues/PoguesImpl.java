@@ -25,11 +25,11 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         Map<String, Object> params = initParams();
         JSONArray seriesList ;
 
-        if ( survey) {
-            seriesList = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getAllCodesListsSurvey.ftlh", params));
+        if (survey) {
+            seriesList = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getAllSeriesSurvey.ftlh", params));
         }
         else {
-            seriesList = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getAllCodesLists.ftlh", params));
+            seriesList = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getAllSeries.ftlh", params));
         }
 
         ObjectMapper jsonResponse = new ObjectMapper();
