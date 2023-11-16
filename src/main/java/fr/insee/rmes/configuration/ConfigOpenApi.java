@@ -23,10 +23,14 @@ public class ConfigOpenApi {
     @Value("${fr.insee.rmes.magma.api.host}")
     public String apiScheme;
     private final String SCHEMEKEYCLOAKBEARER= "bearerScheme";
+
+    @Value("${fr.insee.rmes.magma.version}")
+    private String magmaVersion;
+
     @Bean
     public OpenAPI customOpenAPIKeycloak() {
         // configuration pour récupérer un jeton auprès de Keycloak
-        final OpenAPI openapi = new OpenAPI().info(new Info().title("Swagger MAGMA API REST"));
+        final OpenAPI openapi = new OpenAPI().info(new Info().title("Swagger MAGMA API REST").version(magmaVersion));
         openapi.components(new Components().addSecuritySchemes(SCHEMEKEYCLOAKBEARER,
                         new SecurityScheme()
                                 .name(SCHEMEKEYCLOAKBEARER)
@@ -47,12 +51,6 @@ public class ConfigOpenApi {
             return operation.addSecurityItem(new SecurityRequirement().addList(SCHEMEKEYCLOAKBEARER));
         };
     }
-
-
-
-
-
-
 
 
 

@@ -1,8 +1,5 @@
 package fr.insee.rmes.utils.config;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 @Component
 
@@ -73,6 +73,10 @@ public class Config {
 	public boolean isRequiresSsl() {
 		return requiresSsl;
 	}
+//    private static String version = "";
+//    public static String getVersion() {
+//        return version;
+//    }
 
 	public void init() {
 		CONCEPTS_BASE_URI = env.getProperty("fr.insee.rmes.magma.concepts.baseURI");
@@ -94,6 +98,7 @@ public class Config {
 		OPERATIONS_BASE_URI = env.getProperty("fr.insee.rmes.magma.operations.baseURI");
 		ORGANISATIONS_GRAPH = env.getProperty("fr.insee.rmes.magma.organisations.graph");
 		ONTOLOGIES_BASE_URI = env.getProperty("fr.insee.rmes.magma.ontologies.baseURI");
+//        version = env.getProperty("fr.insee.rmes.magma.version");
 
 		listStaticFieldsValue();
 	}
