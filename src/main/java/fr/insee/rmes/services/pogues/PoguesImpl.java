@@ -40,7 +40,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         for (SerieModel bySerie : listSeries) {
 
             List <String> proprietaires = new ArrayList<>();
-               if (bySerie.getProprietaire() !=null) {
+                if (bySerie.getProprietaire() !=null) {
                     String proprietaire = bySerie.getProprietaire();
                     proprietaires.add(proprietaire);
                 }
@@ -86,8 +86,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         HashMap<String, List<String>> mapIdProprietaire = new HashMap<>();
 
         for (SerieByIdModelSwagger serie : seriesListModelSwaggerS) {
-
-            if (serie.getProprietaire().toString() != "[]") {
+            if (!serie.getProprietaire().isEmpty()) {
 
                 String proprietaireTemporaire = serie.getProprietaire().get(0);
                 if (mapIdProprietaire.containsKey(serie.getId())) {
@@ -108,11 +107,11 @@ public class PoguesImpl extends RdfService implements PoguesServices {
 
         List <SerieByIdModelSwagger> serieASupprimer = new ArrayList<>();
         for (SerieByIdModelSwagger serie : seriesListModelSwaggerS){
-            if (mapIdProprietaire.containsKey(serie.getId()) && (serie.getProprietaire().size()!=0)){
+            if (mapIdProprietaire.containsKey(serie.getId()) && (!serie.getProprietaire().isEmpty())){
                 serie.setProprietaire(mapIdProprietaire.get(serie.getId()));
                 mapIdProprietaire.remove(serie.getId());
             }
-            else if (serie.getProprietaire().size()==0){
+            else if (serie.getProprietaire().isEmpty()){
                 mapIdProprietaire.remove(serie.getId());
             }
             else {
