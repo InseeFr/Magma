@@ -28,6 +28,8 @@ public class Config {
 	public static String BASE_URI_GESTION;
 	public static String LG1;
 	public static String LG2;
+
+	public static Integer PERPAGE;
 	public static String BASE_GRAPH;
 	public static String DATASETS_GRAPH;
 	public static String CODELIST_GRAPH;
@@ -82,6 +84,7 @@ public class Config {
 		BASE_URI_GESTION = env.getProperty("fr.insee.rmes.magma.gestion.baseURI");
 		LG1 = env.getProperty("fr.insee.rmes.magma.lg1");
 		LG2 = env.getProperty("fr.insee.rmes.magma.lg2");
+		PERPAGE = Integer.valueOf(env.getProperty("fr.insee.rmes.magma.perPage"));
 		BASE_GRAPH = env.getProperty("fr.insee.rmes.magma.baseGraph");
 		DATASETS_GRAPH=env.getProperty("fr.insee.rmes.magma.datasets.graph") ;
 		CODELIST_GRAPH = env.getProperty("fr.insee.rmes.magma.codeLists.graph");
