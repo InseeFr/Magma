@@ -6,6 +6,8 @@ import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -207,6 +209,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
         return codesList.toString();
     }
 
+
     public void mapOtherChildren(JSONObject childrenMapping, JSONObject code) {
         if(code.has(Constants.PARENTS)){
             JSONArray children = new JSONArray();
@@ -242,6 +245,50 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
             }
             formattedCodes.put(code.getString(Constants.URI), code);
         }
+    }
+
+    public String getCodesListPagination(String notation, int pageNumber)throws RmesException{
+        Map<String, Object> params = initParamsNotation(notation);
+        JSONObject counter = repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"countNumberOfCodes.ftlh",params));
+        JSONObject result = repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesList.ftlh",params));
+        result.put("label", this.formatLabel(result));
+        result.remove("prefLabelLg1");
+        result.remove("prefLabelLg2");
+        if(result.has(STATUT_VALIDATION)){
+            String validationState = result.getString(STATUT_VALIDATION);
+            result.put(STATUT_VALIDATION, this.getValidationState(validationState));
+        }
+        int quotient_page = Integer.valueOf((String) counter.get("count")) / config.PERPAGE;
+        int reste_page = Integer.valueOf((String) counter.get("count")) % config.PERPAGE;
+        int total = 0;
+        if (reste_page == 0){
+            total = quotient_page;
+        } else if (reste_page != 0 ) {
+            total = quotient_page + 1;
+        }
+
+        result.put("codes", this.getCodesPagination(notation,pageNumber));
+        result.remove(Constants.URI);
+        String page = String.valueOf(pageNumber) + "/" + String.valueOf(total);
+        result.put("page", page);
+        return result.toString();
+    }
+
+    private JSONArray getCodesPagination(String notation,int pageNumber) throws RmesException {
+        Map<String, Object> params = initParamsNotation(notation);
+        params.put("OFFSET",config.PERPAGE * (pageNumber - 1));
+        params.put("PER_PAGE",config.PERPAGE);
+        JSONArray codes =  repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesPagination.ftlh", params));
+        JSONArray levels =  repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodeLevel.ftlh", params));
+
+        ArrayList<JSONObject> FormattedCodeAndChildrenMapping = getFormattedCodeAndChildrenMapping(codes, levels);
+
+        JSONObject formattedCodes = FormattedCodeAndChildrenMapping.get(0);
+        JSONObject childrenMapping = FormattedCodeAndChildrenMapping.get(1);
+
+        JSONArray result =  getResult(formattedCodes, childrenMapping, codes);
+
+        return  result;
     }
 
 
