@@ -23,12 +23,11 @@ public class PoguesImpl extends RdfService implements PoguesServices {
     @Override
     public String getAllSeriesLists(Boolean survey) throws RmesException, IOException {
         Map<String, Object> params = initParams();
-        JSONArray seriesList ;
+        JSONArray seriesList;
 
         if (survey) {
             seriesList = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getAllSeriesSurvey.ftlh", params));
-        }
-        else {
+        } else {
             seriesList = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getAllSeries.ftlh", params));
         }
 
@@ -38,9 +37,13 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         ObjectMapper mapper = new ObjectMapper();
         List<SerieByIdModelSwagger> seriesListModelSwaggerS= new ArrayList<>();
 
-
-
         for (SerieModel bySerie : listSeries) {
+
+            List <String> proprietaires = new ArrayList<>();
+                if (bySerie.getProprietaire() !=null) {
+                    String proprietaire = bySerie.getProprietaire();
+                    proprietaires.add(proprietaire);
+                }
             AltLabel altLabelSerie1 = new AltLabel(Config.LG1, bySerie.getSeriesAltLabelLg1());
             AltLabel altLabelSerie2 = new AltLabel(Config.LG2, bySerie.getSeriesAltLabelLg2());
                 List<AltLabel> altLabelSerie = new ArrayList<>();
@@ -74,43 +77,51 @@ public class PoguesImpl extends RdfService implements PoguesServices {
                     labelFamille.add(labelFamille1);
                     labelFamille.add(labelFamille2);}
             Famille familleSerie= new Famille (bySerie.getFamilyId(),labelFamille,bySerie.getFamily());
-            SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,bySerie.getSeries(),bySerie.getId(),frequenceSerie,bySerie.getNbOperation(),familleSerie, bySerie.getProprietaire());
+
+            SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,bySerie.getSeries(),bySerie.getId(),frequenceSerie,bySerie.getNbOperation(),familleSerie, proprietaires);
             seriesListModelSwaggerS.add(serieByIdModelSwagger);
         }
-
+//        at this stage, a series has as many lines as proprietaires
+//        for each series, we map the list of proprietaires (there may be several)
         HashMap<String, List<String>> mapIdProprietaire = new HashMap<>();
 
-        for (SerieByIdModelSwagger serie : seriesListModelSwaggerS){
-            String propietaireTemporaire = serie.getProprietaire().get(0);
-            if (mapIdProprietaire.containsKey(serie.getId())){
-                List <String> templist = mapIdProprietaire.get(serie.getId());
-                if(!templist.contains(propietaireTemporaire)){
-                    templist.add(propietaireTemporaire);
-                    mapIdProprietaire.remove(serie.getId());
-                    mapIdProprietaire.put(serie.getId(),templist);
+        for (SerieByIdModelSwagger serie : seriesListModelSwaggerS) {
+            if (!serie.getProprietaire().isEmpty()) {
+
+                String proprietaireTemporaire = serie.getProprietaire().get(0);
+                if (mapIdProprietaire.containsKey(serie.getId())) {
+                    List<String> templist = mapIdProprietaire.get(serie.getId());
+                    if (!templist.contains(proprietaireTemporaire)) {
+                        templist.add(proprietaireTemporaire);
+                        mapIdProprietaire.remove(serie.getId());
+                        mapIdProprietaire.put(serie.getId(), templist);
+                    }
+                } else {
+                    List<String> templist = new ArrayList<>();
+                    templist.add(proprietaireTemporaire);
+                    mapIdProprietaire.put(serie.getId(), templist);
                 }
             }
-            else {
-                List <String> templist = new ArrayList<>();
-                templist.add(propietaireTemporaire);
-                mapIdProprietaire.put(serie.getId(),templist);
-            }
         }
+//        at this stage, we have each series with as many attributes as its number of proprietaires
+
         List <SerieByIdModelSwagger> serieASupprimer = new ArrayList<>();
         for (SerieByIdModelSwagger serie : seriesListModelSwaggerS){
-            if (mapIdProprietaire.containsKey(serie.getId())){
+            if (mapIdProprietaire.containsKey(serie.getId()) && (!serie.getProprietaire().isEmpty())){
                 serie.setProprietaire(mapIdProprietaire.get(serie.getId()));
+                mapIdProprietaire.remove(serie.getId());
+            }
+            else if (serie.getProprietaire().isEmpty()){
                 mapIdProprietaire.remove(serie.getId());
             }
             else {
                 serieASupprimer.add(serie);
             }
         }
-
+//        we rebuild seriesListModelSwaggerS with, for each series, as many attributes as its number of proprietaires
         for (SerieByIdModelSwagger serie : serieASupprimer){
             seriesListModelSwaggerS.remove(serie);
         }
-
 
         return mapper.writeValueAsString(seriesListModelSwaggerS);
 
