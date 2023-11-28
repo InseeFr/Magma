@@ -1,5 +1,4 @@
 package fr.insee.rmes.controller;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.rmes.modelSwagger.codeList.AllListCodeModelSwagger;
 import fr.insee.rmes.modelSwagger.codeList.Code;
@@ -36,7 +35,6 @@ import java.util.Objects;
 		@ApiResponse(responseCode = "200", description = "Success",content = {@Content }),
 		@ApiResponse(responseCode = "404", description = "Not found",content = {@Content }),
 		@ApiResponse(responseCode = "500", description = "Internal server error",content = {@Content })})
-@ComponentScan(basePackages = {"fr.insee.rmes.services.codelists.CodeListServicesPagination"})
     public class CodeListsResources {
 
     @Autowired
