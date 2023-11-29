@@ -5,6 +5,7 @@ import fr.insee.rmes.modelSwagger.codeList.Code;
 import fr.insee.rmes.modelSwagger.codeList.ListCodeByIdModelSwagger;
 import fr.insee.rmes.services.codelists.CodeListsServices;
 import fr.insee.rmes.utils.Constants;
+import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,6 +36,8 @@ import java.util.Objects;
 
     @Autowired
     CodeListsServices codeListsServices;
+
+    public String ERROR_PAGINATION = "The page you are looking for does not exist. Try a smaller page number.";
 
 
     @GetMapping("/listesCodes")
@@ -82,13 +85,19 @@ import java.util.Objects;
 
     @GetMapping("/listeCode/{id}/pagination")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(operationId = "getCodesListPagination", summary = "Get one codes list ", security = @SecurityRequirement(name = "bearerScheme"), responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
+    @Operation(operationId = "getCodesListPagination", summary = "Get one codes list with  5 codes per page.", security = @SecurityRequirement(name = "bearerScheme"), responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
     public ResponseEntity<String> getCodesListPage(
             @PathVariable(Constants.NOTATION) String notation,
             @RequestParam(name = "pageNumber") int pageNumber
     ) throws RmesException, JsonProcessingException {
-        String response = codeListsServices.getCodesListPagination(notation, pageNumber);
-        return ResponseEntity.status(HttpStatus.SC_OK).body(response);
+        if(pageNumber > codeListsServices.getMaxpage(notation)){
+            return ResponseEntity.status(HttpStatus.SC_REQUESTED_RANGE_NOT_SATISFIABLE).body(ERROR_PAGINATION);
+        }
+        else {
+            String response = codeListsServices.getCodesListPagination(notation, pageNumber);
+            return ResponseEntity.status(HttpStatus.SC_OK).body(response);
+        }
+
     }
 
 }
