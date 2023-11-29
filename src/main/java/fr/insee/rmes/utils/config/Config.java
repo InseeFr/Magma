@@ -1,8 +1,5 @@
 package fr.insee.rmes.utils.config;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +7,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+
 
 @Component
 
