@@ -14,5 +14,7 @@ public interface CodeListsServices {
 
 	String getCodesListDateMiseAJour(String notation) throws RmesException;
 
+	Integer getMaxpage(String notation) throws RmesException;
+
 	String getCodesListPagination(String notation, int pageNumber) throws RmesException;
 }
