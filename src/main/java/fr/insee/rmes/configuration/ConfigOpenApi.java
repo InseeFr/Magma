@@ -23,6 +23,7 @@ public class ConfigOpenApi {
     @Value("${fr.insee.rmes.magma.api.host}")
     public String apiScheme;
     private final String SCHEMEKEYCLOAKBEARER= "bearerScheme";
+
     @Value("${fr.insee.rmes.magma.version}")
     private String magmaVersion;
 

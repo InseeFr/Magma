@@ -75,6 +75,7 @@ public class Config {
 		return requiresSsl;
 	}
 
+
 	public void init() {
 		CONCEPTS_BASE_URI = env.getProperty("fr.insee.rmes.magma.concepts.baseURI");
 		STRUCTURES_BASE_URI = env.getProperty("fr.insee.rmes.magma.structures.baseURI");
