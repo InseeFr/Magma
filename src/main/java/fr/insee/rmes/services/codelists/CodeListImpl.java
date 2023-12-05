@@ -258,6 +258,24 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
         }
         return total;
     }
+
+    public String getCodesListWithoutCodes(String notation) throws RmesException{
+
+        Map<String, Object> params = initParamsNotation(notation);
+
+        JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesList.ftlh", params));
+
+        codesList.put("label", this.formatLabel(codesList));
+        codesList.remove("prefLabelLg1");
+        codesList.remove("prefLabelLg2");
+
+        if(codesList.has(STATUT_VALIDATION)){
+            String validationState = codesList.getString(STATUT_VALIDATION);
+            codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
+        }
+        codesList.remove(Constants.URI);
+        return codesList.toString();
+    }
     public String getCodesListPagination(String notation, int pageNumber)throws RmesException{
         Map<String, Object> params = initParamsNotation(notation);
         JSONObject result = repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesList.ftlh",params));
