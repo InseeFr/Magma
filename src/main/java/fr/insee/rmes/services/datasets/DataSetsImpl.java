@@ -86,15 +86,22 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         Id id1=new Id(catalogue_result.getString("id"));
         Uri uri = new Uri(catalogue_result.getString("uri"));
         Modified modified = new Modified(catalogue_result.getString("dateModification"));
-        Created created = new Created(catalogue_result.getString("dateCreation"));
-        Contributor contributor = new Contributor(catalogue_result.getString("contributor"));
-        Creator creator = new Creator(catalogue_result.getString("creator"));
-        DisseminationStatus disseminationStatus = new DisseminationStatus(ontologies_result.getString("labeldisseminationStatusLg1"));
-        DataSetModelSwagger reponse = new DataSetModelSwagger(id1, title, uri, modified, created, catalogue_result.getString("statutValidation"), contributor, creator, disseminationStatus);
 
-        testPresenceVariablePuisAjout(reponse,catalogue_result,adms_result,codes_result,organisations_result,structures_result);
-        return reponse;
+
+        List<String> creatorUris = List.of(catalogue_result.getString("creator").split(","));
+        Creator creator = getCreator(creatorUris);
+        DisseminationStatus disseminationStatus = new DisseminationStatus(ontologies_result.getString("labeldisseminationStatusLg1"));
+        CatalogRecordCreated catalogRecordCreated = new CatalogRecordCreated(catalogue_result.getString("catalogRecordCreated"));
+        CatalogRecordModified catalogRecordModified = new CatalogRecordModified(catalogue_result.getString("catalogRecordModified"));
+        CatalogRecordCreator catalogRecordCreator = new CatalogRecordCreator(catalogue_result.getString("catalogRecordCreator"));
+        CatalogRecordContributor catalogRecordContributor = new CatalogRecordContributor(catalogue_result.getString("catalogRecordContributor"));
+        String validationState = catalogue_result.getString("statutValidation");
+        DataSetModelSwagger response = new DataSetModelSwagger(id1, title, uri, modified, validationState, creator, disseminationStatus, catalogRecordCreated,catalogRecordModified,catalogRecordCreator,catalogRecordContributor);
+
+        testPresenceVariablePuisAjout(response,catalogue_result,adms_result,codes_result,organisations_result,structures_result);
+        return response;
     }
+
 
     private void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
         //récupération du subtitle
@@ -168,6 +175,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         if (codes_result.has("spatialId")) {
             IdLabel spatial = setIdLabel(codes_result.getString("spatialId"),codes_result.getString("labelspatialLg1"),codes_result.getString("labelspatialLg2"));
             reponse.setSpatial(spatial);
+        }
+
+        if (catalogue_result.has("spatialTemporal")){
+            SpatialTemporal spatialTemporal = new SpatialTemporal(catalogue_result.getString("spatialTemporal"));
+            reponse.setSpatialTemporal(spatialTemporal);
         }
 
         //récupération de statisticalUnit
@@ -253,6 +265,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         JsonNode dataSetFinalNode = emptyDataSetModelSwagger(dataSetModelSwagger);
         return dataSetFinalNode.toString();
     }
+
+
 
     @Override
     public Distribution findDistributions(String id) throws RmesException, JsonProcessingException {
@@ -350,7 +364,16 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return distributionReponse;
     }
 
+    private Creator getCreator(List<String> creatorUris) throws RmesException {
+        List<String> creatorRep = new ArrayList<>();
+        for (String s : creatorUris){
+            params.put("URI",s.replace(" ",""));
+            JSONObject creator = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH,"getCreator.ftlh",params));
+            creatorRep.add(creator.getString("creator"));
+        }
 
+        return new Creator(creatorRep);
+    }
     private List<IdLabel> getWasGeneratedBy(List<String> operationStat) throws RmesException {
         List<IdLabel> wasGeneratedBy = new ArrayList<>();
         for (String s : operationStat){
