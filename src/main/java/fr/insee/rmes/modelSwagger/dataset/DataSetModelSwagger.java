@@ -23,15 +23,17 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonPropertyOrder({
         "id",
         "uri",
+        "catalogRecordCreated",
+        "catalogRecordModified",
+        "catalogRecordCreator",
+        "catalogRecordContributor",
         "identifier",
-        "created",
         "issued",
         "modified",
         "disseminationStatus",
         "validationState",
         "version",
         "creator",
-        "contributor",
         "publisher",
         "title",
         "subtitle",
@@ -51,6 +53,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "temporalResolution",
         "spatial",
         "spatialResolution",
+        "spatialTemporal",
         "statisticalUnit",
         "structure",
         "numObservations",
@@ -65,6 +68,14 @@ public class DataSetModelSwagger implements Serializable  {
 
     @JsonProperty("id")
     private String id;
+    @JsonProperty("catalogRecordCreated")
+    private String catalogRecordCreated;
+    @JsonProperty("catalogRecordModified")
+    private String catalogRecordModified;
+    @JsonProperty("catalogRecordCreator")
+    private String catalogRecordCreator;
+    @JsonProperty("catalogRecordContributor")
+    private String catalogRecordContributor;
     @JsonProperty("title")
     //@Valid
     private List<LangContent> title ;
@@ -72,12 +83,8 @@ public class DataSetModelSwagger implements Serializable  {
     private String uri;
     @JsonProperty("modified")
     private String modified;
-    @JsonProperty("created")
-    private String created;
     @JsonProperty ("validationState")
     private String validationState;
-    @JsonProperty("contributor")
-    private String contributor;
     @JsonProperty("creator")
     private String creator;
 
@@ -120,6 +127,9 @@ public class DataSetModelSwagger implements Serializable  {
     private IdLabel spatial;
     @JsonProperty("spatialResolution")
     private List<IdLabel> spatialResolution;
+
+    @JsonProperty("spatialTemporal")
+    private SpatialTemporal spatialTemporal;
     @JsonProperty("statisticalUnit")
     private List<LangContent> statisticalUnit;
     @JsonProperty("structure")
@@ -135,7 +145,6 @@ public class DataSetModelSwagger implements Serializable  {
 
 
 
-
     @JsonProperty("theme")
     @JsonInclude(NON_NULL)
     private List<ThemeModelSwagger> themeModelSwaggerS;
@@ -147,16 +156,18 @@ public class DataSetModelSwagger implements Serializable  {
     public DataSetModelSwagger() {
     }
 
-    public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified, Created created, String validationState, Contributor contributor, Creator creator, DisseminationStatus disseminationStatus) {
+    public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified,  String validationState, Creator creator, DisseminationStatus disseminationStatus,CatalogRecordCreated catalogRecordCreated, CatalogRecordModified catalogRecordModified,CatalogRecordCreator catalogRecordCreator,CatalogRecordContributor catalogRecordContributor) {
         this.id = id.toString();
         this.title = title;
         this.uri = uri.toString();
         this.modified = modified.toString();
-        this.created = created.toString();
         this.validationState = validationState;
-        this.contributor = contributor.toString();
         this.creator = creator.toString();
         this.disseminationStatus = disseminationStatus.toString();
+        this.catalogRecordContributor = catalogRecordContributor.toString();
+        this.catalogRecordCreator = catalogRecordCreator.toString();
+        this.catalogRecordCreated = catalogRecordCreated.toString();
+        this.catalogRecordModified = catalogRecordModified.toString();
     }
 
 
@@ -174,12 +185,11 @@ public class DataSetModelSwagger implements Serializable  {
         this.modified = modified.toString();
         this.validationState= validationState;
     }
-    public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified, Created created, String validationState, List<ThemeModelSwagger> themeModelSwaggerS) {
+    public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified, String validationState, List<ThemeModelSwagger> themeModelSwaggerS) {
         this.id = id.toString();
         this.title = title;
         this.uri = uri.toString();
         this.modified = modified.toString();
-        this.created = created.toString();
         this.validationState = validationState;
         this.themeModelSwaggerS = themeModelSwaggerS;
     }

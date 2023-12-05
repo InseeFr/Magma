@@ -114,8 +114,7 @@ public class DataSetsImplTest {
         Id id1 = new Id(dataSet.getId());
         Uri uri = new Uri(dataSet.getUri());
         Modified modified = new Modified (dataSet.getDateMiseAJour());
-        Created created = new Created(dataSet.getDateCreation());
-        DataSetModelSwagger dataSetSwagger = new DataSetModelSwagger(id1, titres, uri, modified, created, dataSet.getStatutValidation(), themeListDTOS);
+        DataSetModelSwagger dataSetSwagger = new DataSetModelSwagger(id1, titres, uri, modified, dataSet.getStatutValidation(), themeListDTOS);
         ObjectMapper dataSetFinal = new ObjectMapper();
         JsonNode dataSetFinalNode = dataSetFinal.valueToTree(dataSetSwagger);
         Iterator<JsonNode> it = dataSetFinalNode.iterator();
