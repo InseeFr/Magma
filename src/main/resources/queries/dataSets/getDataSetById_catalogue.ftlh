@@ -1,12 +1,15 @@
-SELECT DISTINCT ?id ?uri  ?creator ?contributor
+SELECT DISTINCT ?id ?uri
 ?titleLg1 ?titleLg2 ?statutValidation
-?dateCreation ?dateModification ?dateEmission
+?catalogRecordCreator ?catalogRecordContributor
+?catalogRecordModified ?catalogRecordCreated
+ ?dateModification ?dateEmission
 ?subtitleLg1 ?subtitleLg2 ?abstractLg1 ?abstractLg2
 ?descriptionLg1 ?descriptionLg2 ?scopeNoteLg1 ?scopeNoteLg2 ?landingPageLg1 ?landingPageLg2
 ?processStepLg1 ?processStepLg2
-?version  ?numObservations ?numSeries
+?version  ?numObservations ?numSeries ?spatialTemporal
 ?endPeriod ?startPeriod
 (GROUP_CONCAT(DISTINCT ?themes;separator=" , ") AS ?names) (GROUP_CONCAT(DISTINCT ?wasGeneratedBy;separator=" , ") AS ?operationStat)
+(GROUP_CONCAT(DISTINCT ?creators;separator=" , ") AS ?creator)
 FROM <${DATASETS_GRAPH}>
 
 
@@ -15,18 +18,21 @@ WHERE {
 		?uri a dcat:Dataset ;
 		dcterms:identifier "${ID}" ;
 		dcterms:identifier ?id ;
-		dc:creator ?creator ;
-		dc:contributor ?contributor ;
+		dcterms:creator ?creators ;
 		insee:validationState ?isValidated ;
-		dcterms:created ?dateCreation ;
 		dcterms:modified ?dateModification ;
 		dcterms:title ?titleLg1 ;
 		dcterms:title ?titleLg2 ;
+		^foaf:primaryTopic/dc:creator ?catalogRecordCreator ;
+		^foaf:primaryTopic/dc:contributor ?catalogRecordContributor ;
+		^foaf:primaryTopic/dcterms:modified ?catalogRecordModified ;
+		^foaf:primaryTopic/dcterms:created ?catalogRecordCreated ;
 		BIND( if(?isValidated="Unpublished","Provisoire, jamais publiée","Publiée") as ?statutValidation )
 		FILTER (lang(?titleLg1) = '${LG1}')
 		FILTER (lang(?titleLg2) = '${LG2}')
 
-		OPTIONAL {?uri prov:wasGeneratedBy ?wasGeneratedBy } .
+
+OPTIONAL {?uri prov:wasGeneratedBy ?wasGeneratedBy } .
 		OPTIONAL {?uri dcat:theme ?themes } .
 		OPTIONAL{?uri pav:version ?version} .
 		OPTIONAL{?uri insee:numObservations ?numObservations} .
@@ -65,16 +71,18 @@ WHERE {
 		FILTER (lang(?processStepLg2) = '${LG2}')}
 
 		OPTIONAL {?uri dcterms:issued ?dateEmission . }
-
+		OPTIONAL {?uri insee:spatialTemporal ?spatialTemporal . }
 		OPTIONAL {?uri dcterms:temporal/dcat:startDate ?startPeriod . }
 		OPTIONAL {?uri dcterms:temporal/dcat:endDate ?endPeriod . }
 
 
-} GROUP BY ?id ?uri  ?creator ?contributor
+} GROUP BY ?id ?uri
 ?titleLg1 ?titleLg2 ?statutValidation
-?dateCreation ?dateModification ?dateEmission
+?catalogRecordCreator ?catalogRecordContributor
+?catalogRecordModified ?catalogRecordCreated
+?dateModification ?dateEmission
 ?subtitleLg1 ?subtitleLg2 ?abstractLg1 ?abstractLg2
 ?descriptionLg1 ?descriptionLg2 ?scopeNoteLg1 ?scopeNoteLg2 ?landingPageLg1 ?landingPageLg2
 ?processStepLg1 ?processStepLg2
-?version  ?numObservations ?numSeries
+?version  ?numObservations ?numSeries ?spatialTemporal
 ?endPeriod ?startPeriod
