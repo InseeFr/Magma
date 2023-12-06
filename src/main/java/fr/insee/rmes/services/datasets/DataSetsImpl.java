@@ -201,13 +201,15 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setVersion(catalogue_result.getString("version"));
         }
         //récupération de numObservations
-        if (catalogue_result.has("numObservations")){
-            reponse.setNumObservations(catalogue_result.getInt("numObservations"));
-        }
+//        mise en commentaire temporaire
+//        if (catalogue_result.has("numObservations")){
+//            reponse.setNumObservations(catalogue_result.getInt("numObservations"));
+//        }
         //récupération de numSeries
-        if (catalogue_result.has("numSeries")){
-            reponse.setNumSeries(catalogue_result.getInt("numSeries"));
-        }
+        //        mise en commentaire temporaire
+//        if (catalogue_result.has("numSeries")){
+//            reponse.setNumSeries(catalogue_result.getInt("numSeries"));
+//        }
         //récupération de identifier
         if (adms_result.has("identifier")){
             reponse.setIdentifier(adms_result.getString("identifier"));
@@ -225,6 +227,14 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             List<IdLabel> wasGeneratedByList = getWasGeneratedBy(operationStat);
             reponse.setWasGeneratedBy(wasGeneratedByList);
         }
+
+        //récupération de derivedFromS
+        if (catalogue_result.has("wasDerivedFromS") ){
+            List<String> urisWasDerivedFromList = List.of(catalogue_result.getString("wasDerivedFromS").split(","));
+            List<String> WasDerivedFromList = getDerivedFrom(urisWasDerivedFromList);
+            reponse.setWasDerivedFrom(WasDerivedFromList);
+        }
+
         //récupération de archiveUnit
         if (adms_result.has("archiveUnits")) {
             List<String> urisArchiveUnit = List.of(adms_result.getString("archiveUnits").split(","));
@@ -239,12 +249,16 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
 
         //récupération de spatialResolution
-        if (codes_result.has("spatialResolutions")) {
-            List<String> urisSpatialResolution = List.of(codes_result.getString("spatialResolutions").split(","));
-            List<IdLabel> spatialResolutionList = getSpatialResolution(urisSpatialResolution);
-            reponse.setSpatialResolution(spatialResolutionList);
+        //        mise en commentaire temporaire
+//        if (codes_result.has("spatialResolutions")) {
+//            List<String> urisSpatialResolution = List.of(codes_result.getString("spatialResolutions").split(","));
+//            List<IdLabel> spatialResolutionList = getSpatialResolution(urisSpatialResolution);
+//            reponse.setSpatialResolution(spatialResolutionList);
+//
+//        }
 
-        }
+
+
     }
 
 
@@ -431,6 +445,16 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return spatialResolution;
     }
 
+    private List<String> getDerivedFrom(List<String> wasDerivedFromS) throws RmesException {
+        List<String> DerivedFrom = new ArrayList<>();
+        for (String s : wasDerivedFromS){
+            params.put("URI", s.replace(" ", ""));
+
+            JSONObject wasDerivedFromSQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdWasDerivedFrom.ftlh", params));
+            DerivedFrom.add(wasDerivedFromSQuery.getString("wasDerivedFrom"));
+        }
+        return DerivedFrom;
+    }
 
     private List<ThemeModelSwagger> getThemeModelSwaggerS(JSONObject dataSetId) throws RmesException, JsonProcessingException {
         String[] parts = dataSetId.getString("names").split(",");
