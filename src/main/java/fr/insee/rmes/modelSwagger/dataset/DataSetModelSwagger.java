@@ -57,7 +57,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "statisticalUnit",
         "structure",
         "numObservations",
-        "numSeries"
+        "numSeries",
+        "wasDerivedFrom"
 })
 
 @Generated("jsonschema2pojo")
@@ -87,10 +88,8 @@ public class DataSetModelSwagger implements Serializable  {
     private String validationState;
     @JsonProperty("creator")
     private String creator;
-
     @JsonProperty("disseminationStatus")
     private String disseminationStatus;
-
     @JsonProperty("identifier")
     private String identifier;
     @JsonProperty("subtitle")
@@ -109,6 +108,8 @@ public class DataSetModelSwagger implements Serializable  {
     private IdLabel publisher;
     @JsonProperty("wasGeneratedBy")
     private List<IdLabel> wasGeneratedBy;
+    @JsonProperty("wasDerivedFrom")
+    private WasDerivedFrom wasDerivedFrom;
     @JsonProperty("type")
     private List<LangContent> type;
     @JsonProperty("archiveUnit")
@@ -127,7 +128,6 @@ public class DataSetModelSwagger implements Serializable  {
     private IdLabel spatial;
     @JsonProperty("spatialResolution")
     private List<IdLabel> spatialResolution;
-
     @JsonProperty("spatialTemporal")
     private SpatialTemporal spatialTemporal;
     @JsonProperty("statisticalUnit")
