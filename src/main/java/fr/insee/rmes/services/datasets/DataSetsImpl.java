@@ -223,10 +223,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             List<IdLabel> wasGeneratedByList = getWasGeneratedBy(operationStat);
             reponse.setWasGeneratedBy(wasGeneratedByList);
         }
-        if (organisations_result.has("idPublisher")) {
-            IdLabel publisher = setIdLabel(organisations_result.getString("idPublisher"),organisations_result.getString("labelPublisherLg1"),organisations_result.getString("labelPublisherLg2"));
-            reponse.setPublisher(publisher);
-        }
         //récupération de derivedFromS
         if (catalogue_result.has("wasDerivedFromS") ){
             List<String> urisWasDerivedFromList = List.of(catalogue_result.getString("wasDerivedFromS").split(","));
