@@ -8,7 +8,7 @@ SELECT DISTINCT ?id ?uri
 ?processStepLg1 ?processStepLg2
 ?version  ?numObservations ?numSeries ?spatialTemporal
 ?endPeriod ?startPeriod
-?qualifiedDerivation ?derivedDescriptionLg1 ?derivedDescriptionLg2
+?derivedDescriptionLg1 ?derivedDescriptionLg2
 (GROUP_CONCAT(DISTINCT ?themes;separator=" , ") AS ?names) (GROUP_CONCAT(DISTINCT ?wasGeneratedBy;separator=" , ") AS ?operationStat)
 (GROUP_CONCAT(DISTINCT ?creators;separator=" , ") AS ?creator)
 (GROUP_CONCAT(DISTINCT ?wasDerivedFromS;separator=" , ") AS ?wasDerivedFromS)
@@ -95,4 +95,4 @@ OPTIONAL {?uri prov:wasGeneratedBy ?wasGeneratedBy } .
 ?processStepLg1 ?processStepLg2
 ?version  ?numObservations ?numSeries ?spatialTemporal
 ?endPeriod ?startPeriod
-?qualifiedDerivation ?derivedDescriptionLg1 ?derivedDescriptionLg2
+?derivedDescriptionLg1 ?derivedDescriptionLg2
