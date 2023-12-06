@@ -205,7 +205,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setNumObservations(catalogue_result.getInt("numObservations"));
         }
         //récupération de numSeries
-         if (catalogue_result.has("numSeries")){
+        if (catalogue_result.has("numSeries")){
             reponse.setNumSeries(catalogue_result.getInt("numSeries"));
         }
         //récupération de identifier
@@ -223,11 +223,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             List<IdLabel> wasGeneratedByList = getWasGeneratedBy(operationStat);
             reponse.setWasGeneratedBy(wasGeneratedByList);
         }
-        //récupération de derivedFromS
-        if (catalogue_result.has("wasDerivedFromS") ){
+        //récupération de derivedFromS quand il est non vide
+        if (catalogue_result.has("wasDerivedFromS") && catalogue_result.getString("wasDerivedFromS").length()!=0 ){
             List<String> urisWasDerivedFromList = List.of(catalogue_result.getString("wasDerivedFromS").split(","));
             List<String> datasets = getDerivedFrom(urisWasDerivedFromList);
-            if (catalogue_result.has("derivedDescriptionLg1")) {
+            if (catalogue_result.has("derivedDescriptionLg1") && catalogue_result.has("derivedDescriptionLg2")) {
                 WasDerivedFrom wasDerivedFrom = setWasDerivedFrom(datasets, catalogue_result.getString("derivedDescriptionLg1"), catalogue_result.getString("derivedDescriptionLg2"));
                 reponse.setWasDerivedFrom(wasDerivedFrom);
             }
@@ -251,7 +251,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setTemporalResolution(temporalResolutionList);
         }
 
-        //récupération de spatialResolution
+//        récupération de spatialResolution
         if (codes_result.has("spatialResolutions")) {
             List<String> urisSpatialResolution = List.of(codes_result.getString("spatialResolutions").split(","));
             List<IdLabel> spatialResolutionList = getSpatialResolution(urisSpatialResolution);
@@ -260,9 +260,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
 
     }
-
-
-
 
     @Override
     public String getDataSetByIDSummary(String id) throws RmesException, JsonProcessingException {
