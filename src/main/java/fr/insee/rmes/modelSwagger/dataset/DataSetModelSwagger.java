@@ -41,7 +41,6 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "description",
         "scopeNote",
         "wasGeneratedBy",
-        "wasDerivedFrom",
         "type",
         "archiveUnit",
         "accessRights",
@@ -58,7 +57,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "statisticalUnit",
         "structure",
         "numObservations",
-        "numSeries"
+        "numSeries",
+        "wasDerivedFrom"
 })
 
 @Generated("jsonschema2pojo")
@@ -109,7 +109,7 @@ public class DataSetModelSwagger implements Serializable  {
     @JsonProperty("wasGeneratedBy")
     private List<IdLabel> wasGeneratedBy;
     @JsonProperty("wasDerivedFrom")
-    private List<String> wasDerivedFrom;
+    private WasDerivedFrom wasDerivedFrom;
     @JsonProperty("type")
     private List<LangContent> type;
     @JsonProperty("archiveUnit")
