@@ -224,7 +224,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setWasGeneratedBy(wasGeneratedByList);
         }
         //récupération de derivedFromS quand il est non vide
-        if (catalogue_result.has("wasDerivedFromS") && catalogue_result.getString("wasDerivedFromS").length()!=0 ){
+        if (catalogue_result.getString("wasDerivedFromS").length()!=0 ){
             List<String> urisWasDerivedFromList = List.of(catalogue_result.getString("wasDerivedFromS").split(","));
             List<String> datasets = getDerivedFrom(urisWasDerivedFromList);
             if (catalogue_result.has("derivedDescriptionLg1") && catalogue_result.has("derivedDescriptionLg2")) {
