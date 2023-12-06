@@ -235,8 +235,15 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         if (catalogue_result.has("wasDerivedFromS") ){
             List<String> urisWasDerivedFromList = List.of(catalogue_result.getString("wasDerivedFromS").split(","));
             List<String> datasets = getDerivedFrom(urisWasDerivedFromList);
-            WasDerivedFrom wasDerivedFrom=setWasDerivedFrom(datasets,catalogue_result.getString("derivedDescriptionLg1"), catalogue_result.getString("derivedDescriptionLg2"));
-            reponse.setWasDerivedFrom(wasDerivedFrom);
+            if (catalogue_result.has("derivedDescriptionLg1")) {
+                WasDerivedFrom wasDerivedFrom = setWasDerivedFrom(datasets, catalogue_result.getString("derivedDescriptionLg1"), catalogue_result.getString("derivedDescriptionLg2"));
+                reponse.setWasDerivedFrom(wasDerivedFrom);
+            }
+            else {
+                WasDerivedFrom wasDerivedFrom = setWasDerivedFrom(datasets);
+                reponse.setWasDerivedFrom(wasDerivedFrom);
+            }
+
         }
 
         //récupération de archiveUnit
@@ -510,6 +517,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         List<LangContent> descriptions=setTitreList(derivedDescriptionLg1,derivedDescriptionLg2);
         return new WasDerivedFrom(datasets,descriptions);
        }
+
+    private WasDerivedFrom setWasDerivedFrom(List<String> datasets) {
+        List<LangContent> descriptions = new ArrayList<>();
+        return new WasDerivedFrom(datasets,descriptions);
+    }
 
     public Map<String, Object> initParams() {
         Map<String, Object> params = new HashMap<>();
