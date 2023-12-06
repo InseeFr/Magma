@@ -201,26 +201,22 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setVersion(catalogue_result.getString("version"));
         }
         //récupération de numObservations
-//        mise en commentaire temporaire
-//        if (catalogue_result.has("numObservations")){
-//            reponse.setNumObservations(catalogue_result.getInt("numObservations"));
-//        }
+        if (catalogue_result.has("numObservations")){
+            reponse.setNumObservations(catalogue_result.getInt("numObservations"));
+        }
         //récupération de numSeries
-        //        mise en commentaire temporaire
-//        if (catalogue_result.has("numSeries")){
-//            reponse.setNumSeries(catalogue_result.getInt("numSeries"));
-//        }
+         if (catalogue_result.has("numSeries")){
+            reponse.setNumSeries(catalogue_result.getInt("numSeries"));
+        }
         //récupération de identifier
         if (adms_result.has("identifier")){
             reponse.setIdentifier(adms_result.getString("identifier"));
         }
-
         //récupération variable contenant le ou les thèmes du dataset
         if (catalogue_result.has("names")) {
             List<ThemeModelSwagger> themeListModelSwaggerS = getThemeModelSwaggerS(catalogue_result);
             reponse.setThemeModelSwaggerS(themeListModelSwaggerS);
         }
-
         if (catalogue_result.has("operationStat")) {
             //récupération de(s) série(s) ou de(s) opération(s) dont est issu le dataset
             List<String> operationStat = List.of(catalogue_result.getString("operationStat").split(","));
@@ -260,15 +256,12 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
 
         //récupération de spatialResolution
-        //        mise en commentaire temporaire
-//        if (codes_result.has("spatialResolutions")) {
-//            List<String> urisSpatialResolution = List.of(codes_result.getString("spatialResolutions").split(","));
-//            List<IdLabel> spatialResolutionList = getSpatialResolution(urisSpatialResolution);
-//            reponse.setSpatialResolution(spatialResolutionList);
-//
-//        }
+        if (codes_result.has("spatialResolutions")) {
+            List<String> urisSpatialResolution = List.of(codes_result.getString("spatialResolutions").split(","));
+            List<IdLabel> spatialResolutionList = getSpatialResolution(urisSpatialResolution);
+            reponse.setSpatialResolution(spatialResolutionList);
 
-
+        }
 
     }
 
