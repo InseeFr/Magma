@@ -1,18 +1,15 @@
 package fr.insee.rmes.model.datasets;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.*;
+
 
 @Getter
-@Setter
+@ToString
+@EqualsAndHashCode
+@AllArgsConstructor(onConstructor_ = {@JsonCreator})
 public class CatalogRecordModified {
-    private String catalogRecordModified;
-
-    public CatalogRecordModified(String catalogRecordModified) {
-        this.catalogRecordModified = catalogRecordModified;
-    }
-    @Override
-    public String toString() {
-        return catalogRecordModified ;
-    }
+    @JsonValue
+    private final String value;
 }

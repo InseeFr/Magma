@@ -69,13 +69,13 @@ public class DataSetModelSwagger implements Serializable  {
     @JsonProperty("id")
     private String id;
     @JsonProperty("catalogRecordCreated")
-    private String catalogRecordCreated;
+    private CatalogRecordCreated catalogRecordCreated;
     @JsonProperty("catalogRecordModified")
-    private String catalogRecordModified;
+    private CatalogRecordModified catalogRecordModified;
     @JsonProperty("catalogRecordCreator")
-    private String catalogRecordCreator;
+    private CatalogRecordCreator catalogRecordCreator;
     @JsonProperty("catalogRecordContributor")
-    private String catalogRecordContributor;
+    private CatalogRecordContributor catalogRecordContributor;
     @JsonProperty("title")
     //@Valid
     private List<LangContent> title ;
@@ -86,7 +86,7 @@ public class DataSetModelSwagger implements Serializable  {
     @JsonProperty ("validationState")
     private String validationState;
     @JsonProperty("creator")
-    private String creator;
+    private Creator creator;
 
     @JsonProperty("disseminationStatus")
     private String disseminationStatus;
@@ -162,12 +162,12 @@ public class DataSetModelSwagger implements Serializable  {
         this.uri = uri.toString();
         this.modified = modified.toString();
         this.validationState = validationState;
-        this.creator = creator.toString();
+        this.creator = creator;
         this.disseminationStatus = disseminationStatus.toString();
-        this.catalogRecordContributor = catalogRecordContributor.toString();
-        this.catalogRecordCreator = catalogRecordCreator.toString();
-        this.catalogRecordCreated = catalogRecordCreated.toString();
-        this.catalogRecordModified = catalogRecordModified.toString();
+        this.catalogRecordContributor = catalogRecordContributor;
+        this.catalogRecordCreator = catalogRecordCreator;
+        this.catalogRecordCreated = catalogRecordCreated;
+        this.catalogRecordModified = catalogRecordModified;
     }
 
 
