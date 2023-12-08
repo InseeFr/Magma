@@ -8,8 +8,10 @@ SELECT DISTINCT ?id ?uri
 ?processStepLg1 ?processStepLg2
 ?version  ?numObservations ?numSeries ?spatialTemporal
 ?endPeriod ?startPeriod
+?derivedDescriptionLg1 ?derivedDescriptionLg2
 (GROUP_CONCAT(DISTINCT ?themes;separator=" , ") AS ?names) (GROUP_CONCAT(DISTINCT ?wasGeneratedBy;separator=" , ") AS ?operationStat)
 (GROUP_CONCAT(DISTINCT ?creators;separator=" , ") AS ?creator)
+(GROUP_CONCAT(DISTINCT ?wasDerivedFromS;separator=" , ") AS ?wasDerivedFromS)
 FROM <${DATASETS_GRAPH}>
 
 
@@ -38,6 +40,13 @@ OPTIONAL {?uri prov:wasGeneratedBy ?wasGeneratedBy } .
 		OPTIONAL{?uri insee:numObservations ?numObservations} .
 		OPTIONAL{?uri stat-dcat-ap:numSeries ?numSeries}
 		OPTIONAL{?uri insee:structure ?structure  } .
+		OPTIONAL {?uri prov:wasDerivedFrom ?wasDerivedFromS } .
+		OPTIONAL {?uri prov:qualifiedDerivation ?qualifiedDerivation .
+            		?qualifiedDerivation dcterms:description ?derivedDescriptionLg1 .
+            		FILTER (lang(?derivedDescriptionLg1) = 'fr') .
+            		?qualifiedDerivation dcterms:description ?derivedDescriptionLg2 .
+            		FILTER (lang(?derivedDescriptionLg2) = 'en')
+            	}
 
 
 		OPTIONAL {?uri insee:subtitle ?subtitleLg1 .
@@ -86,3 +95,4 @@ OPTIONAL {?uri prov:wasGeneratedBy ?wasGeneratedBy } .
 ?processStepLg1 ?processStepLg2
 ?version  ?numObservations ?numSeries ?spatialTemporal
 ?endPeriod ?startPeriod
+?derivedDescriptionLg1 ?derivedDescriptionLg2

@@ -32,7 +32,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         for (DataSet byDataSet : dataSets) {
 
-            List<LangContent> titres = setTitreList(byDataSet.getTitreLg1(),byDataSet.getTitreLg2());
+            List<LangContent> titres = constructLangContent(byDataSet.getTitreLg1(),byDataSet.getTitreLg2());
             Id id1 = new Id(byDataSet.getId());
             Uri uri = new Uri(byDataSet.getUri());
             Modified modified = new Modified (byDataSet.getDateMiseAJour());
@@ -81,7 +81,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
         //récupération du titre
-        List<LangContent> title = setTitreList(catalogue_result.getString("titleLg1"), catalogue_result.getString("titleLg2"));
+        List<LangContent> title = constructLangContent(catalogue_result.getString("titleLg1"), catalogue_result.getString("titleLg2"));
 
         Id id1=new Id(catalogue_result.getString("id"));
         Uri uri = new Uri(catalogue_result.getString("uri"));
@@ -106,22 +106,22 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     private void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
         //récupération du subtitle
         if (catalogue_result.has("subtitleLg1") && catalogue_result.has("subtitleLg2")) {
-            List<LangContent> subtitle = setTitreList(catalogue_result.getString("subtitleLg1"), catalogue_result.getString("subtitleLg2"));
+            List<LangContent> subtitle = constructLangContent(catalogue_result.getString("subtitleLg1"), catalogue_result.getString("subtitleLg2"));
             reponse.setSubtitle(subtitle);
         }
         //récupération de l'abstract
         if (catalogue_result.has("abstractLg1") && catalogue_result.has("abstractLg2")) {
-            List<LangContent> abstractDataset = setTitreList(catalogue_result.getString("abstractLg1"), catalogue_result.getString("abstractLg2"));
+            List<LangContent> abstractDataset = constructLangContent(catalogue_result.getString("abstractLg1"), catalogue_result.getString("abstractLg2"));
             reponse.setAbstractDataset(abstractDataset);
         }
         //récupération de la description
         if (catalogue_result.has("descriptionLg1") && catalogue_result.has("descriptionLg2")) {
-            List<LangContent> description = setTitreList(catalogue_result.getString("descriptionLg1"), catalogue_result.getString("descriptionLg2"));
+            List<LangContent> description = constructLangContent(catalogue_result.getString("descriptionLg1"), catalogue_result.getString("descriptionLg2"));
             reponse.setDescription(description);
         }
         //récupération de la scopeNote
         if (catalogue_result.has("scopeNoteLg1") && catalogue_result.has("scopeNoteLg2")) {
-            List<LangContent> scopeNote = setTitreList(catalogue_result.getString("scopeNoteLg1"), catalogue_result.getString("scopeNoteLg2"));
+            List<LangContent> scopeNote = constructLangContent(catalogue_result.getString("scopeNoteLg1"), catalogue_result.getString("scopeNoteLg2"));
             reponse.setScopeNote(scopeNote);
         }
         //récupération de la landingPage
@@ -135,33 +135,33 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
         //récupération du processStep
         if (catalogue_result.has("processStepLg1") && catalogue_result.has("processStepLg2")) {
-            List<LangContent> processStep = setTitreList(catalogue_result.getString("processStepLg1"), catalogue_result.getString("processStepLg2"));
+            List<LangContent> processStep = constructLangContent(catalogue_result.getString("processStepLg1"), catalogue_result.getString("processStepLg2"));
             reponse.setProcessStep(processStep);
         }
         //récupération de publisher
         if (organisations_result.has("idPublisher")) {
-            IdLabel publisher = setIdLabel(organisations_result.getString("idPublisher"),organisations_result.getString("labelPublisherLg1"),organisations_result.getString("labelPublisherLg2"));
+            IdLabel publisher = constructIdLabel(organisations_result.getString("idPublisher"),organisations_result.getString("labelPublisherLg1"),organisations_result.getString("labelPublisherLg2"));
             reponse.setPublisher(publisher);
         }
         //récupération de type
         if (codes_result.has("labeltypeLg1") && codes_result.has("labeltypeLg2")) {
-            List<LangContent> type = setTitreList(codes_result.getString("labeltypeLg1"), codes_result.getString("labeltypeLg2"));
+            List<LangContent> type = constructLangContent(codes_result.getString("labeltypeLg1"), codes_result.getString("labeltypeLg2"));
             reponse.setType(type);
         }
 
         //récupération de accessRights
         if (codes_result.has("labelaccessRightsLg1") && codes_result.has("labelaccessRightsLg2")) {
-            List<LangContent> accessRights = setTitreList(codes_result.getString("labelaccessRightsLg1"), codes_result.getString("labelaccessRightsLg2"));
+            List<LangContent> accessRights = constructLangContent(codes_result.getString("labelaccessRightsLg1"), codes_result.getString("labelaccessRightsLg2"));
             reponse.setAccessRights(accessRights);
         }
         //récupération de confidentialityStatus
         if (codes_result.has("labelconfidentialityStatusLg1") && codes_result.has("labelconfidentialityStatusLg2")) {
-            List<LangContent> confidentialityStatus = setTitreList(codes_result.getString("labelconfidentialityStatusLg1"), codes_result.getString("labelconfidentialityStatusLg2"));
+            List<LangContent> confidentialityStatus = constructLangContent(codes_result.getString("labelconfidentialityStatusLg1"), codes_result.getString("labelconfidentialityStatusLg2"));
             reponse.setConfidentialityStatus(confidentialityStatus);
         }
         //récupération de accrualPeriodicity
         if (codes_result.has("labelaccrualPeriodicityLg1") && codes_result.has("labelaccrualPeriodicityLg2")) {
-            List<LangContent> accrualPeriodicityListTitle = setTitreList(codes_result.getString("labelaccrualPeriodicityLg1"), codes_result.getString("labelaccrualPeriodicityLg2"));
+            List<LangContent> accrualPeriodicityListTitle = constructLangContent(codes_result.getString("labelaccrualPeriodicityLg1"), codes_result.getString("labelaccrualPeriodicityLg2"));
             Label accrualPeriodicity = new Label(accrualPeriodicityListTitle);
             reponse.setAccrualPeriodicity(accrualPeriodicity);
         }
@@ -173,7 +173,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         //récupération de spatial
         if (codes_result.has("spatialId")) {
-            IdLabel spatial = setIdLabel(codes_result.getString("spatialId"),codes_result.getString("labelspatialLg1"),codes_result.getString("labelspatialLg2"));
+            IdLabel spatial = constructIdLabel(codes_result.getString("spatialId"),codes_result.getString("labelspatialLg1"),codes_result.getString("labelspatialLg2"));
             reponse.setSpatial(spatial);
         }
 
@@ -184,7 +184,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         //récupération de statisticalUnit
         if (codes_result.has("labelstatisticalUnitLg1") && codes_result.has("labelstatisticalUnitLg2")){
-            List<LangContent> statisticalUnit = setTitreList(codes_result.getString("labelstatisticalUnitLg1"),codes_result.getString("labelstatisticalUnitLg2"));
+            List<LangContent> statisticalUnit = constructLangContent(codes_result.getString("labelstatisticalUnitLg1"),codes_result.getString("labelstatisticalUnitLg2"));
             reponse.setStatisticalUnit(statisticalUnit);
         }
         //récupération de structure
@@ -212,19 +212,32 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         if (adms_result.has("identifier")){
             reponse.setIdentifier(adms_result.getString("identifier"));
         }
-
         //récupération variable contenant le ou les thèmes du dataset
         if (catalogue_result.has("names")) {
             List<ThemeModelSwagger> themeListModelSwaggerS = getThemeModelSwaggerS(catalogue_result);
             reponse.setThemeModelSwaggerS(themeListModelSwaggerS);
         }
-
         if (catalogue_result.has("operationStat")) {
             //récupération de(s) série(s) ou de(s) opération(s) dont est issu le dataset
             List<String> operationStat = List.of(catalogue_result.getString("operationStat").split(","));
             List<IdLabel> wasGeneratedByList = getWasGeneratedBy(operationStat);
             reponse.setWasGeneratedBy(wasGeneratedByList);
         }
+        //récupération de derivedFromS quand il est non vide
+        if (catalogue_result.getString("wasDerivedFromS").length()!=0 ){
+            List<String> urisWasDerivedFromList = List.of(catalogue_result.getString("wasDerivedFromS").split(","));
+            List<String> datasets = getDerivedFrom(urisWasDerivedFromList);
+            if (catalogue_result.has("derivedDescriptionLg1") && catalogue_result.has("derivedDescriptionLg2")) {
+                WasDerivedFrom wasDerivedFrom = constructWasDerivedFrom(datasets, catalogue_result.getString("derivedDescriptionLg1"), catalogue_result.getString("derivedDescriptionLg2"));
+                reponse.setWasDerivedFrom(wasDerivedFrom);
+            }
+            else {
+                WasDerivedFrom wasDerivedFrom = constructWasDerivedFrom(datasets);
+                reponse.setWasDerivedFrom(wasDerivedFrom);
+            }
+
+        }
+
         //récupération de archiveUnit
         if (adms_result.has("archiveUnits")) {
             List<String> urisArchiveUnit = List.of(adms_result.getString("archiveUnits").split(","));
@@ -238,15 +251,15 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setTemporalResolution(temporalResolutionList);
         }
 
-        //récupération de spatialResolution
+//        récupération de spatialResolution
         if (codes_result.has("spatialResolutions")) {
             List<String> urisSpatialResolution = List.of(codes_result.getString("spatialResolutions").split(","));
             List<IdLabel> spatialResolutionList = getSpatialResolution(urisSpatialResolution);
             reponse.setSpatialResolution(spatialResolutionList);
 
         }
-    }
 
+    }
 
     @Override
     public String getDataSetByIDSummary(String id) throws RmesException, JsonProcessingException {
@@ -337,7 +350,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 // si le ième JSONObject a un attribut descriptionLg2 & un attribut descriptionLg1 alors on met en forme
                 //un attribut description qui contient les deux. Puis on l'ajoute à distributionTemp
                 if ((distributionTemp.has("descriptionLg2")) & (distributionTemp.has("descriptionLg1"))) {
-                    List<LangContent> description = setTitreList(distributionTemp.getString("descriptionLg1"),(distributionTemp.getString("descriptionLg2")));
+                    List<LangContent> description = constructLangContent(distributionTemp.getString("descriptionLg1"),(distributionTemp.getString("descriptionLg2")));
                     distributionTemp.remove("descriptionLg2");
                     distributionTemp.remove("descriptionLg1");
                     distributionTemp.put("description", description);
@@ -346,7 +359,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 // si le ième JSONObject a un attribut titleLg1 & un attribut titleLg2 alors on met en forme
                 //un attribut title qui contient les deux. Puis, on l'ajoute à distributionTemp
                 if ((distributionTemp.has("titleLg1")) & (distributionTemp.has("titleLg2"))) {
-                    List<LangContent> title = setTitreList(distributionTemp.getString("titleLg1"),distributionTemp.getString("titleLg2"));
+                    List<LangContent> title = constructLangContent(distributionTemp.getString("titleLg1"),distributionTemp.getString("titleLg2"));
                     distributionTemp.remove("titleLg1");
                     distributionTemp.remove("titleLg2");
                     distributionTemp.put("title", title);
@@ -380,7 +393,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             params.put("URI", s.replace(" ", ""));
 
             JSONObject wasGeneratedByQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdWasGeneratedBy.ftlh", params));
-            List<LangContent> wasGeneratedByTitles = setTitreList(wasGeneratedByQuery.getString("labelwasGeneratedByLg1"),wasGeneratedByQuery.getString("labelwasGeneratedByLg2"));
+            List<LangContent> wasGeneratedByTitles = constructLangContent(wasGeneratedByQuery.getString("labelwasGeneratedByLg1"),wasGeneratedByQuery.getString("labelwasGeneratedByLg2"));
             IdLabel wasGeneratedByIdLabel = new IdLabel(wasGeneratedByQuery.getString("wasGeneratedById"),wasGeneratedByTitles);
             wasGeneratedByIdLabel.setType(wasGeneratedByQuery.getString("typeWasGeneratedBy"));
             wasGeneratedBy.add(wasGeneratedByIdLabel);
@@ -395,7 +408,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             params.put("URI", s.replace(" ", ""));
 
             JSONObject archiveUnitQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdArchiveUnit.ftlh", params));
-            List<LangContent> archiveUnitTitles = setTitreList(archiveUnitQuery.getString("labelarchiveUnitLg1"),archiveUnitQuery.getString("labelarchiveUnitLg2"));
+            List<LangContent> archiveUnitTitles = constructLangContent(archiveUnitQuery.getString("labelarchiveUnitLg1"),archiveUnitQuery.getString("labelarchiveUnitLg2"));
             IdLabel archiveUnitIdLabel = new IdLabel(archiveUnitQuery.getString("idarchiveUnit"),archiveUnitTitles);
             archiveUnit.add(archiveUnitIdLabel);
         }
@@ -409,7 +422,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             params.put("URI", s.replace(" ", ""));
 
             JSONObject temporalResolutionQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDatasetByIdTemporalResolution.ftlh", params));
-            List<LangContent> temporalResolutionTitles = setTitreList(temporalResolutionQuery.getString("labeltemporalResolutionLg1"),temporalResolutionQuery.getString("labeltemporalResolutionLg2"));
+            List<LangContent> temporalResolutionTitles = constructLangContent(temporalResolutionQuery.getString("labeltemporalResolutionLg1"),temporalResolutionQuery.getString("labeltemporalResolutionLg2"));
             Label temporalResolutionLabel = new Label(temporalResolutionTitles);
             temporalResolution.add(temporalResolutionLabel);
         }
@@ -424,13 +437,23 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             params.put("URI", s.replace(" ", ""));
 
             JSONObject spatialResolutionQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDatasetByIdSpatialResolution.ftlh", params));
-            List<LangContent> spatialResolutionTitles = setTitreList(spatialResolutionQuery.getString("labelspatialResolutionLg1"),spatialResolutionQuery.getString("labelspatialResolutionLg2"));
+            List<LangContent> spatialResolutionTitles = constructLangContent(spatialResolutionQuery.getString("labelspatialResolutionLg1"),spatialResolutionQuery.getString("labelspatialResolutionLg2"));
             IdLabel spatialResolutionIdLabel = new IdLabel(spatialResolutionQuery.getString("spatialResolutionId"),spatialResolutionTitles);
             spatialResolution.add(spatialResolutionIdLabel);
         }
         return spatialResolution;
     }
 
+    private List<String> getDerivedFrom(List<String> wasDerivedFromS) throws RmesException {
+        List<String> DerivedFrom = new ArrayList<>();
+        for (String s : wasDerivedFromS){
+            params.put("URI", s.replace(" ", ""));
+
+            JSONObject wasDerivedFromSQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdWasDerivedFrom.ftlh", params));
+            DerivedFrom.add(wasDerivedFromSQuery.getString("wasDerivedFrom"));
+        }
+        return DerivedFrom;
+    }
 
     private List<ThemeModelSwagger> getThemeModelSwaggerS(JSONObject dataSetId) throws RmesException, JsonProcessingException {
         String[] parts = dataSetId.getString("names").split(",");
@@ -461,7 +484,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
     @NotNull
-    private List<LangContent> setTitreList(String elementLg1, String elementLg2) {
+    private List<LangContent> constructLangContent(String elementLg1, String elementLg2) {
         LangContent titre1 = new LangContent(Config.LG1, elementLg1);
         LangContent titre2 = new LangContent(Config.LG2, elementLg2);
         List<LangContent> titres = new ArrayList<>();
@@ -471,9 +494,19 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
 
-    private IdLabel setIdLabel(String id, String labelLg1, String labelLg2) {
-        List<LangContent> langContentList = setTitreList(labelLg1,labelLg2);
+    private IdLabel constructIdLabel(String id, String labelLg1, String labelLg2) {
+        List<LangContent> langContentList = constructLangContent(labelLg1,labelLg2);
         return new IdLabel(id,langContentList);
+    }
+
+    private WasDerivedFrom constructWasDerivedFrom(List<String> datasets, String derivedDescriptionLg1, String derivedDescriptionLg2) {
+        List<LangContent> descriptions= constructLangContent(derivedDescriptionLg1,derivedDescriptionLg2);
+        return new WasDerivedFrom(datasets,descriptions);
+       }
+
+    private WasDerivedFrom constructWasDerivedFrom(List<String> datasets) {
+        List<LangContent> descriptions = new ArrayList<>();
+        return new WasDerivedFrom(datasets,descriptions);
     }
 
     public Map<String, Object> initParams() {
