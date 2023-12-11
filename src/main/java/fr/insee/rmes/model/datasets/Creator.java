@@ -1,30 +1,22 @@
 package fr.insee.rmes.model.datasets;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
-@Setter
-
+@RequiredArgsConstructor(onConstructor_={@JsonCreator})
+@EqualsAndHashCode
 public class Creator {
-    private List<String> creator;
-    public Creator(List<String> creator) {
-        this.creator=creator;
-    }
 
+    @NonNull
+    @JsonValue
+    private final List<String> creators;
 
     @Override
     public String toString() {
-        String rep = "[";
-        for (int i=0; i<creator.toArray().length;i++){
-            rep = rep + creator.toArray()[i];
-            if (i < (creator.toArray().length-1) ){
-                rep = rep + ",";
-            }
-        }
-        rep = rep + "]";
-        return rep;
+        return creators.toString();
     }
 }
