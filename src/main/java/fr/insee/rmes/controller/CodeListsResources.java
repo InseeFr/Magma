@@ -58,19 +58,9 @@ import java.util.Objects;
     @Operation(operationId = "getCodesList", summary = "Get one codes list", security = @SecurityRequirement(name = "bearerScheme"), responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
     public ResponseEntity<String> getCodesList(
             @PathVariable(Constants.NOTATION) String notation,
-            @RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour,
-            @RequestParam(value="withCodes", defaultValue = "true")
-            boolean withCodes
+            @RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
     ) throws RmesException {
 
-        if (!withCodes){
-            String jsonResult = codeListsServices.getCodesListWithoutCodes(notation);
-            if (Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)) {
-                return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
-            } else {
-                return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
-            }
-        }
         if (!boolDateMiseAJour) {
             String jsonResult = codeListsServices.getCodesList(notation);
             if (Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)) {
@@ -80,13 +70,25 @@ import java.util.Objects;
             }
         }
         else {
-            String jsonResult = codeListsServices.getCodesListDateMiseAJour(notation);
+            String jsonResult = codeListsServices.getCodesListWithoutCodes(notation);
             if (Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)) {
                 return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
             } else {
-
                 return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
             }
+        }
+    }
+
+    @GetMapping("/listeCode/{id}/withCodes")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(operationId = "getCodesListWithCodes", summary = "Get one codes list with or without codes", security = @SecurityRequirement(name = "bearerScheme"), responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
+    public ResponseEntity<String> getCodesListWithCodes(
+            @PathVariable(Constants.NOTATION) String notation) throws RmesException {
+        String jsonResult = codeListsServices.getCodesListDateMiseAJour(notation);
+        if (Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)) {
+            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
         }
     }
 
