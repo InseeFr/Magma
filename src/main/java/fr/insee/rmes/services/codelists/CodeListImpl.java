@@ -1,6 +1,7 @@
 package fr.insee.rmes.services.codelists;
 
 import fr.insee.rmes.persistence.RdfService;
+import fr.insee.rmes.services.utils.CommonMethods;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
@@ -44,8 +45,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
         JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesList.ftlh", params));
 
         codesList.put("label", this.formatLabel(codesList));
-        codesList.remove("prefLabelLg1");
-        codesList.remove("prefLabelLg2");
+        CommonMethods.removePrefLabels(codesList);
 
         if(codesList.has(STATUT_VALIDATION)){
             String validationState = codesList.getString(STATUT_VALIDATION);
@@ -266,8 +266,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
         JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesList.ftlh", params));
 
         codesList.put("label", this.formatLabel(codesList));
-        codesList.remove("prefLabelLg1");
-        codesList.remove("prefLabelLg2");
+        CommonMethods.removePrefLabels(codesList);
 
         if(codesList.has(STATUT_VALIDATION)){
             String validationState = codesList.getString(STATUT_VALIDATION);
@@ -280,8 +279,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
         Map<String, Object> params = initParamsNotation(notation);
         JSONObject result = repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesList.ftlh",params));
         result.put("label", this.formatLabel(result));
-        result.remove("prefLabelLg1");
-        result.remove("prefLabelLg2");
+        CommonMethods.removePrefLabels(result);
         if(result.has(STATUT_VALIDATION)){
             String validationState = result.getString(STATUT_VALIDATION);
             result.put(STATUT_VALIDATION, this.getValidationState(validationState));
