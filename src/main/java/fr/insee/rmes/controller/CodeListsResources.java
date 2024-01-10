@@ -24,6 +24,8 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Objects;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
 @RestController
 @RequestMapping(value="/",produces = {"application/json"})
 @Tag(name = "Codes lists", description = "Consultation Gestion API - listes des codes")
@@ -53,7 +55,7 @@ import java.util.Objects;
     }
 
     // en fait ici l'id correspond à la notation
-    @GetMapping("/listeCode/{id}")
+    @RequestMapping(path="/listeCode/{id}", method=GET, params="withCodes=true")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getCodesList", summary = "Get one codes list", security = @SecurityRequirement(name = "bearerScheme"), responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
     public ResponseEntity<String> getCodesList(
@@ -79,7 +81,7 @@ import java.util.Objects;
         }
     }
 
-    @GetMapping("/listeCode/{id}/withoutCodes")
+    @RequestMapping(path="/listeCode/{id}", method=GET, params="withCodes=false")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getCodesListWithCodes", summary = "Get one codes list without codes", security = @SecurityRequirement(name = "bearerScheme"), responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
     public ResponseEntity<String> getCodesListWithoutCodes(
