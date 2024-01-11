@@ -60,7 +60,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     @Operation(operationId = "getCodesList", summary = "Get one codes list", security = @SecurityRequirement(name = "bearerScheme"), responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
     public ResponseEntity<String> getCodesList(
             @PathVariable(Constants.NOTATION) String notation,
-            @RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
+            @RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour,
+            @RequestParam(name = "withCodes") Boolean boolWithCodes
     ) throws RmesException {
 
         if (!boolDateMiseAJour) {
@@ -83,9 +84,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
     @RequestMapping(path="/listeCode/{id}", method=GET, params="withCodes=false")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(operationId = "getCodesListWithCodes", summary = "Get one codes list without codes", security = @SecurityRequirement(name = "bearerScheme"), responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
+    @Operation(operationId = "getCodesList", summary = "Get one codes list", security = @SecurityRequirement(name = "bearerScheme"), responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
     public ResponseEntity<String> getCodesListWithoutCodes(
-            @PathVariable(Constants.NOTATION) String notation) throws RmesException {
+            @PathVariable(Constants.NOTATION) String notation,
+            @RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour,
+            @RequestParam(name = "withCodes") Boolean boolWithCodes) throws RmesException {
         String jsonResult = codeListsServices.getCodesListWithoutCodes(notation);
         if (Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)) {
             return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
