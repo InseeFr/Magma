@@ -1,16 +1,15 @@
-select distinct ?id ?uri ?titreLg1 ?titreLg2 ?dateMiseAJour ?statutValidation ?dateCreation
+SELECT ?id ?uri ?titreLg1 ?titreLg2 ?dateMiseAJour ?statutValidation ?dateCreation
 FROM <${DATASETS_GRAPH}>
-where { 
-     ?uri dcterms:created ?origine ;
-      dcterms:identifier ?id .
-     FILTER(IRI(CONCAT('http://bauhaus/datasets/',STR(?id))) = ?uri) .
-
-     ?uri dcterms:title ?titreLg1 .
-           	FILTER (lang(?titreLg1) = 'fr')
-     ?uri dcterms:title ?titreLg2 .
-           	FILTER (lang(?titreLg2) = 'en')
-     OPTIONAL {?uri dcterms:modified ?dateMiseAJour . }
-     OPTIONAL {?uri dcterms:created ?dateCreation . }
-	 OPTIONAL {?uri insee:validationState ?statutValidation . }
-
-} 
+WHERE {
+    ?uriCatalogRecord rdf:type dcat:CatalogRecord .
+    ?uriCatalogRecord foaf:primaryTopic ?uri .
+    ?uri rdf:type dcat:Dataset .
+    ?uri dcterms:identifier ?id .
+    ?uri dcterms:title ?titreLg1 .
+    FILTER (LANG(?titreLg1) = 'fr')
+    ?uri dcterms:title ?titreLg2 .
+    FILTER (LANG(?titreLg2) = 'en')
+    ?uriCatalogRecord dcterms:modified ?dateMiseAJour .
+    ?uriCatalogRecord dcterms:created ?dateCreation .
+    ?uri insee:validationState ?statutValidation .
+}
