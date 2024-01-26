@@ -7,6 +7,7 @@ import fr.insee.rmes.persistence.FreeMarkerUtils;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.persistence.ontologies.IGEO;
 import fr.insee.rmes.persistence.ontologies.QB;
+import fr.insee.rmes.services.utils.CommonMethods;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
@@ -80,8 +81,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		JSONObject structure = (JSONObject) structureArray.get(0);
 
 		structure.put(LABEL, this.formatLabel(structure));
-		structure.remove("prefLabelLg1");
-		structure.remove("prefLabelLg2");
+		CommonMethods.removePrefLabels(structure);
 
 
 		if(structureArray.length() > 1){
@@ -240,8 +240,8 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		component.put(NOM,this.formatNom(component));
 		component.remove("altLabelLg1");
 		component.remove("altLabelLg2");
-		component.remove("prefLabelLg1");
-		component.remove("prefLabelLg2");
+		CommonMethods.removePrefLabels(component);
+
 
 		if(component.has(URI_COMPONENT_PARENT_ID)){
 			JSONObject parent = new JSONObject();
