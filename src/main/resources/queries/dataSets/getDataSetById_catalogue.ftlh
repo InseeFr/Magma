@@ -10,7 +10,7 @@ SELECT DISTINCT ?id ?uri
 ?endPeriod ?startPeriod
 ?derivedDescriptionLg1 ?derivedDescriptionLg2
 (GROUP_CONCAT(DISTINCT ?themes;separator=" , ") AS ?names) (GROUP_CONCAT(DISTINCT ?wasGeneratedBy;separator=" , ") AS ?operationStat)
-(GROUP_CONCAT(DISTINCT ?creators;separator=" , ") AS ?creator)
+(GROUP_CONCAT(DISTINCT ?creators;separator=" , ") AS ?creators)
 (GROUP_CONCAT(DISTINCT ?wasDerivedFromS;separator=" , ") AS ?wasDerivedFromS)
 FROM <${DATASETS_GRAPH}>
 

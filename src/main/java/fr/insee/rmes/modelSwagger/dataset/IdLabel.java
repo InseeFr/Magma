@@ -26,7 +26,6 @@ public class IdLabel implements Serializable {
     private String id;
     @JsonProperty("label")
     private List<LangContent> label;
-
     @JsonProperty("type")
     private String type;
     public IdLabel() {
