@@ -1,9 +1,7 @@
 package fr.insee.rmes.services.organisations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.insee.rmes.model.operation.SerieById;
 import fr.insee.rmes.model.organisation.OrganisationModel;
-import fr.insee.rmes.modelSwagger.operation.*;
 import fr.insee.rmes.modelSwagger.organisations.Label;
 import fr.insee.rmes.modelSwagger.organisations.OrganisationsModelSwagger;
 import fr.insee.rmes.persistence.RdfService;
