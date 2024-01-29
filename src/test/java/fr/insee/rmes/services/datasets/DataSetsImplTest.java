@@ -8,11 +8,11 @@ import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.services.utils.ResponseUtilsTest;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
-import org.assertj.core.api.Assertions;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.*;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -211,7 +211,7 @@ public class DataSetsImplTest {
     void testPresenceVariablePuisAjoutTest_checkFieldIsAdded(String key1, String key2, Supplier<List<LangContent>> getListLangContent) throws RmesException, JsonProcessingException {
         var datasetImpl=new DataSetsImpl();
         var catalogue_result = new JSONObject(Map.of(key1, "l1", key2,"l2" ));
-        var expected=datasetImpl.setTitreList("l1", "l2");
+        var expected=datasetImpl.constructLangContent("l1", "l2");
         datasetImpl.testPresenceVariablePuisAjout(response, catalogue_result, new JSONObject(), new JSONObject(), new JSONObject(), new JSONObject());
         assertThat(getListLangContent.get()).isEqualTo(expected);
     }
@@ -224,7 +224,4 @@ public class DataSetsImplTest {
                 Arguments.of("processStepLg1", "processStepLg2", (Supplier<List<LangContent>>) response::getProcessStep)
         );
     }
-
-
-
 }
