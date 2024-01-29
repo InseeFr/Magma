@@ -23,7 +23,7 @@ class CodeListImplTest {
 //            [
 //              {
 //                "notation": "ISO-639",
-//                "statutValidation": "Validated"
+//                "statutValidation": "Publiée"
 //              },
 //              {
 //                "notation": "CL_SURVEY_UNIT"
@@ -65,6 +65,28 @@ class CodeListImplTest {
             "              }\n" +
             "            ]";
 
+    public static final String RDF_OUTPUT = " [\n" +
+            "              {\n" +
+            "                \"notation\": \"ISO-639\",\n" +
+            "                \"statutValidation\": \"Validated\"\n" +
+            "              },\n" +
+            "              {\n" +
+            "                \"notation\": \"CL_SURVEY_UNIT\"\n" +
+            "              },\n" +
+            "              {\n" +
+            "                \"notation\": \"CL_SURVEY_STATUS\"\n" +
+            "              },\n" +
+            "              {\n" +
+            "                \"notation\": \"CL_FREQ\"\n" +
+            "              },\n" +
+            "              {\n" +
+            "                \"notation\": \"CL_COLLECTION_MODE\"\n" +
+            "              },\n" +
+            "              {\n" +
+            "                \"notation\": \"CL_SOURCE_CATEGORY\"\n" +
+            "              }\n" +
+            "            ]";
+
 
     @InjectMocks
     CodeListImpl codeList = new CodeListImpl();
@@ -74,7 +96,7 @@ class CodeListImplTest {
 
     @Test
     void getAllCodesLists_shouldReturnList() throws RmesException, JsonProcessingException {
-        JSONArray mockJSON = new JSONArray(RDF_OUTPUT_EXPECTED);
+        JSONArray mockJSON = new JSONArray(RDF_OUTPUT);
 
         Mockito.when(repoGestion.getResponseAsArray(Mockito.anyString())).thenReturn(mockJSON);
         assertThat(MAPPER.readTree(codeList.getAllCodesLists())).isEqualTo(MAPPER.readTree(RDF_OUTPUT_EXPECTED));
