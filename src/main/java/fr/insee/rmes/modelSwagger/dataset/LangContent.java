@@ -2,6 +2,7 @@
 package fr.insee.rmes.modelSwagger.dataset;
 
 import com.fasterxml.jackson.annotation.*;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.annotation.Generated;
@@ -14,6 +15,7 @@ import java.io.Serializable;
         "content"
 })
 @Generated("jsonschema2pojo")
+@EqualsAndHashCode
 public class LangContent implements Serializable
 {
 

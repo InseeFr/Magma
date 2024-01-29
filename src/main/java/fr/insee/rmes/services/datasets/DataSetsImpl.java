@@ -102,8 +102,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return response;
     }
 
-
-    private void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
+    protected void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
         //récupération du subtitle
         if (catalogue_result.has("subtitleLg1") && catalogue_result.has("subtitleLg2")) {
             List<LangContent> subtitle = constructLangContent(catalogue_result.getString("subtitleLg1"), catalogue_result.getString("subtitleLg2"));
@@ -482,9 +481,18 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
     }
 
+    @NotNull
+    protected List<LangContent> constructLangContent(String elementLg1, String elementLg2) {
+        LangContent titre1 = new LangContent(Config.LG1, elementLg1);
+        LangContent titre2 = new LangContent(Config.LG2, elementLg2);
+        List<LangContent> titres = new ArrayList<>();
+        titres.add(titre1);
+        titres.add(titre2);
+        return titres;
+    }
 
     @NotNull
-    private List<LangContent> constructLangContent(String elementLg1, String elementLg2) {
+    protected List<LangContent> setTitreList(String elementLg1, String elementLg2) {
         LangContent titre1 = new LangContent(Config.LG1, elementLg1);
         LangContent titre2 = new LangContent(Config.LG2, elementLg2);
         List<LangContent> titres = new ArrayList<>();
