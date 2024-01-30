@@ -87,7 +87,7 @@ public class DataSetModelSwagger implements Serializable  {
     @JsonProperty ("validationState")
     private String validationState;
     @JsonProperty("creator")
-    private Creator creator;
+    private List<IdLabel> creator;
     @JsonProperty("disseminationStatus")
     private String disseminationStatus;
     @JsonProperty("identifier")
@@ -156,7 +156,7 @@ public class DataSetModelSwagger implements Serializable  {
     public DataSetModelSwagger() {
     }
 
-    public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified,  String validationState, Creator creator, DisseminationStatus disseminationStatus,CatalogRecordCreated catalogRecordCreated, CatalogRecordModified catalogRecordModified,CatalogRecordCreator catalogRecordCreator,CatalogRecordContributor catalogRecordContributor) {
+    public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, Modified modified, String validationState, List<IdLabel> creator, DisseminationStatus disseminationStatus, CatalogRecordCreated catalogRecordCreated, CatalogRecordModified catalogRecordModified, CatalogRecordCreator catalogRecordCreator, CatalogRecordContributor catalogRecordContributor) {
         this.id = id.toString();
         this.title = title;
         this.uri = uri.toString();
@@ -170,8 +170,7 @@ public class DataSetModelSwagger implements Serializable  {
         this.catalogRecordModified = catalogRecordModified;
     }
 
-
-    public DataSetModelSwagger(Id id, Uri uri, Modified modified) {
+        public DataSetModelSwagger(Id id, Uri uri, Modified modified) {
         this.id = id.toString();
         this.uri = uri.toString();
         this.modified = modified.toString();
@@ -193,6 +192,7 @@ public class DataSetModelSwagger implements Serializable  {
         this.validationState = validationState;
         this.themeModelSwaggerS = themeModelSwaggerS;
     }
+
 
     public Id getIdWithTypeId(){
         Id id = new Id(this.id);

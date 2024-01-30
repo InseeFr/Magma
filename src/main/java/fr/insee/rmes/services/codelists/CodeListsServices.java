@@ -17,4 +17,6 @@ public interface CodeListsServices {
 	Integer getMaxpage(String notation) throws RmesException;
 
 	String getCodesListPagination(String notation, int pageNumber) throws RmesException;
+
+	String getCodesListWithoutCodes(String notation) throws RmesException;
 }
