@@ -1,7 +1,7 @@
 package fr.insee.rmes.controller;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.rmes.modelSwagger.codeList.AllListCodeModelSwagger;
-import fr.insee.rmes.modelSwagger.codeList.Code;
 import fr.insee.rmes.modelSwagger.codeList.ListCodeByIdModelSwagger;
 import fr.insee.rmes.services.codelists.CodeListsServices;
 import fr.insee.rmes.utils.Constants;
@@ -15,13 +15,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 import java.util.Objects;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;

@@ -7,7 +7,9 @@ import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -42,19 +44,22 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
         Map<String, Object> params = initParamsNotation(notation);
 
-        JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesList.ftlh", params));
+        JSONObject codesList = repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH, "getCodesList.ftlh", params));
+        if (codesList.has("id")) {
+            codesList.put("label", this.formatLabel(codesList));
+            CommonMethods.removePrefLabels(codesList);
 
-        codesList.put("label", this.formatLabel(codesList));
-        CommonMethods.removePrefLabels(codesList);
+            if (codesList.has(STATUT_VALIDATION)) {
+                String validationState = codesList.getString(STATUT_VALIDATION);
+                codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
+            }
 
-        if(codesList.has(STATUT_VALIDATION)){
-            String validationState = codesList.getString(STATUT_VALIDATION);
-            codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
+            codesList.put("codes", this.getCodes(notation));
+            codesList.remove(Constants.URI);
+            return codesList.toString();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-
-        codesList.put("codes", this.getCodes(notation));
-        codesList.remove(Constants.URI);
-        return codesList.toString();
     }
 
     public Map<String, Object> initParams() {
