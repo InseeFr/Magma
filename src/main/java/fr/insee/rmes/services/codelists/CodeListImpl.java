@@ -9,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -45,7 +44,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
         Map<String, Object> params = initParamsNotation(notation);
 
         JSONObject codesList = repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH, "getCodesList.ftlh", params));
-        if (codesList.has("id")) {
+        if(codesList.has("id")) {
             codesList.put("label", this.formatLabel(codesList));
             CommonMethods.removePrefLabels(codesList);
 
@@ -57,8 +56,9 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
             codesList.put("codes", this.getCodes(notation));
             codesList.remove(Constants.URI);
             return codesList.toString();
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        else  {
+            throw new RmesException(HttpStatus.NOT_FOUND.value(),"id inexistant","");
         }
     }
 
