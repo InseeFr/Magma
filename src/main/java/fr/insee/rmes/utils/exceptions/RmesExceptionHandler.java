@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class RmesExceptionHandler {
 
     @ExceptionHandler(RmesException.class)
     public ResponseEntity<ErrorResponse> handleRmesException(RmesException ex) {
