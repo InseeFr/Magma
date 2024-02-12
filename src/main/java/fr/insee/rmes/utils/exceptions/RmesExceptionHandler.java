@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class RmesExceptionHandler {
 
     @ExceptionHandler(RmesException.class)
-    public ResponseEntity<ErrorResponse> handleRmesException(RmesException ex) {
-        ErrorResponse response = new ErrorResponse(ex.getStatus(), ex.getMessage(), ex.getDetails());
+    public ResponseEntity<RestMessage> handleRmesException(RmesException ex) {
+        RestMessage response = new RestMessage(ex.getStatus(), ex.getMessage(), ex.getDetails());
         return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getStatus()));
     }
 }
