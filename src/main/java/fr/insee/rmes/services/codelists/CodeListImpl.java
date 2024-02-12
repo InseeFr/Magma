@@ -1,5 +1,6 @@
 package fr.insee.rmes.services.codelists;
 
+import fr.insee.rmes.persistence.FreeMarkerUtils;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.services.utils.CommonMethods;
 import fr.insee.rmes.utils.Constants;
@@ -19,6 +20,10 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
     private static final String STATUT_VALIDATION = "statutValidation";
     private static final String DEFAULT_DATE = "2020-01-01T00:00:00.000";
     private static final String NOTATION = "NOTATION";
+
+    public CodeListImpl(FreeMarkerUtils freeMarkerUtils) {
+        super(freeMarkerUtils);
+    }
 
     @Override
     public String getAllCodesLists() throws RmesException {

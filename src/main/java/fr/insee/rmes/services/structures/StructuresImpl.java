@@ -464,8 +464,8 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		return params;
 	}
 
-	private static String buildRequest(String fileName, HashMap<String, Object> params) throws RmesException {
-		return FreeMarkerUtils.buildRequest("components/", fileName, params);
+	private String buildRequest(String fileName, HashMap<String, Object> params) throws RmesException {
+		return freeMarkerUtils.buildRequest("components/", fileName, params);
 	}
 
 
