@@ -58,7 +58,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
             return codesList.toString();
         }
         else  {
-            throw new RmesException(HttpStatus.NOT_FOUND,"id inexistant", "L'id " + notation + " ne correspond à aucune liste de codes");
+            throw new RmesException(HttpStatus.NOT_FOUND,"Non existent identifier", "The id " + notation + " does not correspond to any code list");
         }
     }
 
