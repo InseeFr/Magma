@@ -6,6 +6,8 @@ import fr.insee.rmes.services.utils.CommonMethods;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
 public class CodeListImpl extends RdfService implements CodeListsServices {
 
