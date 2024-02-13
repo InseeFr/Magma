@@ -1,7 +1,11 @@
 
 package fr.insee.rmes.modelSwagger.dataset;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import fr.insee.rmes.utils.config.Config;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -43,6 +47,15 @@ public class LangContent implements Serializable
         super();
         this.lang = lang;
         this.content = content;
+    }
+
+    public static LangContent lg1(String elementLg1) {
+        LangContent titre1 = new LangContent(Config.LG1, elementLg1);
+        return titre1;
+    }
+    public static LangContent lg2(String elementLg2) {
+        LangContent titre2 = new LangContent(Config.LG2, elementLg2);
+        return titre2;
     }
 
     @JsonProperty("lang")

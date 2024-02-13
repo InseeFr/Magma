@@ -13,7 +13,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Service
@@ -477,24 +476,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
     }
 
-    @NotNull
     protected List<LangContent> constructLangContent(String elementLg1, String elementLg2) {
-        LangContent titre1 = new LangContent(Config.LG1, elementLg1);
-        LangContent titre2 = new LangContent(Config.LG2, elementLg2);
-        List<LangContent> titres = new ArrayList<>();
-        titres.add(titre1);
-        titres.add(titre2);
-        return titres;
-    }
-
-    @NotNull
-    protected List<LangContent> setTitreList(String elementLg1, String elementLg2) {
-        LangContent titre1 = new LangContent(Config.LG1, elementLg1);
-        LangContent titre2 = new LangContent(Config.LG2, elementLg2);
-        List<LangContent> titres = new ArrayList<>();
-        titres.add(titre1);
-        titres.add(titre2);
-        return titres;
+        return List.of(LangContent.lg1(elementLg1), LangContent.lg2(elementLg2));
     }
 
 
