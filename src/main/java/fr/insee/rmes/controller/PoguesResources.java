@@ -38,7 +38,6 @@ import java.io.IOException;
 public class PoguesResources {
 
     @Autowired
-    static
     PoguesServices poguesServices;
 
 
@@ -46,7 +45,7 @@ public class PoguesResources {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getAllSeries", summary = "Get all series",security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdModelSwagger.class)))})
-    public static ResponseEntity<String> getAllSeriesLists(@Parameter(
+    public ResponseEntity<String> getAllSeriesLists(@Parameter(
             description = "param for survey only",
             required = false) @QueryParam("Survey") Boolean survey) throws RmesException, IOException {
 
