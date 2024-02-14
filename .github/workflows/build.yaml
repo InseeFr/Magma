@@ -22,30 +22,33 @@ jobs:
       - name: Upload war
         uses: actions/upload-artifact@v4
         with:
-          name: war
-          path: Magma/Magma/target/*.war
+          name: war-file
+          path: target/*.war
+
   docker:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Download war
+        uses: actions/download-artifact@v4
         with:
-          buildkitd-flags: --debug
-      -
-        name: Login to Docker Hub
+          name: war-file
+          path: target
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Build and push
+      - name: List files in the repository
+        run: ls -la
+      - name: Build and push
         uses: docker/build-push-action@v5
         with:
           push: true
-          file: dockerfile
+          file: Dockerfile
           tags: inseefr/magma-back-office:latest
+
