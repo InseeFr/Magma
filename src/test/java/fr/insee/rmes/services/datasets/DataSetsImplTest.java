@@ -7,18 +7,27 @@ import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.services.utils.ResponseUtilsTest;
 import fr.insee.rmes.utils.config.Config;
+import fr.insee.rmes.utils.exceptions.RmesException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 //@Disabled("Aim of these tests ?")
 public class DataSetsImplTest {
 
     public static final String URI_TEST = "http://uri.test";
+
+    private static DataSetModelSwagger response=new DataSetModelSwagger();
 
     @Test
     void getListDataSetsTest() throws JsonProcessingException {
@@ -134,7 +143,7 @@ public class DataSetsImplTest {
         List<LangContent> titres = new ArrayList<>();
         titres.add(titre1);
         titres.add(titre2);
-        assertTrue(titres.toString().equals(ResponseUtilsTest.EXPECTED_JSON_SET_TITRE_LIST));
+        assertThat(titres.toString()).isEqualTo(ResponseUtilsTest.EXPECTED_JSON_SET_TITRE_LIST);
     }
 
 
@@ -194,5 +203,25 @@ public class DataSetsImplTest {
         assertTrue(themeListModelSwaggerS.toString().equals(ResponseUtilsTest.EXPECTED_THEMELIST_GET_THEME_MODEL_SWAGGERS));
     }
 
+    @ParameterizedTest(name = "{0}")
+    /*@CsvSource({
+            "subtitleLg1, subtitleLg2"
+    })*/
+    @MethodSource(value = "argumentsProvider")
+    void testPresenceVariablePuisAjoutTest_checkFieldIsAdded(String key1, String key2, Supplier<List<LangContent>> getListLangContent) throws RmesException, JsonProcessingException {
+        var datasetImpl=new DataSetsImpl();
+        var catalogue_result = new JSONObject(Map.of(key1, "l1", key2,"l2" ));
+        var expected=datasetImpl.constructLangContent("l1", "l2");
+        datasetImpl.testPresenceVariablePuisAjout(response, catalogue_result, new JSONObject(), new JSONObject(), new JSONObject(), new JSONObject());
+        assertThat(getListLangContent.get()).isEqualTo(expected);
+    }
 
+    static Stream<Arguments> argumentsProvider(){
+        return Stream.of(
+                Arguments.of("subtitleLg1", "subtitleLg2", (Supplier<List<LangContent>>) response::getSubtitle),
+                Arguments.of("abstractLg1", "abstractLg2", (Supplier<List<LangContent>>) response::getAbstractDataset),
+                Arguments.of("scopeNoteLg1", "scopeNoteLg2", (Supplier<List<LangContent>>) response::getScopeNote),
+                Arguments.of("processStepLg1", "processStepLg2", (Supplier<List<LangContent>>) response::getProcessStep)
+        );
+    }
 }
