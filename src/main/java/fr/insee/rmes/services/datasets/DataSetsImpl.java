@@ -3,17 +3,20 @@ package fr.insee.rmes.services.datasets;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.insee.rmes.model.CodeList.Code;
+import fr.insee.rmes.model.CodeList.CodeList;
 import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.persistence.RdfService;
+import fr.insee.rmes.services.codelists.CodeListsServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Service
@@ -129,8 +132,9 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setLandingPage(landingPage);
         }
         //récupération du processStep
-        if (catalogue_result.has("processStepLg1") && catalogue_result.has("processStepLg2")) {
-            List<LangContent> processStep = constructLangContent(catalogue_result.getString("processStepLg1"), catalogue_result.getString("processStepLg2"));
+        if (codes_result.has("codeProcessStep")) {
+            JSONObject processStepResult = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getProcessStep.ftlh", params));
+            JSONObject processStep = constructCodeList(processStepResult.getString("notation"));
             reponse.setProcessStep(processStep);
         }
         //récupération de publisher
@@ -254,6 +258,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setSpatialResolution(spatialResolutionList);
         }
     }
+
+
 
     @Override
     public String getDataSetByIDSummary(String id) throws RmesException, JsonProcessingException {
@@ -479,7 +485,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
 
-    @NotNull
+
     private List<LangContent> constructLangContent(String elementLg1, String elementLg2) {
         LangContent titre1 = new LangContent(Config.LG1, elementLg1);
         LangContent titre2 = new LangContent(Config.LG2, elementLg2);
@@ -499,6 +505,42 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         List<LangContent> descriptions= constructLangContent(derivedDescriptionLg1,derivedDescriptionLg2);
         return new WasDerivedFrom(datasets,descriptions);
        }
+
+
+    @Autowired
+    CodeListsServices codeListsServices;
+    private CodeList constructCodeList(String notation) throws RmesException {
+        String codeListString = codeListsServices.getCodesList(notation);
+        JSONObject jsonCodeList = new JSONObject(codeListString);
+        JSONArray codes = jsonCodeList.getJSONArray("codes");
+        List<Code> listeDeCode = new ArrayList<>();
+        for (int i = 0 ; i < codes.length(); i++){
+            JSONObject obj = codes.getJSONObject(i);
+            String id = obj.getString("code");
+            JSONArray array = obj.getJSONArray("label");
+            List<LangContent> langContentList = new ArrayList<>();
+            LangContent langContent1 = new LangContent(array.getJSONObject(0).getString("langue"),array.getJSONObject(0).getString("contenu"));
+            langContentList.add(langContent1);
+            LangContent langContent2 = new LangContent(array.getJSONObject(1).getString("langue"),array.getJSONObject(0).getString("contenu"));
+            langContentList.add(langContent2);
+            Label label = new Label(langContentList);
+            String uri = obj.getString("uri");
+            Code code = new Code(id,label,uri);
+            listeDeCode.add(code);
+        }
+
+        JSONArray array = jsonCodeList.getJSONArray("label");
+        List<LangContent> langContentList = new ArrayList<>();
+        LangContent langContent1 = new LangContent(array.getJSONObject(0).getString("langue"),array.getJSONObject(0).getString("contenu"));
+        langContentList.add(langContent1);
+        LangContent langContent2 = new LangContent(array.getJSONObject(1).getString("langue"),array.getJSONObject(0).getString("contenu"));
+        langContentList.add(langContent2);
+        Label label = new Label(langContentList);
+
+        CodeList codeList = new CodeList(notation,listeDeCode,label);
+
+        return codeList;
+    }
 
     private WasDerivedFrom constructWasDerivedFrom(List<String> datasets) {
         List<LangContent> descriptions = new ArrayList<>();
