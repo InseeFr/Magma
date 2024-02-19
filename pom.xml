@@ -12,7 +12,7 @@
 	<packaging>${packaging.mode}</packaging>
 	<groupId>fr.insee.rmes</groupId>
 	<artifactId>magma</artifactId>
-	<version>1.0.0</version>
+	<version>0.3.0</version>
 	<name>magma</name>
 	<description>Metadata management API</description>
 	<organization>
@@ -163,14 +163,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>15</source>
-					<target>15</target>
-				</configuration>
 			</plugin>
 		</plugins>
 		<resources>
