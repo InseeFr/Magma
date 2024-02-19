@@ -12,7 +12,7 @@
 	<packaging>${packaging.mode}</packaging>
 	<groupId>fr.insee.rmes</groupId>
 	<artifactId>magma</artifactId>
-	<version>0.2.3</version>
+	<version>0.3.0</version>
 	<name>magma</name>
 	<description>Metadata management API</description>
 	<organization>
@@ -21,7 +21,7 @@
 	</organization>
 	<properties>
 		<packaging.mode>war</packaging.mode>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 		<keycloak.version>21.0.1</keycloak.version>
 		<json.version>20230227</json.version>
 		<rdf4j.version>4.2.3</rdf4j.version>

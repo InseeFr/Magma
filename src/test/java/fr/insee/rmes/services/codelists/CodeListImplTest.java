@@ -24,49 +24,53 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(MockitoExtension.class)
 class CodeListImplTest {
 
-    public static final String RDF_OUTPUT_EXPECTED = " [\n" +
-            "              {\n" +
-            "                \"notation\": \"ISO-639\",\n" +
-            "                \"statutValidation\": \"Publiée\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"notation\": \"CL_SURVEY_UNIT\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"notation\": \"CL_SURVEY_STATUS\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"notation\": \"CL_FREQ\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"notation\": \"CL_COLLECTION_MODE\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"notation\": \"CL_SOURCE_CATEGORY\"\n" +
-            "              }\n" +
-            "            ]";
+    public static final String RDF_OUTPUT_EXPECTED = """
+            [
+              {
+                "notation": "ISO-639",
+                "statutValidation": "Publiée"
+              },
+              {
+                "notation": "CL_SURVEY_UNIT"
+              },
+              {
+                "notation": "CL_SURVEY_STATUS"
+              },
+              {
+                "notation": "CL_FREQ"
+              },
+              {
+                "notation": "CL_COLLECTION_MODE"
+              },
+              {
+                "notation": "CL_SOURCE_CATEGORY"
+              }
+            ]
+            """;
 
-    public static final String RDF_OUTPUT = " [\n" +
-            "              {\n" +
-            "                \"notation\": \"ISO-639\",\n" +
-            "                \"statutValidation\": \"Validated\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"notation\": \"CL_SURVEY_UNIT\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"notation\": \"CL_SURVEY_STATUS\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"notation\": \"CL_FREQ\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"notation\": \"CL_COLLECTION_MODE\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"notation\": \"CL_SOURCE_CATEGORY\"\n" +
-            "              }\n" +
-            "            ]";
+    public static final String RDF_OUTPUT = """
+            [
+              {
+                "notation": "ISO-639",
+                "statutValidation": "Validated"
+              },
+              {
+                "notation": "CL_SURVEY_UNIT"
+              },
+              {
+                "notation": "CL_SURVEY_STATUS"
+              },
+              {
+                "notation": "CL_FREQ"
+              },
+              {
+                "notation": "CL_COLLECTION_MODE"
+              },
+              {
+                "notation": "CL_SOURCE_CATEGORY"
+              }
+            ]
+            """;
 
     public static final String CODELIST_TEST_WITH_STATUT_VALIDATION = "{\"dateMiseAJour\":\"2023-01-01T00:00:00\",\"dateCreation\":\"2023-01-01T00:00:00\",\"statutValidation\":\"Provisoire, jamais publiée\",\"id\":\"CL_TEST\"}";
     public static final String CODELIST_TEST_WITHOUT_STATUT_VALIDATION = "{\"dateMiseAJour\":\"2023-01-01T00:00:00\",\"dateCreation\":\"2023-01-01T00:00:00\",\"id\":\"CL_TEST\"}";
