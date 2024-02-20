@@ -100,8 +100,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return response;
     }
 
-
-    private void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
+    protected void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
         //récupération du subtitle
         if (catalogue_result.has("subtitleLg1") && catalogue_result.has("subtitleLg2")) {
             List<LangContent> subtitle = constructLangContent(catalogue_result.getString("subtitleLg1"), catalogue_result.getString("subtitleLg2"));
@@ -224,7 +223,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setWasGeneratedBy(wasGeneratedByList);
         }
         //récupération de derivedFromS quand il est non vide
-        if (catalogue_result.getString("wasDerivedFromS").length()!=0 ){
+        if (catalogue_result.has("wasDerivedFromS") && catalogue_result.getString("wasDerivedFromS").length()!=0 ){
             List<String> urisWasDerivedFromList = List.of(catalogue_result.getString("wasDerivedFromS").split(","));
             List<String> datasets = getDerivedFrom(urisWasDerivedFromList);
             if (catalogue_result.has("derivedDescriptionLg1") && catalogue_result.has("derivedDescriptionLg2")) {
@@ -485,14 +484,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
 
-
-    private List<LangContent> constructLangContent(String elementLg1, String elementLg2) {
-        LangContent titre1 = new LangContent(Config.LG1, elementLg1);
-        LangContent titre2 = new LangContent(Config.LG2, elementLg2);
-        List<LangContent> titres = new ArrayList<>();
-        titres.add(titre1);
-        titres.add(titre2);
-        return titres;
+    protected List<LangContent> constructLangContent(String elementLg1, String elementLg2) {
+        return List.of(LangContent.lg1(elementLg1), LangContent.lg2(elementLg2));
     }
 
 

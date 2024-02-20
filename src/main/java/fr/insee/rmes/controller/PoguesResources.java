@@ -47,7 +47,7 @@ public class PoguesResources {
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdModelSwagger.class)))})
     public ResponseEntity<String> getAllSeriesLists(@Parameter(
             description = "param for survey only",
-            required = false)@QueryParam("Survey")  Boolean survey) throws RmesException, IOException {
+            required = false) @QueryParam("Survey") Boolean survey) throws RmesException, IOException {
 
         String jsonResult = (String) poguesServices.getAllSeriesLists(survey);
 
