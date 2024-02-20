@@ -1,4 +1,4 @@
-FROM maven:3.10.1 as mvn
+FROM maven:3.9.6 as mvn
 WORKDIR /magma
 COPY ./ /magma/
 RUN mvn -B -f /magma/pom.xml package
