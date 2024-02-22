@@ -86,6 +86,9 @@ class CodeListImplTest {
     void getCodesListWithCode_shouldReturn404IfInexistentId() throws RmesException, JsonProcessingException {
         JSONObject mockJSON = new JSONObject(EMPTY_CODELIST);
         when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
-        assertThatThrownBy(()->codeListImpl.getCodesList("1")).isInstanceOf(RmesException.class).hasMessageContaining("Non existent identifier");
+
+        assertThatThrownBy(()->codeListImpl.getCodesList("1")).isInstanceOf(RmesException.class)
+                .matches(rmesException->((RmesException)rmesException).getStatus()==404)
+                .hasMessageContaining("Non existent identifier");
     }
 }
