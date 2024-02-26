@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.rmes.model.CodeList.Code;
 import fr.insee.rmes.model.CodeList.CodeList;
+import fr.insee.rmes.configuration.DefaultSecurityContext;
 import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.persistence.RdfService;
@@ -12,15 +13,27 @@ import fr.insee.rmes.services.codelists.CodeListsServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import org.eclipse.rdf4j.query.Dataset;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.*;
 
 @Service
 public class DataSetsImpl extends RdfService implements DataSetsServices {
+
+    private static final Logger logger = LoggerFactory.getLogger(DefaultSecurityContext.class);
+
 
     public Map<String,Object> params = initParams();
     public ObjectMapper objectMapper = new ObjectMapper();
@@ -68,6 +81,49 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
         return dataSetFinalNode;
     }
+
+    @Override
+    public String patchDataset(String datasetId, String observationNumber,String token) throws RmesException, MalformedURLException {
+        try {
+            String query = String.format("observationNumber=%s", URLEncoder.encode(observationNumber, "UTF-8"));
+            String urlString = Config.DATASETS_URL + "/datasets/" + datasetId + "/observationNumber" +"?"+query;
+            String id = getIdFromJWT(token);
+            String email = getEmailFromJWT(token);
+            logger.trace("l'id "+id + " ("+ email + ") a patché le dataset :" + datasetId);
+            URL url = new URL(urlString);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestProperty("Authorization",token);
+            con.setRequestMethod("POST");
+            con.setRequestProperty("X-HTTP-Method-Override","PATCH");
+//            int responseCode = con.getResponseCode();
+            return con.getResponseMessage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private String getIdFromJWT(String jwt){
+           jwt.replaceAll("Bearer ","");
+           String[] parts = jwt.split("\\.");
+           JSONObject payload = new JSONObject(decode(parts[1]));
+           return payload.getString("preferred_username");
+
+    }
+    private String getEmailFromJWT(String jwt){
+        jwt.replaceAll("Bearer ","");
+        String[] parts = jwt.split("\\.");
+        JSONObject payload = new JSONObject(decode(parts[1]));
+        return payload.getString("email");
+
+    }
+
+
+
+    private static String decode(String encodedString) {
+        return new String(Base64.getUrlDecoder().decode(encodedString));
+    }
+
 
     protected DataSetModelSwagger findDataSetModelSwagger(String id) throws RmesException, JsonProcessingException {
         //paramétrage de la requête
