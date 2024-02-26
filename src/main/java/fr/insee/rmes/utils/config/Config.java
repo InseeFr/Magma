@@ -19,6 +19,7 @@ public class Config {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Config.class);
 
+
 	@Autowired
 	private Environment env;
 
@@ -30,6 +31,7 @@ public class Config {
 	public static String LG1;
 	public static String LG2;
 
+	public static String DATASETS_URL;
 	public static Integer PERPAGE;
 	public static String BASE_GRAPH;
 	public static String DATASETS_GRAPH;
@@ -45,6 +47,8 @@ public class Config {
 	public static String ORGANISATIONS_GRAPH;
 
 	public static String ONTOLOGIES_BASE_URI;
+
+	public static String BAUHAUS_URL;
 
 	@Value("${fr.insee.rmes.magma.force.ssl}")
 	private boolean requiresSsl = false;
@@ -89,6 +93,7 @@ public class Config {
 		PERPAGE = Integer.valueOf(env.getProperty("fr.insee.rmes.magma.perPage"));
 		BASE_GRAPH = env.getProperty("fr.insee.rmes.magma.baseGraph");
 		DATASETS_GRAPH=env.getProperty("fr.insee.rmes.magma.datasets.graph") ;
+		DATASETS_URL = env.getProperty("fr.insee.rmes.magma.datasets.url") ;
 		CODELIST_GRAPH = env.getProperty("fr.insee.rmes.magma.codeLists.graph");
 		CONCEPTS_GRAPH = env.getProperty("fr.insee.rmes.magma.concepts.graph");
 		ADMS_GRAPH = env.getProperty("fr.insee.rmes.magma.adms.graph");
@@ -99,6 +104,7 @@ public class Config {
 		OPERATIONS_BASE_URI = env.getProperty("fr.insee.rmes.magma.operations.baseURI");
 		ORGANISATIONS_GRAPH = env.getProperty("fr.insee.rmes.magma.organisations.graph");
 		ONTOLOGIES_BASE_URI = env.getProperty("fr.insee.rmes.magma.ontologies.baseURI");
+		BAUHAUS_URL = env.getProperty("fr.insee.rmes.magma.bauhaus.url");
 
 		listStaticFieldsValue();
 	}
