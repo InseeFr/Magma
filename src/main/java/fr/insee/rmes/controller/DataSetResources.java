@@ -6,6 +6,7 @@ import fr.insee.rmes.modelSwagger.dataset.DataSetModelSwagger;
 import fr.insee.rmes.services.datasets.DataSetsServices;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,8 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.net.MalformedURLException;
 
 @RestController
 @RequestMapping(value = "/", produces = {"application/json"})
@@ -82,6 +85,23 @@ public class DataSetResources {
     public ResponseEntity<Distributions[]>  getDataSetDistributionsById(@PathVariable String id) throws RmesException, JsonProcessingException {
 
         return ResponseEntity.ok(dataSetsServices.getDataSetDistributionsById(id));
+    }
+
+
+    @Autowired
+    private HttpServletRequest request;
+
+    @PatchMapping(value = "/dataset/{id}/observationNumber")
+
+    @Operation(operationId = "updateObservationNumber", summary = "Update ObsevationNumber of a dataset")
+    public String patchDataSetDistributionsByIdNombreObservations(
+            @PathVariable("id") String datasetId,
+            @Schema(name ="observationNumber" )
+            @Parameter(description = "ObservationNumber of a dataset", required = true) @RequestParam String observationNumber
+    ) throws RmesException, MalformedURLException {
+        String token = request.getHeader("Authorization");
+        return this.dataSetsServices.patchDataset(datasetId,observationNumber,token);
+
     }
 
 }
