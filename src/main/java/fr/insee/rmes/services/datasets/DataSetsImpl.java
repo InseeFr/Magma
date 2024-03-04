@@ -3,9 +3,9 @@ package fr.insee.rmes.services.datasets;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.insee.rmes.configuration.DefaultSecurityContext;
 import fr.insee.rmes.model.CodeList.Code;
 import fr.insee.rmes.model.CodeList.CodeList;
-import fr.insee.rmes.configuration.DefaultSecurityContext;
 import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.persistence.RdfService;
@@ -13,16 +13,14 @@ import fr.insee.rmes.services.codelists.CodeListsServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
-import org.eclipse.rdf4j.query.Dataset;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -189,7 +187,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         //récupération du processStep
         if (codes_result.has("codeProcessStep")) {
             JSONObject processStepResult = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getProcessStep.ftlh", params));
-            JSONObject processStep = constructCodeList(processStepResult.getString("notation"));
+            CodeList processStep = constructCodeList(processStepResult.getString("notation"));
             reponse.setProcessStep(processStep);
         }
         //récupération de publisher
