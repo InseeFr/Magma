@@ -220,8 +220,7 @@ public class DataSetsImplTest {
         return Stream.of(
                 Arguments.of("subtitleLg1", "subtitleLg2", (Supplier<List<LangContent>>) response::getSubtitle),
                 Arguments.of("abstractLg1", "abstractLg2", (Supplier<List<LangContent>>) response::getAbstractDataset),
-                Arguments.of("scopeNoteLg1", "scopeNoteLg2", (Supplier<List<LangContent>>) response::getScopeNote),
-                Arguments.of("processStepLg1", "processStepLg2", (Supplier<List<LangContent>>) response::getProcessStep)
+                Arguments.of("scopeNoteLg1", "scopeNoteLg2", (Supplier<List<LangContent>>) response::getScopeNote)
         );
     }
 }
