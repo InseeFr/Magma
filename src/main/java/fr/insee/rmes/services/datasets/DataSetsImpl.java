@@ -3,21 +3,35 @@ package fr.insee.rmes.services.datasets;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.insee.rmes.configuration.DefaultSecurityContext;
+import fr.insee.rmes.model.CodeList.Code;
+import fr.insee.rmes.model.CodeList.CodeList;
 import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.persistence.RdfService;
+import fr.insee.rmes.services.codelists.CodeListsServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.*;
 
 @Service
 public class DataSetsImpl extends RdfService implements DataSetsServices {
+
+    private static final Logger logger = LoggerFactory.getLogger(DefaultSecurityContext.class);
+
 
     public Map<String,Object> params = initParams();
     public ObjectMapper objectMapper = new ObjectMapper();
@@ -66,6 +80,49 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return dataSetFinalNode;
     }
 
+    @Override
+    public String patchDataset(String datasetId, String observationNumber,String token) throws RmesException, MalformedURLException {
+        try {
+            String query = String.format("observationNumber=%s", URLEncoder.encode(observationNumber, "UTF-8"));
+            String urlString = Config.DATASETS_URL + "/datasets/" + datasetId + "/observationNumber" +"?"+query;
+            String id = getIdFromJWT(token);
+            String email = getEmailFromJWT(token);
+            logger.trace("l'id "+id + " ("+ email + ") a patché le dataset :" + datasetId);
+            URL url = new URL(urlString);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestProperty("Authorization",token);
+            con.setRequestMethod("POST");
+            con.setRequestProperty("X-HTTP-Method-Override","PATCH");
+//            int responseCode = con.getResponseCode();
+            return con.getResponseMessage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private String getIdFromJWT(String jwt){
+           jwt.replaceAll("Bearer ","");
+           String[] parts = jwt.split("\\.");
+           JSONObject payload = new JSONObject(decode(parts[1]));
+           return payload.getString("preferred_username");
+
+    }
+    private String getEmailFromJWT(String jwt){
+        jwt.replaceAll("Bearer ","");
+        String[] parts = jwt.split("\\.");
+        JSONObject payload = new JSONObject(decode(parts[1]));
+        return payload.getString("email");
+
+    }
+
+
+
+    private static String decode(String encodedString) {
+        return new String(Base64.getUrlDecoder().decode(encodedString));
+    }
+
+
     protected DataSetModelSwagger findDataSetModelSwagger(String id) throws RmesException, JsonProcessingException {
         //paramétrage de la requête
 
@@ -97,8 +154,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return response;
     }
 
-
-    private void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
+    protected void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
         //récupération du subtitle
         if (catalogue_result.has("subtitleLg1") && catalogue_result.has("subtitleLg2")) {
             List<LangContent> subtitle = constructLangContent(catalogue_result.getString("subtitleLg1"), catalogue_result.getString("subtitleLg2"));
@@ -129,8 +185,9 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setLandingPage(landingPage);
         }
         //récupération du processStep
-        if (catalogue_result.has("processStepLg1") && catalogue_result.has("processStepLg2")) {
-            List<LangContent> processStep = constructLangContent(catalogue_result.getString("processStepLg1"), catalogue_result.getString("processStepLg2"));
+        if (codes_result.has("codeProcessStep")) {
+            JSONObject processStepResult = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getProcessStep.ftlh", params));
+            CodeList processStep = constructCodeList(processStepResult.getString("notation"));
             reponse.setProcessStep(processStep);
         }
         //récupération de publisher
@@ -220,7 +277,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setWasGeneratedBy(wasGeneratedByList);
         }
         //récupération de derivedFromS quand il est non vide
-        if (catalogue_result.getString("wasDerivedFromS").length()!=0 ){
+        if (catalogue_result.has("wasDerivedFromS") && catalogue_result.getString("wasDerivedFromS").length()!=0 ){
             List<String> urisWasDerivedFromList = List.of(catalogue_result.getString("wasDerivedFromS").split(","));
             List<String> datasets = getDerivedFrom(urisWasDerivedFromList);
             if (catalogue_result.has("derivedDescriptionLg1") && catalogue_result.has("derivedDescriptionLg2")) {
@@ -254,6 +311,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setSpatialResolution(spatialResolutionList);
         }
     }
+
+
 
     @Override
     public String getDataSetByIDSummary(String id) throws RmesException, JsonProcessingException {
@@ -479,14 +538,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
 
-    @NotNull
-    private List<LangContent> constructLangContent(String elementLg1, String elementLg2) {
-        LangContent titre1 = new LangContent(Config.LG1, elementLg1);
-        LangContent titre2 = new LangContent(Config.LG2, elementLg2);
-        List<LangContent> titres = new ArrayList<>();
-        titres.add(titre1);
-        titres.add(titre2);
-        return titres;
+    protected List<LangContent> constructLangContent(String elementLg1, String elementLg2) {
+        return List.of(LangContent.lg1(elementLg1), LangContent.lg2(elementLg2));
     }
 
 
@@ -499,6 +552,42 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         List<LangContent> descriptions= constructLangContent(derivedDescriptionLg1,derivedDescriptionLg2);
         return new WasDerivedFrom(datasets,descriptions);
        }
+
+
+    @Autowired
+    CodeListsServices codeListsServices;
+    private CodeList constructCodeList(String notation) throws RmesException {
+        String codeListString = codeListsServices.getCodesList(notation);
+        JSONObject jsonCodeList = new JSONObject(codeListString);
+        JSONArray codes = jsonCodeList.getJSONArray("codes");
+        List<Code> listeDeCode = new ArrayList<>();
+        for (int i = 0 ; i < codes.length(); i++){
+            JSONObject obj = codes.getJSONObject(i);
+            String id = obj.getString("code");
+            JSONArray array = obj.getJSONArray("label");
+            List<LangContent> langContentList = new ArrayList<>();
+            LangContent langContent1 = new LangContent(array.getJSONObject(0).getString("langue"),array.getJSONObject(0).getString("contenu"));
+            langContentList.add(langContent1);
+            LangContent langContent2 = new LangContent(array.getJSONObject(1).getString("langue"),array.getJSONObject(0).getString("contenu"));
+            langContentList.add(langContent2);
+            Label label = new Label(langContentList);
+            String uri = obj.getString("uri");
+            Code code = new Code(id,label,uri);
+            listeDeCode.add(code);
+        }
+
+        JSONArray array = jsonCodeList.getJSONArray("label");
+        List<LangContent> langContentList = new ArrayList<>();
+        LangContent langContent1 = new LangContent(array.getJSONObject(0).getString("langue"),array.getJSONObject(0).getString("contenu"));
+        langContentList.add(langContent1);
+        LangContent langContent2 = new LangContent(array.getJSONObject(1).getString("langue"),array.getJSONObject(0).getString("contenu"));
+        langContentList.add(langContent2);
+        Label label = new Label(langContentList);
+
+        CodeList codeList = new CodeList(notation,listeDeCode,label);
+
+        return codeList;
+    }
 
     private WasDerivedFrom constructWasDerivedFrom(List<String> datasets) {
         List<LangContent> descriptions = new ArrayList<>();

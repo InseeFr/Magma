@@ -1,5 +1,6 @@
 package fr.insee.rmes.services.codelists;
 
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -19,7 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
@@ -42,6 +43,8 @@ class CodeListImplTest {
     Config config;
     @InjectMocks
     CodeListImpl codeListImpl=new CodeListImpl(new FreeMarkerUtilsStub());
+    @InjectMocks
+    CodeListImpl codeList = new CodeListImpl();
 
     @BeforeAll
     static void setUp(){
@@ -52,6 +55,68 @@ class CodeListImplTest {
     }
 
     @MockitoSettings(strictness = Strictness.LENIENT)
+
+    public static final String RDF_OUTPUT_EXPECTED = """
+            [
+              {
+                "notation": "ISO-639",
+                "statutValidation": "Publiée"
+              },
+              {
+                "notation": "CL_SURVEY_UNIT"
+              },
+              {
+                "notation": "CL_SURVEY_STATUS"
+              },
+              {
+                "notation": "CL_FREQ"
+              },
+              {
+                "notation": "CL_COLLECTION_MODE"
+              },
+              {
+                "notation": "CL_SOURCE_CATEGORY"
+              }
+            ]
+            """;
+
+    public static final String RDF_OUTPUT = """
+            [
+              {
+                "notation": "ISO-639",
+                "statutValidation": "Validated"
+              },
+              {
+                "notation": "CL_SURVEY_UNIT"
+              },
+              {
+                "notation": "CL_SURVEY_STATUS"
+              },
+              {
+                "notation": "CL_FREQ"
+              },
+              {
+                "notation": "CL_COLLECTION_MODE"
+              },
+              {
+                "notation": "CL_SOURCE_CATEGORY"
+              }
+            ]
+            """;
+
+
+
+
+    @Test
+    void getAllCodesLists_shouldReturnList() throws RmesException, JsonProcessingException {
+        JSONArray mockJSON = new JSONArray(RDF_OUTPUT);
+
+        Mockito.when(repoGestion.getResponseAsArray(Mockito.anyString())).thenReturn(mockJSON);
+        assertThat(MAPPER.readTree(codeList.getAllCodesLists())).isEqualTo(MAPPER.readTree(RDF_OUTPUT_EXPECTED));
+
+    }
+
+
     @Test
     void getCodesListWithCodeWithStatutValidation_shouldReturnExpectedCodeList() throws RmesException, JsonProcessingException {
         JSONObject mockJSON_requete1 = new JSONObject(CODELIST_WITH_STATUT_VALIDATION);

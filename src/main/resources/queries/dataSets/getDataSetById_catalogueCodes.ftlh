@@ -2,6 +2,7 @@ SELECT DISTINCT
 ?labeltypeLg1 ?labeltypeLg2
 ?labelaccessRightsLg1 ?labelaccessRightsLg2
 ?labelconfidentialityStatusLg1 ?labelconfidentialityStatusLg2
+?codeProcessStep
 ?spatialId ?labelspatialLg1 ?labelspatialLg2
 ?labelstatisticalUnitLg1 ?labelstatisticalUnitLg2
 ?labelaccrualPeriodicityLg1 ?labelaccrualPeriodicityLg2
@@ -24,6 +25,8 @@ WHERE {
 		FILTER (lang(?labelspatialLg2) = '${LG2}') .}
 
 		OPTIONAL{?uri insee:spatialResolution ?spatialResolution  .}
+
+		OPTIONAL{?uri  insee:processStep ?codeProcessStep  .}
 
 		OPTIONAL{?uri insee:statisticalUnit ?statisticalUnit .
 		?statisticalUnit skos:prefLabel ?labelstatisticalUnitLg1 .
@@ -60,6 +63,7 @@ WHERE {
 GROUP BY ?labeltypeLg1 ?labeltypeLg2
 ?labelaccessRightsLg1 ?labelaccessRightsLg2
 ?labelconfidentialityStatusLg1 ?labelconfidentialityStatusLg2
+?codeProcessStep
 ?spatialId ?labelspatialLg1 ?labelspatialLg2
 ?labelstatisticalUnitLg1 ?labelstatisticalUnitLg2
 ?labelaccrualPeriodicityLg1 ?labelaccrualPeriodicityLg2

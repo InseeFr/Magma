@@ -5,7 +5,6 @@ SELECT DISTINCT ?id ?uri
  ?dateModification ?dateEmission
 ?subtitleLg1 ?subtitleLg2 ?abstractLg1 ?abstractLg2
 ?descriptionLg1 ?descriptionLg2 ?scopeNoteLg1 ?scopeNoteLg2 ?landingPageLg1 ?landingPageLg2
-?processStepLg1 ?processStepLg2
 ?version  ?numObservations ?numSeries ?spatialTemporal
 ?endPeriod ?startPeriod
 ?derivedDescriptionLg1 ?derivedDescriptionLg2
@@ -74,11 +73,6 @@ OPTIONAL {?uri prov:wasGeneratedBy ?wasGeneratedBy } .
 		OPTIONAL {?uri dcat:landingPage ?landingPageLg2 .
 		FILTER (lang(?landingPageLg2) = '${LG2}')}
 
-		OPTIONAL {?uri insee:processStep ?processStepLg1 .
-		FILTER (lang(?processStepLg1) = '${LG1}')}
-		OPTIONAL {?uri insee:processStep ?processStepLg2 .
-		FILTER (lang(?processStepLg2) = '${LG2}')}
-
 		OPTIONAL {?uri dcterms:issued ?dateEmission . }
 		OPTIONAL {?uri insee:spatialTemporal ?spatialTemporal . }
 		OPTIONAL {?uri dcterms:temporal/dcat:startDate ?startPeriod . }
@@ -92,7 +86,6 @@ OPTIONAL {?uri prov:wasGeneratedBy ?wasGeneratedBy } .
 ?dateModification ?dateEmission
 ?subtitleLg1 ?subtitleLg2 ?abstractLg1 ?abstractLg2
 ?descriptionLg1 ?descriptionLg2 ?scopeNoteLg1 ?scopeNoteLg2 ?landingPageLg1 ?landingPageLg2
-?processStepLg1 ?processStepLg2
 ?version  ?numObservations ?numSeries ?spatialTemporal
 ?endPeriod ?startPeriod
 ?derivedDescriptionLg1 ?derivedDescriptionLg2
