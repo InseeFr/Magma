@@ -1,6 +1,7 @@
 SELECT ?notation
-FROM <${CODES_GRAPH}>
-
 WHERE {
-    <${URI}> skos:notation ?notation .
+  GRAPH <${CODES_GRAPH}> {
+    <${codeProcessStep}> a skos:Concept ;
+                                              skos:notation ?notation .
+}
 }

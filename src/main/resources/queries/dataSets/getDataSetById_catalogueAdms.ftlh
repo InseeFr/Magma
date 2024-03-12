@@ -1,17 +1,14 @@
 SELECT DISTINCT
-?identifier
 (GROUP_CONCAT(DISTINCT ?archiveUnit;separator=" , ") AS ?archiveUnits)
 FROM <${DATASETS_GRAPH}>
 FROM <${ADMS_GRAPH}>
 
 WHERE {
-		?uri a dcat:Dataset ;
-		dcterms:identifier "${ID}" ;
+        ?uri a dcat:CatalogRecord ;
+        foaf:primaryTopic ?z .
+    	?z dcterms:identifier "${ID}" .
 
-		OPTIONAL{?uri adms:identifier ?identifierADMS  .
-		?identifierADMS skos:notation ?identifier . }
-
-		OPTIONAL{?uri insee:archiveUnit ?archiveUnit .}
+    	OPTIONAL{?z insee:archiveUnit ?archiveUnit .}
 
 }
-GROUP BY ?identifier
+GROUP BY ?archiveUnit

@@ -76,6 +76,25 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
         return params;
     }
 
+    @Override
+    public String getCodesListForDataset(String notation) throws RmesException {
+
+        Map<String, Object> params = initParamsNotation(notation);
+
+        JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesListForDataset.ftlh", params));
+
+        codesList.put("label", this.formatLabel(codesList));
+        CommonMethods.removePrefLabels(codesList);
+
+        if(codesList.has(STATUT_VALIDATION)){
+            String validationState = codesList.getString(STATUT_VALIDATION);
+            codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
+        }
+
+        codesList.put("codes", this.getCodes(notation));
+        codesList.remove(Constants.URI);
+        return codesList.toString();
+    }
     //the same method as initParams() with notations, LG1 and LG2 in addition
 
     public Map<String, Object> initParamsNotation(String notation) {

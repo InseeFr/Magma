@@ -12,6 +12,7 @@ public interface CodeListsServices {
 
 	String getCodesList(String notation) throws RmesException;
 
+	String getCodesListForDataset(String notation) throws RmesException;
 	String getCodesListDateMiseAJour(String notation) throws RmesException;
 
 	Integer getMaxpage(String notation) throws RmesException;

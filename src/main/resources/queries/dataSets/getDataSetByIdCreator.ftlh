@@ -4,13 +4,14 @@ FROM <${DATASETS_GRAPH}>
 FROM <${ORGANISATIONS_GRAPH}>
 
 WHERE {
-        ?uri a dcat:Dataset ;
-        dcterms:identifier "${ID}" ;
+        ?uri a dcat:CatalogRecord ;
+                foaf:primaryTopic ?uriDataset .
+        ?uriDataset dcterms:identifier "${ID}" .
 
-        OPTIONAL{?uri dcterms:creator ?creator  .
-        		?creator dcterms:identifier ?idCreator .
-        		?creator skos:prefLabel ?labelCreatorLg1 .
+        OPTIONAL{?uriDataset dcterms:creator ?creator  .
+        		?uriDataset dcterms:identifier ?idCreator .
+        		?uriDataset dcterms:title ?labelCreatorLg1 .
         		FILTER(lang(?labelCreatorLg1)= '${LG1}') .
-        		?creator skos:prefLabel ?labelCreatorLg2 .
+        		?uriDataset dcterms:title ?labelCreatorLg2 .
         		FILTER(lang(?labelCreatorLg2)= '${LG2}') .}
 }
