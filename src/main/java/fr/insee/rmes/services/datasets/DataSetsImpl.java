@@ -440,7 +440,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         for (String s : creatorUris){
 
             params.put("URI", s.replace(" ", ""));
-            //a remplacer par une constante
+
             JSONObject creator_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdCreator.ftlh", params));
             List<LangContent> creatorTitles = constructLangContent(creator_result.getString("labelCreatorLg1"),creator_result.getString("labelCreatorLg2"));
             IdLabel creatorIdLabel = new IdLabel(creator_result.getString("idCreator"),creatorTitles);
@@ -452,7 +452,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         List<IdLabel> wasGeneratedBy = new ArrayList<>();
         for (String s : operationStat){
             params.put("URI", s.replace(" ", ""));
-            //a remplacer par une constante
+
             JSONObject wasGeneratedByQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdWasGeneratedBy.ftlh", params));
             List<LangContent> wasGeneratedByTitles = constructLangContent(wasGeneratedByQuery.getString("labelwasGeneratedByLg1"),wasGeneratedByQuery.getString("labelwasGeneratedByLg2"));
             IdLabel wasGeneratedByIdLabel = new IdLabel(wasGeneratedByQuery.getString("wasGeneratedById"),wasGeneratedByTitles);
@@ -467,7 +467,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         for (String s : urisArchiveUnit){
 
             params.put("URI", s.replace(s, "http://bauhaus/identifierSchemes/uniteArchivageNamingScheme/identifier/"+s));
-        //a remplacer par une constante
+
             JSONObject archiveUnitQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdArchiveUnit.ftlh", params));
             List<LangContent> archiveUnitTitles = constructLangContent(archiveUnitQuery.getString("labelarchiveUnitLg1"),archiveUnitQuery.getString("labelarchiveUnitLg2"));
             IdLabel archiveUnitIdLabel = new IdLabel(archiveUnitQuery.getString("idarchiveUnit"),archiveUnitTitles);
@@ -481,7 +481,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         for (String s : uristemporalResolution){
 
             params.put("URI", s.replace(" ", ""));
-            //a remplacer par une constante
+
             JSONObject temporalResolutionQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDatasetByIdTemporalResolution.ftlh", params));
             List<LangContent> temporalResolutionTitles = constructLangContent(temporalResolutionQuery.getString("labeltemporalResolutionLg1"),temporalResolutionQuery.getString("labeltemporalResolutionLg2"));
             Label temporalResolutionLabel = new Label(temporalResolutionTitles);
