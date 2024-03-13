@@ -10,8 +10,7 @@ public class RmesExceptionHandler {
 
     @ExceptionHandler(RmesException.class)
     public ResponseEntity<RestMessage> handleRmesException(RmesException ex) {
-        RestMessage response = new RestMessage(ex.getStatus(), ex.getMessage(), ex.getDetails());
-        return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getStatus()));
+        return new ResponseEntity<>(ex.toRestMessage(), HttpStatus.valueOf(ex.getStatus()));
     }
 }
 
