@@ -3,7 +3,7 @@ package fr.insee.rmes.persistence;
 import java.util.Map;
 
 
-
+import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -16,6 +16,7 @@ import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 
 @Service
+@RequiredArgsConstructor
 public abstract class RdfService {
 
 	
@@ -24,9 +25,14 @@ public abstract class RdfService {
 
     @Autowired
     protected Config config;
-	
-    protected static String buildRequest(String path, String fileName, Map<String, Object> params) throws RmesException {
-        return FreeMarkerUtils.buildRequest(path, fileName, params);
+    protected final FreeMarkerUtils freeMarkerUtils;
+
+    public RdfService(){
+        this(FreeMarkerUtils.getInstance());
+    }
+
+    protected String buildRequest(String path, String fileName, Map<String, Object> params) throws RmesException {
+        return this.freeMarkerUtils.buildRequest(path, fileName, params);
     }
     
     protected JSONArray formatLabel(JSONObject obj) {

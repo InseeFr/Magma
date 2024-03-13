@@ -1,16 +1,21 @@
 package fr.insee.rmes.services.codelists;
 
+import fr.insee.rmes.persistence.FreeMarkerUtils;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.services.utils.CommonMethods;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
 public class CodeListImpl extends RdfService implements CodeListsServices {
 
@@ -18,6 +23,10 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
     private static final String STATUT_VALIDATION = "statutValidation";
     private static final String DEFAULT_DATE = "2020-01-01T00:00:00.000";
     private static final String NOTATION = "NOTATION";
+
+    public CodeListImpl(FreeMarkerUtils freeMarkerUtils) {
+        super(freeMarkerUtils);
+    }
 
     @Override
     public String getAllCodesLists() throws RmesException {
@@ -42,19 +51,23 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
         Map<String, Object> params = initParamsNotation(notation);
 
-        JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesList.ftlh", params));
+        JSONObject codesList = repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH, "getCodesList.ftlh", params));
+        if(codesList.has("id")) {
+            codesList.put("label", this.formatLabel(codesList));
+            CommonMethods.removePrefLabels(codesList);
 
-        codesList.put("label", this.formatLabel(codesList));
-        CommonMethods.removePrefLabels(codesList);
+            if (codesList.has(STATUT_VALIDATION)) {
+                String validationState = codesList.getString(STATUT_VALIDATION);
+                codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
+            }
 
-        if(codesList.has(STATUT_VALIDATION)){
-            String validationState = codesList.getString(STATUT_VALIDATION);
-            codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
+            codesList.put("codes", this.getCodes(notation));
+            codesList.remove(Constants.URI);
+            return codesList.toString();
         }
-
-        codesList.put("codes", this.getCodes(notation));
-        codesList.remove(Constants.URI);
-        return codesList.toString();
+        else  {
+            throw new RmesException(HttpStatus.NOT_FOUND,"Non existent identifier", "The id " + notation + " does not correspond to any code list");
+        }
     }
 
     public Map<String, Object> initParams() {
