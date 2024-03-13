@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.annotation.Generated;
 import java.util.List;
 
 @JsonPropertyOrder({
@@ -24,12 +23,17 @@ public class WasDerivedFrom {
     @JsonProperty("datasets")
     private List<String> datasets;
 
+
     @JsonProperty("description")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<LangContent> description;
 
     public WasDerivedFrom(List<String> datasets, List<LangContent> description) {
         this.datasets = datasets;
         this.description = description;
+    }
+    public WasDerivedFrom(List<String> datasets) {
+        this.datasets = datasets;
     }
 
 }

@@ -4,12 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import fr.insee.rmes.model.CodeList.CodeList;
 import fr.insee.rmes.model.datasets.*;
-import fr.insee.rmes.modelSwagger.codeList.Code;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONObject;
 
 import javax.annotation.Generated;
 import javax.validation.Valid;
@@ -106,7 +103,7 @@ public class DataSetModelSwagger implements Serializable  {
     @JsonProperty("landingPage")
     private List<LandingPage> landingPage;
     @JsonProperty("processStep")
-    private CodeList processStep;
+    private ProcessStep processStep;
     @JsonProperty("publisher")
     private IdLabel publisher;
     @JsonProperty("wasGeneratedBy")
