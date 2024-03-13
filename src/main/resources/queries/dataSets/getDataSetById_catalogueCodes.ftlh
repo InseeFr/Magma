@@ -12,10 +12,11 @@ FROM <${CODES_GRAPH}>
 
 WHERE {
 
-		?uri a dcat:Dataset ;
-		dcterms:identifier "${ID}" ;
+        ?z a dcat:CatalogRecord ;
+        foaf:primaryTopic ?uri .
+    	?uri dcterms:identifier "${ID}" .
 
-		OPTIONAL{?uri dcterms:temporalResolution ?temporalResolution .}
+		OPTIONAL{?uri dcat:temporalResolution ?temporalResolution .}
 
 		OPTIONAL{?uri dcterms:spatial ?spatial   .
 		?spatial skos:notation ?spatialId .
