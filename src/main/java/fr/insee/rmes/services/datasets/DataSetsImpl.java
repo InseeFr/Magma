@@ -243,10 +243,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setStatisticalUnit(statisticalUnit);
         }
         //récupération de structure
-        if(!structures_result.isEmpty())
-        if (structures_result.has("structureId") && structures_result.has("dsd")) {
+        if(!structures_result.isEmpty()) {
+            if (structures_result.has("structureId") && structures_result.has("dsd")) {
             Structure structure = new Structure(structures_result.getString("structureId"),structures_result.getString("dsd"));
             reponse.setStructure(structure);
+                }
         }
         //récupération de issued
         if (catalogue_result.has("dateEmission")){
@@ -299,15 +300,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             List<IdLabel> archiveUnitList = getArchiveUnit(urisArchiveUnit);
             reponse.setArchiveUnit(archiveUnitList);
         }
-
         //récupération de temporalResolution
-        if (codes_result.has("temporalResolutions")){
-            if(!codes_result.getString("temporalResolutions").isEmpty()) {
-            List<String> uristemporalResolution = List.of(codes_result.getString("temporalResolutions").split(","));
-
-            List<Label> temporalResolutionList = getTemporalResolution(uristemporalResolution);
-            reponse.setTemporalResolution(temporalResolutionList);}
-            else ;
+        if (!codes_result.optString("temporalResolutions").isEmpty()) {
+                List<String> uristemporalResolution = List.of(codes_result.getString("temporalResolutions").split(","));
+                List<Label> temporalResolutionList = getTemporalResolution(uristemporalResolution);
+                reponse.setTemporalResolution(temporalResolutionList);
         }
 
 //        récupération de spatialResolution
@@ -466,7 +463,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         List<IdLabel> archiveUnit = new ArrayList<>();
         for (String s : urisArchiveUnit){
 
-            params.put("URI", s.replace(s, "http://bauhaus/identifierSchemes/uniteArchivageNamingScheme/identifier/"+s));
+            params.put("URI", "http://bauhaus/identifierSchemes/uniteArchivageNamingScheme/identifier/"+s.trim());
 
             JSONObject archiveUnitQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdArchiveUnit.ftlh", params));
             List<LangContent> archiveUnitTitles = constructLangContent(archiveUnitQuery.getString("labelarchiveUnitLg1"),archiveUnitQuery.getString("labelarchiveUnitLg2"));
