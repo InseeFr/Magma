@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.rmes.configuration.DefaultSecurityContext;
 import fr.insee.rmes.model.CodeList.Code;
-import fr.insee.rmes.model.CodeList.CodeList;
 import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.persistence.RdfService;
@@ -21,16 +20,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.*;
 
 @Service
 public class DataSetsImpl extends RdfService implements DataSetsServices {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultSecurityContext.class);
+    public static final String CONTENU = "contenu";
+    public static final String LANGUE = "langue";
 
 
     public Map<String,Object> params = initParams();
@@ -81,24 +82,27 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
     @Override
-    public String patchDataset(String datasetId, String observationNumber,String token) throws RmesException, MalformedURLException {
+    public String patchDataset(String datasetId, String observationNumber, String token) throws RmesException {
         try {
-            String query = String.format("observationNumber=%s", URLEncoder.encode(observationNumber, "UTF-8"));
-            String urlString = Config.DATASETS_URL + "/datasets/" + datasetId + "/observationNumber" +"?"+query;
+
+            String urlString = Config.DATASETS_URL + "/datasets/" + datasetId + "/observationNumber";
+            HttpClient client = HttpClient.newHttpClient();
+            String jsonInputString = String.format("%s", observationNumber);
             String id = getIdFromJWT(token);
             String email = getEmailFromJWT(token);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(urlString))
+                    .header("Content-Type", "application/json; utf-8")
+                    .header("Accept", "application/json")
+                    .header("Authorization", token)
+                    .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonInputString))
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             logger.trace("l'id "+id + " ("+ email + ") a patché le dataset :" + datasetId);
-            URL url = new URL(urlString);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestProperty("Authorization",token);
-            con.setRequestMethod("POST");
-            con.setRequestProperty("X-HTTP-Method-Override","PATCH");
-//            int responseCode = con.getResponseCode();
-            return con.getResponseMessage();
-        } catch (IOException e) {
+            return response.body();
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private String getIdFromJWT(String jwt){
@@ -176,7 +180,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setScopeNote(scopeNote);
         }
         //récupération de la landingPage
-        if (catalogue_result.has("landingPageLg1") && catalogue_result.has("landingPageLg2")) {
+        if (!catalogue_result.optString("landingPageLg1").isEmpty() && !catalogue_result.optString("landingPageLg2").isEmpty()) {
             List<LandingPage> landingPage = new ArrayList<>();
             LandingPage landingPage1 = new LandingPage(Config.LG1,catalogue_result.getString("landingPageLg1"));
             LandingPage landingPage2 = new LandingPage(Config.LG2,catalogue_result.getString("landingPageLg2"));
@@ -189,7 +193,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             String codeProcessStepValue = codes_result.getString("codeProcessStep");
             params.put("codeProcessStep", codeProcessStepValue);
             JSONObject processStepResult = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getProcessStep.ftlh", params));
-            CodeList processStep = constructCodeList(processStepResult.getString("notation"));
+            ProcessStep processStep = constructCodeList(processStepResult.getString("notation"));
             reponse.setProcessStep(processStep);
         }
         //récupération de publisher
@@ -281,10 +285,10 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setWasGeneratedBy(wasGeneratedByList);
         }
         //récupération de derivedFromS quand il est non vide
-        if (catalogue_result.has("wasDerivedFromS") && catalogue_result.getString("wasDerivedFromS").length()!=0 ){
+        if (!catalogue_result.optString("wasDerivedFromS").isEmpty()){
             List<String> urisWasDerivedFromList = List.of(catalogue_result.getString("wasDerivedFromS").split(","));
             List<String> datasets = getDerivedFrom(urisWasDerivedFromList);
-            if (catalogue_result.has("derivedDescriptionLg1") && catalogue_result.has("derivedDescriptionLg2")) {
+            if (!catalogue_result.optString("derivedDescriptionLg1").isEmpty() && !catalogue_result.optString("derivedDescriptionLg2").isEmpty()) {
                 WasDerivedFrom wasDerivedFrom = constructWasDerivedFrom(datasets, catalogue_result.getString("derivedDescriptionLg1"), catalogue_result.getString("derivedDescriptionLg2"));
                 reponse.setWasDerivedFrom(wasDerivedFrom);
             }
@@ -463,7 +467,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         List<IdLabel> archiveUnit = new ArrayList<>();
         for (String s : urisArchiveUnit){
 
-            params.put("URI", "http://bauhaus/identifierSchemes/uniteArchivageNamingScheme/identifier/"+s.trim());
+            params.put("URI", s.trim());
 
             JSONObject archiveUnitQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdArchiveUnit.ftlh", params));
             List<LangContent> archiveUnitTitles = constructLangContent(archiveUnitQuery.getString("labelarchiveUnitLg1"),archiveUnitQuery.getString("labelarchiveUnitLg2"));
@@ -559,7 +563,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
     @Autowired
     CodeListsServices codeListsServices;
-    private CodeList constructCodeList(String notation) throws RmesException {
+    private ProcessStep constructCodeList(String notation) throws RmesException {
         String codeListString = codeListsServices.getCodesListForDataset(notation);
         JSONObject jsonCodeList = new JSONObject(codeListString);
         JSONArray codes = jsonCodeList.getJSONArray("codes");
@@ -569,9 +573,9 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             String id = obj.getString("code");
             JSONArray array = obj.getJSONArray("label");
             List<LangContent> langContentList = new ArrayList<>();
-            LangContent langContent1 = new LangContent(array.getJSONObject(0).getString("langue"),array.getJSONObject(0).getString("contenu"));
+            LangContent langContent1 = new LangContent(array.getJSONObject(0).getString(LANGUE),array.getJSONObject(0).getString(CONTENU));
             langContentList.add(langContent1);
-            LangContent langContent2 = new LangContent(array.getJSONObject(1).getString("langue"),array.getJSONObject(0).getString("contenu"));
+            LangContent langContent2 = new LangContent(array.getJSONObject(1).getString(LANGUE),array.getJSONObject(0).getString(CONTENU));
             langContentList.add(langContent2);
             Label label = new Label(langContentList);
             String uri = obj.getString("uri");
@@ -581,13 +585,13 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         JSONArray array = jsonCodeList.getJSONArray("label");
         List<LangContent> langContentList = new ArrayList<>();
-        LangContent langContent1 = new LangContent(array.getJSONObject(0).getString("langue"),array.getJSONObject(0).getString("contenu"));
+        LangContent langContent1 = new LangContent(array.getJSONObject(0).getString(LANGUE),array.getJSONObject(0).getString(CONTENU));
         langContentList.add(langContent1);
-        LangContent langContent2 = new LangContent(array.getJSONObject(1).getString("langue"),array.getJSONObject(0).getString("contenu"));
+        LangContent langContent2 = new LangContent(array.getJSONObject(1).getString(LANGUE),array.getJSONObject(0).getString(CONTENU));
         langContentList.add(langContent2);
         Label label = new Label(langContentList);
 
-        CodeList codeList = new CodeList(notation,listeDeCode,label);
+        ProcessStep codeList = new ProcessStep(notation,label);
 
         return codeList;
     }
