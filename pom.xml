@@ -6,13 +6,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.18</version>
+		<version>3.2.3</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<packaging>${packaging.mode}</packaging>
 	<groupId>fr.insee.rmes</groupId>
 	<artifactId>magma</artifactId>
-	<version>0.3.0</version>
+	<version>1.0.0</version>
 	<name>magma</name>
 	<description>Metadata management API</description>
 	<organization>
@@ -20,25 +20,15 @@
 		<url>http://www.insee.fr</url>
 	</organization>
 	<properties>
-		<packaging.mode>war</packaging.mode>
-		<java.version>17</java.version>
+		<packaging.mode>jar</packaging.mode>
+		<java.version>21</java.version>
 		<keycloak.version>21.0.1</keycloak.version>
-		<json.version>20230227</json.version>
-		<rdf4j.version>4.2.3</rdf4j.version>
-		<springdoc.version>1.6.15</springdoc.version>
+		<json.version>20231013</json.version>
+		<rdf4j.version>5.0.0-M2</rdf4j.version>
+		<springdoc.version>2.3.0</springdoc.version>
 		<jacoco.version>0.8.8</jacoco.version>
 	</properties>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.keycloak.bom</groupId>
-				<artifactId>keycloak-adapter-bom</artifactId>
-				<version>${keycloak.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -74,8 +64,12 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.keycloak</groupId>
-			<artifactId>keycloak-spring-boot-starter</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>
@@ -120,20 +114,14 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-ui</artifactId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>${springdoc.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
-
-
 	</dependencies>
 
 	<build>
@@ -141,6 +129,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build-info</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<!-- génère un rapport sur la couverture de tests -->

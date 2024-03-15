@@ -7,7 +7,7 @@ import fr.insee.rmes.modelSwagger.dataset.LangContent;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor

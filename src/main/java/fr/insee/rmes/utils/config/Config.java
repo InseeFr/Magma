@@ -93,7 +93,6 @@ public class Config {
 		PERPAGE = Integer.valueOf(env.getProperty("fr.insee.rmes.magma.perPage"));
 		BASE_GRAPH = env.getProperty("fr.insee.rmes.magma.baseGraph");
 		DATASETS_GRAPH=env.getProperty("fr.insee.rmes.magma.datasets.graph") ;
-		DATASETS_URL = env.getProperty("fr.insee.rmes.magma.datasets.url") ;
 		CODELIST_GRAPH = env.getProperty("fr.insee.rmes.magma.codeLists.graph");
 		CONCEPTS_GRAPH = env.getProperty("fr.insee.rmes.magma.concepts.graph");
 		ADMS_GRAPH = env.getProperty("fr.insee.rmes.magma.adms.graph");
