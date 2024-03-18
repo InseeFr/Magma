@@ -88,10 +88,6 @@ public class SpringDocConfiguration {
                                         .title(buildProperties.map(BuildProperties::getName).orElse("n.a"))
                                         .description(springdocProperties.getDescription())
                                         .version(buildProperties.map(BuildProperties::getVersion).orElse("n.a"))
-                                        /*.license(
-                                            new License()
-                                                .name("Apache 2.0")
-                                                .url("http://www.apache.org/licenses/LICENSE-2.0.html"))*/
                                         .contact(contact));
     }
 

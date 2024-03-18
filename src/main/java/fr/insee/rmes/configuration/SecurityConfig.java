@@ -29,23 +29,20 @@ public class SecurityConfig {
 
     public static final String STARTER_SECURITY_ENABLED = "fr.insee.rmes.security.enabled";
 
-    // Démonstration avec un rôle protégeant l'accès à un des endpoints
     @Value("${fr.insee.rmes.role.administrateur}")
     private String administrateurRole;
 
     @Value("${fr.insee.rmes.role.gestionnaire.dataset}")
     private String gestionnaireDataset;
 
-    //Par défaut, spring sécurity prefixe les rôles avec cette chaine
     private static final String ROLE_PREFIX = "ROLE_";
 
     @Autowired InseeSecurityTokenProperties inseeSecurityTokenProperties;
 
-    //Liste d'URL sur lesquels on n'applique pas de sécurité (swagger; actuator...)
     @Value("#{'${fr.insee.rmes.security.whitelist-matchers}'.split(',')}")
     private String[] whiteList;
 
-    //Filter with activated security
+
     @Bean
     @ConditionalOnProperty(name = STARTER_SECURITY_ENABLED, havingValue = "true")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -70,7 +67,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    //Filter with disabled security
     @Bean
     @ConditionalOnProperty(name = STARTER_SECURITY_ENABLED, havingValue = "false")
     public SecurityFilterChain filterChain_noSecurity(HttpSecurity http) throws Exception {
@@ -121,7 +117,6 @@ public class SecurityConfig {
                     }).toList());
                 }
                 catch (ClassCastException e) {
-                    // role path not correctly found, assume that no role for this user
                     return List.of();
                 }
             }

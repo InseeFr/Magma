@@ -14,44 +14,6 @@ import org.springframework.core.env.PropertySource;
 import java.util.*;
 import java.util.function.Supplier;
 
-/**
- * Listener Spring permettant d'afficher les props dans les logs au démarrage de l'application : se déclenche
- * sur l'évènement ApplicationEnvironmentPreparedEvent.
- *
- * Par défaut affiche les propriétés qui vérifient les conditions suivantes :
- * 1. passées soit par la ligne de commande (<code>--maProp=valeur</code>), soit présentes dans les fichiers properties
- * détectés par Spring boot au démarrage (une propriété présente uniquement dans le code sous la forme
- * <code>@Value("${ma.propriete}")</code> dont la valeur serait passée uniquement par variable d'environnement ne sera
- * donc pas détectée. Pour qu'elle le soit, il faut la faire figurer dans le fichier application.properties par exemple)
- * 2. qui sont préfixées par l'un des éléments de PropertiesLogger.prefixesAffichesParDefaut
- *
- * Pour chaque propriété affichée :
- * - si la clé contient l'un des mots parmi PropertiesLogger.motsCachesParDefaut, affiche alors "****"
- * - sinon c'est la valeur de la propriété telle qu'elle sera résolue par Spring boot dans l'application qui est affichée
- *
- * Enfin, sont loguées également les noms des PropertySource de Spring dont proviennent les clés des propriétés qui sont affichées
- *
- * Le comportement de cette classe peut être amendé par les propriétés suivantes :
- * - fr.insee.properties.log.key.select : stratégie de sélection des sources de propriétés qui seront affichées :
- *   - trois valeurs possibles :
- *     - ALL(toutes les propriétés des propertysource traitées seront affichées, peu importe les prefixes)
- *     - NONE (rien ne sera affiché)
- *     - PREFIX (valeur par défaut) : affiche les propriétés dont le prefixe est dans fr.insee.properties.log.key.prefixes
- *     et qui ne font pas partie des propertySource ignorés (le nom des propertysource ignorés figurent
- *     dans fr.insee.properties.log.sources.ignored))
- *   - cf enum PropertySelectorEnum
- * - fr.insee.properties.log.sources.ignored : nom des propertysource (ex: application-dev.properties) qui seront ignorées.
- *   - la valeur attendue est une liste de noms séparés par des virgules. Si vide alors aucune propertysource ne sera ignorée
- *   - Valeur par défaut : PropertiesLogger.propertySourcesIgnoreesParDefaut
- * - fr.insee.properties.log.key.prefixes : permet de définir les préfixes des propriétés qui seront affichées.
- *   - Valeur par défaut : PropertiesLogger.prefixesAffichesParDefaut
- *   - la valeur attendue est une liste de noms séparés par des virgules. Si vide aucune propriété ne sera affichée
- * - fr.insee.properties.log.key.hidden : liste des mots pour lesquels la valeur de la propriété sera masquée (si la clé de
- * la propriété contient l'un des mots de la liste alors la valeur sera masquée).
- *   - Valeur par défaut : PropertiesLogger.motsCachesParDefaut
- *   - la valeur attendue est une liste de noms séparés par des virgules. /!\ ☠️ si vide tous les secrets seront affichés dans la log
- *
- */
 @Slf4j
 public class PropertiesLogger implements ApplicationListener<ApplicationEnvironmentPreparedEvent> {
 
