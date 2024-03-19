@@ -3,7 +3,6 @@ package fr.insee.rmes.services.datasets;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.insee.rmes.configuration.DefaultSecurityContext;
 import fr.insee.rmes.model.CodeList.Code;
 import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
@@ -26,10 +25,12 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
 
+import static org.apache.commons.lang3.StringUtils.substring;
+
 @Service
 public class DataSetsImpl extends RdfService implements DataSetsServices {
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultSecurityContext.class);
+    private static final Logger logger = LoggerFactory.getLogger(DataSetsImpl.class);
     public static final String CONTENU = "contenu";
     public static final String LANGUE = "langue";
 
@@ -85,7 +86,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     public String patchDataset(String datasetId, String observationNumber, String token) throws RmesException {
         try {
 
-            String urlString = Config.DATASETS_URL + "/datasets/" + datasetId + "/observationNumber";
+            String urlString = Config.BAUHAUS_URL + "/datasets/" + datasetId + "/observationNumber";
             HttpClient client = HttpClient.newHttpClient();
             String jsonInputString = String.format("%s", observationNumber);
             String id = getIdFromJWT(token);
@@ -444,7 +445,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
             JSONObject creator_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdCreator.ftlh", params));
             List<LangContent> creatorTitles = constructLangContent(creator_result.getString("labelCreatorLg1"),creator_result.getString("labelCreatorLg2"));
-            IdLabel creatorIdLabel = new IdLabel(creator_result.getString("idCreator"),creatorTitles);
+            IdLabel creatorIdLabel = new IdLabel(creator_result.getString("creator").substring(creator_result.getString("creator").lastIndexOf('/') + 1),creatorTitles);
             creator.add(creatorIdLabel);
         }
         return creator;

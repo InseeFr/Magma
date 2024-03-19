@@ -9,7 +9,7 @@ import fr.insee.rmes.utils.config.Config;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 import java.io.Serializable;
 
 @ToString

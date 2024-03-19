@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)

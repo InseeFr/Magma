@@ -3,8 +3,8 @@ package fr.insee.rmes.modelSwagger.operation;
 
 import com.fasterxml.jackson.annotation.*;
 
-import javax.annotation.Generated;
-import javax.validation.Valid;
+import jakarta.annotation.Generated;
+import jakarta.validation.Valid;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;

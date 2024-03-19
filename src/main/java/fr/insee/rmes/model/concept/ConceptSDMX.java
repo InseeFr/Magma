@@ -1,6 +1,6 @@
 package fr.insee.rmes.model.concept;
 import java.io.Serializable;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
