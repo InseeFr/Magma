@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Locale;
 
+import freemarker.cache.ClassTemplateLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
@@ -31,16 +32,12 @@ public class FreemarkerConfig {
 
 		// Specify the source where the template files come from. Here I set a
 		// plain directory for it, but non-file-system sources are possible too:
-        
-		try {
-			MultiTemplateLoader mtl = getTemplateLoader();
-			logger.info("Init freemarker templateloader {}", FreemarkerConfig.class.getClassLoader().getResource("queries"));
-			cfg.setTemplateLoader(mtl);
-		} catch (IOException | URISyntaxException e) {
-			logger.error(e.getMessage());
-		}
 
-		// Set the preferred charset template files are stored in. UTF-8 is
+        MultiTemplateLoader mtl = getTemplateLoader();
+        logger.info("Init freemarker templateloader {}", FreemarkerConfig.class.getClassLoader().getResource("queries"));
+        cfg.setTemplateLoader(mtl);
+
+        // Set the preferred charset template files are stored in. UTF-8 is
 		// a good choice in most applications:
 		cfg.setDefaultEncoding("UTF-8");
         cfg.setLocale(Locale.FRANCE);
@@ -64,13 +61,9 @@ public class FreemarkerConfig {
 	 * @throws IOException
 	 * @throws URISyntaxException
 	 */
-	private static MultiTemplateLoader getTemplateLoader() throws IOException, URISyntaxException {
-		MultiTemplateLoader mtl = null;
-
-		FileTemplateLoader ftl1 = new FileTemplateLoader((new ClassPathResource("queries")).getFile());
-
-		mtl = new MultiTemplateLoader(new TemplateLoader[] { ftl1 });
-	
+	private static MultiTemplateLoader getTemplateLoader() {
+		ClassTemplateLoader ctl = new ClassTemplateLoader(FreemarkerConfig.class, "/queries");
+		MultiTemplateLoader mtl = new MultiTemplateLoader(new TemplateLoader[]{ ctl });
 		return mtl;
 	}
 
