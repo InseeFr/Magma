@@ -3,7 +3,6 @@ package fr.insee.rmes.services.structures;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.rmes.modelSwagger.structure.StructureByIdModelSwagger;
-import fr.insee.rmes.persistence.FreeMarkerUtils;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.persistence.ontologies.IGEO;
 import fr.insee.rmes.persistence.ontologies.QB;
@@ -14,11 +13,10 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
-import com.fasterxml.jackson.databind.JsonNode;
 
-import jakarta.xml.soap.SAAJResult;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 
@@ -53,6 +51,8 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	private static final String MAX_INCLUSIVE = "maxInclusive";
 	private static final String PATTERN = "pattern";
 	private static final String URI_CONCEPT = "uriConcept";
+	private static final String COMPOSANTS = "composants";
+	private static final String TYPE = "type";
 	String defaultDate = "2020-01-01T00:00:00.000";
 	
 	@Override
@@ -468,5 +468,37 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		return freeMarkerUtils.buildRequest("components/", fileName, params);
 	}
 
+
+	@Override
+	public String getSlice(String id) throws RmesException {
+		HashMap<String, Object> params = new HashMap<>();
+		params.put(STRUCTURES_GRAPH,Config.BASE_GRAPH + Config.STRUCTURES_GRAPH);
+		params.put(STRUCTURES_COMPONENTS_GRAPH_KEY, config.getBaseGraph() + Config.STRUCTURES_COMPONENTS_GRAPH);
+		params.put(CODELIST_GRAPH_KEY, config.getBaseGraph() +config.getCodelistGraph());
+		params.put("ID", id);
+		params.put("LG1", config.getLG1());
+		params.put("LG2", config.getLG2());
+
+		JSONArray sliceStructure =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getStructureSliceKeys.ftlh", params));
+		for (int i = 0; i < sliceStructure.length(); i++) {
+			JSONObject structure = (JSONObject) sliceStructure.get(i);
+			structure.put(LABEL, this.formatLabel(structure));
+			if (structure.has("componentIds")){
+				List<String> composants = List.of(structure.getString("componentIds").split(","));
+				structure.put(COMPOSANTS,composants);
+			}
+			if (structure.has("typeSliceKey")){
+				String typeSlice=structure.getString("typeSliceKey");
+				structure.put(TYPE,typeSlice);
+			}
+			CommonMethods.removePrefLabels(structure);
+			structure.remove("componentIds");
+			structure.remove("sliceKey");
+			structure.remove("typeSliceKey");
+
+		}
+
+		return sliceStructure.toString();
+	}
 
 }
