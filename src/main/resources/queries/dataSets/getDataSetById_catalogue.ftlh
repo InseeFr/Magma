@@ -12,7 +12,8 @@ SELECT DISTINCT ?id ?uri
 (GROUP_CONCAT(DISTINCT ?creators;separator=" , ") AS ?creators)
 (GROUP_CONCAT(DISTINCT ?wasDerivedFromS;separator=" , ") AS ?wasDerivedFromS)
 FROM <${DATASETS_GRAPH}>
-
+FROM <${ORGANISATIONS_GRAPH}>
+FROM <${ORGANISATIONS_GRAPH}/insee>
 
 WHERE {
 
@@ -24,10 +25,14 @@ WHERE {
 		dcterms:modified ?dateModification ;
 		dcterms:title ?titleLg1 ;
 		dcterms:title ?titleLg2 ;
+		optional {
+		?uri a dcat:Dataset ;
+        dcterms:identifier "${ID}" ;
 		^foaf:primaryTopic/dc:creator ?catalogRecordCreator ;
 		^foaf:primaryTopic/dc:contributor ?catalogRecordContributor ;
 		^foaf:primaryTopic/dcterms:modified ?catalogRecordModified ;
 		^foaf:primaryTopic/dcterms:created ?catalogRecordCreated ;
+		}
 		BIND( if(?isValidated="Unpublished","Provisoire, jamais publiée","Publiée") as ?statutValidation )
 		FILTER (lang(?titleLg1) = '${LG1}')
 		FILTER (lang(?titleLg2) = '${LG2}')
