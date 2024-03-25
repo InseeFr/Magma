@@ -1,5 +1,5 @@
 SELECT DISTINCT
-?creator ?labelCreatorLg1 ?labelCreatorLg2
+?creator ?labelCreatorLg1 ?labelCreatorLg2 ?idCreator
 FROM <${DATASETS_GRAPH}>
 FROM <${ORGANISATIONS_GRAPH}>
 FROM <${ORGANISATIONS_GRAPH}/insee>
