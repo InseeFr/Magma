@@ -5,6 +5,7 @@ import fr.insee.rmes.modelSwagger.component.AllComponentModelSwagger;
 import fr.insee.rmes.modelSwagger.component.ComponentByIdModelSwagger;
 import fr.insee.rmes.modelSwagger.structure.AllStructureModelSwagger;
 import fr.insee.rmes.modelSwagger.structure.StructureByIdModelSwagger;
+import fr.insee.rmes.modelSwagger.structure.StructureSliceKeysModelSwagger;
 import fr.insee.rmes.services.structures.StructuresServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.exceptions.RmesException;
@@ -124,7 +125,7 @@ public class StructuresResources {
 	@GetMapping("/structure/{id}/sliceKeys")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getSlice", summary = "Get slice keys",security = @SecurityRequirement(name = "bearerScheme"),
-			responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array")))})
+			responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array",implementation = StructureSliceKeysModelSwagger.class)))})
 
 	public ResponseEntity <String> getSlice(@PathVariable(Constants.ID) String id) throws RmesException, JsonProcessingException {
 		String jsonResult = structuresServices.getSlice(id);
