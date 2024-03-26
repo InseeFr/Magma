@@ -59,7 +59,7 @@ public class SecurityConfig {
         }
         http.authorizeHttpRequests(authorize ->
                         authorize.requestMatchers(whiteList).permitAll()
-                                .requestMatchers(AntPathRequestMatcher.antMatcher("/dataset/{id}/observationsNumbers")).hasAnyRole(administrateurRole,gestionnaireDataset)
+                                .requestMatchers(AntPathRequestMatcher.antMatcher("/dataset/{id}/observationNumber")).hasAnyRole(administrateurRole,gestionnaireDataset)
                                 .anyRequest().authenticated()
                 )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
