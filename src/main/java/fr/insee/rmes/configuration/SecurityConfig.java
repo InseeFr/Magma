@@ -59,8 +59,8 @@ public class SecurityConfig {
         }
         http.authorizeHttpRequests(authorize ->
                         authorize.requestMatchers(whiteList).permitAll()
-                                .requestMatchers(AntPathRequestMatcher.antMatcher("/**")).permitAll()
                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/dataset/{id}/observationsNumbers")).hasAnyRole(administrateurRole,gestionnaireDataset)
+                                .anyRequest().authenticated()
                 )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt((jwt) -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
