@@ -156,4 +156,14 @@ class CodeListImplTest {
                 .matches(rmesException->((RmesException)rmesException).getStatus()==404)
                 .hasMessageContaining("Non existent identifier");
     }
+
+    @Test
+    void getCodesListPagination_shouldReturn404IfInexistentId() throws RmesException, JsonProcessingException {
+        JSONObject mockJSON = new JSONObject(EMPTY_CODELIST);
+        when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
+
+        assertThatThrownBy(()->codeListImpl.getMaxpage("1")).isInstanceOf(RmesException.class)
+                .matches(rmesException->((RmesException)rmesException).getStatus()==404)
+                .hasMessageContaining("Non existent identifier");
+    }
 }

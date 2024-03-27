@@ -23,6 +23,9 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
     private static final String STATUT_VALIDATION = "statutValidation";
     private static final String DEFAULT_DATE = "2020-01-01T00:00:00.000";
     private static final String NOTATION = "NOTATION";
+    public static final String COUNT = "count";
+    public static final String LABEL = "label";
+    public static final String CODES = "codes";
 
     public CodeListImpl(FreeMarkerUtils freeMarkerUtils) {
         super(freeMarkerUtils);
@@ -53,7 +56,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
         JSONObject codesList = repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH, "getCodesList.ftlh", params));
         if(codesList.has("id")) {
-            codesList.put("label", this.formatLabel(codesList));
+            codesList.put(LABEL, this.formatLabel(codesList));
             CommonMethods.removePrefLabels(codesList);
 
             if (codesList.has(STATUT_VALIDATION)) {
@@ -61,7 +64,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
                 codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
             }
 
-            codesList.put("codes", this.getCodes(notation));
+            codesList.put(CODES, this.getCodes(notation));
             codesList.remove(Constants.URI);
             return codesList.toString();
         }
@@ -83,7 +86,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
         JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesListForDataset.ftlh", params));
 
-        codesList.put("label", this.formatLabel(codesList));
+        codesList.put(LABEL, this.formatLabel(codesList));
         CommonMethods.removePrefLabels(codesList);
 
         if(codesList.has(STATUT_VALIDATION)){
@@ -91,7 +94,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
             codesList.put(STATUT_VALIDATION, this.getValidationState(validationState));
         }
 
-        codesList.put("codes", this.getCodes(notation));
+        codesList.put(CODES, this.getCodes(notation));
         codesList.remove(Constants.URI);
         return codesList.toString();
     }
@@ -176,7 +179,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
                     c.put(Constants.PARENTS, parents);
                 }
             } else {
-                code.put("label", this.formatLabel(code));
+                code.put(LABEL, this.formatLabel(code));
                 code.remove(Constants.PREF_LABEL_LG1);
                 code.remove(Constants.PREF_LABEL_LG2);
 
@@ -280,15 +283,21 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
     public Integer getMaxpage(String notation) throws RmesException {
         Map<String, Object> params = initParamsNotation(notation);
         JSONObject counter = repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"countNumberOfCodes.ftlh",params));
-        int quotient_page = Integer.valueOf((String) counter.get("count")) / config.PERPAGE;
-        int reste_page = Integer.valueOf((String) counter.get("count")) % config.PERPAGE;
-        int total = 0;
-        if (reste_page == 0){
-            total = quotient_page;
-        } else if (reste_page != 0 ) {
-            total = quotient_page + 1;
+        if (counter.has(COUNT)) {
+            int quotient_page = Integer.valueOf((String) counter.get(COUNT)) / config.PERPAGE;
+            int reste_page = Integer.valueOf((String) counter.get(COUNT)) % config.PERPAGE;
+            int total = 0;
+            if (reste_page == 0) {
+                total = quotient_page;
+            } else if (reste_page != 0) {
+                total = quotient_page + 1;
+            }
+            return total;
         }
-        return total;
+        else {
+            throw new RmesException(HttpStatus.NOT_FOUND, "Non existent codes list identifier", "The id " + notation + " does not correspond to any code list");
+        }
+
     }
 
     public String getCodesListWithoutCodes(String notation) throws RmesException{
@@ -297,7 +306,7 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
 
         JSONObject codesList =  repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesList.ftlh", params));
 
-        codesList.put("label", this.formatLabel(codesList));
+        codesList.put(LABEL, this.formatLabel(codesList));
         CommonMethods.removePrefLabels(codesList);
 
         if(codesList.has(STATUT_VALIDATION)){
@@ -310,20 +319,24 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
     public String getCodesListPagination(String notation, int pageNumber)throws RmesException{
         Map<String, Object> params = initParamsNotation(notation);
         JSONObject result = repoGestion.getResponseAsObject(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getCodesList.ftlh",params));
-        result.put("label", this.formatLabel(result));
+        result.put(LABEL, this.formatLabel(result));
         CommonMethods.removePrefLabels(result);
-        if(result.has(STATUT_VALIDATION)){
-            String validationState = result.getString(STATUT_VALIDATION);
-            result.put(STATUT_VALIDATION, this.getValidationState(validationState));
-        }
+        if(result.has("id")) {
+            if (result.has(STATUT_VALIDATION)) {
+                String validationState = result.getString(STATUT_VALIDATION);
+                result.put(STATUT_VALIDATION, this.getValidationState(validationState));
+            }
 
-        Integer total = getMaxpage(notation);
-        result.put("maxPage",total);
-        result.put("codes", this.getCodesPagination(notation,pageNumber));
-        result.remove(Constants.URI);
-        String page = String.valueOf(pageNumber) + "/" + String.valueOf(total);
-        result.put("page", page);
-        return result.toString();
+            Integer total = getMaxpage(notation);
+            result.put("maxPage", total);
+            result.put(CODES, this.getCodesPagination(notation, pageNumber));
+            result.remove(Constants.URI);
+            String page = String.valueOf(pageNumber) + "/" + String.valueOf(total);
+            result.put("page", page);
+            return result.toString();
+        } else {
+            throw new RmesException(HttpStatus.NOT_FOUND,"Non existent identifier", "The id " + notation + " does not correspond to any code list");
+        }
     }
 
     private JSONArray getCodesPagination(String notation,int pageNumber) throws RmesException {
