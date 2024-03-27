@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.rmes.model.organisation.OrganisationModel;
 import fr.insee.rmes.modelSwagger.organisations.Label;
 import fr.insee.rmes.modelSwagger.organisations.OrganisationsModelSwagger;
+import fr.insee.rmes.persistence.FreeMarkerUtils;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -20,6 +22,9 @@ import java.util.Map;
 
 @Service
 public class OrganisationsImpl extends RdfService implements OrganisationsServices {
+    public OrganisationsImpl(FreeMarkerUtils freeMarkerUtils) {
+        super(freeMarkerUtils);
+    }
 
     public Map<String, Object> initParams() {
         Map<String, Object> params = new HashMap<>();
@@ -64,45 +69,50 @@ public class OrganisationsImpl extends RdfService implements OrganisationsServic
         params.put("ID", id);
 
         JSONObject operationId = repoGestion.getResponseAsObject(buildRequest(Constants.ORGANISATIONS_QUERIES_PATH, "getOrganisationById.ftlh", params));
+        if (operationId.has("Id")) {
+            ObjectMapper jsonResponse = new ObjectMapper();
+            OrganisationModel operationById = jsonResponse.readValue(operationId.toString(), OrganisationModel.class);
 
-        ObjectMapper jsonResponse =new ObjectMapper();
-        OrganisationModel operationById = jsonResponse.readValue(operationId.toString(),OrganisationModel.class);
+            ObjectMapper mapper = new ObjectMapper();
+            Label preflabel1 = new Label(Config.LG1, operationById.getPrefLabelLg1());
+            Label preflabel2 = new Label(Config.LG2, operationById.getPrefLabelLg2());
+            Label altlabel1 = new Label(Config.LG1, operationById.getAltLabelLg1());
+            Label altlabel2 = new Label(Config.LG2, operationById.getAltLabelLg2());
+            List<Label> label = new ArrayList<>();
+            List<Label> altlabel = new ArrayList<>();
+            if (operationById.getPrefLabelLg1() != null) {
+                label.add(preflabel1);
+            }
+            if (operationById.getPrefLabelLg2() != null) {
+                label.add(preflabel2);
+            }
+            if (operationById.getAltLabelLg1() != null) {
+                altlabel.add(altlabel1);
+            }
+            if (operationById.getAltLabelLg2() != null) {
+                altlabel.add(altlabel2);
+            }
+            OrganisationsModelSwagger organisationsListModelSwagger = new OrganisationsModelSwagger(operationById.getId(), operationById.getUri(), label);
 
-        ObjectMapper mapper = new ObjectMapper();
-        Label preflabel1 = new Label(Config.LG1,operationById.getPrefLabelLg1());
-        Label preflabel2 = new Label(Config.LG2, operationById.getPrefLabelLg2());
-        Label altlabel1 = new Label(Config.LG1,operationById.getAltLabelLg1());
-        Label altlabel2 = new Label(Config.LG2, operationById.getAltLabelLg2());
-        List<Label> label = new ArrayList<>();
-        List<Label> altlabel = new ArrayList<>();
-        if (operationById.getPrefLabelLg1() != null) {
-            label.add(preflabel1);}
-        if (operationById.getPrefLabelLg2() != null) {
-            label.add(preflabel2);
-        }
-        if (operationById.getAltLabelLg1() != null) {
-            altlabel.add(altlabel1);}
-        if (operationById.getAltLabelLg2() != null) {
-            altlabel.add(altlabel2);
-        }
-        OrganisationsModelSwagger organisationsListModelSwagger= new OrganisationsModelSwagger(operationById.getId(), operationById.getUri(),label);
-
-        if (operationById.getAbreviation() != null){
-            organisationsListModelSwagger.setAbreviation(operationById.getAbreviation());
-        }
-        if (altlabel != null){
-            organisationsListModelSwagger.setAltlabelOrganisation(altlabel);
-        }
-        if (operationById.getUniteDe() != null){
-            organisationsListModelSwagger.setUniteDe(operationById.getUniteDe());
-        }
-        if (operationById.getSousTelleDe() != null){
-            organisationsListModelSwagger.setSousTelleDe(operationById.getSousTelleDe());
-        }
+            if (operationById.getAbreviation() != null) {
+                organisationsListModelSwagger.setAbreviation(operationById.getAbreviation());
+            }
+            if (altlabel != null) {
+                organisationsListModelSwagger.setAltlabelOrganisation(altlabel);
+            }
+            if (operationById.getUniteDe() != null) {
+                organisationsListModelSwagger.setUniteDe(operationById.getUniteDe());
+            }
+            if (operationById.getSousTelleDe() != null) {
+                organisationsListModelSwagger.setSousTelleDe(operationById.getSousTelleDe());
+            }
 
 
-        return mapper.writeValueAsString(organisationsListModelSwagger);
-
+            return mapper.writeValueAsString(organisationsListModelSwagger);
+        }
+        else{
+            throw new RmesException(HttpStatus.NOT_FOUND, "Non existent organization identifier", "The id " + id + " does not correspond to any organization");
+        }
     }
 
 
