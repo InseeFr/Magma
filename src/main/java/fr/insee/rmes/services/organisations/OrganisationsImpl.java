@@ -9,6 +9,8 @@ import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
 public class OrganisationsImpl extends RdfService implements OrganisationsServices {
     public OrganisationsImpl(FreeMarkerUtils freeMarkerUtils) {
