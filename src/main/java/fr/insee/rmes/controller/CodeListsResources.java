@@ -36,7 +36,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     @Autowired
     CodeListsServices codeListsServices;
 
-    public String ERROR_PAGINATION = "The page you are looking for does not exist. Try a smaller page number.";
+    private static final String ERROR_PAGINATION = "The page you are looking for does not exist. Try a smaller page number.";
 
     @GetMapping("/listesCodes")
     @Produces(MediaType.APPLICATION_JSON)
