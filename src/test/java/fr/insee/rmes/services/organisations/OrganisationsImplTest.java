@@ -29,7 +29,7 @@ class OrganisationsImplTest {
     OrganisationsImpl organisationsImpl=new OrganisationsImpl(new FreeMarkerUtilsStub());
     @Mock
     RepositoryGestion repoGestion;
-    public static final String EMPTY_CODELIST = "{}";
+    public static final String EMPTY_ORGANIZATION = "{}";
     @BeforeAll
     static void setUp(){
         Config.LG1="fr";
@@ -44,7 +44,7 @@ class OrganisationsImplTest {
 
     @Test
     void getOrganisationById_shouldReturn404IfInexistentId() throws RmesException, JsonProcessingException {
-        JSONObject mockJSON = new JSONObject(EMPTY_CODELIST);
+        JSONObject mockJSON = new JSONObject(EMPTY_ORGANIZATION);
         when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
 
         assertThatThrownBy(()->organisationsImpl.getOrganisationById("1")).isInstanceOf(RmesException.class)
