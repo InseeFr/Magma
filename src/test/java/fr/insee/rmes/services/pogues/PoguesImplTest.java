@@ -7,21 +7,45 @@ import fr.insee.rmes.model.operation.OperationBySerieId;
 import fr.insee.rmes.model.operation.SerieById;
 import fr.insee.rmes.model.operation.SerieModel;
 import fr.insee.rmes.modelSwagger.operation.*;
+import fr.insee.rmes.persistence.RepositoryGestion;
+import fr.insee.rmes.stubs.FreeMarkerUtilsStub;
 import fr.insee.rmes.utils.config.Config;
-import org.junit.jupiter.api.Disabled;
+import fr.insee.rmes.utils.exceptions.RmesException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Disabled ("aim of these tests ?")
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class PoguesImplTest {
+    @InjectMocks
+    PoguesImpl poguesImpl=new PoguesImpl(new FreeMarkerUtilsStub());
+    @Mock
+    RepositoryGestion repoGestion;
+    @Mock
+    Config config;
+    public static final String EMPTY_SERIES = "[]";
+    public static final String EMPTY_OPERATION = "{}";
+    @BeforeAll
+    static void setUp(){
+        Config.LG1="fr";
+        Config.LG2="en";
+    }
 
+    //aim of this test??
     @Test
     void getOperationByCodeTest() throws JsonProcessingException {
-
-
         OperationById operationById= new OperationById("serie","idoperation","operationLabelLg1","operationLabelLg2","serieLabelLg1","uri","serieId","serieLabelLg2", "proprietaire");
         ObjectMapper mapper = new ObjectMapper();
         Label labelSerie1= new Label(Config.LG1, operationById.getSeriesLabelLg1());
@@ -39,9 +63,9 @@ class PoguesImplTest {
         mapper.writeValueAsString(operationByIdSwagger);
     }
 
+    //aim of this test??
     @Test
     void getOperationsBySerieIdTest () throws JsonProcessingException {
-
         OperationBySerieId operation1BySerieId= new OperationBySerieId("serie","typelabelLg1serie","typelabelLg2serie","oerationId1Serie","operation1LabelLg1Serie","operation1LabelLg2Serie","operation1AltLabelLg2Serie","serieLabelLg1","operation1AltLabelLg1Serie","uriOperation1","serieId","serieLabelLg2");
         OperationBySerieId operation2BySerieId= new OperationBySerieId("serie","typelabelLg1serie","typelabelLg2serie","oerationId2Serie","operation2LabelLg1Serie","operation2LabelLg2Serie","operation2AltLabelLg2Serie","serieLabelLg1","operation2AltLabelLg1Serie","uriOperation2","serieId","serieLabelLg2");
         ArrayList<OperationBySerieId> op= new ArrayList <OperationBySerieId>();
@@ -74,9 +98,9 @@ class PoguesImplTest {
         mapper.writeValueAsString(operationsBySerieIdSwaggers);
             }
 
+    //aim of this test??
     @Test
     void getSerieByIdTest () throws JsonProcessingException {
-
         SerieById serieById = new SerieById("type","familyId","periodicityId","periodicityLabelLg2","periodicityLabelLg1","serieUri","typeLabelLg1","typeLabelLg2","frequence","typeId","idserie","serieLabelLg1","serieAltLabelLg1","un nombre","famille","familyLabelLg1","serieAltLabelLg2","familyLabelLg2","serieLabelLg2");
 
         ObjectMapper mapper = new ObjectMapper();
@@ -114,6 +138,7 @@ class PoguesImplTest {
         mapper.writeValueAsString(serieByIdSwagger);
     }
 
+    //aim of this test??
     @Test
     void getAllSeriesListsTest() throws JsonProcessingException {
         SerieModel Series1 = new SerieModel("type","famille","frequenceId","periodicityLabelLg2","periodicityLabelLg1","serieUri","typeLabelLg1","typeLabelLg2","frequence","typeId","idserie","serieLabelLg1","serieAltLabelLg1","un nombre","famille","familyLabelLg1","serieAltLabelLg2","familyLabelLg2","serieLabelLg2","proprietaire");
@@ -164,5 +189,23 @@ class PoguesImplTest {
         }
         mapper.writeValueAsString(SerieByIdSwaggerS);
     }
+    @Test
+    void getSerieById_shouldReturn404IfInexistentId() throws RmesException {
+        JSONArray mockJSON = new JSONArray(EMPTY_SERIES);
+        when(repoGestion.getResponseAsArray(Mockito.anyString())).thenReturn(mockJSON);
 
+        assertThatThrownBy(()->poguesImpl.getSerieById("1")).isInstanceOf(RmesException.class)
+                .matches(rmesException->((RmesException)rmesException).getStatus()==404)
+                .hasMessageContaining("Non existent series identifier");
+    }
+
+    @Test
+    void getOperationByCode_shouldReturn404IfInexistentId() throws RmesException {
+        JSONObject mockJSON = new JSONObject(EMPTY_OPERATION);
+        when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
+
+        assertThatThrownBy(()->poguesImpl.getOperationByCode("1")).isInstanceOf(RmesException.class)
+                .matches(rmesException->((RmesException)rmesException).getStatus()==404)
+                .hasMessageContaining("Non existent operation identifier");
+    }
 }
