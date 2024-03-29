@@ -1,32 +1,37 @@
 package fr.insee.rmes.services.concepts;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.insee.rmes.model.concept.ConceptById;
 import fr.insee.rmes.model.concept.ConceptDefCourte;
+import fr.insee.rmes.model.concept.ConceptSDMX;
 import fr.insee.rmes.modelSwagger.concept.ConceptByIdModelSwagger;
 import fr.insee.rmes.modelSwagger.concept.LabelConcept;
-import fr.insee.rmes.model.concept.ConceptById;
-import fr.insee.rmes.model.concept.ConceptSDMX;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.stereotype.Service;
-
+import fr.insee.rmes.persistence.FreeMarkerUtils;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
 public class ConceptsImpl extends RdfService implements ConceptsServices {
 
-
-
+    public ConceptsImpl(FreeMarkerUtils freeMarkerUtils) {
+        super(freeMarkerUtils);
+    }
     private static final String CONCEPTS_GRAPH = "CONCEPTS_GRAPH";
     private static final String ADMS_GRAPH = "ADMS_GRAPH";
+    public static final String CONTENU = "contenu";
 
 
     @Override
@@ -41,14 +46,17 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         JSONObject defcourtefr = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH, "getConceptDefCourteFR.ftlh", params));
         JSONObject defcourteen = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH, "getConceptDefCourteEN.ftlh", params));
 
+        if (concept.has("id")){
+
+
 
         List<ConceptDefCourte> defCourtes = new ArrayList<>();
-        if (defcourtefr.has("contenu")) {
-            ConceptDefCourte defCourtesFR = new ConceptDefCourte((String) defcourtefr.get("contenu"), Config.LG1);
+        if (defcourtefr.has(CONTENU)) {
+            ConceptDefCourte defCourtesFR = new ConceptDefCourte((String) defcourtefr.get(CONTENU), Config.LG1);
             defCourtes.add(defCourtesFR);
         }
-        if (defcourteen.has("contenu")) {
-            ConceptDefCourte defCourteEN = new ConceptDefCourte((String) defcourteen.get("contenu"), Config.LG2);
+        if (defcourteen.has(CONTENU)) {
+            ConceptDefCourte defCourteEN = new ConceptDefCourte((String) defcourteen.get(CONTENU), Config.LG2);
             defCourtes.add(defCourteEN);
         }
         ObjectMapper jsonResponse = new ObjectMapper();
@@ -85,6 +93,10 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         }
 
         return mapper.writeValueAsString(conceptByIdModelSwagger);
+        }
+        else{
+            throw new RmesException(HttpStatus.NOT_FOUND, "Non existent concept identifier", "The id " + id + " does not correspond to any concept");
+        }
     }
 
     @Override
@@ -96,12 +108,18 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
         params.put(CONCEPTS_GRAPH, Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
 
         JSONObject concept = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getDetailedConceptDateMAJ.ftlh", params));
-        ObjectMapper jsonResponse = new ObjectMapper();
-        ConceptById conceptById = jsonResponse.readValue(concept.toString(), ConceptById.class);
+        if (concept.has("id")) {
 
-        ObjectMapper mapper = new ObjectMapper();
-        ConceptByIdModelSwagger conceptByIdModelSwagger=new ConceptByIdModelSwagger(conceptById.getDateCreation(),conceptById.getDateMiseAJour(),conceptById.getStatutValidation(),conceptById.getId(),conceptById.getDateFinValidite(),conceptById.getUri(),conceptById.getVersion());
-        return mapper.writeValueAsString(conceptByIdModelSwagger);
+            ObjectMapper jsonResponse = new ObjectMapper();
+            ConceptById conceptById = jsonResponse.readValue(concept.toString(), ConceptById.class);
+
+            ObjectMapper mapper = new ObjectMapper();
+            ConceptByIdModelSwagger conceptByIdModelSwagger = new ConceptByIdModelSwagger(conceptById.getDateCreation(), conceptById.getDateMiseAJour(), conceptById.getStatutValidation(), conceptById.getId(), conceptById.getDateFinValidite(), conceptById.getUri(), conceptById.getVersion());
+            return mapper.writeValueAsString(conceptByIdModelSwagger);
+        }
+        else {
+            throw new RmesException(HttpStatus.NOT_FOUND, "Non existent concept identifier", "The id " + id + " does not correspond to any concept");
+        }
 
     }
 
