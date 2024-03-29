@@ -154,7 +154,7 @@ class CodeListImplTest {
 
         assertThatThrownBy(()->codeListImpl.getCodesList("1")).isInstanceOf(RmesException.class)
                 .matches(rmesException->((RmesException)rmesException).getStatus()==404)
-                .hasMessageContaining("Non existent identifier");
+                .hasMessageContaining("Non existent codes list identifier");
     }
 
     @Test
@@ -164,6 +164,6 @@ class CodeListImplTest {
 
         assertThatThrownBy(()->codeListImpl.getMaxpage("1")).isInstanceOf(RmesException.class)
                 .matches(rmesException->((RmesException)rmesException).getStatus()==404)
-                .hasMessageContaining("Non existent identifier");
+                .hasMessageContaining("Non existent codes list identifier");
     }
 }

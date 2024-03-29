@@ -5,14 +5,22 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
+import fr.insee.rmes.persistence.RepositoryGestion;
 import fr.insee.rmes.services.utils.ResponseUtilsTest;
+import fr.insee.rmes.stubs.FreeMarkerUtilsStub;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -20,14 +28,20 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
-//@Disabled("Aim of these tests ?")
+@ExtendWith(MockitoExtension.class)
 public class DataSetsImplTest {
 
     public static final String URI_TEST = "http://uri.test";
-
+    public static final String EMPTY_DATASET = "{}";
     private static DataSetModelSwagger response=new DataSetModelSwagger();
+    @InjectMocks
+    DataSetsImpl dataSetsImpl=new DataSetsImpl(new FreeMarkerUtilsStub());
+    @Mock
+    RepositoryGestion repoGestion;
 
     @Test
     void getListDataSetsTest() throws JsonProcessingException {
@@ -209,10 +223,9 @@ public class DataSetsImplTest {
     })*/
     @MethodSource(value = "argumentsProvider")
     void testPresenceVariablePuisAjoutTest_checkFieldIsAdded(String key1, String key2, Supplier<List<LangContent>> getListLangContent) throws RmesException, JsonProcessingException {
-        var datasetImpl=new DataSetsImpl();
         var catalogue_result = new JSONObject(Map.of(key1, "l1", key2,"l2" ));
-        var expected=datasetImpl.constructLangContent("l1", "l2");
-        datasetImpl.testPresenceVariablePuisAjout(response, catalogue_result, new JSONObject(), new JSONObject(), new JSONObject(), new JSONObject());
+        var expected=dataSetsImpl.constructLangContent("l1", "l2");
+        dataSetsImpl.testPresenceVariablePuisAjout(response, catalogue_result, new JSONObject(), new JSONObject(), new JSONObject(), new JSONObject());
         assertThat(getListLangContent.get()).isEqualTo(expected);
     }
 
@@ -223,4 +236,19 @@ public class DataSetsImplTest {
                 Arguments.of("scopeNoteLg1", "scopeNoteLg2", (Supplier<List<LangContent>>) response::getScopeNote)
         );
     }
+    @BeforeAll
+    static void setUp(){
+        Config.LG1="fr";
+        Config.LG2="en";
+    }
+    @Test
+    void getDataSetByIDDateMiseAJourFalse_shouldReturn404IfInexistentId() throws RmesException {
+        JSONObject mockJSON = new JSONObject(EMPTY_DATASET);
+        when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
+
+        assertThatThrownBy(()->dataSetsImpl.findDataSetModelSwagger("1")).isInstanceOf(RmesException.class)
+                .matches(rmesException->((RmesException)rmesException).getStatus()==404)
+                .hasMessageContaining("Non existent dataset identifier");
+    }
+
 }

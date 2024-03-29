@@ -33,8 +33,6 @@ class PoguesImplTest {
     PoguesImpl poguesImpl=new PoguesImpl(new FreeMarkerUtilsStub());
     @Mock
     RepositoryGestion repoGestion;
-    @Mock
-    Config config;
     public static final String EMPTY_SERIES = "[]";
     public static final String EMPTY_OPERATION = "{}";
     @BeforeAll
