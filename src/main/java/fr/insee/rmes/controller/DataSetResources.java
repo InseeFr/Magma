@@ -93,7 +93,7 @@ public class DataSetResources {
 
     @PatchMapping(value = "/dataset/{id}/observationNumber")
 
-    @Operation(operationId = "updateObservationNumber", summary = "Update ObsevationNumber of a dataset")
+    @Operation(operationId = "updateObservationNumber", summary = "Update ObservationNumber of a dataset")
     public String patchDataSetDistributionsByIdNombreObservations(
             @PathVariable("id") String datasetId,
             @Schema(name ="observationNumber" )

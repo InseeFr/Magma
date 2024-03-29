@@ -251,4 +251,14 @@ public class DataSetsImplTest {
                 .hasMessageContaining("Non existent dataset identifier");
     }
 
+    @Test
+    void getDataSetByIDDateMiseAJour_shouldReturn404IfInexistentId() throws RmesException {
+        JSONObject mockJSON = new JSONObject(EMPTY_DATASET);
+        when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
+
+        assertThatThrownBy(()->dataSetsImpl.getDataSetByIDSummary("1")).isInstanceOf(RmesException.class)
+                .matches(rmesException->((RmesException)rmesException).getStatus()==404)
+                .hasMessageContaining("Non existent dataset identifier");
+    }
+
 }
