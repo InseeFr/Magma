@@ -1,16 +1,7 @@
 package fr.insee.rmes.services.utils;
 
 public class ResponseUtilsTest {
-    /*public static final String EXPECTED_JSON_SET_TITRE_LIST = "[\n" +
-            "      {\n" +
-            "        \"lang\": \"fr\",\n" +
-            "        \"content\": \"elementLg1\"\n" +
-            "      },\n" +
-            "      {\n" +
-            "        \"lang\": \"en\",\n" +
-            "        \"content\": \"elementLg2\"\n" +
-            "      }\n" +
-            "    ]";*/
+
     public static final String EXPECTED_JSON_SET_TITRE_LIST = "[LangContent(lang=fr, content=elementLg1), LangContent(lang=en, content=elementLg2)]";
     public static final String EXPECTED_MAP_INIT_PARAMS = "{STRUCTURES_GRAPH=StructureGraphTest, ORGANISATIONS_GRAPH=OrganisationsGraphTest, DATASETS_GRAPH=DatasetGraphTest, LG2=en, ADMS_GRAPH=AdmsGraphTest, CODES_GRAPH=CodesGraphTest, LG1=fr, ONTOLOGIES_GRAPH=OntologiesGraphTest, CONCEPTS_GRAPH=ConceptsGraphTest, OPERATIONS_GRAPH=OperationsGraphTest}";
 
