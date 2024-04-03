@@ -2,6 +2,7 @@ package fr.insee.rmes.services.concepts;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.rmes.persistence.RepositoryGestion;
+import fr.insee.rmes.services.utils.ResponseUtilsTest;
 import fr.insee.rmes.stubs.FreeMarkerUtilsStub;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import org.json.JSONObject;
@@ -26,7 +27,7 @@ class ConceptsImplTest {
 
     @Test
     void getDetailedConceptDateMAJ_shouldReturn404IfInexistentId() throws RmesException, JsonProcessingException {
-        JSONObject mockJSON = new JSONObject(EMPTY_CONCEPT);
+        JSONObject mockJSON = new JSONObject(ResponseUtilsTest.EMPTY_JSON_OBJECT);
         when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
 
         assertThatThrownBy(()->conceptsImpl.getDetailedConceptDateMAJ("1")).isInstanceOf(RmesException.class)
@@ -36,7 +37,7 @@ class ConceptsImplTest {
 
     @Test
     void getDetailedConceptDateMAJFalse_shouldReturn404IfInexistentId() throws RmesException, JsonProcessingException {
-        JSONObject mockJSON = new JSONObject(EMPTY_CONCEPT);
+        JSONObject mockJSON = new JSONObject(ResponseUtilsTest.EMPTY_JSON_OBJECT);
         when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
 
         assertThatThrownBy(()->conceptsImpl.getDetailedConcept("1")).isInstanceOf(RmesException.class)
