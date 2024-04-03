@@ -1,29 +1,28 @@
 package fr.insee.rmes.controller;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-import fr.insee.rmes.modelSwagger.structure.AllStructureModelSwagger;
-import fr.insee.rmes.modelSwagger.structure.StructureByIdModelSwagger;
 import fr.insee.rmes.modelSwagger.component.AllComponentModelSwagger;
 import fr.insee.rmes.modelSwagger.component.ComponentByIdModelSwagger;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.apache.http.HttpStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import fr.insee.rmes.modelSwagger.structure.AllStructureModelSwagger;
+import fr.insee.rmes.modelSwagger.structure.StructureByIdModelSwagger;
+import fr.insee.rmes.modelSwagger.structure.StructureSliceKeysModelSwagger;
 import fr.insee.rmes.services.structures.StructuresServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import org.apache.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value="/",produces = {"application/json"})
@@ -119,6 +118,21 @@ public class StructuresResources {
 			}else {
 				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResultat);
 			}
+		}
+
+	}
+
+	@GetMapping("/structure/{id}/sliceKeys")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(operationId = "getSlice", summary = "Get slice keys",security = @SecurityRequirement(name = "bearerScheme"),
+			responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array",implementation = StructureSliceKeysModelSwagger.class)))})
+
+	public ResponseEntity <String> getSlice(@PathVariable(Constants.ID) String id) throws RmesException, JsonProcessingException {
+		String jsonResult = structuresServices.getSlice(id);
+		if(jsonResult.isEmpty()){
+			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+		}else{
+			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
 		}
 
 	}
