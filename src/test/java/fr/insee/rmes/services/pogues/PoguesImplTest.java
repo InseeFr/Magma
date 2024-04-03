@@ -8,6 +8,7 @@ import fr.insee.rmes.model.operation.SerieById;
 import fr.insee.rmes.model.operation.SerieModel;
 import fr.insee.rmes.modelSwagger.operation.*;
 import fr.insee.rmes.persistence.RepositoryGestion;
+import fr.insee.rmes.services.utils.ResponseUtilsTest;
 import fr.insee.rmes.stubs.FreeMarkerUtilsStub;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
@@ -33,8 +34,7 @@ class PoguesImplTest {
     PoguesImpl poguesImpl=new PoguesImpl(new FreeMarkerUtilsStub());
     @Mock
     RepositoryGestion repoGestion;
-    public static final String EMPTY_SERIES = "[]";
-    public static final String EMPTY_OPERATION = "{}";
+
     @BeforeAll
     static void setUp(){
         Config.LG1="fr";
@@ -189,7 +189,7 @@ class PoguesImplTest {
     }
     @Test
     void getSerieById_shouldReturn404IfInexistentId() throws RmesException {
-        JSONArray mockJSON = new JSONArray(EMPTY_SERIES);
+        JSONArray mockJSON = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
         when(repoGestion.getResponseAsArray(Mockito.anyString())).thenReturn(mockJSON);
 
         assertThatThrownBy(()->poguesImpl.getSerieById("1")).isInstanceOf(RmesException.class)
@@ -199,7 +199,7 @@ class PoguesImplTest {
 
     @Test
     void getOperationByCode_shouldReturn404IfInexistentId() throws RmesException {
-        JSONObject mockJSON = new JSONObject(EMPTY_OPERATION);
+        JSONObject mockJSON = new JSONObject(ResponseUtilsTest.EMPTY_JSON_OBJECT);
         when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
 
         assertThatThrownBy(()->poguesImpl.getOperationByCode("1")).isInstanceOf(RmesException.class)

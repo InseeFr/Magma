@@ -2,6 +2,7 @@ package fr.insee.rmes.services.organisations;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.rmes.persistence.RepositoryGestion;
+import fr.insee.rmes.services.utils.ResponseUtilsTest;
 import fr.insee.rmes.stubs.FreeMarkerUtilsStub;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
@@ -29,7 +30,7 @@ class OrganisationsImplTest {
     OrganisationsImpl organisationsImpl=new OrganisationsImpl(new FreeMarkerUtilsStub());
     @Mock
     RepositoryGestion repoGestion;
-    public static final String EMPTY_ORGANIZATION = "{}";
+
     @BeforeAll
     static void setUp(){
         Config.LG1="fr";
@@ -44,7 +45,7 @@ class OrganisationsImplTest {
 
     @Test
     void getOrganisationById_shouldReturn404IfInexistentId() throws RmesException, JsonProcessingException {
-        JSONObject mockJSON = new JSONObject(EMPTY_ORGANIZATION);
+        JSONObject mockJSON = new JSONObject(ResponseUtilsTest.EMPTY_JSON_OBJECT);
         when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
 
         assertThatThrownBy(()->organisationsImpl.getOrganisationById("1")).isInstanceOf(RmesException.class)

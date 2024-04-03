@@ -2,6 +2,7 @@ package fr.insee.rmes.services.structures;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.rmes.persistence.RepositoryGestion;
+import fr.insee.rmes.services.utils.ResponseUtilsTest;
 import fr.insee.rmes.stubs.FreeMarkerUtilsStub;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
@@ -27,8 +28,6 @@ class StructuresImplTest {
     RepositoryGestion repoGestion;
     @Mock
     Config config;
-    public static final String EMPTY_STRUCTURE = "[]";
-    public static final String EMPTY_COMPONENT = "{}";
     @BeforeAll
     static void setUp(){
         Config.LG1="fr";
@@ -39,7 +38,7 @@ class StructuresImplTest {
 
     @Test
     void getStructureDateMAJ_shouldReturn404IfInexistentId() throws RmesException, JsonProcessingException {
-        JSONArray mockJSON = new JSONArray(EMPTY_STRUCTURE);
+        JSONArray mockJSON = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
         when(repoGestion.getResponseAsArray(Mockito.anyString())).thenReturn(mockJSON);
 
         assertThatThrownBy(()->structuresImpl.getStructureDateMAJ("1")).isInstanceOf(RmesException.class)
@@ -49,7 +48,7 @@ class StructuresImplTest {
 
     @Test
     void getStructureDateMAJFalse_shouldReturn404IfInexistentId() throws RmesException, JsonProcessingException {
-        JSONArray mockJSON = new JSONArray(EMPTY_STRUCTURE);
+        JSONArray mockJSON = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
         when(repoGestion.getResponseAsArray(Mockito.anyString())).thenReturn(mockJSON);
 
         assertThatThrownBy(()->structuresImpl.getStructure("1")).isInstanceOf(RmesException.class)
@@ -59,7 +58,7 @@ class StructuresImplTest {
 
     @Test
     void getComponentDateMAJ_shouldReturn404IfInexistentId() throws RmesException, JsonProcessingException {
-        JSONObject mockJSON = new JSONObject(EMPTY_COMPONENT);
+        JSONObject mockJSON = new JSONObject(ResponseUtilsTest.EMPTY_JSON_OBJECT);
         when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
 
         assertThatThrownBy(()->structuresImpl.getComponentDateMAJ("1")).isInstanceOf(RmesException.class)
@@ -69,7 +68,7 @@ class StructuresImplTest {
 
     @Test
     void getComponentDateMAJFalse_shouldReturn404IfInexistentId() throws RmesException, JsonProcessingException {
-        JSONObject mockJSON = new JSONObject(EMPTY_COMPONENT);
+        JSONObject mockJSON = new JSONObject(ResponseUtilsTest.EMPTY_JSON_OBJECT);
         when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
 
         assertThatThrownBy(()->structuresImpl.getComponent("1")).isInstanceOf(RmesException.class)
