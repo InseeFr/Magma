@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -54,6 +55,8 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	private static final String MAX_INCLUSIVE = "maxInclusive";
 	private static final String PATTERN = "pattern";
 	private static final String URI_CONCEPT = "uriConcept";
+	private static final String COMPOSANTS = "composants";
+	private static final String TYPE = "type";
 	String defaultDate = "2020-01-01T00:00:00.000";
 
 	public StructuresImpl(FreeMarkerUtils freeMarkerUtils) {
@@ -494,5 +497,35 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		return freeMarkerUtils.buildRequest("components/", fileName, params);
 	}
 
+	@Override
+	public String getSlice(String id) throws RmesException {
+		HashMap<String, Object> params = new HashMap<>();
+		params.put(STRUCTURES_GRAPH, Config.BASE_GRAPH + Config.STRUCTURES_GRAPH);
+		params.put(STRUCTURES_COMPONENTS_GRAPH_KEY, Config.BASE_GRAPH + Config.STRUCTURES_COMPONENTS_GRAPH);
+		params.put(CODELIST_GRAPH_KEY, Config.BASE_GRAPH + config.getCodelistGraph());
+		params.put("ID", id);
+		params.put("LG1", config.getLG1());
+		params.put("LG2", config.getLG2());
 
+		JSONArray sliceStructure = repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH, "getStructureSliceKeys.ftlh", params));
+		for (int i = 0; i < sliceStructure.length(); i++) {
+			JSONObject structure = (JSONObject) sliceStructure.get(i);
+			structure.put(LABEL, this.formatLabel(structure));
+			if (structure.has("componentIds")){
+				List<String> composants = List.of(structure.getString("componentIds").split(","));
+				structure.put(COMPOSANTS,composants);
+			}
+			if (structure.has("typeSliceKey")){
+				String typeSlice=structure.getString("typeSliceKey");
+				structure.put(TYPE,typeSlice);
+			}
+			CommonMethods.removePrefLabels(structure);
+			structure.remove("componentIds");
+			structure.remove("sliceKey");
+			structure.remove("typeSliceKey");
+
+		}
+
+		return sliceStructure.toString();
+	}
 }
