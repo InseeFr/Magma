@@ -27,7 +27,8 @@ public class DataSetsUtilsTest {
               "titreLg2":"title",
               "uri":"http://bauhaus/catalogues/jeuDeDonnees/jd1001"
               }
-           ]"""
+           ]
+           """
            ;
     public static final String EXPECTED_GET_DATA_SET_LIST= """
             [
