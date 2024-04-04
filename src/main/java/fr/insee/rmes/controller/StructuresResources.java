@@ -99,25 +99,25 @@ public class StructuresResources {
 	public ResponseEntity<Object> getComponentById(
 			@PathVariable(Constants.ID) String id,
 			@RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
-	) {
+	) throws RmesException {
 		if (!boolDateMiseAJour){
-			String jsonResultat;
-			try {
-				jsonResultat = structuresServices.getComponent(id).toString();
-			} catch (RmesException e) {
-				return ResponseEntity.status(e.getStatus()).body(e.getDetails());
+			String jsonResultat = structuresServices.getComponent(id).toString();
+			if(jsonResultat.isEmpty()){
+				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body(NO_RESULT_FOUND);
+
+			}else {
+				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResultat);
 			}
-			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResultat);
 		}
 
 		else{
-			String jsonResultat;
-			try {
-				jsonResultat = structuresServices.getComponentDateMAJ(id).toString();
-			} catch (RmesException e) {
-				return ResponseEntity.status(e.getStatus()).body(e.getDetails());
+			String jsonResultat = structuresServices.getComponentDateMAJ(id).toString();
+			if(jsonResultat.isEmpty()){
+				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body(NO_RESULT_FOUND);
+
+			}else {
+				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResultat);
 			}
-			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResultat);
 		}
 
 	}

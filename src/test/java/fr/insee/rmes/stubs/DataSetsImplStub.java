@@ -5,7 +5,7 @@ import fr.insee.rmes.model.datasets.Uri;
 import fr.insee.rmes.modelSwagger.dataset.DataSetModelSwagger;
 import fr.insee.rmes.services.datasets.DataSetsImpl;
 
-import static fr.insee.rmes.services.datasets.DataSetsImplTest.URI_TEST;
+import static fr.insee.rmes.services.utils.DataSetsUtilsTest.URI_TEST;
 
 public class DataSetsImplStub extends DataSetsImpl {
 
