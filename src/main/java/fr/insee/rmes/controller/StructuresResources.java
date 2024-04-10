@@ -10,6 +10,7 @@ import fr.insee.rmes.services.structures.StructuresServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -42,8 +43,11 @@ public class StructuresResources {
 	@GetMapping("/structures")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getAllStructures", summary = "Get all structures",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = AllStructureModelSwagger.class)))})
-	public ResponseEntity <String> getAllStructures() throws RmesException {
-		String jsonResult = structuresServices.getAllStructures();
+	public ResponseEntity <String> getAllStructures(@RequestParam(required = false) @Parameter(description = "Date of last update. Example: 2023-01-31") String dateMiseAJour) throws RmesException {
+		if (dateMiseAJour == null){
+			dateMiseAJour = "";
+		}
+		String jsonResult = structuresServices.getAllStructures(dateMiseAJour);
 		if(jsonResult.isEmpty()){
 			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body(NO_RESULT_FOUND);
 		}else {

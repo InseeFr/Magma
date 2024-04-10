@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface StructuresServices {
 
-	String getAllStructures() throws RmesException;
+	String getAllStructures(String dateMiseAJour) throws RmesException;
 
 	String getStructure(String id) throws RmesException, JsonProcessingException;
 
