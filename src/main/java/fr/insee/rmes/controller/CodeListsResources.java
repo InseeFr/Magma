@@ -7,6 +7,7 @@ import fr.insee.rmes.services.codelists.CodeListsServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -42,8 +43,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getAllCodesLists", summary = "Get all codes lists", security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = AllListCodeModelSwagger.class)))})
-    public ResponseEntity<String> getallCodesLists() throws RmesException {
-        String jsonResult = codeListsServices.getAllCodesLists();
+    public ResponseEntity<String> getallCodesLists(@RequestParam(required = false) @Parameter(description = "Date of last update. Example: 2023-01-31") String dateMiseAJour) throws RmesException {
+        if (dateMiseAJour == null){
+            dateMiseAJour = "";
+        }
+        String jsonResult = codeListsServices.getAllCodesLists(dateMiseAJour);
         if (jsonResult.isEmpty()) {
             return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
         } else {
