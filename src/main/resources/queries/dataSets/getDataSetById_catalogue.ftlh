@@ -17,9 +17,6 @@ SELECT DISTINCT ?id ?uri ?titleLg1 ?titleLg2
 FROM <${DATASETS_GRAPH}>
 FROM <${ORGANISATIONS_GRAPH}>
 FROM <${ORGANISATIONS_GRAPH}/insee>
-FROM <http://rdf.insee.fr/graphes/catalogue>
-FROM <http://rdf.insee.fr/graphes/organisations>
-FROM <http://rdf.insee.fr/graphes/organisations/insee>
 WHERE {
     ?uri a dcat:Dataset ;
          dcterms:identifier "${ID}" ;
