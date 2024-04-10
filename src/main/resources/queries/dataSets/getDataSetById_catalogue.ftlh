@@ -44,7 +44,9 @@ OPTIONAL {?uri prov:wasGeneratedBy ?wasGeneratedBy } .
 		OPTIONAL{?uri insee:numObservations ?numObservations} .
 		OPTIONAL{?uri stat-dcat-ap:numSeries ?numSeries}
 		OPTIONAL{?uri insee:structure ?structure  } .
-		OPTIONAL {?uri prov:wasDerivedFrom ?wasDerivedFromS } .
+		OPTIONAL {?uri prov:wasDerivedFrom ?wasDerivedFrom .
+            	?wasDerivedFrom dcterms:identifier ?wasDerivedFromS
+            	} .
 		OPTIONAL {?uri prov:qualifiedDerivation ?qualifiedDerivation .
             		?qualifiedDerivation dcterms:description ?derivedDescriptionLg1 .
             		FILTER (lang(?derivedDescriptionLg1) = 'fr') .

@@ -294,14 +294,14 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
         //récupération de derivedFromS quand il est non vide
         if (!catalogue_result.optString("wasDerivedFromS").isEmpty()){
-            List<String> urisWasDerivedFromList = List.of(catalogue_result.getString("wasDerivedFromS").split(","));
-            List<String> datasets = getDerivedFrom(urisWasDerivedFromList);
+            List<String> wasDerivedFromList = List.of(catalogue_result.getString("wasDerivedFromS").split(","));
+
             if (!catalogue_result.optString("derivedDescriptionLg1").isEmpty() && !catalogue_result.optString("derivedDescriptionLg2").isEmpty()) {
-                WasDerivedFrom wasDerivedFrom = constructWasDerivedFrom(datasets, catalogue_result.getString("derivedDescriptionLg1"), catalogue_result.getString("derivedDescriptionLg2"));
+                WasDerivedFrom wasDerivedFrom = constructWasDerivedFrom(wasDerivedFromList, catalogue_result.getString("derivedDescriptionLg1"), catalogue_result.getString("derivedDescriptionLg2"));
                 reponse.setWasDerivedFrom(wasDerivedFrom);
             }
             else {
-                WasDerivedFrom wasDerivedFrom = constructWasDerivedFrom(datasets);
+                WasDerivedFrom wasDerivedFrom = constructWasDerivedFrom(wasDerivedFromList);
                 reponse.setWasDerivedFrom(wasDerivedFrom);
             }
 
@@ -517,17 +517,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             spatialResolution.add(spatialResolutionIdLabel);
         }
         return spatialResolution;
-    }
-
-    private List<String> getDerivedFrom(List<String> wasDerivedFromS) throws RmesException {
-        List<String> DerivedFrom = new ArrayList<>();
-        for (String s : wasDerivedFromS){
-            params.put("URI", s.replace(" ", ""));
-
-            JSONObject wasDerivedFromSQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdWasDerivedFrom.ftlh", params));
-            DerivedFrom.add(wasDerivedFromSQuery.getString("wasDerivedFrom"));
-        }
-        return DerivedFrom;
     }
 
     private List<ThemeModelSwagger> getThemeModelSwaggerS(JSONObject dataSetId) throws RmesException, JsonProcessingException {
