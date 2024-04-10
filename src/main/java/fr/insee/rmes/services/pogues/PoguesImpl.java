@@ -6,20 +6,26 @@ import fr.insee.rmes.model.operation.OperationBySerieId;
 import fr.insee.rmes.model.operation.SerieById;
 import fr.insee.rmes.model.operation.SerieModel;
 import fr.insee.rmes.modelSwagger.operation.*;
+import fr.insee.rmes.persistence.FreeMarkerUtils;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
-
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
 public class PoguesImpl extends RdfService implements PoguesServices {
-
+    public PoguesImpl(FreeMarkerUtils freeMarkerUtils) {
+        super(freeMarkerUtils);
+    }
     @Override
     public String getAllSeriesLists(Boolean survey) throws RmesException, IOException {
         Map<String, Object> params = initParams();
@@ -137,6 +143,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         params.put("LG2", Config.LG2);
 
         JSONArray serieId= repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getSerieById.ftlh", params));
+        if (!serieId.isEmpty()) {
 
         JSONObject serieIdwithOneProprietaire = serieId.getJSONObject(0);
         List <String> proprietaires = new ArrayList<>();
@@ -184,7 +191,10 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,serieById.getSeries(),serieById.getId(),frequenceSerie,serieById.getNbOperation(),familleSerie,proprietaires);
 
         return mapper.writeValueAsString(serieByIdModelSwagger);
-
+        }
+        else {
+            throw new RmesException(HttpStatus.NOT_FOUND, "Non existent series identifier", "The id " + id + " does not correspond to any series");
+        }
     }
 
     @Override
@@ -227,28 +237,30 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         Map<String, Object> params = initParams();
         params.put("ID", id);
         JSONObject operationId = repoGestion.getResponseAsObject(buildRequest(Constants.POGUES_QUERIES_PATH, "getOperationByCode.ftlh", params));
+        if (operationId.has("operationId")) {
+            ObjectMapper jsonResponse = new ObjectMapper();
+            OperationById operationById = jsonResponse.readValue(operationId.toString(), OperationById.class);
 
-        ObjectMapper jsonResponse =new ObjectMapper();
-        OperationById operationById = jsonResponse.readValue(operationId.toString(),OperationById.class);
-
-        ObjectMapper mapper = new ObjectMapper();
-        Label labelSerie1= new Label(Config.LG1, operationById.getSeriesLabelLg1());
-        Label labelSerie2= new Label(Config.LG2, operationById.getSeriesLabelLg2());
+            ObjectMapper mapper = new ObjectMapper();
+            Label labelSerie1 = new Label(Config.LG1, operationById.getSeriesLabelLg1());
+            Label labelSerie2 = new Label(Config.LG2, operationById.getSeriesLabelLg2());
             List<Label> label = new ArrayList<>();
-                label.add(labelSerie1);
-                label.add(labelSerie2);
-        Serie serie= new Serie(operationById.getSeriesId(), label, operationById.getSeries());
-        Label labelOperation1=new Label(Config.LG1,operationById.getOperationLabelLg1());
-        Label labelOperation2=new Label(Config.LG2,operationById.getOperationLabelLg2());
+            label.add(labelSerie1);
+            label.add(labelSerie2);
+            Serie serie = new Serie(operationById.getSeriesId(), label, operationById.getSeries());
+            Label labelOperation1 = new Label(Config.LG1, operationById.getOperationLabelLg1());
+            Label labelOperation2 = new Label(Config.LG2, operationById.getOperationLabelLg2());
             List<Label> labelOperation = new ArrayList<>();
-                labelOperation.add(labelOperation1);
-                labelOperation.add(labelOperation2);
+            labelOperation.add(labelOperation1);
+            labelOperation.add(labelOperation2);
 
-        OperationByIdModelSwagger operationByIdModelSwagger= new OperationByIdModelSwagger(serie,operationById.getId(),labelOperation, operationById.getUri());
-        if (operationById.getProprietaire() != null){
-            operationByIdModelSwagger.setProprietaire(operationById.getProprietaire());
+            OperationByIdModelSwagger operationByIdModelSwagger = new OperationByIdModelSwagger(serie, operationById.getId(), labelOperation, operationById.getUri());
+            if (operationById.getProprietaire() != null) {
+                operationByIdModelSwagger.setProprietaire(operationById.getProprietaire());
+            }
+            return mapper.writeValueAsString(operationByIdModelSwagger);
         }
-        return mapper.writeValueAsString(operationByIdModelSwagger);
+        else throw new RmesException(HttpStatus.NOT_FOUND, "Non existent operation identifier", "The id " + id + " does not correspond to any operation");
     }
 
 

@@ -6,16 +6,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.rmes.model.CodeList.Code;
 import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
+import fr.insee.rmes.persistence.FreeMarkerUtils;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.services.codelists.CodeListsServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,12 +28,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
-
-import static org.apache.commons.lang3.StringUtils.substring;
-
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
 public class DataSetsImpl extends RdfService implements DataSetsServices {
-
+    public DataSetsImpl(FreeMarkerUtils freeMarkerUtils) {
+    }
     private static final Logger logger = LoggerFactory.getLogger(DataSetsImpl.class);
     public static final String CONTENU = "contenu";
     public static final String LANGUE = "langue";
@@ -37,7 +40,10 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
     public Map<String,Object> params = initParams();
     public ObjectMapper objectMapper = new ObjectMapper();
-       @Override
+
+
+
+    @Override
     public String getListDataSets () throws RmesException, JsonProcessingException {
 
         JSONArray listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH,"getListDatasets.ftlh", params));
@@ -130,16 +136,14 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
     protected DataSetModelSwagger findDataSetModelSwagger(String id) throws RmesException, JsonProcessingException {
         //paramétrage de la requête
-
         params.put("ID", id);
-
-
         JSONObject catalogue_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogue.ftlh", params));
-        JSONObject adms_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueAdms.ftlh", params));
-        JSONObject codes_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueCodes.ftlh", params));
-        JSONObject ontologies_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueOntologies.ftlh", params));
-        JSONObject organisations_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueOrganisations.ftlh", params));
-        JSONObject structures_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueStructures.ftlh", params));
+        if (catalogue_result.has("id")) {
+            JSONObject adms_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueAdms.ftlh", params));
+            JSONObject codes_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueCodes.ftlh", params));
+            JSONObject ontologies_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueOntologies.ftlh", params));
+            JSONObject organisations_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueOrganisations.ftlh", params));
+            JSONObject structures_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueStructures.ftlh", params));
 
         //récupération du titre
         List<LangContent> title = constructLangContent(catalogue_result.getString("titleLg1"), catalogue_result.getString("titleLg2"));
@@ -154,6 +158,9 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         DataSetModelSwagger response = new DataSetModelSwagger(id1, title, uri, validationState, disseminationStatus, catalogRecordCreated,catalogRecordModified,catalogRecordCreator,catalogRecordContributor);
         testPresenceVariablePuisAjout(response,catalogue_result,adms_result,codes_result,organisations_result,structures_result);
         return response;
+        } else {
+            throw new RmesException(HttpStatus.NOT_FOUND, "Non existent dataset identifier", "The id " + id + " does not correspond to any dataset");
+        }
     }
 
     protected void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
@@ -338,14 +345,19 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         //requête intiale
         JSONObject dataSetId = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIDSummary.ftlh", params));
-        DataSet dataSet = objectMapper.readValue(dataSetId.toString(), DataSet.class);
+        if (dataSetId.has("id")) {
+            DataSet dataSet = objectMapper.readValue(dataSetId.toString(), DataSet.class);
 
-        Id id1=new Id(dataSet.getId());
-        Uri uri = new Uri(dataSet.getUri());
-        Modified modified = new Modified(dataSet.getDateMiseAJour());
-        DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(id1, uri, modified);
-        JsonNode dataSetFinalNode = emptyDataSetModelSwagger(dataSetModelSwagger);
-        return dataSetFinalNode.toString();
+            Id id1 = new Id(dataSet.getId());
+            Uri uri = new Uri(dataSet.getUri());
+            Modified modified = new Modified(dataSet.getDateMiseAJour());
+            DataSetModelSwagger dataSetModelSwagger = new DataSetModelSwagger(id1, uri, modified);
+            JsonNode dataSetFinalNode = emptyDataSetModelSwagger(dataSetModelSwagger);
+            return dataSetFinalNode.toString();
+        }
+        else {
+            throw new RmesException(HttpStatus.NOT_FOUND, "Non existent dataset identifier", "The id " + id + " does not correspond to any dataset");
+            }
     }
 
 

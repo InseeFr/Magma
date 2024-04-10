@@ -1,4 +1,4 @@
-SELECT (COUNT(?uri) AS ?count)
+SELECT (COUNT(?uri) AS ?count) ?uriListe
 FROM <${CODELIST_GRAPH}>
 WHERE {
     {
@@ -36,3 +36,4 @@ UNION
         ?parentsParent skos:notation ?parents } .
     }
 }
+GROUP BY ?uriListe
