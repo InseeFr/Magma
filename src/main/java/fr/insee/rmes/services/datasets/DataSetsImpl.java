@@ -145,28 +145,36 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             JSONObject organisations_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueOrganisations.ftlh", params));
             JSONObject structures_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueStructures.ftlh", params));
 
-            //récupération du titre
-            List<LangContent> title = constructLangContent(catalogue_result.getString("titleLg1"), catalogue_result.getString("titleLg2"));
-            Id id1 = new Id(catalogue_result.getString("id"));
-            Uri uri = new Uri(catalogue_result.getString("uri"));
-            Modified modified = new Modified(catalogue_result.getString("dateModification"));
-            List<String> creatorUris = List.of(catalogue_result.getString("creators").split(","));
-            List<IdLabel> creator = getCreator(creatorUris);
-            DisseminationStatus disseminationStatus = new DisseminationStatus(ontologies_result.getString("labeldisseminationStatusLg1"));
-            CatalogRecordCreated catalogRecordCreated = new CatalogRecordCreated(catalogue_result.getString("catalogRecordCreated"));
-            CatalogRecordModified catalogRecordModified = new CatalogRecordModified(catalogue_result.getString("catalogRecordModified"));
-            CatalogRecordCreator catalogRecordCreator = new CatalogRecordCreator(catalogue_result.getString("catalogRecordCreator"));
-            CatalogRecordContributor catalogRecordContributor = new CatalogRecordContributor(catalogue_result.getString("catalogRecordContributor"));
-            String validationState = catalogue_result.getString("statutValidation");
-            DataSetModelSwagger response = new DataSetModelSwagger(id1, title, uri, modified, validationState, creator, disseminationStatus, catalogRecordCreated, catalogRecordModified, catalogRecordCreator, catalogRecordContributor);
-            testPresenceVariablePuisAjout(response, catalogue_result, adms_result, codes_result, organisations_result, structures_result);
-            return response;
+        //récupération du titre
+        List<LangContent> title = constructLangContent(catalogue_result.getString("titleLg1"), catalogue_result.getString("titleLg2"));
+        Id id1=new Id(catalogue_result.getString("id"));
+        Uri uri = new Uri(catalogue_result.getString("uri"));
+        DisseminationStatus disseminationStatus = new DisseminationStatus(ontologies_result.getString("labeldisseminationStatusLg1"));
+        CatalogRecordCreated catalogRecordCreated = new CatalogRecordCreated(catalogue_result.getString("catalogRecordCreated"));
+        CatalogRecordModified catalogRecordModified = new CatalogRecordModified(catalogue_result.getString("catalogRecordModified"));
+        CatalogRecordCreator catalogRecordCreator = new CatalogRecordCreator(catalogue_result.getString("catalogRecordCreator"));
+        CatalogRecordContributor catalogRecordContributor = new CatalogRecordContributor(catalogue_result.getString("catalogRecordContributor"));
+        String validationState = catalogue_result.getString("statutValidation");
+        DataSetModelSwagger response = new DataSetModelSwagger(id1, title, uri, validationState, disseminationStatus, catalogRecordCreated,catalogRecordModified,catalogRecordCreator,catalogRecordContributor);
+        testPresenceVariablePuisAjout(response,catalogue_result,adms_result,codes_result,organisations_result,structures_result);
+        return response;
         } else {
             throw new RmesException(HttpStatus.NOT_FOUND, "Non existent dataset identifier", "The id " + id + " does not correspond to any dataset");
         }
     }
 
     protected void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
+        //récupération de le date de mofidication
+        if (catalogue_result.has("dateModification")) {
+            Modified modified = new Modified(catalogue_result.getString("dateModification"));
+            reponse.setModified(modified.toString());
+        }
+        //récupération de la liste de creators
+        if (!catalogue_result.optString("creators").isEmpty()){
+            List<String> creatorUris = List.of(catalogue_result.getString("creators").split(","));
+            List<IdLabel> creator = getCreator(creatorUris);
+            reponse.setCreator(creator);
+        }
         //récupération du subtitle
         if (catalogue_result.has("subtitleLg1") && catalogue_result.has("subtitleLg2")) {
             List<LangContent> subtitle = constructLangContent(catalogue_result.getString("subtitleLg1"), catalogue_result.getString("subtitleLg2"));
@@ -307,7 +315,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         }
         //récupération de archiveUnit
-        if (adms_result.has("archiveUnits")) {
+        if (!adms_result.optString("archiveUnits").isEmpty()) {
             List<String> urisArchiveUnit = List.of(adms_result.getString("archiveUnits").split(","));
             List<IdLabel> archiveUnitList = getArchiveUnit(urisArchiveUnit);
             reponse.setArchiveUnit(archiveUnitList);
@@ -319,8 +327,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 reponse.setTemporalResolution(temporalResolutionList);
         }
 
-//        récupération de spatialResolution
-        if (codes_result.has("spatialResolutions")) {
+        //récupération de spatialResolution
+        if (!codes_result.optString("spatialResolutions").isEmpty()) {
             List<String> urisSpatialResolution = List.of(codes_result.getString("spatialResolutions").split(","));
             List<IdLabel> spatialResolutionList = getSpatialResolution(urisSpatialResolution);
             reponse.setSpatialResolution(spatialResolutionList);
