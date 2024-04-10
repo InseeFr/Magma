@@ -47,7 +47,7 @@ class DataSetsImplTest {
     void getListDataSetsTest() throws RmesException, JsonProcessingException {
         JSONArray mockJSON = new JSONArray(DataSetsUtilsTest.DATA_SET_LIST);
         when(repoGestion.getResponseAsArray(Mockito.anyString())).thenReturn(mockJSON);
-        assertThat(MAPPER.readTree(dataSetsImpl.getListDataSets())).isEqualTo(MAPPER.readTree(DataSetsUtilsTest.EXPECTED_GET_DATA_SET_LIST.toString()));
+        assertThat(MAPPER.readTree(dataSetsImpl.getListDataSets(""))).isEqualTo(MAPPER.readTree(DataSetsUtilsTest.EXPECTED_GET_DATA_SET_LIST.toString()));
     }
 
 

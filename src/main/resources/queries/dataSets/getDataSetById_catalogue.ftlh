@@ -31,7 +31,7 @@ WHERE {
 		^foaf:primaryTopic/dc:creator ?catalogRecordCreator ;
 		^foaf:primaryTopic/dc:contributor ?catalogRecordContributor ;
 		^foaf:primaryTopic/dcterms:modified ?catalogRecordModified ;
-		^foaf:primaryTopic/dcterms:created ?catalogRecordCreated ;
+		^foaf:primaryTopic/dct :created ?catalogRecordCreated ;
 		}
 		BIND( if(?isValidated="Unpublished","Provisoire, jamais publiée","Publiée") as ?statutValidation )
 		FILTER (lang(?titleLg1) = '${LG1}')
