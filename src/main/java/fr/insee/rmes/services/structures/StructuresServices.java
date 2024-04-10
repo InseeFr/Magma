@@ -14,7 +14,7 @@ public interface StructuresServices {
 
 	String getStructure(String id) throws RmesException, JsonProcessingException;
 
-	String getAllComponents() throws RmesException;
+	String getAllComponents(String dateMiseAJour) throws RmesException;
 
 	JSONObject getComponent(String id) throws RmesException;
 

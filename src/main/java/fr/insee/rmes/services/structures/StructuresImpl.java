@@ -235,9 +235,16 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	private static final String STATUT_VALIDATION = "statutValidation";
 
 	@Override
-	public String getAllComponents() throws RmesException {
+	public String getAllComponents(String dateMiseAJour) throws RmesException {
 		Map<String, Object> params = initParams();
-		JSONArray components =  repoGestion.getResponseAsArray(buildRequest(Constants.COMPONENTS_QUERIES_PATH,"getComponents.ftlh", params));
+		JSONArray components = new JSONArray();
+		if (dateMiseAJour == ""){
+			components =  repoGestion.getResponseAsArray(buildRequest(Constants.COMPONENTS_QUERIES_PATH,"getComponents.ftlh", params));
+		}
+		else {
+			params.put("DATE",dateMiseAJour);
+			components = repoGestion.getResponseAsArray(buildRequest(Constants.COMPONENTS_QUERIES_PATH,"getComponentsFilterByDate.ftlh", params));
+		}
 
 		for (int i = 0; i < components.length(); i++) {
 			JSONObject  component= components.getJSONObject(i);
