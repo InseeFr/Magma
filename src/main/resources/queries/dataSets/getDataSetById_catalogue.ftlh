@@ -29,6 +29,7 @@ WHERE {
         ?uri dcterms:creator ?creators .
     }
 
+
     OPTIONAL {
         ?uri dcterms:modified ?dateModification .
     }

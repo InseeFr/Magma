@@ -53,7 +53,7 @@ class CodeListImplTest {
         JSONArray mockJSON = new JSONArray(CodeListUtilsTest.RDF_OUTPUT);
 
         Mockito.when(repoGestion.getResponseAsArray(Mockito.anyString())).thenReturn(mockJSON);
-        assertThat(MAPPER.readTree(codeList.getAllCodesLists())).isEqualTo(MAPPER.readTree(CodeListUtilsTest.RDF_OUTPUT_EXPECTED));
+        assertThat(MAPPER.readTree(codeList.getAllCodesLists(""))).isEqualTo(MAPPER.readTree(CodeListUtilsTest.RDF_OUTPUT_EXPECTED));
 
     }
 

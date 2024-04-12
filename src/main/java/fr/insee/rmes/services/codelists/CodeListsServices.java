@@ -8,7 +8,7 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 @Service
 public interface CodeListsServices {
 
-	String getAllCodesLists() throws RmesException;
+	String getAllCodesLists(String dateMiseAJour) throws RmesException;
 
 	String getCodesList(String notation) throws RmesException;
 

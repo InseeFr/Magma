@@ -10,7 +10,7 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 public interface ConceptsServices {
     String getDetailedConcept(String id) throws RmesException, JsonProcessingException;
 
-    String getAllConcepts() throws RmesException;
+    String getAllConcepts(String dateMiseAJour) throws RmesException;
 
     String getDetailedConceptDateMAJ(String id) throws RmesException, JsonProcessingException;
 }

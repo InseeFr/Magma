@@ -44,10 +44,15 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
     @Override
-    public String getListDataSets () throws RmesException, JsonProcessingException {
-
-        JSONArray listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH,"getListDatasets.ftlh", params));
-
+    public String getListDataSets(String dateMiseAJour) throws RmesException, JsonProcessingException {
+        JSONArray listDataSet = new JSONArray();
+        if (dateMiseAJour == ""){
+            listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH,"getListDatasets.ftlh", params));
+        }
+        else{
+            params.put("DATE",dateMiseAJour);
+            listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH,"getListDatasetsFilterByDate.ftlh", params));
+        }
 
         DataSet[] dataSets = objectMapper.readValue(listDataSet.toString(), DataSet[].class);
         List<DataSetModelSwagger> dataSetListModelSwaggerS= new ArrayList<>();
@@ -62,10 +67,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             dataSetListModelSwaggerS.add(dataSetModelSwagger);
         }
 
-        return objectMapper.writeValueAsString(dataSetListModelSwaggerS);
-
-    }
-
+        return objectMapper.writeValueAsString(dataSetListModelSwaggerS);    }
 
 
     @Override

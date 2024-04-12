@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
 public class ConceptsImpl extends RdfService implements ConceptsServices {
@@ -36,11 +38,8 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
 
     @Override
     public String getDetailedConcept(String id) throws RmesException, JsonProcessingException {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("LG1", Config.LG1);
-        params.put("LG2", Config.LG2);
+        Map<String, Object> params = initParams();
         params.put("ID", id);
-        params.put(CONCEPTS_GRAPH, Config.BASE_GRAPH + Config.CONCEPTS_GRAPH);
 
         JSONObject concept = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH, "getDetailedConcept.ftlh", params));
         JSONObject defcourtefr = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH, "getConceptDefCourteFR.ftlh", params));
@@ -101,11 +100,8 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
 
     @Override
     public String getDetailedConceptDateMAJ(String id) throws RmesException, JsonProcessingException {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("LG1", Config.LG1);
-        params.put("LG2", Config.LG2);
+        Map<String, Object> params = initParams();
         params.put("ID", id);
-        params.put(CONCEPTS_GRAPH, Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
 
         JSONObject concept = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getDetailedConceptDateMAJ.ftlh", params));
         if (concept.has("id")) {
@@ -125,15 +121,25 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
 
 
     @Override
-    public String getAllConcepts() throws RmesException {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("LG1", Config.LG1);
-        params.put("LG2", Config.LG2);
-        params.put(CONCEPTS_GRAPH, Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
-        JSONArray conceptLists= repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getAllConcepts.ftlh", params));
+    public String getAllConcepts(String dateMiseAJour) throws RmesException {
+        Map<String, Object> params = initParams();
+        JSONArray conceptLists = new JSONArray();
+        if (dateMiseAJour ==""){
+            conceptLists = repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getAllConcepts.ftlh", params));
+        }
+        else {
+            params.put("DATE",dateMiseAJour);
+            conceptLists = repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getAllConceptsFilterByDate.ftlh", params));
+        }
         return conceptLists.toString();
     }
 
-
+    public Map<String, Object> initParams() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("LG1", Config.LG1);
+        params.put("LG2", Config.LG2);
+        params.put(CONCEPTS_GRAPH, Config.BASE_GRAPH+Config.CONCEPTS_GRAPH);
+        return params;
+    }
 
 }
