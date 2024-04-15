@@ -58,7 +58,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "structure",
         "numObservations",
         "numSeries",
-        "wasDerivedFrom"
+        "wasDerivedFrom",
+        "relations"
 })
 
 @Generated("jsonschema2pojo")
@@ -142,6 +143,8 @@ public class DataSetModelSwagger implements Serializable  {
     private Integer numObservations;
     @JsonProperty("numSeries")
     private Integer numSeries;
+    @JsonProperty("relations")
+    private List<String> relations;
 
 
 
