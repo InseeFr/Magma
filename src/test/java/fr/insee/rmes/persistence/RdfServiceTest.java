@@ -63,17 +63,6 @@ class RdfServiceTest {
         assertEquals("Provisoire, déjà publiée", result3);
     }
 
-    @Test
-    @DisplayName("Test de BuildRequest")
-    void buildRequestTest() {
-        //GIVEN
-        //WHEN
-        //THEN
-
-    }
-
-
-
 
 
 }
