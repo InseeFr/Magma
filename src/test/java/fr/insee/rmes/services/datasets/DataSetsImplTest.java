@@ -162,15 +162,14 @@ class DataSetsImplTest {
                 .hasMessageContaining("Non existent dataset identifier");
     }
 
-    private static final String CATALOGUE_RESULT_RELATIONS = "{\"relations\":\"http://www.insee.fr,http://www.rdf.insee.fr\"}";
-    private static final String EXPECTED_RELATIONS = "[\"http://www.insee.fr\", \"http://www.rdf.insee.fr\"]";
+
     @Test
     void testPresenceRelationsPuisAjout_checkFieldIsAdded() throws RmesException, JsonProcessingException {
 
         var datasetImpl=new DataSetsImpl();
         var response = new DataSetModelSwagger();
-        var catalogue_result = new JSONObject(CATALOGUE_RESULT_RELATIONS);
-        var expected = new JSONArray(EXPECTED_RELATIONS);
+        var catalogue_result = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_RELATIONS);
+        var expected = new JSONArray(DataSetsUtilsTest.EXPECTED_RELATIONS);
         datasetImpl.testPresenceVariablePuisAjout(response,catalogue_result,new JSONObject(),new JSONObject(),new JSONObject(),new JSONObject());
         assertThat(response.getRelations().get(0)).isEqualTo(expected.get(0));
         assertThat(response.getRelations().get(1)).isEqualTo(expected.get(1));
