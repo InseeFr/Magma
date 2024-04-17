@@ -15,6 +15,7 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -88,13 +90,26 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return dataSetFinalNode;
     }
 
-    @Override
-    public String patchDataset(String datasetId, String observationNumber, String token) throws RmesException {
-        try {
+    public JSONObject formattedJsonDataset(JSONObject givenJson) {
+        JSONObject jsonResponse = new JSONObject();
+        for (PatchDatasetProperties property : PatchDatasetProperties.values()) {
+            String key = property.toString();
+            if (givenJson.has(key)) {
+                Object value = givenJson.get(key);
+                jsonResponse.put(key, value);
+            }
+        }
+        return jsonResponse;
+    }
 
+    @Override
+    public String patchDataset(String datasetId, String stringPatchDataset, String token) throws RmesException, MalformedURLException {
+        try {
+            JSONObject jsonPatchDataset = new JSONObject(stringPatchDataset);
+            JSONObject formattedJson = formattedJsonDataset(jsonPatchDataset);
             String urlString = Config.BAUHAUS_URL + "/datasets/" + datasetId + "/observationNumber";
             HttpClient client = HttpClient.newHttpClient();
-            String jsonInputString = String.format("%s", observationNumber);
+            String jsonInputString = String.format("%s", formattedJson);
             String id = getIdFromJWT(token);
             String email = getEmailFromJWT(token);
             HttpRequest request = HttpRequest.newBuilder()
@@ -105,12 +120,14 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                     .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonInputString))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            logger.trace("l'id "+id + " ("+ email + ") a patché le dataset :" + datasetId);
+            logger.trace("l'id " + id + " (" + email + ") a patché le dataset :" + datasetId);
             return response.body();
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException | JSONException e) {
             throw new RuntimeException(e);
         }
     }
+
+
 
     private String getIdFromJWT(String jwt){
            jwt.replaceAll("Bearer ","");
@@ -456,6 +473,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
         return distributionReponse;
     }
+
+
 
     private List<IdLabel> getCreator(List<String> creatorUris) throws RmesException {
         List<IdLabel> creator = new ArrayList<>();

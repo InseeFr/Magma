@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.http.HttpStatus;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,16 @@ public class DataSetResources {
 
     @Autowired
     DataSetsServices dataSetsServices;
+
+    private static final String EXAMPLE_PATCH_DATASET = """
+            {
+              "issued": "2022-11-11",
+              "modified": "2023-12-31",
+              "temporal": {"startPeriod": "2020-01-01", "endPeriod": "2024-01-01"},
+              "numObservations": "150",
+              "numSeries": "12"
+            }
+            """;
 
     @GetMapping("/datasets/list")
     @Produces(MediaType.APPLICATION_JSON)
@@ -91,17 +102,16 @@ public class DataSetResources {
     @Autowired
     private HttpServletRequest request;
 
-    @PatchMapping(value = "/dataset/{id}/observationNumber")
+    @PatchMapping(value = "/dataset/{id}")
 
-    @Operation(operationId = "updateObservationNumber", summary = "Update ObservationNumber of a dataset")
+    @Operation(operationId = "update some properties of a dataset ", summary = "Update ObservationNumber, issued, modified, temporal, or numSeries  of a dataset")
     public String patchDataSetDistributionsByIdNombreObservations(
             @PathVariable("id") String datasetId,
-            @Schema(name ="observationNumber" )
-            @Parameter(description = "ObservationNumber of a dataset", required = true) @RequestParam String observationNumber
+            @Schema(name ="patchDataset" ,description = "Json of parameters you want to change", example = EXAMPLE_PATCH_DATASET)
+            @RequestBody(required = true) String stringPatchDataset
     ) throws RmesException, MalformedURLException {
         String token = request.getHeader("Authorization");
-        return this.dataSetsServices.patchDataset(datasetId,observationNumber,token);
-
+        return this.dataSetsServices.patchDataset(datasetId,stringPatchDataset,token);
     }
 
 }
