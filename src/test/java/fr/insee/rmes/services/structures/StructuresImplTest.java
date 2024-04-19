@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import fr.insee.rmes.persistence.RepositoryGestion;
 import fr.insee.rmes.services.utils.ResponseUtilsTest;
+import fr.insee.rmes.services.utils.StructuresUtilsTest;
 import fr.insee.rmes.stubs.FreeMarkerUtilsStub;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
@@ -26,61 +27,6 @@ import static org.mockito.Mockito.when;
 @Nested
 @ExtendWith(MockitoExtension.class)
 class StructuresImplTest {
-    public static final String SLICE_STRUCTURE = """
-        [
-            {
-                "componentIds":"d0996,d0997",
-                "prefLabelLg1":"Séries temporelles",
-                "prefLabelLg2":"Time series",
-                "sliceKey":"http://bauhaus/structuresDeDonnees/structure/dsd0995/sk1000",
-                "typeSliceKey":"TS"
-            },
-            {
-                "componentIds":"d0996,d0995",
-                "prefLabelLg1":"Slice par région",
-                "prefLabelLg2":"Slice by area",
-                "sliceKey":"http://bauhaus/structuresDeDonnees/structure/dsd0995/sk1001"
-            }
-        ]
-        """;
-    public final String EXPECTED_SLICE_STRUCTURE = """
-            [
-                {
-                    "composants":[
-                        "d0996",
-                        "d0997"
-                    ],
-                    "label":[
-                        {
-                            "langue":"fr",
-                            "contenu":"Séries temporelles"
-                        },
-                        {
-                            "langue":"en",
-                            "contenu":"Time series"
-                        }
-                    ],
-                    "type":"TS"
-                },
-                {
-                    "composants":[
-                        "d0996",
-                        "d0995"
-                    ],
-                    "label":
-                        [
-                            {"langue":"fr",
-                            "contenu":"Slice par région"
-                            },
-                            {
-                            "langue":"en",
-                            "contenu":"Slice by area"
-                            }
-                        ]
-                    }
-                ]
-            """
-            ;
 
 
     @Mock
@@ -145,9 +91,9 @@ class StructuresImplTest {
 
     @Test
     void getStructureWithSliceKeys_shouldReturnExpectedStructure() throws RmesException, JsonProcessingException {
-        JSONArray mockJSON = new JSONArray(SLICE_STRUCTURE);
+        JSONArray mockJSON = new JSONArray(StructuresUtilsTest.SLICE_STRUCTURE);
         when(repoGestion.getResponseAsArray("getStructureSliceKeys.ftlh")).thenReturn(mockJSON);
-        assertThat(MAPPER.readTree(structuresImpl.getSlice("1"))).isEqualTo(MAPPER.readTree(EXPECTED_SLICE_STRUCTURE.toString()));
+        assertThat(MAPPER.readTree(structuresImpl.getSlice("1"))).isEqualTo(MAPPER.readTree(StructuresUtilsTest.EXPECTED_SLICE_STRUCTURE.toString()));
     }
 
 }

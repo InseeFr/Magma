@@ -206,6 +206,12 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             landingPage.add(landingPage2);
             reponse.setLandingPage(landingPage);
         }
+        //récupération de la liste de relations
+        if (!catalogue_result.optString("relations").isEmpty()){
+            List<String> relationsUris = List.of(catalogue_result.getString("relations").split(","));
+            reponse.setRelations(relationsUris);
+        }
+
         //récupération du processStep
         if (codes_result.has("codeProcessStep")) {
             String codeProcessStepValue = codes_result.getString("codeProcessStep");

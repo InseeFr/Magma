@@ -14,6 +14,7 @@ SELECT DISTINCT ?id ?uri ?titleLg1 ?titleLg2
                 (GROUP_CONCAT(DISTINCT ?wasGeneratedBy; separator=" , ") AS ?operationStat)
                 (GROUP_CONCAT(DISTINCT ?creators; separator=" , ") AS ?creators)
                 (GROUP_CONCAT(DISTINCT ?wasDerivedFromS; separator=" , ") AS ?wasDerivedFromS)
+                (GROUP_CONCAT(DISTINCT ?relations; separator=",") AS ?relations)
 FROM <${DATASETS_GRAPH}>
 FROM <${ORGANISATIONS_GRAPH}>
 FROM <${ORGANISATIONS_GRAPH}/insee>
@@ -40,6 +41,10 @@ WHERE {
              ^foaf:primaryTopic/dcterms:modified ?catalogRecordModified ;
              ^foaf:primaryTopic/dcterms:created ?catalogRecordCreated .
     }
+
+    OPTIONAL {
+            ?uri dcterms:relation ?relations ;
+        }
 
     BIND(IF(?isValidated = "Unpublished", "Provisoire, jamais publiée", "Publiée") AS ?statutValidation)
 
