@@ -96,7 +96,6 @@ public class DataSetResources {
     private HttpServletRequest request;
 
     @PatchMapping(value = "/dataset/{id}/observationNumber")
-
     @Operation(operationId = "updateObservationNumber", summary = "Update ObservationNumber of a dataset")
     public String patchDataSetDistributionsByIdNombreObservations(
             @PathVariable("id") String datasetId,

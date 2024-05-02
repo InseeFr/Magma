@@ -36,6 +36,9 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     private static final Logger logger = LoggerFactory.getLogger(DataSetsImpl.class);
     public static final String CONTENU = "contenu";
     public static final String LANGUE = "langue";
+    public static final String DISTRIBUTIONS_PATH ="getDistributionsById/";
+    public static final String DATASET_BY_ID_PATH ="getDatasetById/";
+    public static final String DATASET_LIST ="getListDatasets/";
 
 
     public Map<String,Object> params = initParams();
@@ -47,11 +50,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     public String getListDataSets(String dateMiseAJour) throws RmesException, JsonProcessingException {
         JSONArray listDataSet = new JSONArray();
         if (dateMiseAJour == ""){
-            listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH,"getListDatasets.ftlh", params));
+            listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_LIST,"getListDatasets.ftlh", params));
         }
         else{
             params.put("DATE",dateMiseAJour);
-            listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH,"getListDatasetsFilterByDate.ftlh", params));
+            listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_LIST,"getListDatasetsFilterByDate.ftlh", params));
         }
 
         DataSet[] dataSets = objectMapper.readValue(listDataSet.toString(), DataSet[].class);
@@ -107,7 +110,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                     .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonInputString))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            logger.trace("l'id "+id + " ("+ email + ") a patché le dataset :" + datasetId);
+            logger.trace("user "+id + " ("+ email + ") has just patched the dataset :" + datasetId);
             return response.body();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -139,13 +142,13 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     protected DataSetModelSwagger findDataSetModelSwagger(String id) throws RmesException, JsonProcessingException {
         //paramétrage de la requête
         params.put("ID", id);
-        JSONObject catalogue_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogue.ftlh", params));
+        JSONObject catalogue_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH +DATASET_BY_ID_PATH, "getDataSetById_catalogue.ftlh", params));
         if (catalogue_result.has("id")) {
-            JSONObject adms_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueAdms.ftlh", params));
-            JSONObject codes_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueCodes.ftlh", params));
-            JSONObject ontologies_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueOntologies.ftlh", params));
-            JSONObject organisations_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueOrganisations.ftlh", params));
-            JSONObject structures_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetById_catalogueStructures.ftlh", params));
+            JSONObject adms_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetById_catalogueAdms.ftlh", params));
+            JSONObject codes_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetById_catalogueCodes.ftlh", params));
+            JSONObject ontologies_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetById_catalogueOntologies.ftlh", params));
+            JSONObject organisations_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetById_catalogueOrganisations.ftlh", params));
+            JSONObject structures_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetById_catalogueStructures.ftlh", params));
 
         //récupération du titre
         List<LangContent> title = constructLangContent(catalogue_result.getString("titleLg1"), catalogue_result.getString("titleLg2"));
@@ -216,7 +219,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         if (codes_result.has("codeProcessStep")) {
             String codeProcessStepValue = codes_result.getString("codeProcessStep");
             params.put("codeProcessStep", codeProcessStepValue);
-            JSONObject processStepResult = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getProcessStep.ftlh", params));
+            JSONObject processStepResult = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getProcessStep.ftlh", params));
             ProcessStep processStep = constructCodeList(processStepResult.getString("notation"));
             reponse.setProcessStep(processStep);
         }
@@ -352,7 +355,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         params.put("ID", id);
 
         //requête intiale
-        JSONObject dataSetId = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIDSummary.ftlh", params));
+        JSONObject dataSetId = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetByIDSummary.ftlh", params));
         if (dataSetId.has("id")) {
             DataSet dataSet = objectMapper.readValue(dataSetId.toString(), DataSet.class);
 
@@ -385,7 +388,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
        params.put("ID", id);
 
         //requête initiale
-        JSONArray distributionsId = repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDistributionsById.ftlh", params));
+        JSONArray distributionsId = repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH + DISTRIBUTIONS_PATH, "getDistributionsById.ftlh", params));
 
         /*liste des identifiers (identifiants des distributions) avec leur liste de downloadURL associés*/
         Map<String,List<String>> mapIdentifiersAndDownloadUrls = new HashMap<>();
@@ -471,7 +474,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
             params.put("URI", s.replace(" ", ""));
 
-            JSONObject creator_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdCreator.ftlh", params));
+            JSONObject creator_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetByIdCreator.ftlh", params));
             List<LangContent> creatorTitles = constructLangContent(creator_result.getString("labelCreatorLg1"),creator_result.getString("labelCreatorLg2"));
             IdLabel creatorIdLabel = new IdLabel(creator_result.getString("idCreator"),creatorTitles);
             creator.add(creatorIdLabel);
@@ -483,7 +486,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         for (String s : operationStat){
             params.put("URI", s.replace(" ", ""));
 
-            JSONObject wasGeneratedByQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdWasGeneratedBy.ftlh", params));
+            JSONObject wasGeneratedByQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetByIdWasGeneratedBy.ftlh", params));
             List<LangContent> wasGeneratedByTitles = constructLangContent(wasGeneratedByQuery.getString("labelwasGeneratedByLg1"),wasGeneratedByQuery.getString("labelwasGeneratedByLg2"));
             IdLabel wasGeneratedByIdLabel = new IdLabel(wasGeneratedByQuery.getString("wasGeneratedById"),wasGeneratedByTitles);
             wasGeneratedByIdLabel.setType(wasGeneratedByQuery.getString("typeWasGeneratedBy"));
@@ -498,7 +501,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
             params.put("URI", s.trim());
 
-            JSONObject archiveUnitQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdArchiveUnit.ftlh", params));
+            JSONObject archiveUnitQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetByIdArchiveUnit.ftlh", params));
             List<LangContent> archiveUnitTitles = constructLangContent(archiveUnitQuery.getString("labelarchiveUnitLg1"),archiveUnitQuery.getString("labelarchiveUnitLg2"));
             IdLabel archiveUnitIdLabel = new IdLabel(archiveUnitQuery.getString("idarchiveUnit"),archiveUnitTitles);
             archiveUnit.add(archiveUnitIdLabel);
@@ -512,7 +515,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
             params.put("URI", s.replace(" ", ""));
 
-            JSONObject temporalResolutionQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDatasetByIdTemporalResolution.ftlh", params));
+            JSONObject temporalResolutionQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDatasetByIdTemporalResolution.ftlh", params));
             List<LangContent> temporalResolutionTitles = constructLangContent(temporalResolutionQuery.getString("labeltemporalResolutionLg1"),temporalResolutionQuery.getString("labeltemporalResolutionLg2"));
             Label temporalResolutionLabel = new Label(temporalResolutionTitles);
             temporalResolution.add(temporalResolutionLabel);
@@ -527,7 +530,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
             params.put("URI", s.replace(" ", ""));
 
-            JSONObject spatialResolutionQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDatasetByIdSpatialResolution.ftlh", params));
+            JSONObject spatialResolutionQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDatasetByIdSpatialResolution.ftlh", params));
             List<LangContent> spatialResolutionTitles = constructLangContent(spatialResolutionQuery.getString("labelspatialResolutionLg1"),spatialResolutionQuery.getString("labelspatialResolutionLg2"));
             IdLabel spatialResolutionIdLabel = new IdLabel(spatialResolutionQuery.getString("spatialResolutionId"),spatialResolutionTitles);
             spatialResolution.add(spatialResolutionIdLabel);
@@ -546,7 +549,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
                 params.put("URI", parts[i].replace(" ", ""));
 
-                JSONObject dataSetId2 = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH, "getDataSetByIdTheme.ftlh", params));
+                JSONObject dataSetId2 = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetByIdTheme.ftlh", params));
                 params.remove("URI");
                 Theme theme1 = objectMapper.readValue(dataSetId2.toString(), Theme.class);
                 LabelDataSet labelDataSet1 = new LabelDataSet(Config.LG1, theme1.getLabelThemeLg1());
