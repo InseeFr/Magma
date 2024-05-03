@@ -5,6 +5,7 @@ import fr.insee.rmes.model.datasets.Distributions;
 import fr.insee.rmes.modelSwagger.dataset.Distribution;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import org.json.JSONObject;
+import org.springframework.http.ResponseEntity;
 
 import java.net.MalformedURLException;
 
@@ -21,5 +22,5 @@ public interface DataSetsServices {
 
     Distributions[] getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException;
 
-    String patchDataset(String datasetId, String observationNumber, String token) throws RmesException, MalformedURLException;
+    ResponseEntity<String> patchDataset(String datasetId, String observationNumber, String token) throws RmesException, MalformedURLException;
 }

@@ -103,9 +103,8 @@ public class DataSetResources {
     private HttpServletRequest request;
 
     @PatchMapping(value = "/dataset/{id}")
-
     @Operation(operationId = "update some properties of a dataset ", summary = "Update ObservationNumber, issued, modified, temporal, or numSeries  of a dataset")
-    public String patchDataSetDistributionsByIdNombreObservations(
+    public ResponseEntity<String> patchDataSetDistributionsByIdNombreObservations(
             @PathVariable("id") String datasetId,
             @Schema(name ="patchDataset" ,description = "Json of parameters you want to change", example = EXAMPLE_PATCH_DATASET)
             @RequestBody(required = true) String stringPatchDataset

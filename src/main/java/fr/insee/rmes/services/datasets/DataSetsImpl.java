@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -103,10 +104,13 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
     @Override
-    public String patchDataset(String datasetId, String stringPatchDataset, String token) throws RmesException, MalformedURLException {
+    public ResponseEntity<String> patchDataset(String datasetId, String stringPatchDataset, String token) throws RmesException, MalformedURLException {
         try {
             JSONObject jsonPatchDataset = new JSONObject(stringPatchDataset);
             JSONObject formattedJson = formattedJsonDataset(jsonPatchDataset);
+            if (formattedJson.isEmpty()){
+                return ResponseEntity.noContent().build();
+            }
             String urlString = Config.BAUHAUS_URL + "/datasets/" + datasetId + "/observationNumber";
             HttpClient client = HttpClient.newHttpClient();
             String jsonInputString = String.format("%s", formattedJson);
@@ -121,7 +125,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             logger.trace("l'id " + id + " (" + email + ") a patché le dataset :" + datasetId);
-            return response.body();
+            return ResponseEntity.ok(response.body());
         } catch (IOException | InterruptedException | JSONException e) {
             throw new RuntimeException(e);
         }
