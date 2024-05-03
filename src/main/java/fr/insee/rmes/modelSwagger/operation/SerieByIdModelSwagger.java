@@ -19,7 +19,8 @@ import java.util.Map;
     "id",
     "frequence",
     "nbOperation",
-    "famille"
+    "famille",
+    "proprietaire"
 })
 @Generated("jsonschema2pojo")
 public class SerieByIdModelSwagger  implements Serializable
@@ -46,6 +47,8 @@ public class SerieByIdModelSwagger  implements Serializable
     @JsonProperty("famille")
     @Valid
     private Famille famille;
+    @JsonProperty("proprietaire")
+    private String proprietaire;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -68,6 +71,7 @@ public class SerieByIdModelSwagger  implements Serializable
      * @param type
      * @param nbOperation
      * @param famille
+     * @param proprietaire
      */
     public SerieByIdModelSwagger(List<AltLabel> altLabel, List<Label> label, Type type, String series, String id, Frequence frequence, String nbOperation, Famille famille) {
         super();
@@ -80,6 +84,23 @@ public class SerieByIdModelSwagger  implements Serializable
         this.nbOperation = nbOperation;
         this.famille = famille;
     }
+
+    public SerieByIdModelSwagger(List<AltLabel> altLabel, List<Label> label, Type type, String series, String id, Frequence frequence, String nbOperation, Famille famille, String proprietaire) {
+        super();
+        this.altLabel = altLabel;
+        this.label = label;
+        this.type = type;
+        this.series = series;
+        this.id = id;
+        this.frequence = frequence;
+        this.nbOperation = nbOperation;
+        this.famille = famille;
+        this.proprietaire = proprietaire;
+    }
+
+
+
+
 
     @JsonProperty("altLabel")
     public List<AltLabel> getAltLabel() {
@@ -119,6 +140,18 @@ public class SerieByIdModelSwagger  implements Serializable
     @JsonProperty("type")
     public void setType(Type type) {
         this.type = type;
+    }
+    @JsonProperty("proprietaire")
+    public String getProprietaire() {
+        return proprietaire;
+    }
+    @JsonProperty("proprietaire")
+    public void setProprietaire(String proprietaire) {
+        this.proprietaire = proprietaire;
+    }
+
+    public void setAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
     }
 
     public SerieByIdModelSwagger withType(Type type) {

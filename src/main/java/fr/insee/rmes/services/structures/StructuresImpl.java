@@ -13,25 +13,56 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.databind.JsonNode;
 
+import javax.xml.soap.SAAJResult;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+
 @Service 
 public class StructuresImpl extends RdfService implements StructuresServices {
 
+	private static final String STRUCTURES_GRAPH = "STRUCTURES_GRAPH";
+	private static final String STRUCTURE_ID = "STRUCTURE_ID";
+	private static final String LABEL = "label";
+	private static final String NOM = "nom";
+	
+	private static final String ID_RELATION="idRelation";
+	private static final String ID_PARENT = "idParent";
+	private static final String URI_PARENT = "uriParent";
+	private static final String ID_PARENT_RELATION = "idParentRelation";
+	private static final String STRUCTURES_COMPONENTS_GRAPH_KEY = "STRUCTURES_COMPONENTS_GRAPH";
+
+	private static final String ORDRE="ordre";
+	private static final String OBLIGATOIRE = "obligatoire";
+	private static final String CODELIST_GRAPH_KEY = "CODELIST_GRAPH";
+	private static final String URI_COMPONENT_PARENT_ID = "uriComponentParentId";
+	private static final String URI_LISTE_CODE = "uriListeCode";
+	private static final String REPRESENTATION = "representation";
+
+	private static final String LISTE_CODE = "listeDeCodes";
+	private static final String ID_LISTE_CODE = "idListeCode";
+	private static final String URI_PARENT_LISTE_CODE = "uriParentListCode";
+	private static final String ID_PARENT_LISTE_CODE = "idParentListCode";
+	private static final String MIN_LENGTH = "minLength";
+	private static final String MAX_LENGTH = "maxLength";
+	private static final String MIN_INCLUSIVE = "minInclusive";
+	private static final String MAX_INCLUSIVE = "maxInclusive";
+	private static final String PATTERN = "pattern";
+	private static final String URI_CONCEPT = "uriConcept";
 	String defaultDate = "2020-01-01T00:00:00.000";
 	
 	@Override
 	public String getAllStructures() throws RmesException {
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_GRAPH", Config.BASE_GRAPH+Config.STRUCTURES_GRAPH);
+		params.put(STRUCTURES_GRAPH, Config.BASE_GRAPH+Config.STRUCTURES_GRAPH);
 		JSONArray structures =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getAllStructures.ftlh", params));
 		for (int i = 0; i < structures.length(); i++) {
 			JSONObject structure = structures.getJSONObject(i);
-			String validationState = structure.getString("statutValidation");
-			structure.put("statutValidation", this.getValidationState(validationState));
+			String validationState = structure.getString(STATUT_VALIDATION);
+			structure.put(STATUT_VALIDATION, this.getValidationState(validationState));
 		}
 
 		return structures.toString();
@@ -40,15 +71,15 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	@Override
 	public String getStructure(String id) throws RmesException, JsonProcessingException {
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_GRAPH", config.getBaseGraph() + config.getStructuresGraph());
-		params.put("STRUCTURE_ID", id);
+		params.put(STRUCTURES_GRAPH, config.getBaseGraph() + config.getStructuresGraph());
+		params.put(STRUCTURE_ID, id);
 		params.put("LG1", config.getLG1());
 		params.put("LG2", config.getLG2());
 
 		JSONArray structureArray =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getStructure.ftlh", params));
 		JSONObject structure = (JSONObject) structureArray.get(0);
 
-		structure.put("label", this.formatLabel(structure));
+		structure.put(LABEL, this.formatLabel(structure));
 		structure.remove("prefLabelLg1");
 		structure.remove("prefLabelLg2");
 
@@ -62,23 +93,23 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 
 			structure.put("necessairePour", necessairePour);
 		}
-		if(structure.has("idRelation")){
-			structure.put("dsdSdmx", extractSdmx(structure.getString("idRelation")));
-			structure.remove("idRelation");
+		if(structure.has(ID_RELATION)){
+			structure.put("dsdSdmx", extractSdmx(structure.getString(ID_RELATION)));
+			structure.remove(ID_RELATION);
 		}
-		if(structure.has("idParent") && structure.has("uriParent")){
+		if(structure.has(ID_PARENT) && structure.has(URI_PARENT)){
 			JSONObject parent = new JSONObject();
-			parent.put("id", structure.getString("idParent"));
-			parent.put("uri", structure.getString("uriParent"));
+			parent.put("id", structure.getString(ID_PARENT));
+			parent.put("uri", structure.getString(URI_PARENT));
 
-			if(structure.has("idParentRelation")){
-				parent.put("dsdSdmx", extractSdmx(structure.getString("idParentRelation")));
-				structure.remove("idParentRelation");
+			if(structure.has(ID_PARENT_RELATION)){
+				parent.put("dsdSdmx", extractSdmx(structure.getString(ID_PARENT_RELATION)));
+				structure.remove(ID_PARENT_RELATION);
 			}
 
 			structure.put("parent", parent);
-			structure.remove("idParent");
-			structure.remove("uriParent");
+			structure.remove(ID_PARENT);
+			structure.remove(URI_PARENT);
 		}
 		if(structure.has(Constants.STATUT_VALIDATION)){
 			String validationState = structure.getString(Constants.STATUT_VALIDATION);
@@ -97,15 +128,15 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		ObjectMapper mapper = new ObjectMapper();
 		StructureByIdModelSwagger structureByID = mapper.readValue(structure.toString(), StructureByIdModelSwagger.class);
 
-		return  mapper.writeValueAsString(structureByID);//structureByID.toString();
+		return  mapper.writeValueAsString(structureByID);
 	}
 
 
 	@Override
 	public String getStructureDateMAJ(String id) throws RmesException, JsonProcessingException {
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_GRAPH", config.getBaseGraph() + config.getStructuresGraph());
-		params.put("STRUCTURE_ID", id);
+		params.put(STRUCTURES_GRAPH, config.getBaseGraph() + config.getStructuresGraph());
+		params.put(STRUCTURE_ID, id);
 
 		JSONArray structureArray =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getStructureDateMAJ.ftlh", params));
 		JSONObject structure = (JSONObject) structureArray.get(0);
@@ -113,7 +144,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		ObjectMapper mapper = new ObjectMapper();
 		StructureByIdModelSwagger structureByID = mapper.readValue(structure.toString(), StructureByIdModelSwagger.class);
 
-		return  mapper.writeValueAsString(structureByID);//structureByID.toString();
+		return  mapper.writeValueAsString(structureByID);
 	}
 
 	private JSONObject extractSdmx(String originalRelation) {
@@ -127,9 +158,9 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 
 	private void getStructureComponents(String id, JSONObject structure) throws RmesException {
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_GRAPH", config.getBaseGraph() + config.getStructuresGraph());
-		params.put("STRUCTURES_COMPONENTS_GRAPH", config.getBaseGraph() + config.STRUCTURES_COMPONENTS_GRAPH);
-		params.put("STRUCTURE_ID", id);
+		params.put(STRUCTURES_GRAPH, config.getBaseGraph() + config.getStructuresGraph());
+		params.put(STRUCTURES_COMPONENTS_GRAPH_KEY, config.getBaseGraph() + Config.STRUCTURES_COMPONENTS_GRAPH);
+		params.put(STRUCTURE_ID, id);
 
 		JSONArray components = repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getStructureComponents.ftlh", params));
 
@@ -142,29 +173,37 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 			String idComponent = componentSpecification.getString("id");
 			JSONObject component = getComponent(idComponent);
 
-			if(componentSpecification.has("ordre")){
-				component.put("ordre", componentSpecification.getString("ordre"));
+			if(componentSpecification.has(ORDRE)){
+				component.put(ORDRE, componentSpecification.getString(ORDRE));
 			}
 			if(componentSpecification.has("attachement")){
-				component.put("attachement", componentSpecification.getString("attachment").replace(QB.NAMESPACE, ""));
+				component.put("attachement", componentSpecification.getString("attachement").replace(QB.NAMESPACE, ""));
 			}
-			if(componentSpecification.has("obligatoire")){
-				component.put("obligatoire", componentSpecification.getString("obligatoire").equalsIgnoreCase("true") ? "oui": "non");
+			if(componentSpecification.has(OBLIGATOIRE)){
+				component.put(OBLIGATOIRE, componentSpecification.getString(OBLIGATOIRE).equalsIgnoreCase("true") ? "oui": "non");
 			}
 
 			if(idComponent.startsWith("a")){
-				attributes.put(component);
+				extracted(attributes, component);
 			}
 			if(idComponent.startsWith("m")){
-				measures.put(component);
+				extracted(measures, component);
 			}
 			if(idComponent.startsWith("d")){
-				dimensions.put(component);
+				extracted(dimensions, component);
 			}
 		}
 		structure.put("attributs", attributes);
 		structure.put("mesures", measures);
 		structure.put("dimensions", dimensions);
+	}
+
+	private void extracted(JSONArray sortie, JSONObject component) {
+		JSONObject entree = component;
+		entree.remove("label");
+		entree.remove("uri");
+		entree.remove("concept");
+		sortie.put(entree);
 	}
 
 	private static final String STATUT_VALIDATION = "statutValidation";
@@ -188,24 +227,27 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	@Override
 	public JSONObject getComponent(String id) throws RmesException {
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_COMPONENTS_GRAPH", config.getBaseGraph() + config.STRUCTURES_COMPONENTS_GRAPH);
-		params.put("CODELIST_GRAPH", config.getBaseGraph() +config.getCodelistGraph());
-		params.put("CONCEPTS_BASE_URI", config.getBaseGraph() +config.getConceptsBaseUri());
+		params.put(STRUCTURES_COMPONENTS_GRAPH_KEY, config.getBaseGraph() + Config.STRUCTURES_COMPONENTS_GRAPH);
+		params.put(CODELIST_GRAPH_KEY, config.getBaseGraph() +config.getCodelistGraph());
 		params.put("ID", id);
 		params.put("LG1", config.getLG1());
 		params.put("LG2", config.getLG2());
 
 		JSONObject component =  repoGestion.getResponseAsObject(buildRequest("getComponent.ftlh", params));
 
-		component.put("label", this.formatLabel(component));
+
+		component.put(LABEL, this.formatLabel(component));
+		component.put(NOM,this.formatNom(component));
+		component.remove("altLabelLg1");
+		component.remove("altLabelLg2");
 		component.remove("prefLabelLg1");
 		component.remove("prefLabelLg2");
 
-		if(component.has("uriComponentParentId")){
+		if(component.has(URI_COMPONENT_PARENT_ID)){
 			JSONObject parent = new JSONObject();
-			parent.put("id", component.getString("uriComponentParentId"));
+			parent.put("id", component.getString(URI_COMPONENT_PARENT_ID));
 			parent.put("notation", component.getString("uriComponentParentNotation"));
-			component.remove("uriComponentParentId");
+			component.remove(URI_COMPONENT_PARENT_ID);
 			component.remove("uriComponentParentNotation");
 			component.put("parent", parent);
 		}
@@ -215,70 +257,60 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 			component.put("enfants", flatChildren);
 		}
 
-		if(component.has("statutValidation")){
-			String validationState = component.getString("statutValidation");
-			component.put("statutValidation", this.getValidationState(validationState));
+		if(component.has(STATUT_VALIDATION)){
+			String validationState = component.getString(STATUT_VALIDATION);
+			component.put(STATUT_VALIDATION, this.getValidationState(validationState));
 		}
 
-		if(component.has("uriListeCode")){
-			component.put("representation", "liste de code");
-
-			JSONArray codes = getCodes(component.getString("idListeCode"));
-			JSONObject listCode = new JSONObject();
-			listCode.put("uri", component.getString("uriListeCode"));
-			listCode.put("id", component.getString("idListeCode"));
-			listCode.put("codes", codes);
-
-
-			if(component.has("uriParentListCode") && component.has("idParentListCode")){
-				listCode.put("ParentListeCode", new JSONObject()
-						.append("id", component.getString("idParentListCode"))
-						.append("uri", component.getString("uriParentListCode")));
-				component.remove("uriParentListCode");
-				component.remove("idParentListCode");
-			}
-			component.put("listeCode", listCode);
-			component.remove("uriListeCode");
-			component.remove("idListeCode");
+		if(component.has(URI_LISTE_CODE)){
+			component.put(REPRESENTATION, component.getString(REPRESENTATION));
+			component.put(LISTE_CODE,component.getString(ID_LISTE_CODE));
+			component.remove(URI_LISTE_CODE);
+			component.remove(ID_LISTE_CODE);
 		}
 
-		if(component.has("uriConcept")){
-
+		if(component.has(URI_CONCEPT)){
 			JSONObject concept = new JSONObject();
-			concept.put("uri", component.getString("uriConcept"));
 			concept.put("id", component.getString("idConcept"));
+			HashMap<String, Object> paramsSDMX = new HashMap<>();
+			paramsSDMX.put("LG1", Config.LG1);
+			paramsSDMX.put("LG2", Config.LG2);
+			paramsSDMX.put("ID", component.getString("idConcept"));
+			paramsSDMX.put("CONCEPTS_GRAPH", Config.BASE_GRAPH+ Config.CONCEPTS_GRAPH);
+			JSONObject conceptsSdmx = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getConceptsSdmx.ftlh", paramsSDMX));;
+			concept.put("conceptsSdmx",conceptsSdmx);
 			this.addCloseMatch(concept);
 			component.put(Constants.CONCEPT, concept);
-			component.remove("uriConcept");
+			component.remove(URI_CONCEPT);
 			component.remove("idConcept");
 		}
 
-		if(component.has("representation")){
-			component.put("representation", component.getString("representation").replace(IGEO.NAMESPACE, "").replace("http://www.w3.org/2001/XMLSchema#", ""));
+		if(component.has(REPRESENTATION)){
+			component.put(REPRESENTATION, component.getString(REPRESENTATION).replace(IGEO.NAMESPACE, "").replace("http://www.w3.org/2001/XMLSchema#", ""));
 		}
 
-		if(component.has("minLength") || component.has("maxLength") || component.has("minInclusive") || component.has("maxInclusive") || component.has("pattern")){
+		if(component.has(MIN_LENGTH) || component.has(MAX_LENGTH) || component.has(MIN_INCLUSIVE) || component.has(MAX_INCLUSIVE) || component.has(PATTERN)){
 			JSONObject format = new JSONObject();
 
-			if (component.has("minLength")) {
-				format.put("longueurMin", component.get("minLength"));
-				component.remove("minLength");
+			if (component.has(MIN_LENGTH)) {
+				format.put("longueurMin", component.get(MIN_LENGTH));
+				component.remove(MIN_LENGTH);
 			}
-			if (component.has("maxLength")) {
-				format.put("longueurMax", component.get("maxLength"));
-				component.remove("maxLength");
+			if (component.has(MAX_LENGTH)) {
+				format.put("longueurMax", component.get(MAX_LENGTH));
+				component.remove(MAX_LENGTH);
 			}
-			if (component.has("minInclusive")) {
-				format.put("valeurMin", component.get("minInclusive"));
-				component.remove("minInclusive");
+			if (component.has(MIN_INCLUSIVE)) {
+				format.put("valeurMin", component.get(MIN_INCLUSIVE));
+				component.remove(MIN_INCLUSIVE);
 			}
-			if (component.has("maxInclusive")) {
-				format.put("valeurMax", component.get("maxInclusive"));
-				component.remove("maxInclusive");
+			if (component.has(MAX_INCLUSIVE)) {
+				format.put("valeurMax", component.get(MAX_INCLUSIVE));
+				component.remove(MAX_INCLUSIVE);
 			}
-			if (component.has("pattern")) {
-				format.put("expressionReguliere", component.get("pattern"));
-				component.remove("pattern");
+			if (component.has(PATTERN)) {
+				format.put("expressionReguliere", component.get(PATTERN));
+				component.remove(PATTERN);
 			}
 			component.put("format", format);
 		}
@@ -309,17 +341,15 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	@Override
 	public JSONObject getComponentDateMAJ(String id) throws RmesException {
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_COMPONENTS_GRAPH", config.getBaseGraph() + config.STRUCTURES_COMPONENTS_GRAPH);
-		params.put("CODELIST_GRAPH", config.getBaseGraph() +config.getCodelistGraph());
-//		params.put("CONCEPTS_BASE_URI", config.getBaseGraph() +config.getConceptsBaseUri());
+		params.put(STRUCTURES_COMPONENTS_GRAPH_KEY, config.getBaseGraph() + Config.STRUCTURES_COMPONENTS_GRAPH);
+		params.put(CODELIST_GRAPH_KEY, config.getBaseGraph() +config.getCodelistGraph());
 		params.put("ID", id);
-		JSONObject component =  repoGestion.getResponseAsObject(buildRequest("getComponentDateMAJ.ftlh", params));
-		return component;
+		return repoGestion.getResponseAsObject(buildRequest("getComponentDateMAJ.ftlh", params));
 	}
 
 	private JSONArray getCodes(String notation) throws RmesException {
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("CODELIST_GRAPH",config.getBaseGraph() + config.getCodelistGraph());
+		params.put(CODELIST_GRAPH_KEY,config.getBaseGraph() + config.getCodelistGraph());
 		params.put("NOTATION", notation);
 		params.put("LG1", config.getLG1());
 		params.put("LG2", config.getLG2());
@@ -377,7 +407,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 					c.put(Constants.PARENTS, parents);
 				}
 			} else {
-				code.put("label", this.formatLabel(code));
+				code.put(LABEL, this.formatLabel(code));
 				code.remove(Constants.PREF_LABEL_LG1);
 				code.remove(Constants.PREF_LABEL_LG2);
 
@@ -430,7 +460,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 
 	public Map<String, Object> initParams() {
 		Map<String, Object> params = new HashMap<>();
-		params.put("STRUCTURES_COMPONENTS_GRAPH", Config.BASE_GRAPH + Config.STRUCTURES_COMPONENTS_GRAPH);
+		params.put(STRUCTURES_COMPONENTS_GRAPH_KEY, Config.BASE_GRAPH + Config.STRUCTURES_COMPONENTS_GRAPH);
 		return params;
 	}
 

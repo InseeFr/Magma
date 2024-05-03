@@ -11,10 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class RdfUtils {
 
+    private RdfUtils(){}
 
-    private static Config config;
-
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     static ValueFactory factory =  SimpleValueFactory.getInstance();
 

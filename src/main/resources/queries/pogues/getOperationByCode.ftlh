@@ -1,4 +1,4 @@
-SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?uri ?seriesAltLabelLg1 ?seriesAltLabelLg2 ?simsId ?seriesId ?series ?seriesLabelLg1 ?seriesLabelLg2   
+SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?uri ?seriesAltLabelLg1 ?seriesAltLabelLg2 ?simsId ?seriesId ?series ?seriesLabelLg1 ?seriesLabelLg2  ?proprietaire
             
  { 
     ?series a insee:StatisticalOperationSeries . 
@@ -14,6 +14,9 @@ SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?uri ?serie
     ?series skos:prefLabel ?seriesLabelLg2 .  
     FILTER (lang(?seriesLabelLg2) = 'en')
 	}
+
+    ?series dc:creator ?proprietaire .
+
     OPTIONAL {
 	?uri skos:prefLabel ?operationLabelLg1 . 
 	FILTER (lang(?operationLabelLg1) = 'fr') .   

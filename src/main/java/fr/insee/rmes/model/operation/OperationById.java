@@ -23,7 +23,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "seriesLabelLg1",
     "uri",
     "seriesId",
-    "seriesLabelLg2"
+    "seriesLabelLg2",
+    "proprietaire"
 })
 @Generated("jsonschema2pojo")
 public class OperationById implements Serializable
@@ -51,6 +52,9 @@ public class OperationById implements Serializable
     private String seriesId;
     @JsonProperty("seriesLabelLg2")
     private String seriesLabelLg2;
+
+    @JsonProperty("proprietaire")
+    private String proprietaire;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -75,8 +79,9 @@ public class OperationById implements Serializable
      * @param uri
      * @param seriesId
      * @param seriesLabelLg2
+     * @param proprietaire
      */
-    public OperationById(String series, String id, String operationLabelLg1, String operationLabelLg2, String seriesLabelLg1, String uri, String seriesId, String seriesLabelLg2) {
+    public OperationById(String series, String id, String operationLabelLg1, String operationLabelLg2, String seriesLabelLg1, String uri, String seriesId, String seriesLabelLg2, String proprietaire   ) {
         super();
         this.series = series;
         this.id = id;
@@ -86,6 +91,7 @@ public class OperationById implements Serializable
         this.uri = uri;
         this.seriesId = seriesId;
         this.seriesLabelLg2 = seriesLabelLg2;
+        this.proprietaire = proprietaire;
     }
 
 
@@ -204,6 +210,15 @@ public class OperationById implements Serializable
         this.seriesLabelLg2 = seriesLabelLg2;
     }
 
+    @JsonProperty("proprietaire")
+    public String getProprietaire() {
+        return proprietaire;
+    }
+    @JsonProperty("proprietaire")
+    public void setProprietaire(String proprietaire) {
+        this.proprietaire = proprietaire;
+    }
+
     public OperationById withSeriesLabelLg2(String seriesLabelLg2) {
         this.seriesLabelLg2 = seriesLabelLg2;
         return this;
@@ -223,7 +238,5 @@ public class OperationById implements Serializable
         this.additionalProperties.put(name, value);
         return this;
     }
-
-
 
 }

@@ -1,11 +1,11 @@
 package fr.insee.rmes.services.pogues;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.insee.rmes.modelSwagger.operation.*;
 import fr.insee.rmes.model.operation.OperationById;
 import fr.insee.rmes.model.operation.OperationBySerieId;
 import fr.insee.rmes.model.operation.SerieById;
 import fr.insee.rmes.model.operation.SerieModel;
+import fr.insee.rmes.modelSwagger.operation.*;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
@@ -75,7 +75,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
                     labelFamille.add(labelFamille1);
                     labelFamille.add(labelFamille2);}
             Famille familleSerie= new Famille (bySerie.getFamilyId(),labelFamille,bySerie.getFamily());
-            SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,bySerie.getSeries(),bySerie.getId(),frequenceSerie,bySerie.getNbOperation(),familleSerie);
+            SerieByIdModelSwagger serieByIdModelSwagger= new SerieByIdModelSwagger(altLabelSerie,label,typeSerie,bySerie.getSeries(),bySerie.getId(),frequenceSerie,bySerie.getNbOperation(),familleSerie, bySerie.getProprietaire());
             seriesListModelSwaggerS.add(serieByIdModelSwagger);
 
         }
@@ -188,207 +188,12 @@ public class PoguesImpl extends RdfService implements PoguesServices {
             List<Label> labelOperation = new ArrayList<>();
                 labelOperation.add(labelOperation1);
                 labelOperation.add(labelOperation2);
-        OperationByIdModelSwagger operationByIdModelSwagger= new OperationByIdModelSwagger(serie,operationById.getId(),labelOperation, operationById.getUri());
+        OperationByIdModelSwagger operationByIdModelSwagger= new OperationByIdModelSwagger(serie,operationById.getId(),labelOperation, operationById.getUri(),operationById.getProprietaire());
 
         return mapper.writeValueAsString(operationByIdModelSwagger);
 
     }
 
-
-
-
-
-
-    protected JSONArray formatLabelPogues(JSONObject obj) {
-        JSONArray label = new JSONArray();
-
-        JSONObject lg1 = new JSONObject();
-        JSONObject lg2 = new JSONObject();
-
-        lg1.put("langue", Config.LG1);
-        lg2.put("langue", Config.LG2);
-        lg1.put("contenu", obj.getString("seriesLabelLg1"));
-        lg2.put("contenu", obj.getString("seriesLabelLg2"));
-
-        label.put(lg1);
-        label.put(lg2);
-
-        return label;
-    }
-
-    protected JSONArray formatAltLabelPogues(JSONObject obj) {
-        JSONArray label = new JSONArray();
-
-        JSONObject lg1 = new JSONObject();
-        JSONObject lg2 = new JSONObject();
-
-        lg1.put("langue", Config.LG1);
-        lg2.put("langue", Config.LG2);
-        lg1.put("contenu", obj.getString("seriesAltLabelLg1"));
-        lg2.put("contenu", obj.getString("seriesAltLabelLg2"));
-
-        label.put(lg1);
-        label.put(lg2);
-
-        return label;
-    }
-
-    protected JSONArray formatLabelOperationPogues(JSONObject obj) {
-        JSONArray label = new JSONArray();
-
-        JSONObject lg1 = new JSONObject();
-        JSONObject lg2 = new JSONObject();
-
-        lg1.put("langue", Config.LG1);
-        lg2.put("langue", Config.LG2);
-        lg1.put("contenu", obj.getString("operationLabelLg1"));
-        lg2.put("contenu", obj.getString("operationLabelLg2"));
-
-        label.put(lg1);
-        label.put(lg2);
-
-        return label;
-    }
-
-    protected JSONArray formatOperationAltLabelPogues(JSONObject obj) {
-        JSONArray label = new JSONArray();
-
-        JSONObject lg1 = new JSONObject();
-        JSONObject lg2 = new JSONObject();
-
-        lg1.put("langue", Config.LG1);
-        lg2.put("langue", Config.LG2);
-        lg1.put("contenu", obj.getString("operationAltLabelLg1"));
-        lg2.put("contenu", obj.getString("operationAltLabelLg2"));
-
-        label.put(lg1);
-        label.put(lg2);
-
-        return label;
-    }
-
-
-    protected JSONObject formatTypePogues(JSONObject obj) {
-        JSONObject type = new JSONObject();
-
-        type.put("id",obj.getString("typeId"));
-        type.put("uri",obj.getString("type"));
-        type.put("label",obj.get("label"));
-
-        return type;
-    }
-
-    protected JSONArray formatTypeLabelPogues(JSONObject obj) {
-        JSONArray label = new JSONArray();
-
-        JSONObject lg1 = new JSONObject();
-        JSONObject lg2 = new JSONObject();
-
-        lg1.put("langue", Config.LG1);
-        lg2.put("langue", Config.LG2);
-        lg1.put("contenu", obj.getString("typeLabelLg1"));
-        lg2.put("contenu", obj.getString("typeLabelLg2"));
-
-        label.put(lg1);
-        label.put(lg2);
-
-        return label;
-    }
-
-    protected JSONObject formatFamilyPogues(JSONObject obj) {
-        JSONObject family = new JSONObject();
-
-        family.put("id",obj.getString("familyId"));
-        family.put("uri",obj.getString("family"));
-        family.put("label",obj.get("label"));
-
-        return family;
-    }
-
-    protected JSONArray formatFamilyLabelPogues(JSONObject obj) {
-        JSONArray label = new JSONArray();
-
-        JSONObject lg1 = new JSONObject();
-        JSONObject lg2 = new JSONObject();
-
-        lg1.put("langue", Config.LG1);
-        lg2.put("langue", Config.LG2);
-        lg1.put("contenu", obj.getString("familyLabelLg1"));
-        lg2.put("contenu", obj.getString("familyLabelLg2"));
-
-        label.put(lg1);
-        label.put(lg2);
-
-        return label;
-    }
-
-    protected JSONObject formatFrequencyPogues(JSONObject obj) {
-        JSONObject frequency = new JSONObject();
-
-
-        frequency.put("id",obj.getString("periodicityId"));
-        frequency.put("uri",obj.getString("periodicity"));
-        frequency.put("label",obj.get("label"));
-
-        return frequency;
-    }
-    protected JSONArray formatFrequencyLabelPogues(JSONObject obj) {
-        JSONArray label = new JSONArray();
-
-        JSONObject lg1 = new JSONObject();
-        JSONObject lg2 = new JSONObject();
-
-        lg1.put("langue", Config.LG1);
-        lg2.put("langue", Config.LG2);
-        lg1.put("contenu", obj.getString("periodicityLabelLg1"));
-        lg2.put("contenu", obj.getString("periodicityLabelLg2"));
-
-        label.put(lg1);
-        label.put(lg2);
-
-        return label;
-    }
-
-    protected JSONObject formatOperationSeriePogues(JSONObject obj) {
-
-
-        JSONObject serie = new JSONObject();
-
-        serie.put("id",obj.getString("seriesId"));
-        serie.put("uri",obj.getString("series"));
-        serie.put("label",obj.get("label"));
-
-        return serie;
-    }
-
-    protected JSONObject formatOperationByCodeSeriePogues(JSONObject obj) {
-        JSONObject serie = new JSONObject();
-
-        serie.put("id",obj.getString("seriesId"));
-        serie.put("uri",obj.getString("series"));
-        serie.put("label",obj.get("label"));
-        if (obj.has("altLabel")) {
-        serie.put("altLabel",obj.get("altLabel"));}
-
-        return serie;
-    }
-
-    protected JSONArray formatOperationSerieLabelPogues(JSONObject obj) {
-        JSONArray label = new JSONArray();
-
-        JSONObject lg1 = new JSONObject();
-        JSONObject lg2 = new JSONObject();
-
-        lg1.put("langue", Config.LG1);
-        lg2.put("langue", Config.LG2);
-        lg1.put("contenu", obj.getString("seriesLabelLg1"));
-        lg2.put("contenu", obj.getString("seriesLabelLg2"));
-
-        label.put(lg1);
-        label.put(lg2);
-
-        return label;
-    }
 
     public Map<String, Object> initParams() {
         Map<String, Object> params = new HashMap<>();

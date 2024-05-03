@@ -1,13 +1,14 @@
 
-package fr.insee.rmes.modelSwagger.concept;
+package fr.insee.rmes.modelSwagger.organisations;
 
 import com.fasterxml.jackson.annotation.*;
-
 import javax.annotation.Generated;
 import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -15,39 +16,37 @@ import java.util.Map;
     "contenu"
 })
 @Generated("jsonschema2pojo")
-public class LabelConcept implements Serializable
+public class Label implements Serializable
 {
 
     @JsonProperty("langue")
     private String langue;
     @JsonProperty("contenu")
-    @JsonAlias({"contenu","seriesLabelLg1","seriesLabelLg2","labelSerieLg1","labelSerieLg2","operationLabelLg1","operationLabelLg2","labelOperationLg1","labelOperationLg2","familyLabelLg1","familyLabelLg2","typeLabelLg1","typeLabelLg2",
-            "periodicityLabelLg1","periodicityLabelLg2","labelThemeLg1","labelThemeLg2","prefLabelLg1","prefLabelLg2"})
+    @JsonAlias({"contenu","seriesLabelLg1","seriesLabelLg2","operationLabelLg1","operationLabelLg2","familyLabelLg1","familyLabelLg2","typeLabelLg1","typeLabelLg2",
+            "periodicityLabelLg1","periodicityLabelLg2","LabelLg1","LabelLg2"})
     private String contenu;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = -3598103317305309574L;
+
 
     /**
      * No args constructor for use in serialization
-     *
+     * 
      */
-    public LabelConcept() {
+    public Label() {
     }
 
     /**
-     *
+     * 
      * @param langue
      * @param contenu
      */
-    public LabelConcept(String langue, String contenu) {
+    public Label(String langue, String contenu) {
         super();
         this.langue = langue;
         this.contenu = contenu;
     }
-
-
 
     @JsonProperty("langue")
     public String getLangue() {
@@ -59,7 +58,7 @@ public class LabelConcept implements Serializable
         this.langue = langue;
     }
 
-    public LabelConcept withLangue(String langue) {
+    public Label withLangue(String langue) {
         this.langue = langue;
         return this;
     }
@@ -74,7 +73,7 @@ public class LabelConcept implements Serializable
         this.contenu = contenu;
     }
 
-    public LabelConcept withContenu(String contenu) {
+    public Label withContenu(String contenu) {
         this.contenu = contenu;
         return this;
     }
@@ -89,7 +88,7 @@ public class LabelConcept implements Serializable
         this.additionalProperties.put(name, value);
     }
 
-    public LabelConcept withAdditionalProperty(String name, Object value) {
+    public Label withAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
         return this;
     }

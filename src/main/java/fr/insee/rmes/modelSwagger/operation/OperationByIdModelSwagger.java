@@ -18,7 +18,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "serie",
     "id",
     "label",
-    "uri"
+    "uri",
+    "proprietaire"
 })
 @Generated("jsonschema2pojo")
 public class OperationByIdModelSwagger implements Serializable
@@ -34,6 +35,8 @@ public class OperationByIdModelSwagger implements Serializable
     private List<Label> labelOperation = null;
     @JsonProperty("uri")
     private String uri;
+    @JsonProperty("proprietaire")
+    private String proprietaire;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -52,13 +55,15 @@ public class OperationByIdModelSwagger implements Serializable
      * @param labelOperation
      * @param operationId
      * @param uri
+     * @param proprietaire
      */
-    public OperationByIdModelSwagger(Serie serie, String operationId, List<Label> labelOperation, String uri) {
+    public OperationByIdModelSwagger(Serie serie, String operationId, List<Label> labelOperation, String uri, String proprietaire) {
         super();
         this.serie = serie;
         this.operationId = operationId;
         this.labelOperation = labelOperation;
         this.uri = uri;
+        this.proprietaire = proprietaire;
     }
 
 }

@@ -2,16 +2,18 @@
 						 ?typeId ?type  ?typeLabelLg1 ?typeLabelLg2
 						 (count(?operationId) as ?nbOperation)
 						 ?familyId ?family ?familyLabelLg1 ?familyLabelLg2  
-						 ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2
-            
-           	{  
+						 ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2 ?proprietaire
+
+ {
 			    ?series a insee:StatisticalOperationSeries .
 			    BIND(STRAFTER(STR(?series),'/operations/serie/') AS ?id) .
            		?series skos:prefLabel ?seriesLabelLg1 .
            		FILTER (lang(?seriesLabelLg1) = '${LG1}')
            		?series skos:prefLabel ?seriesLabelLg2 .
            		FILTER (lang(?seriesLabelLg2) = '${LG2}')
-				
+
+ 				?series dc:creator ?proprietaire .
+
            		?series dcterms:isPartOf ?family .  
            		?family a insee:StatisticalOperationFamily .  
            		?family skos:prefLabel ?familyLabelLg1 .  
@@ -62,7 +64,7 @@
             
            	} group by ?id ?seriesLabelLg1 ?seriesLabelLg2 ?series ?seriesAltLabelLg1 ?seriesAltLabelLg2
 						    ?typeId ?type  ?typeLabelLg1 ?typeLabelLg2 ?familyId ?family ?familyLabelLg1 ?familyLabelLg2
-						        ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2
-			  order by ?id ?seriesLabelLg1 ?seriesLabelLg2 ?series ?seriesAltLabelLg1 ?seriesAltLabelLg2
+						        ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2 ?proprietaire
+ order by ?id ?seriesLabelLg1 ?seriesLabelLg2 ?series ?seriesAltLabelLg1 ?seriesAltLabelLg2
                        	    ?typeId ?type  ?typeLabelLg1 ?typeLabelLg2 ?familyId ?family ?familyLabelLg1 ?familyLabelLg2
-                       	     ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2
+                       	     ?periodicityId ?periodicity ?periodicityLabelLg1 ?periodicityLabelLg2 ?proprietaire
