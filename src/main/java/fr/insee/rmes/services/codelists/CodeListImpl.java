@@ -32,11 +32,16 @@ public class CodeListImpl extends RdfService implements CodeListsServices {
     }
 
     @Override
-    public String getAllCodesLists() throws RmesException {
+    public String getAllCodesLists(String dateMiseAJour) throws RmesException {
         Map<String, Object> params = initParams();
-
-        JSONArray codesLists =  repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getAllCodesLists.ftlh", params));
-
+        JSONArray codesLists = new JSONArray();
+        if (dateMiseAJour == ""){
+            codesLists =  repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getAllCodesLists.ftlh", params));
+        }
+        else{
+            params.put("DATE",dateMiseAJour);
+            codesLists = repoGestion.getResponseAsArray(buildRequest(Constants.CODELISTS_QUERIES_PATH,"getAllCodesListsFiltreByDate.ftlh", params));
+        }
         for (int i = 0; i < codesLists.length(); i++) {
             JSONObject codesList= codesLists.getJSONObject(i);
             if(codesList.has(STATUT_VALIDATION)){

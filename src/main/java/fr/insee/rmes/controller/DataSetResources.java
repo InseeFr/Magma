@@ -8,6 +8,7 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -50,8 +51,11 @@ public class DataSetResources {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getListDatasets", summary = "Get list of datasets", security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "array", implementation = DataSetModelSwagger.class)))})
-    public ResponseEntity<String> getListDatasets() throws RmesException, JsonProcessingException {
-        String jsonResult = dataSetsServices.getListDataSets();
+    public ResponseEntity<String> getListDatasets(@RequestParam(required = false) @Parameter(description = "Date of last update. Example: 2023-01-31") String dateMiseAJour) throws RmesException, JsonProcessingException {
+        if (dateMiseAJour == null){
+            dateMiseAJour = "";
+        }
+        String jsonResult = dataSetsServices.getListDataSets(dateMiseAJour);
         if (jsonResult.isEmpty()) {
             return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
         } else {
@@ -102,9 +106,9 @@ public class DataSetResources {
     @Autowired
     private HttpServletRequest request;
 
-    @PatchMapping(value = "/dataset/{id}")
 
-    @Operation(operationId = "update some properties of a dataset ", summary = "Update ObservationNumber, issued, modified, temporal, or numSeries  of a dataset")
+    @PatchMapping(value = "/dataset/{id}/observationNumber")
+    @Operation(operationId = "updateObservationNumber", summary = "Update ObservationNumber of a dataset")
     public String patchDataSetDistributionsByIdNombreObservations(
             @PathVariable("id") String datasetId,
             @Schema(name ="patchDataset" ,description = "Json of parameters you want to change", example = EXAMPLE_PATCH_DATASET)
