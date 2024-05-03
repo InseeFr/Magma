@@ -168,7 +168,7 @@ class DataSetsImplTest {
     @Test
     void patchDataset_shouldReturn204() throws RmesException, MalformedURLException,JsonProcessingException {
 
-        assertThat(dataSetsImpl.patchDataset("jdtest","{}","fake_token").equals(ResponseEntity.noContent().build()));
+        assertThat(dataSetsImpl.patchDataset("jdtest",ResponseUtilsTest.EMPTY_JSON_OBJECT,ResponseUtilsTest.FAKE_TOKEN).equals(ResponseEntity.noContent().build()));
     }
 
 
