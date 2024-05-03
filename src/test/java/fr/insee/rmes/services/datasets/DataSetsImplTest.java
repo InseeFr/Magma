@@ -23,7 +23,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
+import java.net.MalformedURLException;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -162,6 +164,12 @@ class DataSetsImplTest {
                 .hasMessageContaining("Non existent dataset identifier");
     }
 
+
+    @Test
+    void patchDataset_shouldReturn204() throws RmesException, MalformedURLException,JsonProcessingException {
+
+        assertThat(dataSetsImpl.patchDataset("jdtest","{}","fake_token").equals(ResponseEntity.noContent().build()));
+    }
 
 
 }
