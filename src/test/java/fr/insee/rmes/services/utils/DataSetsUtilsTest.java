@@ -79,4 +79,7 @@ public class DataSetsUtilsTest {
             ]
             """
             ;
+
+    public static final String CATALOGUE_RESULT_RELATIONS = "{\"relations\":\"http://www.insee.fr,http://www.rdf.insee.fr\"}";
+    public static final String EXPECTED_RELATIONS = "[\"http://www.insee.fr\", \"http://www.rdf.insee.fr\"]";
 }

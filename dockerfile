@@ -1,8 +1,10 @@
-FROM maven:3.6.2 as mvn
-WORKDIR /magma
-COPY ./ /magma/
-RUN mvn -B -f /magma/pom.xml package
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /application
 
-FROM tomcat:9.0-jre17
-COPY --from=mvn magma/target/*.war /usr/local/tomcat/webapps/
-CMD ["catalina.sh", "run"]
+RUN addgroup -g 10000 javagroup
+RUN adduser -D -s / -u 10000 javauser -G javagroup
+RUN chown -R 10000:10000 /application
+
+USER 10000
+COPY target/*.jar magma.jar
+ENTRYPOINT ["java", "-jar",  "/application/magma.jar"]

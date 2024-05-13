@@ -69,8 +69,11 @@ public class ConceptsResources {
 	@GetMapping("/concepts")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getAllConcepts", summary = "List of concepts",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ConceptByIdModelSwagger.class)))})
-	public ResponseEntity <String> getAllConcepts() throws RmesException {
-		String jsonResult = conceptsService.getAllConcepts();
+	public ResponseEntity <String> getAllConcepts(@RequestParam(required = false) @Parameter(description = "Date of last update. Example: 2023-01-31") String dateMiseAJour) throws RmesException {
+		if (dateMiseAJour == null){
+			dateMiseAJour = "";
+		}
+		String jsonResult = conceptsService.getAllConcepts(dateMiseAJour);
 		if(jsonResult.isEmpty()){
 			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("No result found");
 		}else {

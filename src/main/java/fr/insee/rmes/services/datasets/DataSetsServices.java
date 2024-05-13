@@ -11,7 +11,7 @@ import java.net.MalformedURLException;
 
 public interface DataSetsServices {
 
-    String getListDataSets() throws RmesException, JsonProcessingException;
+    String getListDataSets(String dateMiseAJour) throws RmesException, JsonProcessingException;
 
     String getDataSetByID(String id) throws RmesException, JsonProcessingException;
 

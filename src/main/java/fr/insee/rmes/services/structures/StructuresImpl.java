@@ -63,10 +63,17 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 		super(freeMarkerUtils);
 	}
 	@Override
-	public String getAllStructures() throws RmesException {
+	public String getAllStructures(String dateMiseAJour) throws RmesException {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put(STRUCTURES_GRAPH, Config.BASE_GRAPH+Config.STRUCTURES_GRAPH);
-		JSONArray structures =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getAllStructures.ftlh", params));
+		JSONArray structures = new JSONArray();
+		if (dateMiseAJour == ""){
+			structures =  repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getAllStructures.ftlh", params));
+		}
+		else{
+			params.put("DATE",dateMiseAJour);
+			structures = repoGestion.getResponseAsArray(buildRequest(Constants.STRUCTURES_QUERIES_PATH,"getAllStructuresFilterByDate.ftlh", params));
+		}
 		for (int i = 0; i < structures.length(); i++) {
 			JSONObject structure = structures.getJSONObject(i);
 			String validationState = structure.getString(STATUT_VALIDATION);
@@ -228,9 +235,16 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	private static final String STATUT_VALIDATION = "statutValidation";
 
 	@Override
-	public String getAllComponents() throws RmesException {
+	public String getAllComponents(String dateMiseAJour) throws RmesException {
 		Map<String, Object> params = initParams();
-		JSONArray components =  repoGestion.getResponseAsArray(buildRequest(Constants.COMPONENTS_QUERIES_PATH,"getComponents.ftlh", params));
+		JSONArray components = new JSONArray();
+		if (dateMiseAJour == ""){
+			components =  repoGestion.getResponseAsArray(buildRequest(Constants.COMPONENTS_QUERIES_PATH,"getComponents.ftlh", params));
+		}
+		else {
+			params.put("DATE",dateMiseAJour);
+			components = repoGestion.getResponseAsArray(buildRequest(Constants.COMPONENTS_QUERIES_PATH,"getComponentsFilterByDate.ftlh", params));
+		}
 
 		for (int i = 0; i < components.length(); i++) {
 			JSONObject  component= components.getJSONObject(i);

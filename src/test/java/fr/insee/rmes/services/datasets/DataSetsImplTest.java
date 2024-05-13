@@ -49,7 +49,7 @@ class DataSetsImplTest {
     void getListDataSetsTest() throws RmesException, JsonProcessingException {
         JSONArray mockJSON = new JSONArray(DataSetsUtilsTest.DATA_SET_LIST);
         when(repoGestion.getResponseAsArray(Mockito.anyString())).thenReturn(mockJSON);
-        assertThat(MAPPER.readTree(dataSetsImpl.getListDataSets())).isEqualTo(MAPPER.readTree(DataSetsUtilsTest.EXPECTED_GET_DATA_SET_LIST.toString()));
+        assertThat(MAPPER.readTree(dataSetsImpl.getListDataSets(""))).isEqualTo(MAPPER.readTree(DataSetsUtilsTest.EXPECTED_GET_DATA_SET_LIST.toString()));
     }
 
 
@@ -169,6 +169,18 @@ class DataSetsImplTest {
     void patchDataset_shouldReturn204() throws RmesException, MalformedURLException,JsonProcessingException {
 
         assertThat(dataSetsImpl.patchDataset("jdtest",ResponseUtilsTest.EMPTY_JSON_OBJECT,ResponseUtilsTest.FAKE_TOKEN).equals(ResponseEntity.noContent().build()));
+    }
+    
+    @Test
+    void testPresenceRelationsPuisAjout_checkFieldIsAdded() throws RmesException, JsonProcessingException {
+
+        var datasetImpl=new DataSetsImpl();
+        var response = new DataSetModelSwagger();
+        var catalogue_result = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_RELATIONS);
+        var expected = new JSONArray(DataSetsUtilsTest.EXPECTED_RELATIONS);
+        datasetImpl.testPresenceVariablePuisAjout(response,catalogue_result,new JSONObject(),new JSONObject(),new JSONObject(),new JSONObject());
+        assertThat(response.getRelations().get(0)).isEqualTo(expected.get(0));
+        assertThat(response.getRelations().get(1)).isEqualTo(expected.get(1));
     }
 
 
