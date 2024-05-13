@@ -15,11 +15,11 @@ import fr.insee.rmes.utils.exceptions.RmesException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -104,14 +104,17 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
     @Override
-    public ResponseEntity<String> patchDataset(String datasetId, String stringPatchDataset, String token) throws RmesException, MalformedURLException {
+    public ResponseEntity<String> patchDataset(String datasetId, String stringPatchDataset, String token) throws RmesException {
         try {
             JSONObject jsonPatchDataset = new JSONObject(stringPatchDataset);
-            JSONObject formattedJson = formattedJsonDataset(jsonPatchDataset);
-            if (formattedJson.isEmpty()){
+            if (jsonPatchDataset.isEmpty()){
                 return ResponseEntity.noContent().build();
             }
-            String urlString = Config.BAUHAUS_URL + "/datasets/" + datasetId + "/observationNumber";
+            JSONObject formattedJson = formattedJsonDataset(jsonPatchDataset);
+            if (formattedJson.isEmpty()){
+                return ResponseEntity.badRequest().build();
+            }
+            String urlString = Config.getBauhausUrl() + "/datasets/" + datasetId + "/observationNumber";
             HttpClient client = HttpClient.newHttpClient();
             String jsonInputString = String.format("%s", formattedJson);
             String id = getIdFromJWT(token);
@@ -124,13 +127,12 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                     .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonInputString))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            logger.trace("l'id " + id + " (" + email + ") a patché le dataset :" + datasetId);
+            logger.info("id {} ({}) has patched dataset :{}", id, email, datasetId);
             return ResponseEntity.ok(response.body());
-        } catch (IOException | InterruptedException | JSONException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
-
 
 
     private String getIdFromJWT(String jwt){

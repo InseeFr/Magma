@@ -227,4 +227,5 @@ public class Config {
 		return documentationsGeoBaseUri;
 	}
 
+	public static String getBauhausUrl() {return BAUHAUS_URL;}
 }
