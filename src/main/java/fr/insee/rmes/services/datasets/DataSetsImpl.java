@@ -120,10 +120,13 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 return ResponseEntity.badRequest().build();
             }
             String urlString = Config.getBauhausUrl() + "/datasets/" + datasetId + "/observationNumber";
+
             HttpClient client = HttpClient.newHttpClient();
             String jsonInputString = String.format("%s", formattedJson);
-            String id = getIdFromJWT(token);
-            String email = getEmailFromJWT(token);
+//            String jsonInputString2 = Stringform.format(formattedJson);
+            User user = getUserFromJWT(token);
+            String id = user.getId();
+            String email = user.getEmail();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(urlString))
                     .header("Content-Type", "application/json; utf-8")
@@ -141,21 +144,13 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
 
-    private String getIdFromJWT(String jwt){
-           jwt.replaceAll("Bearer ","");
-           String[] parts = jwt.split("\\.");
-           JSONObject payload = new JSONObject(decode(parts[1]));
-           return payload.getString("preferred_username");
-
-    }
-    private String getEmailFromJWT(String jwt){
+    private User getUserFromJWT(String jwt){
         jwt.replaceAll("Bearer ","");
         String[] parts = jwt.split("\\.");
         JSONObject payload = new JSONObject(decode(parts[1]));
-        return payload.getString("email");
-
+        User user = new User(payload.getString("preferred_username"),payload.getString("email"));
+        return user;
     }
-
 
 
     private static String decode(String encodedString) {
