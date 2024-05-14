@@ -135,10 +135,10 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                     .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonInputString))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            logger.info("id {} ({}) has patched dataset :{}", id, email, datasetId);
-            return ResponseEntity.ok(response.body());
-        } catch (IOException | InterruptedException e) {
 
+            logger.info("id {} ({}) has patched dataset :{}", id, email, datasetId);
+            return ResponseEntity.status(response.statusCode()).build();
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
