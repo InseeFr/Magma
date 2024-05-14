@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.ws.rs.HeaderParam;
 import org.apache.http.HttpStatus;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,17 +104,15 @@ public class DataSetResources {
     }
 
 
-    @Autowired
-    private HttpServletRequest request;
-
     @PatchMapping(value = "/dataset/{id}")
     @Operation(operationId = "update some properties of a dataset ", summary = "Update ObservationNumber, issued, modified, temporal, or numSeries  of a dataset")
     public ResponseEntity<String> patchDataSetDistributionsByIdNombreObservations(
             @PathVariable("id") String datasetId,
-            @Schema(name ="patchDataset" ,description = "Json of parameters you want to change", example = EXAMPLE_PATCH_DATASET)
+            @Parameter(hidden = true)
+            @RequestHeader(name = "Authorization") String token,
+            @Schema(name ="patchDataset" ,description = "Json with parameters you want to change", example = EXAMPLE_PATCH_DATASET)
             @RequestBody(required = true) String stringPatchDataset
     ) throws RmesException, MalformedURLException {
-        String token = request.getHeader("Authorization");
         return this.dataSetsServices.patchDataset(datasetId,stringPatchDataset,token);
     }
 
