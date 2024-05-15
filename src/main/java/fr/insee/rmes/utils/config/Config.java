@@ -143,7 +143,7 @@ public class Config {
 		return CODELISTS_BASE_URI;
 	}
 
-	public String getDatasetsBaseUri() {
+	public static String getDatasetsBaseUri() {
 		return DATASETS_BASE_URI;
 	}
 

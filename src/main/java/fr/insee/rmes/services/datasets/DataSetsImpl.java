@@ -12,6 +12,7 @@ import fr.insee.rmes.services.codelists.CodeListsServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import fr.insee.rmes.utils.request.TokenManagement;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.json.JSONArray;
@@ -19,22 +20,22 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
 public class DataSetsImpl extends RdfService implements DataSetsServices {
+
+    public static final String STRING = "%s";
+
     public DataSetsImpl(FreeMarkerUtils freeMarkerUtils) {
+        super();
     }
     private static final Logger logger = LoggerFactory.getLogger(DataSetsImpl.class);
     public static final String CONTENU = "contenu";
@@ -42,7 +43,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     public static final String DISTRIBUTIONS_PATH ="getDistributionsById/";
     public static final String DATASET_BY_ID_PATH ="getDatasetById/";
     public static final String DATASET_LIST ="getListDatasets/";
-
+    public static final String BAUHAUS_DATASET_URL = Config.getBauhausUrl() + Config.getDatasetsBaseUri();
 
     public Map<String,Object> params = initParams();
     public ObjectMapper objectMapper = new ObjectMapper();
@@ -52,7 +53,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     @Override
     public String getListDataSets(String dateMiseAJour) throws RmesException, JsonProcessingException {
         JSONArray listDataSet = new JSONArray();
-        if (dateMiseAJour == ""){
+        if (dateMiseAJour.isEmpty()){
             listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_LIST,"getListDatasets.ftlh", params));
         }
         else{
@@ -108,55 +109,42 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return jsonResponse;
     }
 
+
     @Override
-    public ResponseEntity<String> patchDataset(String datasetId, String stringPatchDataset, String token) throws RmesException {
-        try {
-            JSONObject jsonPatchDataset = new JSONObject(stringPatchDataset);
-            if (jsonPatchDataset.isEmpty()){
-                return ResponseEntity.noContent().build();
-            }
-            JSONObject formattedJson = formattedJsonDataset(jsonPatchDataset);
-            if (formattedJson.isEmpty()){
-                return ResponseEntity.badRequest().build();
-            }
-            String urlString = Config.getBauhausUrl() + "/datasets/" + datasetId + "/observationNumber";
-
-            HttpClient client = HttpClient.newHttpClient();
-            String jsonInputString = String.format("%s", formattedJson);
-//            String jsonInputString2 = Stringform.format(formattedJson);
-            User user = getUserFromJWT(token);
-            String id = user.getId();
-            String email = user.getEmail();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(urlString))
-                    .header("Content-Type", "application/json; utf-8")
-                    .header("Accept", "application/json")
-                    .header("Authorization", token)
-                    .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonInputString))
-                    .build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            logger.info("id {} ({}) has patched dataset :{}", id, email, datasetId);
-            return ResponseEntity.status(response.statusCode()).build();
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+    public ResponseEntity<String> patchDataset(String datasetId, String patchDataset, String token) throws RmesException {
+        JSONObject jsonPatchDataset = new JSONObject(patchDataset);
+        if (jsonPatchDataset.isEmpty()){
+            return ResponseEntity.noContent().build();
         }
+        JSONObject formattedJson = formattedJsonDataset(jsonPatchDataset);
+        if (formattedJson.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+        URI uriBase = URI.create(BAUHAUS_DATASET_URL);
+        URI uriId = URI.create(datasetId);
+        URI uri = uriBase.resolve(uriId);
+
+        String jsonInputString = String.format(STRING, formattedJson);
+
+        return HttpPatchRequest(token,uri,jsonInputString,datasetId);
     }
 
 
-    private User getUserFromJWT(String jwt){
-        jwt.replaceAll("Bearer ","");
-        String[] parts = jwt.split("\\.");
-        JSONObject payload = new JSONObject(decode(parts[1]));
-        User user = new User(payload.getString("preferred_username"),payload.getString("email"));
-        return user;
+    protected ResponseEntity<String> HttpPatchRequest(String token,URI uri,String body,String datasetId){
+        RestClient restClient = RestClient.create();
+        User user = TokenManagement.getUserFromJWT(token);
+        String id = user.getId();
+        String email = user.getEmail();
+        ResponseEntity<Void> response = restClient.patch()
+                .uri(uri)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(body)
+                .header("Authorization", token)
+                .retrieve()
+                .toBodilessEntity();
+        logger.info("id {} ({}) has patched dataset :{}", id, email, datasetId);
+        return ResponseEntity.status(response.getStatusCode()).build();
     }
-
-
-    private static String decode(String encodedString) {
-        return new String(Base64.getUrlDecoder().decode(encodedString));
-    }
-
 
     protected DataSetModelSwagger findDataSetModelSwagger(String id) throws RmesException, JsonProcessingException {
         //paramétrage de la requête
@@ -390,16 +378,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             }
     }
 
-
-    @Override
-    public Distribution findDistributions(String id) throws RmesException, JsonProcessingException {
-
-        var datasetModelSwagger = findDataSetModelSwagger(id);
-        var uri = datasetModelSwagger.getUriWithTypeUri();
-        Distribution d = new Distribution(datasetModelSwagger.getIdWithTypeId(), uri);
-        return new Distribution(datasetModelSwagger.getIdWithTypeId(), uri);
-
-    }
 
     @Override
     public Distributions[] getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException {
