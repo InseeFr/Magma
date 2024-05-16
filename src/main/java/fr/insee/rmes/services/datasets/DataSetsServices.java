@@ -1,6 +1,7 @@
 package fr.insee.rmes.services.datasets;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import fr.insee.rmes.dto.datasets.PatchDatasetDTO;
 import fr.insee.rmes.model.datasets.Distributions;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import org.springframework.http.ResponseEntity;
@@ -18,5 +19,5 @@ public interface DataSetsServices {
 
     Distributions[] getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException;
 
-    ResponseEntity<String> patchDataset(String datasetId, String patchDataset, String token) throws RmesException, MalformedURLException;
+    ResponseEntity<String> patchDataset(String datasetId, PatchDatasetDTO patchDataset, String token) throws RmesException, MalformedURLException;
 }

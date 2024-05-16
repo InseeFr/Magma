@@ -1,6 +1,7 @@
 package fr.insee.rmes.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import fr.insee.rmes.dto.datasets.PatchDatasetDTO;
 import fr.insee.rmes.model.datasets.Distributions;
 import fr.insee.rmes.modelSwagger.dataset.DataSetModelSwagger;
 import fr.insee.rmes.services.datasets.DataSetsServices;
@@ -27,6 +28,8 @@ import java.net.MalformedURLException;
 @Tag(name = "datasets", description = "Consultation Magma API - datasets")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success", content = {@Content}),
+        @ApiResponse(responseCode = "400", description = "Bad Request", content = {@Content}),
+        @ApiResponse(responseCode = "401", description = "Unauthorized", content = {@Content}),
         @ApiResponse(responseCode = "404", description = "Not found", content = {@Content}),
         @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content})})
 public class DataSetResources {
@@ -39,8 +42,8 @@ public class DataSetResources {
               "issued": "2022-11-11",
               "modified": "2023-12-31",
               "temporal": {"startPeriod": "2020-01-01", "endPeriod": "2024-01-01"},
-              "numObservations": "150",
-              "numSeries": "12"
+              "numObservations": 150,
+              "numSeries": 12
             }
             """;
 
@@ -105,10 +108,13 @@ public class DataSetResources {
     public ResponseEntity<String> patchDataSetDistributionsByIdNombreObservations(
             @PathVariable("id") String datasetId,
             @Parameter(hidden = true)
-            @RequestHeader(name = "Authorization") String token,
+            @RequestHeader(name = "Authorization",required = false) String token,
             @Schema(name ="patchDataset" ,description = "Json with parameters you want to change", example = EXAMPLE_PATCH_DATASET)
-            @RequestBody(required = true) String stringPatchDataset
+            @RequestBody(required = true) PatchDatasetDTO stringPatchDataset
     ) throws RmesException, MalformedURLException {
+        if (token == null){
+            return ResponseEntity.status(HttpStatus.SC_UNAUTHORIZED).build();
+        }
         return this.dataSetsServices.patchDataset(datasetId,stringPatchDataset,token);
     }
 

@@ -3,6 +3,7 @@ package fr.insee.rmes.services.datasets;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.insee.rmes.dto.datasets.PatchDatasetDTO;
 import fr.insee.rmes.model.CodeList.Code;
 import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
@@ -97,40 +98,17 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return dataSetFinalNode;
     }
 
-    public JSONObject formattedJsonDataset(JSONObject givenJson) {
-        JSONObject jsonResponse = new JSONObject();
-        for (PatchDatasetProperties property : PatchDatasetProperties.values()) {
-            String key = property.toString();
-            if (givenJson.has(key)) {
-                Object value = givenJson.get(key);
-                jsonResponse.put(key, value);
-            }
-        }
-        return jsonResponse;
-    }
-
-
     @Override
-    public ResponseEntity<String> patchDataset(String datasetId, String patchDataset, String token) throws RmesException {
-        JSONObject jsonPatchDataset = new JSONObject(patchDataset);
-        if (jsonPatchDataset.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-        JSONObject formattedJson = formattedJsonDataset(jsonPatchDataset);
-        if (formattedJson.isEmpty()){
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<String> patchDataset(String datasetId, PatchDatasetDTO patchDataset, String token) throws RmesException {
         URI uriBase = URI.create(BAUHAUS_DATASET_URL);
         URI uriId = URI.create(datasetId);
         URI uri = uriBase.resolve(uriId);
 
-        String jsonInputString = String.format(STRING, formattedJson);
-
-        return HttpPatchRequest(token,uri,jsonInputString,datasetId);
+        return HttpPatchRequest(token,uri,patchDataset,datasetId);
     }
 
 
-    protected ResponseEntity<String> HttpPatchRequest(String token,URI uri,String body,String datasetId){
+    protected ResponseEntity<String> HttpPatchRequest(String token, URI uri, PatchDatasetDTO body, String datasetId){
         RestClient restClient = RestClient.create();
         User user = TokenManagement.getUserFromJWT(token);
         String id = user.getId();
