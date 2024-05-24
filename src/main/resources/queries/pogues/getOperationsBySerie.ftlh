@@ -1,6 +1,4 @@
-SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?operationAltLabelLg1 ?operationAltLabelLg2 ?uri ?simsId ?seriesId ?series ?seriesLabelLg1 ?seriesLabelLg2   ?typeLabelLg1 ?typeLabelLg2
-				 ?periodicityId
-
+SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?operationAltLabelLg1 ?operationAltLabelLg2 ?uri ?simsId ?seriesId ?series ?seriesLabelLg1 ?seriesLabelLg2   ?typeLabelLg1 ?typeLabelLg2 ?periodicityId
 
            	{
 
