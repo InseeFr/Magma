@@ -30,6 +30,9 @@ public class Serie implements Serializable
     private List<Label> labelSerie = null;
     @JsonProperty("uri")
     private String series;
+    @JsonProperty("frequence")
+    @Valid
+    private Frequence frequence;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -48,6 +51,14 @@ public class Serie implements Serializable
      * @param series
      * @param seriesid
      */
+    public Serie(String seriesid, List<Label> labelSerie,Frequence frequence, String series) {
+        super();
+        this.seriesid = seriesid;
+        this.labelSerie = labelSerie;
+        this.frequence= frequence;
+        this.series = series;
+    }
+
     public Serie(String seriesid, List<Label> labelSerie, String series) {
         super();
         this.seriesid = seriesid;
@@ -57,5 +68,20 @@ public class Serie implements Serializable
 
     public List<Label> getLabelSerie() {
         return labelSerie;
+    }
+
+    @JsonProperty("frequence")
+    public Frequence getFrequence() {
+        return frequence;
+    }
+
+    @JsonProperty("frequence")
+    public void setFrequence(Frequence frequence) {
+        this.frequence = frequence;
+    }
+
+    public Serie withFrequence(Frequence frequence) {
+        this.frequence = frequence;
+        return this;
     }
 }
