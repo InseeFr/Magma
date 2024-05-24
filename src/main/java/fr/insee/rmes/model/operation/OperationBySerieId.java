@@ -58,6 +58,13 @@ public class OperationBySerieId implements Serializable
     private String seriesLabelLg2;
     @JsonProperty("periodicityId")
     private String periodicityId;
+    @JsonProperty("periodicity")
+    private String periodicity;
+    @JsonProperty("periodicityLabelLg1")
+    private String periodicityLabelLg1;
+    @JsonProperty("periodicityLabelLg2")
+    private String periodicityLabelLg2;
+
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -85,7 +92,7 @@ public class OperationBySerieId implements Serializable
      * @param seriesId
      * @param seriesLabelLg2
      */
-    public OperationBySerieId(String series, String typeLabelLg1, String typeLabelLg2, String operationId, String operationLabelLg1, String operationLabelLg2, String operationAltLabelLg2, String seriesLabelLg1, String operationAltLabelLg1, String uri, String seriesId, String seriesLabelLg2,String periodicityId) {
+    public OperationBySerieId(String series, String typeLabelLg1, String typeLabelLg2, String operationId, String operationLabelLg1, String operationLabelLg2, String operationAltLabelLg2, String seriesLabelLg1, String operationAltLabelLg1, String uri, String seriesId, String seriesLabelLg2,String periodicityId, String periodicity,String periodicityLabelLg1,String periodicityLabelLg2) {
         super();
         this.series = series;
         this.typeLabelLg1 = typeLabelLg1;
@@ -100,6 +107,10 @@ public class OperationBySerieId implements Serializable
         this.seriesId = seriesId;
         this.seriesLabelLg2 = seriesLabelLg2;
         this.periodicityId= periodicityId;
+        this.periodicity= periodicity;
+        this.periodicityLabelLg1= periodicityLabelLg1;
+        this.periodicityLabelLg2= periodicityLabelLg2;
+
     }
 
     @JsonProperty("series")
@@ -285,6 +296,22 @@ public class OperationBySerieId implements Serializable
     public String getPeriodicityId() {
         return periodicityId;
     }
+
+    @JsonProperty("periodicity")
+    public String getPeriodicity() {
+        return periodicity;
+    }
+
+    @JsonProperty("periodicityLabelLg1")
+    public String getPeriodicityLabelLg1() {
+        return periodicityLabelLg1;
+    }
+
+    @JsonProperty("periodicityLabelLg2")
+    public String getPeriodicityLabelLg2() {
+        return periodicityLabelLg2;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

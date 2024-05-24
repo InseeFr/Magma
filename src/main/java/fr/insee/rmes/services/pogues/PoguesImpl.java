@@ -206,30 +206,45 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         OperationBySerieId[] operationBySerieId = jsonResponse.readValue(operationsList.toString(), OperationBySerieId[].class);
 
         ObjectMapper mapper = new ObjectMapper();
-        List<OperationBySerieIdModelSwagger> operationsBySerieIdModelSwaggerS= new ArrayList<>();
+        List<OperationBySerieIdModelSwagger> operationsBySerieIdModelSwaggerS = new ArrayList<>();
         for (OperationBySerieId bySerieId : operationBySerieId) {
             Label labelSerie1 = new Label(Config.LG1, bySerieId.getSeriesLabelLg1());
             Label labelSerie2 = new Label(Config.LG2, bySerieId.getSeriesLabelLg2());
-                List<Label> label = new ArrayList<>();
-                    label.add(labelSerie1);
-                    label.add(labelSerie2);
-                        Serie serie = new Serie(bySerieId.getSeriesId(), label, bySerieId.getPeriodicityId(),bySerieId.getSeries());
+            List<Label> label = new ArrayList<>();
+            label.add(labelSerie1);
+            label.add(labelSerie2);
+
+            Serie serie;
+            if (bySerieId.getPeriodicityLabelLg1() != null && bySerieId.getPeriodicityLabelLg2() != null) {
+                Label labelFreq1 = new Label(Config.LG1, bySerieId.getPeriodicityLabelLg1());
+                Label labelFreq2 = new Label(Config.LG2, bySerieId.getPeriodicityLabelLg2());
+                List<Label> labelFreq = new ArrayList<>();
+                labelFreq.add(labelFreq1);
+                labelFreq.add(labelFreq2);
+                Frequence frequence = new Frequence(bySerieId.getPeriodicityId(), labelFreq, bySerieId.getPeriodicity());
+                serie = new Serie(bySerieId.getSeriesId(), label, frequence, bySerieId.getSeries());
+            } else {
+                serie = new Serie(bySerieId.getSeriesId(), label, bySerieId.getSeries());
+            }
+
             Label labelOperation1 = new Label(Config.LG1, bySerieId.getOperationLabelLg1());
             Label labelOperation2 = new Label(Config.LG2, bySerieId.getOperationLabelLg2());
-                List<Label> labelOperation = new ArrayList<>();
-                    labelOperation.add(labelOperation1);
-                    labelOperation.add(labelOperation2);
+            List<Label> labelOperation = new ArrayList<>();
+            labelOperation.add(labelOperation1);
+            labelOperation.add(labelOperation2);
+
             AltLabel altLabelOperation1 = new AltLabel(Config.LG1, bySerieId.getOperationAltLabelLg1());
             AltLabel altLabelOperation2 = new AltLabel(Config.LG2, bySerieId.getOperationAltLabelLg2());
-                List<AltLabel> altLabelOperation = new ArrayList<>();
-                    altLabelOperation.add(altLabelOperation1);
-                    altLabelOperation.add(altLabelOperation2);
-                        OperationBySerieIdModelSwagger operationBySerieIdModelSwagger = new OperationBySerieIdModelSwagger(altLabelOperation, labelOperation, bySerieId.getUri(), serie, bySerieId.getOperationId());
+            List<AltLabel> altLabelOperation = new ArrayList<>();
+            altLabelOperation.add(altLabelOperation1);
+            altLabelOperation.add(altLabelOperation2);
+
+            OperationBySerieIdModelSwagger operationBySerieIdModelSwagger = new OperationBySerieIdModelSwagger(
+                    altLabelOperation, labelOperation, bySerieId.getUri(), serie, bySerieId.getOperationId());
             operationsBySerieIdModelSwaggerS.add(operationBySerieIdModelSwagger);
         }
 
         return mapper.writeValueAsString(operationsBySerieIdModelSwaggerS);
-
     }
 
     @Override
