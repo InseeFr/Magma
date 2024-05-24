@@ -213,7 +213,7 @@ public class PoguesImpl extends RdfService implements PoguesServices {
                 List<Label> label = new ArrayList<>();
                     label.add(labelSerie1);
                     label.add(labelSerie2);
-                        Serie serie = new Serie(bySerieId.getSeriesId(), label, bySerieId.getSeries());
+                        Serie serie = new Serie(bySerieId.getSeriesId(), label, bySerieId.getPeriodicityId(),bySerieId.getSeries());
             Label labelOperation1 = new Label(Config.LG1, bySerieId.getOperationLabelLg1());
             Label labelOperation2 = new Label(Config.LG2, bySerieId.getOperationLabelLg2());
                 List<Label> labelOperation = new ArrayList<>();

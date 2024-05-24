@@ -56,6 +56,8 @@ public class OperationBySerieId implements Serializable
     private String seriesId;
     @JsonProperty("seriesLabelLg2")
     private String seriesLabelLg2;
+    @JsonProperty("periodicityId")
+    private String periodicityId;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -83,7 +85,7 @@ public class OperationBySerieId implements Serializable
      * @param seriesId
      * @param seriesLabelLg2
      */
-    public OperationBySerieId(String series, String typeLabelLg1, String typeLabelLg2, String operationId, String operationLabelLg1, String operationLabelLg2, String operationAltLabelLg2, String seriesLabelLg1, String operationAltLabelLg1, String uri, String seriesId, String seriesLabelLg2) {
+    public OperationBySerieId(String series, String typeLabelLg1, String typeLabelLg2, String operationId, String operationLabelLg1, String operationLabelLg2, String operationAltLabelLg2, String seriesLabelLg1, String operationAltLabelLg1, String uri, String seriesId, String seriesLabelLg2,String periodicityId) {
         super();
         this.series = series;
         this.typeLabelLg1 = typeLabelLg1;
@@ -97,6 +99,7 @@ public class OperationBySerieId implements Serializable
         this.uri = uri;
         this.seriesId = seriesId;
         this.seriesLabelLg2 = seriesLabelLg2;
+        this.periodicityId= periodicityId;
     }
 
     @JsonProperty("series")
@@ -278,7 +281,10 @@ public class OperationBySerieId implements Serializable
         this.seriesLabelLg2 = seriesLabelLg2;
         return this;
     }
-
+    @JsonProperty("periodicityId")
+    public String getPeriodicityId() {
+        return periodicityId;
+    }
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

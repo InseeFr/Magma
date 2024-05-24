@@ -34,7 +34,8 @@ public class Serie implements Serializable
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private final static long serialVersionUID = -4606257655963558026L;
-
+    @JsonProperty("frequence")
+    private String frequence;
     /**
      * No args constructor for use in serialization
      * 
@@ -48,6 +49,14 @@ public class Serie implements Serializable
      * @param series
      * @param seriesid
      */
+    public Serie(String seriesid, List<Label> labelSerie,String frequence, String series) {
+        super();
+        this.seriesid = seriesid;
+        this.labelSerie = labelSerie;
+        this.frequence= frequence;
+        this.series = series;
+    }
+
     public Serie(String seriesid, List<Label> labelSerie, String series) {
         super();
         this.seriesid = seriesid;
