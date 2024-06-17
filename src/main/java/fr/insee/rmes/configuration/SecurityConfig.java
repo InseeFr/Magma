@@ -63,7 +63,7 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                 )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt((jwt) -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
         return http.build();
     }
 
@@ -86,39 +86,38 @@ public class SecurityConfig {
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setPrincipalClaimName(inseeSecurityTokenProperties.getOidcClaimUsername());
+        jwtAuthenticationConverter.setPrincipalClaimName(inseeSecurityTokenProperties.oidcClaimUsername());
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter());
         return jwtAuthenticationConverter;
     }
 
     Converter<Jwt, Collection<GrantedAuthority>> jwtGrantedAuthoritiesConverter() {
-        return new Converter<Jwt, Collection<GrantedAuthority>>() {
-            @Override @SuppressWarnings({ "unchecked" }) public Collection<GrantedAuthority> convert(Jwt source) {
+        return source -> {
 
-                String[] claimPath = inseeSecurityTokenProperties.getOidcClaimRole().split("\\.");
-                Map<String, Object> claims = source.getClaims();
-                try {
+            String[] claimPath = inseeSecurityTokenProperties.oidcClaimRole().split("\\.");
+            Map<String, Object> claims = source.getClaims();
+            try {
 
-                    for (int i = 0; i < claimPath.length - 1; i++) {
-                        claims = (Map<String, Object>) claims.get(claimPath[i]);
+                for (int i = 0; i < claimPath.length - 1; i++) {
+                    claims = (Map<String, Object>) claims.get(claimPath[i]);
+                }
+
+                List<String> roles = (List<String>) claims.getOrDefault(claimPath[claimPath.length - 1], List.of());
+                //if we need to add customs roles to every connected user we could define this variable (static or from properties)
+                //roles.addAll(defaultRolesForUsers);
+                return Collections.unmodifiableCollection(roles.stream().map(s -> new GrantedAuthority() {
+                    @Override
+                    public String getAuthority() {
+                        return ROLE_PREFIX + s;
                     }
 
-                    List<String> roles = (List<String>) claims.getOrDefault(claimPath[claimPath.length - 1], List.of());
-                    //if we need to add customs roles to every connected user we could define this variable (static or from properties)
-                    //roles.addAll(defaultRolesForUsers);
-                    return Collections.unmodifiableCollection(roles.stream().map(s -> new GrantedAuthority() {
-                        @Override public String getAuthority() {
-                            return ROLE_PREFIX + s;
-                        }
-
-                        @Override public String toString() {
-                            return getAuthority();
-                        }
-                    }).toList());
-                }
-                catch (ClassCastException e) {
-                    return List.of();
-                }
+                    @Override
+                    public String toString() {
+                        return getAuthority();
+                    }
+                }).toList());
+            } catch (ClassCastException e) {
+                return List.of();
             }
         };
     }

@@ -1,6 +1,7 @@
 package fr.insee.rmes;
 
 
+import fr.insee.rmes.configuration.InseeSecurityTokenProperties;
 import fr.insee.rmes.configuration.PropertiesLogger;
 import fr.insee.rmes.utils.config.Config;
 import jakarta.annotation.PostConstruct;
@@ -9,10 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 
 @SpringBootApplication
+@EnableConfigurationProperties(value = InseeSecurityTokenProperties.class)
 public class Application extends SpringBootServletInitializer {
 
 	private static final String PROPERTIES_FILENAME = "rmeswsgi";

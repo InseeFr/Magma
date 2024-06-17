@@ -14,8 +14,6 @@ import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import fr.insee.rmes.utils.request.TokenManagement;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -27,33 +25,39 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-import java.net.URI;
 import java.util.*;
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
 public class DataSetsImpl extends RdfService implements DataSetsServices {
 
-    public static final String STRING = "%s";
-
-    public DataSetsImpl(FreeMarkerUtils freeMarkerUtils) {
-        super();
-    }
     private static final Logger logger = LoggerFactory.getLogger(DataSetsImpl.class);
     public static final String CONTENU = "contenu";
     public static final String LANGUE = "langue";
     public static final String DISTRIBUTIONS_PATH ="getDistributionsById/";
     public static final String DATASET_BY_ID_PATH ="getDatasetById/";
     public static final String DATASET_LIST ="getListDatasets/";
-    public static final String BAUHAUS_DATASET_URL = Config.getBauhausUrl() + Config.getDatasetsBaseUri();
 
-    public Map<String,Object> params = initParams();
-    public ObjectMapper objectMapper = new ObjectMapper();
+    private final Map<String,Object> params = initParams();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final RestClient restClient;
+    private final CodeListsServices codeListsServices;
 
+
+    protected DataSetsImpl(FreeMarkerUtils freeMarkerUtils) {
+        super(freeMarkerUtils);
+        restClient=null;
+        codeListsServices=null;
+    }
+
+    @Autowired
+    public DataSetsImpl(RestClient restClient, CodeListsServices codeListsServices){
+        this.restClient=restClient;
+        this.codeListsServices=codeListsServices;
+    }
 
 
     @Override
     public String getListDataSets(String dateMiseAJour) throws RmesException, JsonProcessingException {
-        JSONArray listDataSet = new JSONArray();
+        JSONArray listDataSet;
         if (dateMiseAJour.isEmpty()){
             listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_LIST,"getListDatasets.ftlh", params));
         }
@@ -100,21 +104,16 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
     @Override
     public ResponseEntity<String> patchDataset(String datasetId, PatchDatasetDTO patchDataset, String token) throws RmesException {
-        URI uriBase = URI.create(BAUHAUS_DATASET_URL);
-        URI uriId = URI.create(datasetId);
-        URI uri = uriBase.resolve(uriId);
-
-        return HttpPatchRequest(token,uri,patchDataset,datasetId);
+        return httpPatchRequest(token,patchDataset,datasetId);
     }
 
 
-    protected ResponseEntity<String> HttpPatchRequest(String token, URI uri, PatchDatasetDTO body, String datasetId){
-        RestClient restClient = RestClient.create();
+    protected ResponseEntity<String> httpPatchRequest(String token, PatchDatasetDTO body, String datasetId){
         User user = TokenManagement.getUserFromJWT(token);
         String id = user.getId();
         String email = user.getEmail();
         ResponseEntity<Void> response = restClient.patch()
-                .uri(uri)
+                .uri("/"+datasetId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(body)
                 .header("Authorization", token)
@@ -415,7 +414,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
                 // si le ième JSONObject a un attribut descriptionLg2 & un attribut descriptionLg1 alors on met en forme
                 //un attribut description qui contient les deux. Puis on l'ajoute à distributionTemp
-                if ((distributionTemp.has("descriptionLg2")) & (distributionTemp.has("descriptionLg1"))) {
+                if ((distributionTemp.has("descriptionLg2")) && (distributionTemp.has("descriptionLg1"))) {
                     List<LangContent> description = constructLangContent(distributionTemp.getString("descriptionLg1"),(distributionTemp.getString("descriptionLg2")));
                     distributionTemp.remove("descriptionLg2");
                     distributionTemp.remove("descriptionLg1");
@@ -424,7 +423,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
                 // si le ième JSONObject a un attribut titleLg1 & un attribut titleLg2 alors on met en forme
                 //un attribut title qui contient les deux. Puis, on l'ajoute à distributionTemp
-                if ((distributionTemp.has("titleLg1")) & (distributionTemp.has("titleLg2"))) {
+                if ((distributionTemp.has("titleLg1")) && (distributionTemp.has("titleLg2"))) {
                     List<LangContent> title = constructLangContent(distributionTemp.getString("titleLg1"),distributionTemp.getString("titleLg2"));
                     distributionTemp.remove("titleLg1");
                     distributionTemp.remove("titleLg2");
@@ -559,8 +558,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
        }
 
 
-    @Autowired
-    CodeListsServices codeListsServices;
     private ProcessStep constructCodeList(String notation) throws RmesException {
         String codeListString = codeListsServices.getCodesListForDataset(notation);
         JSONObject jsonCodeList = new JSONObject(codeListString);
@@ -589,9 +586,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         langContentList.add(langContent2);
         Label label = new Label(langContentList);
 
-        ProcessStep codeList = new ProcessStep(notation,label);
-
-        return codeList;
+        return new ProcessStep(notation,label);
     }
 
     private WasDerivedFrom constructWasDerivedFrom(List<String> datasets) {

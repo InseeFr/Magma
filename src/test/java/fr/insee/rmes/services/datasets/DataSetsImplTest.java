@@ -25,6 +25,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.client.RestClient;
 
 import java.net.MalformedURLException;
 import java.util.*;
@@ -176,13 +177,13 @@ class DataSetsImplTest {
     @Test
     void testPresenceRelationsPuisAjout_checkFieldIsAdded() throws RmesException, JsonProcessingException {
 
-        var datasetImpl = new DataSetsImpl();
-        var response = new DataSetModelSwagger();
+        var datasetImpl = new DataSetsImpl(null, null);
+        var swaggerResponse = new DataSetModelSwagger();
         var catalogue_result = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_RELATIONS);
         var expected = new JSONArray(DataSetsUtilsTest.EXPECTED_RELATIONS);
-        datasetImpl.testPresenceVariablePuisAjout(response, catalogue_result, new JSONObject(), new JSONObject(), new JSONObject(), new JSONObject());
-        assertThat(response.getRelations().get(0)).isEqualTo(expected.get(0));
-        assertThat(response.getRelations().get(1)).isEqualTo(expected.get(1));
+        datasetImpl.testPresenceVariablePuisAjout(swaggerResponse, catalogue_result, new JSONObject(), new JSONObject(), new JSONObject(), new JSONObject());
+        assertThat(swaggerResponse.getRelations().get(0)).isEqualTo(expected.get(0));
+        assertThat(swaggerResponse.getRelations().get(1)).isEqualTo(expected.get(1));
     }
 
 
