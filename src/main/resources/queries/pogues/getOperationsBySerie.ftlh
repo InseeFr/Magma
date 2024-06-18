@@ -1,6 +1,5 @@
 SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?operationAltLabelLg1 ?operationAltLabelLg2 ?uri ?simsId ?seriesId ?series ?seriesLabelLg1 ?seriesLabelLg2   ?typeLabelLg1 ?typeLabelLg2
-
-
+				?periodicity	?periodicityId  ?periodicityLabelLg1 ?periodicityLabelLg2
 
            	{
 
@@ -18,6 +17,15 @@ SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?operationA
 			FILTER (lang(?operationLabelLg1) = '${LG1}') .
 			?uri skos:prefLabel ?operationLabelLg2 .
 			FILTER (lang(?operationLabelLg2) = '${LG2}') .
+
+			OPTIONAL {
+            ?series dcterms:accrualPeriodicity ?periodicity .
+            BIND(STRAFTER(STR(?periodicity),'/codes/frequence/') AS ?periodicityId) .
+            ?periodicity skos:prefLabel ?periodicityLabelLg1 .
+            FILTER (lang(?periodicityLabelLg1) = '${LG1}')
+            ?periodicity skos:prefLabel ?periodicityLabelLg2 .
+            FILTER (lang(?periodicityLabelLg2) = '${LG2}')
+            }
 
     		OPTIONAL {
     		?uri skos:altLabel ?operationAltLabelLg1 .
