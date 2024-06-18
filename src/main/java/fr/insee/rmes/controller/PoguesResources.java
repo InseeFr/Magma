@@ -15,15 +15,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 
 
@@ -41,13 +36,12 @@ public class PoguesResources {
     PoguesServices poguesServices;
 
 
-    @GetMapping("/operations/series")
-    @Produces(MediaType.APPLICATION_JSON)
+    @GetMapping(path = "/operations/series", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(operationId = "getAllSeries", summary = "Get all series",security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdModelSwagger.class)))})
     public ResponseEntity<String> getAllSeriesLists(@Parameter(
             description = "param for survey only",
-            required = false) @QueryParam("Survey") Boolean survey) throws RmesException, IOException {
+            required = false) @RequestParam("Survey") Boolean survey) throws RmesException, IOException {
 
         String jsonResult = (String) poguesServices.getAllSeriesLists(survey);
 
@@ -59,8 +53,7 @@ public class PoguesResources {
 
     }
 
-    @GetMapping("/operations/serie/{id}/")
-    @Produces(MediaType.APPLICATION_JSON)
+    @GetMapping(path = "/operations/serie/{id}/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(operationId = "getSerieById", summary = "Get one serie",security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdModelSwagger.class)))})
 
@@ -74,8 +67,7 @@ public class PoguesResources {
 
     }
 
-    @GetMapping("/operations/serie/{id}/operations")
-    @Produces(MediaType.APPLICATION_JSON)
+    @GetMapping(path = "/operations/serie/{id}/operations", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(operationId = "getOperationsBySerie", summary = "Get operations by serie",security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = OperationBySerieIdModelSwagger.class)))})
 
@@ -88,8 +80,7 @@ public class PoguesResources {
         }
     }
 
-    @GetMapping("/operations/operation/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @GetMapping(path = "/operations/operation/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(operationId = "getOperationsBycode", summary = "Get operations by code",security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = OperationByIdModelSwagger.class)))})
 

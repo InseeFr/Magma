@@ -1,6 +1,7 @@
 package fr.insee.rmes.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import fr.insee.security.UserDecoder;
 import fr.insee.rmes.dto.datasets.PatchDatasetDTO;
 import fr.insee.rmes.model.datasets.Distributions;
 import fr.insee.rmes.modelSwagger.dataset.DataSetModelSwagger;
@@ -14,11 +15,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
+import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpStatus;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
@@ -32,10 +33,8 @@ import java.net.MalformedURLException;
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = {@Content}),
         @ApiResponse(responseCode = "404", description = "Not found", content = {@Content}),
         @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content})})
+@RequiredArgsConstructor
 public class DataSetResources {
-
-    @Autowired
-    DataSetsServices dataSetsServices;
 
     private static final String EXAMPLE_PATCH_DATASET = """
             {
@@ -46,11 +45,12 @@ public class DataSetResources {
               "numSeries": 12
             }
             """;
+    private final UserDecoder userDecoder;
+    private final DataSetsServices dataSetsServices;
 
-    @GetMapping("/datasets/list")
-    @Produces(MediaType.APPLICATION_JSON)
+    @GetMapping(path = "/datasets/list", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(operationId = "getListDatasets", summary = "Get list of datasets", security = @SecurityRequirement(name = "bearerScheme"),
-            responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "array", implementation = DataSetModelSwagger.class)))})
+            responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(type = "array", implementation = DataSetModelSwagger.class)))})
     public ResponseEntity<String> getListDatasets(@RequestParam(required = false) @Parameter(description = "Date of last update. Example: 2023-01-31") String dateMiseAJour) throws RmesException, JsonProcessingException {
         if (dateMiseAJour == null){
             dateMiseAJour = "";
@@ -63,13 +63,12 @@ public class DataSetResources {
         }
     }
 
-    @GetMapping("/dataset/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @GetMapping(path = "/dataset/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(operationId = "getDataSetById", summary = "Get one dataset", security = @SecurityRequirement(name = "bearerScheme"),
-            responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(type = "string", implementation = DataSetModelSwagger.class)))})
+            responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(type = "string", implementation = DataSetModelSwagger.class)))})
 
     public ResponseEntity<String> getDataSetByID(@PathVariable("id") String id,
-                                                 @RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
+                                                 @RequestParam(name = "dateMiseAJour", defaultValue = "false") boolean boolDateMiseAJour
     ) throws RmesException, JsonProcessingException {
 
         // par défaut ce booléen est faux et donc on renvoie tout les infos d'un dataset
@@ -95,8 +94,7 @@ public class DataSetResources {
     }
 
 
-    @GetMapping("/dataset/{id}/distributions")
-    @Produces(MediaType.APPLICATION_JSON)
+    @GetMapping(path = "/dataset/{id}/distributions", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Distributions[]>  getDataSetDistributionsById(@PathVariable String id) throws RmesException, JsonProcessingException {
 
         return ResponseEntity.ok(dataSetsServices.getDataSetDistributionsById(id));
@@ -110,12 +108,13 @@ public class DataSetResources {
             @Parameter(hidden = true)
             @RequestHeader(name = "Authorization",required = false) String token,
             @Schema(name ="patchDataset" ,description = "Json with parameters you want to change", example = EXAMPLE_PATCH_DATASET)
-            @RequestBody(required = true) PatchDatasetDTO stringPatchDataset
+            @RequestBody(required = true) PatchDatasetDTO stringPatchDataset,
+            @AuthenticationPrincipal Object principal
     ) throws RmesException, MalformedURLException {
         if (token == null){
             return ResponseEntity.status(HttpStatus.SC_UNAUTHORIZED).build();
         }
-        return this.dataSetsServices.patchDataset(datasetId,stringPatchDataset,token);
+        return this.dataSetsServices.patchDataset(datasetId,stringPatchDataset,token, this.userDecoder.fromPrincipal(principal));
     }
 
 }

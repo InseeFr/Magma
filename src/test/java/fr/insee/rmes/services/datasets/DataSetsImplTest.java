@@ -25,13 +25,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.client.RestClient;
 
-import java.net.MalformedURLException;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import static java.util.Optional.empty;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -169,8 +168,8 @@ class DataSetsImplTest {
 
 
     @Test
-    void patchDataset_shouldReturn400() throws RmesException, MalformedURLException, JsonProcessingException {
-        assertThatThrownBy(() -> dataSetsImpl.patchDataset("jdtest", new PatchDatasetDTO(null, null, null, null, null), ResponseUtilsTest.FAKE_TOKEN)).isInstanceOf(RuntimeException.class)
+    void patchDataset_shouldReturn400() {
+        assertThatThrownBy(() -> dataSetsImpl.patchDataset("jdtest", new PatchDatasetDTO(null, null, null, null, null), ResponseUtilsTest.FAKE_TOKEN, empty())).isInstanceOf(RuntimeException.class)
                 .hasCause(new RmesException(HttpStatus.BAD_REQUEST, "All required fields are null", "Fill in at least one valid field"));
     }
 

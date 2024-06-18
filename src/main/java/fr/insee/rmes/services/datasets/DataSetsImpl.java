@@ -9,11 +9,11 @@ import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.persistence.FreeMarkerUtils;
 import fr.insee.rmes.persistence.RdfService;
+import fr.insee.security.User;
 import fr.insee.rmes.services.codelists.CodeListsServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
-import fr.insee.rmes.utils.request.TokenManagement;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -103,15 +103,15 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
     @Override
-    public ResponseEntity<String> patchDataset(String datasetId, PatchDatasetDTO patchDataset, String token) throws RmesException {
-        return httpPatchRequest(token,patchDataset,datasetId);
+    public ResponseEntity<String> patchDataset(String datasetId, PatchDatasetDTO patchDataset, String token, Optional<User> user) {
+        return httpPatchRequest(token,patchDataset,datasetId, user);
     }
 
 
-    protected ResponseEntity<String> httpPatchRequest(String token, PatchDatasetDTO body, String datasetId){
-        User user = TokenManagement.getUserFromJWT(token);
-        String id = user.getId();
-        String email = user.getEmail();
+    protected ResponseEntity<String> httpPatchRequest(String token, PatchDatasetDTO body, String datasetId, Optional<User>  user){
+
+        Optional<String> id = user.map(User::id);
+        Optional<String> email = user.map(User::email);
         ResponseEntity<Void> response = restClient.patch()
                 .uri("/"+datasetId)
                 .contentType(MediaType.APPLICATION_JSON)
