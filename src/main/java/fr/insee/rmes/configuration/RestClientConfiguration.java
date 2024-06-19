@@ -13,7 +13,7 @@ public class RestClientConfiguration {
     @Bean
     public RestClient restClient(Config config){
         return RestClient.builder()
-                .baseUrl(config.getBauhausUrl()+config.getDatasetsBaseUri())
+                .baseUrl(config.getBauhausUrl()+"/"+config.getDatasetsBaseUri())
                 .build();
     }
 
