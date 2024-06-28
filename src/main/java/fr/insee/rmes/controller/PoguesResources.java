@@ -13,9 +13,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -40,7 +37,7 @@ public class PoguesResources {
 
 
     @GetMapping(path = "/operations/series", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(operationId = "getAllSeries", summary = "Get all series",security = @SecurityRequirement(name = "bearerScheme"),
+    @Operation(operationId = "getAllSeries", summary = "Get all series", security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdModelSwagger.class)))})
     public ResponseEntity<String> getAllSeriesLists(@Parameter(
             description = "param for survey only",
@@ -58,7 +55,7 @@ public class PoguesResources {
     }
 
     @GetMapping(path = "/operations/serie/{id}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(operationId = "getSerieById", summary = "Get one serie",security = @SecurityRequirement(name = "bearerScheme"),
+    @Operation(operationId = "getSerieById", summary = "Get one serie", security = @SecurityRequirement(name = "bearerScheme"),
 
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdModelSwagger.class)))})
 
@@ -74,7 +71,7 @@ public class PoguesResources {
 
 
     @GetMapping(path = "/operations/serie/{id}/operations", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(operationId = "getOperationsBySerie", summary = "Get operations by serie",security = @SecurityRequirement(name = "bearerScheme"),
+    @Operation(operationId = "getOperationsBySerie", summary = "Get operations by serie", security = @SecurityRequirement(name = "bearerScheme"),
 
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = OperationBySerieIdModelSwagger.class)))})
 
@@ -89,7 +86,7 @@ public class PoguesResources {
 
 
     @GetMapping(path = "/operations/operation/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(operationId = "getOperationsBycode", summary = "Get operations by code",security = @SecurityRequirement(name = "bearerScheme"),
+    @Operation(operationId = "getOperationsBycode", summary = "Get operations by code", security = @SecurityRequirement(name = "bearerScheme"),
 
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = OperationByIdModelSwagger.class)))})
 
