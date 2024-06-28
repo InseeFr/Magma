@@ -17,11 +17,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,9 +37,7 @@ public class StructuresResources {
 	@Autowired
 	StructuresServices structuresServices;
 
-	@GET
-	@GetMapping("/structures")
-	@Produces(MediaType.APPLICATION_JSON)
+	@GetMapping(path = "/structures", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Operation(operationId = "getAllStructures", summary = "Get all structures",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = AllStructureModelSwagger.class)))})
 	public ResponseEntity <String> getAllStructures(@RequestParam(required = false) @Parameter(description = "Date of last update. Example: 2023-01-31") String dateMiseAJour) throws RmesException {
 		if (dateMiseAJour == null){
@@ -55,9 +51,7 @@ public class StructuresResources {
 		}
 	}
 
-	@GET
-	@GetMapping("/structure/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@GetMapping(path = "/structure/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Operation(operationId = "getStructure", summary = "Get a structure",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = StructureByIdModelSwagger.class)))})
 	public ResponseEntity <String> getStructure(@PathVariable(Constants.ID) String id,
 												@RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
@@ -83,8 +77,7 @@ public class StructuresResources {
 
 	}
 
-	@GetMapping("/composants")
-	@Produces(MediaType.APPLICATION_JSON)
+	@GetMapping(path = "/composants", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Operation(operationId = "getAllComponents", summary = "Get all components",security = @SecurityRequirement(name = "bearerScheme"),
 			responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array",implementation = AllComponentModelSwagger.class)))})
 	public ResponseEntity<String> getAllComponents(@RequestParam(required = false) @Parameter(description = "Date of last update. Example: 2023-01-31") String dateMiseAJour) throws RmesException {
@@ -100,8 +93,7 @@ public class StructuresResources {
 
 	}
 
-	@GetMapping("/composant/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@GetMapping(path = "/composant/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Operation(operationId = "getComponent", summary = "Get a component",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array",implementation = ComponentByIdModelSwagger.class)))})
 	public ResponseEntity<Object> getComponentById(
 			@PathVariable(Constants.ID) String id,
@@ -129,8 +121,7 @@ public class StructuresResources {
 
 	}
 
-	@GetMapping("/structure/{id}/sliceKeys")
-	@Produces(MediaType.APPLICATION_JSON)
+	@GetMapping(path = "/structure/{id}/sliceKeys", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Operation(operationId = "getSlice", summary = "Get slice keys",security = @SecurityRequirement(name = "bearerScheme"),
 			responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array",implementation = StructureSliceKeysModelSwagger.class)))})
 

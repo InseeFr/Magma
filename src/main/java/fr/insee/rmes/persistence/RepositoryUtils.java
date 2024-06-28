@@ -1,12 +1,8 @@
 package fr.insee.rmes.persistence;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.util.Set;
-
-import jakarta.ws.rs.core.Response;
-
-import org.apache.http.HttpStatus;
+import fr.insee.rmes.persistence.rdfQueries.QueryUtils;
+import fr.insee.rmes.utils.Constants;
+import fr.insee.rmes.utils.exceptions.RmesException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.rdf4j.query.BooleanQuery;
@@ -20,12 +16,12 @@ import org.eclipse.rdf4j.repository.RepositoryException;
 import org.eclipse.rdf4j.repository.http.HTTPRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import fr.insee.rmes.persistence.RepositoryUtils;
-import fr.insee.rmes.persistence.rdfQueries.QueryUtils;
-import fr.insee.rmes.utils.Constants;
-import fr.insee.rmes.utils.exceptions.RmesException;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.util.Set;
 
 @Service
 public abstract class RepositoryUtils {
@@ -56,7 +52,7 @@ public abstract class RepositoryUtils {
 		} catch (RepositoryException e) {
 			logger.error("Connection au repository impossible : {}", repository.getDataDir());
 			logger.error(e.getMessage());
-			throw new RmesException(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage(), "Connection au repository impossible : " + repository.getDataDir());		}
+			throw new RmesException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), "Connection au repository impossible : " + repository.getDataDir());		}
 		return con;
 	}
 	
@@ -67,8 +63,8 @@ public abstract class RepositoryUtils {
 	 * @return String
 	 * @throws RmesException 
 	 */
-	public static Response.Status executeUpdate(String updateQuery,Repository repository) throws RmesException {
-		if (repository == null) {return Response.Status.EXPECTATION_FAILED;}
+	public static org.springframework.http.HttpStatus executeUpdate(String updateQuery, Repository repository) throws RmesException {
+		if (repository == null) {return HttpStatus.EXPECTATION_FAILED;}
 		Update update = null;
 		String queryWithPrefixes = QueryUtils.PREFIXES + updateQuery;
 		try {
@@ -79,9 +75,9 @@ public abstract class RepositoryUtils {
 		} catch (RepositoryException e) {
 			logger.error("{} {} {}",EXECUTE_QUERY_FAILED, updateQuery, repository);
 			logger.error(e.getMessage());
-			throw new RmesException(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage(), EXECUTE_QUERY_FAILED + updateQuery);		
+			throw new RmesException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), EXECUTE_QUERY_FAILED + updateQuery);
 		}
-		return(Response.Status.OK);
+		return(HttpStatus.OK);
 	}
 
 	/**
@@ -144,7 +140,7 @@ public abstract class RepositoryUtils {
 	private static void logAndThrowError(String query, RepositoryException e) throws RmesException {
 		logger.error("{} {}",EXECUTE_QUERY_FAILED, query);
 		logger.error(e.getMessage());
-		throw new RmesException(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage(), EXECUTE_QUERY_FAILED + query);
+		throw new RmesException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), EXECUTE_QUERY_FAILED + query);
 	}
 	
 	/**
