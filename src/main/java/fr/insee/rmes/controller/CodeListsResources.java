@@ -17,11 +17,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import java.util.Objects;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -40,7 +39,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
     private static final String ERROR_PAGINATION = "The page you are looking for does not exist. Try a smaller page number.";
 
-    @GetMapping(path = "/listesCodes", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/listesCodes")
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getAllCodesLists", summary = "Get all codes lists", security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = AllListCodeModelSwagger.class)))})
     public ResponseEntity<String> getallCodesLists(@RequestParam(required = false) @Parameter(description = "Date of last update. Example: 2023-01-31") String dateMiseAJour) throws RmesException {
@@ -57,7 +57,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     }
 
     // en fait ici l'id correspond à la notation
-    @RequestMapping(path="/listeCode/{id}", method=GET, params="withCodes=true", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path="/listeCode/{id}", method=GET, params="withCodes=true")
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getCodesList", summary = "Get one codes list", security = @SecurityRequirement(name = "bearerScheme"), responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
     public ResponseEntity<String> getCodesList(
             @PathVariable(Constants.NOTATION) String notation,
@@ -83,7 +84,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         }
     }
 
-    @RequestMapping(path="/listeCode/{id}", method=GET, params="withCodes=false", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path="/listeCode/{id}", method=GET, params="withCodes=false")
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getCodesList", summary = "Get one codes list", security = @SecurityRequirement(name = "bearerScheme"), responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
     public ResponseEntity<String> getCodesListWithoutCodes(
             @PathVariable(Constants.NOTATION) String notation,
@@ -98,7 +100,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     }
 
 
-    @GetMapping(path = "/listeCode/{id}/pagination", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/listeCode/{id}/pagination")
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getCodesListPagination", summary = "Get one codes list with  5 codes per page.", security = @SecurityRequirement(name = "bearerScheme"), responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ListCodeByIdModelSwagger.class)))})
     public ResponseEntity<String> getCodesListPage(
             @PathVariable(Constants.NOTATION) String notation,

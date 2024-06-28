@@ -1,10 +1,12 @@
 package fr.insee.rmes.persistence;
 
-import fr.insee.rmes.persistence.ontologies.EVOC;
-import fr.insee.rmes.persistence.ontologies.INSEE;
-import fr.insee.rmes.persistence.ontologies.QB;
-import fr.insee.rmes.utils.exceptions.RmesException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import jakarta.annotation.PostConstruct;
+import jakarta.ws.rs.core.Response;
+
 import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,9 +27,10 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import fr.insee.rmes.persistence.ontologies.EVOC;
+import fr.insee.rmes.persistence.ontologies.INSEE;
+import fr.insee.rmes.persistence.ontologies.QB;
+import fr.insee.rmes.utils.exceptions.RmesException;
 
 @Component
 public class RepositoryGestion extends RepositoryUtils {
@@ -68,7 +71,7 @@ public class RepositoryGestion extends RepositoryUtils {
 	 * @return String
 	 * @throws RmesException
 	 */
-	public org.springframework.http.HttpStatus executeUpdate(String updateQuery) throws RmesException {
+	public Response.Status executeUpdate(String updateQuery) throws RmesException {
 		return executeUpdate(updateQuery, REPOSITORY_GESTION);
 	}
 
