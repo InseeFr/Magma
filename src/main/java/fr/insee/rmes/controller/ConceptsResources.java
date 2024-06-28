@@ -1,9 +1,5 @@
 package fr.insee.rmes.controller;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.rmes.modelSwagger.concept.AllConceptModelSwagger;
 import fr.insee.rmes.modelSwagger.concept.ConceptByIdModelSwagger;
@@ -11,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,10 +33,8 @@ public class ConceptsResources {
 
 	@Autowired
 	ConceptsServices conceptsService;
-	
-	@GET
-	@GetMapping("/concept/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
+
+	@GetMapping(path = "/concept/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Operation(operationId = "getDetailedConcept", summary = "Get one concept",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = AllConceptModelSwagger.class)))})
 	public ResponseEntity <String> getDetailedConcept(@Parameter(required = true, description = "Identifiant du concept (format : c[0-9]{4})", schema = @Schema(pattern = "c[0-9]{4}", type = "string"), example = "c2066")
 			@PathVariable("id") String id,
@@ -65,9 +60,7 @@ public class ConceptsResources {
 
 	}
 
-	@GET
-	@GetMapping("/concepts")
-	@Produces(MediaType.APPLICATION_JSON)
+	@GetMapping(path = "/concepts", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Operation(operationId = "getAllConcepts", summary = "List of concepts",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = ConceptByIdModelSwagger.class)))})
 	public ResponseEntity <String> getAllConcepts(@RequestParam(required = false) @Parameter(description = "Date of last update. Example: 2023-01-31") String dateMiseAJour) throws RmesException {
 		if (dateMiseAJour == null){

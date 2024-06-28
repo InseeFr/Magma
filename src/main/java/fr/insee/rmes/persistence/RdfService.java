@@ -27,7 +27,7 @@ public abstract class RdfService {
     protected Config config;
     protected final FreeMarkerUtils freeMarkerUtils;
 
-    public RdfService(){
+    protected RdfService(){
         this(FreeMarkerUtils.getInstance());
     }
 
