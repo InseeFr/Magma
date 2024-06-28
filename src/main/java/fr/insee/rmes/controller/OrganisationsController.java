@@ -13,14 +13,13 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 
 @RestController
@@ -37,7 +36,8 @@ public class OrganisationsController {
     OrganisationsServices organisationsServices;
 
 
-    @GetMapping(path = "/organisations", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/organisations")
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getAllOrganisations", summary = "Get all organisations",security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = OrganisationsModelSwagger.class)))})
     public ResponseEntity<String> getAllOrganisations () throws RmesException, IOException {
@@ -51,7 +51,8 @@ public class OrganisationsController {
         }
     }
 
-    @GetMapping(path = "/organisation/{id}/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/organisation/{id}/")
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getOrganisationById.ftlh", summary = "Get one organisation",security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = OrganisationsModelSwagger.class)))})
 

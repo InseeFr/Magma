@@ -31,6 +31,7 @@ public class Config {
 	public static String LG1;
 	public static String LG2;
 
+	public static String DATASETS_URL;
 	public static Integer PERPAGE;
 	public static String BASE_GRAPH;
 	public static String DATASETS_GRAPH;
@@ -142,7 +143,7 @@ public class Config {
 		return CODELISTS_BASE_URI;
 	}
 
-	public static String getDatasetsBaseUri() {
+	public String getDatasetsBaseUri() {
 		return DATASETS_BASE_URI;
 	}
 
@@ -174,12 +175,20 @@ public class Config {
 		return CONCEPTS_GRAPH;
 	}
 
+	public String getStructuresComponentsGraph() {
+		return STRUCTURES_COMPONENTS_GRAPH;
+	}
+
 	public String getStructuresGraph() {
 		return STRUCTURES_GRAPH;
 	}
 
 	public String getStructuresComponentsBaseUri() {
 		return STRUCTURES_COMPONENTS_BASE_URI;
+	}
+
+	public String getOperationsSeriesGraph() {
+		return OPERATIONS_SERIES_GRAPH;
 	}
 
 	public String getOperationsBaseUri() {
@@ -218,5 +227,4 @@ public class Config {
 		return documentationsGeoBaseUri;
 	}
 
-	public static String getBauhausUrl() {return BAUHAUS_URL;}
 }

@@ -3,32 +3,36 @@ package fr.insee.rmes.services.datasets;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.insee.rmes.dto.datasets.PatchDatasetDTO;
 import fr.insee.rmes.model.CodeList.Code;
 import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.persistence.FreeMarkerUtils;
 import fr.insee.rmes.persistence.RdfService;
-import fr.insee.security.User;
 import fr.insee.rmes.services.codelists.CodeListsServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.*;
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
 public class DataSetsImpl extends RdfService implements DataSetsServices {
-
+    public DataSetsImpl(FreeMarkerUtils freeMarkerUtils) {
+    }
     private static final Logger logger = LoggerFactory.getLogger(DataSetsImpl.class);
     public static final String CONTENU = "contenu";
     public static final String LANGUE = "langue";
@@ -36,29 +40,16 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     public static final String DATASET_BY_ID_PATH ="getDatasetById/";
     public static final String DATASET_LIST ="getListDatasets/";
 
-    private final Map<String,Object> params = initParams();
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private final RestClient restClient;
-    private final CodeListsServices codeListsServices;
 
+    public Map<String,Object> params = initParams();
+    public ObjectMapper objectMapper = new ObjectMapper();
 
-    protected DataSetsImpl(FreeMarkerUtils freeMarkerUtils) {
-        super(freeMarkerUtils);
-        restClient=null;
-        codeListsServices=null;
-    }
-
-    @Autowired
-    public DataSetsImpl(RestClient restClient, CodeListsServices codeListsServices){
-        this.restClient=restClient;
-        this.codeListsServices=codeListsServices;
-    }
 
 
     @Override
     public String getListDataSets(String dateMiseAJour) throws RmesException, JsonProcessingException {
-        JSONArray listDataSet;
-        if (dateMiseAJour.isEmpty()){
+        JSONArray listDataSet = new JSONArray();
+        if (dateMiseAJour == ""){
             listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_LIST,"getListDatasets.ftlh", params));
         }
         else{
@@ -103,25 +94,50 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
     @Override
-    public ResponseEntity<String> patchDataset(String datasetId, PatchDatasetDTO patchDataset, String token, Optional<User> user) {
-        return httpPatchRequest(token,patchDataset,datasetId, user);
+    public String patchDataset(String datasetId, String observationNumber, String token) throws RmesException {
+        try {
+
+            String urlString = Config.BAUHAUS_URL + "/datasets/" + datasetId + "/observationNumber";
+            HttpClient client = HttpClient.newHttpClient();
+            String jsonInputString = String.format("%s", observationNumber);
+            String id = getIdFromJWT(token);
+            String email = getEmailFromJWT(token);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(urlString))
+                    .header("Content-Type", "application/json; utf-8")
+                    .header("Accept", "application/json")
+                    .header("Authorization", token)
+                    .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonInputString))
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            logger.trace("user "+id + " ("+ email + ") has just patched the dataset :" + datasetId);
+            return response.body();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String getIdFromJWT(String jwt){
+           jwt.replaceAll("Bearer ","");
+           String[] parts = jwt.split("\\.");
+           JSONObject payload = new JSONObject(decode(parts[1]));
+           return payload.getString("preferred_username");
+
+    }
+    private String getEmailFromJWT(String jwt){
+        jwt.replaceAll("Bearer ","");
+        String[] parts = jwt.split("\\.");
+        JSONObject payload = new JSONObject(decode(parts[1]));
+        return payload.getString("email");
+
     }
 
 
-    protected ResponseEntity<String> httpPatchRequest(String token, PatchDatasetDTO body, String datasetId, Optional<User>  user){
 
-        Optional<String> id = user.map(User::id);
-        Optional<String> email = user.map(User::email);
-        ResponseEntity<Void> response = restClient.patch()
-                .uri("/"+datasetId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(body)
-                .header("Authorization", token)
-                .retrieve()
-                .toBodilessEntity();
-        logger.info("id {} ({}) has patched dataset :{}", id, email, datasetId);
-        return ResponseEntity.status(response.getStatusCode()).build();
+    private static String decode(String encodedString) {
+        return new String(Base64.getUrlDecoder().decode(encodedString));
     }
+
 
     protected DataSetModelSwagger findDataSetModelSwagger(String id) throws RmesException, JsonProcessingException {
         //paramétrage de la requête
@@ -357,6 +373,16 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
     @Override
+    public Distribution findDistributions(String id) throws RmesException, JsonProcessingException {
+
+        var datasetModelSwagger = findDataSetModelSwagger(id);
+        var uri = datasetModelSwagger.getUriWithTypeUri();
+        Distribution d = new Distribution(datasetModelSwagger.getIdWithTypeId(), uri);
+        return new Distribution(datasetModelSwagger.getIdWithTypeId(), uri);
+
+    }
+
+    @Override
     public Distributions[] getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException {
         //parametrage de la requête
        params.put("ID", id);
@@ -414,7 +440,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
                 // si le ième JSONObject a un attribut descriptionLg2 & un attribut descriptionLg1 alors on met en forme
                 //un attribut description qui contient les deux. Puis on l'ajoute à distributionTemp
-                if ((distributionTemp.has("descriptionLg2")) && (distributionTemp.has("descriptionLg1"))) {
+                if ((distributionTemp.has("descriptionLg2")) & (distributionTemp.has("descriptionLg1"))) {
                     List<LangContent> description = constructLangContent(distributionTemp.getString("descriptionLg1"),(distributionTemp.getString("descriptionLg2")));
                     distributionTemp.remove("descriptionLg2");
                     distributionTemp.remove("descriptionLg1");
@@ -423,7 +449,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
                 // si le ième JSONObject a un attribut titleLg1 & un attribut titleLg2 alors on met en forme
                 //un attribut title qui contient les deux. Puis, on l'ajoute à distributionTemp
-                if ((distributionTemp.has("titleLg1")) && (distributionTemp.has("titleLg2"))) {
+                if ((distributionTemp.has("titleLg1")) & (distributionTemp.has("titleLg2"))) {
                     List<LangContent> title = constructLangContent(distributionTemp.getString("titleLg1"),distributionTemp.getString("titleLg2"));
                     distributionTemp.remove("titleLg1");
                     distributionTemp.remove("titleLg2");
@@ -441,8 +467,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
         return distributionReponse;
     }
-
-
 
     private List<IdLabel> getCreator(List<String> creatorUris) throws RmesException {
         List<IdLabel> creator = new ArrayList<>();
@@ -558,6 +582,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
        }
 
 
+    @Autowired
+    CodeListsServices codeListsServices;
     private ProcessStep constructCodeList(String notation) throws RmesException {
         String codeListString = codeListsServices.getCodesListForDataset(notation);
         JSONObject jsonCodeList = new JSONObject(codeListString);
@@ -586,7 +612,9 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         langContentList.add(langContent2);
         Label label = new Label(langContentList);
 
-        return new ProcessStep(notation,label);
+        ProcessStep codeList = new ProcessStep(notation,label);
+
+        return codeList;
     }
 
     private WasDerivedFrom constructWasDerivedFrom(List<String> datasets) {
