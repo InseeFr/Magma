@@ -8,9 +8,11 @@ WHERE {
         foaf:primaryTopic ?z .
     	?z dcterms:identifier "${ID}" .
         OPTIONAL{
-            ?z insee:archiveUnit ?archiveUnit .
     	    ?z adms:identifier ?ident .
             ?ident skos:notation ?identifier
+        }
+        OPTIONAL{
+            ?z insee:archiveUnit ?archiveUnit .
         }
 
 }
