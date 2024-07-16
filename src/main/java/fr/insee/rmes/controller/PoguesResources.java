@@ -54,7 +54,7 @@ public class PoguesResources {
 
     }
 
-    @GetMapping(path = "/operations/serie/{id}/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/operations/serie/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(operationId = "getSerieById", summary = "Get one serie", security = @SecurityRequirement(name = "bearerScheme"),
 
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdModelSwagger.class)))})
