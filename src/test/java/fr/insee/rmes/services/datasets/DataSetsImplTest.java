@@ -132,6 +132,8 @@ class DataSetsImplTest {
         assertThat(getListLangContent.get()).isEqualTo(expected);
     }
 
+
+
     static Stream<Arguments> argumentsProvider() {
         return Stream.of(
                 Arguments.of("subtitleLg1", "subtitleLg2", (Supplier<List<LangContent>>) response::getSubtitle),
@@ -155,6 +157,9 @@ class DataSetsImplTest {
                 .matches(rmesException -> ((RmesException) rmesException).getStatus() == 404)
                 .hasMessageContaining("Non existent dataset identifier");
     }
+
+
+
 
     @Test
     void getDataSetByIDDateMiseAJour_shouldReturn404IfInexistentId() throws RmesException {
@@ -183,6 +188,13 @@ class DataSetsImplTest {
         datasetImpl.testPresenceVariablePuisAjout(swaggerResponse, catalogue_result, new JSONObject(), new JSONObject(), new JSONObject(), new JSONObject());
         assertThat(swaggerResponse.getRelations().get(0)).isEqualTo(expected.get(0));
         assertThat(swaggerResponse.getRelations().get(1)).isEqualTo(expected.get(1));
+    }
+
+    @Test
+    void testConstructLangContentList(){
+        String actual= dataSetsImpl.constructLangContentList("contentfr1,contentfr2","contenten1").toString();
+        String expected = "[LangContent(lang=fr, content=contentfr1), LangContent(lang=fr, content=contentfr2), LangContent(lang=en, content=contenten1)]";
+        assertThat(actual).isEqualTo(expected);
     }
 
 

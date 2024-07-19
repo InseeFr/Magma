@@ -14,6 +14,7 @@ import fr.insee.rmes.services.codelists.CodeListsServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import org.apache.commons.lang3.stream.LangCollectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -250,6 +251,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         if (catalogue_result.has("spatialTemporal")){
             SpatialTemporal spatialTemporal = new SpatialTemporal(catalogue_result.getString("spatialTemporal"));
             reponse.setSpatialTemporal(spatialTemporal);
+        }
+        //récupération de keyword
+        if (catalogue_result.has("keywordLg1") && catalogue_result.has("keywordLg2") ){
+            List<LangContent> keyword = constructLangContentList(catalogue_result.getString("keywordLg1"),catalogue_result.getString("keywordLg2"));
+            reponse.setKeyword(keyword);
         }
 
         //récupération de statisticalUnit
@@ -544,6 +550,21 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
     protected List<LangContent> constructLangContent(String elementLg1, String elementLg2) {
         return List.of(LangContent.lg1(elementLg1), LangContent.lg2(elementLg2));
+    }
+
+    protected List<LangContent> constructLangContentList(String stringListLg1,String stringListLg2) {
+        List<String> listLg1= List.of(stringListLg1.split(","));
+        List<String> listLg2= List.of(stringListLg2.split(","));
+        List<LangContent> rep = new ArrayList<>();
+        for (String content : listLg1){
+            LangContent langContent = new LangContent(Config.LG1,content);
+            rep.add(langContent);
+        }
+        for (String content : listLg2){
+            LangContent langContent = new LangContent(Config.LG2,content);
+            rep.add(langContent);
+        }
+        return rep;
     }
 
 

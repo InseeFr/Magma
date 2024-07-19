@@ -15,6 +15,8 @@ SELECT DISTINCT ?id ?uri ?titleLg1 ?titleLg2
                 (GROUP_CONCAT(DISTINCT ?creators; separator=" , ") AS ?creators)
                 (GROUP_CONCAT(DISTINCT ?wasDerivedFromS; separator=" , ") AS ?wasDerivedFromS)
                 (GROUP_CONCAT(DISTINCT ?relations; separator=",") AS ?relations)
+                (GROUP_CONCAT(DISTINCT ?keywordLg2; separator=",") AS ?keywordLg2)
+                (GROUP_CONCAT(DISTINCT ?keywordLg1; separator=",") AS ?keywordLg1)
 FROM <${DATASETS_GRAPH}>
 FROM <${ORGANISATIONS_GRAPH}>
 FROM <${ORGANISATIONS_GRAPH}/insee>
@@ -92,6 +94,10 @@ WHERE {
               FILTER (lang(?landingPageLg1) = '${LG1}')}
     OPTIONAL {?uri dcat:landingPage ?landingPageLg2 .
               FILTER (lang(?landingPageLg2) = '${LG2}')}
+    OPTIONAL {?uri dcat:keyword ?keywordLg1 .
+              FILTER (lang(?keywordLg1) = '${LG1}')}
+    OPTIONAL {?uri dcat:keyword ?keywordLg2 .
+              FILTER (lang(?keywordLg2) = '${LG2}')}
 
     OPTIONAL {?uri dcterms:issued ?dateEmission . }
     OPTIONAL {?uri insee:spatialTemporal ?spatialTemporal . }

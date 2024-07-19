@@ -59,7 +59,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "numObservations",
         "numSeries",
         "wasDerivedFrom",
-        "relations"
+        "relations",
+        "keyword"
 })
 
 @Generated("jsonschema2pojo")
@@ -145,7 +146,8 @@ public class DataSetModelSwagger implements Serializable  {
     private Integer numSeries;
     @JsonProperty("relations")
     private List<String> relations;
-
+    @JsonProperty("keyword")
+    private List<LangContent> keyword;
 
 
     @JsonProperty("theme")
