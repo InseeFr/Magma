@@ -41,7 +41,7 @@ public class PoguesResources {
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdModelSwagger.class)))})
     public ResponseEntity<String> getAllSeriesLists(@Parameter(
             description = "param for survey only",
-            required = false) @RequestParam("Survey") Boolean survey) throws RmesException, IOException {
+            required = false) @RequestParam("survey") Boolean survey) throws RmesException, IOException {
 
 
         String jsonResult = (String) poguesServices.getAllSeriesLists(survey);
@@ -54,7 +54,7 @@ public class PoguesResources {
 
     }
 
-    @GetMapping(path = "/operations/serie/{id}/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/operations/serie/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(operationId = "getSerieById", summary = "Get one serie", security = @SecurityRequirement(name = "bearerScheme"),
 
             responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SerieByIdModelSwagger.class)))})
