@@ -253,10 +253,15 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setSpatialTemporal(spatialTemporal);
         }
         //récupération de keyword
-        if (catalogue_result.has("keywordLg1") && catalogue_result.has("keywordLg2") ){
-            List<LangContent> keyword = constructLangContentList(catalogue_result.getString("keywordLg1"),catalogue_result.getString("keywordLg2"));
+        if (catalogue_result.has("keywordLg1") ){
+            List<LangContent> keyword = constructLangContentList(catalogue_result.getString("keywordLg1"));
             reponse.setKeyword(keyword);
         }
+        if (catalogue_result.has("keywordLg2") ){
+            List<LangContent> keyword = constructLangContentList(catalogue_result.getString("keywordLg2"));
+            reponse.setKeyword(keyword);
+        }
+
 
         //récupération de statisticalUnit
         if (codes_result.has("labelstatisticalUnitLg1") && codes_result.has("labelstatisticalUnitLg2")){
@@ -552,16 +557,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return List.of(LangContent.lg1(elementLg1), LangContent.lg2(elementLg2));
     }
 
-    protected List<LangContent> constructLangContentList(String stringListLg1,String stringListLg2) {
-        List<String> listLg1= List.of(stringListLg1.split(","));
-        List<String> listLg2= List.of(stringListLg2.split(","));
+    protected List<LangContent> constructLangContentList(String stringListLg) {
+        List<String> listLg= List.of(stringListLg.split(","));
         List<LangContent> rep = new ArrayList<>();
-        for (String content : listLg1){
+        for (String content : listLg){
             LangContent langContent = new LangContent(Config.LG1,content);
-            rep.add(langContent);
-        }
-        for (String content : listLg2){
-            LangContent langContent = new LangContent(Config.LG2,content);
             rep.add(langContent);
         }
         return rep;
