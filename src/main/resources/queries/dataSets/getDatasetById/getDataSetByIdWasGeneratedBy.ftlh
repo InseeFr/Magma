@@ -9,7 +9,7 @@ WHERE {
         BIND(STRAFTER(STR(?wasGeneratedByTempId), '/') AS ?wasGeneratedById)
         <${URI}> rdf:type ?statisticalOperation .
         ?statisticalOperation rdfs:label ?typeWasGeneratedBy .
-        FILTER(lang(?typeWasGeneratedBy)= 'fr') .
+        FILTER(lang(?typeWasGeneratedBy)= '${LG1}') .
         <${URI}> rdf:type ?statisticalOperation .
         ?statisticalOperation rdfs:label ?typeWasGeneratedBy .
         FILTER(lang(?typeWasGeneratedBy)= '${LG1}') .

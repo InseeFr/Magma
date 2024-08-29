@@ -6,9 +6,9 @@ WHERE {
     ?uri rdf:type dcat:Dataset .
     ?uri dcterms:identifier ?id .
     ?uri dcterms:title ?titreLg1 .
-    FILTER (LANG(?titreLg1) = 'fr')
+    FILTER (LANG(?titreLg1) = '${LG1}')
     ?uri dcterms:title ?titreLg2 .
-    FILTER (LANG(?titreLg2) = 'en')
+    FILTER (LANG(?titreLg2) = '${LG2}')
     ?uriCatalogRecord dcterms:modified ?dateMiseAJour .
     ?uriCatalogRecord dcterms:created ?dateCreation .
     ?uri insee:validationState ?statutValidation .
