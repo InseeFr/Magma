@@ -10,9 +10,9 @@ SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?uri ?serie
     BIND(STRAFTER(STR(?series),'/operations/serie/') AS ?seriesId) 
     OPTIONAL {
 	?series skos:prefLabel ?seriesLabelLg1 .  
-    FILTER (lang(?seriesLabelLg1) = 'fr')  
+    FILTER (lang(?seriesLabelLg1) = '${LG1}')
     ?series skos:prefLabel ?seriesLabelLg2 .  
-    FILTER (lang(?seriesLabelLg2) = 'en')
+    FILTER (lang(?seriesLabelLg2) = '${LG2}')
 	}
 
     OPTIONAL {
@@ -21,15 +21,15 @@ SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?uri ?serie
 
     OPTIONAL {
 	?uri skos:prefLabel ?operationLabelLg1 . 
-	FILTER (lang(?operationLabelLg1) = 'fr') .   
+	FILTER (lang(?operationLabelLg1) = '${LG1}') .
 	?uri skos:prefLabel ?operationLabelLg2 . 
-	FILTER (lang(?operationLabelLg2) = 'en') .
+	FILTER (lang(?operationLabelLg2) = '${LG2}') .
    }
     OPTIONAL {
   			?series skos:altLabel ?seriesAltLabelLg1 .
-  			FILTER (lang(?seriesAltLabelLg1) = 'fr')
+  			FILTER (lang(?seriesAltLabelLg1) = '${LG1}')
   			?series skos:altLabel ?seriesAltLabelLg2 .
-  			FILTER (lang(?seriesAltLabelLg2) = 'en')  
+  			FILTER (lang(?seriesAltLabelLg2) = '${LG2}')
     }
 	OPTIONAL { ?sims sdmx-mm:target ?uri . 			 
              		?sims a sdmx-mm:MetadataReport . 				 
