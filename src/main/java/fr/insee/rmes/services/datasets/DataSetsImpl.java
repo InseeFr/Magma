@@ -254,11 +254,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
         //récupération de keyword
         if (catalogue_result.has("keywordLg1") ){
-            List<LangContent> keyword = constructLangContentList(catalogue_result.getString("keywordLg1"));
+            List<LangContent> keyword = constructLangContentList(catalogue_result.getString("keywordLg1"),Config.LG1);
             reponse.setKeyword(keyword);
         }
         if (catalogue_result.has("keywordLg2") ){
-            List<LangContent> keyword = constructLangContentList(catalogue_result.getString("keywordLg2"));
+            List<LangContent> keyword = constructLangContentList(catalogue_result.getString("keywordLg2"),Config.LG2);
             reponse.setKeyword(keyword);
         }
 
@@ -557,11 +557,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return List.of(LangContent.lg1(elementLg1), LangContent.lg2(elementLg2));
     }
 
-    protected List<LangContent> constructLangContentList(String stringListLg) {
+    protected List<LangContent> constructLangContentList(String stringListLg, String lg) {
         List<String> listLg= List.of(stringListLg.split(","));
         List<LangContent> rep = new ArrayList<>();
         for (String content : listLg){
-            LangContent langContent = new LangContent(Config.LG1,content);
+            LangContent langContent = new LangContent(lg,content);
             rep.add(langContent);
         }
         return rep;

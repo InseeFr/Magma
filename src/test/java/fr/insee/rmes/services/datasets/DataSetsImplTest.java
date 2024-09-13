@@ -192,10 +192,10 @@ class DataSetsImplTest {
 
     @Test
     void testConstructLangContentList(){
-        String actual_1= dataSetsImpl.constructLangContentList("contentfr1,contentfr2").toString();
-        String actual_2= dataSetsImpl.constructLangContentList("contenten1").toString();
-        String expected_1 = "[LangContent(lang=fr, content=contentfr1), LangContent(lang=fr, content=contentfr2)]";
-        String expected_2 = "[LangContent(lang=en, content=contenten1)]";
+        String actual_1= dataSetsImpl.constructLangContentList("contentLg1,contentLg1_","lg1").toString();
+        String actual_2= dataSetsImpl.constructLangContentList("contentLg2","lg2").toString();
+        String expected_1 = "[LangContent(lang=lg1, content=contentLg1), LangContent(lang=lg1, content=contentLg1_)]";
+        String expected_2 = "[LangContent(lang=lg2, content=contentLg2)]";
         assertThat(actual_1).isEqualTo(expected_1);
         assertThat(actual_2).isEqualTo(expected_2);
 
