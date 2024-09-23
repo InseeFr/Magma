@@ -6,13 +6,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.3</version>
+        <version>3.3.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <packaging>jar</packaging>
     <groupId>fr.insee.rmes</groupId>
     <artifactId>magma</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <name>magma</name>
     <description>Metadata management API</description>
     <organization>
@@ -91,12 +91,6 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>6.1.13</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
