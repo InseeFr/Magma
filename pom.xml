@@ -25,7 +25,7 @@
         <rdf4j.version>5.0.0-M3</rdf4j.version>
         <springdoc.version>2.3.0</springdoc.version>
         <jacoco.version>0.8.12</jacoco.version>
-        <spring-webmvc.version>6.1.13</spring-webmvc.version> <!-- Ajout de la propriété pour spring-webmvc -->
+        <spring-webmvc.version>6.1.13</spring-webmvc.version>
     </properties>
 
     <dependencies>
