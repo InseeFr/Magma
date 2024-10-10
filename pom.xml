@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
     <groupId>fr.insee.rmes</groupId>
     <artifactId>magma</artifactId>
-    <version>1.2.6</version> 
+    <version>1.2.7</version> 
     <name>magma</name>
     <description>Metadata management API</description>
     <organization>
@@ -25,6 +25,7 @@
         <rdf4j.version>5.0.0-M3</rdf4j.version>
         <springdoc.version>2.3.0</springdoc.version>
         <jacoco.version>0.8.12</jacoco.version>
+        <commons-io.version>2.17.0</commons-io.version>
     </properties>
 
     <dependencies>
@@ -101,6 +102,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
+             <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+         <dependency>
+             <groupId>commons-io</groupId>
+             <artifactId>commons-io</artifactId>
+             <version>{commons-io.version}</version>
+         </dependency>
     </dependencies>
 
     <build>
