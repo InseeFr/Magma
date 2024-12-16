@@ -35,25 +35,23 @@ class CodeListImplTest {
     @Mock
     Config config;
     @InjectMocks
-    CodeListImpl codeListImpl=new CodeListImpl(new FreeMarkerUtilsStub());
-    @InjectMocks
-    CodeListImpl codeList = new CodeListImpl();
+    CodeListImpl codeListImpl = new CodeListImpl(new FreeMarkerUtilsStub());
+
 
     @BeforeAll
-    static void setUp(){
-        Config.LG1="fr";
-        Config.LG2="en";
-        Config.BASE_GRAPH="http://rdf.insee.fr/graphes/";
-        Config.CODELIST_GRAPH="codes";
+    static void setUp() {
+        Config.LG1 = "fr";
+        Config.LG2 = "en";
+        Config.BASE_GRAPH = "http://rdf.insee.fr/graphes/";
+        Config.CODELIST_GRAPH = "codes";
     }
 
 
     @Test
     void getAllCodesLists_shouldReturnList() throws RmesException, JsonProcessingException {
         JSONArray mockJSON = new JSONArray(CodeListUtilsTest.RDF_OUTPUT);
-
         Mockito.when(repoGestion.getResponseAsArray(Mockito.anyString())).thenReturn(mockJSON);
-        assertThat(MAPPER.readTree(codeList.getAllCodesLists(""))).isEqualTo(MAPPER.readTree(CodeListUtilsTest.RDF_OUTPUT_EXPECTED));
+        assertThat(MAPPER.readTree(codeListImpl.getAllCodesLists(""))).isEqualTo(MAPPER.readTree(CodeListUtilsTest.RDF_OUTPUT_EXPECTED));
 
     }
 
@@ -63,7 +61,7 @@ class CodeListImplTest {
         JSONObject mockJSON_requete1 = new JSONObject(CodeListUtilsTest.CODELIST_WITH_STATUT_VALIDATION);
         JSONArray mockJSON_requete2 = new JSONArray(CodeListUtilsTest.CODES);
         JSONArray mockJSON_requete3 = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
-        String mockString = new String (CodeListUtilsTest.CODELIST_GRAPH);
+        String mockString = new String(CodeListUtilsTest.CODELIST_GRAPH);
         JSONArray mockJSON_requete4 = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
         when(repoGestion.getResponseAsObject("getCodesList.ftlh")).thenReturn(mockJSON_requete1);
         when(repoGestion.getResponseAsArray("getCodes.ftlh")).thenReturn(mockJSON_requete2);
@@ -75,10 +73,10 @@ class CodeListImplTest {
 
     @Test
     void getCodesListWithCodeWithoutStatutValidation_shouldReturnExpectedCodeList() throws RmesException, JsonProcessingException {
-        JSONObject mockJSON_requete1 = new JSONObject(CodeListUtilsTest.CODELIST_WITHOUT_STATUT_VALIDATION);
+        JSONObject mockJSON_requete1 = new JSONObject(CodeListUtilsTest.CODELIST_WITHOUT_STATUT_VALIDATION_WITHOUT_CODE);
         JSONArray mockJSON_requete2 = new JSONArray(CodeListUtilsTest.CODES);
         JSONArray mockJSON_requete3 = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
-        String mockString = new String (CodeListUtilsTest.CODELIST_GRAPH);
+        String mockString = new String(CodeListUtilsTest.CODELIST_GRAPH);
         JSONArray mockJSON_requete4 = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
         when(repoGestion.getResponseAsObject("getCodesList.ftlh")).thenReturn(mockJSON_requete1);
         when(repoGestion.getResponseAsArray("getCodes.ftlh")).thenReturn(mockJSON_requete2);
@@ -89,22 +87,39 @@ class CodeListImplTest {
     }
 
     @Test
-    void getCodesListWithCode_shouldReturn404IfInexistentId() throws RmesException, JsonProcessingException {
+    void getCodesList_shouldReturn404IfInexistentId() throws RmesException {
         JSONObject mockJSON = new JSONObject(ResponseUtilsTest.EMPTY_JSON_OBJECT);
         when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
 
-        assertThatThrownBy(()->codeListImpl.getCodesList("1")).isInstanceOf(RmesException.class)
-                .matches(rmesException->((RmesException)rmesException).getStatus()==404)
+        assertThatThrownBy(() -> codeListImpl.getCodesList("1")).isInstanceOf(RmesException.class)
+                .matches(rmesException -> ((RmesException) rmesException).getStatus() == 404)
                 .hasMessageContaining("Non existent codes list identifier");
     }
 
     @Test
-    void getCodesListPagination_shouldReturn404IfInexistentId() throws RmesException, JsonProcessingException {
+    void getCodesListPagination_shouldReturn404IfInexistentId() throws RmesException {
         JSONObject mockJSON = new JSONObject(ResponseUtilsTest.EMPTY_JSON_OBJECT);
         when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
 
-        assertThatThrownBy(()->codeListImpl.getMaxpage("1")).isInstanceOf(RmesException.class)
-                .matches(rmesException->((RmesException)rmesException).getStatus()==404)
+        assertThatThrownBy(() -> codeListImpl.getMaxpage("1")).isInstanceOf(RmesException.class)
+                .matches(rmesException -> ((RmesException) rmesException).getStatus() == 404)
                 .hasMessageContaining("Non existent codes list identifier");
+    }
+
+    @Test
+    void getCodesListWithoutCodes_shouldReturnExpectedCodeList() throws RmesException, JsonProcessingException {
+        JSONObject mockJSON = new JSONObject(CodeListUtilsTest.CODELIST_WITHOUT_STATUT_VALIDATION_WITHOUT_CODE);
+        when(repoGestion.getResponseAsObject("getCodesList.ftlh")).thenReturn(mockJSON);
+        assertThat(MAPPER.readTree(codeListImpl.getCodesListWithoutCodes("1"))).isEqualTo(MAPPER.readTree(CodeListUtilsTest.CODELIST_WITHOUT_CODE_EXPECTED.toString()));
+    }
+
+    @Test
+    void getCodesListForDatasetTest() throws RmesException, JsonProcessingException {
+        JSONObject mockJSON1 = new JSONObject(CodeListUtilsTest.CODELIST_WITH_STATUT_VALIDATION);
+        JSONArray mockJSON2 = new JSONArray(CodeListUtilsTest.EMPTY_ARRAY);
+        when(repoGestion.getResponseAsObject("getCodesListForDataset.ftlh")).thenReturn(mockJSON1);
+        when(repoGestion.getResponseAsArray("getCodes.ftlh")).thenReturn(mockJSON2);
+        when(repoGestion.getResponseAsArray("getCodeLevel.ftlh")).thenReturn(mockJSON2);
+        assertThat(MAPPER.readTree(codeListImpl.getCodesListForDataset("1"))).isEqualTo(MAPPER.readTree(CodeListUtilsTest.CODES_FOR_DATASET_EXPECTED.toString()));
     }
 }
