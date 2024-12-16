@@ -68,22 +68,22 @@ class CodeListImplTest {
         when(repoGestion.getResponseAsArray("getCodeLevel.ftlh")).thenReturn(mockJSON3);
         when(config.getCodelistGraph()).thenReturn(mockString);
         when(repoGestion.getResponseAsArray("getMatch.ftlh")).thenReturn(mockJSON4);
-        assertThat(MAPPER.readTree(codeListImpl.getCodesList("1"))).isEqualTo(MAPPER.readTree(CodeListUtilsTest.CODELIST_WITH_STATUT_VALIDATION_EXPECTED.toString()));
+        assertThat(MAPPER.readTree(codeListImpl.getCodesList("1"))).isEqualTo(MAPPER.readTree(CodeListUtilsTest.CODELIST_WITH_STATUT_VALIDATION_EXPECTED));
     }
 
     @Test
     void getCodesListWithCodeWithoutStatutValidation_shouldReturnExpectedCodeList() throws RmesException, JsonProcessingException {
-        JSONObject mockJSON_requete1 = new JSONObject(CodeListUtilsTest.CODELIST_WITHOUT_STATUT_VALIDATION_WITHOUT_CODE);
-        JSONArray mockJSON_requete2 = new JSONArray(CodeListUtilsTest.CODES);
-        JSONArray mockJSON_requete3 = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
+        JSONObject mockJSON1 = new JSONObject(CodeListUtilsTest.CODELIST_WITHOUT_STATUT_VALIDATION_WITHOUT_CODE);
+        JSONArray mockJSON2 = new JSONArray(CodeListUtilsTest.CODES);
+        JSONArray mockJSON3 = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
         String mockString = new String(CodeListUtilsTest.CODELIST_GRAPH);
-        JSONArray mockJSON_requete4 = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
-        when(repoGestion.getResponseAsObject("getCodesList.ftlh")).thenReturn(mockJSON_requete1);
-        when(repoGestion.getResponseAsArray("getCodes.ftlh")).thenReturn(mockJSON_requete2);
-        when(repoGestion.getResponseAsArray("getCodeLevel.ftlh")).thenReturn(mockJSON_requete3);
+        JSONArray mockJSON4 = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
+        when(repoGestion.getResponseAsObject("getCodesList.ftlh")).thenReturn(mockJSON1);
+        when(repoGestion.getResponseAsArray("getCodes.ftlh")).thenReturn(mockJSON2);
+        when(repoGestion.getResponseAsArray("getCodeLevel.ftlh")).thenReturn(mockJSON3);
         when(config.getCodelistGraph()).thenReturn(mockString);
-        when(repoGestion.getResponseAsArray("getMatch.ftlh")).thenReturn(mockJSON_requete4);
-        assertThat(MAPPER.readTree(codeListImpl.getCodesList("1"))).isEqualTo(MAPPER.readTree(CodeListUtilsTest.CODELIST_WITHOUT_STATUT_VALIDATION_EXPECTED.toString()));
+        when(repoGestion.getResponseAsArray("getMatch.ftlh")).thenReturn(mockJSON4);
+        assertThat(MAPPER.readTree(codeListImpl.getCodesList("1"))).isEqualTo(MAPPER.readTree(CodeListUtilsTest.CODELIST_WITHOUT_STATUT_VALIDATION_EXPECTED));
     }
 
     @Test
@@ -110,7 +110,7 @@ class CodeListImplTest {
     void getCodesListWithoutCodes_shouldReturnExpectedCodeList() throws RmesException, JsonProcessingException {
         JSONObject mockJSON = new JSONObject(CodeListUtilsTest.CODELIST_WITHOUT_STATUT_VALIDATION_WITHOUT_CODE);
         when(repoGestion.getResponseAsObject("getCodesList.ftlh")).thenReturn(mockJSON);
-        assertThat(MAPPER.readTree(codeListImpl.getCodesListWithoutCodes("1"))).isEqualTo(MAPPER.readTree(CodeListUtilsTest.CODELIST_WITHOUT_CODE_EXPECTED.toString()));
+        assertThat(MAPPER.readTree(codeListImpl.getCodesListWithoutCodes("1"))).isEqualTo(MAPPER.readTree(CodeListUtilsTest.CODELIST_WITHOUT_CODE_EXPECTED));
     }
 
     @Test
