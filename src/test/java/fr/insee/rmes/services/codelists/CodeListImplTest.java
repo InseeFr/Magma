@@ -58,16 +58,16 @@ class CodeListImplTest {
 
     @Test
     void getCodesListWithCodeWithStatutValidation_shouldReturnExpectedCodeList() throws RmesException, JsonProcessingException {
-        JSONObject mockJSON_requete1 = new JSONObject(CodeListUtilsTest.CODELIST_WITH_STATUT_VALIDATION);
-        JSONArray mockJSON_requete2 = new JSONArray(CodeListUtilsTest.CODES);
-        JSONArray mockJSON_requete3 = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
+        JSONObject mockJSON1 = new JSONObject(CodeListUtilsTest.CODELIST_WITH_STATUT_VALIDATION);
+        JSONArray mockJSON2 = new JSONArray(CodeListUtilsTest.CODES);
+        JSONArray mockJSON3 = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
         String mockString = new String(CodeListUtilsTest.CODELIST_GRAPH);
-        JSONArray mockJSON_requete4 = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
-        when(repoGestion.getResponseAsObject("getCodesList.ftlh")).thenReturn(mockJSON_requete1);
-        when(repoGestion.getResponseAsArray("getCodes.ftlh")).thenReturn(mockJSON_requete2);
-        when(repoGestion.getResponseAsArray("getCodeLevel.ftlh")).thenReturn(mockJSON_requete3);
+        JSONArray mockJSON4 = new JSONArray(ResponseUtilsTest.EMPTY_JSON_ARRAY);
+        when(repoGestion.getResponseAsObject("getCodesList.ftlh")).thenReturn(mockJSON1);
+        when(repoGestion.getResponseAsArray("getCodes.ftlh")).thenReturn(mockJSON2);
+        when(repoGestion.getResponseAsArray("getCodeLevel.ftlh")).thenReturn(mockJSON3);
         when(config.getCodelistGraph()).thenReturn(mockString);
-        when(repoGestion.getResponseAsArray("getMatch.ftlh")).thenReturn(mockJSON_requete4);
+        when(repoGestion.getResponseAsArray("getMatch.ftlh")).thenReturn(mockJSON4);
         assertThat(MAPPER.readTree(codeListImpl.getCodesList("1"))).isEqualTo(MAPPER.readTree(CodeListUtilsTest.CODELIST_WITH_STATUT_VALIDATION_EXPECTED.toString()));
     }
 
@@ -120,6 +120,6 @@ class CodeListImplTest {
         when(repoGestion.getResponseAsObject("getCodesListForDataset.ftlh")).thenReturn(mockJSON1);
         when(repoGestion.getResponseAsArray("getCodes.ftlh")).thenReturn(mockJSON2);
         when(repoGestion.getResponseAsArray("getCodeLevel.ftlh")).thenReturn(mockJSON2);
-        assertThat(MAPPER.readTree(codeListImpl.getCodesListForDataset("1"))).isEqualTo(MAPPER.readTree(CodeListUtilsTest.CODES_FOR_DATASET_EXPECTED.toString()));
+        assertThat(MAPPER.readTree(codeListImpl.getCodesListForDataset("1"))).isEqualTo(MAPPER.readTree(CodeListUtilsTest.CODES_FOR_DATASET_EXPECTED));
     }
 }
