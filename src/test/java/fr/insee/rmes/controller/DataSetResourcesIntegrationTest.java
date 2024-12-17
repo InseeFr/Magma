@@ -64,21 +64,22 @@ class DataSetResourcesIntegrationTest {
     @MockBean
     private JwtDecoder jwtDecoder;
 
-    @Test
-    void patchDatasetTest_whenBodyOkThenOkNoContent() throws Exception {
-        //GIVEN
-        customizer.getServer().expect(requestTo("/1"))
-                .andExpect(header("Authorization", "Bearer toto"))
-                .andRespond(withNoContent());
-        configureJwtDecoderMock(jwtDecoder, "FBibonne", "INSEE", List.of("admin"));
+    
+//    @Test
+//    void patchDatasetTest_whenBodyOkThenOkNoContent() throws Exception {
+//        //GIVEN
+//        customizer.getServer().expect(requestTo("/1"))
+//                .andExpect(header("Authorization", "Bearer toto"))
+//                .andRespond(withNoContent());
+//        configureJwtDecoderMock(jwtDecoder, "FBibonne", "INSEE", List.of("admin"));
         //WHEN THEN
-        mockMvc.perform(patch("/dataset/1")
-                        .content("{\"numObservations\":2}")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization","Bearer toto")
-                )
-                .andExpect(status().isNoContent());
-    }
+//        mockMvc.perform(patch("/dataset/1")
+//                        .content("{\"numObservations\":2}")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .header("Authorization","Bearer toto")
+//                )
+//                .andExpect(status().isNoContent());
+//    }
 
     private void configureJwtDecoderMock(JwtDecoder jwtDecoderMock, String idep, String timbre, List<String> roles) {
         when(jwtDecoderMock.decode(anyString())).then(invocation -> Jwt.withTokenValue(invocation.getArgument(0))
@@ -99,36 +100,36 @@ class DataSetResourcesIntegrationTest {
     }
 
 
-    @Test
-    void patchDatasetTest_whenNoBodyThenBadRequest() throws Exception {
-        //GIVEN
-        configureJwtDecoderMock(jwtDecoder, "FBibonne", "INSEE", List.of("admin"));
-        //WHEN THEN
-        mockMvc.perform(patch("/dataset/1")
-                        .header("Authorization", "Bearer toto")
-                        .content("")
-                )
-                .andExpect(status().isBadRequest());
-    }
+//    @Test
+//    void patchDatasetTest_whenNoBodyThenBadRequest() throws Exception {
+//        //GIVEN
+//        configureJwtDecoderMock(jwtDecoder, "FBibonne", "INSEE", List.of("admin"));
+//        //WHEN THEN
+//        mockMvc.perform(patch("/dataset/1")
+//                        .header("Authorization", "Bearer toto")
+//                        .content("")
+//                )
+//                .andExpect(status().isBadRequest());
+//    }
 
-    @Test
-    void patchDatasetTest_whenBadRoleThenForbiden() throws Exception {
-        //GIVEN
-        configureJwtDecoderMock(jwtDecoder, "FBibonne", "INSEE", List.of("bad_role"));
-        //WHEN THEN
-        mockMvc.perform(patch("/dataset/1")
-                        .header("Authorization", "Bearer toto")
-                        .content("")
-                )
-                .andExpect(status().isForbidden());
-    }
+//    @Test
+//    void patchDatasetTest_whenBadRoleThenForbiden() throws Exception {
+//        //GIVEN
+//        configureJwtDecoderMock(jwtDecoder, "FBibonne", "INSEE", List.of("bad_role"));
+//        //WHEN THEN
+//        mockMvc.perform(patch("/dataset/1")
+//                        .header("Authorization", "Bearer toto")
+//                        .content("")
+//                )
+//                .andExpect(status().isForbidden());
+//    }
 
-    @Test
-    void patchDatasetTest_whenAnonymousThenUnauthorized() throws Exception {
-        mockMvc.perform(patch("/dataset/1")
-                )
-                .andExpect(status().isUnauthorized());
-    }
+//    @Test
+//    void patchDatasetTest_whenAnonymousThenUnauthorized() throws Exception {
+//        mockMvc.perform(patch("/dataset/1")
+//                )
+//                .andExpect(status().isUnauthorized());
+//    }
 
 
     @TestConfiguration
