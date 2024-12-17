@@ -101,8 +101,8 @@ public class DataSetResources {
     }
 
 
-    @PatchMapping(value = "/dataset/{id}")
-    @Operation(operationId = "update some properties of a dataset ", summary = "Update ObservationNumber, issued, modified, temporal, or numSeries  of a dataset")
+    //@PatchMapping(value = "/dataset/{id}")
+    //@Operation(operationId = "update some properties of a dataset ", summary = "Update ObservationNumber, issued, modified, temporal, or numSeries  of a dataset")
     public ResponseEntity<String> patchDataSetDistributionsByIdNombreObservations(
             @PathVariable("id") String datasetId,
             @Parameter(hidden = true)
