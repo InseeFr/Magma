@@ -11,6 +11,7 @@ import lombok.Setter;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -205,5 +206,15 @@ public class DataSetModelSwagger implements Serializable  {
     public Uri getUriWithTypeUri(){
         Uri uri = new Uri(this.uri);
         return uri;
+    }
+
+    public void addKeyword(LangContent langContent) {
+        if (this.keyword == null) {
+            this.keyword = new ArrayList<>();
+            this.keyword.add(langContent);
+        }
+        else {
+            this.keyword.add(langContent);
+        }
     }
 }
