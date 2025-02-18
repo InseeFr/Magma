@@ -1,16 +1,17 @@
-SELECT DISTINCT  ?dsd ?structureId
-
+SELECT DISTINCT  ?uri ?dsd ?structureId ?type ?DataStructureDefinition
 FROM <${DATASETS_GRAPH}>
 FROM <${STRUCTURES_GRAPH}>
-
 WHERE {
-        ?uri a dcat:CatalogRecord ;
-        foaf:primaryTopic ?z .
-    	?z dcterms:identifier "${ID}" .
+?subject a dcat:CatalogRecord ;
+foaf:primaryTopic ?z .
+?z dcterms:identifier "${ID}" .
 
-		OPTIONAL {
-		?z insee:structure ?structure .
-		?structure dcterms:identifier ?structureId .
-		?structure skos:notation ?dsd .}
+OPTIONAL {
+?z insee:structure ?uri .
+?uri dcterms:identifier ?structureId .
+?uri skos:notation ?dsd .
+?uri rdf:type ?type.
+}
+BIND(IF(?type=qb:DataStructureDefinition,"true","false") AS ?DataStructureDefinition).
 
 }
