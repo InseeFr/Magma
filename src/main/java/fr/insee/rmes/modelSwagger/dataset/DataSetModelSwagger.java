@@ -196,14 +196,17 @@ public class DataSetModelSwagger implements Serializable  {
         this.themeModelSwaggerS = themeModelSwaggerS;
     }
 
+    // If we want to add an "idWithTypeId" field, we have to add line below this comment.
+    // Then it has to modify DATA_SET_LIST in DataSetsUtilsTest.java.
+    // public Id getIdWithTypeId(){
+    //   Id id = new Id(this.id);
+    //   return id;
+    // }
 
-    public Id getIdWithTypeId(){
-        Id id = new Id(this.id);
-        return id;
-    }
-
-    public Uri getUriWithTypeUri(){
-        Uri uri = new Uri(this.uri);
-        return uri;
-    }
+    // If we want to add an "uriWithTypeId" field, we have to add line below this comment.
+    // Then it has to modify EXPECTED_GET_DATA_SET_LIST in DataSetsUtilsTest.java.
+    // public Uri getUriWithTypeUri(){
+    //   Uri uri = new Uri(this.uri);
+    //   return uri;
+    // }
 }
