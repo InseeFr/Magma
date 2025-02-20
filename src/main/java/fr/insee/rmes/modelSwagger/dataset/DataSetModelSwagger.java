@@ -195,15 +195,4 @@ public class DataSetModelSwagger implements Serializable  {
         this.validationState = validationState;
         this.themeModelSwaggerS = themeModelSwaggerS;
     }
-
-
-    public Id getIdWithTypeId(){
-        Id id = new Id(this.id);
-        return id;
-    }
-
-    public Uri getUriWithTypeUri(){
-        Uri uri = new Uri(this.uri);
-        return uri;
-    }
 }
