@@ -198,6 +198,46 @@ class DataSetsImplTest {
     }
 
     @Test
+    void testPresenceVariablePuisAjout_Keywords() throws RmesException, JsonProcessingException {
+        DataSetModelSwagger dataSetModelSwaggerWith= new DataSetModelSwagger();
+
+        JSONObject empty = new JSONObject();
+        HashMap mapWith = new HashMap<>();
+        mapWith.put("keywordLg1", "contentFR");
+        mapWith.put("keywordLg2", "contentEN");
+
+        JSONObject catalogueWithKeywords = new JSONObject(mapWith);
+
+        dataSetsImpl.testPresenceVariablePuisAjout(dataSetModelSwaggerWith,catalogueWithKeywords,empty,empty,empty,empty);
+
+        LangContent langContentLg1 = new LangContent("fr", "contentFR");
+        LangContent langContentLg2 = new LangContent("en", "contentEN");
+        ArrayList<LangContent> langContentsExpected = new ArrayList<>();
+        langContentsExpected.add(langContentLg1);
+        langContentsExpected.add(langContentLg2);
+
+        assertEquals(langContentsExpected,dataSetModelSwaggerWith.getKeyword());
+
+    }
+
+    @Test
+    void testPresenceVariablePuisAjout_KeywordsVide() throws RmesException, JsonProcessingException {
+        DataSetModelSwagger dataSetModelSwaggerWithout= new DataSetModelSwagger();
+        JSONObject empty = new JSONObject();
+
+        HashMap mapWithout = new HashMap<>();
+        mapWithout.put("keywordLg1", "");
+        mapWithout.put("keywordLg2", "");
+        JSONObject catalogueWithoutKeywords = new JSONObject(mapWithout);
+
+        dataSetsImpl.testPresenceVariablePuisAjout(dataSetModelSwaggerWithout,catalogueWithoutKeywords,empty,empty,empty,empty);
+
+        assertEquals(null,dataSetModelSwaggerWithout.getKeyword());
+
+    }
+
+
+    @Test
     void getDataSetByIDDateMiseAJourFalse_shouldReturn404IfInexistentId() throws RmesException {
         JSONObject mockJSON = new JSONObject(ResponseUtilsTest.EMPTY_JSON_OBJECT);
         when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
