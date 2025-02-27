@@ -14,13 +14,17 @@ import java.io.Serializable;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
+        "uri",
         "id",
-        "dsd"
+        "dsd",
 })
 @Generated("jsonschema2pojo")
 @Getter
 @Setter
 public class Structure implements Serializable {
+
+    @JsonProperty("uri")
+    private String uri;
 
     @JsonProperty("id")
     private String id;
@@ -28,7 +32,18 @@ public class Structure implements Serializable {
     @JsonProperty("dsd")
     private String dsd;
 
+
+    public Structure(String uri) {
+        this.uri = uri;
+    }
+
     public Structure(String id, String dsd) {
+        this.id = id;
+        this.dsd = dsd;
+    }
+
+    public Structure(String uri,String id, String dsd) {
+        this.uri = uri;
         this.id = id;
         this.dsd = dsd;
     }

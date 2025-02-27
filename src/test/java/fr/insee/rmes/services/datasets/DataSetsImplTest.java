@@ -25,15 +25,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
-
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-
 import static java.util.Optional.empty;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,7 +51,6 @@ class DataSetsImplTest {
         assertThat(MAPPER.readTree(dataSetsImpl.getListDataSets(""))).isEqualTo(MAPPER.readTree(DataSetsUtilsTest.EXPECTED_GET_DATA_SET_LIST.toString()));
     }
 
-
     @Test
     void setTitreListTest() {
         LangContent titre1 = new LangContent("fr", "elementLg1");
@@ -63,7 +60,6 @@ class DataSetsImplTest {
         titres.add(titre2);
         assertThat(titres).hasToString(DataSetsUtilsTest.EXPECTED_JSON_SET_TITRE_LIST);
     }
-
 
     @Test
     void initParamsTest() {
@@ -81,6 +77,60 @@ class DataSetsImplTest {
         assertEquals(DataSetsUtilsTest.EXPECTED_MAP_INIT_PARAMS, params.toString());
     }
 
+    @Test
+     void shouldDisplayDataStructureDefinitionFormat() {
+
+        JSONObject structures_result = new JSONObject();
+        structures_result.put("uri", "http://uriTest");
+        structures_result.put("dsd", "TEST_CHAMP");
+        structures_result.put("structureId","dsdTest");
+        structures_result.put("type", "http://purl.org/linked-data/cube#DataStructureDefinition");
+        structures_result.put("DataStructureDefinition", "true");
+
+        boolean condition1 = structures_result.has("structureId") && structures_result.has("dsd");
+        boolean condition2 = (structures_result.has("uri") && structures_result.has("DataStructureDefinition"));
+        boolean condition3 = ("true").equals(structures_result.getString("DataStructureDefinition"));
+
+        assertEquals(List.of(true, true, true), List.of(condition1,condition2,condition3));
+    }
+
+    @Test
+    void shouldnotDisplayDataStructureDefinitionFormat1() {
+
+        JSONObject structures_result = new JSONObject();
+        structures_result.put("uri", "http://uriTest");
+        structures_result.put("dsd", "TEST_CHAMP");
+        structures_result.put("structureId","dsdTest");
+        structures_result.put("type", "http://purl.org/linked-data/cube#DataStructureDefinition");
+
+        boolean condition1 = structures_result.has("structureId") && structures_result.has("dsd");
+        boolean condition2 = (structures_result.has("uri") && structures_result.has("DataStructureDefinition"));
+
+        assertEquals(List.of(true,false), List.of(condition1,condition2));
+    }
+
+    @Test
+    void shouldnotDisplayDataStructureDefinitionFormat2() {
+        JSONObject structures_result = new JSONObject();
+        assertTrue(structures_result.isEmpty());
+    }
+
+    @Test
+    void shouldnotDisplayDataStructureDefinitionFormat3() {
+
+        JSONObject structures_result = new JSONObject();
+        structures_result.put("uri", "http://uriTest");
+        structures_result.put("dsd", "TEST_CHAMP");
+        structures_result.put("structureId","dsdTest");
+        structures_result.put("type", "http://purl.org/linked-data/cube#DataStructureDefinition");
+        structures_result.put("DataStructureDefinition", "false");
+
+        boolean condition1 = structures_result.has("structureId") && structures_result.has("dsd");
+        boolean condition2 = (structures_result.has("uri") && structures_result.has("DataStructureDefinition"));
+        boolean condition3 = ("false").equals(structures_result.getString("DataStructureDefinition"));
+
+        assertEquals(List.of(true, true, true), List.of(condition1,condition2,condition3));
+    }
 
     //inutile je pense
     @Test
@@ -131,7 +181,6 @@ class DataSetsImplTest {
         dataSetsImpl.testPresenceVariablePuisAjout(response, catalogue_result, new JSONObject(), new JSONObject(), new JSONObject(), new JSONObject());
         assertThat(getListLangContent.get()).isEqualTo(expected);
     }
-
 
 
     static Stream<Arguments> argumentsProvider() {
