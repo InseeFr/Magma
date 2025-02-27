@@ -46,13 +46,7 @@ public class DataSetsUtilsTest {
                     "lang": "en",
                     "content": "all fields"
                   }
-                ],
-                "idWithTypeId": {
-                  "id": "jd1000"
-                },
-                "uriWithTypeUri": {
-                  "uri": "http://bauhaus/catalogues/jeuDeDonnees/jd1000"
-                }
+                ]
               },
               {
                 "id": "jd1001",
@@ -68,13 +62,7 @@ public class DataSetsUtilsTest {
                     "lang": "en",
                     "content": "title"
                   }
-                ],
-                "idWithTypeId": {
-                  "id": "jd1001"
-                },
-                "uriWithTypeUri": {
-                  "uri": "http://bauhaus/catalogues/jeuDeDonnees/jd1001"
-                }
+                ]
               }
             ]
             """
