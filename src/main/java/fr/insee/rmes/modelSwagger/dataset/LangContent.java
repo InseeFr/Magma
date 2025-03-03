@@ -15,8 +15,8 @@ import java.io.Serializable;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "lang",
-        "content"
+        "content",
+        "lang"
 })
 @Generated("jsonschema2pojo")
 @EqualsAndHashCode

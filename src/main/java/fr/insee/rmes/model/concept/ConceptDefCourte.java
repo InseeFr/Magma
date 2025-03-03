@@ -9,15 +9,15 @@ import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "contenu",
-        "langue"
+        "content",
+        "lang"
 })
 @Generated("jsonschema2pojo")
 public class ConceptDefCourte implements Serializable  {
 
-    @JsonProperty("contenu")
+    @JsonProperty("content")
     private String contenu;
-    @JsonProperty("langue")
+    @JsonProperty("lang")
     private String langue;
     /**
      * No args constructor for use in serialization
@@ -32,22 +32,22 @@ public class ConceptDefCourte implements Serializable  {
         this.langue = langue;
     }
 
-    @JsonProperty("contenu")
+    @JsonProperty("content")
     public String getContenu() {
         return contenu;
     }
 
-    @JsonProperty("contenu")
+    @JsonProperty("content")
     public void setContenu(String contenu) {
         this.contenu = contenu;
     }
 
-    @JsonProperty("langue")
+    @JsonProperty("lang")
     public String getLangue() {
         return langue;
     }
 
-    @JsonProperty("langue")
+    @JsonProperty("lang")
     public void setLangue(String langue) {
         this.langue = langue;
     }

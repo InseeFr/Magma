@@ -13,4 +13,9 @@ public interface ConceptsServices {
     String getAllConcepts(String dateMiseAJour) throws RmesException;
 
     String getDetailedConceptDateMAJ(String id) throws RmesException, JsonProcessingException;
+
+    String getCollectionOfConcepts(String id) throws RmesException, JsonProcessingException;
+
+    String getSetOfConceptsInACollection(String id) throws RmesException, JsonProcessingException;
+
 }
