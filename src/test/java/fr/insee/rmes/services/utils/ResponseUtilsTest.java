@@ -13,7 +13,7 @@ public class ResponseUtilsTest {
             "  \"description_fr\": \"Ensemble des concepts affichés sur la page définitions du site insee.fr\",\n" +
             "  \"description_en\": \"All concepts displayed on the \\\"définitions\\\" section from the website insee.fr\",\n" +"}";
 
-    public static final String COLLECTION_MODELSWAGGER = "{\"id\":\"definitions-insee-fr\",\"uri\":\"http://bauhaus/concepts/collection/definitions-insee-fr\",\"dateMiseAJour\":\"2024-11-01T00:00:00.000+01:00\",\"intitule\":[{\"content\":\"Concepts affichés sur insee.fr\"},{\"content\":\"Concepts displayed on insee.fr\"}],\"description\":[{\"content\":\"Ensemble des concepts affichés sur la page définitions du site insee.fr\"},{\"content\":\"All concepts displayed on the \\\"définitions\\\" section from the website insee.fr\"}]}";
+    public static final String COLLECTION_MODELSWAGGER = "{\"id\":\"definitions-insee-fr\",\"uri\":\"http://bauhaus/concepts/collection/definitions-insee-fr\",\"dateMiseAJour\":\"2024-11-01T00:00:00.000+01:00\",\"intitule\":[{\"content\":\"Concepts affichés sur insee.fr\",\"lang\":\"fr\"},{\"content\":\"Concepts displayed on insee.fr\",\"lang\":\"en\"}],\"description\":[{\"content\":\"Ensemble des concepts affichés sur la page définitions du site insee.fr\",\"lang\":\"fr\"},{\"content\":\"All concepts displayed on the \\\"définitions\\\" section from the website insee.fr\",\"lang\":\"en\"}]}";
 
     public static final String SET_OF_CONCEPTS_JSON_ARRAY ="[\n"+
             "      {\n" +
