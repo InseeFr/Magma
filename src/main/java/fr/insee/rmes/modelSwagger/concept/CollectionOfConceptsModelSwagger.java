@@ -20,8 +20,6 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "dateMiseAJour",
         "intitule",
         "description",
-        "contenu",
-        "label",
 })
 
 @Generated("jsonschema2pojo")
@@ -34,9 +32,6 @@ public class CollectionOfConceptsModelSwagger implements Serializable {
 
     @JsonProperty("id")
     private String id;
-
-    @JsonProperty("contenu")
-    private String contenu;
 
     @JsonProperty("intitule")
     private List<LangContent> label;
