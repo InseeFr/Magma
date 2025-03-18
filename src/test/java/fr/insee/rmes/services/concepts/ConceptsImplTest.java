@@ -2,14 +2,11 @@ package fr.insee.rmes.services.concepts;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.insee.rmes.model.concept.ConceptDefCourte;
 import fr.insee.rmes.modelSwagger.concept.CollectionOfConceptsModelSwagger;
-import fr.insee.rmes.modelSwagger.dataset.LangContent;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.persistence.RepositoryGestion;
 import fr.insee.rmes.services.utils.ResponseUtilsTest;
 import fr.insee.rmes.stubs.FreeMarkerUtilsStub;
-import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -74,24 +71,13 @@ class ConceptsImplTest extends RdfService {
     }
 
     @Test
-    void getCollectionOfConcepts_shouldCreatePartOfTheCorrectMapper() throws RmesException, JsonProcessingException {
+    void getCollectionOfConcepts_shouldCreatePartOfTheCorrectMapper() throws JsonProcessingException {
 
         ObjectMapper mapper = new ObjectMapper();
 
         JSONObject mockJSON = new JSONObject(ResponseUtilsTest.COLLECTION_JSON_OBJECT );
 
-        LangContent langContent1 = new LangContent(Config.LG1, mockJSON.getString("intitule_fr"));
-        LangContent langContent2 = new LangContent(Config.LG2, mockJSON.getString("intitule_en"));
-
-        List<LangContent> langContents= List.of(langContent1,langContent2);
-
-        ConceptDefCourte descriptionLG1 = new ConceptDefCourte(mockJSON.getString("description_fr"), Config.LG1);
-        ConceptDefCourte descriptionLG2 = new ConceptDefCourte(mockJSON.getString("description_en"), Config.LG2);
-        List<ConceptDefCourte> descriptions = List.of(descriptionLG1,descriptionLG2);
-
         CollectionOfConceptsModelSwagger Concepts = new CollectionOfConceptsModelSwagger(mockJSON.getString("uri"),"definitions-insee-fr",mockJSON.getString("date_mis_a_jour"));
-        Concepts.setLabel(langContents);
-        Concepts.setDescription(descriptions);
 
         assertEquals(COLLECTION_MODELSWAGGER, mapper.writeValueAsString(Concepts));
 
