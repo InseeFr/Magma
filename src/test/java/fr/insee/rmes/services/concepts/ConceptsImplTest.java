@@ -2,14 +2,11 @@ package fr.insee.rmes.services.concepts;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.insee.rmes.model.concept.ConceptDefCourte;
 import fr.insee.rmes.modelSwagger.concept.CollectionOfConceptsModelSwagger;
-import fr.insee.rmes.modelSwagger.dataset.LangContent;
 import fr.insee.rmes.persistence.RdfService;
 import fr.insee.rmes.persistence.RepositoryGestion;
 import fr.insee.rmes.services.utils.ResponseUtilsTest;
 import fr.insee.rmes.stubs.FreeMarkerUtilsStub;
-import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
