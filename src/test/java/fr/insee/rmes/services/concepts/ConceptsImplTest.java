@@ -71,7 +71,7 @@ class ConceptsImplTest extends RdfService {
     }
 
     @Test
-    void getCollectionOfConcepts_shouldCreatePartOfTheCorrectMapper() throws RmesException, JsonProcessingException {
+    void getCollectionOfConcepts_shouldCreatePartOfTheCorrectMapper() throws JsonProcessingException {
 
         ObjectMapper mapper = new ObjectMapper();
 
