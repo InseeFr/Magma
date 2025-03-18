@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:21-jre-ubi9-minimal
 WORKDIR /application
 
 RUN addgroup -g 10000 javagroup
