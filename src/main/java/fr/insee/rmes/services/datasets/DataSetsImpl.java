@@ -24,8 +24,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+
 import java.util.*;
- 
+
 @Service
 public class DataSetsImpl extends RdfService implements DataSetsServices {
 
@@ -375,9 +376,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setSpatialResolution(spatialResolutionList);
         }
     }
-
-
-
+    
     @Override
     public String getDataSetByIDSummary(String id) throws RmesException, JsonProcessingException {
         //parametrage de la requête
@@ -388,7 +387,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         JSONObject dataSetId = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetByIDSummary.ftlh", params));
         if (dataSetId.has("id")) {
             DataSet dataSet = objectMapper.readValue(dataSetId.toString(), DataSet.class);
-
             Id id1 = new Id(dataSet.getId());
             Uri uri = new Uri(dataSet.getUri());
             Modified modified = new Modified(dataSet.getDateMiseAJour());
