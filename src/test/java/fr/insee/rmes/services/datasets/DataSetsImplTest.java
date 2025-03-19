@@ -46,12 +46,33 @@ class DataSetsImplTest {
 
 
     @Test
-    void shouldReturnLabelInformation() {
-        List<LangContent> myList = dataSetsImpl.constructLangContent("elementLg1","elementLg2");
-        IdLabel expected= new IdLabel("2025",myList);
+    void shouldReturnLabelInformationOne() {
         IdLabel actual = dataSetsImpl.labelInformation("2025","elementLg1","elementLg2");
+        IdLabel expected= new IdLabel("2025", dataSetsImpl.constructLangContent("elementLg1","elementLg2"));
         assertEquals(expected.toString(),actual.toString());
     }
+
+    @Test
+    void shouldReturnLabelInformationTwo() {
+        IdLabel actual = dataSetsImpl.labelInformation("2025","","");
+        IdLabel expected= new IdLabel("2025", null);
+        assertEquals(expected.toString(),actual.toString());
+    }
+
+    @Test
+    void shouldReturnLabelInformationThree() {
+        IdLabel actual = dataSetsImpl.labelInformation("2025","elementLg1","");
+        IdLabel expected= new IdLabel("2025", dataSetsImpl.constructLangContent1("elementLg1"));
+        assertEquals(expected.toString(),actual.toString());
+    }
+
+    @Test
+    void shouldReturnLabelInformationFour() {
+        IdLabel actual = dataSetsImpl.labelInformation("2025","","elementLg2");
+        IdLabel expected= new IdLabel("2025", dataSetsImpl.constructLangContent2("elementLg2"));
+        assertEquals(expected.toString(),actual.toString());
+    }
+
 
     @Test
     void shouldConstructLangContent1() {
@@ -67,18 +88,16 @@ class DataSetsImplTest {
         assertEquals(expected,actual);
     }
 
+
     @Test
     void shouldReturnStepsOfGetCreator() {
         List<String> creatorUris = List.of("  Insee  ","Ined ","Ine d","Ined");
         List<String> stepOne = new ArrayList<>();
         for (String s : creatorUris) { stepOne.add(s.trim());}
         List<String> stepTwo = new ArrayList<>(new LinkedHashSet<>(stepOne));
-
         boolean responseOne = stepOne.equals(List.of("Insee", "Ined", "Ine d", "Ined"));
         boolean responseTwo = stepTwo.toString().equals("[Insee, Ined, Ine d]");
-
         assertTrue(responseOne&responseTwo);
-
     }
 
 
