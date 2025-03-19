@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import fr.insee.rmes.dto.datasets.PatchDatasetDTO;
-import fr.insee.rmes.model.datasets.Theme;
+import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.persistence.RepositoryGestion;
 import fr.insee.rmes.services.utils.DataSetsUtilsTest;
@@ -43,6 +43,86 @@ class DataSetsImplTest {
     @Mock
     RepositoryGestion repoGestion;
     public static final ObjectMapper MAPPER = new JsonMapper();
+
+    @Test
+    void shouldGetDataSetBySummary() throws JsonProcessingException {
+
+        JSONObject dataSetId = new JSONObject();
+        dataSetId.put("id","ID");
+        dataSetId.put("uri","URI");
+        dataSetId.put("dateMiseAJour","today");
+
+        DataSetModelSwagger dataSetModelSwagger = null;
+
+        if (dataSetId.has("id")) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            DataSet dataSet = objectMapper.readValue(dataSetId.toString(), DataSet.class);
+            Id id1 = new Id(dataSet.getId());
+            Uri uri = new Uri(dataSet.getUri());
+            Modified modified = new Modified(dataSet.getDateMiseAJour());
+            dataSetModelSwagger = new DataSetModelSwagger(id1, uri, modified);
+        }
+        assertNotNull(dataSetModelSwagger);
+    }
+
+
+
+    @Test
+    void shouldReturnLabelInformationOne() {
+        IdLabel actual = dataSetsImpl.labelInformation("2025","elementLg1","elementLg2");
+        IdLabel expected= new IdLabel("2025", dataSetsImpl.constructLangContent("elementLg1","elementLg2"));
+        assertEquals(expected.toString(),actual.toString());
+    }
+
+    @Test
+    void shouldReturnLabelInformationTwo() {
+        IdLabel actual = dataSetsImpl.labelInformation("2025","","");
+        IdLabel expected= new IdLabel("2025", null);
+        assertEquals(expected.toString(),actual.toString());
+    }
+
+    @Test
+    void shouldReturnLabelInformationThree() {
+        IdLabel actual = dataSetsImpl.labelInformation("2025","elementLg1","");
+        IdLabel expected= new IdLabel("2025", dataSetsImpl.constructLangContent1("elementLg1"));
+        assertEquals(expected.toString(),actual.toString());
+    }
+
+    @Test
+    void shouldReturnLabelInformationFour() {
+        IdLabel actual = dataSetsImpl.labelInformation("2025","","elementLg2");
+        IdLabel expected= new IdLabel("2025", dataSetsImpl.constructLangContent2("elementLg2"));
+        assertEquals(expected.toString(),actual.toString());
+    }
+
+
+    @Test
+    void shouldConstructLangContent1() {
+        List<LangContent> actual = dataSetsImpl.constructLangContent1("elementLg1");
+        List<LangContent> expected= List.of(LangContent.lg1("elementLg1"));
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void shouldConstructLangContent2() {
+        List<LangContent> actual = dataSetsImpl.constructLangContent2("elementLg2");
+        List<LangContent> expected= List.of(LangContent.lg2("elementLg2"));
+        assertEquals(expected,actual);
+    }
+
+
+    @Test
+    void shouldReturnStepsOfGetCreator() {
+        List<String> creatorUris = List.of("  Insee  ","Ined ","Ine d","Ined");
+        List<String> stepOne = new ArrayList<>();
+        for (String s : creatorUris) { stepOne.add(s.trim());}
+        List<String> stepTwo = new ArrayList<>(new LinkedHashSet<>(stepOne));
+        boolean responseOne = stepOne.equals(List.of("Insee", "Ined", "Ine d", "Ined"));
+        boolean responseTwo = stepTwo.toString().equals("[Insee, Ined, Ine d]");
+        assertTrue(responseOne && responseTwo);
+    }
+
+
 
     @Test
     void getListDataSetsTest() throws RmesException, JsonProcessingException {
