@@ -492,7 +492,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     private List<IdLabel> getCreator(List<String> creatorUris) throws RmesException {
 
         List<String> stepOne = new ArrayList<>();
-        for (String s : creatorUris) { stepOne.add(s.trim());}
+        for (String s : creatorUris) { stepOne.add(s.trim());} 
         List<String> stepTwo = new ArrayList<>(new LinkedHashSet<>(stepOne));
 
         List<String> identifiers =  new ArrayList<>();
