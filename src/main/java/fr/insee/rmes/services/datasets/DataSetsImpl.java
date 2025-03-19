@@ -9,12 +9,11 @@ import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.persistence.FreeMarkerUtils;
 import fr.insee.rmes.persistence.RdfService;
-import fr.insee.security.User;
 import fr.insee.rmes.services.codelists.CodeListsServices;
 import fr.insee.rmes.utils.Constants;
 import fr.insee.rmes.utils.config.Config;
 import fr.insee.rmes.utils.exceptions.RmesException;
-import org.apache.commons.lang3.stream.LangCollectors;
+import fr.insee.security.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -27,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.util.*;
+
 @Service
 public class DataSetsImpl extends RdfService implements DataSetsServices {
 
@@ -108,7 +108,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return httpPatchRequest(token,patchDataset,datasetId, user);
     }
 
-
     protected ResponseEntity<String> httpPatchRequest(String token, PatchDatasetDTO body, String datasetId, Optional<User>  user){
 
         Optional<String> id = user.map(User::id);
@@ -153,8 +152,27 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
     }
 
+    protected IdLabel labelInformation(String id,String string1,String string2){
+        List<LangContent> listOfLangContent = null;
+
+        if( string1.isEmpty() && !string2.isEmpty()){
+            listOfLangContent = constructLangContent2(string2);
+        }
+
+        if( !string1.isEmpty() && string2.isEmpty()){
+            listOfLangContent = constructLangContent1(string1);
+        }
+
+        if( !string1.isEmpty() && !string2.isEmpty()){
+            listOfLangContent = constructLangContent(string1,string2);
+        }
+
+        return new IdLabel(id,listOfLangContent);
+
+    }
+
     protected void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
-        //récupération de le date de mofidication
+        //récupération de le date de modification
         if (catalogue_result.has("dateModification")) {
             Modified modified = new Modified(catalogue_result.getString("dateModification"));
             reponse.setModified(modified.toString());
@@ -208,10 +226,13 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             ProcessStep processStep = constructCodeList(processStepResult.getString("notation"));
             reponse.setProcessStep(processStep);
         }
+
         //récupération de publisher
         if (organisations_result.has("idPublisher")) {
-            IdLabel publisher = constructIdLabel(organisations_result.getString("idPublisher"),organisations_result.getString("labelPublisherLg1"),organisations_result.getString("labelPublisherLg2"));
-            reponse.setPublisher(publisher);
+            String id = organisations_result.getString("idPublisher");
+            String string1 =organisations_result.getString("labelPublisherLg1");
+            String string2 =organisations_result.getString("labelPublisherLg2");
+            reponse.setPublisher(labelInformation(id,string1,string2));
         }
 
         //récupération de type
@@ -261,7 +282,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             List<LangContent> keyword = constructLangContentList(catalogue_result.getString("keywordLg2"),Config.LG2);
             reponse.setKeyword(keyword);
         }
-
 
         //récupération de statisticalUnit
         if (codes_result.has("labelstatisticalUnitLg1") && codes_result.has("labelstatisticalUnitLg2")){
@@ -469,21 +489,35 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return distributionReponse;
     }
 
-
-
     private List<IdLabel> getCreator(List<String> creatorUris) throws RmesException {
-        List<IdLabel> creator = new ArrayList<>();
-        for (String s : creatorUris){
 
-            params.put("URI", s.replace(" ", ""));
+        List<String> StepOne = new ArrayList<>();
+        for (String s : creatorUris) { StepOne.add(s.trim());}
+        List<String> StepTwo = new ArrayList<>(new LinkedHashSet<>(StepOne));
+
+        List<String> identifiers =  new ArrayList<>();
+        List<IdLabel> creator = new ArrayList<>();
+
+        for (String s : StepTwo){
+
+            params.put("URI", s);
 
             JSONObject creator_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetByIdCreator.ftlh", params));
-            List<LangContent> creatorTitles = constructLangContent(creator_result.getString("labelCreatorLg1"),creator_result.getString("labelCreatorLg2"));
-            IdLabel creatorIdLabel = new IdLabel(creator_result.getString("idCreator"),creatorTitles);
-            creator.add(creatorIdLabel);
+
+            String id = creator_result.getString("idCreator");
+
+            if(!identifiers.contains(id.trim())){
+                String string1 = creator_result.getString("labelCreatorLg1");
+                String string2 = creator_result.getString("labelCreatorLg2");
+                creator.add(labelInformation(id.trim(),string1,string2));
+                identifiers.add(id.trim());
+            }
+
         }
+
         return creator;
     }
+
     private List<IdLabel> getWasGeneratedBy(List<String> operationStat) throws RmesException {
         List<IdLabel> wasGeneratedBy = new ArrayList<>();
         for (String s : operationStat){
@@ -568,10 +602,18 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
     }
 
-
     protected List<LangContent> constructLangContent(String elementLg1, String elementLg2) {
         return List.of(LangContent.lg1(elementLg1), LangContent.lg2(elementLg2));
     }
+
+    protected List<LangContent> constructLangContent1(String elementLg1) {
+        return List.of(LangContent.lg1(elementLg1));
+    }
+
+    protected List<LangContent> constructLangContent2(String elementLg2) {
+        return List.of(LangContent.lg2(elementLg2));
+    }
+
 
     protected List<LangContent> constructLangContentList(String stringListLg, String lg) {
         List<String> listLg= List.of(stringListLg.split(","));
@@ -583,7 +625,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return rep;
     }
 
-
     private IdLabel constructIdLabel(String id, String labelLg1, String labelLg2) {
         List<LangContent> langContentList = constructLangContent(labelLg1,labelLg2);
         return new IdLabel(id,langContentList);
@@ -593,7 +634,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         List<LangContent> descriptions= constructLangContent(derivedDescriptionLg1,derivedDescriptionLg2);
         return new WasDerivedFrom(datasets,descriptions);
     }
-
 
     private ProcessStep constructCodeList(String notation) throws RmesException {
         String codeListString = codeListsServices.getCodesListForDataset(notation);
