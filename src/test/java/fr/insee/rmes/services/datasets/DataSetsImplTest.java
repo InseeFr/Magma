@@ -46,14 +46,41 @@ class DataSetsImplTest {
 
 
     @Test
-    void shouldReturnlabelInformation() {
-        
+    void shouldReturnLabelInformation() {
         List<LangContent> myList = dataSetsImpl.constructLangContent("elementLg1","elementLg2");
         IdLabel expected= new IdLabel("2025",myList);
         IdLabel actual = dataSetsImpl.labelInformation("2025","elementLg1","elementLg2");
         assertEquals(expected.toString(),actual.toString());
+    }
+
+    @Test
+    void shouldConstructLangContent1() {
+        List<LangContent> actual = dataSetsImpl.constructLangContent1("elementLg1");
+        List<LangContent> expected= List.of(LangContent.lg1("elementLg1"));
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void shouldConstructLangContent2() {
+        List<LangContent> actual = dataSetsImpl.constructLangContent2("elementLg2");
+        List<LangContent> expected= List.of(LangContent.lg2("elementLg2"));
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void shouldReturnStepsOfGetCreator() {
+        List<String> creatorUris = List.of("  Insee  ","Ined ","Ine d","Ined");
+        List<String> stepOne = new ArrayList<>();
+        for (String s : creatorUris) { stepOne.add(s.trim());}
+        List<String> stepTwo = new ArrayList<>(new LinkedHashSet<>(stepOne));
+
+        boolean responseOne = stepOne.equals(List.of("Insee", "Ined", "Ine d", "Ined"));
+        boolean responseTwo = stepTwo.toString().equals("[Insee, Ined, Ine d]");
+
+        assertTrue(responseOne&responseTwo);
 
     }
+
 
 
     @Test
