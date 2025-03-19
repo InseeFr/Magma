@@ -97,7 +97,7 @@ class DataSetsImplTest {
         List<String> stepTwo = new ArrayList<>(new LinkedHashSet<>(stepOne));
         boolean responseOne = stepOne.equals(List.of("Insee", "Ined", "Ine d", "Ined"));
         boolean responseTwo = stepTwo.toString().equals("[Insee, Ined, Ine d]");
-        assertTrue(responseOne&responseTwo);
+        assertTrue(responseOne && responseTwo);
     }
 
 
