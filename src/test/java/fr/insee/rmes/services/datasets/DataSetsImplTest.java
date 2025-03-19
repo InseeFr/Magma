@@ -44,6 +44,18 @@ class DataSetsImplTest {
     RepositoryGestion repoGestion;
     public static final ObjectMapper MAPPER = new JsonMapper();
 
+
+    @Test
+    void shouldReturnlabelInformation() {
+        
+        List<LangContent> myList = dataSetsImpl.constructLangContent("elementLg1","elementLg2");
+        IdLabel expected= new IdLabel("2025",myList);
+        IdLabel actual = dataSetsImpl.labelInformation("2025","elementLg1","elementLg2");
+        assertEquals(expected.toString(),actual.toString());
+
+    }
+
+
     @Test
     void getListDataSetsTest() throws RmesException, JsonProcessingException {
         JSONArray mockJSON = new JSONArray(DataSetsUtilsTest.DATA_SET_LIST);
