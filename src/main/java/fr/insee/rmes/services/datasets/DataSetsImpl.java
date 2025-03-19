@@ -376,7 +376,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setSpatialResolution(spatialResolutionList);
         }
     }
-    
+
     @Override
     public String getDataSetByIDSummary(String id) throws RmesException, JsonProcessingException {
         //parametrage de la requête

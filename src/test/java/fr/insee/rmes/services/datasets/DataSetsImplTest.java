@@ -62,7 +62,7 @@ class DataSetsImplTest {
             Modified modified = new Modified(dataSet.getDateMiseAJour());
             dataSetModelSwagger = new DataSetModelSwagger(id1, uri, modified);
         }
-        assertFalse(dataSetModelSwagger == null);
+        assertNotNull(dataSetModelSwagger);
     }
 
 
