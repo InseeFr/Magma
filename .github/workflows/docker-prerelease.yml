@@ -2,9 +2,11 @@ name: Build release candidate
 
 on:
   release:
-    types: [created]
+    types: [prereleased]
     branches:
       - main
+    paths-ignore:
+      - documentation/**
 
 jobs:
   check-version:
