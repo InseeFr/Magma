@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
     <groupId>fr.insee.rmes</groupId>
     <artifactId>magma</artifactId>
-    <version>1.4.3-beta9</version>
+    <version>1.4.3-beta10</version>
     <name>magma</name>
     <description>Metadata management API</description>
     <organization>
