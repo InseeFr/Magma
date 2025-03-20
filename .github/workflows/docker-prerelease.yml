@@ -49,4 +49,4 @@ jobs:
           with:
               push: true
               file: Dockerfile
-              tags: ghcr.io/inseefr/Magma:${{ env.VERSION }}
+              tags: ghcr.io/inseefr/magma:${{ env.VERSION }}
