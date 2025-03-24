@@ -152,19 +152,19 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
     }
 
-    protected IdLabel labelInformation(String id,String string1,String string2){
+    protected IdLabel labelInformation(String id,String label1,String label2){
         List<LangContent> listOfLangContent = null;
 
-        if( string1.isEmpty() && !string2.isEmpty()){
-            listOfLangContent = constructLangContent2(string2);
+        if( label1.isEmpty() && !label2.isEmpty()){
+            listOfLangContent = constructLangContent2(label2);
         }
 
-        if( !string1.isEmpty() && string2.isEmpty()){
-            listOfLangContent = constructLangContent1(string1);
+        if( !label1.isEmpty() && label2.isEmpty()){
+            listOfLangContent = constructLangContent1(label1);
         }
 
-        if( !string1.isEmpty() && !string2.isEmpty()){
-            listOfLangContent = constructLangContent(string1,string2);
+        if( !label1.isEmpty() && !label2.isEmpty()){
+            listOfLangContent = constructLangContent(label1,label2);
         }
 
         return new IdLabel(id,listOfLangContent);
@@ -230,9 +230,9 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         //récupération de publisher
         if (organisations_result.has("idPublisher")) {
             String id = organisations_result.getString("idPublisher");
-            String string1 =organisations_result.getString("labelPublisherLg1");
-            String string2 =organisations_result.getString("labelPublisherLg2");
-            reponse.setPublisher(labelInformation(id,string1,string2));
+            String label1 =organisations_result.getString("labelPublisherLg1");
+            String label2 =organisations_result.getString("labelPublisherLg2");
+            reponse.setPublisher(labelInformation(id,label1,label2));
         }
 
         //récupération de type
@@ -488,14 +488,14 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
     private List<IdLabel> getCreator(List<String> creatorUris) throws RmesException {
 
-        List<String> stepOne = new ArrayList<>();
-        for (String s : creatorUris) { stepOne.add(s.trim());}
-        List<String> stepTwo = new ArrayList<>(new LinkedHashSet<>(stepOne));
+        List<String> listStepOne = new ArrayList<>();
+        for (String s : creatorUris) { listStepOne.add(s.trim());}
+        List<String> listStepTwo = new ArrayList<>(new LinkedHashSet<>(listStepOne));
 
         List<String> identifiers =  new ArrayList<>();
         List<IdLabel> creator = new ArrayList<>();
 
-        for (String s : stepTwo){
+        for (String s : listStepTwo){
 
             params.put("URI", s);
 

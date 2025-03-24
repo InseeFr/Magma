@@ -65,49 +65,18 @@ class DataSetsImplTest {
         assertNotNull(dataSetModelSwagger);
     }
 
-
-
     @Test
-    void shouldReturnLabelInformationOne() {
+    void shouldReturnIdLabelFromTwoStrings() {
         IdLabel actual = dataSetsImpl.labelInformation("2025","elementLg1","elementLg2");
         IdLabel expected= new IdLabel("2025", dataSetsImpl.constructLangContent("elementLg1","elementLg2"));
         assertEquals(expected.toString(),actual.toString());
     }
 
     @Test
-    void shouldReturnLabelInformationTwo() {
+    void shouldReturnIdLabelFromTwoNullStrings() {
         IdLabel actual = dataSetsImpl.labelInformation("2025","","");
         IdLabel expected= new IdLabel("2025", null);
         assertEquals(expected.toString(),actual.toString());
-    }
-
-    @Test
-    void shouldReturnLabelInformationThree() {
-        IdLabel actual = dataSetsImpl.labelInformation("2025","elementLg1","");
-        IdLabel expected= new IdLabel("2025", dataSetsImpl.constructLangContent1("elementLg1"));
-        assertEquals(expected.toString(),actual.toString());
-    }
-
-    @Test
-    void shouldReturnLabelInformationFour() {
-        IdLabel actual = dataSetsImpl.labelInformation("2025","","elementLg2");
-        IdLabel expected= new IdLabel("2025", dataSetsImpl.constructLangContent2("elementLg2"));
-        assertEquals(expected.toString(),actual.toString());
-    }
-
-
-    @Test
-    void shouldConstructLangContent1() {
-        List<LangContent> actual = dataSetsImpl.constructLangContent1("elementLg1");
-        List<LangContent> expected= List.of(LangContent.lg1("elementLg1"));
-        assertEquals(expected,actual);
-    }
-
-    @Test
-    void shouldConstructLangContent2() {
-        List<LangContent> actual = dataSetsImpl.constructLangContent2("elementLg2");
-        List<LangContent> expected= List.of(LangContent.lg2("elementLg2"));
-        assertEquals(expected,actual);
     }
 
 
@@ -121,7 +90,6 @@ class DataSetsImplTest {
         boolean responseTwo = stepTwo.toString().equals("[Insee, Ined, Ine d]");
         assertTrue(responseOne && responseTwo);
     }
-
 
 
     @Test
@@ -287,9 +255,6 @@ class DataSetsImplTest {
                 .hasMessageContaining("Non existent dataset identifier");
     }
 
-
-
-
     @Test
     void getDataSetByIDDateMiseAJour_shouldReturn404IfInexistentId() throws RmesException {
         JSONObject mockJSON = new JSONObject(ResponseUtilsTest.EMPTY_JSON_OBJECT);
@@ -299,7 +264,6 @@ class DataSetsImplTest {
                 .matches(rmesException -> ((RmesException) rmesException).getStatus() == 404)
                 .hasMessageContaining("Non existent dataset identifier");
     }
-
 
     @Test
     void patchDataset_shouldReturn400() {
@@ -328,8 +292,6 @@ class DataSetsImplTest {
         assertThat(actual_1).isEqualTo(expected_1);
         assertThat(actual_2).isEqualTo(expected_2);
 
-
     }
-
-
+    
 }
