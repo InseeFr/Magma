@@ -10,6 +10,8 @@ import lombok.Setter;
 
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -133,7 +135,7 @@ public class DataSetModelSwagger implements Serializable  {
     @JsonProperty("spatialTemporal")
     private SpatialTemporal spatialTemporal;
     @JsonProperty("statisticalUnit")
-    private List<LangContent> statisticalUnit;
+    private List<IdLabel> statisticalUnit;
     @JsonProperty("structure")
     private Structure structure;
     @JsonProperty("version")
@@ -148,7 +150,6 @@ public class DataSetModelSwagger implements Serializable  {
     private List<String> relations;
     @JsonProperty("keyword")
     private List<LangContent> keyword;
-
 
     @JsonProperty("theme")
     @JsonInclude(NON_NULL)
