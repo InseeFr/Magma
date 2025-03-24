@@ -281,13 +281,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
            reponse.setStatisticalUnit(spatialResolutionList);
         }
 
-        //récupération de spatialResolution
-        if (!codes_result.optString("spatialResolutions").isEmpty()) {
-            List<String> urisSpatialResolution = List.of(codes_result.getString("spatialResolutions").split(","));
-            List<IdLabel> spatialResolutionList = getSpatialResolution(urisSpatialResolution);
-            reponse.setSpatialResolution(spatialResolutionList);
-        }
-
         //récupération de structure
         if(!structures_result.isEmpty()) {
 
@@ -372,7 +365,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             List<IdLabel> spatialResolutionList = getSpatialResolution(urisSpatialResolution);
             reponse.setSpatialResolution(spatialResolutionList);
         }
-
 
     }
 
