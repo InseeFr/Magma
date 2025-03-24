@@ -254,12 +254,22 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
         //récupération de keyword
         if (catalogue_result.has("keywordLg1") ){
-            List<LangContent> keyword = constructLangContentList(catalogue_result.getString("keywordLg1"),Config.LG1);
-            reponse.setKeyword(keyword);
+            if (catalogue_result.getString("keywordLg1").length()>0){
+                LangContent langContentLg1 = new LangContent(Config.LG1,catalogue_result.getString("keywordLg1"));
+                reponse.addKeyword(langContentLg1);
+            }
+            else {
+                catalogue_result.remove("keywordLg1");
+            }
         }
         if (catalogue_result.has("keywordLg2") ){
-            List<LangContent> keyword = constructLangContentList(catalogue_result.getString("keywordLg2"),Config.LG2);
-            reponse.setKeyword(keyword);
+            if (catalogue_result.getString("keywordLg2").length()>0){
+                LangContent langContentLg2 = new LangContent(Config.LG2,catalogue_result.getString("keywordLg2"));
+                reponse.addKeyword(langContentLg2);
+            }
+            else {
+                catalogue_result.remove("keywordLg2");
+            }
         }
 
 

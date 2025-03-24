@@ -11,6 +11,7 @@ import lombok.Setter;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -195,4 +196,26 @@ public class DataSetModelSwagger implements Serializable  {
         this.validationState = validationState;
         this.themeModelSwaggerS = themeModelSwaggerS;
     }
+
+
+    public Id getIdWithTypeId(){
+        Id id = new Id(this.id);
+        return id;
+    }
+
+    public Uri getUriWithTypeUri(){
+        Uri uri = new Uri(this.uri);
+        return uri;
+    }
+
+    public void addKeyword(LangContent langContent) {
+        if (this.keyword == null) {
+            this.keyword = new ArrayList<>();
+            this.keyword.add(langContent);
+        }
+        else {
+            this.keyword.add(langContent);
+        }
+    }
+
 }
