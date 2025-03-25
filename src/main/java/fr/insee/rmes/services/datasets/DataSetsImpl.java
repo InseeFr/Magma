@@ -179,8 +179,11 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
         //récupération de la liste de creators
         if (!catalogue_result.optString("creators").isEmpty()){
-            List<String> creatorUris = List.of(catalogue_result.getString("creators").split(","));
-            List<IdLabel> creator = getCreator(creatorUris);
+            String idCatalogResult = catalogue_result.getString("id");
+            params.put("ID",idCatalogResult );
+            JSONObject creatorUrisSet = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetByIdCreatorInformation.ftlh", params));
+            List<String> creatorUris =List.of(creatorUrisSet.getString("names").split(","));
+            List<IdLabel> creator = getCreator(creatorUris,idCatalogResult);
             reponse.setCreator(creator);
         }
         //récupération du subtitle
@@ -486,32 +489,29 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return distributionReponse;
     }
 
-    private List<IdLabel> getCreator(List<String> creatorUris) throws RmesException {
+    private List<IdLabel> getCreator(List<String> creatorUris,String idCatalogue) throws RmesException {
 
-        List<String> listStepOne = new ArrayList<>();
-        for (String s : creatorUris) { listStepOne.add(s.trim());}
-        List<String> listStepTwo = new ArrayList<>(new LinkedHashSet<>(listStepOne));
+        List<String> listCreatorUrisWithoutExternalSpace= new ArrayList<>();
+        for (String s : creatorUris) {listCreatorUrisWithoutExternalSpace.add(s.trim());}
+        List<String> listWithoutDuplicates = new ArrayList<>(new LinkedHashSet<>(listCreatorUrisWithoutExternalSpace));
 
         List<String> identifiers =  new ArrayList<>();
         List<IdLabel> creator = new ArrayList<>();
 
-        for (String s : listStepTwo){
-
-            params.put("URI", s);
-
+        for (String s : listWithoutDuplicates){
+            params.put("CREATOR", s);
+            params.put("ID", idCatalogue);
             JSONObject creator_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetByIdCreator.ftlh", params));
 
             String id = creator_result.getString("idCreator");
 
             if(!identifiers.contains(id.trim())){
-                String string1 = creator_result.getString("labelCreatorLg1");
-                String string2 = creator_result.getString("labelCreatorLg2");
-                creator.add(labelInformation(id.trim(),string1,string2));
+                String labelCreatorLg1 = creator_result.getString("labelCreatorLg1");
+                String labelCreatorLg2 = creator_result.getString("labelCreatorLg2");
+                creator.add(labelInformation(id.trim(),labelCreatorLg1,labelCreatorLg2));
                 identifiers.add(id.trim());
             }
-
         }
-
         return creator;
     }
 

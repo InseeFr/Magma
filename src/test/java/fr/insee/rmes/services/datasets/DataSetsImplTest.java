@@ -83,12 +83,12 @@ class DataSetsImplTest {
     @Test
     void shouldReturnStepsOfGetCreator() {
         List<String> creatorUris = List.of("  Insee  ","Ined ","Ine d","Ined");
-        List<String> stepOne = new ArrayList<>();
-        for (String s : creatorUris) { stepOne.add(s.trim());}
-        List<String> stepTwo = new ArrayList<>(new LinkedHashSet<>(stepOne));
-        boolean responseOne = stepOne.equals(List.of("Insee", "Ined", "Ine d", "Ined"));
-        boolean responseTwo = stepTwo.toString().equals("[Insee, Ined, Ine d]");
-        assertTrue(responseOne && responseTwo);
+        List<String> creatorUrisWithoutExternalSpaces = new ArrayList<>();
+        for (String s : creatorUris) {creatorUrisWithoutExternalSpaces.add(s.trim());}
+        List<String> deleteDuplicatesCreatorUris = new ArrayList<>(new LinkedHashSet<>(creatorUrisWithoutExternalSpaces));
+        boolean correctDeletionOfSpaces = creatorUrisWithoutExternalSpaces.equals(List.of("Insee", "Ined", "Ine d", "Ined"));
+        boolean goodDuplicateRemoval = deleteDuplicatesCreatorUris .toString().equals("[Insee, Ined, Ine d]");
+        assertTrue(correctDeletionOfSpaces && goodDuplicateRemoval);
     }
 
 
