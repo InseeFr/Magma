@@ -176,7 +176,7 @@ class DataSetsImplTest {
     })*/
     @MethodSource(value = "argumentsProvider")
     void testPresenceVariablePuisAjoutTest_checkFieldIsAdded(String key1, String key2, Supplier<List<LangContent>> getListLangContent) throws RmesException, JsonProcessingException {
-        var catalogue_result = new JSONObject(Map.of(key1, "l1", key2, "l2","keywordLg1","","keywordLg2",""));
+        var catalogue_result = new JSONObject(Map.of(key1, "l1", key2, "l2"));
         var expected = dataSetsImpl.constructLangContent("l1", "l2");
         dataSetsImpl.testPresenceVariablePuisAjout(response, catalogue_result, new JSONObject(), new JSONObject(), new JSONObject(), new JSONObject());
         assertThat(getListLangContent.get()).isEqualTo(expected);
