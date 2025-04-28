@@ -11,9 +11,9 @@
     </parent>
     <packaging>jar</packaging>
     <groupId>fr.insee.rmes</groupId>
-    <artifactId>magma-back-office</artifactId>
+    <artifactId>magma</artifactId>
     <version>1.4.5</version>
-    <name>magma-back-office</name>
+    <name>magma</name>
     <description>Metadata management API</description>
     <organization>
         <name>INSEE</name>
