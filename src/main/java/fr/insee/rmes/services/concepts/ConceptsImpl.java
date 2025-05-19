@@ -192,7 +192,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
     }
 
     @Override
-    public String getSetOfConceptsInACollection(String id) throws RmesException, JsonProcessingException {
+    public String getSetOfConceptsInACollection(String id) throws RmesException{
 
         Map<String, Object> params = initParams();
         params.put("ID", id);

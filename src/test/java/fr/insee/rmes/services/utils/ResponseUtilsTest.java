@@ -17,21 +17,21 @@ public class ResponseUtilsTest {
 
     public static final String SET_OF_CONCEPTS_JSON_ARRAY ="[\n"+
             "      {\n" +
-            "        \"uri_concept\" : {\n" +
+            "        \"uriConcept\" : {\n" +
             "          \"type\" : \"uri\",\n" +
             "          \"value\" : \"http://bauhaus/concepts/definition/c1365\"\n" +
             "        },\n" +
-            "        \"id_concept\" : {\n" +
+            "        \"idConcept\" : {\n" +
             "          \"type\" : \"literal\",\n" +
             "          \"value\" : \"c1365\"\n" +
             "        }\n" +
             "      },\n" +
             "      {\n" +
-            "        \"uri_concept\" : {\n" +
+            "        \"uriConcept\" : {\n" +
             "          \"type\" : \"uri\",\n" +
             "          \"value\" : \"http://bauhaus/concepts/definition/c1632\"\n" +
             "        },\n" +
-            "        \"id_concept\" : {\n" +
+            "        \"idConcept\" : {\n" +
             "          \"type\" : \"literal\",\n" +
             "          \"value\" : \"c1632\"\n" +
             "        }\n" +
