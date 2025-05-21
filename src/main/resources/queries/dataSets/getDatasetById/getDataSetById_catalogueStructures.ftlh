@@ -5,9 +5,9 @@ WHERE {
 ?subject a dcat:CatalogRecord ;
 foaf:primaryTopic ?z .
 ?z dcterms:identifier "${ID}" .
+?z insee:structure ?uri .
 
 OPTIONAL {
-?z insee:structure ?uri .
 ?uri dcterms:identifier ?structureId .
 ?uri skos:notation ?dsd .
 ?uri rdf:type ?type.

@@ -127,6 +127,8 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         //paramétrage de la requête
         params.put("ID", id);
         JSONObject catalogue_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH +DATASET_BY_ID_PATH, "getDataSetById_catalogue.ftlh", params));
+        removeEmptyKeys(catalogue_result);
+        
         if (catalogue_result.has("id")) {
             JSONObject adms_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetById_catalogueAdms.ftlh", params));
             JSONObject codes_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetById_catalogueCodes.ftlh", params));
@@ -168,8 +170,17 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
 
         return new IdLabel(id,listOfLangContent);
-
     }
+
+    private void removeEmptyKeys(JSONObject jsonObject) {
+        Iterator<String> keys = jsonObject.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            if(jsonObject.getString(key).isEmpty()){
+                keys.remove();
+            }
+        }
+
 
     protected void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
         //récupération de le date de modification
@@ -277,12 +288,16 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             reponse.setSpatialTemporal(spatialTemporal);
         }
         //récupération de keyword
-        if (catalogue_result.has("keywordLg1") ){
+        reponse.setKeyword(new ArrayList<>());
+        if (catalogue_result.has("keywordLg1")){
             List<LangContent> keyword = constructLangContentList(catalogue_result.getString("keywordLg1"),Config.LG1);
             reponse.setKeyword(keyword);
         }
-        if (catalogue_result.has("keywordLg2") ){
+        if (catalogue_result.has("keywordLg2")){
             List<LangContent> keyword = constructLangContentList(catalogue_result.getString("keywordLg2"),Config.LG2);
+            if (reponse.getKeyword().size() >0){
+                keyword.addAll(reponse.getKeyword());
+            }
             reponse.setKeyword(keyword);
         }
 
@@ -294,25 +309,24 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         //récupération de structure
         if(!structures_result.isEmpty()) {
 
-            if (structures_result.has("structureId") && structures_result.has("dsd")) {
-                Structure structure = new Structure(structures_result.getString("structureId"), structures_result.getString("dsd"));
-                reponse.setStructure(structure);
-
-                if (structures_result.has("uri") && structures_result.has("DataStructureDefinition")) {
-
-                    if(structures_result.getBoolean("DataStructureDefinition")){
-                        Structure structureCase = new Structure(structures_result.getString("uri"),structures_result.getString("structureId"),structures_result.getString("dsd"));
-                        reponse.setStructure(structureCase);}
-
-                   else{
-                        Structure structureCase = new Structure(structures_result.getString("uri"));
-                        reponse.setStructure(structureCase);}
-
-                }
-
+            if(!structures_result.has("DataStructureDefinition") && structures_result.has("uri")){
+                Structure structureCase = new Structure(structures_result.getString("uri"));
+                reponse.setStructure(structureCase);
             }
 
+            if (structures_result.has("DataStructureDefinition")){
+
+                if (structures_result.has("structureId") && structures_result.has("dsd")) {
+                    Structure structure = new Structure(structures_result.getString("structureId"), structures_result.getString("dsd"));
+                    reponse.setStructure(structure);}
+
+                if ( structures_result.has("uri") && structures_result.has("structureId") && structures_result.has("dsd")) {
+                    Structure structure = new Structure(structures_result.getString("uri"),structures_result.getString("structureId"),structures_result.getString("dsd"));
+                    reponse.setStructure(structure);}
+            }
         }
+
+
 
         //récupération de issued
         if (catalogue_result.has("dateEmission")){
