@@ -180,6 +180,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 keys.remove();
             }
         }
+    }
 
 
     protected void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
