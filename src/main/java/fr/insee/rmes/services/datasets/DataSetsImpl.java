@@ -282,21 +282,26 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
 
         //récupération de structure
+
         if(!structures_result.isEmpty()) {
 
-            if (structures_result.has("structureId") && structures_result.has("dsd")) {
-                Structure structure = new Structure(structures_result.getString("structureId"), structures_result.getString("dsd"));
-                reponse.setStructure(structure);
+            if (structures_result.has("DataStructureDefinition")){
 
-                if (structures_result.has("uri") && structures_result.has("DataStructureDefinition")) {
+                if (structures_result.has("structureId") && structures_result.has("dsd")) {
+                    Structure structure = new Structure(structures_result.getString("structureId"), structures_result.getString("dsd"));
+                    reponse.setStructure(structure);}
 
-                    if(structures_result.getBoolean("DataStructureDefinition")){
-                        Structure structureCase = new Structure(structures_result.getString("uri"),structures_result.getString("structureId"),structures_result.getString("dsd"));
-                        reponse.setStructure(structureCase);}
+                if ( structures_result.has("uri") && structures_result.has("structureId") && structures_result.has("dsd")) {
+                    Structure structure = new Structure(structures_result.getString("uri"),structures_result.getString("structureId"),structures_result.getString("dsd"));
+                    reponse.setStructure(structure);}
 
-                   else{
-                        Structure structureCase = new Structure(structures_result.getString("uri"));
-                        reponse.setStructure(structureCase);}
+            }
+
+            else{
+                
+                if(structures_result.has("uri")){
+                    Structure structureCase = new Structure(structures_result.getString("uri"));
+                    reponse.setStructure(structureCase);
                 }
             }
         }
