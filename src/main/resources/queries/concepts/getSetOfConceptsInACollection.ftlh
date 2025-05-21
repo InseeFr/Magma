@@ -1,9 +1,9 @@
-SELECT ?uri_concept ?id_concept
+SELECT ?uri ?id
 WHERE {
-   ?uri rdf:type skos:Collection .
-   ?uri dcterms:identifier "${ID}" .
+   ?uriObject rdf:type skos:Collection .
+   ?uriObject dcterms:identifier "${ID}" .
    OPTIONAL{
-      ?uri skos:member ?uri_concept .
-      ?uri_concept skos:notation ?id_concept
+      ?uriObject skos:member ?uri .
+      ?uri skos:notation ?id
     }
-} ORDER BY DESC(?uri_concept)
+} ORDER BY DESC(?uri)

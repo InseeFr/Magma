@@ -42,7 +42,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     private final RestClient restClient;
     private final CodeListsServices codeListsServices;
 
-
     protected DataSetsImpl(FreeMarkerUtils freeMarkerUtils) {
         super(freeMarkerUtils);
         restClient=null;
@@ -55,6 +54,18 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         this.codeListsServices=codeListsServices;
     }
 
+    private  List<IdLabel>  getStatisticalUnit(List<String> uriStatistical,String id) throws RmesException {
+        List<IdLabel>  statistical = new ArrayList<>();
+        for (String uri : uriStatistical){
+            params.put("URI",uri);
+            params.put("ID",id);
+            JSONObject spatialResolutionQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetByIdUriStatistical.ftlh", params));
+            List<LangContent> spatialResolutionTitles = constructLangContent(spatialResolutionQuery.getString("labelUriStatisticalLg1"),spatialResolutionQuery.getString("labelUriStatisticalLg2"));
+            IdLabel spatialResolutionIdLabel = new IdLabel(uri,spatialResolutionTitles);
+            statistical.add(spatialResolutionIdLabel);
+        }
+        return statistical;
+    }
 
     @Override
     public String getListDataSets(String dateMiseAJour) throws RmesException, JsonProcessingException {
@@ -98,7 +109,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             if (node.isContainerNode() && node.isEmpty()) {
                 it.remove();
             }
-
         }
         return dataSetFinalNode;
     }
@@ -303,18 +313,19 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
 
         //récupération de statisticalUnit
-        if (codes_result.has("labelstatisticalUnitLg1") && codes_result.has("labelstatisticalUnitLg2")){
-            List<LangContent> statisticalUnit = constructLangContent(codes_result.getString("labelstatisticalUnitLg1"),codes_result.getString("labelstatisticalUnitLg2"));
-            reponse.setStatisticalUnit(statisticalUnit);
+       if (codes_result.has("labelstatisticalUnitLg1") && codes_result.has("labelstatisticalUnitLg2")){
+           String id =catalogue_result.get("id").toString();
+           params.put("ID",id);
+           JSONObject answer= repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetByIdUriStatisticalNames.ftlh", params));
+           List<String> uriStatistical = List.of(answer.get("names").toString().split(","));
+           List<IdLabel> spatialResolutionList = getStatisticalUnit(uriStatistical,catalogue_result.get("id").toString());
+           reponse.setStatisticalUnit(spatialResolutionList);
         }
+
         //récupération de structure
+
         if(!structures_result.isEmpty()) {
-
-            if(!structures_result.has("DataStructureDefinition") && structures_result.has("uri")){
-                Structure structureCase = new Structure(structures_result.getString("uri"));
-                reponse.setStructure(structureCase);
-            }
-
+          
             if (structures_result.has("DataStructureDefinition")){
 
                 if (structures_result.has("structureId") && structures_result.has("dsd")) {
@@ -324,6 +335,16 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 if ( structures_result.has("uri") && structures_result.has("structureId") && structures_result.has("dsd")) {
                     Structure structure = new Structure(structures_result.getString("uri"),structures_result.getString("structureId"),structures_result.getString("dsd"));
                     reponse.setStructure(structure);}
+
+            }
+
+            else{
+                
+                if(structures_result.has("uri")){
+                    Structure structureCase = new Structure(structures_result.getString("uri"));
+                    reponse.setStructure(structureCase);
+                }
+
             }
         }
 
@@ -416,7 +437,6 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             throw new RmesException(HttpStatus.NOT_FOUND, "Non existent dataset identifier", "The id " + id + " does not correspond to any dataset");
         }
     }
-
 
     @Override
     public Distributions[] getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException {
