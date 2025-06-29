@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import fr.insee.rmes.dto.datasets.PatchDatasetDTO;
-import fr.insee.rmes.model.datasets.Theme;
+import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.persistence.RepositoryGestion;
 import fr.insee.rmes.services.utils.DataSetsUtilsTest;
@@ -43,6 +43,54 @@ class DataSetsImplTest {
     @Mock
     RepositoryGestion repoGestion;
     public static final ObjectMapper MAPPER = new JsonMapper();
+
+    @Test
+    void shouldGetDataSetBySummary() throws JsonProcessingException {
+
+        JSONObject dataSetId = new JSONObject();
+        dataSetId.put("id","ID");
+        dataSetId.put("uri","URI");
+        dataSetId.put("dateMiseAJour","today");
+
+        DataSetModelSwagger dataSetModelSwagger = null;
+
+        if (dataSetId.has("id")) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            DataSet dataSet = objectMapper.readValue(dataSetId.toString(), DataSet.class);
+            Id id1 = new Id(dataSet.getId());
+            Uri uri = new Uri(dataSet.getUri());
+            Modified modified = new Modified(dataSet.getDateMiseAJour());
+            dataSetModelSwagger = new DataSetModelSwagger(id1, uri, modified);
+        }
+        assertNotNull(dataSetModelSwagger);
+    }
+
+    @Test
+    void shouldReturnIdLabelFromTwoStrings() {
+        IdLabel actual = dataSetsImpl.labelInformation("2025","elementLg1","elementLg2");
+        IdLabel expected= new IdLabel("2025", dataSetsImpl.constructLangContent("elementLg1","elementLg2"));
+        assertEquals(expected.toString(),actual.toString());
+    }
+
+    @Test
+    void shouldReturnIdLabelFromTwoNullStrings() {
+        IdLabel actual = dataSetsImpl.labelInformation("2025","","");
+        IdLabel expected= new IdLabel("2025", null);
+        assertEquals(expected.toString(),actual.toString());
+    }
+
+
+    @Test
+    void shouldReturnStepsOfGetCreator() {
+        List<String> creatorUris = List.of("  Insee  ","Ined ","Ine d","Ined");
+        List<String> creatorUrisWithoutExternalSpaces = new ArrayList<>();
+        for (String s : creatorUris) {creatorUrisWithoutExternalSpaces.add(s.trim());}
+        List<String> deleteDuplicatesCreatorUris = new ArrayList<>(new LinkedHashSet<>(creatorUrisWithoutExternalSpaces));
+        boolean correctDeletionOfSpaces = creatorUrisWithoutExternalSpaces.equals(List.of("Insee", "Ined", "Ine d", "Ined"));
+        boolean goodDuplicateRemoval = deleteDuplicatesCreatorUris .toString().equals("[Insee, Ined, Ine d]");
+        assertTrue(correctDeletionOfSpaces && goodDuplicateRemoval);
+    }
+
 
     @Test
     void getListDataSetsTest() throws RmesException, JsonProcessingException {
@@ -207,9 +255,6 @@ class DataSetsImplTest {
                 .hasMessageContaining("Non existent dataset identifier");
     }
 
-
-
-
     @Test
     void getDataSetByIDDateMiseAJour_shouldReturn404IfInexistentId() throws RmesException {
         JSONObject mockJSON = new JSONObject(ResponseUtilsTest.EMPTY_JSON_OBJECT);
@@ -219,7 +264,6 @@ class DataSetsImplTest {
                 .matches(rmesException -> ((RmesException) rmesException).getStatus() == 404)
                 .hasMessageContaining("Non existent dataset identifier");
     }
-
 
     @Test
     void patchDataset_shouldReturn400() {
@@ -248,8 +292,6 @@ class DataSetsImplTest {
         assertThat(actual_1).isEqualTo(expected_1);
         assertThat(actual_2).isEqualTo(expected_2);
 
-
     }
-
-
+    
 }
