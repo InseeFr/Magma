@@ -14,3 +14,8 @@ the directory `interface/target/generated-sources/openapi/src/main/java` must be
 2. Two possibilities. Either :
 - by executing the action "Reload All Maven Projects" : the directory is marked automatically
 - by marking the directory manually : right-click on the directory in project explorer > "Mark directory as"
+
+## .env
+In order to use the build the project, you'll need to make sure that you have a .env file at the root of your projet.
+The .env file should have the following line :
+`PROXY=""` where PROXY refers to the url of your local docker repo. If you do not have a local repo and get your images directly from docker_hub, you can leave it blank.
