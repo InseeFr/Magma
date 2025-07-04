@@ -2,6 +2,9 @@ package fr.insee.rmes.metadata.api;
 
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.CollectiviteDOutreMer;
+import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
+import fr.insee.rmes.metadata.model.TypeEnumDescendantsCollectiviteDOutreMer;
+import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,7 +14,7 @@ import java.util.List;
 
 
 @Controller
-public class GeoCollectiviteDOutreMerEndpoints implements GeoCollectiviteDOutreMerApi{
+public class GeoCollectiviteDOutreMerEndpoints implements GeoCollectiviteDOutreMerApi {
 
     private final RequestProcessor requestProcessor;
 
@@ -28,8 +31,19 @@ public class GeoCollectiviteDOutreMerEndpoints implements GeoCollectiviteDOutreM
                 .toResponseEntity();
     }
 
+
     @Override
-    public ResponseEntity<List<CollectiviteDOutreMer>> getcogcollliste (LocalDate date) {
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogcolldes(String code, LocalDate date, TypeEnumDescendantsCollectiviteDOutreMer type, String filtreNom) {
+        return requestProcessor.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, filtreNom, CollectiviteDOutreMer.class))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
+
+
+    @Override
+    public ResponseEntity<List<CollectiviteDOutreMer>> getcogcollliste(LocalDate date) {
         return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(date, CollectiviteDOutreMer.class, "none"))
                 .executeQuery()

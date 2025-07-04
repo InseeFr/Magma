@@ -531,6 +531,28 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/collectiviteDOutreMer/{code}/descendants:
+    get:
+      tags:
+        - geoCollectiviteDOutreMer
+      summary: 'Informations concernant les territoires inclus dans la collectivité d''outre-mer'
+      operationId: 'getcogcolldes'
+      parameters:
+        - $ref: '#/components/parameters/codeCollectiviteDOutreMerInPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsCollectiviteDOutreMer'
+        - $ref: '#/components/parameters/typeTerritoireDescendantCollectiviteDOutreMer'
+        - $ref: '#/components/parameters/filtreNomDescendant'
+      responses:
+        '200':
+          $ref: '#/components/responses/CollectiviteDOutreMerListeDescendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/collectivitesDOutreMer:
     get:
       tags:
@@ -2123,6 +2145,20 @@ components:
       schema:
         type: 'string'
         format: date
+    dateTerritoiresActifsDescendantsCollectiviteDOutreMer:
+      in: query
+      description: |-
+        Filtre pour renvoyer les territoires inclus dans la collectivité d'outre-mer active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ').
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    typeTerritoireDescendantCollectiviteDOutreMer:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumDescendantsCollectiviteDOutreMer'
     dateCollectivitesDOutreMerActives:
       in: query
       description: |-
@@ -2299,14 +2335,14 @@ components:
 
     CantonListeAscendants:
       value:
-      - code: '84'
-        uri: 'http://id.insee.fr/geo/region/c12b23e7-d2e7-4443-ac4b-de8de5ce22f2'
-        type: 'Region'
-        dateCreation: '2016-01-01'
-        intituleSansArticle: 'Auvergne-Rhône-Alpes'
-        typeArticle: '1'
-        chefLieu: '69123'
-        intitule: 'Auvergne-Rhône-Alpes'
+        - code: '84'
+          uri: 'http://id.insee.fr/geo/region/c12b23e7-d2e7-4443-ac4b-de8de5ce22f2'
+          type: 'Region'
+          dateCreation: '2016-01-01'
+          intituleSansArticle: 'Auvergne-Rhône-Alpes'
+          typeArticle: '1'
+          chefLieu: '69123'
+          intitule: 'Auvergne-Rhône-Alpes'
     Canton:
       value:
         code: '0101'
@@ -2395,6 +2431,15 @@ components:
         intituleSansArticle: 'Nouvelle-Calédonie'
         typeArticle: '0'
         intitule: 'Nouvelle-Calédonie'
+    CollectiviteDOutreMerListeDescendants:
+      value:
+        - code: '98801'
+          uri: 'http://id.insee.fr/geo/commune/82cb85a7-c974-4100-a82a-54b7e2c9ca13'
+          type: 'Commune'
+          dateCreation: '2008-01-01'
+          intituleSansArticle: 'Belep'
+          typeArticle: '0'
+          intitule: 'Belep'
     ListeCollectivitesDOutreMer:
       value:
         - code: '975'
@@ -3295,6 +3340,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CollectiviteDOutreMer'
+    CollectiviteDOutreMerListeDescendants200:
+      description: 'Opération réussie pour les descendants d''une collectivité d''outre-mer'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CollectiviteDOutreMerListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CollectiviteDOutreMerListeDescendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CollectiviteDOutreMerListeDescendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CollectiviteDOutreMerListeDescendants'
     CollectivitesDOutreMerListe200:
       description: 'Opération réussie pour les collectivités d''outre-mer'
       content:
@@ -4306,6 +4366,15 @@ components:
         - UniteUrbaine2020
         - Territoire
       example: 'Canton'
+    TypeEnumDescendantsCollectiviteDOutreMer:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Commune
+        - CirconscriptionTerritoriale
+        - Iris
+        - District
     TypeEnumDescendantsDepartement:
       type: string
       xml:
@@ -4516,12 +4585,12 @@ components:
       example: '14463'
 
     CodeCommuneDeleguee:
-     description: 'Code de la commune déléguée'
-     pattern: '([0-9]{5})'
-     type: string
-     xml:
-       attribute: true
-     example: '46248'
+      description: 'Code de la commune déléguée'
+      pattern: '([0-9]{5})'
+      type: string
+      xml:
+        attribute: true
+      example: '46248'
 
     DistrictListeAscendants:
       description: 'Liste des ascendants d''un district'
@@ -4898,6 +4967,14 @@ components:
       xml:
         attribute: true
       example: '988'
+    CollectiviteDOutreMerListeDescendants:
+      description: 'Liste des descendants d''une collectivité d''outre-mer'
+      type: array
+      xml:
+        wrapped: true
+        name: DescendantsCollectiviteDOutreMer
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     ListeCollectivitesDOutreMer:
       description: 'Liste des collectivités d''outre-mer'
       type: array
