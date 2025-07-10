@@ -200,6 +200,26 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/arrondissement/{code}/precedents:
+    get:
+      tags:
+        - geoArrondissement
+      summary: 'Informations concernant les arrondissements qui précèdent l''arrondissement'
+      operationId: 'getcogarrprec'
+      parameters:
+        - $ref: '#/components/parameters/codeArrondissementInPath'
+        - $ref: '#/components/parameters/dateArrondissementDepart'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArrondissementListePrecedents200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/arrondissementMunicipal/{code}/ascendants:
     get:
@@ -253,6 +273,26 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/ArrondissementsMunicipauxListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/arrondissementMunicipal/{code}/precedents:
+    get:
+      tags:
+        - geoArrondissementMunicipal
+      summary: 'Informations concernant les arrondissements municipaux qui précèdent l''arrondissement municipal'
+      operationId: 'getcogarrmuprec'
+      parameters:
+        - $ref: '#/components/parameters/codeArrondissementMunicipalInPath'
+        - $ref: '#/components/parameters/dateArrondissementMunicipalDepart'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArrondissementMunicipalListePrecedents200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -1526,6 +1566,14 @@ components:
       schema:
         type: 'string'
         format: date
+    dateArrondissementDepart:
+      in: query
+      description: |-
+        Filtre pour préciser l'arrondissement de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
     dateTerritoiresActifsAscendantsArrondissement:
       in: query
       description: |-
@@ -1560,6 +1608,14 @@ components:
       in: query
       description: |-
         Filtre pour renvoyer les arrondissements municipaux actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    dateArrondissementMunicipalDepart:
+      in: query
+      description: |-
+        Filtre pour préciser l'arrondissement municipal de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       name: date
       schema:
         type: 'string'
@@ -2275,6 +2331,17 @@ components:
           typeArticle: '0'
           chefLieu: '01034'
           intitule: 'Belley'
+    ArrondissementListePrecedents:
+      value:
+        - code: '672'
+          uri: 'http://id.insee.fr/geo/arrondissement/f1b88b67-f15d-49ad-9bb2-ce221f249f04'
+          type: 'Arrondissement'
+          dateCreation: '2015-01-01'
+          dateSuppression: '2018-12-31'
+          intituleSansArticle: 'Haguenau-Wissembourg'
+          typeArticle: '0'
+          chefLieu: '67180'
+          intitule: 'Haguenau-Wissembourg'
 
     ArrondissementMunicipalListeAscendants:
       value:
@@ -2304,7 +2371,17 @@ components:
           intituleSansArticle: 'Marseille 1er Arrondissement'
           typeArticle: '0'
           intitule: 'Marseille 1er Arrondissement'
-
+    ArrondissementMunicipalListePrecedents:
+      value:
+        - code: '69385'
+          uri: 'http://id.insee.fr/geo/arrondissementMunicipal/67a81278-24c3-4aec-a2e8-fe914fe05fc2'
+          type: 'ArrondissementMunicipal'
+          dateCreation: '1943-01-01'
+          dateSuppression: '1964-08-12'
+          intituleSansArticle: 'Lyon 5e Arrondissement'
+          typeArticle: '0'
+          intitule: 'Lyon 5e Arrondissement'
+    
     BassinDeVie2022:
       value:
         code: '01004'
@@ -3092,7 +3169,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeArrondissements'
-
+    ArrondissementListePrecedents200:
+      description: 'Opération réussie pour les arrondissements précédents'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ArrondissementListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementListePrecedents'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ArrondissementListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementListePrecedents'
+    
     ArrondissementMunicipalListeAscendants200:
       description: 'Opération réussie pour les ascendants d''un arrondissement municipal'
       content:
@@ -3138,8 +3230,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeArrondissementsMunicipaux'
-
-
+    ArrondissementMunicipalListePrecedents200:
+      description: 'Opération réussie pour les arrondissements municipaux précédents'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ArrondissementMunicipalListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementMunicipalListePrecedents'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ArrondissementMunicipalListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementMunicipalListePrecedents'
+    
     BassinDeVie200:
       description: 'Opération réussie pour le bassin de vie'
       content:
@@ -4493,7 +4599,15 @@ components:
         name: ListeArrondissements
       items:
         $ref: '#/components/schemas/Arrondissement'
-
+    ArrondissementListePrecedents:
+      description: 'Liste des arrondissements précédents'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeArrondissementsPrecedents
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    
     ArrondissementMunicipalListeAscendants:
       description: 'Liste des ascendants d''un arrondissement municipal'
       type: array
@@ -4525,7 +4639,15 @@ components:
         name: ListeArrondissementsMunicipaux
       items:
         $ref: '#/components/schemas/ArrondissementMunicipal'
-
+    ArrondissementMunicipalListePrecedents:
+      description: 'Liste des arrondissements municipaux précédents'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeArrondissementsMunicipauxPrecedents
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    
     CommuneAssocieeListeAscendants:
       description: 'Liste des ascendants d''une commune associée'
       type: array
