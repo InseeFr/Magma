@@ -1,7 +1,6 @@
 package fr.insee.rmes.metadata.utils;
 
 import fr.insee.rmes.metadata.model.TypeEnumAscendantsArrondissement;
-import fr.insee.rmes.metadata.model.TypeEnumAscendantsDepartement;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
