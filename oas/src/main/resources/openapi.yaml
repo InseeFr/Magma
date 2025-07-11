@@ -425,6 +425,26 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/canton/{code}/precedents:
+    get:
+      tags:
+        - geoCanton
+      summary: 'Informations concernant les cantons qui précèdent le canton'
+      operationId: 'getcogcanprec'
+      parameters:
+        - $ref: '#/components/parameters/codeCantonPrecInPath'
+        - $ref: '#/components/parameters/dateCantonDepart'
+      responses:
+        '200':
+          $ref: '#/components/responses/CantonListePrecedents200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/cantonOuVille/{code}/ascendants:
     get:
@@ -2083,6 +2103,22 @@ components:
       schema:
         type: 'string'
         format: date
+    codeCantonPrecInPath:
+      name: 'code'
+      in: path
+      description: 'Code du canton (quatre chiffres pour la Métropole ou cinq chiffres pour les DOM ou 2A/2B plus 2 chiffres pour la Corse)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeCantonPrec'
+    dateCantonDepart:
+      in: query
+      description: |-
+        Filtre pour préciser le canton de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    
     dateTerritoiresActifsAscendantsCanton:
       in: query
       description: |-
@@ -2440,6 +2476,16 @@ components:
           intituleSansArticle: 'Ambérieu-en-Bugey'
           typeArticle: '1'
           intitule: 'Ambérieu-en-Bugey'
+    CantonListePrecedents:
+      value:
+        - code: '0103'
+          uri: 'http://id.insee.fr/geo/canton/849dca85-8ef3-4a00-bc06-3165aeff1dbd'
+          type: 'Canton'
+          dateCreation: '2016-01-01'
+          dateSuppression: '2020-03-07'
+          intituleSansArticle: 'Bellegarde-sur-Valserine'
+          typeArticle: '0'
+          intitule: 'Bellegarde-sur-Valserine'
 
     CantonOuVilleListeAscendants:
       value:
@@ -3337,7 +3383,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeCantons'
-
+    CantonListePrecedents200:
+      description: 'Opération réussie pour les cantons précédents'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CantonListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonListePrecedents'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CantonListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonListePrecedents'
+    
     CantonOuVilleListeAscendants200:
       description: 'Opération réussie pour les ascendants d''un canton-ou-ville'
       content:
@@ -5001,7 +5062,22 @@ components:
         name: ListeCantons
       items:
         $ref: '#/components/schemas/Canton'
-
+    CodeCantonPrec:
+      description: 'Code d''un canton'
+      pattern: '[0-9]{4}|[0-9]{5}|2[ABab][0-9]{2}'
+      type: string
+      xml:
+        attribute: true
+      example: '0103'
+    CantonListePrecedents:
+      description: 'Liste des cantons précédents'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCantonsPrecedents
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    
     CantonOuVilleListeAscendants:
       description: 'Liste des ascendants d''un canton-ou-ville'
       type: array
