@@ -1,8 +1,12 @@
 package fr.insee.rmes.metadata.api;
 
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
-import fr.insee.rmes.metadata.model.*;
+import fr.insee.rmes.metadata.model.CantonOuVille;
+import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
+import fr.insee.rmes.metadata.model.TypeEnumAscendantsCantonOuVille;
+import fr.insee.rmes.metadata.model.TypeEnumDescendantsCantonOuVille;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,7 +16,7 @@ import java.util.List;
 
 
 @Controller
-public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi{
+public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
     private final RequestProcessor requestProcessor;
 
@@ -22,7 +26,7 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi{
 
 
     @Override
-    public ResponseEntity<List<TerritoireTousAttributs>>  getcogcanvilasc (String code, LocalDate date, TypeEnumAscendantsCantonOuVille type) {
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvilasc(String code, LocalDate date, TypeEnumAscendantsCantonOuVille type) {
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, type, CantonOuVille.class))
                 .executeQuery()
@@ -41,7 +45,7 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi{
     }
 
     @Override
-    public ResponseEntity<List<TerritoireTousAttributs>>  getcogcanvildes(String code, LocalDate date, TypeEnumDescendantsCantonOuVille type, String filtreNom) {
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvildes(String code, LocalDate date, TypeEnumDescendantsCantonOuVille type, String filtreNom) {
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, type, filtreNom, CantonOuVille.class))
                 .executeQuery()
@@ -50,7 +54,7 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi{
     }
 
     @Override
-    public ResponseEntity<List<CantonOuVille>> getcogcanvilliste (LocalDate date) {
+    public ResponseEntity<List<CantonOuVille>> getcogcanvilliste(LocalDate date) {
         return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(date, CantonOuVille.class, "none"))
                 .executeQuery()
@@ -60,4 +64,12 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi{
     }
 
 
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvilprec(String code, LocalDate date) {
+        return requestProcessor.queryforFindPrecedentsSuivants()
+                .with(new PrecedentsSuivantsRequestParametizer(code, date, CantonOuVille.class, true))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
 }

@@ -528,6 +528,26 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/cantonOuVille/{code}/precedents:
+    get:
+      tags:
+        - geoCantonEtVille
+      summary: 'Informations concernant les cantons-ou-villes qui précèdent le canton-ou-ville'
+      operationId: 'getcogcanvilprec'
+      parameters:
+        - $ref: '#/components/parameters/codeCantonOuVillePrecInPath'
+        - $ref: '#/components/parameters/dateCantouOuVilleDepart'
+      responses:
+        '200':
+          $ref: '#/components/responses/CantonOuVilleListePrecedents200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/circonscriptionTerritoriale/{code}/ascendants:
     get:
@@ -2191,7 +2211,22 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsCantonOuVille'
-
+    codeCantonOuVillePrecInPath:
+      name: 'code'
+      in: path
+      description: 'Code du canton-ou-ville (quatre caractères, ou cinq pour les DOM, exemple : 97602)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeCantonOuVillePrec'
+    dateCantouOuVilleDepart:
+      in: query
+      description: |-
+        Filtre pour préciser le canton-ou-ville de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    
     codeCirconscriptionTerritorialeInPath:
       name: 'code'
       in: path
@@ -2524,6 +2559,18 @@ components:
           intituleSansArticle: 'Ambérieu-en-Bugey'
           typeArticle: '1'
           intitule: 'Ambérieu-en-Bugey'
+    CantonOuVilleListePrecedents:
+      value:
+        - code: '0104'
+          uri: 'http://id.insee.fr/geo/cantonOuVille/383181fb-59ba-425c-81c1-dfdf1b51cf8c'
+          type: 'CantonOuVille'
+          dateCreation: '2016-01-01'
+          dateSuppression: '2020-03-07'
+          intituleSansArticle: 'Belley'
+          typeArticle: '0'
+          intitule: 'Belley'
+
+
 
 
     CirconscriptionTerritorialeListeAscendants:
@@ -3459,7 +3506,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeCantonsEtVilles'
-
+    CantonOuVilleListePrecedents200:
+      description: 'Opération réussie pour les cantons-ou-villes précédents'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CantonOuVilleListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonOuVilleListePrecedents'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CantonOuVilleListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonOuVilleListePrecedents'
+    
     CirconscriptionTerritorialeListeAscendants200:
       description: 'Opération réussie pour les ascendants d''une circonscription territoriale'
       content:
@@ -5125,7 +5187,22 @@ components:
         name: ListeCantonsEtVilles
       items:
         $ref: '#/components/schemas/CantonOuVille'
-
+    CodeCantonOuVillePrec:
+      description: 'Code d''un canton-ou-ville'
+      pattern: '[0-9]{4,5}'
+      type: string
+      xml:
+        attribute: true
+      example: '0104'
+    CantonOuVilleListePrecedents:
+      description: 'Liste des cantons-ou-villes précédents'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCantonsOuVillesPrecedents
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    
     CirconscriptionTerritorialeListeAscendants:
       description: 'Liste des ascendants d''une circonscription territoriale'
       type: array
