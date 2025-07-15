@@ -1311,6 +1311,26 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/pays/{code}/suivants:
+    get:
+      tags:
+        - geoPays
+      summary: 'Informations concernant les pays qui succèdent au pays'
+      operationId: 'getcogpayssuiv'
+      parameters:
+        - $ref: '#/components/parameters/codePaysSuivantInPath'
+        - $ref: '#/components/parameters/datePaysSuivantInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/PaysListeSuivants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/region/{code}:
     get:
@@ -2077,7 +2097,7 @@ components:
     codePaysPrecInPath:
       name: 'code'
       in: path
-      description: 'Code de lu pays (cinq chiffres, débutant par 99)'
+      description: 'Code du pays (cinq chiffres, débutant par 99)'
       required: true
       schema:
         $ref: '#/components/schemas/CodePaysPrec'
@@ -2088,6 +2108,20 @@ components:
       name: date
       schema:
         $ref: '#/components/schemas/Date1965ParDefaut'
+    codePaysSuivantInPath:
+      name: 'code'
+      in: path
+      description: 'Code du pays (cinq chiffres, débutant par 99)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodePaysSuivant'
+    datePaysSuivantInPath:
+      in: query
+      description: |-
+        Filtre pour préciser le pays de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        $ref: '#/components/schemas/Date1950ParDefaut'
     
     
     codeRegInPath:
@@ -3220,10 +3254,34 @@ components:
           dateSuppression: '1964-04-26'
           intitule: 'Zanzibar'
           intituleComplet: "République populaire de Zanzibar"
-
-
-
-
+    PaysListeSuivants:
+      value:
+        - code: '99119'
+          uri: 'http://id.insee.fr/geo/pays/0b0d2b49-54a2-4d6c-be48-8900c905eaaa'
+          type: 'Pays'
+          dateCreation: '1991-06-25'
+          intitule: 'Croatie'
+          intituleComplet: 'République de Croatie'
+          iso3166alpha2: 'HR'
+          iso3166alpha3: 'HRV'
+          iso3166num: '191'
+        - code: '99121'
+          uri: 'http://id.insee.fr/geo/pays/fcc6730a-8cb3-45dd-a476-384b489a50b5'
+          type: 'Pays'
+          dateCreation: '1991-06-25'
+          dateSuppression: '1991-09-08'
+          intitule: 'Yougoslavie'
+          intituleComplet: 'République fédérative socialiste de Yougoslavie'
+        - code: '99145'
+          uri: 'http://id.insee.fr/geo/pays/b1a977b0-a56f-47e9-9991-3dfa9e93197e'
+          type: 'Pays'
+          dateCreation: '1991-06-25'
+          intitule: 'Slovénie'
+          intituleComplet: 'République de Slovénie'
+          iso3166alpha2: 'SI'
+          iso3166alpha3: 'SVN'
+          iso3166num: '705'
+    
     Region:
       value:
         code: '06'
@@ -4266,6 +4324,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/PaysListePrecedents'
+    PaysListeSuivants200:
+      description: 'Opération réussie pour les successeurs d''un pays'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PaysListeSuivants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/PaysListeSuivants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/PaysListeSuivants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/PaysListeSuivants'
     
     Region200:
       description: 'Opération réussie pour la région'
@@ -5259,7 +5332,22 @@ components:
         wrapped: true
         name: ListePaysPrecedents
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Pays'
+    CodePaysSuivant:
+      description: 'Code d''un pays'
+      pattern: '^99[0-9]{3}$'
+      type: string
+      xml:
+        attribute: true
+      example: '99121'
+    PaysListeSuivants:
+      description: 'Liste des pays qui succèdent au pays'
+      type: array
+      xml:
+        wrapped: true
+        name: ListePaysSuivants
+      items:
+        $ref: '#/components/schemas/Pays'
     
     Region:
       allOf:

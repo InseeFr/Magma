@@ -54,6 +54,10 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
         return new RequestProcessor.QueryBuilder(PAYS_PRECEDENTS, this);
     }
 
+    public RequestProcessor.QueryBuilder queryforFindPaysSuivants() {
+        return new RequestProcessor.QueryBuilder(PAYS_SUIVANTS, this);
+    }
+
 
     public RequestProcessor.QueryBuilder queryforFindIris() {
         return new RequestProcessor.QueryBuilder(IRIS, this);

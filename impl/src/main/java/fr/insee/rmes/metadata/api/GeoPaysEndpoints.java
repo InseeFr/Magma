@@ -52,11 +52,20 @@ public class GeoPaysEndpoints implements GeoPaysApi {
     }
 
     @Override
-    public ResponseEntity<List<TerritoireTousAttributs>> getcogpaysprec(String code, LocalDate date) {
+    public ResponseEntity<List<Pays>> getcogpaysprec(String code, LocalDate date) {
         return requestProcessor.queryforFindPaysPrecedents()
                 .with(new PrecedentsSuivantsRequestParametizer(code, date, Pays.class, true))
                 .executeQuery()
-                .listResult(TerritoireTousAttributs.class)
+                .listResult(Pays.class)
+                .toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<Pays>> getcogpayssuiv(String code, LocalDate date) {
+        return requestProcessor.queryforFindPaysSuivants()
+                .with(new PrecedentsSuivantsRequestParametizer(code, date, Pays.class, false))
+                .executeQuery()
+                .listResult(Pays.class)
                 .toResponseEntity();
     }
 }
