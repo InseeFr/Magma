@@ -1232,7 +1232,6 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-
   /geo/pays/{code}/descendants:
     get:
       tags:
@@ -1254,7 +1253,6 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-
   /geo/pays:
     get:
       tags:
@@ -1266,6 +1264,26 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/PaysListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/pays/{code}/precedents:
+    get:
+      tags:
+        - geoPays
+      summary: 'Informations concernant les pays qui précèdent le pays'
+      operationId: 'getcogpaysprec'
+      parameters:
+        - $ref: '#/components/parameters/codePaysPrecInPath'
+        - $ref: '#/components/parameters/datePaysDepart'
+      responses:
+        '200':
+          $ref: '#/components/responses/PaysListePrecedents200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -2023,7 +2041,24 @@ components:
       schema:
         type: 'string'
         format: date
-
+    codePaysPrecInPath:
+      name: 'code'
+      in: path
+      description: 'Code de lu pays (cinq chiffres, débutant par 99)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodePaysPrec'
+    datePaysDepart:
+      in: query
+      description: |-
+        Filtre pour préciser le pays de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+      example: '1965-01-01'
+    
+    
     codeRegInPath:
       name: 'code'
       in: path
@@ -3128,6 +3163,23 @@ components:
           iso3166alpha2: "FR"
           iso3166alpha3: "FRA"
           iso3166num: "250"
+    PaysListePrecedents:
+      value:
+        - code: '99309'
+          uri: 'http://id.insee.fr/geo/pays/aed778dc-3f9e-467d-a7c2-c875a12cb44d'
+          type: 'Pays'
+          dateCreation: '1962-12-09'
+          dateSuppression: '1964-04-26'
+          intitule: 'Tanganyika'
+          intituleComplet: "République du Tanganyika"
+        - code: '99362'
+          uri: 'http://id.insee.fr/geo/pays/3b5c07e0-bc4a-480d-9b29-ef04e1fb775d'
+          type: 'Pays'
+          dateCreation: '1963-12-10'
+          dateSuppression: '1964-04-26'
+          intitule: 'Zanzibar'
+          intituleComplet: "République populaire de Zanzibar"
+
 
 
 
@@ -3171,7 +3223,7 @@ components:
           typeArticle: '4'
           chefLieu: '59350'
           intitule: 'Hauts-de-France'
-
+    
     
     UniteUrbaine2020:
       value:
@@ -4143,7 +4195,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/PaysListe'
-
+    PaysListePrecedents200:
+      description: 'Opération réussie pour les pays précédents'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PaysListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/PaysListePrecedents'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/PaysListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/PaysListePrecedents'
+    
     Region200:
       description: 'Opération réussie pour la région'
       content:
@@ -5095,7 +5162,22 @@ components:
         name: ListePays
       items:
         $ref: '#/components/schemas/Pays'
-
+    CodePaysPrec:
+      description: 'Code d''un pays'
+      pattern: '^99[0-9]{3}$'
+      type: string
+      xml:
+        attribute: true
+      example: '99309'
+    PaysListePrecedents:
+      description: 'Liste des pays précédents'
+      type: array
+      xml:
+        wrapped: true
+        name: ListePaysPrecedents
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    
     Region:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'

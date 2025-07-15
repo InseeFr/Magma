@@ -5,9 +5,11 @@ import fr.insee.rmes.metadata.model.Pays;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsPays;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class GeoPaysEndpoints implements GeoPaysApi {
     }
 
     @Override
-    public ResponseEntity<Pays> getcogpays (String code, LocalDate date) {
+    public ResponseEntity<Pays> getcogpays(String code, LocalDate date) {
         return requestProcessor.queryforFindPays()
                 .with(new TerritoireRequestParametizer(code, date, Pays.class, "none"))
                 .executeQuery()
@@ -30,7 +32,7 @@ public class GeoPaysEndpoints implements GeoPaysApi {
     }
 
     @Override
-    public ResponseEntity<List<TerritoireTousAttributs>>  getcogpaysdesc(String code, LocalDate date, TypeEnumDescendantsPays type) {
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogpaysdesc(String code, LocalDate date, TypeEnumDescendantsPays type) {
         return requestProcessor.queryforFindDescendantsPays()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, type, Pays.class))
                 .executeQuery()
@@ -40,7 +42,7 @@ public class GeoPaysEndpoints implements GeoPaysApi {
 
 
     @Override
-    public ResponseEntity<List<Pays>> getcogpayslist (LocalDate date) {
+    public ResponseEntity<List<Pays>> getcogpayslist(LocalDate date) {
         return requestProcessor.queryforFindPays()
                 .with(new TerritoireRequestParametizer(date, Pays.class, "none"))
                 .executeQuery()
@@ -49,4 +51,12 @@ public class GeoPaysEndpoints implements GeoPaysApi {
 
     }
 
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogpaysprec(String code, LocalDate date) {
+        return requestProcessor.queryforFindPaysPrecedents()
+                .with(new PrecedentsSuivantsRequestParametizer(code, date, Pays.class, true))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
 }
