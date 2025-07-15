@@ -5,6 +5,7 @@ import fr.insee.rmes.metadata.model.Region;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsRegion;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,13 +26,13 @@ public class GeoRegionEndpoints implements GeoRegionApi {
     @Override
     public ResponseEntity<Region> getcogreg(String code, LocalDate date) {
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(code, date, Region.class,"prefectureDeRegion"))
+                .with(new TerritoireRequestParametizer(code, date, Region.class, "prefectureDeRegion"))
                 .executeQuery()
                 .singleResult(Region.class).toResponseEntity();
     }
 
     @Override
-    public ResponseEntity<List<TerritoireTousAttributs>> getcogregdes (String code, LocalDate date, TypeEnumDescendantsRegion type, String filtreNom) {
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogregdes(String code, LocalDate date, TypeEnumDescendantsRegion type, String filtreNom) {
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, type, filtreNom, Region.class))
                 .executeQuery()
@@ -41,12 +42,21 @@ public class GeoRegionEndpoints implements GeoRegionApi {
 
 
     @Override
-    public ResponseEntity<List<Region>> getcogregliste (LocalDate date) {
+    public ResponseEntity<List<Region>> getcogregliste(LocalDate date) {
         return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(date, Region.class, "prefectureDeRegion"))
                 .executeQuery()
                 .listResult(Region.class)
                 .toResponseEntity();
 
+    }
+
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogregprec(String code, LocalDate date) {
+        return requestProcessor.queryforFindPrecedentsSuivants()
+                .with(new PrecedentsSuivantsRequestParametizer(code, date, Region.class, true))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
     }
 }

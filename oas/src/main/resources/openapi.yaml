@@ -1336,7 +1336,26 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-
+  /geo/region/{code}/precedents:
+    get:
+      tags:
+        - geoRegion
+      summary: 'Informations concernant les régions qui précèdent la région'
+      operationId: 'getcogregprec'
+      parameters:
+        - $ref: '#/components/parameters/codeRegPrecInPath'
+        - $ref: '#/components/parameters/dateRegionDepart'
+      responses:
+        '200':
+          $ref: '#/components/responses/RegionListePrecedents200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/uniteUrbaine2020/{code}:
     get:
@@ -2042,7 +2061,22 @@ components:
       schema:
         type: 'string'
         format: date
-
+    codeRegPrecInPath:
+      name: 'code'
+      in: path
+      description: 'Code de la région (deux chiffres)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeRegPrec'
+    dateRegionDepart:
+      in: query
+      description: |-
+        Filtre pour préciser la région de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    
     codeUniteUrbaineInPath:
       name: 'code'
       in: path
@@ -3126,7 +3160,19 @@ components:
           typeArticle: '3'
           chefLieu: '97105'
           intitule: 'Guadeloupe'
+    RegionListePrecedents:
+      value:
+        - code: '32'
+          uri: 'http://id.insee.fr/geo/region/70086d81-9af2-4aeb-8734-502658d6a93f'
+          type: 'Region'
+          dateCreation: '2016-09-29'
+          dateSuppression: '2016-12-31'
+          intituleSansArticle: 'Hauts-de-France'
+          typeArticle: '4'
+          chefLieu: '59350'
+          intitule: 'Hauts-de-France'
 
+    
     UniteUrbaine2020:
       value:
         code: '01121'
@@ -4143,7 +4189,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeRegions'
-
+    RegionListePrecedents200:
+      description: 'Opération réussie pour les régions précédentes'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RegionListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/RegionListePrecedents'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/RegionListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/RegionListePrecedents'
+    
     UniteUrbaine200:
       description: 'Opération réussie pour l''unité urbaine'
       content:
@@ -5066,7 +5127,22 @@ components:
         name: ListeRegions
       items:
         $ref: '#/components/schemas/Region'
-
+    CodeRegPrec:
+      description: 'Code d''une région'
+      pattern: '^(01|02|03|04|06|11|24|27|28|32|44|52|53|75|76|84|93|94)$'
+      type: string
+      xml:
+        attribute: true
+      example: '44'
+    RegionListePrecedents:
+      description: 'Liste des régions précédentes'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeRegionsPrecedentes
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    
     UniteUrbaine2020:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
