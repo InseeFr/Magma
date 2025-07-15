@@ -321,6 +321,26 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/arrondissementMunicipal/{code}/suivants:
+    get:
+      tags:
+        - geoArrondissementMunicipal
+      summary: 'Informations concernant les arrondissements municipaux qui succèdent à l''arrondissement municipal'
+      operationId: 'getcogarrmusuiv'
+      parameters:
+        - $ref: '#/components/parameters/codeArrondissementMunicipalInPath'
+        - $ref: '#/components/parameters/dateArrondissementMunicipalSuivantDepart'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArrondissementMunicipalListeSuivants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
 
   /geo/bassinDeVie2022/{code}:
@@ -1783,7 +1803,14 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsArrondissementMunicipal'
-
+    dateArrondissementMunicipalSuivantDepart:
+      name: 'date'
+      in: query
+      description: |-
+        Filtre pour préciser le département de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      schema:
+        $ref: '#/components/schemas/Date1960ParDefaut'
+    
     dateDepartementDepart:
       in: query
       description: |-
@@ -2623,6 +2650,22 @@ components:
           intituleSansArticle: 'Lyon 5e Arrondissement'
           typeArticle: '0'
           intitule: 'Lyon 5e Arrondissement'
+    ArrondissementMunicipalListeSuivants:
+      value:
+        - code: '69385'
+          uri: 'http://id.insee.fr/geo/arrondissementMunicipal/cd9f4663-684c-455d-b62e-39e51c6fad99'
+          type: 'ArrondissementMunicipal'
+          dateCreation: '1964-08-12'
+          intituleSansArticle: 'Lyon 5e Arrondissement'
+          typeArticle: '0'
+          intitule: 'Lyon 5e Arrondissement'
+        - code: '69389'
+          uri: 'http://id.insee.fr/geo/arrondissementMunicipal/c14e7076-ffb4-490b-96c2-341e832d5f60'
+          type: 'ArrondissementMunicipal'
+          dateCreation: '1964-08-12'
+          intituleSansArticle: 'Lyon 9e Arrondissement'
+          typeArticle: '0'
+          intitule: 'Lyon 9e Arrondissement'
     
     BassinDeVie2022:
       value:
@@ -3588,6 +3631,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListePrecedents'
+    ArrondissementMunicipalListeSuivants200:
+      description: 'Opération réussie pour les successeurs d''un arrondissement municipal'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ArrondissementMunicipalListeSuivants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementMunicipalListeSuivants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ArrondissementMunicipalListeSuivants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementMunicipalListeSuivants'
     
     BassinDeVie200:
       description: 'Opération réussie pour le bassin de vie'
@@ -4867,6 +4925,12 @@ components:
         name: ListeCommunesSuivants
       items:
         $ref: '#/components/schemas/TerritoireBase'
+    Date1960ParDefaut:
+      description: 'date proposée par défaut'
+      type: date
+      xml:
+        attribute: true
+      example: '1960-01-01'
     Date1950ParDefaut:
       description: 'date proposée par défaut'
       type: date
@@ -5105,6 +5169,14 @@ components:
       xml:
         wrapped: true
         name: ListeArrondissementsMunicipauxPrecedents
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    ArrondissementMunicipalListeSuivants:
+      description: 'Liste des arrondissements municipaux qui succèdent à l''arrondissement municipal'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeArrondissementsMunicipauxSuivants
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
     

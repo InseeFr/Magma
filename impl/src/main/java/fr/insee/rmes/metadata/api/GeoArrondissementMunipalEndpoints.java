@@ -59,5 +59,14 @@ public class GeoArrondissementMunipalEndpoints implements GeoArrondissementMunic
                 .toResponseEntity();
     }
 
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogarrmusuiv(String code, LocalDate date) {
+        return requestProcessor.queryforFindPrecedentsSuivants()
+                .with(new PrecedentsSuivantsRequestParametizer(code, date, ArrondissementMunicipal.class, false))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
+
 }
 
