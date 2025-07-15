@@ -220,6 +220,26 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/arrondissement/{code}/suivants:
+    get:
+      tags:
+        - geoArrondissement
+      summary: 'Informations concernant les arrondissements qui succèdent à l''arrondissement'
+      operationId: 'getcogarrsuiv'
+      parameters:
+        - $ref: '#/components/parameters/codeArrondissementSuivantInPath'
+        - $ref: '#/components/parameters/dateArrondissementSuivantInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArrondissementListeSuivants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/arrondissementMunicipal/{code}/ascendants:
     get:
@@ -963,7 +983,6 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-
   /geo/departement/{code}/descendants:
     get:
       tags:
@@ -1684,7 +1703,21 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsArrondissement'
-
+    codeArrondissementSuivantInPath:
+      name: 'code'
+      in: path
+      description: 'Code de l''arrondissement (trois ou quatre caractères)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeArrondissementSuivant'
+    dateArrondissementSuivantInPath:
+      name: 'date'
+      in: query
+      description: |-
+        Filtre pour préciser l'arrondissement de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      schema:
+        $ref: '#/components/schemas/Date2016ParDefaut'
+    
     codeArrondissementMunicipalInPath:
       name: 'code'
       in: path
@@ -2054,9 +2087,7 @@ components:
         Filtre pour préciser le pays de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       name: date
       schema:
-        type: 'string'
-        format: date
-      example: '1965-01-01'
+        $ref: '#/components/schemas/Date1965ParDefaut'
     
     
     codeRegInPath:
@@ -2509,7 +2540,17 @@ components:
           typeArticle: '0'
           chefLieu: '67180'
           intitule: 'Haguenau-Wissembourg'
-
+    ArrondissementListeSuivants:
+      value:
+        - code: '042'
+          uri: 'http://id.insee.fr/geo/arrondissement/1825eafe-2204-4849-b543-715f87615bb8'
+          type: 'Arrondissement'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Castellane'
+          typeArticle: '0'
+          chefLieu: '04039'
+          intitule: 'Castellane'
+    
     ArrondissementMunicipalListeAscendants:
       value:
         - code: '84'
@@ -3413,6 +3454,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListePrecedents'
+    ArrondissementListeSuivants200:
+      description: 'Opération réussie pour les successeurs d''un arrondissement'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ArrondissementListeSuivants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementListeSuivants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ArrondissementListeSuivants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementListeSuivants'
     
     ArrondissementMunicipalListeAscendants200:
       description: 'Opération réussie pour les ascendants d''un arrondissement municipal'
@@ -4750,6 +4806,18 @@ components:
       xml:
         attribute: true
       example: '1945-06-26'
+    Date1965ParDefaut:
+      description: 'date proposée par défaut'
+      type: date
+      xml:
+        attribute: true
+      example: '1965-01-01'
+    Date2016ParDefaut:
+      description: 'date proposée par défaut'
+      type: date
+      xml:
+        attribute: true
+      example: '2016-01-01'
     TypeEnum:
       type: string
       xml:
@@ -4909,6 +4977,21 @@ components:
       xml:
         wrapped: true
         name: ListeArrondissementsPrecedents
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    CodeArrondissementSuivant:
+      description: 'Code d''un arrondissement'
+      pattern: '[a-zA-Z0-9]{3,4}'
+      type: string
+      xml:
+        attribute: true
+      example: '042'
+    ArrondissementListeSuivants:
+      description: 'Liste des arrondissements qui succèdent à l''arrondissement'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeArrondissementsSuivants
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
     

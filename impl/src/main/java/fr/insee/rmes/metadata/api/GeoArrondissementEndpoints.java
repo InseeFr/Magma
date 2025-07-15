@@ -69,5 +69,14 @@ public class GeoArrondissementEndpoints implements GeoArrondissementApi {
                 .toResponseEntity();
     }
 
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogarrsuiv(String code, LocalDate date) {
+        return requestProcessor.queryforFindPrecedentsSuivants()
+                .with(new PrecedentsSuivantsRequestParametizer(code, date, Arrondissement.class, false))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
+
 }
 
