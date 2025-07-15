@@ -1170,7 +1170,26 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-
+  /geo/intercommunalite/{code}/precedents:
+    get:
+      tags:
+        - geoIntercommunalite
+      summary: 'Informations concernant les intercommunalités qui précèdent l''intercommunalité'
+      operationId: 'getcogintercoprec'
+      parameters:
+        - $ref: '#/components/parameters/codeIntercommunaliteInPath'
+        - $ref: '#/components/parameters/dateIntercommunaliteDepart'
+      responses:
+        '200':
+          $ref: '#/components/responses/IntercommunaliteListePrecedents200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/iris/{code}:
     get:
@@ -1923,7 +1942,15 @@ components:
       schema:
         type: 'string'
         format: string
-
+    dateIntercommunaliteDepart:
+      in: query
+      description: |-
+        Filtre pour préciser l'intercommunalité de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+    
     dateIrisActive:
       in: query
       description: |-
@@ -3013,7 +3040,18 @@ components:
           intituleComplet: 'Communauté de communes de La Plaine de l''Ain'
           categorieJuridique: 'Communauté de communes'
           intitule: 'La Plaine de l''Ain'
-
+    IntercommunaliteListePrecedents:
+      value:
+        - code: '240100883'
+          uri: 'http://id.insee.fr/geo/intercommunalite/da6087eb-5061-4d99-82c4-03ae9ef5334f'
+          type: 'Intercommunalite'
+          dateCreation: '2008-01-01'
+          dateSuppression: '2017-01-01'
+          intituleSansArticle: 'Plaine de l''Ain'
+          typeArticle: '3'
+          intituleComplet: 'Communauté de communes de La Plaine de l''Ain'
+          categorieJuridique: 'Communauté de communes'
+          intitule: 'La Plaine de l''Ain'
 
     Iris:
       value:
@@ -3981,7 +4019,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeIntercommunalites'
-
+    IntercommunaliteListePrecedents200:
+      description: 'Opération réussie pour les intercommunalités précédentes'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/IntercommunaliteListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/IntercommunaliteListePrecedents'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/IntercommunaliteListePrecedents'
+          examples:
+            défaut:
+              $ref: '#/components/examples/IntercommunaliteListePrecedents'
+    
     Iris200:
       description: 'Opération réussie pour l''Iris'
       content:
@@ -4903,7 +4956,15 @@ components:
         name: ListeIntercommunalites
       items:
         $ref: '#/components/schemas/Intercommunalite'
-
+    IntercommunaliteListePrecedents:
+      description: 'Liste des intercommunalités précédentes'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeIntercommunalitesPrecedents
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    
     CodeIris:
       description: 'Code d''une Iris'
       pattern: '([0-9]{9})'
