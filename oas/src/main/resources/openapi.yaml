@@ -485,6 +485,26 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/canton/{code}/suivants:
+    get:
+      tags:
+        - geoCanton
+      summary: 'Informations concernant les cantons qui succèdent au canton'
+      operationId: 'getcogcansuiv'
+      parameters:
+        - $ref: '#/components/parameters/codeCantonPrecInPath'
+        - $ref: '#/components/parameters/dateCantonSuivantDepart'
+      responses:
+        '200':
+          $ref: '#/components/responses/CantonListeSuivants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/cantonOuVille/{code}/ascendants:
     get:
@@ -2326,6 +2346,13 @@ components:
       schema:
         type: 'string'
         format: date
+    dateCantonSuivantDepart:
+      in: query
+      description: |-
+        Filtre pour préciser le canton de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        $ref: '#/components/schemas/Date2020ParDefaut'
     
     dateTerritoiresActifsAscendantsCanton:
       in: query
@@ -2735,6 +2762,15 @@ components:
           intituleSansArticle: 'Bellegarde-sur-Valserine'
           typeArticle: '0'
           intitule: 'Bellegarde-sur-Valserine'
+    CantonListeSuivants:
+      value:
+        - code: '0103'
+          uri: 'http://id.insee.fr/geo/canton/51c5f329-4745-46c0-b0d6-14b0d7046582'
+          type: 'Canton'
+          dateCreation: '2020-03-07'
+          intituleSansArticle: 'Valserhône'
+          typeArticle: '0'
+          intitule: 'Valserhône'
 
     CantonOuVilleListeAscendants:
       value:
@@ -3753,6 +3789,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonListePrecedents'
+    CantonListeSuivants200:
+      description: 'Opération réussie pour les successeurs d''un canton'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CantonListeSuivants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonListeSuivants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CantonListeSuivants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonListeSuivants'
     
     CantonOuVilleListeAscendants200:
       description: 'Opération réussie pour les ascendants d''un canton-ou-ville'
@@ -4925,6 +4976,12 @@ components:
         name: ListeCommunesSuivants
       items:
         $ref: '#/components/schemas/TerritoireBase'
+    Date2020ParDefaut:
+      description: 'date proposée par défaut'
+      type: date
+      xml:
+        attribute: true
+      example: '2020-01-01'
     Date1960ParDefaut:
       description: 'date proposée par défaut'
       type: date
@@ -5599,6 +5656,14 @@ components:
       xml:
         wrapped: true
         name: ListeCantonsPrecedents
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    CantonListeSuivants:
+      description: 'Liste des cantons qui succèdent au canton'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCantonsSuivants
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
     

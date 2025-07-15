@@ -60,5 +60,14 @@ public class GeoCantonEndpoints implements GeoCantonApi {
                 .toResponseEntity();
     }
 
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogcansuiv(String code, LocalDate date) {
+        return requestProcessor.queryforFindPrecedentsSuivants()
+                .with(new PrecedentsSuivantsRequestParametizer(code, date, Canton.class, false))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
+
 }
 
