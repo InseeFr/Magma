@@ -608,6 +608,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/cantonOuVille/{code}/suivants:
+    get:
+      tags:
+        - geoCantonEtVille
+      summary: 'Informations concernant les cantons-ou-villes qui succèdent au canton-ou-ville'
+      operationId: 'getcogcanvilsuiv'
+      parameters:
+        - $ref: '#/components/parameters/codeCantonOuVilleSuivantInPath'
+        - $ref: '#/components/parameters/dateCantonOuVilleSuivantInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/CantonOuVilleListeSuivants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
 
   /geo/circonscriptionTerritoriale/{code}/ascendants:
     get:
@@ -2441,6 +2462,20 @@ components:
       schema:
         type: 'string'
         format: date
+    codeCantonOuVilleSuivantInPath:
+      name: 'code'
+      in: path
+      description: 'Code du canton-ou-ville (quatre caractères, ou cinq pour les DOM, exemple : 97602)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeCantonOuVilleSuivants'
+    dateCantonOuVilleSuivantInPath:
+      in: query
+      description: |-
+        Filtre pour préciser le canton-ou-ville de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        $ref: '#/components/schemas/Date2016ParDefaut'
     
     codeCirconscriptionTerritorialeInPath:
       name: 'code'
@@ -2819,10 +2854,19 @@ components:
           intituleSansArticle: 'Belley'
           typeArticle: '0'
           intitule: 'Belley'
-
-
-
-
+    CantonOuVilleListeSuivants:
+      value:
+        - code: '0103'
+          uri: 'http://id.insee.fr/geo/cantonOuVille/cb4d9856-a39d-4283-a9ab-d91396ebd705'
+          type: 'CantonOuVille'
+          dateCreation: '2020-03-07'
+          intituleSansArticle: 'Valserhône'
+          typeArticle: '0'
+          intitule: 'Valserhône'
+    
+    
+    
+    
     CirconscriptionTerritorialeListeAscendants:
       value:
         - code: '986'
@@ -3880,6 +3924,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListePrecedents'
+    CantonOuVilleListeSuivants200:
+      description: 'Opération réussie pour les successeurs d''un canton-ou-ville'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CantonOuVilleListeSuivants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonOuVilleListeSuivants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CantonOuVilleListeSuivants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonOuVilleListeSuivants'
     
     CirconscriptionTerritorialeListeAscendants200:
       description: 'Opération réussie pour les ascendants d''une circonscription territoriale'
@@ -5727,6 +5786,21 @@ components:
       xml:
         wrapped: true
         name: ListeCantonsOuVillesPrecedents
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    CodeCantonOuVilleSuivants:
+      description: 'Code d''un canton-ou-ville'
+      pattern: '[0-9]{4,5}'
+      type: string
+      xml:
+        attribute: true
+      example: '0103'
+    CantonOuVilleListeSuivants:
+      description: 'Liste des cantons-ou-villes qui succèdent au canton-ou-ville'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCantonsOuVillesSuivants
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
     
