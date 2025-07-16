@@ -1494,6 +1494,26 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/region/{code}/suivants:
+    get:
+      tags:
+        - geoRegion
+      summary: 'Informations concernant les régions qui succèdent à la région'
+      operationId: 'getcogregsuiv'
+      parameters:
+        - $ref: '#/components/parameters/codeRegSuivantInPath'
+        - $ref: '#/components/parameters/dateRegionSuivantDepart'
+      responses:
+        '200':
+          $ref: '#/components/responses/RegionListeSuivants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/uniteUrbaine2020/{code}:
     get:
@@ -2272,7 +2292,21 @@ components:
       schema:
         type: 'string'
         format: date
-    
+    codeRegSuivantInPath:
+      name: 'code'
+      in: path
+      description: 'Code de la région (deux chiffres)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeRegSuivant'
+    dateRegionSuivantDepart:
+      in: query
+      description: |-
+        Filtre pour préciser la région de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        $ref: '#/components/schemas/Date2000ParDefaut'
+
     codeUniteUrbaineInPath:
       name: 'code'
       in: path
@@ -3484,6 +3518,17 @@ components:
           typeArticle: '4'
           chefLieu: '59350'
           intitule: 'Hauts-de-France'
+    RegionListeSuivants:
+      value:
+        - code: '44'
+          uri: 'http://id.insee.fr/geo/region/5295742f-1bd8-4062-b9d2-3a32ab1d8fbe'
+          type: 'Region'
+          dateCreation: '2016-01-01'
+          dateSuppression: '2016-09-29'
+          intituleSansArticle: 'Alsace-Champagne-Ardenne-Lorraine'
+          typeArticle: '1'
+          chefLieu: '67482'
+          intitule: 'Alsace-Champagne-Ardenne-Lorraine"'
     
     
     UniteUrbaine2020:
@@ -4622,6 +4667,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/RegionListePrecedents'
+    RegionListeSuivants200:
+      description: 'Opération réussie pour les successeurs d''une région'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RegionListeSuivants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/RegionListeSuivants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/RegionListeSuivants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/RegionListeSuivants'
     
     UniteUrbaine200:
       description: 'Opération réussie pour l''unité urbaine'
@@ -5089,6 +5149,12 @@ components:
         name: ListeCommunesSuivants
       items:
         $ref: '#/components/schemas/TerritoireBase'
+    Date2000ParDefaut:
+      description: 'date proposée par défaut'
+      type: date
+      xml:
+        attribute: true
+      example: '2000-01-01'
     Date2020ParDefaut:
       description: 'date proposée par défaut'
       type: date
@@ -5645,7 +5711,22 @@ components:
         name: ListeRegionsPrecedentes
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
-    
+    CodeRegSuivant:
+      description: 'Code d''une région'
+      pattern: '^[0-9]{2}$'
+      type: string
+      xml:
+        attribute: true
+      example: '41'
+    RegionListeSuivants:
+      description: 'Liste des régions qui succèdent à la région'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeRegionSuivants
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+
     UniteUrbaine2020:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'

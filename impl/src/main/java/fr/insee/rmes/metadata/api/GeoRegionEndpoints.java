@@ -59,4 +59,13 @@ public class GeoRegionEndpoints implements GeoRegionApi {
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
     }
+
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogregsuiv(String code, LocalDate date) {
+        return requestProcessor.queryforFindPrecedentsSuivants()
+                .with(new PrecedentsSuivantsRequestParametizer(code, date, Region.class, false))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
 }
