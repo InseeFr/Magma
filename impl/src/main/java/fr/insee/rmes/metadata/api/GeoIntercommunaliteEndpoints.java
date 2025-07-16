@@ -63,5 +63,14 @@ public class GeoIntercommunaliteEndpoints implements GeoIntercommunaliteApi {
                 .toResponseEntity();
     }
 
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogintercosuiv(String code, LocalDate date) {
+        return requestProcessor.queryforFindPrecedentsSuivants()
+                .with(new PrecedentsSuivantsRequestParametizer(code, date, Intercommunalite.class, false))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
+
 }
 
