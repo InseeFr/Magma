@@ -1354,6 +1354,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/intercommunalite/{code}/projetes:
+    get:
+      tags:
+        - geoIntercommunalite
+      summary: 'Informations concernant les intercommunalités qui résultent de la projection de l''intercommunalité à la date passée en paramètre.'
+      operationId: 'getcogintercoproj'
+      parameters:
+        - $ref: '#/components/parameters/codeIntercommunaliteInPath'
+        - $ref: '#/components/parameters/dateIntercommunaliteDepart'
+        - $ref: '#/components/parameters/dateProjectionIntercommunaliteInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/IntercommunaliteListeProjetes200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/intercommunalite/{code}/suivants:
     get:
       tags:
@@ -2248,6 +2269,14 @@ components:
       schema:
         type: 'string'
         format: date
+    dateProjectionIntercommunaliteInPath:
+      required: true
+      in: query
+      description: |-
+        Date vers laquelle est projeté l'intercommunalité. Paramètre obligatoire (format : 'AAAA-MM-JJ')
+      name: dateProjection
+      schema:
+        $ref: '#/components/schemas/Date2013ParDefaut'
     dateIntercommunaliteSuivantDepart:
       in: query
       description: |-
@@ -3557,6 +3586,18 @@ components:
           intituleComplet: 'Communauté de communes de La Plaine de l''Ain'
           categorieJuridique: 'Communauté de communes'
           intitule: 'La Plaine de l''Ain'
+    IntercommunaliteListeProjetes:
+      value:
+        - code: '240100883'
+          uri: 'http://id.insee.fr/geo/intercommunalite/da6087eb-5061-4d99-82c4-03ae9ef5334f'
+          type: 'Intercommunalite'
+          dateCreation: '2008-01-01'
+          dateSuppression: '2017-01-01'
+          intituleSansArticle: 'Plaine de l''Ain'
+          typeArticle: '3'
+          intituleComplet: 'Communauté de communes de La Plaine de l''Ain'
+          categorieJuridique: 'Communauté de communes'
+          intitule: 'La Plaine de l''Ain'
     IntercommunaliteListeSuivants:
       value:
         - code: '240100883'
@@ -4734,6 +4775,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/IntercommunaliteListePrecedents'
+    IntercommunaliteListeProjetes200:
+      description: 'Opération réussie pour les projetés d''une intercommunalité'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/IntercommunaliteListeProjetes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/IntercommunaliteListeProjetes'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/IntercommunaliteListeProjetes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/IntercommunaliteListeProjetes'
     IntercommunaliteListeSuivants200:
       description: 'Opération réussie pour les successeurs d''une intercommunalité'
       content:
@@ -5397,6 +5453,12 @@ components:
       xml:
         attribute: true
       example: '2011-12-31'
+    Date2013ParDefaut:
+      description: 'date proposée par défaut'
+      type: date
+      xml:
+        attribute: true
+      example: '2013-01-01'
     Date2020ParDefaut:
       description: 'date proposée par défaut'
       type: date
@@ -5818,6 +5880,14 @@ components:
       xml:
         wrapped: true
         name: ListeIntercommunalitesPrecedents
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    IntercommunaliteListeProjetes:
+      description: 'Liste des intercommunalités projetées'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeIntercommunalitesProjetees
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
     IntercommunaliteListeSuivants:
