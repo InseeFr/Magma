@@ -342,6 +342,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/arrondissementMunicipal/{code}/projetes:
+    get:
+      tags:
+        - geoArrondissementMunicipal
+      summary: 'Informations concernant les arrondissements municipaux qui résultent de la projection de l''arrondissement municipal à la date passée en paramètre.'
+      operationId: 'getcogarrmuproj'
+      parameters:
+        - $ref: '#/components/parameters/codeArrondissementMunicipalInPath'
+        - $ref: '#/components/parameters/dateArrondissementMunicipalSuivantProjeteDepart'
+        - $ref: '#/components/parameters/dateProjectionArrondissementMunicipalInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArrondissementMunicipalListeProjetes200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/arrondissementMunicipal/{code}/suivants:
     get:
       tags:
@@ -350,7 +371,7 @@ paths:
       operationId: 'getcogarrmusuiv'
       parameters:
         - $ref: '#/components/parameters/codeArrondissementMunicipalInPath'
-        - $ref: '#/components/parameters/dateArrondissementMunicipalSuivantDepart'
+        - $ref: '#/components/parameters/dateArrondissementMunicipalSuivantProjeteDepart'
       responses:
         '200':
           $ref: '#/components/responses/ArrondissementMunicipalListeSuivants200'
@@ -1913,7 +1934,15 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsArrondissementMunicipal'
-    dateArrondissementMunicipalSuivantDepart:
+    dateProjectionArrondissementMunicipalInPath:
+      required: true
+      in: query
+      description: |-
+        Date vers laquelle est projeté l'arrondissement municipal. Paramètre obligatoire (format : 'AAAA-MM-JJ')
+      name: dateProjection
+      schema:
+        $ref: '#/components/schemas/Date2011ParDefaut'
+    dateArrondissementMunicipalSuivantProjeteDepart:
       name: 'date'
       in: query
       description: |-
@@ -2814,6 +2843,22 @@ components:
           intituleSansArticle: 'Lyon 5e Arrondissement'
           typeArticle: '0'
           intitule: 'Lyon 5e Arrondissement'
+    ArrondissementMunicipalListeProjetes:
+      value:
+        - code: '69385'
+          uri: 'http://id.insee.fr/geo/arrondissementMunicipal/cd9f4663-684c-455d-b62e-39e51c6fad99'
+          type: 'ArrondissementMunicipal'
+          dateCreation: '1964-08-12'
+          intituleSansArticle: 'Lyon 5e Arrondissement'
+          typeArticle: '0'
+          intitule: 'Lyon 5e Arrondissement'
+        - code: '69389'
+          uri: 'http://id.insee.fr/geo/arrondissementMunicipal/c14e7076-ffb4-490b-96c2-341e832d5f60'
+          type: 'ArrondissementMunicipal'
+          dateCreation: '1964-08-12'
+          intituleSansArticle: 'Lyon 9e Arrondissement'
+          typeArticle: '0'
+          intitule: 'Lyon 9e Arrondissement'
     ArrondissementMunicipalListeSuivants:
       value:
         - code: '69385'
@@ -3850,6 +3895,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListePrecedents'
+    ArrondissementMunicipalListeProjetes200:
+      description: 'Opération réussie pour les projetés d''un arrondissement municipal'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ArrondissementMunicipalListeProjetes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementMunicipalListeProjetes'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ArrondissementMunicipalListeProjetes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementMunicipalListeProjetes'
     ArrondissementMunicipalListeSuivants200:
       description: 'Opération réussie pour les successeurs d''un arrondissement municipal'
       content:
@@ -5210,6 +5270,12 @@ components:
       xml:
         attribute: true
       example: '2000-01-01'
+    Date2011ParDefaut:
+      description: 'date proposée par défaut'
+      type: date
+      xml:
+        attribute: true
+      example: '2011-12-31'
     Date2020ParDefaut:
       description: 'date proposée par défaut'
       type: date
@@ -5474,6 +5540,14 @@ components:
       xml:
         wrapped: true
         name: ListeArrondissementsMunicipauxPrecedents
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    ArrondissementMunicipalListeProjetes:
+      description: 'Liste des arrondissements municipaux projetés'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeArrondissementsMunicipauxProjetes
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
     ArrondissementMunicipalListeSuivants:
