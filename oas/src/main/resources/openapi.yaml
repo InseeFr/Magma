@@ -659,10 +659,31 @@ paths:
       operationId: 'getcogcanvilprec'
       parameters:
         - $ref: '#/components/parameters/codeCantonOuVillePrecInPath'
-        - $ref: '#/components/parameters/dateCantouOuVilleDepart'
+        - $ref: '#/components/parameters/dateCantonOuVilleDepart'
       responses:
         '200':
           $ref: '#/components/responses/CantonOuVilleListePrecedents200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/cantonOuVille/{code}/projetes:
+    get:
+      tags:
+        - geoCantonEtVille
+      summary: 'Informations concernant les cantons-ou-villes qui résultent de la projection du canton-ou-ville à la date passée en paramètre.'
+      operationId: 'getcogcanvilproj'
+      parameters:
+        - $ref: '#/components/parameters/codeCantonOuVillePrecInPath'
+        - $ref: '#/components/parameters/dateCantonOuVilleDepart'
+        - $ref: '#/components/parameters/dateProjectionCantonOuVilleInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/CantonOuVilleListeProjetes200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -2603,7 +2624,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeCantonOuVillePrec'
-    dateCantouOuVilleDepart:
+    dateCantonOuVilleDepart:
       in: query
       description: |-
         Filtre pour préciser le canton-ou-ville de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
@@ -2611,6 +2632,14 @@ components:
       schema:
         type: 'string'
         format: date
+    dateProjectionCantonOuVilleInPath:
+      required: true
+      in: query
+      description: |-
+        Date vers laquelle est projeté le canton-ou-ville. Paramètre obligatoire (format : 'AAAA-MM-JJ')
+      name: dateProjection
+      schema:
+        $ref: '#/components/schemas/Date2016ParDefaut'
     codeCantonOuVilleSuivantInPath:
       name: 'code'
       in: path
@@ -3040,6 +3069,32 @@ components:
           intituleSansArticle: 'Belley'
           typeArticle: '0'
           intitule: 'Belley'
+    CantonOuVilleListeProjetes:
+      value:
+        - code: '0104'
+          uri: 'http://id.insee.fr/geo/cantonOuVille/383181fb-59ba-425c-81c1-dfdf1b51cf8c'
+          type: 'CantonOuVille'
+          dateCreation: '2016-01-01'
+          dateSuppression: '2020-03-07'
+          intituleSansArticle: 'Belley'
+          typeArticle: '0'
+          intitule: 'Belley'
+        - code: '0111'
+          uri: 'http://id.insee.fr/geo/cantonOuVille/e0d9c976-3a65-4964-9348-1c2e100ede22'
+          type: 'CantonOuVille'
+          dateCreation: '2016-01-01'
+          dateSuppression: '2020-03-07'
+          intituleSansArticle: 'Lagnieu'
+          typeArticle: '0'
+          intitule: 'Lagnieu'
+        - code: '0159'
+          uri: 'http://id.insee.fr/geo/cantonOuVille/37d13424-2a19-4e3b-b0c4-d6cda5732427'
+          type: 'CantonOuVille'
+          dateCreation: '2016-01-01'
+          dateSuppression: '2020-03-07'
+          intituleSansArticle: 'Groslée-Saint-Benoit'
+          typeArticle: '0'
+          intitule: 'Groslée-Saint-Benoit'
     CantonOuVilleListeSuivants:
       value:
         - code: '0103'
@@ -3049,9 +3104,6 @@ components:
           intituleSansArticle: 'Valserhône'
           typeArticle: '0'
           intitule: 'Valserhône'
-    
-    
-    
     
     CirconscriptionTerritorialeListeAscendants:
       value:
@@ -4177,6 +4229,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListePrecedents'
+    CantonOuVilleListeProjetes200:
+      description: 'Opération réussie pour les projetés d''un canton-ou-ville'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CantonOuVilleListeProjetes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonOuVilleListeProjetes'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CantonOuVilleListeProjetes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonOuVilleListeProjetes'
     CantonOuVilleListeSuivants200:
       description: 'Opération réussie pour les successeurs d''un canton-ou-ville'
       content:
@@ -6143,6 +6210,14 @@ components:
       xml:
         attribute: true
       example: '0103'
+    CantonOuVilleListeProjetes:
+      description: 'Liste des cantons-ou-villes projetés'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCantonsOuVillesProjetes
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     CantonOuVilleListeSuivants:
       description: 'Liste des cantons-ou-villes qui succèdent au canton-ou-ville'
       type: array
