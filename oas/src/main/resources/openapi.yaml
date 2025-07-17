@@ -527,6 +527,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/canton/{code}/projetes:
+    get:
+      tags:
+        - geoCanton
+      summary: 'Informations concernant les cantons qui résultent de la projection du canton à la date passée en paramètre.'
+      operationId: 'getcogcanproj'
+      parameters:
+        - $ref: '#/components/parameters/codeCantonPrecInPath'
+        - $ref: '#/components/parameters/dateCantonDepart'
+        - $ref: '#/components/parameters/dateProjectionCantonInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/CantonListeProjetes200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/canton/{code}/suivants:
     get:
       tags:
@@ -2487,6 +2508,14 @@ components:
       schema:
         type: 'string'
         format: date
+    dateProjectionCantonInPath:
+      required: true
+      in: query
+      description: |-
+        Date vers laquelle est projeté le canton. Paramètre obligatoire (format : 'AAAA-MM-JJ')
+      name: dateProjection
+      schema:
+        $ref: '#/components/schemas/Date2020ParDefaut'
     dateCantonSuivantDepart:
       in: query
       description: |-
@@ -2935,6 +2964,16 @@ components:
           typeArticle: '1'
           intitule: 'Ambérieu-en-Bugey'
     CantonListePrecedents:
+      value:
+        - code: '0103'
+          uri: 'http://id.insee.fr/geo/canton/849dca85-8ef3-4a00-bc06-3165aeff1dbd'
+          type: 'Canton'
+          dateCreation: '2016-01-01'
+          dateSuppression: '2020-03-07'
+          intituleSansArticle: 'Bellegarde-sur-Valserine'
+          typeArticle: '0'
+          intitule: 'Bellegarde-sur-Valserine'
+    CantonListeProjetes:
       value:
         - code: '0103'
           uri: 'http://id.insee.fr/geo/canton/849dca85-8ef3-4a00-bc06-3165aeff1dbd'
@@ -4032,6 +4071,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonListePrecedents'
+    CantonListeProjetes200:
+      description: 'Opération réussie pour les projetés d''un canton'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CantonListeProjetes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonListeProjetes'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CantonListeProjetes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonListeProjetes'
     CantonListeSuivants200:
       description: 'Opération réussie pour les successeurs d''un canton'
       content:
@@ -6001,6 +6055,14 @@ components:
       xml:
         wrapped: true
         name: ListeCantonsPrecedents
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+    CantonListeProjetes:
+      description: 'Liste des cantons projetés'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCantonsProjetes
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
     CantonListeSuivants:
