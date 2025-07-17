@@ -220,6 +220,27 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+  /geo/arrondissement/{code}/projetes:
+    get:
+      tags:
+        - geoArrondissement
+      summary: 'Informations concernant les arrondissements qui résultent de la projection de l''arrondissement à la date passée en paramètre.'
+      operationId: 'getcogarrproj'
+      parameters:
+        - $ref: '#/components/parameters/codeArrondissementInPath'
+        - $ref: '#/components/parameters/dateArrondissementDepart'
+        - $ref: '#/components/parameters/dateProjectionArrondissementInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArrondissementListeProjetes200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
   /geo/arrondissement/{code}/suivants:
     get:
       tags:
@@ -1831,6 +1852,14 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeArrondissementSuivant'
+    dateProjectionArrondissementInPath:
+      required: true
+      in: query
+      description: |-
+        Date vers laquelle est projeté l'arrondissement. Paramètre obligatoire (format : 'AAAA-MM-JJ')
+      name: dateProjection
+      schema:
+        $ref: '#/components/schemas/Date1994ParDefaut'
     dateArrondissementSuivantInPath:
       name: 'date'
       in: query
@@ -2725,6 +2754,17 @@ components:
           typeArticle: '0'
           chefLieu: '67180'
           intitule: 'Haguenau-Wissembourg'
+    ArrondissementListeProjetes:
+      value:
+        - code: '672'
+          uri: 'http://id.insee.fr/geo/arrondissement/3e815542-7173-4d26-9e94-ac663bba89f7"'
+          type: 'Arrondissement'
+          dateCreation: '1993-01-01'
+          dateSuppression: '2015-01-01'
+          intituleSansArticle: 'Haguenau'
+          typeArticle: '0'
+          chefLieu: '67180'
+          intitule: 'Haguenau'
     ArrondissementListeSuivants:
       value:
         - code: '042'
@@ -3719,6 +3759,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListePrecedents'
+    ArrondissementListeProjetes200:
+      description: 'Opération réussie pour les projetés d''un arrondissement'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ArrondissementListeProjetes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementListeProjetes'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ArrondissementListeProjetes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ArrondissementListeProjetes'
     ArrondissementListeSuivants200:
       description: 'Opération réussie pour les successeurs d''un arrondissement'
       content:
@@ -5161,6 +5216,12 @@ components:
       xml:
         attribute: true
       example: '2020-01-01'
+    Date1994ParDefaut:
+      description: 'date proposée par défaut'
+      type: date
+      xml:
+        attribute: true
+      example: '1994-07-30'
     Date1960ParDefaut:
       description: 'date proposée par défaut'
       type: date
@@ -5359,6 +5420,14 @@ components:
       xml:
         attribute: true
       example: '042'
+    ArrondissementListeProjetes:
+      description: 'Liste des arrondissements projetés'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeArrondissementsProjetes
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     ArrondissementListeSuivants:
       description: 'Liste des arrondissements qui succèdent à l''arrondissement'
       type: array
