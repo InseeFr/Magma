@@ -1586,11 +1586,32 @@ paths:
       summary: 'Informations concernant les régions qui précèdent la région'
       operationId: 'getcogregprec'
       parameters:
-        - $ref: '#/components/parameters/codeRegPrecInPath'
+        - $ref: '#/components/parameters/codeRegPrecProjInPath'
         - $ref: '#/components/parameters/dateRegionDepart'
       responses:
         '200':
           $ref: '#/components/responses/RegionListePrecedents200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /geo/region/{code}/projetes:
+    get:
+      tags:
+        - geoRegion
+      summary: 'Informations concernant les régions qui résultent de la projection de la région à la date passée en paramètre.'
+      operationId: 'getcogregproj'
+      parameters:
+        - $ref: '#/components/parameters/codeRegPrecProjInPath'
+        - $ref: '#/components/parameters/dateRegionDepart'
+        - $ref: '#/components/parameters/dateProjectionRegionInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/RegionListeProjetes200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -1764,7 +1785,7 @@ components:
       required: true
       in: query
       description: |-
-        Date vers laquelle est projeté le departement. Paramètre obligatoire (format : 'AAAA-MM-JJ')
+        Date vers laquelle est projeté le département. Paramètre obligatoire (format : 'AAAA-MM-JJ')
       name: dateProjection
       schema:
         $ref: '#/components/schemas/Date1950ParDefaut'
@@ -2406,13 +2427,13 @@ components:
       schema:
         type: 'string'
         format: date
-    codeRegPrecInPath:
+    codeRegPrecProjInPath:
       name: 'code'
       in: path
       description: 'Code de la région (deux chiffres)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeRegPrec'
+        $ref: '#/components/schemas/CodeRegPrecProj'
     dateRegionDepart:
       in: query
       description: |-
@@ -2421,6 +2442,14 @@ components:
       schema:
         type: 'string'
         format: date
+    dateProjectionRegionInPath:
+      required: true
+      in: query
+      description: |-
+        Date vers laquelle est projetée la région. Paramètre obligatoire (format : 'AAAA-MM-JJ')
+      name: dateProjection
+      schema:
+        $ref: '#/components/schemas/Date2000ParDefaut'
     codeRegSuivantInPath:
       name: 'code'
       in: path
@@ -3735,6 +3764,16 @@ components:
           typeArticle: '4'
           chefLieu: '59350'
           intitule: 'Hauts-de-France'
+    RegionListeProjetes:
+      value:
+        - code: '21'
+          uri: 'http://id.insee.fr/geo/region/15916a60-04eb-4951-abd4-1bfd0b54f2e9'
+          type: 'Region'
+          dateCreation: '1982-03-02'
+          dateSuppression: '2016-01-01'
+          intituleSansArticle: 'Champagne-Ardenne'
+          typeArticle: '0'
+          intitule: 'Champagne-Ardenne'
     RegionListeSuivants:
       value:
         - code: '44'
@@ -3745,7 +3784,7 @@ components:
           intituleSansArticle: 'Alsace-Champagne-Ardenne-Lorraine'
           typeArticle: '1'
           chefLieu: '67482'
-          intitule: 'Alsace-Champagne-Ardenne-Lorraine"'
+          intitule: 'Alsace-Champagne-Ardenne-Lorraine'
     
     
     UniteUrbaine2020:
@@ -4959,6 +4998,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/RegionListePrecedents'
+    RegionListeProjetes200:
+      description: 'Opération réussie pour les projetés d''une région'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RegionListeProjetes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/RegionListeProjetes'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/RegionListeProjetes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/RegionListeProjetes'
     RegionListeSuivants200:
       description: 'Opération réussie pour les successeurs d''une région'
       content:
@@ -6030,7 +6084,7 @@ components:
         name: ListeRegions
       items:
         $ref: '#/components/schemas/Region'
-    CodeRegPrec:
+    CodeRegPrecProj:
       description: 'Code d''une région'
       pattern: '^(01|02|03|04|06|11|24|27|28|32|44|52|53|75|76|84|93|94)$'
       type: string
@@ -6052,6 +6106,14 @@ components:
       xml:
         attribute: true
       example: '41'
+    RegionListeProjetes:
+      description: 'Liste des régions projetées'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeRegionsProjetees
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
     RegionListeSuivants:
       description: 'Liste des régions qui succèdent à la région'
       type: array
