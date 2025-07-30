@@ -105,7 +105,7 @@ class DataSetTest {
     @ValueSource(strings = { "mockedTitreLg1", "mockedTitreLg2", "mockedTitreLg3" })
     void shouldCheckStatutValidation(String mockedString){
         firstDataSet.setStatutValidation(mockedString);
-        assertTrue(Objects.equals(firstDataSet.getStatutValidation(), mockedString));
+        assertEquals(firstDataSet.getStatutValidation(), mockedString);
     }
 
     @ParameterizedTest
