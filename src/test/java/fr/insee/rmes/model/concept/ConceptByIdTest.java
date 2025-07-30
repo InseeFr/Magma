@@ -115,12 +115,12 @@ class ConceptByIdTest {
     @ParameterizedTest
     @ValueSource(strings = { "mockedVersion1/mockedValue1", "mockedVersion2/mockedValue2", "mockedVersion3/mockedValue3" })
     void shouldCheckAdditionalProperties(String mockedString){
-        String name = mockedString.split("/")[0];
+        String nameExample = mockedString.split("/")[0];
         String value = mockedString.split("/")[1];
-        firstConceptById.setAdditionalProperty(name,value);
-        secondConceptById.withAdditionalProperty(name,value);
-        assertTrue(("{" + name + "=" + value + "}").equals(firstConceptById.getAdditionalProperties().toString())&&
-                ("{" + name + "=" + value + "}").equals(secondConceptById.getAdditionalProperties().toString()));
+        firstConceptById.setAdditionalProperty(nameExample,value);
+        secondConceptById.withAdditionalProperty(nameExample,value);
+        assertTrue(("{" + nameExample + "=" + value + "}").equals(firstConceptById.getAdditionalProperties().toString())&&
+                ("{" + nameExample + "=" + value + "}").equals(secondConceptById.getAdditionalProperties().toString()));
     }
 
 }
