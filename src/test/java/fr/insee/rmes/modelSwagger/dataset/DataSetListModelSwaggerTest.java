@@ -17,6 +17,7 @@ class DataSetListModelSwaggerTest {
 
         DataSetListModelSwagger secondDataSetListModelSwagger = new DataSetListModelSwagger(list);
 
-        assertEquals(list,secondDataSetListModelSwagger.getDataSetListModelSwaggerS());
+        assertTrue(list==secondDataSetListModelSwagger.getDataSetListModelSwaggerS() &&
+                !firstDataSetListModelSwagger.equals(secondDataSetListModelSwagger));
     }
 }
