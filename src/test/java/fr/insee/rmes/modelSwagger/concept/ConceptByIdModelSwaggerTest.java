@@ -137,7 +137,7 @@ class ConceptByIdModelSwaggerTest {
     @Test
     void shouldCheckName(){
         secondConcept.setName("mockedName");
-        assertEquals(secondConcept.getName(),"mockedName");
+        assertEquals("mockedName",secondConcept.getName());
     }
 
     @Test
