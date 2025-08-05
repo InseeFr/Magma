@@ -5,7 +5,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LandingPageTest {
-    
     LandingPage landingPage= new LandingPage("mockedLang","mockedUrl");
 
     @ParameterizedTest
