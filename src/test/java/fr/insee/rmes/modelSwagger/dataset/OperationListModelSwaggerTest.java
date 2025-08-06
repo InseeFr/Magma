@@ -11,15 +11,15 @@ class OperationListModelSwaggerTest {
 
         OperationListModelSwagger firstOperationListModelSwagger = new OperationListModelSwagger();
 
-        List<OperationListModelSwagger> OperationListModelSwaggerS = List.of(
+        List<OperationListModelSwagger> operations = List.of(
                 new OperationListModelSwagger(),
                 new OperationListModelSwagger(),
                 new OperationListModelSwagger()
         );
 
-        OperationListModelSwagger secondOperationListModelSwagger = new OperationListModelSwagger(OperationListModelSwaggerS);
+        OperationListModelSwagger secondOperationListModelSwagger = new OperationListModelSwagger(operations);
 
-        assertTrue(!firstOperationListModelSwagger.equals(secondOperationListModelSwagger) && OperationListModelSwaggerS==secondOperationListModelSwagger.getOperationListModelSwaggerS());
+        assertTrue(!firstOperationListModelSwagger.equals(secondOperationListModelSwagger) && operations==secondOperationListModelSwagger.getOperationListModelSwaggerS());
 
     }
 
