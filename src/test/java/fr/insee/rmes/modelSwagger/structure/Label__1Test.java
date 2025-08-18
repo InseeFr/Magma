@@ -11,33 +11,33 @@ class Label__1Test {
 
     Map<String, Object> additionalProperties = Map.of("key1", "value2","key2", "value2");
 
-    Label__1 firstLabel__1 = new Label__1();
-    Label__1 secondLabel__1 = new Label__1("mockedLangue","mockedContenu");
+    Label__1 firstLabel = new Label__1();
+    Label__1 secondLabel = new Label__1("mockedLangue","mockedContenu");
 
     @ParameterizedTest
     @ValueSource(strings = { "mockedElement1", "mockedElement2", "mockedElement3" })
     void shouldCheckLangue(String mockedString){
-        firstLabel__1.setLangue(mockedString);
-        secondLabel__1.withLangue(mockedString);
-        assertTrue(Objects.equals(firstLabel__1.getLangue(),secondLabel__1.getLangue()) &&
-                Objects.equals(firstLabel__1.getLangue(), mockedString));
+        firstLabel.setLangue(mockedString);
+        secondLabel.withLangue(mockedString);
+        assertTrue(Objects.equals(firstLabel.getLangue(),secondLabel.getLangue()) &&
+                Objects.equals(firstLabel.getLangue(), mockedString));
     }
 
     @ParameterizedTest
     @ValueSource(strings = { "mockedElement1", "mockedElement2", "mockedElement3" })
     void shouldCheckContenu(String mockedString){
-        firstLabel__1.setContenu(mockedString);
-        secondLabel__1.withContenu(mockedString);
-        assertTrue(Objects.equals(firstLabel__1.getContenu(),secondLabel__1.getContenu()) &&
-                Objects.equals(firstLabel__1.getContenu(), mockedString));
+        firstLabel.setContenu(mockedString);
+        secondLabel.withContenu(mockedString);
+        assertTrue(Objects.equals(firstLabel.getContenu(),secondLabel.getContenu()) &&
+                Objects.equals(firstLabel.getContenu(), mockedString));
     }
 
     @Test
     void shouldCheckAdditionalProperties(){
-        firstLabel__1.setAdditionalProperty("name","value");
-        secondLabel__1.withAdditionalProperty("name","value");
-        assertTrue(Objects.equals(firstLabel__1.getAdditionalProperties(),secondLabel__1.getAdditionalProperties()) &&
-                !Objects.equals(firstLabel__1.getAdditionalProperties(),additionalProperties));
+        firstLabel.setAdditionalProperty("name","value");
+        secondLabel.withAdditionalProperty("name","value");
+        assertTrue(Objects.equals(firstLabel.getAdditionalProperties(),secondLabel.getAdditionalProperties()) &&
+                !Objects.equals(firstLabel.getAdditionalProperties(),additionalProperties));
     }
 
 
