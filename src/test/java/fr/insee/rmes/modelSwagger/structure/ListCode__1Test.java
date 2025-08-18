@@ -10,33 +10,33 @@ import static org.junit.jupiter.api.Assertions.*;
 class ListCode__1Test {
 
     Map<String, Object> additionalProperties = Map.of("key1", "value2","key2", "value2");
-    ListCode__1 firstListCode__1= new ListCode__1();
-    ListCode__1 secondListCode__1 = new ListCode__1("mockedId","mockedIri");
+    ListCode__1 firstListCode= new ListCode__1();
+    ListCode__1 secondListCode = new ListCode__1("mockedId","mockedIri");
 
     @ParameterizedTest
     @ValueSource(strings = { "mockedElement1", "mockedElement2", "mockedElement3" })
     void shouldCheckId(String mockedString){
-        firstListCode__1.setId(mockedString);
-        secondListCode__1.withId(mockedString);
-        assertTrue(Objects.equals(firstListCode__1.getId(),secondListCode__1.getId()) &&
-                Objects.equals(firstListCode__1.getId(), mockedString));
+        firstListCode.setId(mockedString);
+        secondListCode.withId(mockedString);
+        assertTrue(Objects.equals(firstListCode.getId(),secondListCode.getId()) &&
+                Objects.equals(firstListCode.getId(), mockedString));
     }
 
     @ParameterizedTest
     @ValueSource(strings = { "mockedElement1", "mockedElement2", "mockedElement3" })
     void shouldCheckUri(String mockedString){
-        firstListCode__1.setUri(mockedString);
-        secondListCode__1.withUri(mockedString);
-        assertTrue(Objects.equals(firstListCode__1.getUri(),secondListCode__1.getUri()) &&
-                Objects.equals(firstListCode__1.getUri(), mockedString));
+        firstListCode.setUri(mockedString);
+        secondListCode.withUri(mockedString);
+        assertTrue(Objects.equals(firstListCode.getUri(),secondListCode.getUri()) &&
+                Objects.equals(firstListCode.getUri(), mockedString));
     }
 
     @Test
     void shouldCheckAdditionalProperties(){
-        firstListCode__1.setAdditionalProperty("name","value");
-        secondListCode__1.withAdditionalProperty("name","value");
-        assertTrue(Objects.equals(firstListCode__1.getAdditionalProperties(),secondListCode__1.getAdditionalProperties()) &&
-                !Objects.equals(firstListCode__1.getAdditionalProperties(),additionalProperties));
+        firstListCode.setAdditionalProperty("name","value");
+        secondListCode.withAdditionalProperty("name","value");
+        assertTrue(Objects.equals(firstListCode.getAdditionalProperties(),secondListCode.getAdditionalProperties()) &&
+                !Objects.equals(firstListCode.getAdditionalProperties(),additionalProperties));
     }
     
 }
