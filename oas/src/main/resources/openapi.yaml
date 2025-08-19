@@ -58,6 +58,27 @@ tags:
 
 paths:
 
+  /concepts/definition/{id}:
+    get:
+      tags:
+        - Concepts
+      summary: Obtenir la définition d’un concept par son identifiant
+      operationId: getconcept
+      parameters:
+        - $ref: '#/components/parameters/idConceptInPath'
+      responses:
+        '200':
+          $ref: '#/components/responses/Concept200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+
   /geo/aireDAttractionDesVilles2020/{code}:
     get:
       tags:
@@ -2049,6 +2070,13 @@ components:
         Filtre pour préciser le département de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       schema:
         $ref: '#/components/schemas/Date1950ParDefaut'
+    idConceptInPath:
+      required: true
+      name: id
+      in: path
+      description: 'Identifiant du concept (format : c[0-9]{4})'
+      schema:
+        $ref: '#/components/schemas/IdConcept'
     codeCommuneInPath:
       required: true
       name: code
@@ -3462,7 +3490,12 @@ components:
           intituleSansArticle: 'Arbignieu'
           typeArticle: '0'
           intitule: 'Arbignieu'
-
+    Concept:
+      value:
+        code: 'c2066'
+        uri: 'http://id.insee.fr/concepts/definition/c2066'
+        type: 'Concept'
+        intitule: 'Auto-entrepreneur'
 
     DepartementListeAscendants:
       value:
@@ -4616,7 +4649,21 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeCommunesDeleguees'
-
+    Concept200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Concept'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Concept'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Concept'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Concept'
     DepartementListeSuivants200:
       description: 'Opération réussie pour les successeurs d''un département'
       content:
@@ -5202,6 +5249,71 @@ components:
       properties:
         code:
           $ref: '#/components/schemas/CodeCom'
+    Concept:
+      type: object
+      xml:
+        name: Concept
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+          format: uri
+        intitule:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangueContenu'
+        definition:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangueContenu'
+        noteEditoriale:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangueContenu'
+        dateMiseAJour:
+          type: string
+          format: date-time
+        conceptsSuivants:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConceptSuivant'
+      required:
+        - id
+        - uri
+
+    ConceptSuivant:
+      type: object
+      xml:
+        name: ConceptSuivant
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+          format: uri
+        typeOfLink:
+          type: string
+      required:
+        - id
+        - uri
+
+    LangueContenu:
+      type: object
+      properties:
+        contenu:
+          type: string
+        langue:
+          type: string
+
+    ConceptRef:
+      type: object
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+
     TypeEnumAscendantsCommuneAssociee:
       type: string
       xml:
@@ -5555,6 +5667,12 @@ components:
       xml:
         attribute: true
       example: '2016-01-01'
+    IdConcept:
+      pattern: 'c[0-9]{4}'
+      type: 'string'
+      xml:
+        attribute: true
+      example: 'c2066'
     TypeEnum:
       type: string
       xml:

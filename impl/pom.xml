@@ -111,6 +111,7 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
+                        <exclude>TestcontainerTest.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>

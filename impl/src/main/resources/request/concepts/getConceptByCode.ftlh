@@ -1,18 +1,19 @@
 SELECT distinct ?uri ?intituleFr ?intituleEn 
-?definitionFr ?definitionEn ?editorialNoteFr ?editorialNoteEn ?scopeNoteFr ?scopeNoteEn
- ?dateMiseAJour ?hasLink
+?definitionFr ?definitionEn ?noteEditorialeFr ?noteEditorialeEn ?scopeNoteFr ?scopeNoteEn
+ ?dateMiseAJour ?hasLink ?id
 FROM <http://rdf.insee.fr/graphes/concepts/definitions>
-WHERE { 
-			?uri skos:inScheme ?uriScheme . 
+WHERE {
+			BIND("${id}" AS ?id) .
+			?uri skos:inScheme ?uriScheme .
 			FILTER(REGEX(STR(?uriScheme),'/concepts/definitions/scheme')) 
-			FILTER(REGEX(STR(?uri),'/concepts/definition/${conceptId}')) . 
+			FILTER(REGEX(STR(?uri),'/concepts/definition/${id}')) .
 
 			?uri skos:prefLabel ?intituleFr . 
 			FILTER(lang(?intituleFr) = 'fr') 
 			?uri skos:prefLabel ?intituleEn . 
-			FILTER(lang(?intituleEn) = 'en') 
+			FILTER(lang(?intituleEn) = 'en')
 
-			BIND(EXISTS{?uri dcterms:replaces|^dcterms:replaces ?repl } AS ?hasLink)
+			BIND(EXISTS{?uri (skos:broader|skos:narrower|skos:related|dcterms:replaces|dcterms:isReplacedBy|skos:closeMatch|dcterms:references) ?repl } AS ?hasLink)
 			
 			OPTIONAL{ ?uri dcterms:modified ?dateMiseAJour } 
 		
@@ -72,7 +73,7 @@ WHERE {
 			OPTIONAL {
 				?uri skos:editorialNote ?editorialFr . 
 				?editorialFr dcterms:language 'fr'^^xsd:language . 
-				?editorialFr evoc:noteLiteral ?editorialNoteFr . 
+				?editorialFr evoc:noteLiteral ?noteEditorialeFr .
 				?editorialFr pav:version ?vefr .
 				filter not exists {
 					?uri skos:editorialNote ?editorial2Fr . 
@@ -85,7 +86,7 @@ WHERE {
 			OPTIONAL {
 				?uri skos:editorialNote ?editorialEn . 
 				?editorialEn dcterms:language 'en'^^xsd:language . 
-				?editorialEn evoc:noteLiteral ?editorialNoteEn . 
+				?editorialEn evoc:noteLiteral ?noteEditorialeEn .
 				?editorialEn pav:version ?veen . 
 				filter not exists {
 					?uri skos:editorialNote ?editorial2En . 
