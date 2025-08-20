@@ -25,7 +25,6 @@ class CommonMethodsTest {
     @Test
     void shouldRemovePrefLabelsWhenNoPrefLabelsIsAbsent(){
         JSONObject jsonObject = new JSONObject().put("prefLabelLg1","label1").put("animal","rabbit").put("prefLabelLg2","label2");
-        String before= jsonObject.toString();
         CommonMethods.removePrefLabels(jsonObject);
         assertEquals("{\"animal\":\"rabbit\"}",jsonObject.toString());
     }
