@@ -20,7 +20,8 @@ class RmesExceptionHandlerTest {
     @ValueSource(ints = { 499,1001,874,2156,741 })
     void shouldReturnIllegalArgumentExceptionWhenHandleRmesException(int fakeCode){
         RmesExceptionHandler rmesExceptionHandler = new RmesExceptionHandler();
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, ()->rmesExceptionHandler.handleRmesException(new RmesException(fakeCode,"mockedMessage","mockedStatus")));
+        RmesException exampleRmesException = new RmesException(fakeCode,"mockedMessage","mockedStatus");
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, ()->rmesExceptionHandler.handleRmesException(exampleRmesException));
         String expected = "No matching constant for ["+fakeCode+"]";
         assertEquals(expected,exception.getMessage());
     }
