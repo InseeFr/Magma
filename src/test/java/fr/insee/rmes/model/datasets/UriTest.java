@@ -10,5 +10,5 @@ class UriTest {
         Uri uri1  = new Uri("mockedUri");
         assertEquals("mockedUri",uri1.toString());
     }
-
+ 
 }
