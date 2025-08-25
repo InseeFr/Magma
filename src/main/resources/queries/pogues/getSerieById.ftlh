@@ -13,15 +13,17 @@
            		FILTER (lang(?seriesLabelLg1) = '${LG1}')
            		?series skos:prefLabel ?seriesLabelLg2 .
            		FILTER (lang(?seriesLabelLg2) = '${LG2}')
-				
-           		?series dcterms:isPartOf ?family .  
-           		?family a insee:StatisticalOperationFamily .  
-           		?family skos:prefLabel ?familyLabelLg1 .  
-           		FILTER (lang(?familyLabelLg1 ) = '${LG1}')
-           		?family skos:prefLabel ?familyLabelLg2 .
-           		FILTER (lang(?familyLabelLg2 ) = '${LG2}')
-           		BIND(STRAFTER(STR(?family),'/operations/famille/') AS ?familyId ) .
-            
+
+                OPTIONAL {
+                    ?series dcterms:isPartOf ?family .
+                    ?family a insee:StatisticalOperationFamily .
+                    ?family skos:prefLabel ?familyLabelLg1 .
+                    FILTER (lang(?familyLabelLg1 ) = '${LG1}')
+                    ?family skos:prefLabel ?familyLabelLg2 .
+                    FILTER (lang(?familyLabelLg2 ) = '${LG2}')
+                    BIND(STRAFTER(STR(?family),'/operations/famille/') AS ?familyId ) .
+                }
+
            		OPTIONAL { ?series skos:altLabel ?seriesAltLabelLg1 . 
            					FILTER (lang(?seriesAltLabelLg1) = '${LG1}') }
            		OPTIONAL { ?series skos:altLabel ?seriesAltLabelLg2 . 
