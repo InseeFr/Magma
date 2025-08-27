@@ -80,6 +80,25 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /concepts/definitions:
+    get:
+      tags:
+        - concepts
+      summary: Informations sur les définitions des concepts statistiques de l'Insee
+      operationId: getconceptsliste
+      parameters:
+        - $ref: '#/components/parameters/libelleConceptInQuery'
+      responses:
+        '200':
+          $ref: '#/components/responses/ConceptsListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/aireDAttractionDesVilles2020/{code}:
     get:
@@ -1876,7 +1895,21 @@ components:
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsDepartement'
 
-
+    idConceptInPath:
+      required: true
+      name: id
+      in: path
+      description: 'Identifiant du concept (format : c[0-9]{4})'
+      schema:
+        $ref: '#/components/schemas/IdConcept'
+    libelleConceptInQuery:
+      required: false
+      name: libelle
+      in: query
+      description: 'Recherche dans les libellés'
+      schema:
+        type: 'string'
+        example: 'élect'
     codeAireDAttractionDesVillesInPath:
       name: 'code'
       in: path
@@ -2072,13 +2105,6 @@ components:
         Filtre pour préciser le département de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       schema:
         $ref: '#/components/schemas/Date1950ParDefaut'
-    idConceptInPath:
-      required: true
-      name: id
-      in: path
-      description: 'Identifiant du concept (format : c[0-9]{4})'
-      schema:
-        $ref: '#/components/schemas/IdConcept'
     codeCommuneInPath:
       required: true
       name: code
@@ -3494,10 +3520,83 @@ components:
           intitule: 'Arbignieu'
     Concept:
       value:
-        code: 'c2066'
+        id: 'c2066'
         uri: 'http://id.insee.fr/concepts/definition/c2066'
-        type: 'Concept'
-        intitule: 'Auto-entrepreneur'
+        intitule:
+          - contenu: 'Auto-entrepreneur'
+            langue: 'fr'
+          - contenu: 'Auto-entrepreneur'
+            langue: 'en'
+        definition:
+          - contenu: '<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Le régime de l''« auto-entrepreneur » s''applique depuis le 1er janvier 2009 aux personnes physiques qui créent ou possèdent déjà une entreprise individuelle pour exercer une activité commerciale, artisanale ou libérale (hormis certaines activités exclues), à titre principal ou complémentaire, et dont l''entreprise individuelle remplit les conditions du régime fiscal de la micro-entreprise et qui opte pour exercer en franchise de TVA.</p><p>Il offre des formalités de création d''entreprises allégées ainsi qu''un mode de calcul et de paiement simplifié des cotisations sociales et de l''impôt sur le revenu. L''auto-entrepreneur bénéficie :</p><ul class=\"list1\"><li>d''un régime micro-social simplifié ;</li><li>d''une dispense d''immatriculation au registre du commerce et des sociétés (RCS) pour les commerçants, ou au répertoire des métiers (RM) pour les artisans ; toutefois, l''auto-entrepreneur qui crée une activité artisanale à titre principal, doit s''inscrire au RM.</li><li>d''une exonération de TVA ;</li><li>et sur option, d''un régime micro-fiscal simplifié (versement libératoire de l''impôt sur le revenu) et d''une exonération de la cotisation foncière des entreprises pendant 3 ans à compter de la date de création.</li></ul></div>'
+            langue: 'fr'
+          - contenu: '<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Since January 1st 2009, ‘auto-entrepreneur’ status applies to natural persons who set up or already possess a sole proprietorship, for the purpose of exercising a commercial or artisanal activity or one of the professions (with the exception of certain activities), as a main or complementary activity, and whose sole proprietorship fulfils the conditions of the micro-enterprise fiscal category, and who opt for VAT exemption.</p><p>This status offers less demanding regulations for starting up the business, as well as a simplified method for calculating and paying social security contributions and income tax. Auto-entrepreneurs benefit from:</p><ul class=\"list1\"><li>a simplified social scheme</li><li>exemption from the requirement of registration with the business register for commercial professionals, or the trade register for artisans; however, the auto-entrepreneur who creates an artisan activity with main title, has to join the RM.</li><li>exemption from VAT;</li><li>the option of a simplified tax scheme (payment in discharge of income tax) and exemption from porperty tax of firms for the first three years after establishment of the business.</li></ul></div>'
+            langue: 'en'
+        noteEditoriale:
+          - contenu: '<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Les professions libérales relevant de la Caisse interprofessionnelle de prévoyance et d''assurance vieillesse (CIPAV) et créateurs d''activité à compter du 1er janvier 2009 peuvent également bénéficier du statut d''auto-entrepreneur. Depuis janvier 2011, l''auto-entrepreneur peut bénéficier du statut de l''EIRL (entrepreneur individuel à responsabilité limitée) en affectant à son activité professionnelle un patrimoine spécifique séparé de son patrimoine personnel. Il conserve toutefois le régime fiscal et social forfaitaire lié au régime de l''auto-entreprise.</p></div>'
+            langue: 'fr'
+          - contenu: '<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>The professions falling under the aegis of the Inter-profession Body for Retirement Planning and Insurance (CIPAV) and those launching a business after January 1st 2009 can also benefit from auto-entrepreneur status. Since January, 2011, the auto-entrepreneur can benefit from EIRL (individual entrepreneur with limited liability) status by allocating to his professional activity a specific patrimony separated from his personal patrimony. However he preserves the fixed tax and social regime connected to the auto-entrepreneur status.</p></div>'
+            langue: 'en'
+        dateMiseAJour: '2016-10-13'
+        conceptsSuivants:
+          - id: 'c1500'
+            uri: 'http://id.insee.fr/concepts/definition/c1500'
+    ListeConcepts:
+      value:
+        - id: 'c1769'
+          uri: 'http://id.insee.fr/concepts/definition/c1769'
+          intitule: 'Commerce électronique'
+        - id: 'c1324'
+          uri: 'http://id.insee.fr/concepts/definition/c1324'
+          intitule: 'Consommation intérieure d''électricité'
+        - id: 'c1773'
+          uri: 'http://id.insee.fr/concepts/definition/c1773'
+          intitule: 'Consommation nette d''électricité'
+        - id: 'c1158'
+          uri: 'http://id.insee.fr/concepts/definition/c1158'
+          intitule: 'Fichier général des électeurs'
+          conceptsSuivants:
+            - id: 'c2131'
+              uri: 'http://id.insee.fr/concepts/definition/c2131'
+        - id: 'c2029'
+          uri: 'http://id.insee.fr/concepts/definition/c2029'
+          intitule: 'Haute tension et basse tension (électricité)'
+        - id: 'c2169'
+          uri: 'http://id.insee.fr/concepts/definition/c2169'
+          intitule: 'Listes électorales'
+        - id: 'c2167'
+          uri: 'http://id.insee.fr/concepts/definition/c2167'
+          intitule: 'Listes électorales complémentaires'
+        - id: 'c2170'
+          uri: 'http://id.insee.fr/concepts/definition/c2170'
+          intitule: 'Listes électorales consulaires'
+        - id: 'c2171'
+          uri: 'http://id.insee.fr/concepts/definition/c2171'
+          intitule': 'Listes électorales principales'
+        - id: 'c1833'
+          uri: 'http://id.insee.fr/concepts/definition/c1833'
+          intitule: 'Placement sous surveillance électronique mobile '
+        - id: 'c1291'
+          uri: 'http://id.insee.fr/concepts/definition/c1291'
+          intitule: 'Production brute d''électricité'
+        - id: 'c1095'
+          uri: 'http://id.insee.fr/concepts/definition/c1095'
+          intitule: 'Production nette d''électricité'
+        - id: 'c2131'
+          uri: 'http://id.insee.fr/concepts/definition/c2131'
+          intitule: 'Répertoire électoral unique'
+          conceptsPrecedents:
+            - id: 'c1158'
+              uri: 'http://id.insee.fr/concepts/definition/c1158'
+        - id: 'c2172'
+          uri: 'http://id.insee.fr/concepts/definition/c2172'
+          intitule: 'Unité de gestion des listes électorales'
+        - id: 'c1643'
+          uri: 'http://id.insee.fr/concepts/definition/c1643'
+          intitule: 'Élections aux comité d''entreprise'
+        - id: 'c1783'
+          uri: 'http://id.insee.fr/concepts/definition/c1783'
+          intitule: Électricité primaire'
 
     DepartementListeAscendants:
       value:
@@ -3888,6 +3987,37 @@ components:
       description: 'L''en-tête HTTP ''Accept'' contient une valeur non acceptée'
     ServerError:
       description: 'Erreur interne du serveur'
+
+    Concept200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Concept'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Concept'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Concept'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Concept'
+    ConceptsListe200:
+      description: 'Opération réussie pour les concepts'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeConcepts'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeConcepts'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeConcepts'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeConcepts'
 
     AireDAttractionDesVilles200:
       description: 'Opération réussie pour l''aire d''attraction'
@@ -4651,21 +4781,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeCommunesDeleguees'
-    Concept200:
-      description: 'Opération réussie'
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Concept'
-          examples:
-            défaut:
-              $ref: '#/components/examples/Concept'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/Concept'
-          examples:
-            défaut:
-              $ref: '#/components/examples/Concept'
+
     DepartementListeSuivants200:
       description: 'Opération réussie pour les successeurs d''un département'
       content:
@@ -5251,70 +5367,6 @@ components:
       properties:
         code:
           $ref: '#/components/schemas/CodeCom'
-    Concept:
-      type: object
-      xml:
-        name: Concept
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-          format: uri
-        intitule:
-          type: array
-          items:
-            $ref: '#/components/schemas/LangueContenu'
-        definition:
-          type: array
-          items:
-            $ref: '#/components/schemas/LangueContenu'
-        noteEditoriale:
-          type: array
-          items:
-            $ref: '#/components/schemas/LangueContenu'
-        dateMiseAJour:
-          type: string
-          format: date-time
-        conceptsSuivants:
-          type: array
-          items:
-            $ref: '#/components/schemas/ConceptSuivant'
-      required:
-        - id
-        - uri
-
-    ConceptSuivant:
-      type: object
-      xml:
-        name: ConceptSuivant
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-          format: uri
-        typeOfLink:
-          type: string
-      required:
-        - id
-        - uri
-
-    LangueContenu:
-      type: object
-      properties:
-        contenu:
-          type: string
-        langue:
-          type: string
-
-    ConceptRef:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
 
     TypeEnumAscendantsCommuneAssociee:
       type: string
@@ -5669,12 +5721,7 @@ components:
       xml:
         attribute: true
       example: '2016-01-01'
-    IdConcept:
-      pattern: 'c[0-9]{4}'
-      type: 'string'
-      xml:
-        attribute: true
-      example: 'c2066'
+
     TypeEnum:
       type: string
       xml:
@@ -5755,6 +5802,82 @@ components:
         - Intercommunalite
         - ZoneDEmploi2020
       example: 'Departement'
+
+    IdConcept:
+      pattern: 'c[0-9]{4}'
+      type: 'string'
+      xml:
+        attribute: true
+      example: 'c2066'
+    Concept:
+      type: object
+      xml:
+        name: Concept
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+          format: uri
+        intitule:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangueContenu'
+        definition:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangueContenu'
+        noteEditoriale:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangueContenu'
+        dateMiseAJour:
+          type: string
+          format: date-time
+        conceptsSuivants:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConceptSuivant'
+      required:
+        - id
+        - uri
+    ConceptSuivant:
+      type: object
+      xml:
+        name: ConceptSuivant
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+          format: uri
+        typeOfLink:
+          type: string
+      required:
+        - id
+        - uri
+    LangueContenu:
+      type: object
+      properties:
+        contenu:
+          type: string
+        langue:
+          type: string
+    ConceptRef:
+      type: object
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+    ListeConcepts:
+      description: 'Liste des concepts'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeConcepts
+      items:
+        $ref: '#/components/schemas/Concept'
 
     AireDAttractionDesVilles2020:
       allOf:
