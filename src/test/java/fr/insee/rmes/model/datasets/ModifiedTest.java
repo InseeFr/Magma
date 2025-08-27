@@ -10,6 +10,6 @@ class ModifiedTest {
     @ValueSource(strings = { "element1", "element2","element3" })
     void shouldReturnStringWhenToString(String string){
         Modified modified  = new Modified(string);
-        assertEquals(string,modified.toString()); 
+        assertEquals(string,modified.toString());
     }
 }
