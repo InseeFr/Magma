@@ -11,5 +11,4 @@ class DisseminationStatusTest {
         DisseminationStatus disseminationStatus = new DisseminationStatus(string);
         assertEquals(string,disseminationStatus.toString());
     }
-  
 }
