@@ -15,6 +15,8 @@ tags:
   #    description: Concepts API
   #  - name: operations
   #    description: Operations API
+  - name: concepts
+    description: 'API concepts'
   - name: geoAireDAttractionDesVilles
     description: 'API géographie : aire d''attraction des villes 2020'
   - name: geoArrondissement
@@ -61,8 +63,8 @@ paths:
   /concepts/definition/{id}:
     get:
       tags:
-        - Concepts
-      summary: Obtenir la définition d’un concept par son identifiant
+        - concepts
+      summary: Informations sur la définition d'un concept statistique de l'Insee
       operationId: getconcept
       parameters:
         - $ref: '#/components/parameters/idConceptInPath'
