@@ -6213,7 +6213,7 @@ components:
             $ref: '#/components/schemas/LangueContenu'
         dateMiseAJour:
           type: string
-          format: date-time
+          format: date
         conceptsSuivants:
           type: array
           items:

@@ -1,12 +1,18 @@
 package fr.insee.rmes.metadata.utils;
 
+import com.fasterxml.jackson.core.io.BigDecimalParser;
 import fr.insee.rmes.metadata.model.Concept;
 import fr.insee.rmes.metadata.model.ConceptConceptsSuivantsInner;
 import fr.insee.rmes.metadata.model.ConceptIntituleInner;
 import fr.insee.rmes.metadata.model.ConceptSuivant;
+import org.joda.time.DateTime;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +26,10 @@ public class ConceptDTO {
     private String definitionEn;
     private String noteEditorialeFr;
     private String noteEditorialeEn;
-    private OffsetDateTime dateMiseAJour;
+    private String dateMiseAJour;
     private Boolean hasLink;
     private List<ConceptSuivant> conceptsSuivants;
+
 
     public Concept transformDTOenConcept() {
         Concept concept = new Concept();
@@ -32,6 +39,11 @@ public class ConceptDTO {
             List<ConceptIntituleInner> intitules = createListLangueContenu(createLangueContenu(intituleFr,"fr"),createLangueContenu(intituleEn,"en"));
             concept.setIntitule(intitules);
         }
+        if  (this.intituleFr != null && this.intituleEn == null) {
+            List<ConceptIntituleInner> intitules = createListLangueContenu(createLangueContenu(intituleFr,"fr"),createLangueContenu("","en"));
+            concept.setIntitule(intitules);
+        }
+
         if  (this.definitionFr != null && this.definitionEn != null) {
             List<ConceptIntituleInner> definitions = createListLangueContenu(createLangueContenu(definitionFr,"fr"),createLangueContenu(definitionEn,"en"));
             concept.setDefinition(definitions);
@@ -52,7 +64,26 @@ public class ConceptDTO {
                     .toList();
             concept.setConceptsSuivants(mapped);
         }
-        concept.setDateMiseAJour(this.dateMiseAJour);
+
+        // Conversion de la date en LocalDate
+        if (this.dateMiseAJour != null && !this.dateMiseAJour.isEmpty()) {
+            try {
+                // Parser en LocalDateTime puis extraire la partie LocalDate
+                LocalDateTime localDateTime = LocalDateTime.parse(this.dateMiseAJour);
+                concept.setDateMiseAJour(localDateTime.toLocalDate());
+            } catch (DateTimeParseException e) {
+                try {
+                    // Si le format est directement un LocalDate (ex: "2019-05-17")
+                    concept.setDateMiseAJour(LocalDate.parse(this.dateMiseAJour));
+                } catch (DateTimeParseException ex) {
+                    // Gérer l'erreur (par exemple, logger ou affecter null)
+                    concept.setDateMiseAJour(null);
+                }
+            }
+        } else {
+            concept.setDateMiseAJour(null);
+        }
+
         return concept;
     }
 
@@ -94,8 +125,29 @@ public class ConceptDTO {
     public String getNoteEditorialeEn() { return noteEditorialeEn; }
     public void setNoteEditorialeEn(String noteEditorialeEn) { this.noteEditorialeEn = noteEditorialeEn; }
 
-    public OffsetDateTime getDateMiseAJour() { return dateMiseAJour; }
-    public void setDateMiseAJour(OffsetDateTime dateMiseAJour) { this.dateMiseAJour = dateMiseAJour; }
+
+    public LocalDate getDateMiseAJour() {
+        if (this.dateMiseAJour == null || this.dateMiseAJour.isEmpty()) {
+            return null; // ou une valeur par défaut
+        }
+
+    try {
+        // Essayer de parser en tant que LocalDateTime (ex: "2019-05-17T14:04:34.437")
+        LocalDateTime localDateTime = LocalDateTime.parse(this.dateMiseAJour);
+        return localDateTime.toLocalDate();
+    } catch (DateTimeParseException e) {
+        try {
+            // Si échec, essayer de parser en tant que LocalDate (ex: "2019-05-17")
+            return LocalDate.parse(this.dateMiseAJour);
+        } catch (DateTimeParseException ex) {
+            // Gérer l'erreur (par exemple, logger ou retourner null)
+            return null;
+        }
+    }
+}
+
+    public void setDateMiseAJour(String dateMiseAJour) { this.dateMiseAJour = dateMiseAJour; }
+
 
     public Boolean getHasLink() {
         return hasLink;
