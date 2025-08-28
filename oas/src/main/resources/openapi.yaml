@@ -1,22 +1,24 @@
 openapi: 3.1.0
 info:
   title: API RMéS
-  description: API sur les métadonnées de l'Insee
   version: 3.7.2
+  description: API sur les métadonnées de l'Insee
 externalDocs:
-  description: 'This API is open source : the sources can be found there'
+  description: This API is open source, the sources can be found here
   url: https://github.com/InseeFr/Metadata-API
 servers:
   - url: http://localhost:8080/metadata-api
+
+### TAGS SPECIFICATION ###
+
 tags:
-  #  - name: nomenclatures
-  #    description: Nomenclatures API
-  #  - name: concepts
-  #    description: Concepts API
-  #  - name: operations
-  #    description: Operations API
+  # -- Concepts
+
   - name: concepts
-    description: 'API concepts'
+    description: API Concepts
+
+  # -- Géographie
+
   - name: geoAireDAttractionDesVilles
     description: 'API géographie : aire d''attraction des villes 2020'
   - name: geoArrondissement
@@ -58,7 +60,20 @@ tags:
   - name: geo
     description: 'API géographie : Générique'
 
+  # -- Nomenclatures
+
+#  - name: nomenclatures
+#    description: API Nomenclatures
+
+  # -- Opérations
+
+#  - name: operations
+#    description: API opérations
+
+### PATHS SPECIFICATION ###
+
 paths:
+  # -- Concepts
 
   /concepts/definition/{id}:
     get:
@@ -100,6 +115,8 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  # -- Géographie
+
   /geo/aireDAttractionDesVilles2020/{code}:
     get:
       tags:
@@ -120,6 +137,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/aireDAttractionDesVilles2020/{code}/descendants:
     get:
       tags:
@@ -141,6 +159,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/airesDAttractionDesVilles2020:
     get:
       tags:
@@ -182,6 +201,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/arrondissement/{code}:
     get:
       tags:
@@ -202,6 +222,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/arrondissement/{code}/descendants:
     get:
       tags:
@@ -223,6 +244,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/arrondissements:
     get:
       tags:
@@ -242,6 +264,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/arrondissement/{code}/precedents:
     get:
       tags:
@@ -262,6 +285,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/arrondissement/{code}/projetes:
     get:
       tags:
@@ -283,6 +307,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/arrondissement/{code}/suivants:
     get:
       tags:
@@ -325,6 +350,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/arrondissementMunicipal/{code}:
     get:
       tags:
@@ -345,6 +371,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/arrondissementsMunicipaux:
     get:
       tags:
@@ -364,6 +391,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/arrondissementMunicipal/{code}/precedents:
     get:
       tags:
@@ -384,6 +412,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/arrondissementMunicipal/{code}/projetes:
     get:
       tags:
@@ -405,6 +434,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/arrondissementMunicipal/{code}/suivants:
     get:
       tags:
@@ -426,7 +456,6 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
-
   /geo/bassinDeVie2022/{code}:
     get:
       tags:
@@ -447,6 +476,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/bassinDeVie2022/{code}/descendants:
     get:
       tags:
@@ -468,6 +498,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/bassinsDeVie2022:
     get:
       tags:
@@ -510,6 +541,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/canton/{code}:
     get:
       tags:
@@ -530,6 +562,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/cantons:
     get:
       tags:
@@ -549,6 +582,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/canton/{code}/precedents:
     get:
       tags:
@@ -569,6 +603,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/canton/{code}/projetes:
     get:
       tags:
@@ -590,6 +625,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/canton/{code}/suivants:
     get:
       tags:
@@ -632,6 +668,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/cantonOuVille/{code}:
     get:
       tags:
@@ -652,6 +689,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/cantonOuVille/{code}/descendants:
     get:
       tags:
@@ -674,6 +712,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/cantonsEtVilles:
     get:
       tags:
@@ -693,6 +732,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/cantonOuVille/{code}/precedents:
     get:
       tags:
@@ -713,6 +753,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/cantonOuVille/{code}/projetes:
     get:
       tags:
@@ -734,6 +775,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/cantonOuVille/{code}/suivants:
     get:
       tags:
@@ -754,7 +796,6 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-
 
   /geo/circonscriptionTerritoriale/{code}/ascendants:
     get:
@@ -777,6 +818,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/circonscriptionTerritoriale/{code}:
     get:
       tags:
@@ -818,6 +860,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/collectiviteDOutreMer/{code}/descendants:
     get:
       tags:
@@ -840,6 +883,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/collectivitesDOutreMer:
     get:
       tags:
@@ -881,6 +925,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   # utiliser responses.200.links.getcogcom.operationID : getcogcom
   /geo/commune/{code}:
     get:
@@ -902,6 +947,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/commune/{code}/descendants:
     get:
       tags:
@@ -923,6 +969,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/communes:
     get:
       tags:
@@ -944,6 +991,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/commune/{code}/precedents:
     get:
       tags:
@@ -964,6 +1012,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/commune/{code}/projetes:
     get:
       tags:
@@ -985,6 +1034,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/commune/{code}/suivants:
     get:
       tags:
@@ -1027,6 +1077,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/communeAssociee/{code}:
     get:
       tags:
@@ -1047,6 +1098,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/communesAssociees:
     get:
       tags:
@@ -1088,6 +1140,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/communeDeleguee/{code}:
     get:
       tags:
@@ -1108,6 +1161,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/communesDeleguees:
     get:
       tags:
@@ -1127,7 +1181,6 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-
 
   /geo/departement/{code}/ascendants:
     get:
@@ -1150,6 +1203,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/departement/{code}:
     get:
       tags:
@@ -1170,6 +1224,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/departement/{code}/descendants:
     get:
       tags:
@@ -1192,6 +1247,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/departements:
     get:
       tags:
@@ -1211,6 +1267,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/departement/{code}/precedents:
     get:
       tags:
@@ -1231,6 +1288,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/departement/{code}/projetes:
     get:
       tags:
@@ -1252,6 +1310,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/departement/{code}/suivants:
     get:
       tags:
@@ -1294,6 +1353,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/district/{code}:
     get:
       tags:
@@ -1335,6 +1395,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/intercommunalite/{code}/descendants:
     get:
       tags:
@@ -1356,6 +1417,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/intercommunalites:
     get:
       tags:
@@ -1376,6 +1438,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/intercommunalite/{code}/precedents:
     get:
       tags:
@@ -1396,6 +1459,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/intercommunalite/{code}/projetes:
     get:
       tags:
@@ -1417,6 +1481,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/intercommunalite/{code}/suivants:
     get:
       tags:
@@ -1479,6 +1544,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/pays/{code}/descendants:
     get:
       tags:
@@ -1500,6 +1566,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/pays:
     get:
       tags:
@@ -1519,6 +1586,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/pays/{code}/precedents:
     get:
       tags:
@@ -1539,6 +1607,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/pays/{code}/suivants:
     get:
       tags:
@@ -1580,6 +1649,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/region/{code}/descendants:
     get:
       tags:
@@ -1602,6 +1672,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/regions:
     get:
       tags:
@@ -1621,6 +1692,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/region/{code}/precedents:
     get:
       tags:
@@ -1641,6 +1713,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/region/{code}/projetes:
     get:
       tags:
@@ -1662,6 +1735,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/region/{code}/suivants:
     get:
       tags:
@@ -1703,6 +1777,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/uniteUrbaine2020/{code}/descendants:
     get:
       tags:
@@ -1724,6 +1799,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/unitesUrbaines2020:
     get:
       tags:
@@ -1743,7 +1819,6 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-
 
   /geo/zoneDEmploi2020/{code}:
     get:
@@ -1765,6 +1840,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/zoneDEmploi2020/{code}/descendants:
     get:
       tags:
@@ -1786,6 +1862,7 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
+
   /geo/zonesDEmploi2020:
     get:
       tags:
@@ -1806,8 +1883,14 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+### COMPONENTS SPECIFICATION ###
+
 components:
+
+  ### PARAMETERS SPECIFICATION ###
+
   parameters:
+
     codeTerritoireInPath:
       name: 'code'
       in: path
@@ -1815,6 +1898,7 @@ components:
       required: true
       schema:
         type: string
+
     dateActive:
       in: query
       description: |-
@@ -1823,6 +1907,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateProjectionInPath:
       required: true
       in: query
@@ -1831,18 +1916,21 @@ components:
       name: dateProjection
       schema:
         $ref: '#/components/schemas/Date1950ParDefaut'
+
     typeTerritoire:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnum'
+
     filtreNomDescendant:
       name: 'filtreNom'
       in: query
       description: 'Filtre sur le nom des territoires renvoyés'
       schema:
         type: string
+
     codeDepInPath:
       name: 'code'
       in: path
@@ -1850,6 +1938,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeDep'
+
     dateDepartementActif:
       in: query
       description: |-
@@ -1858,6 +1947,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateDepartementsInPath:
       in: query
       description: |-
@@ -1866,6 +1956,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsDescendantsDepartement:
       in: query
       description: |-
@@ -1874,6 +1965,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsAscendantsDepartement:
       in: query
       description: |-
@@ -1882,12 +1974,14 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireDescendantDepartement:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsDepartement'
+
     typeTerritoireAscendantDepartement:
       name: 'type'
       in: query
@@ -1902,6 +1996,7 @@ components:
       description: 'Identifiant du concept (format : c[0-9]{4})'
       schema:
         $ref: '#/components/schemas/IdConcept'
+
     libelleConceptInQuery:
       required: false
       name: libelle
@@ -1910,6 +2005,7 @@ components:
       schema:
         type: 'string'
         example: 'élect'
+
     codeAireDAttractionDesVillesInPath:
       name: 'code'
       in: path
@@ -1917,6 +2013,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeAireDAttractionDesVilles'
+
     dateAireDAttractionDesVillesActive:
       in: query
       description: |-
@@ -1925,6 +2022,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateAiresDAttractionDesVillesActives:
       in: query
       description: |-
@@ -1933,6 +2031,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsDescendantsAireDAttractionDesVilles:
       in: query
       description: |-
@@ -1941,12 +2040,14 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireDescendantAireDAttractionDesVilles:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsAireDAttractionDesVilles'
+
     codeArrondissementInPath:
       name: 'code'
       in: path
@@ -1954,6 +2055,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeArrondissement'
+
     dateArrondissementActif:
       in: query
       description: |-
@@ -1962,6 +2064,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsDescendantsArrondissement:
       in: query
       description: |-
@@ -1970,12 +2073,14 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireDescendantArrondissement:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsArrondissement'
+
     dateArrondissementsActifs:
       in: query
       description: |-
@@ -1984,6 +2089,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateArrondissementDepart:
       in: query
       description: |-
@@ -1992,6 +2098,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsAscendantsArrondissement:
       in: query
       description: |-
@@ -2000,12 +2107,14 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireAscendantArrondissement:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsArrondissement'
+
     codeArrondissementSuivantInPath:
       name: 'code'
       in: path
@@ -2013,6 +2122,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeArrondissementSuivant'
+
     dateProjectionArrondissementInPath:
       required: true
       in: query
@@ -2021,6 +2131,7 @@ components:
       name: dateProjection
       schema:
         $ref: '#/components/schemas/Date1994ParDefaut'
+
     dateArrondissementSuivantInPath:
       name: 'date'
       in: query
@@ -2028,7 +2139,7 @@ components:
         Filtre pour préciser l'arrondissement de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       schema:
         $ref: '#/components/schemas/Date2016ParDefaut'
-    
+
     codeArrondissementMunicipalInPath:
       name: 'code'
       in: path
@@ -2036,6 +2147,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeArrondissementMunicipal'
+
     dateArrondissementMunicipalActif:
       in: query
       description: |-
@@ -2044,6 +2156,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateArrondissementsMunicipauxActifs:
       in: query
       description: |-
@@ -2052,6 +2165,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateArrondissementMunicipalDepart:
       in: query
       description: |-
@@ -2060,6 +2174,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsAscendantsArrondissementMunicipal:
       in: query
       description: |-
@@ -2068,12 +2183,14 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireAscendantArrondissementMunicipal:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsArrondissementMunicipal'
+
     dateProjectionArrondissementMunicipalInPath:
       required: true
       in: query
@@ -2082,6 +2199,7 @@ components:
       name: dateProjection
       schema:
         $ref: '#/components/schemas/Date2011ParDefaut'
+
     dateArrondissementMunicipalSuivantProjeteDepart:
       name: 'date'
       in: query
@@ -2089,7 +2207,7 @@ components:
         Filtre pour préciser le département de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       schema:
         $ref: '#/components/schemas/Date1960ParDefaut'
-    
+
     dateDepartementDepart:
       in: query
       description: |-
@@ -2098,6 +2216,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateDepartementSuivantInPath:
       name: 'date'
       in: query
@@ -2105,6 +2224,7 @@ components:
         Filtre pour préciser le département de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       schema:
         $ref: '#/components/schemas/Date1950ParDefaut'
+
     codeCommuneInPath:
       required: true
       name: code
@@ -2112,6 +2232,7 @@ components:
       description: 'Code de la commune (cinq caractères)'
       schema:
         $ref: '#/components/schemas/CodeCom'
+
     dateCommuneDepart:
       in: query
       description: |-
@@ -2120,6 +2241,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateCommuneSuivantInPath:
       name: 'date'
       in: query
@@ -2127,6 +2249,7 @@ components:
         Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       schema:
         $ref: '#/components/schemas/Date1945ParDefaut'
+
     dateProjectionCommuneInPath:
       required: true
       in: query
@@ -2135,6 +2258,7 @@ components:
       name: dateProjection
       schema:
         $ref: '#/components/schemas/Date1945ParDefaut'
+
     dateTerritoiresActifsDescendantsCommune:
       in: query
       description: |-
@@ -2143,6 +2267,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsAscendantsCommune:
       in: query
       description: |-
@@ -2151,6 +2276,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateCommunesActives:
       in: query
       description: |-
@@ -2159,18 +2285,21 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireDescendantCommune:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsCommune'
+
     typeTerritoireAscendantCommune:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsCommune'
+
     filtreNomCommune:
       name: 'filtreNom'
       in: query
@@ -2178,6 +2307,7 @@ components:
       schema:
         type: string
         example: 'Bonnay'
+
     com:
       name: 'com'
       in: 'query'
@@ -2194,6 +2324,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeCommuneAssociee'
+
     dateCommuneAssocieeActive:
       in: query
       description: |-
@@ -2202,6 +2333,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateCommunesAssocieesActives:
       in: query
       description: |-
@@ -2210,6 +2342,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsAscendantsCommuneAssociee:
       in: query
       description: |-
@@ -2218,6 +2351,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireAscendantCommuneAssociee:
       name: 'type'
       in: query
@@ -2232,6 +2366,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeCommuneDeleguee'
+
     dateCommuneDelegueeActive:
       in: query
       description: |-
@@ -2240,6 +2375,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateCommunesDelegueesActives:
       in: query
       description: |-
@@ -2248,6 +2384,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsAscendantsCommuneDeleguee:
       in: query
       description: |-
@@ -2256,6 +2393,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireAscendantCommuneDeleguee:
       name: 'type'
       in: query
@@ -2270,6 +2408,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeDistrict'
+
     dateDistrictActif:
       in: query
       description: |-
@@ -2278,6 +2417,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsAscendantsDistrict:
       in: query
       description: |-
@@ -2286,6 +2426,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireAscendantDistrict:
       name: 'type'
       in: query
@@ -2301,6 +2442,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     codeIntercommunaliteInPath:
       name: 'code'
       in: path
@@ -2308,6 +2450,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeInterco'
+
     dateTerritoiresActifsDescendantsIntercommunalite:
       in: query
       description: |-
@@ -2316,12 +2459,14 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireDescendantIntercommunalite:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsIntercommunalite'
+
     dateIntercommunalitesActives:
       in: query
       description: |-
@@ -2330,6 +2475,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     filtreNomIntercommunalite:
       in: query
       description: |-
@@ -2338,6 +2484,7 @@ components:
       schema:
         type: 'string'
         format: string
+
     dateIntercommunaliteDepart:
       in: query
       description: |-
@@ -2346,6 +2493,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateProjectionIntercommunaliteInPath:
       required: true
       in: query
@@ -2354,6 +2502,7 @@ components:
       name: dateProjection
       schema:
         $ref: '#/components/schemas/Date2013ParDefaut'
+
     dateIntercommunaliteSuivantDepart:
       in: query
       description: |-
@@ -2361,7 +2510,6 @@ components:
       name: date
       schema:
         $ref: '#/components/schemas/Date2016ParDefaut'
-
 
     dateIrisActive:
       in: query
@@ -2371,6 +2519,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     codeIrisInPath:
       name: 'code'
       in: path
@@ -2386,6 +2535,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodePays'
+
     datePaysActif:
       in: query
       description: |-
@@ -2394,6 +2544,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsDescendantsPays:
       in: query
       description: |-
@@ -2402,12 +2553,14 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireDescendantPays:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsPays'
+
     datePaysListActifs:
       in: query
       description: |-
@@ -2416,6 +2569,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     codePaysPrecInPath:
       name: 'code'
       in: path
@@ -2423,6 +2577,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodePaysPrec'
+
     datePaysDepart:
       in: query
       description: |-
@@ -2430,6 +2585,7 @@ components:
       name: date
       schema:
         $ref: '#/components/schemas/Date1965ParDefaut'
+
     codePaysSuivantInPath:
       name: 'code'
       in: path
@@ -2437,6 +2593,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodePaysSuivant'
+
     datePaysSuivantInPath:
       in: query
       description: |-
@@ -2444,8 +2601,7 @@ components:
       name: date
       schema:
         $ref: '#/components/schemas/Date1950ParDefaut'
-    
-    
+
     codeRegInPath:
       name: 'code'
       in: path
@@ -2453,6 +2609,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeReg'
+
     dateRegionActive:
       in: query
       description: |-
@@ -2461,6 +2618,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsDescendantsRegion:
       in: query
       description: |-
@@ -2469,12 +2627,14 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireDescendantRegion:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsRegion'
+
     dateRegionsActives:
       in: query
       description: |-
@@ -2483,6 +2643,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     codeRegPrecProjInPath:
       name: 'code'
       in: path
@@ -2490,6 +2651,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeRegPrecProj'
+
     dateRegionDepart:
       in: query
       description: |-
@@ -2498,6 +2660,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateProjectionRegionInPath:
       required: true
       in: query
@@ -2506,6 +2669,7 @@ components:
       name: dateProjection
       schema:
         $ref: '#/components/schemas/Date2000ParDefaut'
+
     codeRegSuivantInPath:
       name: 'code'
       in: path
@@ -2513,6 +2677,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeRegSuivant'
+
     dateRegionSuivantDepart:
       in: query
       description: |-
@@ -2528,6 +2693,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeUniteUrbaine'
+
     dateUniteUrbaineActive:
       in: query
       description: |-
@@ -2536,6 +2702,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsDescendantsUniteUrbaine:
       in: query
       description: |-
@@ -2544,12 +2711,14 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireDescendantUniteUrbaine:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsUniteUrbaine'
+
     dateUnitesUrbainesActives:
       in: query
       description: |-
@@ -2566,6 +2735,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeBassinDeVie'
+
     dateBassinDeVieActif:
       in: query
       description: |-
@@ -2574,6 +2744,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsDescendantsBassinDeVie:
       in: query
       description: |-
@@ -2582,6 +2753,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateBassinsDeVieActifs:
       in: query
       description: |-
@@ -2590,12 +2762,14 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireDescendantBassinDeVie:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsBassinDeVie'
+
     filtreNomBassinDeVie:
       in: query
       description: |-
@@ -2612,6 +2786,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeCanton'
+
     dateCantonActif:
       in: query
       description: |-
@@ -2620,6 +2795,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateCantonsActifs:
       in: query
       description: |-
@@ -2628,6 +2804,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     codeCantonPrecInPath:
       name: 'code'
       in: path
@@ -2635,6 +2812,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeCantonPrec'
+
     dateCantonDepart:
       in: query
       description: |-
@@ -2643,6 +2821,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateProjectionCantonInPath:
       required: true
       in: query
@@ -2651,6 +2830,7 @@ components:
       name: dateProjection
       schema:
         $ref: '#/components/schemas/Date2020ParDefaut'
+
     dateCantonSuivantDepart:
       in: query
       description: |-
@@ -2658,7 +2838,7 @@ components:
       name: date
       schema:
         $ref: '#/components/schemas/Date2020ParDefaut'
-    
+
     dateTerritoiresActifsAscendantsCanton:
       in: query
       description: |-
@@ -2667,6 +2847,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireAscendantCanton:
       name: 'type'
       in: query
@@ -2681,6 +2862,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeCantonOuVille'
+
     dateCantonOuVilleActif:
       in: query
       description: |-
@@ -2689,6 +2871,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsDescendantsCantonOuVille:
       in: query
       description: |-
@@ -2697,18 +2880,21 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireDescendantCantonOuVille:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsCantonOuVille'
+
     filtreNomDescendantSansExemple:
       name: 'filtreNom'
       in: query
       description: 'Filtre sur le nom des territoires renvoyés'
       schema:
         type: string
+
     dateCantonsEtVillesActifs:
       in: query
       description: |-
@@ -2717,6 +2903,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsAscendantsCantonOuVille:
       in: query
       description: |-
@@ -2725,12 +2912,14 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireAscendantCantonOuVille:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsCantonOuVille'
+
     codeCantonOuVillePrecInPath:
       name: 'code'
       in: path
@@ -2738,6 +2927,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeCantonOuVillePrec'
+
     dateCantonOuVilleDepart:
       in: query
       description: |-
@@ -2746,6 +2936,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateProjectionCantonOuVilleInPath:
       required: true
       in: query
@@ -2754,6 +2945,7 @@ components:
       name: dateProjection
       schema:
         $ref: '#/components/schemas/Date2016ParDefaut'
+
     codeCantonOuVilleSuivantInPath:
       name: 'code'
       in: path
@@ -2761,6 +2953,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeCantonOuVilleSuivants'
+
     dateCantonOuVilleSuivantInPath:
       in: query
       description: |-
@@ -2768,7 +2961,7 @@ components:
       name: date
       schema:
         $ref: '#/components/schemas/Date2016ParDefaut'
-    
+
     codeCirconscriptionTerritorialeInPath:
       name: 'code'
       in: path
@@ -2776,6 +2969,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeCirconscriptionTerritoriale'
+
     dateCirconscriptionTerritorialeActive:
       in: query
       description: |-
@@ -2784,6 +2978,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsAscendantsCirconscriptionTerritoriale:
       in: query
       description: |-
@@ -2792,6 +2987,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireAscendantCirconscriptionTerritoriale:
       name: 'type'
       in: query
@@ -2806,6 +3002,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeCollectiviteDOutreMer'
+
     dateCollectiviteDOutreMerActive:
       in: query
       description: |-
@@ -2814,6 +3011,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsDescendantsCollectiviteDOutreMer:
       in: query
       description: |-
@@ -2822,12 +3020,14 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireDescendantCollectiviteDOutreMer:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsCollectiviteDOutreMer'
+
     dateCollectivitesDOutreMerActives:
       in: query
       description: |-
@@ -2844,6 +3044,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeZoneDEmploi'
+
     dateZoneDEmploiActive:
       in: query
       description: |-
@@ -2852,6 +3053,7 @@ components:
       schema:
         type: 'string'
         format: date
+
     dateTerritoiresActifsDescendantsZoneDEmploi:
       in: query
       description: |-
@@ -2860,12 +3062,14 @@ components:
       schema:
         type: 'string'
         format: date
+
     typeTerritoireDescendantZoneDEmplooi:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsZoneDEmploi'
+
     dateZonesDEmploiActives:
       in: query
       description: |-
@@ -2875,7 +3079,10 @@ components:
         type: 'string'
         format: date
 
+  ### EXAMPLES SPECIFICATION ###
+
   examples:
+    # -- Géographie
 
     AireDAttractionDesVilles2020:
       value:
@@ -2886,6 +3093,7 @@ components:
         intituleSansArticle: 'Angoulême'
         typeArticle: '1'
         intitule: 'Angoulême'
+
     AireDAttractionDesVillesListeDescendants:
       value:
         - code: '16003'
@@ -2895,6 +3103,7 @@ components:
           intituleSansArticle: 'Agris'
           typeArticle: '0'
           intitule: 'Agris'
+
     ListeAiresDAttractionDesVilles2020:
       value:
         - code: '001'
@@ -2915,6 +3124,7 @@ components:
           typeArticle: '2'
           chefLieu: '67482'
           intitule: 'Bas-Rhin'
+
     Arrondissement:
       value:
         code: '674'
@@ -2925,6 +3135,7 @@ components:
         typeArticle: '0'
         chefLieu: '67437'
         intitule: 'Saverne'
+
     ArrondissementListeDescendants:
       value:
         - code: '67004'
@@ -2934,6 +3145,7 @@ components:
           intituleSansArticle: 'Allenwiller'
           typeArticle: '1'
           intitule: 'Allenwiller'
+
     ListeArrondissements:
       value:
         - code: '011'
@@ -2944,6 +3156,7 @@ components:
           typeArticle: '0'
           chefLieu: '01034'
           intitule: 'Belley'
+
     ArrondissementListePrecedents:
       value:
         - code: '672'
@@ -2955,6 +3168,7 @@ components:
           typeArticle: '0'
           chefLieu: '67180'
           intitule: 'Haguenau-Wissembourg'
+
     ArrondissementListeProjetes:
       value:
         - code: '672'
@@ -2966,6 +3180,7 @@ components:
           typeArticle: '0'
           chefLieu: '67180'
           intitule: 'Haguenau'
+
     ArrondissementListeSuivants:
       value:
         - code: '042'
@@ -2987,6 +3202,7 @@ components:
           typeArticle: '1'
           chefLieu: '69123'
           intitule: 'Auvergne-Rhône-Alpes'
+
     ArrondissementMunicipal:
       value:
         code: '69385'
@@ -2996,6 +3212,7 @@ components:
         intituleSansArticle: 'Lyon 5e Arrondissement'
         typeArticle: '0'
         intitule: 'Lyon 5e Arrondissement'
+
     ListeArrondissementsMunicipaux:
       value:
         - code: '13201'
@@ -3005,6 +3222,7 @@ components:
           intituleSansArticle: 'Marseille 1er Arrondissement'
           typeArticle: '0'
           intitule: 'Marseille 1er Arrondissement'
+
     ArrondissementMunicipalListePrecedents:
       value:
         - code: '69385'
@@ -3015,6 +3233,7 @@ components:
           intituleSansArticle: 'Lyon 5e Arrondissement'
           typeArticle: '0'
           intitule: 'Lyon 5e Arrondissement'
+
     ArrondissementMunicipalListeProjetes:
       value:
         - code: '69385'
@@ -3031,6 +3250,7 @@ components:
           intituleSansArticle: 'Lyon 9e Arrondissement'
           typeArticle: '0'
           intitule: 'Lyon 9e Arrondissement'
+
     ArrondissementMunicipalListeSuivants:
       value:
         - code: '69385'
@@ -3047,7 +3267,7 @@ components:
           intituleSansArticle: 'Lyon 9e Arrondissement'
           typeArticle: '0'
           intitule: 'Lyon 9e Arrondissement'
-    
+
     BassinDeVie2022:
       value:
         code: '01004'
@@ -3057,6 +3277,7 @@ components:
         intituleSansArticle: 'Ambérieu-en-Bugey'
         typeArticle: '1'
         intitule: 'Ambérieu-en-Bugey'
+
     BassinDeVieListeDescendants:
       value:
         - code: '01002'
@@ -3066,6 +3287,7 @@ components:
           intituleSansArticle: 'Abergement-de-Varey'
           typeArticle: '5'
           intitule: 'L''Abergement-de-Varey'
+
     ListeBassinsDeVie:
       value:
         - code: '01004'
@@ -3086,6 +3308,7 @@ components:
           typeArticle: '1'
           chefLieu: '69123'
           intitule: 'Auvergne-Rhône-Alpes'
+
     Canton:
       value:
         code: '0101'
@@ -3096,6 +3319,7 @@ components:
         intituleSansArticle: 'Ambérieu-en-Bugey'
         typeArticle: '1'
         intitule: 'Ambérieu-en-Bugey'
+
     ListeCantons:
       value:
         - code: '0101'
@@ -3106,6 +3330,7 @@ components:
           intituleSansArticle: 'Ambérieu-en-Bugey'
           typeArticle: '1'
           intitule: 'Ambérieu-en-Bugey'
+
     CantonListePrecedents:
       value:
         - code: '0103'
@@ -3116,6 +3341,7 @@ components:
           intituleSansArticle: 'Bellegarde-sur-Valserine'
           typeArticle: '0'
           intitule: 'Bellegarde-sur-Valserine'
+
     CantonListeProjetes:
       value:
         - code: '0103'
@@ -3126,6 +3352,7 @@ components:
           intituleSansArticle: 'Bellegarde-sur-Valserine'
           typeArticle: '0'
           intitule: 'Bellegarde-sur-Valserine'
+
     CantonListeSuivants:
       value:
         - code: '0103'
@@ -3146,6 +3373,7 @@ components:
           typeArticle: '1'
           chefLieu: '69123'
           intitule: 'Auvergne-Rhône-Alpes'
+
     CantonOuVille:
       value:
         code: '0101'
@@ -3155,6 +3383,7 @@ components:
         intituleSansArticle: 'Ambérieu-en-Bugey'
         typeArticle: '1'
         intitule: 'Ambérieu-en-Bugey'
+
     CantonOuVilleListeDescendants:
       value:
         - code: '0102'
@@ -3164,6 +3393,7 @@ components:
           intituleSansArticle: 'Abergement-de-Varey'
           typeArticle: '5'
           intitule: 'L''Abergement-de-Varey'
+
     ListeCantonsEtVilles:
       value:
         - code: '0101'
@@ -3173,6 +3403,7 @@ components:
           intituleSansArticle: 'Ambérieu-en-Bugey'
           typeArticle: '1'
           intitule: 'Ambérieu-en-Bugey'
+
     CantonOuVilleListePrecedents:
       value:
         - code: '0104'
@@ -3183,6 +3414,7 @@ components:
           intituleSansArticle: 'Belley'
           typeArticle: '0'
           intitule: 'Belley'
+
     CantonOuVilleListeProjetes:
       value:
         - code: '0104'
@@ -3209,6 +3441,7 @@ components:
           intituleSansArticle: 'Groslée-Saint-Benoit'
           typeArticle: '0'
           intitule: 'Groslée-Saint-Benoit'
+
     CantonOuVilleListeSuivants:
       value:
         - code: '0103'
@@ -3218,7 +3451,7 @@ components:
           intituleSansArticle: 'Valserhône'
           typeArticle: '0'
           intitule: 'Valserhône'
-    
+
     CirconscriptionTerritorialeListeAscendants:
       value:
         - code: '986'
@@ -3228,6 +3461,7 @@ components:
           intituleSansArticle: 'Wallis-et-Futuna'
           typeArticle: '0'
           intitule: 'Wallis-et-Futuna'
+
     CirconscriptionTerritoriale:
       value:
         code: '98611'
@@ -3247,6 +3481,7 @@ components:
         intituleSansArticle: 'Nouvelle-Calédonie'
         typeArticle: '0'
         intitule: 'Nouvelle-Calédonie'
+
     CollectiviteDOutreMerListeDescendants:
       value:
         - code: '98801'
@@ -3256,6 +3491,7 @@ components:
           intituleSansArticle: 'Belep'
           typeArticle: '0'
           intitule: 'Belep'
+
     ListeCollectivitesDOutreMer:
       value:
         - code: '975'
@@ -3265,7 +3501,6 @@ components:
           intituleSansArticle: 'Saint-Pierre-et-Miquelon'
           typeArticle: '0'
           intitule: 'Saint-Pierre-et-Miquelon'
-
 
     CommuneListeAscendants:
       value:
@@ -3328,6 +3563,7 @@ components:
           intituleSansArticle: 'Caen'
           typeArticle: '0'
           intitule: 'Caen'
+
     Commune:
       value:
         code: '14475'
@@ -3337,6 +3573,7 @@ components:
         intituleSansArticle: 'Val d''Arry'
         typeArticle: '0'
         intitule: 'Val d''Arry'
+
     CommuneListeDescendants:
       value:
         - code: '14373'
@@ -3367,6 +3604,7 @@ components:
           intituleSansArticle: 'Tournay-sur-Odon'
           typeArticle: '0'
           intitule: 'Tournay-sur-Odon'
+
     CommunesListe:
       value:
         - code: '25073'
@@ -3390,6 +3628,7 @@ components:
           intituleSansArticle: 'Bonnay'
           typeArticle: '0'
           intitule: 'Bonnay'
+
     CommuneListePrecedents:
       value:
         - code: '14373'
@@ -3416,6 +3655,7 @@ components:
           intituleSansArticle: 'Tournay-sur-Odon'
           typeArticle: '0'
           intitule: 'Tournay-sur-Odon'
+
     CommuneListeProjetes:
       value:
         - code: '14373'
@@ -3450,6 +3690,7 @@ components:
           intituleSansArticle: 'Tournay'
           typeArticle: '0'
           intitule: 'Tournay'
+
     CommuneListeSuivants:
       value:
         - code: '14475'
@@ -3471,6 +3712,7 @@ components:
           typeArticle: '4'
           chefLieu: '59350'
           intitule: 'Hauts-de-France'
+
     CommuneAssociee:
       value:
         code: '59355'
@@ -3480,6 +3722,7 @@ components:
         intituleSansArticle: 'Lomme'
         typeArticle: '0'
         intitule: 'Lomme'
+
     ListeCommunesAssociees:
       value:
         - code: '01120'
@@ -3500,6 +3743,7 @@ components:
           typeArticle: '1'
           chefLieu: '31555'
           intitule: 'Occitanie'
+
     CommuneDeleguee:
       value:
         - code: '46248'
@@ -3509,6 +3753,7 @@ components:
           intituleSansArticle: 'Sainte-Alauzie'
           typeArticle: '0'
           intitule: 'Sainte-Alauzie'
+
     ListeCommunesDeleguees:
       value:
         - code: '01015'
@@ -3518,6 +3763,7 @@ components:
           intituleSansArticle: 'Arbignieu'
           typeArticle: '0'
           intitule: 'Arbignieu'
+
     Concept:
       value:
         id: 'c2066'
@@ -3541,6 +3787,7 @@ components:
         conceptsSuivants:
           - id: 'c1500'
             uri: 'http://id.insee.fr/concepts/definition/c1500'
+
     ListeConcepts:
       value:
         - id: 'c1769'
@@ -3608,6 +3855,7 @@ components:
           typeArticle: '0'
           chefLieu: '35238'
           intitule: 'Bretagne'
+
     Departement:
       value:
         code: '22'
@@ -3618,6 +3866,7 @@ components:
         typeArticle: '4'
         chefLieu: '22278'
         intitule: 'Côtes-d''Armor'
+
     DepartementListeDescendants:
       value:
         - code: '221'
@@ -3636,6 +3885,7 @@ components:
           typeArticle: '0'
           chefLieu: '22070'
           intitule: 'Guingamp'
+
     DepartementsListe:
       value:
         - code: '01'
@@ -3654,6 +3904,7 @@ components:
           typeArticle: '5'
           chefLieu: '02408'
           intitule: 'Aisne'
+
     DepartementListePrecedents:
       value:
         - code: '22'
@@ -3665,6 +3916,7 @@ components:
           typeArticle: '4'
           chefLieu: '22278'
           intitule: 'Côtes-du-Nord'
+
     DepartementListeProjetes:
       value:
         - code: '22'
@@ -3676,6 +3928,7 @@ components:
           typeArticle: '4'
           chefLieu: '22278'
           intitule: 'Côtes-du-Nord'
+
     DepartementListeSuivants:
       value:
         - code: '22'
@@ -3696,6 +3949,7 @@ components:
           intituleSansArticle: 'Terres australes et antarctiques françaises'
           typeArticle: '4'
           intitule: 'Terres australes et antarctiques françaises'
+
     District:
       value:
         code: '98411'
@@ -3717,6 +3971,7 @@ components:
         intituleComplet: 'Communauté de communes de La Plaine de l''Ain'
         categorieJuridique: 'Communauté de communes'
         intitule: 'La Plaine de l''Ain'
+
     IntercommunaliteListeDescendants:
       value:
         - code: '01002'
@@ -3726,6 +3981,7 @@ components:
           intituleSansArticle: 'Abergement-de-Varey'
           typeArticle: '5'
           intitule: 'Abergement-de-Varey'
+
     ListeIntercommunalites:
       value:
         - code: '240100883'
@@ -3737,6 +3993,7 @@ components:
           intituleComplet: 'Communauté de communes de La Plaine de l''Ain'
           categorieJuridique: 'Communauté de communes'
           intitule: 'La Plaine de l''Ain'
+
     IntercommunaliteListePrecedents:
       value:
         - code: '240100883'
@@ -3749,6 +4006,7 @@ components:
           intituleComplet: 'Communauté de communes de La Plaine de l''Ain'
           categorieJuridique: 'Communauté de communes'
           intitule: 'La Plaine de l''Ain'
+
     IntercommunaliteListeProjetes:
       value:
         - code: '240100883'
@@ -3761,6 +4019,7 @@ components:
           intituleComplet: 'Communauté de communes de La Plaine de l''Ain'
           categorieJuridique: 'Communauté de communes'
           intitule: 'La Plaine de l''Ain'
+
     IntercommunaliteListeSuivants:
       value:
         - code: '240100883'
@@ -3795,6 +4054,7 @@ components:
         iso3166alpha2: "GB"
         iso3166alpha3: "GBR"
         iso3166num: "826"
+
     PaysListeDescendants:
       value:
         - code: '99133'
@@ -3803,6 +4063,7 @@ components:
           dateCreation: '1964-09-21'
           intitule: 'Territoires britanniques en Méditerranée'
           intituleComplet: "Gibraltar, Akrotiri et Dhekelia"
+
     PaysListe:
       value:
         - code: '99100'
@@ -3814,6 +4075,7 @@ components:
           iso3166alpha2: "FR"
           iso3166alpha3: "FRA"
           iso3166num: "250"
+
     PaysListePrecedents:
       value:
         - code: '99309'
@@ -3830,6 +4092,7 @@ components:
           dateSuppression: '1964-04-26'
           intitule: 'Zanzibar'
           intituleComplet: "République populaire de Zanzibar"
+
     PaysListeSuivants:
       value:
         - code: '99119'
@@ -3857,7 +4120,7 @@ components:
           iso3166alpha2: 'SI'
           iso3166alpha3: 'SVN'
           iso3166num: '705'
-    
+
     Region:
       value:
         code: '06'
@@ -3868,6 +4131,7 @@ components:
         typeArticle: '0'
         chefLieu: '97611'
         intitule: 'Mayotte'
+
     RegionListeDescendants:
       value:
         - code: '97601'
@@ -3877,6 +4141,7 @@ components:
           intituleSansArticle: 'Acoua'
           typeArticle: '1'
           intitule: 'Acoua'
+
     ListeRegions:
       value:
         - code: '01'
@@ -3887,6 +4152,7 @@ components:
           typeArticle: '3'
           chefLieu: '97105'
           intitule: 'Guadeloupe'
+
     RegionListePrecedents:
       value:
         - code: '32'
@@ -3898,6 +4164,7 @@ components:
           typeArticle: '4'
           chefLieu: '59350'
           intitule: 'Hauts-de-France'
+
     RegionListeProjetes:
       value:
         - code: '21'
@@ -3908,6 +4175,7 @@ components:
           intituleSansArticle: 'Champagne-Ardenne'
           typeArticle: '0'
           intitule: 'Champagne-Ardenne'
+
     RegionListeSuivants:
       value:
         - code: '44'
@@ -3919,8 +4187,7 @@ components:
           typeArticle: '1'
           chefLieu: '67482'
           intitule: 'Alsace-Champagne-Ardenne-Lorraine'
-    
-    
+
     UniteUrbaine2020:
       value:
         code: '01121'
@@ -3930,6 +4197,7 @@ components:
         intituleSansArticle: 'Jujurieux'
         typeArticle: '0'
         intitule: 'Jujurieux'
+
     UniteUrbaineListeDescendants:
       value:
         - code: '01199'
@@ -3939,6 +4207,7 @@ components:
           intituleSansArticle: 'Jujurieux'
           typeArticle: '0'
           intitule: 'Jujurieux'
+
     ListeUnitesUrbaines:
       value:
         - code: '00151'
@@ -3949,7 +4218,6 @@ components:
           typeArticle: '0'
           intitule: 'Lécluse'
 
-
     ZoneDEmploi2020:
       value:
         code: '2415'
@@ -3959,6 +4227,7 @@ components:
         intituleSansArticle: 'Vierzon'
         typeArticle: '0'
         intitule: 'Vierzon'
+
     ZoneDEmploiListeDescendants:
       value:
         - code: '18036'
@@ -3968,6 +4237,7 @@ components:
           intituleSansArticle: 'Brinay'
           typeArticle: '0'
           intitule: 'Brinay'
+
     ListeZonesDEmploi2020:
       value:
         - code: '0051'
@@ -3978,13 +4248,19 @@ components:
           typeArticle: '1'
           intitule: 'Vierzon'
 
+  ### RESPONSES SPECIFICATION ###
+
   responses:
+
     IncorrectRequest:
       description: 'La syntaxe de la requête est incorrecte'
+
     NotFound:
       description: 'Ressource non trouvée'
+
     NotAcceptable:
       description: 'L''en-tête HTTP ''Accept'' contient une valeur non acceptée'
+
     ServerError:
       description: 'Erreur interne du serveur'
 
@@ -4003,6 +4279,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Concept'
+
     ConceptsListe200:
       description: 'Opération réussie pour les concepts'
       content:
@@ -4034,6 +4311,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/AireDAttractionDesVilles2020'
+
     AireDAttractionDesVillesListeDescendants200:
       description: 'Opération réussie pour les descendants d''une aire d''attraction des villes'
       content:
@@ -4049,6 +4327,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/AireDAttractionDesVillesListeDescendants'
+
     AiresDAttractionDesVillesListe200:
       description: 'Opération réussie pour les aires d''attraction'
       content:
@@ -4080,6 +4359,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListeAscendants'
+
     Arrondissement200:
       description: 'Opération réussie pour l''arrondissement'
       content:
@@ -4095,6 +4375,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Arrondissement'
+
     ArrondissementListeDescendants200:
       description: 'Opération réussie pour les descendants d''un arrondissement'
       content:
@@ -4110,6 +4391,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListeDescendants'
+
     ArrondissementsListe200:
       description: 'Opération réussie pour la liste des arrondissements'
       content:
@@ -4125,6 +4407,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeArrondissements'
+
     ArrondissementListePrecedents200:
       description: 'Opération réussie pour les arrondissements précédents'
       content:
@@ -4140,6 +4423,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListePrecedents'
+
     ArrondissementListeProjetes200:
       description: 'Opération réussie pour les projetés d''un arrondissement'
       content:
@@ -4155,6 +4439,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListeProjetes'
+
     ArrondissementListeSuivants200:
       description: 'Opération réussie pour les successeurs d''un arrondissement'
       content:
@@ -4170,7 +4455,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListeSuivants'
-    
+
     ArrondissementMunicipalListeAscendants200:
       description: 'Opération réussie pour les ascendants d''un arrondissement municipal'
       content:
@@ -4186,6 +4471,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListeAscendants'
+
     ArrondissementMunicipal200:
       description: 'Opération réussie pour l''arrondissement municipal'
       content:
@@ -4201,6 +4487,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipal'
+
     ArrondissementsMunicipauxListe200:
       description: 'Opération réussie pour les arrondissements municipaux'
       content:
@@ -4216,6 +4503,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeArrondissementsMunicipaux'
+
     ArrondissementMunicipalListePrecedents200:
       description: 'Opération réussie pour les arrondissements municipaux précédents'
       content:
@@ -4231,6 +4519,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListePrecedents'
+
     ArrondissementMunicipalListeProjetes200:
       description: 'Opération réussie pour les projetés d''un arrondissement municipal'
       content:
@@ -4246,6 +4535,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListeProjetes'
+
     ArrondissementMunicipalListeSuivants200:
       description: 'Opération réussie pour les successeurs d''un arrondissement municipal'
       content:
@@ -4261,7 +4551,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListeSuivants'
-    
+
     BassinDeVie200:
       description: 'Opération réussie pour le bassin de vie'
       content:
@@ -4277,6 +4567,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/BassinDeVie2022'
+
     BassinDeVieListeDescendants200:
       description: 'Opération réussie pour les descendants d''un bassin de vie'
       content:
@@ -4292,6 +4583,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/BassinDeVieListeDescendants'
+
     BassinsDeVieListe200:
       description: 'Opération réussie pour les bassins de vie'
       content:
@@ -4323,6 +4615,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonListeAscendants'
+
     Canton200:
       description: 'Opération réussie pour le canton'
       content:
@@ -4338,6 +4631,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Canton'
+
     CantonsListe200:
       description: 'Opération réussie pour les cantons'
       content:
@@ -4353,6 +4647,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeCantons'
+
     CantonListePrecedents200:
       description: 'Opération réussie pour les cantons précédents'
       content:
@@ -4368,6 +4663,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonListePrecedents'
+
     CantonListeProjetes200:
       description: 'Opération réussie pour les projetés d''un canton'
       content:
@@ -4383,6 +4679,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonListeProjetes'
+
     CantonListeSuivants200:
       description: 'Opération réussie pour les successeurs d''un canton'
       content:
@@ -4398,7 +4695,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonListeSuivants'
-    
+
     CantonOuVilleListeAscendants200:
       description: 'Opération réussie pour les ascendants d''un canton-ou-ville'
       content:
@@ -4414,6 +4711,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListeAscendants'
+
     CantonOuVille200:
       description: 'Opération réussie pour le canton-ou-ville'
       content:
@@ -4429,6 +4727,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVille'
+
     CantonOuVilleListeDescendants200:
       description: 'Opération réussie pour les descendants d''un canton-ou-ville'
       content:
@@ -4444,6 +4743,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListeDescendants'
+
     CantonsEtVilles200:
       description: 'Opération réussie pour les cantons et villes'
       content:
@@ -4459,6 +4759,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeCantonsEtVilles'
+
     CantonOuVilleListePrecedents200:
       description: 'Opération réussie pour les cantons-ou-villes précédents'
       content:
@@ -4474,6 +4775,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListePrecedents'
+
     CantonOuVilleListeProjetes200:
       description: 'Opération réussie pour les projetés d''un canton-ou-ville'
       content:
@@ -4489,6 +4791,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListeProjetes'
+
     CantonOuVilleListeSuivants200:
       description: 'Opération réussie pour les successeurs d''un canton-ou-ville'
       content:
@@ -4504,7 +4807,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListeSuivants'
-    
+
     CirconscriptionTerritorialeListeAscendants200:
       description: 'Opération réussie pour les ascendants d''une circonscription territoriale'
       content:
@@ -4552,6 +4855,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CollectiviteDOutreMer'
+
     CollectiviteDOutreMerListeDescendants200:
       description: 'Opération réussie pour les descendants d''une collectivité d''outre-mer'
       content:
@@ -4567,6 +4871,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CollectiviteDOutreMerListeDescendants'
+
     CollectivitesDOutreMerListe200:
       description: 'Opération réussie pour les collectivités d''outre-mer'
       content:
@@ -4598,6 +4903,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CommunesListe'
+
     Commune200:
       description: 'Opération réussie'
       content:
@@ -4613,6 +4919,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Commune'
+
     CommuneListePrecedents200:
       description: 'Opération réussie pour les communes précédentes'
       content:
@@ -4628,6 +4935,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListePrecedents'
+
     CommuneListeProjetes200:
       description: 'Opération réussie pour les projetés d''une commune'
       content:
@@ -4643,6 +4951,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeProjetes'
+
     CommuneListeSuivants200:
       description: 'Opération réussie pour les successeurs d''une commune'
       content:
@@ -4658,6 +4967,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeSuivants'
+
     CommuneListeDescendants200:
       description: 'Opération réussie pour les descendants d''une commune'
       content:
@@ -4705,6 +5015,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CommuneAssocieeListeAscendants'
+
     CommuneAssociee200:
       description: 'Opération réussie pour la commune associée'
       content:
@@ -4720,6 +5031,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CommuneAssociee'
+
     CommunesAssocieesListe200:
       description: 'Opération réussie pour les communes associées'
       content:
@@ -4751,6 +5063,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CommuneDelegueeListeAscendants'
+
     CommuneDeleguee200:
       description: 'Opération réussie pour la commune déléguée'
       content:
@@ -4766,6 +5079,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CommuneDeleguee'
+
     CommunesDelegueesListe200:
       description: 'Opération réussie pour les communes déléguées'
       content:
@@ -4797,6 +5111,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListeSuivants'
+
     DepartementListeProjetes200:
       description: 'Opération réussie pour les projetés d''un département'
       content:
@@ -4812,6 +5127,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListeProjetes'
+
     DepartementListePrecedents200:
       description: 'Opération réussie pour les départements précédents'
       content:
@@ -4827,6 +5143,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListePrecedents'
+
     DepartementListeDescendants200:
       description: 'Opération réussie pour les descendants d''un département'
       content:
@@ -4842,6 +5159,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListeDescendants'
+
     DepartementListeAscendants200:
       description: 'Opération réussie pour les ascendants d''un département'
       content:
@@ -4857,6 +5175,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListeAscendants'
+
     DepartementsListe200:
       description: 'Opération réussie pour la liste des départements'
       content:
@@ -4872,6 +5191,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/DepartementsListe'
+
     Departement200:
       description: 'Opération réussie pour le département'
       content:
@@ -4903,6 +5223,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/DistrictListeAscendants'
+
     District200:
       description: 'Opération réussie pour le district'
       content:
@@ -4934,6 +5255,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Intercommunalite'
+
     IntercommunaliteListeDescendants200:
       description: 'Opération réussie pour les descendants d''une intercommunalite'
       content:
@@ -4949,6 +5271,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/IntercommunaliteListeDescendants'
+
     IntercommunalitesListe200:
       description: 'Opération réussie pour les intercommunalités'
       content:
@@ -4964,6 +5287,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeIntercommunalites'
+
     IntercommunaliteListePrecedents200:
       description: 'Opération réussie pour les intercommunalités précédentes'
       content:
@@ -4979,6 +5303,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/IntercommunaliteListePrecedents'
+
     IntercommunaliteListeProjetes200:
       description: 'Opération réussie pour les projetés d''une intercommunalité'
       content:
@@ -4994,6 +5319,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/IntercommunaliteListeProjetes'
+
     IntercommunaliteListeSuivants200:
       description: 'Opération réussie pour les successeurs d''une intercommunalité'
       content:
@@ -5009,7 +5335,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/IntercommunaliteListeSuivants'
-    
+
     Iris200:
       description: 'Opération réussie pour l''Iris'
       content:
@@ -5041,6 +5367,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Pays'
+
     PaysListeDescendants200:
       description: 'Opération réussie pour les descendants d''un pays'
       content:
@@ -5072,6 +5399,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/PaysListe'
+
     PaysListePrecedents200:
       description: 'Opération réussie pour les pays précédents'
       content:
@@ -5087,6 +5415,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/PaysListePrecedents'
+
     PaysListeSuivants200:
       description: 'Opération réussie pour les successeurs d''un pays'
       content:
@@ -5102,7 +5431,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/PaysListeSuivants'
-    
+
     Region200:
       description: 'Opération réussie pour la région'
       content:
@@ -5118,6 +5447,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Region'
+
     RegionListeDescendants200:
       description: 'Opération réussie pour les descendants d''une région'
       content:
@@ -5133,6 +5463,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/RegionListeDescendants'
+
     RegionsListe200:
       description: 'Opération réussie pour les régions'
       content:
@@ -5148,6 +5479,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeRegions'
+
     RegionListePrecedents200:
       description: 'Opération réussie pour les régions précédentes'
       content:
@@ -5163,6 +5495,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/RegionListePrecedents'
+
     RegionListeProjetes200:
       description: 'Opération réussie pour les projetés d''une région'
       content:
@@ -5178,6 +5511,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/RegionListeProjetes'
+
     RegionListeSuivants200:
       description: 'Opération réussie pour les successeurs d''une région'
       content:
@@ -5193,7 +5527,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/RegionListeSuivants'
-    
+
     UniteUrbaine200:
       description: 'Opération réussie pour l''unité urbaine'
       content:
@@ -5209,6 +5543,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/UniteUrbaine2020'
+
     UniteUrbaineListeDescendants200:
       description: 'Opération réussie pour les descendants d''une unité urbaine'
       content:
@@ -5224,6 +5559,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/UniteUrbaineListeDescendants'
+
     UnitesUrbainesListe200:
       description: 'Opération réussie pour les unités urbaines'
       content:
@@ -5240,7 +5576,6 @@ components:
             défaut:
               $ref: '#/components/examples/ListeUnitesUrbaines'
 
-
     ZoneDEmploi200:
       description: 'Opération réussie pour la zone d''emploi'
       content:
@@ -5256,6 +5591,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ZoneDEmploi2020'
+
     ZoneDEmploiListeDescendants200:
       description: 'Opération réussie pour les descendants d''une zone d''emploi'
       content:
@@ -5271,6 +5607,7 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ZoneDEmploiListeDescendants'
+
     ZonesDEmploiListe200:
       description: 'Opération réussie pour les zones d''emploi'
       content:
@@ -5287,8 +5624,10 @@ components:
             défaut:
               $ref: '#/components/examples/ListeZonesDEmploi2020'
 
+  ### SCHEMAS SPECIFICATION ###
 
   schemas:
+
     TypeEnumDescendantsAireDAttractionDesVilles:
       type: string
       xml:
@@ -5300,6 +5639,7 @@ components:
         - Iris
         - ArrondissementMunicipal
       example: 'Commune'
+
     TypeEnumDescendantsArrondissement:
       type: string
       xml:
@@ -5311,6 +5651,7 @@ components:
         - Iris
         - ArrondissementMunicipal
       example: 'CommuneDeleguee'
+
     TypeEnumAscendantsArrondissement:
       type: string
       xml:
@@ -5319,6 +5660,7 @@ components:
         - Region
         - Departement
       example: 'Region'
+
     TypeEnumAscendantsArrondissementMunicipal:
       type: string
       xml:
@@ -5336,6 +5678,7 @@ components:
         - UniteUrbaine2020
         - ZoneDEmploi2020
       example: 'Region'
+
     TypeEnumAscendantsCanton:
       type: string
       xml:
@@ -5344,6 +5687,7 @@ components:
         - Region
         - Departement
       example: 'Region'
+
     TypeEnumAscendantsCantonOuVille:
       type: string
       xml:
@@ -5352,6 +5696,7 @@ components:
         - Region
         - Departement
       example: 'Region'
+
     TypeEnumAscendantsCirconscriptionTerritoriale:
       type: string
       xml:
@@ -5359,6 +5704,7 @@ components:
       enum:
         - CollectiviteDOutreMer
       example: 'CollectiviteDOutreMer'
+
     Commune:
       xml:
         name: Commune
@@ -5378,6 +5724,7 @@ components:
         - Arrondissement
         - Commune
       example: 'Region'
+
     TypeEnumAscendantsCommuneDeleguee:
       type: string
       xml:
@@ -5388,6 +5735,7 @@ components:
         - Arrondissement
         - Commune
       example: 'Region'
+
     Departement:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
@@ -5396,6 +5744,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeDep'
+
     TerritoireBase:
       required:
         - code
@@ -5474,6 +5823,7 @@ components:
           type: string
           xml:
             name: Intitule
+
     TerritoireBase_ChefLieu:
       xml:
         wrapped: true
@@ -5489,6 +5839,7 @@ components:
               description: 'Chef-lieu du territoire'
               xml:
                 name: ChefLieu
+
     Territoire_TousAttributs:
       xml:
         wrapped: true
@@ -5537,6 +5888,7 @@ components:
         name: DescendantsDepartement
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     DepartementListeAscendants:
       description: 'Liste des ascendants d''un département'
       type: array
@@ -5545,6 +5897,7 @@ components:
         name: AscendantsDepartement
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     DepartementListeProjetesAvecChefLieu:
       description: 'Liste des départements projetés'
       type: array
@@ -5553,6 +5906,7 @@ components:
         name: ListeDepartementsProjetes
       items:
         $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+
     DepartementListePrecedentsAvecChefLieu:
       description: 'Liste des départements précédents'
       type: array
@@ -5561,6 +5915,7 @@ components:
         name: ListeDepartementsPrecedents
       items:
         $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+
     DepartementListeSuivantsAvecChefLieu:
       description: 'Liste des départements qui succèdent au département'
       type: array
@@ -5586,6 +5941,7 @@ components:
         name: ListeTerritoiresChefLieu
       items:
         $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+
     TerritoireRef:
       xml:
         name: TerritoireRef
@@ -5600,12 +5956,14 @@ components:
           description: 'Code identifiant un teritoire quelqconque'
         territoireType:
           $ref: '#/components/schemas/TypeEnum'
+
     CodeCom:
       pattern: '[0-9][0-9AB][0-9]{3}'
       type: 'string'
       xml:
         attribute: true
       example: '14475'
+
     CodeDep:
       description: 'Code d''un département'
       pattern: '([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])'
@@ -5613,6 +5971,7 @@ components:
       xml:
         attribute: true
       example: '22'
+
     CommunesListe:
       description: 'Liste de communes'
       type: array
@@ -5621,6 +5980,7 @@ components:
         name: Communes
       items:
         $ref: '#/components/schemas/TerritoireBase'
+
     CommuneListeDescendants:
       description: 'Liste des descendants d''une commune'
       type: array
@@ -5629,6 +5989,7 @@ components:
         name: DescendantsCommune
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     CommuneListeAscendants:
       description: 'Liste des ascendants d''une commune'
       type: array
@@ -5637,6 +5998,7 @@ components:
         name: AscendantsCommune
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     CommuneListePrecedents:
       description: 'Liste des communes précédentes'
       type: array
@@ -5645,6 +6007,7 @@ components:
         name: ListeCommunesPrecedentes
       items:
         $ref: '#/components/schemas/TerritoireBase'
+
     CommuneListeProjetes:
       description: 'Liste des communes projetées'
       type: array
@@ -5653,6 +6016,7 @@ components:
         name: ListeCommunesProjetees
       items:
         $ref: '#/components/schemas/TerritoireBase'
+
     CommuneListeSuivants:
       description: 'Liste des communes qui succèdent à la commune'
       type: array
@@ -5661,60 +6025,70 @@ components:
         name: ListeCommunesSuivants
       items:
         $ref: '#/components/schemas/TerritoireBase'
+
     Date2000ParDefaut:
       description: 'date proposée par défaut'
       type: date
       xml:
         attribute: true
       example: '2000-01-01'
+
     Date2011ParDefaut:
       description: 'date proposée par défaut'
       type: date
       xml:
         attribute: true
       example: '2011-12-31'
+
     Date2013ParDefaut:
       description: 'date proposée par défaut'
       type: date
       xml:
         attribute: true
       example: '2013-01-01'
+
     Date2020ParDefaut:
       description: 'date proposée par défaut'
       type: date
       xml:
         attribute: true
       example: '2020-01-01'
+
     Date1994ParDefaut:
       description: 'date proposée par défaut'
       type: date
       xml:
         attribute: true
       example: '1994-07-30'
+
     Date1960ParDefaut:
       description: 'date proposée par défaut'
       type: date
       xml:
         attribute: true
       example: '1960-01-01'
+
     Date1950ParDefaut:
       description: 'date proposée par défaut'
       type: date
       xml:
         attribute: true
       example: '1950-01-01'
+
     Date1945ParDefaut:
       description: 'date proposée par défaut'
       type: date
       xml:
         attribute: true
       example: '1945-06-26'
+
     Date1965ParDefaut:
       description: 'date proposée par défaut'
       type: date
       xml:
         attribute: true
       example: '1965-01-01'
+
     Date2016ParDefaut:
       description: 'date proposée par défaut'
       type: date
@@ -5748,6 +6122,7 @@ components:
         - UniteUrbaine2020
         - Territoire
       example: 'Canton'
+
     TypeEnumDescendantsCollectiviteDOutreMer:
       type: string
       xml:
@@ -5757,6 +6132,7 @@ components:
         - CirconscriptionTerritoriale
         - Iris
         - District
+
     TypeEnumDescendantsDepartement:
       type: string
       xml:
@@ -5769,6 +6145,7 @@ components:
         - Arrondissement
         - ArrondissementMunicipal
       example: 'Arrondissement'
+
     TypeEnumAscendantsDepartement:
       type: string
       xml:
@@ -5776,6 +6153,7 @@ components:
       enum:
         - Region
       example: 'Region'
+
     TypeEnumDescendantsCommune:
       type: string
       xml:
@@ -5786,6 +6164,7 @@ components:
         - Iris
         - ArrondissementMunicipal
       example: 'Arrondissement'
+
     TypeEnumAscendantsCommune:
       type: string
       xml:
@@ -5809,6 +6188,7 @@ components:
       xml:
         attribute: true
       example: 'c2066'
+
     Concept:
       type: object
       xml:
@@ -5841,6 +6221,7 @@ components:
       required:
         - id
         - uri
+
     ConceptSuivant:
       type: object
       xml:
@@ -5856,6 +6237,7 @@ components:
       required:
         - id
         - uri
+
     LangueContenu:
       type: object
       properties:
@@ -5863,6 +6245,7 @@ components:
           type: string
         langue:
           type: string
+
     ConceptRef:
       type: object
       properties:
@@ -5870,6 +6253,7 @@ components:
           type: string
         uri:
           type: string
+
     ListeConcepts:
       description: 'Liste des concepts'
       type: array
@@ -5887,6 +6271,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeAireDAttractionDesVilles'
+
     CodeAireDAttractionDesVilles:
       description: 'Code d''une aire d''attraction'
       pattern: '[a-zA-Z0-9]{3}'
@@ -5894,6 +6279,7 @@ components:
       xml:
         attribute: true
       example: '062'
+
     AireDAttractionDesVillesListeDescendants:
       description: 'Liste des descendants d''une aire d''attraction des villes'
       type: array
@@ -5902,6 +6288,7 @@ components:
         name: DescendantsAireDAttractionDesVilles
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     ListeAiresDAttractionDesVilles2020:
       description: 'Liste des aires d''attraction des villes'
       type: array
@@ -5928,6 +6315,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeArrondissement'
+
     CodeArrondissement:
       description: 'Code d''un arrondissement'
       pattern: '[a-zA-Z0-9]{3,4}'
@@ -5935,6 +6323,7 @@ components:
       xml:
         attribute: true
       example: '674'
+
     ArrondissementListeDescendants:
       description: 'Liste des descendants d''un arrondissement'
       type: array
@@ -5943,6 +6332,7 @@ components:
         name: DescendantsArrondissement
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     ListeArrondissements:
       description: 'Liste des arrondissements'
       type: array
@@ -5951,6 +6341,7 @@ components:
         name: ListeArrondissements
       items:
         $ref: '#/components/schemas/Arrondissement'
+
     ArrondissementListePrecedents:
       description: 'Liste des arrondissements précédents'
       type: array
@@ -5959,6 +6350,7 @@ components:
         name: ListeArrondissementsPrecedents
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     CodeArrondissementSuivant:
       description: 'Code d''un arrondissement'
       pattern: '[a-zA-Z0-9]{3,4}'
@@ -5966,6 +6358,7 @@ components:
       xml:
         attribute: true
       example: '042'
+
     ArrondissementListeProjetes:
       description: 'Liste des arrondissements projetés'
       type: array
@@ -5974,6 +6367,7 @@ components:
         name: ListeArrondissementsProjetes
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     ArrondissementListeSuivants:
       description: 'Liste des arrondissements qui succèdent à l''arrondissement'
       type: array
@@ -5982,7 +6376,7 @@ components:
         name: ListeArrondissementsSuivants
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
-    
+
     ArrondissementMunicipalListeAscendants:
       description: 'Liste des ascendants d''un arrondissement municipal'
       type: array
@@ -5991,6 +6385,7 @@ components:
         name: AscendantsArrondissementMunicipal
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     ArrondissementMunicipal:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
@@ -5999,6 +6394,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeArrondissementMunicipal'
+
     CodeArrondissementMunicipal:
       description: 'Code d''un arrondissement municipal'
       pattern: '[a-zA-Z0-9]{5}'
@@ -6006,6 +6402,7 @@ components:
       xml:
         attribute: true
       example: '69385'
+
     ListeArrondissementsMunicipaux:
       description: 'Liste des arrondissements municipaux'
       type: array
@@ -6014,6 +6411,7 @@ components:
         name: ListeArrondissementsMunicipaux
       items:
         $ref: '#/components/schemas/ArrondissementMunicipal'
+
     ArrondissementMunicipalListePrecedents:
       description: 'Liste des arrondissements municipaux précédents'
       type: array
@@ -6022,6 +6420,7 @@ components:
         name: ListeArrondissementsMunicipauxPrecedents
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     ArrondissementMunicipalListeProjetes:
       description: 'Liste des arrondissements municipaux projetés'
       type: array
@@ -6030,6 +6429,7 @@ components:
         name: ListeArrondissementsMunicipauxProjetes
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     ArrondissementMunicipalListeSuivants:
       description: 'Liste des arrondissements municipaux qui succèdent à l''arrondissement municipal'
       type: array
@@ -6038,7 +6438,7 @@ components:
         name: ListeArrondissementsMunicipauxSuivants
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
-    
+
     CommuneAssocieeListeAscendants:
       description: 'Liste des ascendants d''une commune associée'
       type: array
@@ -6047,6 +6447,7 @@ components:
         name: AscendantsCommuneAssociee
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     CommuneAssociee:
       allOf:
         - $ref: '#/components/schemas/Territoire_TousAttributs'
@@ -6055,6 +6456,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeCommuneAssociee'
+
     ListeCommunesAssociees:
       description: 'Liste des communes associées'
       type: array
@@ -6072,6 +6474,7 @@ components:
         name: AscendantsCommuneDeleguee
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     CommuneDeleguee:
       allOf:
         - $ref: '#/components/schemas/Territoire_TousAttributs'
@@ -6080,6 +6483,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeCommuneDeleguee'
+
     ListeCommunesDeleguees:
       description: 'Liste des communes déléguées'
       type: array
@@ -6113,6 +6517,7 @@ components:
         name: AscendantsDistrict
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     District:
       allOf:
         - $ref: '#/components/schemas/Territoire_TousAttributs'
@@ -6121,6 +6526,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeDistrict'
+
     CodeDistrict:
       description: 'Code du district'
       pattern: '([0-9]{5})'
@@ -6137,6 +6543,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeInterco'
+
     CodeInterco:
       description: 'Code d''une intercommunalité'
       pattern: '([0-9]{9})'
@@ -6144,6 +6551,7 @@ components:
       xml:
         attribute: true
       example: '240100883'
+
     TypeEnumDescendantsIntercommunalite:
       type: string
       xml:
@@ -6155,6 +6563,7 @@ components:
         - Iris
         - ArrondissementMunicipal
       example: 'Arrondissement'
+
     IntercommunaliteListeDescendants:
       description: 'Liste des descendants d''une intercommunalité'
       type: array
@@ -6163,6 +6572,7 @@ components:
         name: DescendantsIntercommunalite
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     ListeIntercommunalites:
       description: 'Liste des intercommunalités'
       type: array
@@ -6171,6 +6581,7 @@ components:
         name: ListeIntercommunalites
       items:
         $ref: '#/components/schemas/Intercommunalite'
+
     IntercommunaliteListePrecedents:
       description: 'Liste des intercommunalités précédentes'
       type: array
@@ -6179,6 +6590,7 @@ components:
         name: ListeIntercommunalitesPrecedents
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     IntercommunaliteListeProjetes:
       description: 'Liste des intercommunalités projetées'
       type: array
@@ -6187,6 +6599,7 @@ components:
         name: ListeIntercommunalitesProjetees
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     IntercommunaliteListeSuivants:
       description: 'Liste des intercommunalités qui succèdent à l''intercommunalité'
       type: array
@@ -6195,7 +6608,7 @@ components:
         name: ListeIntercommunalitesSuivants
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
-    
+
     CodeIris:
       description: 'Code d''une Iris'
       pattern: '([0-9]{9})'
@@ -6242,6 +6655,7 @@ components:
                 name: Iso3166num
             code:
               $ref: '#/components/schemas/CodePays'
+
     CodePays:
       description: 'Code d''un pays'
       pattern: '^99[0-9]{3}$'
@@ -6249,6 +6663,7 @@ components:
       xml:
         attribute: true
       example: '99132'
+
     PaysListeDescendants:
       description: 'Liste des descendants d''un pays'
       type: array
@@ -6257,6 +6672,7 @@ components:
         name: DescendantsPays
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     PaysListe:
       description: 'Liste des pays'
       type: array
@@ -6265,6 +6681,7 @@ components:
         name: ListePays
       items:
         $ref: '#/components/schemas/Pays'
+
     CodePaysPrec:
       description: 'Code d''un pays'
       pattern: '^99[0-9]{3}$'
@@ -6272,6 +6689,7 @@ components:
       xml:
         attribute: true
       example: '99309'
+
     PaysListePrecedents:
       description: 'Liste des pays précédents'
       type: array
@@ -6280,6 +6698,7 @@ components:
         name: ListePaysPrecedents
       items:
         $ref: '#/components/schemas/Pays'
+
     CodePaysSuivant:
       description: 'Code d''un pays'
       pattern: '^99[0-9]{3}$'
@@ -6287,6 +6706,7 @@ components:
       xml:
         attribute: true
       example: '99121'
+
     PaysListeSuivants:
       description: 'Liste des pays qui succèdent au pays'
       type: array
@@ -6295,7 +6715,7 @@ components:
         name: ListePaysSuivants
       items:
         $ref: '#/components/schemas/Pays'
-    
+
     Region:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
@@ -6304,6 +6724,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeReg'
+
     CodeReg:
       description: 'Code d''une région'
       pattern: '^(01|02|03|04|06|11|24|27|28|32|44|52|53|75|76|84|93|94)$'
@@ -6311,6 +6732,7 @@ components:
       xml:
         attribute: true
       example: '06'
+
     RegionListeDescendants:
       description: 'Liste des descendants d''une région'
       type: array
@@ -6319,6 +6741,7 @@ components:
         name: DescendantsRegion
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     ListeRegions:
       description: 'Liste des régions'
       type: array
@@ -6327,6 +6750,7 @@ components:
         name: ListeRegions
       items:
         $ref: '#/components/schemas/Region'
+
     CodeRegPrecProj:
       description: 'Code d''une région'
       pattern: '^(01|02|03|04|06|11|24|27|28|32|44|52|53|75|76|84|93|94)$'
@@ -6334,6 +6758,7 @@ components:
       xml:
         attribute: true
       example: '44'
+
     RegionListePrecedents:
       description: 'Liste des régions précédentes'
       type: array
@@ -6342,6 +6767,7 @@ components:
         name: ListeRegionsPrecedentes
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     CodeRegSuivant:
       description: 'Code d''une région'
       pattern: '^[0-9]{2}$'
@@ -6349,6 +6775,7 @@ components:
       xml:
         attribute: true
       example: '41'
+
     RegionListeProjetes:
       description: 'Liste des régions projetées'
       type: array
@@ -6357,6 +6784,7 @@ components:
         name: ListeRegionsProjetees
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     RegionListeSuivants:
       description: 'Liste des régions qui succèdent à la région'
       type: array
@@ -6374,6 +6802,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeUniteUrbaine'
+
     CodeUniteUrbaine:
       description: 'Code d''une unité urbaine'
       pattern: '^([0-9][0-9A-Z][0-9]{3})$'
@@ -6381,6 +6810,7 @@ components:
       xml:
         attribute: true
       example: '01121'
+
     UniteUrbaineListeDescendants:
       description: 'Liste des descendants d''une unité urbaine'
       type: array
@@ -6389,6 +6819,7 @@ components:
         name: DescendantsUniteUrbaine
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     TypeEnumDescendantsUniteUrbaine:
       type: string
       xml:
@@ -6401,6 +6832,7 @@ components:
         - Arrondissement
         - ArrondissementMunicipal
       example: 'Commune'
+
     ListeUnitesUrbaines:
       description: 'Liste des unités urbaines'
       type: array
@@ -6418,6 +6850,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeBassinDeVie'
+
     CodeBassinDeVie:
       description: 'Code d''un bassin de vie'
       pattern: '[a-zA-Z0-9]{5}'
@@ -6425,6 +6858,7 @@ components:
       xml:
         attribute: true
       example: '01004'
+
     TypeEnumDescendantsBassinDeVie:
       type: string
       xml:
@@ -6436,6 +6870,7 @@ components:
         - Iris
         - ArrondissementMunicipal
       example: 'Commune'
+
     BassinDeVieListeDescendants:
       description: 'Liste des descendants d''un bassin de vie'
       type: array
@@ -6444,6 +6879,7 @@ components:
         name: DescendantsBassinDeVie
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     ListeBassinsDeVie:
       description: 'Liste des bassins de vie'
       type: array
@@ -6461,6 +6897,7 @@ components:
         name: AscendantsCanton
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     Canton:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
@@ -6469,6 +6906,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeCanton'
+
     CodeCanton:
       description: 'Code d''un canton'
       pattern: '[0-9]{4}|[0-9]{5}|2[ABab][0-9]{2}'
@@ -6476,6 +6914,7 @@ components:
       xml:
         attribute: true
       example: '0101'
+
     ListeCantons:
       description: 'Liste des cantons'
       type: array
@@ -6484,6 +6923,7 @@ components:
         name: ListeCantons
       items:
         $ref: '#/components/schemas/Canton'
+
     CodeCantonPrec:
       description: 'Code d''un canton'
       pattern: '[0-9]{4}|[0-9]{5}|2[ABab][0-9]{2}'
@@ -6491,6 +6931,7 @@ components:
       xml:
         attribute: true
       example: '0103'
+
     CantonListePrecedents:
       description: 'Liste des cantons précédents'
       type: array
@@ -6499,6 +6940,7 @@ components:
         name: ListeCantonsPrecedents
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     CantonListeProjetes:
       description: 'Liste des cantons projetés'
       type: array
@@ -6507,6 +6949,7 @@ components:
         name: ListeCantonsProjetes
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     CantonListeSuivants:
       description: 'Liste des cantons qui succèdent au canton'
       type: array
@@ -6515,7 +6958,7 @@ components:
         name: ListeCantonsSuivants
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
-    
+
     CantonOuVilleListeAscendants:
       description: 'Liste des ascendants d''un canton-ou-ville'
       type: array
@@ -6524,6 +6967,7 @@ components:
         name: AscendantsCantonOuVille
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     CantonOuVilleListeDescendants:
       description: 'Liste des descendants d''un canton-ou-ville'
       type: array
@@ -6532,6 +6976,7 @@ components:
         name: DescendantsCantonOuVille
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     CantonOuVille:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
@@ -6540,6 +6985,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeCantonOuVille'
+
     CodeCantonOuVille:
       description: 'Code d''un canton-ou-ville'
       pattern: '[0-9]{4,5}'
@@ -6547,6 +6993,7 @@ components:
       xml:
         attribute: true
       example: '0101'
+
     TypeEnumDescendantsCantonOuVille:
       type: string
       xml:
@@ -6555,6 +7002,7 @@ components:
         - Commune
         - Iris
       example: 'Commune'
+
     ListeCantonsEtVilles:
       description: 'Liste des cantons et villes'
       type: array
@@ -6563,6 +7011,7 @@ components:
         name: ListeCantonsEtVilles
       items:
         $ref: '#/components/schemas/CantonOuVille'
+
     CodeCantonOuVillePrec:
       description: 'Code d''un canton-ou-ville'
       pattern: '[0-9]{4,5}'
@@ -6570,6 +7019,7 @@ components:
       xml:
         attribute: true
       example: '0104'
+
     CantonOuVilleListePrecedents:
       description: 'Liste des cantons-ou-villes précédents'
       type: array
@@ -6578,6 +7028,7 @@ components:
         name: ListeCantonsOuVillesPrecedents
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     CodeCantonOuVilleSuivants:
       description: 'Code d''un canton-ou-ville'
       pattern: '[0-9]{4,5}'
@@ -6585,6 +7036,7 @@ components:
       xml:
         attribute: true
       example: '0103'
+
     CantonOuVilleListeProjetes:
       description: 'Liste des cantons-ou-villes projetés'
       type: array
@@ -6593,6 +7045,7 @@ components:
         name: ListeCantonsOuVillesProjetes
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     CantonOuVilleListeSuivants:
       description: 'Liste des cantons-ou-villes qui succèdent au canton-ou-ville'
       type: array
@@ -6601,7 +7054,7 @@ components:
         name: ListeCantonsOuVillesSuivants
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
-    
+
     CirconscriptionTerritorialeListeAscendants:
       description: 'Liste des ascendants d''une circonscription territoriale'
       type: array
@@ -6610,6 +7063,7 @@ components:
         name: AscendantsCirconscriptionTerritoriale
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     CirconscriptionTerritoriale:
       allOf:
         - $ref: '#/components/schemas/Territoire_TousAttributs'
@@ -6618,6 +7072,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeCirconscriptionTerritoriale'
+
     CodeCirconscriptionTerritoriale:
       description: 'Code d''une circonscription territoriale'
       pattern: '[a-zA-Z0-9]{5}'
@@ -6634,6 +7089,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeCollectiviteDOutreMer'
+
     CodeCollectiviteDOutreMer:
       description: 'Code d''une collectivité d''outre-mer'
       pattern: '[a-zA-Z0-9]{3}'
@@ -6641,6 +7097,7 @@ components:
       xml:
         attribute: true
       example: '988'
+
     CollectiviteDOutreMerListeDescendants:
       description: 'Liste des descendants d''une collectivité d''outre-mer'
       type: array
@@ -6649,6 +7106,7 @@ components:
         name: DescendantsCollectiviteDOutreMer
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     ListeCollectivitesDOutreMer:
       description: 'Liste des collectivités d''outre-mer'
       type: array
@@ -6665,6 +7123,7 @@ components:
       enum:
         - Territoire
       example: 'Territoire'
+
     TypeEnumDescendantsRegion:
       type: string
       xml:
@@ -6680,6 +7139,7 @@ components:
         - Canton
         - CantonOuVille
       example: 'Commune'
+
     TypeEnumDescendantsZoneDEmploi:
       type: string
       xml:
@@ -6700,6 +7160,7 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeZoneDEmploi'
+
     CodeZoneDEmploi:
       description: 'Code d''une zone d''emploi'
       pattern: '[0-9]{4}'
@@ -6707,6 +7168,7 @@ components:
       xml:
         attribute: true
       example: '2415'
+
     ZoneDEmploiListeDescendants:
       description: 'Liste des descendants d''une zone d''emploi'
       type: array
@@ -6715,6 +7177,7 @@ components:
         name: DescendantsZoneDEmploi
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
     ListeZonesDEmploi2020:
       description: 'Liste des zones d''emploi'
       type: array
