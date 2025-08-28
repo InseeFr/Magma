@@ -1,12 +1,12 @@
 package fr.insee.rmes.metadata.queries.parameters;
 
-public record ConceptRequestParametizer(String id,
-                                        Class<?> typeOrigine) implements ParametersForQuery<ConceptRequestParametizer> {
+import java.time.LocalDate;
 
-//    for /concepts/definition/{id}
-//    public ConceptRequestParametizer(String id, Class<?> typeOrigine){
-//        this(id, typeOrigine);
-//    }
+public record ConceptRequestParametizer(String id,
+                                        Class<?> typeOrigine,
+                                        String label) implements ParametersForQuery<ConceptRequestParametizer> {
+
+
 
 
 }

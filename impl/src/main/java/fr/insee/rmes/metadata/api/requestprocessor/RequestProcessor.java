@@ -24,8 +24,11 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
     public RequestProcessor.QueryBuilder queryToFindConcept(){
         return new RequestProcessor.QueryBuilder(CONCEPT,this);
     }
-    public RequestProcessor.QueryBuilder queryToFindConceptSuivants() {
+    public RequestProcessor.QueryBuilder queryToFindConceptsSuivants() {
         return new RequestProcessor.QueryBuilder(CONCEPTSUIVANTS,this);
+    }
+    public RequestProcessor.QueryBuilder queryToFindConcepts(){
+        return new RequestProcessor.QueryBuilder(CONCEPTS,this);
     }
     public RequestProcessor.QueryBuilder queryforFindAscendantsDescendants() {
         return new RequestProcessor.QueryBuilder(ASCENDANTS_OR_DESCENDANTS, this);

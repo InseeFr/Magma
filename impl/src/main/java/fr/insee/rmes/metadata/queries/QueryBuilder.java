@@ -17,6 +17,7 @@ import java.util.Map;
 public record QueryBuilder(Configuration freemarkerConfiguration) {
     public static final Path ASCENDANTS_OR_DESCENDANTS = Path.of("geographie/getAscendantsOrDescendantsByCodeTypeDate.ftlh");
     public static final Path CONCEPT = Path.of("concepts/getConceptByCode.ftlh");
+    public static final Path CONCEPTS = Path.of("concepts/getConceptsByLabel.ftlh");
     public static final Path CONCEPTSUIVANTS = Path.of("concepts/getLinkedConceptsQuery.ftlh");
     public static final Path TERRITOIRE = Path.of("geographie/getTerritoireByCodeDateNomCommune.ftlh");
     public static final Path PRECEDENTS = Path.of("geographie/getPreviousOrNextByCodeTypeDate.ftlh");
