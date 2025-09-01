@@ -1864,8 +1864,8 @@ components:
         Filtre pour renvoyer les départements actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
+
     dateTerritoiresActifsDescendantsDepartement:
       in: query
       description: |-
@@ -6723,3 +6723,9 @@ components:
         name: ListeZonesDEmploi
       items:
         $ref: '#/components/schemas/ZoneDEmploi2020'
+
+    dateAvecEtoile:
+      type: string
+      pattern: '^\d{4}-\d{2}-\d{2}$|\*$'
+      example: "2025-08-28"
+      description: "Accepte soit une date au format ISO 8601 (YYYY-MM-DD), soit le caractère *"

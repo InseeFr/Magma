@@ -1,11 +1,12 @@
 package fr.insee.rmes.metadata.api;
 
-import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
-import fr.insee.rmes.metadata.model.*;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.ProjetesRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
+import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.metadata.model.*;
+import fr.insee.rmes.metadata.queries.parameters.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -85,13 +86,16 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
     }
 
     @Override
-    public ResponseEntity<List<TerritoireBaseChefLieu>> getcogdepts(LocalDate date) {
+    public ResponseEntity<List<TerritoireBaseChefLieu>> getcogdepts(String date) {
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, Departement.class, "prefecture", true))
+                .with(new TerritoireEtoileRequestParametizer(date, Departement.class, "prefecture", true))
                 .executeQuery()
                 .listResult(TerritoireBaseChefLieu.class)
                 .toResponseEntity();
 
     }
-
+ 
 }

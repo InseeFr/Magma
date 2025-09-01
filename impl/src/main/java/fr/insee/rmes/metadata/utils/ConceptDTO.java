@@ -5,13 +5,9 @@ import fr.insee.rmes.metadata.model.Concept;
 import fr.insee.rmes.metadata.model.ConceptConceptsSuivantsInner;
 import fr.insee.rmes.metadata.model.ConceptIntituleInner;
 import fr.insee.rmes.metadata.model.ConceptSuivant;
-import org.joda.time.DateTime;
-
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
