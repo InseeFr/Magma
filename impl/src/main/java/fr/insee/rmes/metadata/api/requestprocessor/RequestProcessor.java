@@ -83,6 +83,10 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
             return new ExecutableQuery(requestProcessor.queryBuilder().build(territoireRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
 
+        public ExecutableQuery with(TerritoireEtoileRequestParametizer territoireEtoileRequestParametizer) {
+            return new ExecutableQuery(requestProcessor.queryBuilder().build(territoireEtoileRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
+
         public ExecutableQuery with(PrecedentsSuivantsRequestParametizer precedentsRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(precedentsRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
@@ -101,6 +105,8 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
         public ExecutableQuery with(ProjetesRequestParametizer projetesRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(projetesRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
+
+
     }
 
 
