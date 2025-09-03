@@ -1,11 +1,9 @@
 name: Build release candidate
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened]
+  release:
+    types: [released]
+  workflow_dispatch:
 
 jobs:
   check-version:
