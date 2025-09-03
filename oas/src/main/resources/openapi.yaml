@@ -2028,8 +2028,7 @@ components:
         Filtre pour renvoyer les aires d'attraction actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     dateTerritoiresActifsDescendantsAireDAttractionDesVilles:
       in: query
@@ -2086,8 +2085,7 @@ components:
         Filtre pour renvoyer les arrondissements actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     dateArrondissementDepart:
       in: query

@@ -6,6 +6,7 @@ import fr.insee.rmes.metadata.model.Pays;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsAireDAttractionDesVilles;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -41,9 +42,12 @@ public class GeoAireDAttractionDesVillesEndpoints implements GeoAireDAttractionD
     }
 
     @Override
-    public ResponseEntity<List<AireDAttractionDesVilles2020>> getcogaavliste (LocalDate date) {
+    public ResponseEntity<List<AireDAttractionDesVilles2020>> getcogaavliste (String date) {
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, AireDAttractionDesVilles2020.class, "none"))
+                .with(new TerritoireEtoileRequestParametizer(date, AireDAttractionDesVilles2020.class, "none"))
                 .executeQuery()
                 .listResult(AireDAttractionDesVilles2020.class)
                 .toResponseEntity();

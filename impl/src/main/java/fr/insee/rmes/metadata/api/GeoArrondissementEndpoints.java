@@ -6,10 +6,7 @@ import fr.insee.rmes.metadata.model.Arrondissement;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumAscendantsArrondissement;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsArrondissement;
-import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.ProjetesRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -52,9 +49,12 @@ public class GeoArrondissementEndpoints implements GeoArrondissementApi {
     }
 
     @Override
-    public ResponseEntity<List<Arrondissement>> getcogarrliste(LocalDate date) {
+    public ResponseEntity<List<Arrondissement>> getcogarrliste(String date) {
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, Arrondissement.class, "*"))
+                .with(new TerritoireEtoileRequestParametizer(date, Arrondissement.class, "*"))
                 .executeQuery()
                 .listResult(Arrondissement.class)
                 .toResponseEntity();
