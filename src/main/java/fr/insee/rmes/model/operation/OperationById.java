@@ -25,7 +25,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "uri",
     "seriesId",
     "seriesLabelLg2",
-    "proprietaire"
+    "proprietaire",
+    "millesime"
 })
 @Generated("jsonschema2pojo")
 public class OperationById implements Serializable
@@ -56,6 +57,8 @@ public class OperationById implements Serializable
 
     @JsonProperty("proprietaire")
     private String proprietaire;
+    @JsonProperty("millesime")
+    private String millesime;
     @JsonIgnore
     @Valid
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -214,6 +217,10 @@ public class OperationById implements Serializable
     @JsonProperty("proprietaire")
     public String getProprietaire() {
         return proprietaire;
+    }
+
+    public String getMillesime() {
+        return millesime;
     }
 
     @JsonProperty("proprietaire")

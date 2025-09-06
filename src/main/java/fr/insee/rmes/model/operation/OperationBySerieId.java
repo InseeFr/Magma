@@ -31,7 +31,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("jsonschema2pojo")
 public class OperationBySerieId implements Serializable
 {
-
+    @JsonProperty("millesime")
+    private String millesime;
     @JsonProperty("series")
     private String series;
     @JsonProperty("typeLabelLg1")
@@ -320,6 +321,10 @@ public class OperationBySerieId implements Serializable
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    public String getMillesime() {
+        return millesime;
     }
 
     public OperationBySerieId withAdditionalProperty(String name, Object value) {
