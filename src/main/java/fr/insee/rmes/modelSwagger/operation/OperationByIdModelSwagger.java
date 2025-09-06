@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Setter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -19,12 +20,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "id",
     "label",
     "uri",
-    "proprietaire"
+    "proprietaire",
+    "millesime"
 })
 @Generated("jsonschema2pojo")
 public class OperationByIdModelSwagger implements Serializable
 {
-
+    @Setter
+    @JsonProperty("millesime")
+    @Valid
+    private String millesime;
     @JsonProperty("serie")
     @Valid
     private Serie serie;
@@ -69,4 +74,5 @@ public class OperationByIdModelSwagger implements Serializable
     public void setProprietaire(String proprietaire) {
         this.proprietaire = proprietaire;
     }
+
 }

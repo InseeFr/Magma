@@ -1,5 +1,5 @@
 SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?operationAltLabelLg1 ?operationAltLabelLg2 ?uri ?simsId ?seriesId ?series ?seriesLabelLg1 ?seriesLabelLg2   ?typeLabelLg1 ?typeLabelLg2
-				?periodicity	?periodicityId  ?periodicityLabelLg1 ?periodicityLabelLg2
+				?periodicity	?periodicityId  ?periodicityLabelLg1 ?periodicityLabelLg2 ?millesime
 
            	{
 
@@ -33,6 +33,10 @@ SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?operationA
     		?uri skos:altLabel ?operationAltLabelLg2 .
 			FILTER (lang(?operationAltLabelLg2) = '${LG2}') .
 			}
+
+            OPTIONAL {
+                ?uri dcterms:temporal ?millesime .
+            }
 
   			OPTIONAL {
   			?uri dcterms:isPartOf ?uriSerie .
