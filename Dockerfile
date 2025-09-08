@@ -1,23 +1,21 @@
+FROM eclipse-temurin:21-jdk-jammy as builder
+WORKDIR /opt/app
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+COPY ./src ./src
+RUN chmod +x mvnw
+RUN ./mvnw clean install -DskipTests=true
 
-# Utiliser une image de base qui inclut Tomcat 10 et Java 17.
-FROM tomcat:10-jdk17-temurin
+FROM eclipse-temurin:21-jre-jammy
 
-# Définir le répertoire de travail pour Tomcat.
-WORKDIR /usr/local/tomcat
+RUN groupadd -g 10000 javagroup
+RUN useradd -u 10000 -g javagroup -s /usr/sbin/nologin javauser
+RUN mkdir /opt/app/
+RUN chown -R 10000:10000 /opt/app/
 
-# Ajouter votre fichier .war dans le dossier webapps de Tomcat.
-COPY target/*.war /usr/local/tomcat/webapps/metadata-api.war
+USER 10000
+COPY --from=builder /opt/app/target/*.jar /opt/app/magma.jar
 
-# Exposer le port sur lequel Tomcat écoute par défaut.
 EXPOSE 8080
 
-# Configurer l'utilisateur pour des raisons de sécurité (si nécessaire).
-RUN addgroup --system javagroup && \
-    adduser --system --shell /bin/false --uid 10000 --ingroup javagroup --no-create-home javauser && \
-    chown -R javauser:javagroup /usr/local/tomcat && \
-    chmod -R 755 /usr/local/tomcat/webapps
-
-USER javauser
-
-# Lancer Tomcat.
-CMD ["catalina.sh", "run"]
+ENTRYPOINT ["java", "-jar",  "/opt/app/magma.jar"]
