@@ -1,4 +1,6 @@
-SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?uri ?seriesAltLabelLg1 ?seriesAltLabelLg2 ?simsId ?seriesId ?series ?seriesLabelLg1 ?seriesLabelLg2  ?proprietaire
+SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2
+    ?uri ?seriesAltLabelLg1 ?seriesAltLabelLg2 ?simsId ?seriesId ?series ?seriesLabelLg1 ?seriesLabelLg2
+    ?proprietaire ?millesime
             
  { 
     ?series a insee:StatisticalOperationSeries . 
@@ -25,6 +27,9 @@ SELECT DISTINCT  ?operationId  ?operationLabelLg1 ?operationLabelLg2 ?uri ?serie
 	?uri skos:prefLabel ?operationLabelLg2 . 
 	FILTER (lang(?operationLabelLg2) = '${LG2}') .
    }
+    OPTIONAL {
+        ?uri dcterms:temporal ?millesime .
+    }
     OPTIONAL {
   			?series skos:altLabel ?seriesAltLabelLg1 .
   			FILTER (lang(?seriesAltLabelLg1) = '${LG1}')
