@@ -6,7 +6,7 @@
     <parent>
         <groupId>fr.insee.rmes</groupId>
         <artifactId>metadata-api-parent</artifactId>
-        <version>3.8.4</version>
+        <version>${revision}</version> <!-- Hérite de la propriété du parent -->
     </parent>
 
     <artifactId>metadata-api-interface</artifactId>
