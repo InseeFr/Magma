@@ -22,4 +22,4 @@ jobs:
         with:
           push: true
           file: Dockerfile
-          tags: ghcr.io/inseefr/bauhaus-back-office:${{ github.event.release.tag_name }}
+          tags: ghcr.io/inseefr/magma:${{ github.event.release.tag_name }}
