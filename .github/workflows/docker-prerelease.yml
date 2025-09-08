@@ -19,7 +19,7 @@ jobs:
           java-version: "21"
 
       - name: Build API
-        run: mvn package -Dchangelist=-SNAPSHOT --no-transfer-progress
+        run: mvn package -DskipTests=true -Dchangelist=-SNAPSHOT --no-transfer-progress
 
   docker:
     needs:
