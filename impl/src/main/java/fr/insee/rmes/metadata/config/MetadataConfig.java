@@ -1,5 +1,6 @@
 package fr.insee.rmes.metadata.config;
 
+import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.TemplateLoader;
@@ -24,13 +25,12 @@ public class MetadataConfig {
     @Bean
     public Configuration freemarkerConfiguration(@Value("${fr.insee.rmes.metadata.api.freemarker.locale-language}") String localLanguage) throws URISyntaxException, IOException {
         var configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
-        URL freemarkerTemplatesDirectory = MetadataConfig.class.getClassLoader().getResource("request");
-        FileTemplateLoader fileTemplateLoader = new FileTemplateLoader(
-                new File(freemarkerTemplatesDirectory.toURI())
-        );
-        MultiTemplateLoader mtl = new MultiTemplateLoader(new TemplateLoader[]{fileTemplateLoader});
+        // Charge les templates depuis le classpath (dans src/main/resources/request)
+        ClassTemplateLoader classTemplateLoader = new ClassTemplateLoader(MetadataConfig.class, "/request");
 
-        log.info("Init freemarker templateloader {}", freemarkerTemplatesDirectory);
+        MultiTemplateLoader mtl = new MultiTemplateLoader(new TemplateLoader[]{classTemplateLoader});
+
+        //log.info("Init freemarker templateloader {}", freemarkerTemplatesDirectory);
         configuration.setTemplateLoader(mtl);
 
         configuration.setDefaultEncoding("UTF-8");
