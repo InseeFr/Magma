@@ -5,10 +5,7 @@ import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.Canton;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumAscendantsCanton;
-import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.ProjetesRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -43,9 +40,12 @@ public class GeoCantonEndpoints implements GeoCantonApi {
     }
 
     @Override
-    public ResponseEntity<List<Canton>> getcogcanliste(LocalDate date) {
+    public ResponseEntity<List<Canton>> getcogcanliste(String date) {
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, Canton.class, "*"))
+                .with(new TerritoireEtoileRequestParametizer(date, Canton.class, "*"))
                 .executeQuery()
                 .listResult(Canton.class)
                 .toResponseEntity();
