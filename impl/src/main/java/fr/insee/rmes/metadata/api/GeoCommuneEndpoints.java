@@ -2,10 +2,7 @@ package fr.insee.rmes.metadata.api;
 
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.*;
-import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.ProjetesRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -31,11 +28,14 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
     }
 
     @Override
-    public ResponseEntity<List<TerritoireBase>> getcogcomliste(LocalDate date, String filtreNom, Boolean com) {
+    public ResponseEntity<List<TerritoireBase>> getcogcomliste(String date, String filtreNom, Boolean com) {
         String finalFiltreNom = filtreNom == null ? "*" : filtreNom;
         boolean finalcom = (com != null) && com;
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, Commune.class, finalFiltreNom, "none", finalcom))
+                .with(new TerritoireEtoileRequestParametizer(date, Commune.class, finalFiltreNom, "none", finalcom))
                 .executeQuery()
                 .listResult(TerritoireBase.class)
                 .toResponseEntity();

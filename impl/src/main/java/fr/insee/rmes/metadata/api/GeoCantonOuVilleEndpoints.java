@@ -5,10 +5,7 @@ import fr.insee.rmes.metadata.model.CantonOuVille;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumAscendantsCantonOuVille;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsCantonOuVille;
-import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.ProjetesRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -55,9 +52,12 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
     }
 
     @Override
-    public ResponseEntity<List<CantonOuVille>> getcogcanvilliste(LocalDate date) {
+    public ResponseEntity<List<CantonOuVille>> getcogcanvilliste(String date) {
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, CantonOuVille.class, "none"))
+                .with(new TerritoireEtoileRequestParametizer(date, CantonOuVille.class, "none"))
                 .executeQuery()
                 .listResult(CantonOuVille.class)
                 .toResponseEntity();

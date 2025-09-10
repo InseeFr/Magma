@@ -6,6 +6,7 @@ import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsPays;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -42,9 +43,12 @@ public class GeoPaysEndpoints implements GeoPaysApi {
 
 
     @Override
-    public ResponseEntity<List<Pays>> getcogpayslist(LocalDate date) {
+    public ResponseEntity<List<Pays>> getcogpayslist(String date) {
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
         return requestProcessor.queryforFindPays()
-                .with(new TerritoireRequestParametizer(date, Pays.class, "none"))
+                .with(new TerritoireEtoileRequestParametizer(date, Pays.class, "none"))
                 .executeQuery()
                 .listResult(Pays.class)
                 .toResponseEntity();

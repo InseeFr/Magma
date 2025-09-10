@@ -3,6 +3,7 @@ package fr.insee.rmes.metadata.api;
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.*;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -41,9 +42,12 @@ public class GeoCommuneAssocieeEndpoints implements GeoCommuneAssocieeApi{
     }
 
     @Override
-    public ResponseEntity<List<CommuneAssociee>> getcogcomaliste (LocalDate date) {
-       return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, CommuneAssociee.class, "none"))
+    public ResponseEntity<List<CommuneAssociee>> getcogcomaliste (String date) {
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
+        return requestProcessor.queryforFindTerritoire()
+                .with(new TerritoireEtoileRequestParametizer(date, CommuneAssociee.class, "none"))
                 .executeQuery()
                 .listResult(CommuneAssociee.class)
                 .toResponseEntity();

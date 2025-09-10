@@ -4,10 +4,7 @@ import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.Intercommunalite;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsIntercommunalite;
-import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.ProjetesRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -44,11 +41,13 @@ public class GeoIntercommunaliteEndpoints implements GeoIntercommunaliteApi {
 
 
     @Override
-    public ResponseEntity<List<Intercommunalite>> getcogintercoliste(LocalDate date, String filtreNom) {
+    public ResponseEntity<List<Intercommunalite>> getcogintercoliste(String date, String filtreNom) {
         String finalFiltreNom = filtreNom == null ? "*" : filtreNom;
-
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, Intercommunalite.class, finalFiltreNom, "none", true))
+                .with(new TerritoireEtoileRequestParametizer(date, Intercommunalite.class, finalFiltreNom, "none", true))
                 .executeQuery()
                 .listResult(Intercommunalite.class)
                 .toResponseEntity();

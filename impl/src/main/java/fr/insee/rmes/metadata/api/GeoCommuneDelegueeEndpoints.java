@@ -4,6 +4,7 @@ package fr.insee.rmes.metadata.api;
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.*;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -41,9 +42,12 @@ public class GeoCommuneDelegueeEndpoints implements GeoCommuneDelegueeApi{
     }
 
     @Override
-    public ResponseEntity<List<CommuneDeleguee>> getcogcomdliste (LocalDate date) {
+    public ResponseEntity<List<CommuneDeleguee>> getcogcomdliste (String date) {
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, CommuneDeleguee.class, "none"))
+                .with(new TerritoireEtoileRequestParametizer(date, CommuneDeleguee.class, "none"))
                 .executeQuery()
                 .listResult(CommuneDeleguee.class)
                 .toResponseEntity();

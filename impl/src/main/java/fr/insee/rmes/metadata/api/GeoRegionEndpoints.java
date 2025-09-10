@@ -4,10 +4,7 @@ import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.Region;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsRegion;
-import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.ProjetesRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -43,9 +40,12 @@ public class GeoRegionEndpoints implements GeoRegionApi {
 
 
     @Override
-    public ResponseEntity<List<Region>> getcogregliste(LocalDate date) {
+    public ResponseEntity<List<Region>> getcogregliste(String date) {
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, Region.class, "prefectureDeRegion"))
+                .with(new TerritoireEtoileRequestParametizer(date, Region.class, "prefectureDeRegion"))
                 .executeQuery()
                 .listResult(Region.class)
                 .toResponseEntity();
