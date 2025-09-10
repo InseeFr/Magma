@@ -18,6 +18,13 @@ public record TerritoireEtoileRequestParametizer(String code,
         this("none", date, typeOrigine, "*", chefLieu, com);
     }
 
+    //for geo/airesDAttractionDesVilles
+    public TerritoireEtoileRequestParametizer(String date,
+                                              Class<?> typeOrigine,
+                                              String chefLieu) {
+        this("none", date, typeOrigine, "*", chefLieu, true);
+    }
+
     @Override
     public ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent) {
         return ParametersForQuery.super.findParameterValueDecoder(recordComponent);
