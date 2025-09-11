@@ -104,7 +104,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
         Assert.assertEquals("Orléans", resultItem1.getIntitule());
     }
 
-    //    geo/departement/22/descendants?date=2025-09-04&
+    //    geo/departement/22/descendants?date=2025-09-04
     @Test
     void should_return_523_territoires_when_DepartementCodeDescendants_code45_date20250904_typeNull_filtreNomNull(){
         var response  = endpoints.getcogdepdesc("45", LocalDate.of(2025, 9, 4), null,null);
@@ -258,6 +258,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
         Assert.assertEquals("22278", resultItem1.getChefLieu());
         Assert.assertEquals("Côtes-d'Armor", resultItem1.getIntitule());
     }
+
 
 }
 
