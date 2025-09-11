@@ -35,7 +35,7 @@ public record TerritoireRequestParametizer(String code,
         this("none", date, typeOrigine, filtreNom, chefLieu, com);
     }
 
-    //forgeo/arrondissements, geo/aireDAttractionDesVilles2020, etc
+    //for geo/arrondissements, geo/aireDAttractionDesVilles2020, etc
     public TerritoireRequestParametizer(LocalDate date,
                                         Class<?> typeOrigine,
                                         String chefLieu) {
