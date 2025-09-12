@@ -241,6 +241,10 @@ public class PoguesImpl extends RdfService implements PoguesServices {
 
             OperationBySerieIdModelSwagger operationBySerieIdModelSwagger = new OperationBySerieIdModelSwagger(
                     altLabelOperation, labelOperation, bySerieId.getUri(), serie, bySerieId.getOperationId());
+
+            if(bySerieId.getMillesime() != null){
+                operationBySerieIdModelSwagger.setMillesime(bySerieId.getMillesime());
+            }
             operationsBySerieIdModelSwaggerS.add(operationBySerieIdModelSwagger);
         }
 
@@ -272,6 +276,9 @@ public class PoguesImpl extends RdfService implements PoguesServices {
             OperationByIdModelSwagger operationByIdModelSwagger = new OperationByIdModelSwagger(serie, operationById.getId(), labelOperation, operationById.getUri());
             if (operationById.getProprietaire() != null) {
                 operationByIdModelSwagger.setProprietaire(operationById.getProprietaire());
+            }
+            if (operationById.getMillesime() != null) {
+                operationByIdModelSwagger.setMillesime(operationById.getMillesime());
             }
             return mapper.writeValueAsString(operationByIdModelSwagger);
         }
