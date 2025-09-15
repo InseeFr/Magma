@@ -1,7 +1,6 @@
 package fr.insee.rmes.metadata.api.testcontainers.queries;
 
-
-import fr.insee.rmes.metadata.api.GeoArrondissementMunipalEndpoints;
+import fr.insee.rmes.metadata.api.GeoCantonEndpoints;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,62 +15,60 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Tag("integration")
 
-
-public class GeoArrondissementMunicipalQueriesTest extends TestcontainerTest {
+public class GeoCantonQueriesTest {
 
     @Autowired
-    GeoArrondissementMunipalEndpoints endpoints;
+    GeoCantonEndpoints endpoints;
     @Autowired
     private MockMvc mockMvc;
 
     /////////////////////////////////////////////////////////////////////
-    ///        geo/arrondissementMunicipal/{code}/ascendants          ///
+    ///        geo/canton/{code}/ascendants          ///
     /////////////////////////////////////////////////////////////////////
 
-//    geo/arrondissementMunicipal/13202/ascendants renvoie 11 ascendants
+//    geo/canton/13202/ascendants renvoie 11 ascendants
 
     /////////////////////////////////////////////////////////////////////
-    ///        geo/arrondissementMunicipal/{code}                     ///
+    ///        geo/canton/{code}                     ///
     /////////////////////////////////////////////////////////////////////
 
-//    geo/arrondissementMunicipal/69385?date=2025-09-04
+//    geo/canton/69385?date=2025-09-04
 
-//    geo/arrondissementMunicipal/69392?date=2025-09-04 renvoie 404
+//    geo/canton/69392?date=2025-09-04 renvoie 404
 
 
     ////////////////////////////////////////////////////////////////////
-    ///        geo/arrondissementsMunicipaux                         ///
+    ///        geo/cantons                         ///
     ////////////////////////////////////////////////////////////////////
 
-//    geo/arrondissementsMunicipaux?date=2025-09-04//
+//    geo/cantons?date=2025-09-04//
 
 
-//    geo/arrondissementsMunicipaux?date=*
+//    geo/cantons?date=*
 
     ////////////////////////////////////////////////////////////////////
-    ///        geo/arrondissementMunicipal/{code}/precedents         ///
+    ///        geo/canton/{code}/precedents         ///
     ////////////////////////////////////////////////////////////////////
 
-//    geo/arrondissementMunicipal/69385/precedents renvoie l’arrondissement municipal de Lyon 5e
+//    geo/canton/69385/precedents renvoie l’arrondissement municipal de Lyon 5e
 
-//    geo/arrondissementMunicipal/69385/precedents?date=1945-01-01  renvoie 404
+//    geo/canton/69385/precedents?date=1945-01-01  renvoie 404
     @Test
-    void should_return_404_when_ArrondissementMunicipalCodePrecedents_code69385_date19450101() throws Exception{
-        mockMvc.perform(get("/geo/arrondissementMunicipal/69385/precedents")
+    void should_return_404_when_CantonCodePrecedents_code69385_date19450101() throws Exception{
+        mockMvc.perform(get("/geo/canton/69385/precedents")
                         .param("date", "1945-01-01"))
                 .andExpect(status().isNotFound());
     }
 
     ////////////////////////////////////////////////////////////////////
-    ///        geo/arrondissementMunicipal/{code}/projetes           ///
+    ///        geo/canton/{code}/projetes           ///
     ////////////////////////////////////////////////////////////////////
 
-//    geo/arrondissementMunicipal/69385/projetes?date=1960-01-01&dateProjection=2011-12-31: renvoie les arrondissements de Lyon 5e et Lyon 9e
+//    geo/canton/69385/projetes?date=1960-01-01&dateProjection=2011-12-31: renvoie les cantons de Lyon 5e et Lyon 9e
 
     ////////////////////////////////////////////////////////////////////
-    ///        geo/arrondissementMunicipal/{code}/suivants           ///
+    ///        geo/canton/{code}/suivants           ///
     ////////////////////////////////////////////////////////////////////
 
-//    geo/arrondissementMunicipal/69385/suivants?date=1960-01-01 renvoie 2 arrondissements municipaux
-
+//    geo/canton/69385/suivants?date=1960-01-01 renvoie 2 cantons
 }

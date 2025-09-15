@@ -1,7 +1,7 @@
 package fr.insee.rmes.metadata.api.testcontainers.queries;
 
-
 import fr.insee.rmes.metadata.api.GeoArrondissementMunipalEndpoints;
+import fr.insee.rmes.metadata.api.GeoCommuneEndpoints;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,61 +17,67 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Tag("integration")
 
 
-public class GeoArrondissementMunicipalQueriesTest extends TestcontainerTest {
+public class GeoCommuneQueriesTest {
 
     @Autowired
-    GeoArrondissementMunipalEndpoints endpoints;
+    GeoCommuneEndpoints endpoints;
     @Autowired
     private MockMvc mockMvc;
 
     /////////////////////////////////////////////////////////////////////
-    ///        geo/arrondissementMunicipal/{code}/ascendants          ///
+    ///        geo/commune/{code}/ascendants          ///
     /////////////////////////////////////////////////////////////////////
 
-//    geo/arrondissementMunicipal/13202/ascendants renvoie 11 ascendants
+//    geo/commune/13202/ascendants renvoie 11 ascendants
 
     /////////////////////////////////////////////////////////////////////
-    ///        geo/arrondissementMunicipal/{code}                     ///
+    ///        geo/commune/{code}                     ///
     /////////////////////////////////////////////////////////////////////
 
-//    geo/arrondissementMunicipal/69385?date=2025-09-04
+//    geo/commune/69385?date=2025-09-04
 
-//    geo/arrondissementMunicipal/69392?date=2025-09-04 renvoie 404
+//    geo/commune/69392?date=2025-09-04 renvoie 404
 
 
     ////////////////////////////////////////////////////////////////////
-    ///        geo/arrondissementsMunicipaux                         ///
+    ///        geo/communes                         ///
     ////////////////////////////////////////////////////////////////////
 
-//    geo/arrondissementsMunicipaux?date=2025-09-04//
+//    geo/communes?date=2025-09-04//
 
 
-//    geo/arrondissementsMunicipaux?date=*
+//    geo/communes?date=*
+
 
     ////////////////////////////////////////////////////////////////////
-    ///        geo/arrondissementMunicipal/{code}/precedents         ///
+    ///                     geo/commune/{code}/descendants           ///
     ////////////////////////////////////////////////////////////////////
 
-//    geo/arrondissementMunicipal/69385/precedents renvoie l’arrondissement municipal de Lyon 5e
+    ////////////////////////////////////////////////////////////////////
+    ///        geo/commune/{code}/precedents         ///
+    ////////////////////////////////////////////////////////////////////
 
-//    geo/arrondissementMunicipal/69385/precedents?date=1945-01-01  renvoie 404
+//    geo/commune/69385/precedents renvoie l’arrondissement municipal de Lyon 5e
+
+//    geo/commune/69385/precedents?date=1945-01-01  renvoie 404
     @Test
-    void should_return_404_when_ArrondissementMunicipalCodePrecedents_code69385_date19450101() throws Exception{
-        mockMvc.perform(get("/geo/arrondissementMunicipal/69385/precedents")
+    void should_return_404_when_communeCodePrecedents_code69385_date19450101() throws Exception{
+        mockMvc.perform(get("/geo/commune/69385/precedents")
                         .param("date", "1945-01-01"))
                 .andExpect(status().isNotFound());
     }
 
     ////////////////////////////////////////////////////////////////////
-    ///        geo/arrondissementMunicipal/{code}/projetes           ///
+    ///        geo/commune/{code}/projetes           ///
     ////////////////////////////////////////////////////////////////////
 
-//    geo/arrondissementMunicipal/69385/projetes?date=1960-01-01&dateProjection=2011-12-31: renvoie les arrondissements de Lyon 5e et Lyon 9e
+//    geo/commune/69385/projetes?date=1960-01-01&dateProjection=2011-12-31: renvoie les arrondissements de Lyon 5e et Lyon 9e
 
     ////////////////////////////////////////////////////////////////////
-    ///        geo/arrondissementMunicipal/{code}/suivants           ///
+    ///        geo/commune/{code}/suivants           ///
     ////////////////////////////////////////////////////////////////////
 
-//    geo/arrondissementMunicipal/69385/suivants?date=1960-01-01 renvoie 2 arrondissements municipaux
+//    geo/commune/69385/suivants?date=1960-01-01 renvoie 2 arrondissements municipaux
+
 
 }
