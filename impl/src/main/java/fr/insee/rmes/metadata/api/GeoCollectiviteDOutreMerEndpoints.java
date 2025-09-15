@@ -5,6 +5,7 @@ import fr.insee.rmes.metadata.model.CollectiviteDOutreMer;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsCollectiviteDOutreMer;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -43,9 +44,12 @@ public class GeoCollectiviteDOutreMerEndpoints implements GeoCollectiviteDOutreM
 
 
     @Override
-    public ResponseEntity<List<CollectiviteDOutreMer>> getcogcollliste(LocalDate date) {
+    public ResponseEntity<List<CollectiviteDOutreMer>> getcogcollliste(String date) {
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, CollectiviteDOutreMer.class, "none"))
+                .with(new TerritoireEtoileRequestParametizer(date, CollectiviteDOutreMer.class, "none"))
                 .executeQuery()
                 .listResult(CollectiviteDOutreMer.class)
                 .toResponseEntity();

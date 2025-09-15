@@ -5,6 +5,7 @@ import fr.insee.rmes.metadata.model.BassinDeVie2022;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsBassinDeVie;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -40,10 +41,13 @@ public class GeoBassinDeVieEndpoints implements GeoBassinDeVieApi {
     }
 
     @Override
-    public ResponseEntity<List<BassinDeVie2022>> getcogbassliste (LocalDate date, String filtreNom) {
+    public ResponseEntity<List<BassinDeVie2022>> getcogbassliste (String date, String filtreNom) {
         String finalFiltreNom = filtreNom == null ? "*" : filtreNom;
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, BassinDeVie2022.class, finalFiltreNom,"none", true))
+                .with(new TerritoireEtoileRequestParametizer(date, BassinDeVie2022.class, finalFiltreNom,"none", true))
                 .executeQuery()
                 .listResult(BassinDeVie2022.class)
                 .toResponseEntity();

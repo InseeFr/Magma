@@ -6,6 +6,7 @@ import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsUniteUrbaine;
 import fr.insee.rmes.metadata.model.UniteUrbaine2020;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
+import fr.insee.rmes.metadata.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -40,9 +41,12 @@ public class GeoUniteUrbaineEndpoints implements GeoUniteUrbaineApi {
     }
 
     @Override
-    public ResponseEntity<List<UniteUrbaine2020>> getcoguuliste (LocalDate date) {
+    public ResponseEntity<List<UniteUrbaine2020>> getcoguuliste (String date) {
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireRequestParametizer(date, UniteUrbaine2020.class, "none"))
+                .with(new TerritoireEtoileRequestParametizer(date, UniteUrbaine2020.class, "none"))
                 .executeQuery()
                 .listResult(UniteUrbaine2020.class)
                 .toResponseEntity();
