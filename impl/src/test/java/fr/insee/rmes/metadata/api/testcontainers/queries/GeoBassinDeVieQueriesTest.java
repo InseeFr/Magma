@@ -32,7 +32,7 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
 
 
     /////////////////////////////////////////////////////////////////////
-    ///        geo/bassinDeVie2022/{code}                     ///
+    ///                geo/bassinDeVie2022/{code}                     ///
     /////////////////////////////////////////////////////////////////////
 
 //    geo/bassinDeVie2022/01004?date=2025-09-04
@@ -59,7 +59,7 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
     }
 
     /////////////////////////////////////////////////////////////////////
-    ///        geo/bassinDeVie2022/{code}/descendants          ///
+    ///               geo/bassinDeVie2022/{code}/descendants          ///
     /////////////////////////////////////////////////////////////////////
 
 
@@ -75,7 +75,7 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
         Assert.assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
         Assert.assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
         Assert.assertEquals("Lohéac", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
+        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
         Assert.assertEquals("Lohéac", resultItem1.getIntitule());
     }
 
@@ -91,27 +91,27 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
         Assert.assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
         Assert.assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
         Assert.assertEquals("Lohéac", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
+        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
         Assert.assertEquals("Lohéac", resultItem1.getIntitule());
     }
 
 
 
     ////////////////////////////////////////////////////////////////////
-    ///        geo/bassinsDeVie2022                         ///
+    ///                 geo/bassinsDeVie2022                         ///
     ////////////////////////////////////////////////////////////////////
 
 //    geo/bassinsDeVie2022?date=2025-09-04&filtreNom=Ambérieu-en-Bugey//
     @Test
     void should_return_1_bassinDeVie2022_when_BassinsDeVie2022_date20250904_filtreNomAmberieuEnBugey() {
-        var response = endpoints.getcogbassliste("2025-09-04",null);
+        var response = endpoints.getcogbassliste("2025-09-04","Amberieu-en-Bugey");
         var result = response.getBody();
         var resultItem1 = result.getFirst();
 
         // Vérification du nombre total de bassins de vie
         assertEquals(1, result.size()); // Remplacez 1254 par le nombre réel attendu
 
-        assertEquals("01001", resultItem1.getCode());
+        assertEquals("01004", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/bassinDeVie2022/0e5bcc78-f043-404d-92af-d3d660772675", resultItem1.getUri());
         assertEquals(BassinDeVie2022.TypeEnum.BASSIN_DE_VIE2022, resultItem1.getType());
         assertEquals(LocalDate.of(2022, 1, 1), resultItem1.getDateCreation());
@@ -122,15 +122,15 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
 
 //    geo/bassinsDeVie2022?date=*
     @Test
-    void should_return_1000_bassinDeVie2022_when_BassinsDeVie2022_date20250904_filtreNomAmberieuEnBugey() {
-        var response = endpoints.getcogbassliste("2025-09-04",null);
+    void should_return_1735_bassinDeVie2022_when_BassinsDeVie2022_date20250904_filtreNomNull() {
+        var response = endpoints.getcogbassliste("*",null);
         var result = response.getBody();
         var resultItem1 = result.getFirst();
 
         // Vérification du nombre total de bassins de vie
-        assertEquals(1000, result.size()); // Remplacez 1254 par le nombre réel attendu
+        assertEquals(1735, result.size());
 
-        assertEquals("01001", resultItem1.getCode());
+        assertEquals("01004", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/bassinDeVie2022/0e5bcc78-f043-404d-92af-d3d660772675", resultItem1.getUri());
         assertEquals(BassinDeVie2022.TypeEnum.BASSIN_DE_VIE2022, resultItem1.getType());
         assertEquals(LocalDate.of(2022, 1, 1), resultItem1.getDateCreation());
