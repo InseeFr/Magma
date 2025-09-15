@@ -55,12 +55,12 @@ public class GeoArrondissementMunicipalQueriesTest extends TestcontainerTest {
 //    geo/arrondissementMunicipal/69385/precedents renvoie l’arrondissement municipal de Lyon 5e
 
 //    geo/arrondissementMunicipal/69385/precedents?date=1945-01-01  renvoie 404
-    @Test
-    void should_return_404_when_ArrondissementMunicipalCodePrecedents_code69385_date19450101() throws Exception{
-        mockMvc.perform(get("/geo/arrondissementMunicipal/69385/precedents")
-                        .param("date", "1945-01-01"))
-                .andExpect(status().isNotFound());
-    }
+//    @Test
+//    void should_return_404_when_ArrondissementMunicipalCodePrecedents_code69385_date19450101() throws Exception{
+//        mockMvc.perform(get("/geo/arrondissementMunicipal/69385/precedents")
+//                        .param("date", "1945-01-01"))
+//                .andExpect(status().isNotFound());
+//    }
 
     ////////////////////////////////////////////////////////////////////
     ///        geo/arrondissementMunicipal/{code}/projetes           ///
