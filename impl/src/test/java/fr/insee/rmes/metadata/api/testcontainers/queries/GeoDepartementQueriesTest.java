@@ -31,9 +31,9 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
     ///        geo/departement/{code}/ascendants          ///
     /////////////////////////////////////////////////////////
 
-    //    geo/departement/22/ascendants
+    //    geo/departement/22/ascendants?date=2025-09-04
     @Test
-    void should_return_1_region_when_DepartementCodeAscendants_code22_typeNull(){
+    void should_return_1_region_when_DepartementCodeAscendants_code22_date20250904_typeNull(){
         var response  = endpoints.getcogdepasc("22", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
         var resultItem1= result.getFirst();
