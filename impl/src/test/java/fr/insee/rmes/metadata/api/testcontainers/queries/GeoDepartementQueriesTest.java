@@ -63,6 +63,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
         Assert.assertEquals("Bretagne", resultItem1.getIntitule());
     }
 
+
     /////////////////////////////////////////////////////////
     ///        geo/departement/{code}                     ///
     /////////////////////////////////////////////////////////
