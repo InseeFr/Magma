@@ -54,7 +54,7 @@ public class GeoArrondissementEndpoints implements GeoArrondissementApi {
             date = LocalDate.now().toString();
         }
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireEtoileRequestParametizer(date, Arrondissement.class, "*"))
+                .with(new TerritoireEtoileRequestParametizer(date, Arrondissement.class, "sousPrefecture"))
                 .executeQuery()
                 .listResult(Arrondissement.class)
                 .toResponseEntity();

@@ -45,11 +45,10 @@ public class GeoCantonEndpoints implements GeoCantonApi {
             date = LocalDate.now().toString();
         }
         return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireEtoileRequestParametizer(date, Canton.class, "*"))
+                .with(new TerritoireEtoileRequestParametizer(date, Canton.class, "bureauCentralisateur"))
                 .executeQuery()
                 .listResult(Canton.class)
                 .toResponseEntity();
-
     }
 
     @Override
