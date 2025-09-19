@@ -4,7 +4,6 @@ import fr.insee.rmes.metadata.api.GeoBassinDeVieEndpoints;
 import fr.insee.rmes.metadata.model.BassinDeVie2022;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsBassinDeVie;
-import org.junit.Assert;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,13 +69,13 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
         var result = response.getBody();
         var resultItem1= result.getFirst();
         assertEquals(2, result.size());
-        Assert.assertEquals("35155", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/commune/4df5a6eb-4ced-4e81-9953-42ff31f073f9", resultItem1.getUri());
-        Assert.assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
-        Assert.assertEquals("Lohéac", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
-        Assert.assertEquals("Lohéac", resultItem1.getIntitule());
+        assertEquals("35155", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/commune/4df5a6eb-4ced-4e81-9953-42ff31f073f9", resultItem1.getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
+        assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
+        assertEquals("Lohéac", resultItem1.getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals("Lohéac", resultItem1.getIntitule());
     }
 
     //    geo/departement/22/descendants?date=2025-09-04
@@ -86,13 +85,13 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
         var result = response.getBody();
         var resultItem1= result.getFirst();
         assertEquals(2, result.size());
-        Assert.assertEquals("35155", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/commune/4df5a6eb-4ced-4e81-9953-42ff31f073f9", resultItem1.getUri());
-        Assert.assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
-        Assert.assertEquals("Lohéac", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
-        Assert.assertEquals("Lohéac", resultItem1.getIntitule());
+        assertEquals("35155", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/commune/4df5a6eb-4ced-4e81-9953-42ff31f073f9", resultItem1.getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
+        assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
+        assertEquals("Lohéac", resultItem1.getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals("Lohéac", resultItem1.getIntitule());
     }
 
 

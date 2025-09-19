@@ -2,7 +2,6 @@ package fr.insee.rmes.metadata.api.testcontainers.queries;
 
 import fr.insee.rmes.metadata.api.GeoCantonOuVilleEndpoints;
 import fr.insee.rmes.metadata.model.*;
-import org.junit.Assert;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +37,14 @@ public class GeoCantonOuVilleQueriesTest extends TestcontainerTest {
         var result = response.getBody();
         var resultItem1= result.getFirst();
         assertEquals(2, result.size());
-        Assert.assertEquals("01", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/departement/84680e6f-2e99-44c9-a9ba-2e96a2ae48b7", resultItem1.getUri());
-        Assert.assertEquals(TerritoireTousAttributs.TypeEnum.DEPARTEMENT, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(1967,12,31), resultItem1.getDateCreation());
-        Assert.assertEquals("Ain", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._5_ARTICLE_L_CHARNIERE_DE_L_, resultItem1.getTypeArticle());
-        Assert.assertEquals("01053", resultItem1.getChefLieu());
-        Assert.assertEquals("Ain", resultItem1.getIntitule());
+        assertEquals("01", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/departement/84680e6f-2e99-44c9-a9ba-2e96a2ae48b7", resultItem1.getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.DEPARTEMENT, resultItem1.getType());
+        assertEquals(LocalDate.of(1967,12,31), resultItem1.getDateCreation());
+        assertEquals("Ain", resultItem1.getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._5_ARTICLE_L_CHARNIERE_DE_L_, resultItem1.getTypeArticle());
+        assertEquals("01053", resultItem1.getChefLieu());
+        assertEquals("Ain", resultItem1.getIntitule());
     }
 
 //    geo/cantonOuVille/0101/ascendants?date=2025-09-04&type=Region
@@ -55,14 +54,14 @@ public class GeoCantonOuVilleQueriesTest extends TestcontainerTest {
         var result = response.getBody();
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
-        Assert.assertEquals("84", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/region/c12b23e7-d2e7-4443-ac4b-de8de5ce22f2", resultItem1.getUri());
-        Assert.assertEquals(TerritoireTousAttributs.TypeEnum.REGION, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
-        Assert.assertEquals("Auvergne-Rhône-Alpes", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
-        Assert.assertEquals("69123", resultItem1.getChefLieu());
-        Assert.assertEquals("Auvergne-Rhône-Alpes", resultItem1.getIntitule());
+        assertEquals("84", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/region/c12b23e7-d2e7-4443-ac4b-de8de5ce22f2", resultItem1.getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.REGION, resultItem1.getType());
+        assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
+        assertEquals("Auvergne-Rhône-Alpes", resultItem1.getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
+        assertEquals("69123", resultItem1.getChefLieu());
+        assertEquals("Auvergne-Rhône-Alpes", resultItem1.getIntitule());
     }
 
     /////////////////////////////////////////////////////////////////////
@@ -101,13 +100,13 @@ void should_return_404_when_CantonOuVilleCode_code0100_date20250904() throws Exc
         var result = response.getBody();
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
-        Assert.assertEquals("010040101", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/iris/b8c772de-9551-4f13-81c5-eca5bb0f2f7d", resultItem1.getUri());
-        Assert.assertEquals(TerritoireTousAttributs.TypeEnum.IRIS, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(2008,1,1), resultItem1.getDateCreation());
-        Assert.assertEquals("Pérouses-Triangle d'Activités", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._4_ARTICLE_LES_CHARNIERE_DES_, resultItem1.getTypeArticle());
-        Assert.assertEquals("Les Pérouses-Triangle d'Activités", resultItem1.getIntitule());
+        assertEquals("010040101", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/iris/b8c772de-9551-4f13-81c5-eca5bb0f2f7d", resultItem1.getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.IRIS, resultItem1.getType());
+        assertEquals(LocalDate.of(2008,1,1), resultItem1.getDateCreation());
+        assertEquals("Pérouses-Triangle d'Activités", resultItem1.getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._4_ARTICLE_LES_CHARNIERE_DES_, resultItem1.getTypeArticle());
+        assertEquals("Les Pérouses-Triangle d'Activités", resultItem1.getIntitule());
     }
 
     @Test
@@ -116,13 +115,13 @@ void should_return_404_when_CantonOuVilleCode_code0100_date20250904() throws Exc
         var result = response.getBody();
         var resultItem1= result.getFirst();
         assertEquals(22, result.size());
-        Assert.assertEquals("01002", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e", resultItem1.getUri());
-        Assert.assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
-        Assert.assertEquals("Abergement-de-Varey", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._5_ARTICLE_L_CHARNIERE_DE_L_, resultItem1.getTypeArticle());
-        Assert.assertEquals("L'Abergement-de-Varey", resultItem1.getIntitule());
+        assertEquals("01002", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e", resultItem1.getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
+        assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
+        assertEquals("Abergement-de-Varey", resultItem1.getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._5_ARTICLE_L_CHARNIERE_DE_L_, resultItem1.getTypeArticle());
+        assertEquals("L'Abergement-de-Varey", resultItem1.getIntitule());
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -136,13 +135,13 @@ void should_return_404_when_CantonOuVilleCode_code0100_date20250904() throws Exc
         var result = response.getBody();
         var resultItem1= result.getFirst();
         assertEquals(2042, result.size());
-        Assert.assertEquals("0101", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/cantonOuVille/5e75ead7-7564-4480-83b0-7e16a7d8acf7", resultItem1.getUri());
-        Assert.assertEquals(CantonOuVille.TypeEnum.CANTON_OU_VILLE, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
-        Assert.assertEquals("Ambérieu-en-Bugey", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(CantonOuVille.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
-        Assert.assertEquals("Ambérieu-en-Bugey", resultItem1.getIntitule());
+        assertEquals("0101", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/cantonOuVille/5e75ead7-7564-4480-83b0-7e16a7d8acf7", resultItem1.getUri());
+        assertEquals(CantonOuVille.TypeEnum.CANTON_OU_VILLE, resultItem1.getType());
+        assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
+        assertEquals("Ambérieu-en-Bugey", resultItem1.getIntituleSansArticle());
+        assertEquals(CantonOuVille.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
+        assertEquals("Ambérieu-en-Bugey", resultItem1.getIntitule());
     }
 
 //    geo/cantonsEtVilles?date=*
@@ -152,13 +151,13 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
     var result = response.getBody();
     var resultItem1= result.getFirst();
     assertEquals(2042, result.size());
-    Assert.assertEquals("0101", resultItem1.getCode());
-    Assert.assertEquals("http://id.insee.fr/geo/cantonOuVille/5e75ead7-7564-4480-83b0-7e16a7d8acf7", resultItem1.getUri());
-    Assert.assertEquals(CantonOuVille.TypeEnum.CANTON_OU_VILLE, resultItem1.getType());
-    Assert.assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
-    Assert.assertEquals("Ambérieu-en-Bugey", resultItem1.getIntituleSansArticle());
-    Assert.assertEquals(CantonOuVille.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
-    Assert.assertEquals("Ambérieu-en-Bugey", resultItem1.getIntitule());
+    assertEquals("0101", resultItem1.getCode());
+    assertEquals("http://id.insee.fr/geo/cantonOuVille/5e75ead7-7564-4480-83b0-7e16a7d8acf7", resultItem1.getUri());
+    assertEquals(CantonOuVille.TypeEnum.CANTON_OU_VILLE, resultItem1.getType());
+    assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
+    assertEquals("Ambérieu-en-Bugey", resultItem1.getIntituleSansArticle());
+    assertEquals(CantonOuVille.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
+    assertEquals("Ambérieu-en-Bugey", resultItem1.getIntitule());
 }
 
     ////////////////////////////////////////////////////////////////////
@@ -172,14 +171,14 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
         var result = response.getBody();
         var resultItem1= result.getFirst();
         assertEquals(3, result.size());
-        Assert.assertEquals("0104", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/cantonOuVille/383181fb-59ba-425c-81c1-dfdf1b51cf8c", resultItem1.getUri());
-        Assert.assertEquals(TerritoireTousAttributs.TypeEnum.CANTON_OU_VILLE, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
-        Assert.assertEquals(LocalDate.of(2020,3,7), resultItem1.getDateSuppression());
-        Assert.assertEquals("Belley", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
-        Assert.assertEquals("Belley", resultItem1.getIntitule());
+        assertEquals("0104", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/cantonOuVille/383181fb-59ba-425c-81c1-dfdf1b51cf8c", resultItem1.getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.CANTON_OU_VILLE, resultItem1.getType());
+        assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
+        assertEquals(LocalDate.of(2020,3,7), resultItem1.getDateSuppression());
+        assertEquals("Belley", resultItem1.getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals("Belley", resultItem1.getIntitule());
     }
 
 //    geo/cantonOuVille/0104/precedents?date=1950-01-01  renvoie 404
@@ -201,14 +200,14 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
         var result = response.getBody();
         var resultItem1= result.getFirst();
         assertEquals(3, result.size());
-        Assert.assertEquals("0104", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/cantonOuVille/383181fb-59ba-425c-81c1-dfdf1b51cf8c", resultItem1.getUri());
-        Assert.assertEquals(TerritoireTousAttributs.TypeEnum.CANTON_OU_VILLE, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
-        Assert.assertEquals(LocalDate.of(2020,3,7), resultItem1.getDateSuppression());
-        Assert.assertEquals("Belley", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
-        Assert.assertEquals("Belley", resultItem1.getIntitule());
+        assertEquals("0104", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/cantonOuVille/383181fb-59ba-425c-81c1-dfdf1b51cf8c", resultItem1.getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.CANTON_OU_VILLE, resultItem1.getType());
+        assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
+        assertEquals(LocalDate.of(2020,3,7), resultItem1.getDateSuppression());
+        assertEquals("Belley", resultItem1.getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals("Belley", resultItem1.getIntitule());
     }
 
     //    geo/cantonOuVille/0104/projetes?date=2025-09-01
@@ -239,13 +238,13 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
         var result = response.getBody();
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
-        Assert.assertEquals("0103", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/cantonOuVille/cb4d9856-a39d-4283-a9ab-d91396ebd705", resultItem1.getUri());
-        Assert.assertEquals(TerritoireTousAttributs.TypeEnum.CANTON_OU_VILLE, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(2020,3,7), resultItem1.getDateCreation());
-        Assert.assertEquals("Valserhône", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
-        Assert.assertEquals("Valserhône", resultItem1.getIntitule());
+        assertEquals("0103", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/cantonOuVille/cb4d9856-a39d-4283-a9ab-d91396ebd705", resultItem1.getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.CANTON_OU_VILLE, resultItem1.getType());
+        assertEquals(LocalDate.of(2020,3,7), resultItem1.getDateCreation());
+        assertEquals("Valserhône", resultItem1.getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals("Valserhône", resultItem1.getIntitule());
     }
 
     //    geo/cantonOuVille/0103/suivants?date=2025-09-04

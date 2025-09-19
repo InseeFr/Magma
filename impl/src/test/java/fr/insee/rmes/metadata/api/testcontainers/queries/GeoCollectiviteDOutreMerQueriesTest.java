@@ -41,13 +41,13 @@ public class GeoCollectiviteDOutreMerQueriesTest extends TestcontainerTest{
         var result = response.getBody();
         //utilisation de assertAll() pour que le test ne s'arrête pas à la première erreur du test
         assertAll(
-                () ->Assert.assertEquals("988", result.getCode()),
-                () -> Assert.assertEquals("http://id.insee.fr/geo/collectiviteDOutreMer/bc93b612-59f5-463a-a05f-e5ed9013dc8d", result.getUri()),
-                () ->Assert.assertEquals(CollectiviteDOutreMer.TypeEnum.COLLECTIVITE_D_OUTRE_MER, result.getType()),
-                () ->Assert.assertEquals(LocalDate.of(1969,3,30), result.getDateCreation()),
-                () ->Assert.assertEquals("Nouvelle-Calédonie", result.getIntituleSansArticle()),
-                () ->Assert.assertEquals(CollectiviteDOutreMer.TypeArticleEnum._0_CHARNIERE_DE_, result.getTypeArticle()),
-                () ->Assert.assertEquals("Nouvelle-Calédonie", result.getIntitule())
+                () -> assertEquals("988", result.getCode()),
+                () -> assertEquals("http://id.insee.fr/geo/collectiviteDOutreMer/bc93b612-59f5-463a-a05f-e5ed9013dc8d", result.getUri()),
+                () -> assertEquals(CollectiviteDOutreMer.TypeEnum.COLLECTIVITE_D_OUTRE_MER, result.getType()),
+                () -> assertEquals(LocalDate.of(1969,3,30), result.getDateCreation()),
+                () -> assertEquals("Nouvelle-Calédonie", result.getIntituleSansArticle()),
+                () -> assertEquals(CollectiviteDOutreMer.TypeArticleEnum._0_CHARNIERE_DE_, result.getTypeArticle()),
+                () -> assertEquals("Nouvelle-Calédonie", result.getIntitule())
         );
     }
 

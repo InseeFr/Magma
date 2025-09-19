@@ -3,9 +3,7 @@ package fr.insee.rmes.metadata.api.testcontainers.queries;
 
 import fr.insee.rmes.metadata.api.GeoArrondissementMunipalEndpoints;
 import fr.insee.rmes.metadata.model.ArrondissementMunicipal;
-import fr.insee.rmes.metadata.model.TerritoireBaseChefLieu;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
-import org.junit.Assert;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,22 +42,22 @@ public class GeoArrondissementMunicipalQueriesTest extends TestcontainerTest {
 
         // Vérifie le premier élément (AireDAttractionDesVilles2020)
         var resultItem1 = result.getFirst();
-        Assert.assertEquals("003", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/132d17f0-048f-4e01-91f6-88c383c7a2b9", resultItem1.getUri());
-        Assert.assertEquals(TerritoireTousAttributs.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(2020, 1, 1), resultItem1.getDateCreation());
-        Assert.assertEquals("Marseille - Aix-en-Provence", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
-        Assert.assertEquals("Marseille - Aix-en-Provence", resultItem1.getIntitule());
+        assertEquals("003", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/132d17f0-048f-4e01-91f6-88c383c7a2b9", resultItem1.getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType());
+        assertEquals(LocalDate.of(2020, 1, 1), resultItem1.getDateCreation());
+        assertEquals("Marseille - Aix-en-Provence", resultItem1.getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals("Marseille - Aix-en-Provence", resultItem1.getIntitule());
 
         // Vérifie le deuxième élément (Arrondissement)
-        Assert.assertEquals("133", result.get(1).getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/arrondissement/5af92f83-0b53-4143-91a0-e5206ce9d5f6", result.get(1).getUri());
-        Assert.assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT, result.get(1).getType());
-        Assert.assertEquals(LocalDate.of(2017, 3, 1), result.get(1).getDateCreation());
-        Assert.assertEquals("Marseille", result.get(1).getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, result.get(1).getTypeArticle());
-        Assert.assertEquals("Marseille", result.get(1).getIntitule());
+        assertEquals("133", result.get(1).getCode());
+        assertEquals("http://id.insee.fr/geo/arrondissement/5af92f83-0b53-4143-91a0-e5206ce9d5f6", result.get(1).getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT, result.get(1).getType());
+        assertEquals(LocalDate.of(2017, 3, 1), result.get(1).getDateCreation());
+        assertEquals("Marseille", result.get(1).getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, result.get(1).getTypeArticle());
+        assertEquals("Marseille", result.get(1).getIntitule());
     }
 
     /////////////////////////////////////////////////////////////////////
