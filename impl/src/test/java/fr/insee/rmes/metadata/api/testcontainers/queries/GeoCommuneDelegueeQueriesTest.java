@@ -98,7 +98,7 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
 
 //    geo/communeDeleguee/46249?date=2025-09-04 renvoie 404
     @Test
-    void should_return_404_when_CommuneDelegueeCode_code46249_date20250904() throws Exception{
+    void should_return_404_when_CommuneDelegueeCode_code46249_date20250901() throws Exception{
         mockMvc.perform(get("/geo/communeDeleguee/46249")
                         .param("date", "2025-09-01"))
                 .andExpect(status().isNotFound());
