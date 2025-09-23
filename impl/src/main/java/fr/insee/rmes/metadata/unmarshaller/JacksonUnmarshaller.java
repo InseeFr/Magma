@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static fr.insee.rmes.metadata.model.Departement.TypeArticleEnum._0_CHARNIERE_DE_;
 
 @Component
 @Slf4j

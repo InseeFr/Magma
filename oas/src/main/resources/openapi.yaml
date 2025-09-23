@@ -5803,6 +5803,9 @@ components:
             - X:
                 article:
                 charniere:
+            - Y:
+                article:
+                charniere:
         intitule:
           type: string
           xml:
