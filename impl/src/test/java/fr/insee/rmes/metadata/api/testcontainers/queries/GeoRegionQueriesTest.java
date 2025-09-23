@@ -99,7 +99,7 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
 
 //   geo/regions?date=2025-09-04 : renvoie 30 territoires
     @Test
-    void should_return_18_territoires_when_RegionCodeDescendants_code06_date20250904_typeNull_filtreNomNull(){
+    void should_return_18_territoires_when_Region_date20250904_typeNull_filtreNomNull(){
         var response  = endpoints.getcogregliste("2025-09-04");
         var result = response.getBody();
         var resultItem1= result.getFirst();
@@ -115,6 +115,7 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
                 () -> assertEquals("Guadeloupe", resultItem1.getIntitule())
         );
     }
+
 //  geo/region?date=*
     @Test
     void should_return_45_regions_when_Regions_dateEtoile(){

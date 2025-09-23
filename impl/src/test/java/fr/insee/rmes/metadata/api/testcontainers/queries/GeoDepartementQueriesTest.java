@@ -3,7 +3,6 @@ package fr.insee.rmes.metadata.api.testcontainers.queries;
 import fr.insee.rmes.metadata.api.GeoDepartementEndpoints;
 import fr.insee.rmes.metadata.model.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import org.junit.Assert;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
