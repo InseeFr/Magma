@@ -44,7 +44,7 @@ public class GeoCirconscriptionTerritorialeQueriesTest extends TestcontainerTest
         assertEquals(TerritoireTousAttributs.TypeEnum.COLLECTIVITE_D_OUTRE_MER, resultItem1.getType());
         assertEquals(LocalDate.of(1985,1,1), resultItem1.getDateCreation());
         assertEquals("Wallis-et-Futuna", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Wallis-et-Futuna", resultItem1.getIntitule());
     }
 
@@ -73,7 +73,7 @@ public class GeoCirconscriptionTerritorialeQueriesTest extends TestcontainerTest
         assertEquals(CirconscriptionTerritoriale.TypeEnum.CIRCONSCRIPTION_TERRITORIALE, result.getType());
         assertEquals(LocalDate.of(1985,1,1), result.getDateCreation());
         assertEquals("Alo", result.getIntituleSansArticle());
-        assertEquals(CirconscriptionTerritoriale.TypeArticleEnum._1_CHARNIERE_D_, result.getTypeArticle());
+        assertEquals(CirconscriptionTerritoriale.TypeArticleEnum._1, result.getTypeArticle());
         assertEquals("Alo", result.getIntitule());
     }
 

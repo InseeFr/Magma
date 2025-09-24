@@ -47,7 +47,7 @@ public class GeoArrondissementMunicipalQueriesTest extends TestcontainerTest {
         assertEquals(TerritoireTousAttributs.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType());
         assertEquals(LocalDate.of(2020, 1, 1), resultItem1.getDateCreation());
         assertEquals("Marseille - Aix-en-Provence", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Marseille - Aix-en-Provence", resultItem1.getIntitule());
 
         // Vérifie le deuxième élément (Arrondissement)
@@ -56,7 +56,7 @@ public class GeoArrondissementMunicipalQueriesTest extends TestcontainerTest {
         assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT, result.get(1).getType());
         assertEquals(LocalDate.of(2017, 3, 1), result.get(1).getDateCreation());
         assertEquals("Marseille", result.get(1).getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, result.get(1).getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, result.get(1).getTypeArticle());
         assertEquals("Marseille", result.get(1).getIntitule());
     }
 
@@ -74,7 +74,7 @@ public class GeoArrondissementMunicipalQueriesTest extends TestcontainerTest {
         assertEquals(ArrondissementMunicipal.TypeEnum.ARRONDISSEMENT_MUNICIPAL, result.getType());
         assertEquals(LocalDate.of(1964, 8, 12), result.getDateCreation());
         assertEquals("Lyon 5e Arrondissement", result.getIntituleSansArticle());
-        assertEquals(ArrondissementMunicipal.TypeArticleEnum._0_CHARNIERE_DE_, result.getTypeArticle());
+        assertEquals(ArrondissementMunicipal.TypeArticleEnum._0, result.getTypeArticle());
         assertEquals("Lyon 5e Arrondissement", result.getIntitule());
     }
 
@@ -104,7 +104,7 @@ public class GeoArrondissementMunicipalQueriesTest extends TestcontainerTest {
         assertEquals(ArrondissementMunicipal.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem1.getType());
         assertEquals(LocalDate.of(1946, 10, 18), resultItem1.getDateCreation());
         assertEquals("Marseille 1er Arrondissement", resultItem1.getIntituleSansArticle());
-        assertEquals(ArrondissementMunicipal.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(ArrondissementMunicipal.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Marseille 1er Arrondissement", resultItem1.getIntitule());
 
         var resultItem2= result.get(1);
@@ -113,7 +113,7 @@ public class GeoArrondissementMunicipalQueriesTest extends TestcontainerTest {
         assertEquals(ArrondissementMunicipal.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem2.getType());
         assertEquals(LocalDate.of(1946, 10, 18), resultItem2.getDateCreation());
         assertEquals("Marseille 2e Arrondissement", resultItem2.getIntituleSansArticle());
-        assertEquals(ArrondissementMunicipal.TypeArticleEnum._0_CHARNIERE_DE_, resultItem2.getTypeArticle());
+        assertEquals(ArrondissementMunicipal.TypeArticleEnum._0, resultItem2.getTypeArticle());
         assertEquals("Marseille 2e Arrondissement", resultItem2.getIntitule());
     }
 
@@ -129,7 +129,7 @@ void should_return_45_arrondissementsMunicipaux_when_ArrondissementsMunicipaux_d
     assertEquals(ArrondissementMunicipal.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem1.getType());
     assertEquals(LocalDate.of(1946, 10, 18), resultItem1.getDateCreation());
     assertEquals("Marseille 1er Arrondissement", resultItem1.getIntituleSansArticle());
-    assertEquals(ArrondissementMunicipal.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+    assertEquals(ArrondissementMunicipal.TypeArticleEnum._0, resultItem1.getTypeArticle());
     assertEquals("Marseille 1er Arrondissement", resultItem1.getIntitule());
 
     var resultItem2= result.get(1);
@@ -138,7 +138,7 @@ void should_return_45_arrondissementsMunicipaux_when_ArrondissementsMunicipaux_d
     assertEquals(ArrondissementMunicipal.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem2.getType());
     assertEquals(LocalDate.of(1946, 10, 18), resultItem2.getDateCreation());
     assertEquals("Marseille 2e Arrondissement", resultItem2.getIntituleSansArticle());
-    assertEquals(ArrondissementMunicipal.TypeArticleEnum._0_CHARNIERE_DE_, resultItem2.getTypeArticle());
+    assertEquals(ArrondissementMunicipal.TypeArticleEnum._0, resultItem2.getTypeArticle());
     assertEquals("Marseille 2e Arrondissement", resultItem2.getIntitule());
 }
 
@@ -159,7 +159,7 @@ void should_return_45_arrondissementsMunicipaux_when_ArrondissementsMunicipaux_d
         assertEquals(LocalDate.of(1943, 1, 1), resultItem1.getDateCreation());
         assertEquals(LocalDate.of(1964, 8, 12), resultItem1.getDateSuppression());
         assertEquals("Lyon 5e Arrondissement", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Lyon 5e Arrondissement", resultItem1.getIntitule());
     }
 
@@ -187,7 +187,7 @@ void should_return_45_arrondissementsMunicipaux_when_ArrondissementsMunicipaux_d
         assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem1.getType());
         assertEquals(LocalDate.of(1964, 8, 12), resultItem1.getDateCreation());
         assertEquals("Lyon 5e Arrondissement", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Lyon 5e Arrondissement", resultItem1.getIntitule());
 
         var resultItem2= result.get(1);
@@ -196,7 +196,7 @@ void should_return_45_arrondissementsMunicipaux_when_ArrondissementsMunicipaux_d
         assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem2.getType());
         assertEquals(LocalDate.of(1964, 8, 12), resultItem2.getDateCreation());
         assertEquals("Lyon 9e Arrondissement", resultItem2.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem2.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem2.getTypeArticle());
         assertEquals("Lyon 9e Arrondissement", resultItem2.getIntitule());
     }
 
@@ -216,7 +216,7 @@ void should_return_45_arrondissementsMunicipaux_when_ArrondissementsMunicipaux_d
         assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem1.getType());
         assertEquals(LocalDate.of(1964, 8, 12), resultItem1.getDateCreation());
         assertEquals("Lyon 5e Arrondissement", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Lyon 5e Arrondissement", resultItem1.getIntitule());
 
         var resultItem2= result.get(1);
@@ -225,7 +225,7 @@ void should_return_45_arrondissementsMunicipaux_when_ArrondissementsMunicipaux_d
         assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem2.getType());
         assertEquals(LocalDate.of(1964, 8, 12), resultItem2.getDateCreation());
         assertEquals("Lyon 9e Arrondissement", resultItem2.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem2.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem2.getTypeArticle());
         assertEquals("Lyon 9e Arrondissement", resultItem2.getIntitule());
     }
 }

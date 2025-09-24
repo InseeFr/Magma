@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static fr.insee.rmes.metadata.model.Departement.TypeArticleEnum._0_CHARNIERE_DE_;
 
 @Component
 @Slf4j
@@ -27,41 +26,40 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
 
     public JacksonUnmarshaller() {
         this(CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
-                .addModule(enumModule(TerritoireBase.TypeArticleEnum.class, TerritoireBase.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(TerritoireTousAttributs.TypeArticleEnum.class, TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(TerritoireBaseChefLieu.TypeArticleEnum.class, TerritoireBaseChefLieu.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(AireDAttractionDesVilles2020.TypeArticleEnum.class, AireDAttractionDesVilles2020.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(Arrondissement.TypeArticleEnum.class, Arrondissement.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(ArrondissementMunicipal.TypeArticleEnum.class, ArrondissementMunicipal.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(BassinDeVie2022.TypeArticleEnum.class, BassinDeVie2022.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(Canton.TypeArticleEnum.class, Canton.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(CantonOuVille.TypeArticleEnum.class, CantonOuVille.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(CirconscriptionTerritoriale.TypeArticleEnum.class, CirconscriptionTerritoriale.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(CollectiviteDOutreMer.TypeArticleEnum.class, CollectiviteDOutreMer.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(Commune.TypeArticleEnum.class, Commune.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(CommuneAssociee.TypeArticleEnum.class, CommuneAssociee.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(CommuneDeleguee.TypeArticleEnum.class, CommuneDeleguee.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(District.TypeArticleEnum.class, District.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(Departement.TypeArticleEnum.class, Departement.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(Intercommunalite.TypeArticleEnum.class, Intercommunalite.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(Region.TypeArticleEnum.class, Region.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(UniteUrbaine2020.TypeArticleEnum.class, UniteUrbaine2020.TypeArticleEnum._0_CHARNIERE_DE_))
-                .addModule(enumModule(ZoneDEmploi2020.TypeArticleEnum.class, ZoneDEmploi2020.TypeArticleEnum._0_CHARNIERE_DE_))
+                .addModule(enumModule(TerritoireBase.TypeArticleEnum.class))
+                .addModule(enumModule(TerritoireTousAttributs.TypeArticleEnum.class))
+                .addModule(enumModule(TerritoireBaseChefLieu.TypeArticleEnum.class))
+                .addModule(enumModule(AireDAttractionDesVilles2020.TypeArticleEnum.class))
+                .addModule(enumModule(Arrondissement.TypeArticleEnum.class))
+                .addModule(enumModule(ArrondissementMunicipal.TypeArticleEnum.class))
+                .addModule(enumModule(BassinDeVie2022.TypeArticleEnum.class))
+                .addModule(enumModule(Canton.TypeArticleEnum.class))
+                .addModule(enumModule(CantonOuVille.TypeArticleEnum.class))
+                .addModule(enumModule(CirconscriptionTerritoriale.TypeArticleEnum.class))
+                .addModule(enumModule(CollectiviteDOutreMer.TypeArticleEnum.class))
+                .addModule(enumModule(Commune.TypeArticleEnum.class))
+                .addModule(enumModule(CommuneAssociee.TypeArticleEnum.class))
+                .addModule(enumModule(CommuneDeleguee.TypeArticleEnum.class))
+                .addModule(enumModule(District.TypeArticleEnum.class))
+                .addModule(enumModule(Departement.TypeArticleEnum.class))
+                .addModule(enumModule(Intercommunalite.TypeArticleEnum.class))
+                .addModule(enumModule(Region.TypeArticleEnum.class))
+                .addModule(enumModule(UniteUrbaine2020.TypeArticleEnum.class))
+                .addModule(enumModule(ZoneDEmploi2020.TypeArticleEnum.class))
                 .addModule(new JavaTimeModule())
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .build());
     }
 
-
-    private static <E extends Enum<E>>  Module enumModule(Class<E> enumClass, E defaultValue) {
+    private static <E extends Enum<E>>  Module enumModule(Class<E> enumClass) {
         var module = new SimpleModule();
         module.addDeserializer(enumClass, new JsonDeserializer<>()  {
             @Override
             public E deserialize(JsonParser parser, DeserializationContext ctxt) {
                 try {
-                    return enumClass.getEnumConstants()[Integer.parseInt(parser.getValueAsString())];
-                } catch (NumberFormatException | IOException e) {
-                    return defaultValue;
+                    return Enum.valueOf(enumClass, parser.getValueAsString());
+                } catch (IOException e) {
+                    return null;
                 }
             }
         });

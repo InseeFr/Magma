@@ -45,7 +45,7 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(2020,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Cahors", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Cahors", resultItem1.getIntitule())
         );
     }
@@ -63,7 +63,7 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(2017,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Cahors", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("46042", resultItem1.getChefLieu()),
                 () -> assertEquals("Cahors", resultItem1.getIntitule())
         );
@@ -91,7 +91,7 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
                 () -> assertEquals(CommuneDeleguee.TypeEnum.COMMUNE_DELEGUEE, result.getType()),
                 () -> assertEquals(LocalDate.of(2017,1,1), result.getDateCreation()),
                 () -> assertEquals("Sainte-Alauzie", result.getIntituleSansArticle()),
-                () -> assertEquals(CommuneDeleguee.TypeArticleEnum._0_CHARNIERE_DE_, result.getTypeArticle()),
+                () -> assertEquals(CommuneDeleguee.TypeArticleEnum._0, result.getTypeArticle()),
                 () -> assertEquals("Sainte-Alauzie", result.getIntitule())
         );
     }
@@ -123,7 +123,7 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
                 () -> assertEquals(CommuneDeleguee.TypeEnum.COMMUNE_DELEGUEE, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Arbignieu", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(CommuneDeleguee.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle()),
+                () -> assertEquals(CommuneDeleguee.TypeArticleEnum._1, resultItem1.getTypeArticle()),
                 () -> assertEquals("Arbignieu", resultItem1.getIntitule())
         );
     }
@@ -142,7 +142,7 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
                 () -> assertEquals(CommuneDeleguee.TypeEnum.COMMUNE_DELEGUEE, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Arbignieu", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(CommuneDeleguee.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle()),
+                () -> assertEquals(CommuneDeleguee.TypeArticleEnum._1, resultItem1.getTypeArticle()),
                 () -> assertEquals("Arbignieu", resultItem1.getIntitule())
         );
     }
