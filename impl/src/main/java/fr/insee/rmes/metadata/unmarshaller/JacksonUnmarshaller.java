@@ -57,8 +57,12 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
             @Override
             public E deserialize(JsonParser parser, DeserializationContext ctxt) {
                 try {
-                    return Enum.valueOf(enumClass, parser.getValueAsString());
-                } catch (IOException e) {
+                    String value = parser.getValueAsString();
+                    // Transformation des valeurs numériques en noms d'enum valides
+                    String enumName = value.matches("\\d+") ? "_" + value : value;
+                    return Enum.valueOf(enumClass, enumName);
+                }
+                catch (IOException e) {
                     return null;
                 }
             }
