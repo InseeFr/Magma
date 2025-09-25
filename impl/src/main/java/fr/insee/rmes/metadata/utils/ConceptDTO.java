@@ -1,13 +1,12 @@
 package fr.insee.rmes.metadata.utils;
 
-import com.fasterxml.jackson.core.io.BigDecimalParser;
-import fr.insee.rmes.metadata.model.Concept;
-import fr.insee.rmes.metadata.model.ConceptConceptsSuivantsInner;
-import fr.insee.rmes.metadata.model.ConceptIntituleInner;
-import fr.insee.rmes.metadata.model.ConceptSuivant;
+import fr.insee.rmes.metadata.model.*;
+import lombok.Getter;
+
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,9 @@ public class ConceptDTO {
     private String noteEditorialeFr;
     private String noteEditorialeEn;
     private String dateMiseAJour;
+    @Getter
     private Boolean hasLink;
+    @Getter
     private List<ConceptSuivant> conceptsSuivants;
 
 
@@ -65,8 +66,9 @@ public class ConceptDTO {
         if (this.dateMiseAJour != null && !this.dateMiseAJour.isEmpty()) {
             try {
                 // Parser en LocalDateTime puis extraire la partie LocalDate
-                LocalDateTime localDateTime = LocalDateTime.parse(this.dateMiseAJour);
-                concept.setDateMiseAJour(localDateTime.toLocalDate());
+                OffsetDateTime localDateTime = OffsetDateTime.parse(this.dateMiseAJour);
+                LocalDate localDate = localDateTime.toLocalDate();
+                concept.setDateMiseAJour(localDate);
             } catch (DateTimeParseException e) {
                 try {
                     // Si le format est directement un LocalDate (ex: "2019-05-17")
@@ -82,6 +84,30 @@ public class ConceptDTO {
 
         return concept;
     }
+
+    public ListeConceptsInner transformDTOenDefinition() {
+        ListeConceptsInner concept = new ListeConceptsInner();
+        concept.setId(this.id);
+        concept.setUri(URI.create(this.uri));
+        concept.setIntitule(this.intituleFr);
+
+
+        if (this.conceptsSuivants != null) {
+            List<ConceptConceptsSuivantsInner> mapped = this.conceptsSuivants.stream()
+                    .map(cs -> {
+                        ConceptConceptsSuivantsInner inner = new ConceptConceptsSuivantsInner();
+                        inner.setId(cs.getId());
+                        inner.setUri(cs.getUri());
+                        inner.setTypeOfLink(cs.getTypeOfLink());
+                        return inner;
+                    })
+                    .toList();
+            concept.setConceptsSuivants(mapped);
+        }
+
+        return concept;
+    }
+
 
     public List<ConceptIntituleInner> createListLangueContenu(ConceptIntituleInner conceptIntituleInner1, ConceptIntituleInner conceptIntituleInner2) {
         List<ConceptIntituleInner> list = new ArrayList<>();
@@ -145,16 +171,8 @@ public class ConceptDTO {
     public void setDateMiseAJour(String dateMiseAJour) { this.dateMiseAJour = dateMiseAJour; }
 
 
-    public Boolean getHasLink() {
-        return hasLink;
-    }
-
     public void setHasLink(Boolean hasLink) {
         this.hasLink = hasLink;
-    }
-
-    public List<ConceptSuivant> getConceptsSuivants() {
-        return conceptsSuivants;
     }
 
     public void setConceptsSuivants(List<ConceptSuivant> conceptsSuivants) {

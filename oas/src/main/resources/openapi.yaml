@@ -6206,6 +6206,23 @@ components:
         - id
         - uri
 
+    Definition:
+      type: object
+      xml:
+        name: Definition
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+          format: uri
+        intitule:
+          type: string
+        conceptsSuivants:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConceptSuivant'
+
     ConceptSuivant:
       type: object
       xml:
@@ -6243,9 +6260,10 @@ components:
       type: array
       xml:
         wrapped: true
-        name: ListeConcepts
+        name: Definition
       items:
-        $ref: '#/components/schemas/Concept'
+#        $ref: '#/components/schemas/Concept'
+         $ref: '#/components/schemas/Definition'
 
     AireDAttractionDesVilles2020:
       allOf:
