@@ -45,7 +45,7 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
                 () -> assertEquals(Region.TypeEnum.REGION, result.getType()),
                 () -> assertEquals(LocalDate.of(2011,3,31), result.getDateCreation()),
                 () -> assertEquals("Mayotte", result.getIntituleSansArticle()),
-                () -> assertEquals(Region.TypeArticleEnum._0_CHARNIERE_DE_, result.getTypeArticle()),
+                () -> assertEquals(Region.TypeArticleEnum._0, result.getTypeArticle()),
                 () -> assertEquals("97611", result.getChefLieu()),
                 () -> assertEquals("Mayotte", result.getIntitule())
         );
@@ -69,7 +69,7 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.CANTON, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Bandraboua", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("97602", resultItem1.getChefLieu()),
                 () -> assertEquals("Bandraboua", resultItem1.getIntitule())
         );
@@ -88,7 +88,7 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.CANTON_OU_VILLE, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Dembeni", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Dembeni", resultItem1.getIntitule())
         );
     }
@@ -110,7 +110,7 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
                 () -> assertEquals(Region.TypeEnum.REGION, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(2007,2,23), resultItem1.getDateCreation()),
                 () -> assertEquals("Guadeloupe", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(Region.TypeArticleEnum._3_ARTICLE_LA_CHARNIERE_DE_LA_, resultItem1.getTypeArticle()),
+                () -> assertEquals(Region.TypeArticleEnum._3, resultItem1.getTypeArticle()),
                 () -> assertEquals("97105", resultItem1.getChefLieu()),
                 () -> assertEquals("Guadeloupe", resultItem1.getIntitule())
         );
@@ -130,7 +130,7 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
                 () -> assertEquals(LocalDate.of(1982,3,2), resultItem1.getDateCreation()),
                 () -> assertEquals(LocalDate.of(2007,2,23), resultItem1.getDateSuppression()),
                 () -> assertEquals("Guadeloupe", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(Region.TypeArticleEnum._3_ARTICLE_LA_CHARNIERE_DE_LA_, resultItem1.getTypeArticle()),
+                () -> assertEquals(Region.TypeArticleEnum._3, resultItem1.getTypeArticle()),
                 () -> assertEquals("97105", resultItem1.getChefLieu()),
                 () -> assertEquals("Guadeloupe", resultItem1.getIntitule())
         );
@@ -154,7 +154,7 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
                 () -> assertEquals(LocalDate.of(2016,9,29), resultItem1.getDateCreation()),
                 () -> assertEquals(LocalDate.of(2016,12,31), resultItem1.getDateSuppression()),
                 () -> assertEquals("Hauts-de-France", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._4_ARTICLE_LES_CHARNIERE_DES_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._4, resultItem1.getTypeArticle()),
                 () -> assertEquals("59350", resultItem1.getChefLieu()),
                 () -> assertEquals("Hauts-de-France", resultItem1.getIntitule())
         );
@@ -204,7 +204,7 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
                 () -> assertEquals(LocalDate.of(1982,3,2), resultItem1.getDateCreation()),
                 () -> assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateSuppression()),
                 () -> assertEquals("Champagne-Ardenne", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Champagne-Ardenne", resultItem1.getIntitule())
         );
     }
@@ -235,7 +235,7 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
         assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
         assertEquals(LocalDate.of(2016,9,29), resultItem1.getDateSuppression());
         assertEquals("Alsace-Champagne-Ardenne-Lorraine", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._1, resultItem1.getTypeArticle());
         assertEquals("67482", resultItem1.getChefLieu());
         assertEquals("Alsace-Champagne-Ardenne-Lorraine", resultItem1.getIntitule());
     }
