@@ -43,7 +43,7 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
         assertEquals(TerritoireTousAttributs.TypeEnum.DEPARTEMENT, resultItem1.getType());
         assertEquals(LocalDate.of(1967,12,31), resultItem1.getDateCreation());
         assertEquals("Ain", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._5_ARTICLE_L_CHARNIERE_DE_L_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._5, resultItem1.getTypeArticle());
         assertEquals("Ain", resultItem1.getIntitule());
 
         assertEquals(TerritoireTousAttributs.TypeEnum.REGION, result.get(1).getType());
@@ -61,7 +61,7 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
         assertEquals(TerritoireTousAttributs.TypeEnum.DEPARTEMENT, resultItem1.getType());
         assertEquals(LocalDate.of(1967,12,31), resultItem1.getDateCreation());
         assertEquals("Ain", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._5_ARTICLE_L_CHARNIERE_DE_L_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._5, resultItem1.getTypeArticle());
         assertEquals("Ain", resultItem1.getIntitule());
     }
 
@@ -77,7 +77,7 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
         assertEquals(Canton.TypeEnum.CANTON, result.getType());
         assertEquals(LocalDate.of(2016, 1, 1), result.getDateCreation());
         assertEquals("Ambérieu-en-Bugey", result.getIntituleSansArticle());
-        assertEquals(Canton.TypeArticleEnum._1_CHARNIERE_D_, result.getTypeArticle());
+        assertEquals(Canton.TypeArticleEnum._1, result.getTypeArticle());
         assertEquals("Ambérieu-en-Bugey", result.getIntitule());
         assertEquals("01004", result.getChefLieu());
     }
@@ -110,7 +110,7 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
         assertEquals("01004", resultItem1.getChefLieu());
         assertEquals("Ambérieu-en-Bugey", resultItem1.getIntitule());
         assertEquals("Ambérieu-en-Bugey", resultItem1.getIntituleSansArticle());
-        assertEquals(Canton.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
+        assertEquals(Canton.TypeArticleEnum._1, resultItem1.getTypeArticle());
     }
 
 //    geo/cantons?date=*
@@ -126,7 +126,7 @@ void should_return_101_cantons_when_Cantons_dateEtoile(){
     assertEquals("01004", resultItem1.getChefLieu());
     assertEquals("Ambérieu-en-Bugey", resultItem1.getIntitule());
     assertEquals("Ambérieu-en-Bugey", resultItem1.getIntituleSansArticle());
-    assertEquals(TerritoireTousAttributs.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
+    assertEquals(TerritoireTousAttributs.TypeArticleEnum._1, resultItem1.getTypeArticle());
 }
 
     ////////////////////////////////////////////////////////////////////
@@ -147,7 +147,7 @@ void should_return_101_cantons_when_Cantons_dateEtoile(){
         assertEquals(LocalDate.of(2020, 3, 7), resultItem1.getDateSuppression());
         assertEquals("Bellegarde-sur-Valserine", resultItem1.getIntitule());
         assertEquals("Bellegarde-sur-Valserine", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
     }
 
 //    geo/canton/0101/precedents?date=1945-01-01  renvoie 404

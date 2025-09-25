@@ -44,7 +44,7 @@ public class GeoZoneDEmploiQueriesTest extends TestcontainerTest{
                 () -> assertEquals(ZoneDEmploi2020.TypeEnum.ZONE_D_EMPLOI2020, result.getType()),
                 () -> assertEquals(LocalDate.of(2020,1,1), result.getDateCreation()),
                 () -> assertEquals("Vierzon", result.getIntituleSansArticle()),
-                () -> assertEquals(ZoneDEmploi2020.TypeArticleEnum._0_CHARNIERE_DE_, result.getTypeArticle()),
+                () -> assertEquals(ZoneDEmploi2020.TypeArticleEnum._0, result.getTypeArticle()),
                 () -> assertEquals("Vierzon", result.getIntitule())
         );
     }
@@ -67,7 +67,7 @@ public class GeoZoneDEmploiQueriesTest extends TestcontainerTest{
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Brinay", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Brinay", resultItem1.getIntitule())
         );
     }
@@ -85,7 +85,7 @@ public class GeoZoneDEmploiQueriesTest extends TestcontainerTest{
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Brinay", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Brinay", resultItem1.getIntitule())
         );
     }
@@ -118,7 +118,7 @@ public class GeoZoneDEmploiQueriesTest extends TestcontainerTest{
                 () -> assertEquals(ZoneDEmploi2020.TypeEnum.ZONE_D_EMPLOI2020, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(2025,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Alençon", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(ZoneDEmploi2020.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle()),
+                () -> assertEquals(ZoneDEmploi2020.TypeArticleEnum._1, resultItem1.getTypeArticle()),
                 () -> assertEquals("Alençon", resultItem1.getIntitule())
         );
     }
@@ -136,7 +136,7 @@ public class GeoZoneDEmploiQueriesTest extends TestcontainerTest{
                 () -> assertEquals(LocalDate.of(2020,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals(LocalDate.of(2025,1,1), resultItem1.getDateSuppression()),
                 () -> assertEquals("Alençon", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(ZoneDEmploi2020.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle()),
+                () -> assertEquals(ZoneDEmploi2020.TypeArticleEnum._1, resultItem1.getTypeArticle()),
                 () -> assertEquals("Alençon", resultItem1.getIntitule())
         );
     }

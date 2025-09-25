@@ -46,7 +46,7 @@ public class GeoCollectiviteDOutreMerQueriesTest extends TestcontainerTest{
                 () -> assertEquals(CollectiviteDOutreMer.TypeEnum.COLLECTIVITE_D_OUTRE_MER, result.getType()),
                 () -> assertEquals(LocalDate.of(1969,3,30), result.getDateCreation()),
                 () -> assertEquals("Nouvelle-Calédonie", result.getIntituleSansArticle()),
-                () -> assertEquals(CollectiviteDOutreMer.TypeArticleEnum._0_CHARNIERE_DE_, result.getTypeArticle()),
+                () -> assertEquals(CollectiviteDOutreMer.TypeArticleEnum._0, result.getTypeArticle()),
                 () -> assertEquals("Nouvelle-Calédonie", result.getIntitule())
         );
     }
@@ -68,7 +68,7 @@ public class GeoCollectiviteDOutreMerQueriesTest extends TestcontainerTest{
         Assert.assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
         Assert.assertEquals(LocalDate.of(1976,7,21), resultItem1.getDateCreation());
         Assert.assertEquals("Miquelon-Langlade", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         Assert.assertEquals("Miquelon-Langlade", resultItem1.getIntitule());
     }
 
@@ -84,7 +84,7 @@ public class GeoCollectiviteDOutreMerQueriesTest extends TestcontainerTest{
         Assert.assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
         Assert.assertEquals(LocalDate.of(1976,7,21), resultItem1.getDateCreation());
         Assert.assertEquals("Miquelon-Langlade", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         Assert.assertEquals("Miquelon-Langlade", resultItem1.getIntitule());
     }
 
@@ -104,7 +104,7 @@ public class GeoCollectiviteDOutreMerQueriesTest extends TestcontainerTest{
         Assert.assertEquals(CollectiviteDOutreMer.TypeEnum.COLLECTIVITE_D_OUTRE_MER, resultItem1.getType());
         Assert.assertEquals(LocalDate.of(1985,6,15), resultItem1.getDateCreation());
         Assert.assertEquals("Saint-Pierre-et-Miquelon", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(CollectiviteDOutreMer.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        Assert.assertEquals(CollectiviteDOutreMer.TypeArticleEnum._0, resultItem1.getTypeArticle());
         Assert.assertEquals("Saint-Pierre-et-Miquelon", resultItem1.getIntitule());
     }
 
@@ -121,7 +121,7 @@ void should_return_67_COM_when_CollectivitesDOutreMer_dateEtoile(){
     Assert.assertEquals(LocalDate.of(1947,12,17), resultItem1.getDateCreation());
     Assert.assertEquals(LocalDate.of(1957,1,1), resultItem1.getDateSuppression());
     Assert.assertEquals("Sarre", resultItem1.getIntituleSansArticle());
-    Assert.assertEquals(CollectiviteDOutreMer.TypeArticleEnum._3_ARTICLE_LA_CHARNIERE_DE_LA_, resultItem1.getTypeArticle());
+    Assert.assertEquals(CollectiviteDOutreMer.TypeArticleEnum._3, resultItem1.getTypeArticle());
     Assert.assertEquals("Sarre", resultItem1.getIntitule());
 }
 

@@ -45,7 +45,7 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
         assertEquals(BassinDeVie2022.TypeEnum.BASSIN_DE_VIE2022, result.getType());
         assertEquals(LocalDate.of(2022, 1, 1), result.getDateCreation());
         assertEquals("Ambérieu-en-Bugey", result.getIntituleSansArticle());
-        assertEquals(BassinDeVie2022.TypeArticleEnum._1_CHARNIERE_D_, result.getTypeArticle());
+        assertEquals(BassinDeVie2022.TypeArticleEnum._1, result.getTypeArticle());
         assertEquals("Ambérieu-en-Bugey", result.getIntitule());
     }
 
@@ -74,7 +74,7 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
         assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
         assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
         assertEquals("Lohéac", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Lohéac", resultItem1.getIntitule());
     }
 
@@ -90,7 +90,7 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
         assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
         assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
         assertEquals("Lohéac", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Lohéac", resultItem1.getIntitule());
     }
 
@@ -115,7 +115,7 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
         assertEquals(BassinDeVie2022.TypeEnum.BASSIN_DE_VIE2022, resultItem1.getType());
         assertEquals(LocalDate.of(2022, 1, 1), resultItem1.getDateCreation());
         assertEquals("Ambérieu-en-Bugey", resultItem1.getIntituleSansArticle());
-        assertEquals(BassinDeVie2022.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
+        assertEquals(BassinDeVie2022.TypeArticleEnum._1, resultItem1.getTypeArticle());
         assertEquals("Ambérieu-en-Bugey", resultItem1.getIntitule());
     }
 
@@ -134,7 +134,7 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
         assertEquals(BassinDeVie2022.TypeEnum.BASSIN_DE_VIE2022, resultItem1.getType());
         assertEquals(LocalDate.of(2022, 1, 1), resultItem1.getDateCreation());
         assertEquals("Ambérieu-en-Bugey", resultItem1.getIntituleSansArticle());
-        assertEquals(BassinDeVie2022.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
+        assertEquals(BassinDeVie2022.TypeArticleEnum._1, resultItem1.getTypeArticle());
         assertEquals("Ambérieu-en-Bugey", resultItem1.getIntitule());
     }
 }

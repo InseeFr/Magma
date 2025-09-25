@@ -48,7 +48,7 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
                 () -> assertEquals(LocalDate.of(2014,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals(LocalDate.of(2015,1,1), resultItem1.getDateSuppression()),
                 () -> assertEquals("Lyon (Grand Lyon)", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0 , resultItem1.getTypeArticle()),
                 () -> assertEquals("Communauté urbaine de Lyon (Grand Lyon)", resultItem1.getIntituleComplet()),
                 () -> assertEquals("Communauté urbaine", resultItem1.getCategorieJuridique()),
                 () -> assertEquals("Lyon (Grand Lyon)", resultItem1.getIntitule())
@@ -72,7 +72,7 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
                 () -> assertEquals(Intercommunalite.TypeEnum.INTERCOMMUNALITE, result.getType()),
                 () -> assertEquals(LocalDate.of(2017,1,1), result.getDateCreation()),
                 () -> assertEquals("Plaine de l'Ain", result.getIntituleSansArticle()),
-                () -> assertEquals(Intercommunalite.TypeArticleEnum._3_ARTICLE_LA_CHARNIERE_DE_LA_, result.getTypeArticle()),
+                () -> assertEquals(Intercommunalite.TypeArticleEnum._3, result.getTypeArticle()),
                 () -> assertEquals("Communauté de communes de La Plaine de l'Ain", result.getIntituleComplet()),
                 () -> assertEquals("Communauté de communes", result.getCategorieJuridique()),
                 () -> assertEquals("La Plaine de l'Ain", result.getIntitule())
@@ -97,7 +97,7 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Crossac", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Crossac", resultItem1.getIntitule())
 
         );
@@ -117,7 +117,7 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
                 () -> assertEquals(LocalDate.of(2008,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("H", resultItem1.getTypeDIris()),
                 () -> assertEquals("Agglomération", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._X_, resultItem1.getTypeArticle()),//en prod : X, mais la log veut 0
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum.X, resultItem1.getTypeArticle()),//en prod : X, mais la log veut 0
                 () -> assertEquals("Agglomération", resultItem1.getIntitule())
 
         );
@@ -142,7 +142,7 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
                 () -> assertEquals(Intercommunalite.TypeEnum.INTERCOMMUNALITE, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(2017,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Plaine de l'Ain", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(Intercommunalite.TypeArticleEnum._3_ARTICLE_LA_CHARNIERE_DE_LA_, resultItem1.getTypeArticle()),
+                () -> assertEquals(Intercommunalite.TypeArticleEnum._3, resultItem1.getTypeArticle()),
                 () -> assertEquals("Communauté de communes de La Plaine de l'Ain", resultItem1.getIntituleComplet()),
                 () -> assertEquals("Communauté de communes", resultItem1.getCategorieJuridique()),
                 () -> assertEquals("La Plaine de l'Ain", resultItem1.getIntitule())
@@ -164,7 +164,7 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
                 () -> assertEquals(LocalDate.of(2008,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals(LocalDate.of(2017,1,1), resultItem1.getDateSuppression()),
                 () -> assertEquals("Plaine de l'Ain", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(Intercommunalite.TypeArticleEnum._3_ARTICLE_LA_CHARNIERE_DE_LA_, resultItem1.getTypeArticle()),
+                () -> assertEquals(Intercommunalite.TypeArticleEnum._3, resultItem1.getTypeArticle()),
                 () -> assertEquals("Communauté de communes de La Plaine de l'Ain", resultItem1.getIntituleComplet()),
                 () -> assertEquals("Communauté de communes", resultItem1.getCategorieJuridique()),
                 () -> assertEquals("La Plaine de l'Ain", resultItem1.getIntitule())
@@ -190,7 +190,7 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
                 () -> assertEquals(LocalDate.of(2011,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals(LocalDate.of(2014,1,1), resultItem1.getDateSuppression()),
                 () -> assertEquals("Lyon (Grand Lyon)", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Communauté urbaine de Lyon (Grand Lyon)", resultItem1.getIntituleComplet()),
                 () -> assertEquals("Communauté urbaine", resultItem1.getCategorieJuridique()),
                 () -> assertEquals("Lyon (Grand Lyon)", resultItem1.getIntitule())
@@ -233,7 +233,7 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.INTERCOMMUNALITE, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(2015,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Métropole de Lyon", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._Y_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum.Y, resultItem1.getTypeArticle()),
                 () -> assertEquals("Métropole de Lyon", resultItem1.getIntituleComplet()),
                 () -> assertEquals("(Autre) Collectivité territoriale", resultItem1.getCategorieJuridique()),
                 () -> assertEquals("Métropole de Lyon", resultItem1.getIntitule())

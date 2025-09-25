@@ -42,7 +42,7 @@ public class GeoCantonOuVilleQueriesTest extends TestcontainerTest {
         assertEquals(TerritoireTousAttributs.TypeEnum.DEPARTEMENT, resultItem1.getType());
         assertEquals(LocalDate.of(1967,12,31), resultItem1.getDateCreation());
         assertEquals("Ain", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._5_ARTICLE_L_CHARNIERE_DE_L_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._5, resultItem1.getTypeArticle());
         assertEquals("01053", resultItem1.getChefLieu());
         assertEquals("Ain", resultItem1.getIntitule());
     }
@@ -59,7 +59,7 @@ public class GeoCantonOuVilleQueriesTest extends TestcontainerTest {
         assertEquals(TerritoireTousAttributs.TypeEnum.REGION, resultItem1.getType());
         assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
         assertEquals("Auvergne-Rhône-Alpes", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._1, resultItem1.getTypeArticle());
         assertEquals("69123", resultItem1.getChefLieu());
         assertEquals("Auvergne-Rhône-Alpes", resultItem1.getIntitule());
     }
@@ -78,7 +78,7 @@ public class GeoCantonOuVilleQueriesTest extends TestcontainerTest {
         assertEquals(CantonOuVille.TypeEnum.CANTON_OU_VILLE, result.getType());
         assertEquals(LocalDate.of(2016, 1, 1), result.getDateCreation());
         assertEquals("Ambérieu-en-Bugey", result.getIntituleSansArticle());
-        assertEquals(CantonOuVille.TypeArticleEnum._1_CHARNIERE_D_, result.getTypeArticle());
+        assertEquals(CantonOuVille.TypeArticleEnum._1, result.getTypeArticle());
         assertEquals("Ambérieu-en-Bugey", result.getIntitule());
     }
 
@@ -105,7 +105,7 @@ void should_return_404_when_CantonOuVilleCode_code0100_date20250904() throws Exc
         assertEquals(TerritoireTousAttributs.TypeEnum.IRIS, resultItem1.getType());
         assertEquals(LocalDate.of(2008,1,1), resultItem1.getDateCreation());
         assertEquals("Pérouses-Triangle d'Activités", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._4_ARTICLE_LES_CHARNIERE_DES_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._4, resultItem1.getTypeArticle());
         assertEquals("Les Pérouses-Triangle d'Activités", resultItem1.getIntitule());
     }
 
@@ -120,7 +120,7 @@ void should_return_404_when_CantonOuVilleCode_code0100_date20250904() throws Exc
         assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
         assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
         assertEquals("Abergement-de-Varey", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._5_ARTICLE_L_CHARNIERE_DE_L_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._5, resultItem1.getTypeArticle());
         assertEquals("L'Abergement-de-Varey", resultItem1.getIntitule());
     }
 
@@ -140,7 +140,7 @@ void should_return_404_when_CantonOuVilleCode_code0100_date20250904() throws Exc
         assertEquals(CantonOuVille.TypeEnum.CANTON_OU_VILLE, resultItem1.getType());
         assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
         assertEquals("Ambérieu-en-Bugey", resultItem1.getIntituleSansArticle());
-        assertEquals(CantonOuVille.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
+        assertEquals(CantonOuVille.TypeArticleEnum._1, resultItem1.getTypeArticle());
         assertEquals("Ambérieu-en-Bugey", resultItem1.getIntitule());
     }
 
@@ -156,7 +156,7 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
     assertEquals(CantonOuVille.TypeEnum.CANTON_OU_VILLE, resultItem1.getType());
     assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
     assertEquals("Ambérieu-en-Bugey", resultItem1.getIntituleSansArticle());
-    assertEquals(CantonOuVille.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
+    assertEquals(CantonOuVille.TypeArticleEnum._1, resultItem1.getTypeArticle());
     assertEquals("Ambérieu-en-Bugey", resultItem1.getIntitule());
 }
 
@@ -177,7 +177,7 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
         assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
         assertEquals(LocalDate.of(2020,3,7), resultItem1.getDateSuppression());
         assertEquals("Belley", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Belley", resultItem1.getIntitule());
     }
 
@@ -206,7 +206,7 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
         assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
         assertEquals(LocalDate.of(2020,3,7), resultItem1.getDateSuppression());
         assertEquals("Belley", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Belley", resultItem1.getIntitule());
     }
 
@@ -243,7 +243,7 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
         assertEquals(TerritoireTousAttributs.TypeEnum.CANTON_OU_VILLE, resultItem1.getType());
         assertEquals(LocalDate.of(2020,3,7), resultItem1.getDateCreation());
         assertEquals("Valserhône", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Valserhône", resultItem1.getIntitule());
     }
 
