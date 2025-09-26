@@ -25,7 +25,8 @@ public class ConceptDTO {
     @Getter
     private Boolean hasLink;
     @Getter
-    private List<ConceptSuivant> conceptsSuivants;
+    private List<NearbyConcept> nearbyConcepts;
+    private ConceptConceptsSuivantsInner nearbyConcept;
 
 
     public Concept transformDTOenConcept() {
@@ -49,17 +50,53 @@ public class ConceptDTO {
             List<ConceptIntituleInner> noteEditoriales = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
             concept.setNoteEditoriale(noteEditoriales);
         }
-        if (this.conceptsSuivants != null) {
-            List<ConceptConceptsSuivantsInner> mapped = this.conceptsSuivants.stream()
-                    .map(cs -> {
-                        ConceptConceptsSuivantsInner inner = new ConceptConceptsSuivantsInner();
-                        inner.setId(cs.getId());
-                        inner.setUri(cs.getUri());
-                        inner.setTypeOfLink(cs.getTypeOfLink());
-                        return inner;
-                    })
-                    .toList();
-            concept.setConceptsSuivants(mapped);
+
+        if (this.nearbyConcepts != null) {
+            List<ConceptConceptsSuivantsInner> conceptsSuivants = new ArrayList<>();
+            List<ConceptConceptsSuivantsInner> conceptsPrecedents = new ArrayList<>();
+            List<ConceptConceptsSuivantsInner> conceptsLies = new ArrayList<>();
+            List<ConceptConceptsSuivantsInner> conceptsProches = new ArrayList<>();
+            List<ConceptConceptsSuivantsInner> conceptsPlusGeneriques = new ArrayList<>();
+            List<ConceptConceptsSuivantsInner> conceptsPlusSpecifiques = new ArrayList<>();
+            List<ConceptConceptsSuivantsInner> conceptsReferences = new ArrayList<>();
+
+
+            this.nearbyConcepts.forEach(cs -> {
+                ConceptConceptsSuivantsInner inner = new ConceptConceptsSuivantsInner();
+                inner.setId(cs.getId());
+                inner.setUri(cs.getUri());
+
+                if ("isReplacedBy".equals(cs.getTypeOfLink())) {
+                    conceptsSuivants.add(inner);
+                }
+                if ("replaces".equals(cs.getTypeOfLink())) {
+                    conceptsPrecedents.add(inner);
+                }
+                if ("related".equals(cs.getTypeOfLink())) {
+                    conceptsLies.add(inner);
+                }
+                if ("closeMatch".equals(cs.getTypeOfLink())) {
+                    conceptsProches.add(inner);
+                }
+                if ("broader".equals(cs.getTypeOfLink())) {
+                    conceptsPlusGeneriques.add(inner);
+                }
+                if ("narrower".equals(cs.getTypeOfLink())) {
+                    conceptsPlusSpecifiques.add(inner);
+                }
+                if ("references".equals(cs.getTypeOfLink())) {
+                    conceptsReferences.add(inner);
+                }
+
+            });
+
+            concept.setConceptsSuivants(conceptsSuivants);
+            concept.setConceptsPrecedents(conceptsPrecedents);
+            concept.setConceptsLies(conceptsLies);
+            concept.setConceptsProches(conceptsProches);
+            concept.setConceptsPlusGeneriques(conceptsPlusGeneriques);
+            concept.conceptsPlusSpecifiques(conceptsPlusSpecifiques);
+            concept.conceptsReferences(conceptsReferences);
         }
 
         // Conversion de la date en LocalDate
@@ -85,24 +122,58 @@ public class ConceptDTO {
         return concept;
     }
 
+
     public ListeConceptsInner transformDTOenDefinition() {
         ListeConceptsInner concept = new ListeConceptsInner();
         concept.setId(this.id);
         concept.setUri(URI.create(this.uri));
         concept.setIntitule(this.intituleFr);
 
+        if (this.nearbyConcepts != null) {
+            List<ConceptConceptsSuivantsInner> conceptsSuivants = new ArrayList<>();
+            List<ConceptConceptsSuivantsInner> conceptsPrecedents = new ArrayList<>();
+            List<ConceptConceptsSuivantsInner> conceptsLies = new ArrayList<>();
+            List<ConceptConceptsSuivantsInner> conceptsProches = new ArrayList<>();
+            List<ConceptConceptsSuivantsInner> conceptsPlusGeneriques = new ArrayList<>();
+            List<ConceptConceptsSuivantsInner> conceptsPlusSpecifiques = new ArrayList<>();
+            List<ConceptConceptsSuivantsInner> conceptsReferences = new ArrayList<>();
 
-        if (this.conceptsSuivants != null) {
-            List<ConceptConceptsSuivantsInner> mapped = this.conceptsSuivants.stream()
-                    .map(cs -> {
-                        ConceptConceptsSuivantsInner inner = new ConceptConceptsSuivantsInner();
-                        inner.setId(cs.getId());
-                        inner.setUri(cs.getUri());
-                        inner.setTypeOfLink(cs.getTypeOfLink());
-                        return inner;
-                    })
-                    .toList();
-            concept.setConceptsSuivants(mapped);
+            this.nearbyConcepts.forEach(cs -> {
+                ConceptConceptsSuivantsInner inner = new ConceptConceptsSuivantsInner();
+                inner.setId(cs.getId());
+                inner.setUri(cs.getUri());
+                inner.setTypeOfLink(cs.getTypeOfLink());
+
+                if ("isReplacedBy".equals(cs.getTypeOfLink())) {
+                    conceptsSuivants.add(inner);
+                }
+                if ("replaces".equals(cs.getTypeOfLink())) {
+                    conceptsPrecedents.add(inner);
+                }
+                if ("related".equals(cs.getTypeOfLink())) {
+                    conceptsLies.add(inner);
+                }
+                if ("closeMatch".equals(cs.getTypeOfLink())) {
+                    conceptsProches.add(inner);
+                }
+                if ("broader".equals(cs.getTypeOfLink())) {
+                    conceptsPlusGeneriques.add(inner);
+                }
+                if ("narrower".equals(cs.getTypeOfLink())) {
+                    conceptsPlusSpecifiques.add(inner);
+                }
+                if ("references".equals(cs.getTypeOfLink())) {
+                    conceptsReferences.add(inner);
+                }
+            });
+
+            concept.setConceptsSuivants(conceptsSuivants);
+            concept.setConceptsPrecedents(conceptsPrecedents);
+            concept.setConceptsLies(conceptsLies);
+            concept.setConceptsProches(conceptsProches);
+            concept.setConceptsPlusGeneriques(conceptsPlusGeneriques);
+            concept.conceptsPlusSpecifiques(conceptsPlusSpecifiques);
+            concept.conceptsReferences(conceptsReferences);
         }
 
         return concept;
@@ -148,6 +219,7 @@ public class ConceptDTO {
     public void setNoteEditorialeEn(String noteEditorialeEn) { this.noteEditorialeEn = noteEditorialeEn; }
 
 
+
     public LocalDate getDateMiseAJour() {
         if (this.dateMiseAJour == null || this.dateMiseAJour.isEmpty()) {
             return null; // ou une valeur par défaut
@@ -175,7 +247,7 @@ public class ConceptDTO {
         this.hasLink = hasLink;
     }
 
-    public void setConceptsSuivants(List<ConceptSuivant> conceptsSuivants) {
-        this.conceptsSuivants = conceptsSuivants;
+    public void setNearbyConcepts(List<NearbyConcept> nearbyConcepts) {
+        this.nearbyConcepts = nearbyConcepts;
     }
 }

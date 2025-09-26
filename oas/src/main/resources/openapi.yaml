@@ -6201,7 +6201,31 @@ components:
         conceptsSuivants:
           type: array
           items:
-            $ref: '#/components/schemas/ConceptSuivant'
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPrecedents:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsLies:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsProches:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPlusGeneriques:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPlusSpecifiques:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
       required:
         - id
         - uri
@@ -6221,12 +6245,36 @@ components:
         conceptsSuivants:
           type: array
           items:
-            $ref: '#/components/schemas/ConceptSuivant'
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPrecedents:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsLies:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsProches:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPlusGeneriques:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPlusSpecifiques:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
 
-    ConceptSuivant:
+    NearbyConcept:
       type: object
       xml:
-        name: ConceptSuivant
+        name: NearbyConcept
       properties:
         id:
           type: string
@@ -6262,7 +6310,6 @@ components:
         wrapped: true
         name: Definition
       items:
-#        $ref: '#/components/schemas/Concept'
          $ref: '#/components/schemas/Definition'
 
     AireDAttractionDesVilles2020:

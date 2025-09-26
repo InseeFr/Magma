@@ -63,7 +63,7 @@ public class ConceptsQueriesTest extends TestcontainerTest {
     }
 
 
-//    concepts/definition/c1000 retourne 404
+//    concepts/definition/c1000
 @Test
 void should_return_404_when_ConceptsDefinitionCode_codec1000() throws Exception{
     mockMvc.perform(get("/geo/concepts/definition/c1000"))

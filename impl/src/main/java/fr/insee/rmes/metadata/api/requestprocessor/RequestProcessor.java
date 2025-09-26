@@ -24,8 +24,8 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
     public RequestProcessor.QueryBuilder queryToFindConcept(){
         return new RequestProcessor.QueryBuilder(CONCEPT,this);
     }
-    public RequestProcessor.QueryBuilder queryToFindConceptsSuivants() {
-        return new RequestProcessor.QueryBuilder(CONCEPTSUIVANTS,this);
+    public RequestProcessor.QueryBuilder queryToFindNearbyConcepts() {
+        return new RequestProcessor.QueryBuilder(NEARBY_CONCEPTS,this);
     }
     public RequestProcessor.QueryBuilder queryToFindConcepts(){
         return new RequestProcessor.QueryBuilder(CONCEPTS,this);
@@ -96,7 +96,7 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
                     requestProcessor
             );
         }
-        public ExecutableQuery with(ConceptSuivantRequestParametizer conceptSuivantRequestParametizer) {
+        public ExecutableQuery with(ConceptsNearbyRequestParametizer conceptSuivantRequestParametizer) {
             return new ExecutableQuery(
                     requestProcessor.queryBuilder().build(conceptSuivantRequestParametizer.toParameters(), queryPath),
                     requestProcessor
