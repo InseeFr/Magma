@@ -2028,8 +2028,7 @@ components:
         Filtre pour renvoyer les aires d'attraction actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     dateTerritoiresActifsDescendantsAireDAttractionDesVilles:
       in: query
@@ -2086,8 +2085,7 @@ components:
         Filtre pour renvoyer les arrondissements actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     dateArrondissementDepart:
       in: query
@@ -2162,8 +2160,7 @@ components:
         Filtre pour renvoyer les arrondissements municipaux actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     dateArrondissementMunicipalDepart:
       in: query
@@ -2282,8 +2279,7 @@ components:
         Filtre pour renvoyer les communes actives à la date donnée. Par défaut, c'est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     typeTerritoireDescendantCommune:
       name: 'type'
@@ -2339,13 +2335,12 @@ components:
         Filtre pour renvoyer les communes associées actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     dateTerritoiresActifsAscendantsCommuneAssociee:
       in: query
       description: |-
-        Filtre pour renvoyer les territoires contenant la commune associée active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+        Filtre pour renvoyer les territoires contenant la commune associée active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ').
       name: date
       schema:
         type: 'string'
@@ -2381,8 +2376,7 @@ components:
         Filtre pour renvoyer les communes déléguées actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     dateTerritoiresActifsAscendantsCommuneDeleguee:
       in: query
@@ -2469,11 +2463,10 @@ components:
     dateIntercommunalitesActives:
       in: query
       description: |-
-        Filtre pour renvoyer les intercommunalités actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+        Filtre pour renvoyer les intercommunalités actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     filtreNomIntercommunalite:
       in: query
@@ -2566,8 +2559,7 @@ components:
         Filtre pour renvoyer les pays actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     codePaysPrecInPath:
       name: 'code'
@@ -2640,8 +2632,7 @@ components:
         Filtre pour renvoyer les régions actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     codeRegPrecProjInPath:
       name: 'code'
@@ -2724,8 +2715,7 @@ components:
         Filtre pour renvoyer les unités urbaines actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     codeBassinDeVieInPath:
       name: 'code'
@@ -2759,8 +2749,7 @@ components:
         Filtre pour renvoyer les bassins de vie actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     typeTerritoireDescendantBassinDeVie:
       name: 'type'
@@ -2801,8 +2790,7 @@ components:
         Filtre pour renvoyer les cantons actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     codeCantonPrecInPath:
       name: 'code'
@@ -2841,7 +2829,7 @@ components:
     dateTerritoiresActifsAscendantsCanton:
       in: query
       description: |-
-        Filtre pour renvoyer les territoires contenant le canton actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+        Filtre pour renvoyer les territoires contenant le canton actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ').
       name: date
       schema:
         type: 'string'
@@ -2897,11 +2885,10 @@ components:
     dateCantonsEtVillesActifs:
       in: query
       description: |-
-        Filtre pour renvoyer les cantons et villes actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+        Filtre pour renvoyer les cantons et villes actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     dateTerritoiresActifsAscendantsCantonOuVille:
       in: query
@@ -3033,8 +3020,7 @@ components:
         Filtre pour renvoyer les collectivités d'outre-mer à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     codeZoneDEmploiInPath:
       name: 'code'
@@ -3075,8 +3061,7 @@ components:
         Filtre pour renvoyer les zones d'emploi actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        type: 'string'
-        format: date
+        $ref: "#/components/schemas/dateAvecEtoile"
 
   ### EXAMPLES SPECIFICATION ###
 

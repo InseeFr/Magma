@@ -26,16 +26,16 @@ public record TerritoireRequestParametizer(String code,
         this("none", date, typeOrigine, "*", chefLieu, com);
 }
 
-    //for geo/communes and geo/bassinsDeVie2022
-    public TerritoireRequestParametizer(LocalDate date,
-                                        Class<?> typeOrigine,
-                                        String filtreNom,
-                                        String chefLieu,
-                                        boolean com) {
-        this("none", date, typeOrigine, filtreNom, chefLieu, com);
-    }
+    //for geo/communes and geo/bassinsDeVie2022 before date * developments : unused ?
+//    public TerritoireRequestParametizer(LocalDate date,
+//                                        Class<?> typeOrigine,
+//                                        String filtreNom,
+//                                        String chefLieu,
+//                                        boolean com) {
+//        this("none", date, typeOrigine, filtreNom, chefLieu, com);
+//    }
 
-    //forgeo/arrondissements, geo/aireDAttractionDesVilles2020, etc
+    //for geo/arrondissements, geo/aireDAttractionDesVilles2020, etc
     public TerritoireRequestParametizer(LocalDate date,
                                         Class<?> typeOrigine,
                                         String chefLieu) {
