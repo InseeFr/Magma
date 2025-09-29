@@ -5773,36 +5773,30 @@ components:
             name: TypeArticle
           type: string
           enum:
-            - 0:
-                article:
-                charniere: 'De'
-            - 1:
-                article:
-                charniere: 'D'''
-            - 2:
-                article: 'Le'
-                charniere: 'Du'
-            - 3:
-                article: 'La'
-                charniere: 'De La'
-            - 4:
-                article: 'Les'
-                charniere: 'Des'
-            - 5:
-                article: 'L'''
-                charniere: 'De L'''
-            - 6:
-                article: 'Aux'
-                charniere: 'Des'
-            - 7:
-                article: 'Las'
-                charniere: 'De Las'
-            - 8:
-                article: 'Los'
-                charniere: 'De Los'
-            - X:
-                article:
-                charniere:
+            - '0'
+            - '1'
+            - '2'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - 'X'
+            - 'Y'
+          description: |
+            Type d'article pour les territoires:
+            - 0: charnière "De"
+            - 1: charnière "D'"
+            - 2: article "Le", charnière "Du"
+            - 3: article "La", charnière "De La"
+            - 4: article "Les", charnière "Des"
+            - 5: article "L'", charnière "De L'"
+            - 6: article "Aux", charnière "Des"
+            - 7: article "Las", charnière "De Las"
+            - 8: article "Los", charnière "De Los"
+            - X: article vide, charnière vide
+            - Y: article vide, charnière vide
         intitule:
           type: string
           xml:

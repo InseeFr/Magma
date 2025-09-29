@@ -11,8 +11,9 @@
     <artifactId>metadata-api-parent</artifactId>
     <packaging>pom</packaging>
     <name>Implementation of the RMéS metadata API</name>
-    <version>3.8.4</version>
+    <version>${revision}</version> <!-- Hérite de la propriété du parent -->
     <properties>
+        <revision>magma-fusion-1.0-rc3</revision> <!-- Version centralisée -->
         <java.version>21</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -279,8 +280,6 @@
                         </execution>
                     </executions>
                 </plugin>
-
-
             </plugins>
         </pluginManagement>
     </build>

@@ -2,7 +2,6 @@ package fr.insee.rmes.metadata.api.testcontainers.queries;
 
 import fr.insee.rmes.metadata.api.GeoAireDAttractionDesVillesEndpoints;
 import fr.insee.rmes.metadata.model.*;
-import org.junit.Assert;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +32,13 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
     void should_return_1_aireDAttractionDesVilles_when_aireDAttractionDesVilles2020Code_code062_date20250904(){
         var response  = endpoints.getcogaav("062", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-        Assert.assertEquals("062", result.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/858ff6ab-fb4c-4a03-896c-18a20ed01a45", result.getUri());
-        Assert.assertEquals(AireDAttractionDesVilles2020.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, result.getType());
-        Assert.assertEquals(LocalDate.of(2020,1,1), result.getDateCreation());
-        Assert.assertEquals("Angoulême", result.getIntituleSansArticle());
-        Assert.assertEquals(AireDAttractionDesVilles2020.TypeArticleEnum._1_CHARNIERE_D_, result.getTypeArticle());
-        Assert.assertEquals("Angoulême", result.getIntitule());
+        assertEquals("062", result.getCode());
+        assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/858ff6ab-fb4c-4a03-896c-18a20ed01a45", result.getUri());
+        assertEquals(AireDAttractionDesVilles2020.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, result.getType());
+        assertEquals(LocalDate.of(2020,1,1), result.getDateCreation());
+        assertEquals("Angoulême", result.getIntituleSansArticle());
+        assertEquals(AireDAttractionDesVilles2020.TypeArticleEnum._1, result.getTypeArticle());
+        assertEquals("Angoulême", result.getIntitule());
     }
 
 
@@ -54,13 +53,13 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
         var result = response.getBody();
         var resultItem1= result.getFirst();
         assertEquals(397, result.size());
-        Assert.assertEquals("01005", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/commune/041f652a-f819-4b83-bf9c-d704f1edfcb2", resultItem1.getUri());
-        Assert.assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
-        Assert.assertEquals("Ambérieux-en-Dombes", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
-        Assert.assertEquals("Ambérieux-en-Dombes", resultItem1.getIntitule());
+        assertEquals("01005", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/commune/041f652a-f819-4b83-bf9c-d704f1edfcb2", resultItem1.getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
+        assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
+        assertEquals("Ambérieux-en-Dombes", resultItem1.getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._1, resultItem1.getTypeArticle());
+        assertEquals("Ambérieux-en-Dombes", resultItem1.getIntitule());
     }
 
     //    geo/aireDAttractionDesVilles2020/062/descendants?date=2025-09-04
@@ -70,13 +69,13 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
         var result = response.getBody();
         var resultItem1= result.getFirst();
         assertEquals(1010, result.size());
-        Assert.assertEquals("69381", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/arrondissementMunicipal/36940e94-b61c-4565-9ea1-ecbcd812bd7e", resultItem1.getUri());
-        Assert.assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
-        Assert.assertEquals("Lyon 1er Arrondissement", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
-        Assert.assertEquals("Lyon 1er Arrondissement", resultItem1.getIntitule());
+        assertEquals("69381", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/arrondissementMunicipal/36940e94-b61c-4565-9ea1-ecbcd812bd7e", resultItem1.getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem1.getType());
+        assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
+        assertEquals("Lyon 1er Arrondissement", resultItem1.getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
+        assertEquals("Lyon 1er Arrondissement", resultItem1.getIntitule());
     }
 
 
@@ -91,13 +90,13 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
         var result = response.getBody();
         var resultItem1= result.getFirst();
         assertEquals(699, result.size());
-        Assert.assertEquals("001", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/3a65c4b6-8157-48be-bead-b74066f8456a", resultItem1.getUri());
-        Assert.assertEquals(AireDAttractionDesVilles2020.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(2020,1,1), resultItem1.getDateCreation());
-        Assert.assertEquals("Paris", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(AireDAttractionDesVilles2020.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
-        Assert.assertEquals("Paris", resultItem1.getIntitule());
+        assertEquals("001", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/3a65c4b6-8157-48be-bead-b74066f8456a", resultItem1.getUri());
+        assertEquals(AireDAttractionDesVilles2020.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType());
+        assertEquals(LocalDate.of(2020,1,1), resultItem1.getDateCreation());
+        assertEquals("Paris", resultItem1.getIntituleSansArticle());
+        assertEquals(AireDAttractionDesVilles2020.TypeArticleEnum._0, resultItem1.getTypeArticle());
+        assertEquals("Paris", resultItem1.getIntitule());
     }
 
     //    geo/aireDAttractionDesVilles2020?date=*
@@ -107,13 +106,13 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
         var result = response.getBody();
         var resultItem1= result.getFirst();
         assertEquals(721, result.size());
-        Assert.assertEquals("001", resultItem1.getCode());
-        Assert.assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/3a65c4b6-8157-48be-bead-b74066f8456a", resultItem1.getUri());
-        Assert.assertEquals(AireDAttractionDesVilles2020.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType());
-        Assert.assertEquals(LocalDate.of(2020,1,1), resultItem1.getDateCreation());
-        Assert.assertEquals("Paris", resultItem1.getIntituleSansArticle());
-        Assert.assertEquals(AireDAttractionDesVilles2020.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
-        Assert.assertEquals("Paris", resultItem1.getIntitule());
+        assertEquals("001", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/3a65c4b6-8157-48be-bead-b74066f8456a", resultItem1.getUri());
+        assertEquals(AireDAttractionDesVilles2020.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType());
+        assertEquals(LocalDate.of(2020,1,1), resultItem1.getDateCreation());
+        assertEquals("Paris", resultItem1.getIntituleSansArticle());
+        assertEquals(AireDAttractionDesVilles2020.TypeArticleEnum._0, resultItem1.getTypeArticle());
+        assertEquals("Paris", resultItem1.getIntitule());
     }
 
 }

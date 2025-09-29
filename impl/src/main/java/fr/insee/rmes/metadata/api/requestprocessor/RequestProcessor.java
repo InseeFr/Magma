@@ -9,7 +9,6 @@ import fr.insee.rmes.metadata.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.nio.file.Path;
 import java.util.List;
 
 import static fr.insee.rmes.metadata.queries.QueryBuilder.*;
@@ -74,7 +73,7 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
 
 
 
-    public record QueryBuilder(Path queryPath, RequestProcessor requestProcessor) {
+    public record QueryBuilder(String queryPath, RequestProcessor requestProcessor) {
         public ExecutableQuery with(AscendantsDescendantsRequestParametizer ascendantsDescendantsRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(ascendantsDescendantsRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
