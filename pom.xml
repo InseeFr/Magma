@@ -11,7 +11,7 @@
     <artifactId>metadata-api-parent</artifactId>
     <packaging>pom</packaging>
     <name>Implementation of the RMéS metadata API</name>
-    <version>0.0.1</version>
+    <version>3.8.4</version>
     <properties>
         <java.version>21</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
