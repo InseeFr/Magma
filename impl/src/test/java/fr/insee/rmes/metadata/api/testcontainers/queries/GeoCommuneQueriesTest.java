@@ -44,7 +44,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
         assertEquals(TerritoireTousAttributs.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType());
         assertEquals(LocalDate.of(2020,1,1), resultItem1.getDateCreation());
         assertEquals("Caen", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Caen", resultItem1.getIntitule());
     }
 
@@ -61,7 +61,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
         assertEquals(TerritoireTousAttributs.TypeEnum.DEPARTEMENT, resultItem1.getType());
         assertEquals(LocalDate.of(2018,1,1), resultItem1.getDateCreation());
         assertEquals("Calvados", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._2_ARTICLE_LE_CHARNIERE_DU_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._2, resultItem1.getTypeArticle());
         assertEquals("14118", resultItem1.getChefLieu());
         assertEquals("Calvados", resultItem1.getIntitule());
     }
@@ -93,7 +93,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
                 () -> assertEquals(Commune.TypeEnum.COMMUNE, result.getType()),
                 () -> assertEquals(LocalDate.of(2017,1,1), result.getDateCreation()),
                 () -> assertEquals("Val d'Arry", result.getIntituleSansArticle()),
-                () -> assertEquals(Commune.TypeArticleEnum._0_CHARNIERE_DE_, result.getTypeArticle()),
+                () -> assertEquals(Commune.TypeArticleEnum._0, result.getTypeArticle()),
                 () -> assertEquals("Val d'Arry", result.getIntitule())
         );
     }
@@ -124,7 +124,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE_DELEGUEE, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(2017,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Locheur", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._2_ARTICLE_LE_CHARNIERE_DU_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._2, resultItem1.getTypeArticle()),
                 () -> assertEquals("Le Locheur", resultItem1.getIntitule())
         );
 
@@ -142,7 +142,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(1946,10,18), resultItem1.getDateCreation()),
                 () -> assertEquals("Marseille 1er Arrondissement", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Marseille 1er Arrondissement", resultItem1.getIntitule())
         );
     }
@@ -173,7 +173,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
                 () -> assertEquals(TerritoireBase.TypeEnum.COMMUNE, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Bonnay", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireBase.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireBase.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Bonnay", resultItem1.getIntitule())
         );
     }
@@ -191,7 +191,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
                 () -> assertEquals(TerritoireBase.TypeEnum.COMMUNE, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Abergement-Clémenciat", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireBase.TypeArticleEnum._5_ARTICLE_L_CHARNIERE_DE_L_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireBase.TypeArticleEnum._5, resultItem1.getTypeArticle()),
                 () -> assertEquals("L'Abergement-Clémenciat", resultItem1.getIntitule())
         );
     }
@@ -216,7 +216,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
                 () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals(LocalDate.of(2017,1,1), resultItem1.getDateSuppression()),
                 () -> assertEquals("Locheur", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireBase.TypeArticleEnum._2_ARTICLE_LE_CHARNIERE_DU_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireBase.TypeArticleEnum._2, resultItem1.getTypeArticle()),
                 () -> assertEquals("Le Locheur", resultItem1.getIntitule())
         );
     }
@@ -248,7 +248,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
                 () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals(LocalDate.of(2017,1,1), resultItem1.getDateSuppression()),
                 () -> assertEquals("Locheur", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireBase.TypeArticleEnum._2_ARTICLE_LE_CHARNIERE_DU_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireBase.TypeArticleEnum._2, resultItem1.getTypeArticle()),
                 () -> assertEquals("Le Locheur", resultItem1.getIntitule())
         );
     }
@@ -289,7 +289,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
                 () -> assertEquals(LocalDate.of(1958,10,13), resultItem1.getDateCreation()),
                 () -> assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateSuppression()),
                 () -> assertEquals("Noyers-Bocage", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireBase.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireBase.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Noyers-Bocage", resultItem1.getIntitule())
         );
     }

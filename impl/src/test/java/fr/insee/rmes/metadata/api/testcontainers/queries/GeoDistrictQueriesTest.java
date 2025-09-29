@@ -46,7 +46,7 @@ public class GeoDistrictQueriesTest extends TestcontainerTest {
                 () -> Assert.assertEquals(TerritoireTousAttributs.TypeEnum.COLLECTIVITE_D_OUTRE_MER, resultItem1.getType()),
                 () -> Assert.assertEquals(LocalDate.of(2007,2,23), resultItem1.getDateCreation()),
                 () -> Assert.assertEquals("Terres australes et antarctiques françaises", resultItem1.getIntituleSansArticle()),
-                () -> Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._4_ARTICLE_LES_CHARNIERE_DES_, resultItem1.getTypeArticle()),
+                () -> Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._4, resultItem1.getTypeArticle()),
                 () -> Assert.assertEquals("Terres australes et antarctiques françaises", resultItem1.getIntitule())
         );
     }
@@ -64,7 +64,7 @@ public class GeoDistrictQueriesTest extends TestcontainerTest {
                 () -> Assert.assertEquals(TerritoireTousAttributs.TypeEnum.COLLECTIVITE_D_OUTRE_MER, resultItem1.getType()),
                 () -> Assert.assertEquals(LocalDate.of(2007,2,23), resultItem1.getDateCreation()),
                 () -> Assert.assertEquals("Terres australes et antarctiques françaises", resultItem1.getIntituleSansArticle()),
-                () -> Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._4_ARTICLE_LES_CHARNIERE_DES_, resultItem1.getTypeArticle()),
+                () -> Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._4, resultItem1.getTypeArticle()),
                 () -> Assert.assertEquals("Terres australes et antarctiques françaises", resultItem1.getIntitule())
         );
     }
@@ -84,7 +84,7 @@ public class GeoDistrictQueriesTest extends TestcontainerTest {
                 () -> Assert.assertEquals(District.TypeEnum.DISTRICT, result.getType()),
                 () -> Assert.assertEquals(LocalDate.of(2007,2,23), result.getDateCreation()),
                 () -> Assert.assertEquals("Îles Saint-Paul et Amsterdam", result.getIntituleSansArticle()),
-                () -> Assert.assertEquals(District.TypeArticleEnum._4_ARTICLE_LES_CHARNIERE_DES_, result.getTypeArticle()),
+                () -> Assert.assertEquals(District.TypeArticleEnum._4, result.getTypeArticle()),
                 () -> Assert.assertEquals("Îles Saint-Paul et Amsterdam", result.getIntitule())
         );
     }

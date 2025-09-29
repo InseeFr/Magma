@@ -45,7 +45,7 @@ public class GeoUniteUrbaineQueriesTest extends TestcontainerTest{
                 () -> assertEquals(UniteUrbaine2020.TypeEnum.UNITE_URBAINE2020, result.getType()),
                 () -> assertEquals(LocalDate.of(2020,1,1), result.getDateCreation()),
                 () -> assertEquals("Jujurieux", result.getIntituleSansArticle()),
-                () -> assertEquals(UniteUrbaine2020.TypeArticleEnum._0_CHARNIERE_DE_, result.getTypeArticle()),
+                () -> assertEquals(UniteUrbaine2020.TypeArticleEnum._0, result.getTypeArticle()),
                 () -> assertEquals("Jujurieux", result.getIntitule())
         );
     }
@@ -68,7 +68,7 @@ public class GeoUniteUrbaineQueriesTest extends TestcontainerTest{
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Jujurieux", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Jujurieux", resultItem1.getIntitule())
         );
     }
@@ -86,7 +86,7 @@ public class GeoUniteUrbaineQueriesTest extends TestcontainerTest{
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Jujurieux", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Jujurieux", resultItem1.getIntitule())
         );
     }
@@ -119,7 +119,7 @@ public class GeoUniteUrbaineQueriesTest extends TestcontainerTest{
                 () -> assertEquals(UniteUrbaine2020.TypeEnum.UNITE_URBAINE2020, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(2020,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Lécluse", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(UniteUrbaine2020.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(UniteUrbaine2020.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Lécluse", resultItem1.getIntitule())
         );
     }
@@ -136,7 +136,7 @@ public class GeoUniteUrbaineQueriesTest extends TestcontainerTest{
                 () -> assertEquals(UniteUrbaine2020.TypeEnum.UNITE_URBAINE2020, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(2020,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Lécluse", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(UniteUrbaine2020.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(UniteUrbaine2020.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Lécluse", resultItem1.getIntitule())
         );
     }

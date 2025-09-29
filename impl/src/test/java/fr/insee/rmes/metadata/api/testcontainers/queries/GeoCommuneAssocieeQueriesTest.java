@@ -46,7 +46,7 @@ public class GeoCommuneAssocieeQueriesTest extends TestcontainerTest {
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType()),
                 () -> assertEquals(LocalDate.of(2020,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Lille (partie française)", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                 () -> assertEquals("Lille (partie française)", resultItem1.getIntitule())
         );
     }
@@ -65,7 +65,7 @@ void should_return_1_departement_when_CommuneAssocieesCodeAscendants_code59355_d
             () -> assertEquals(TerritoireTousAttributs.TypeEnum.DEPARTEMENT, resultItem1.getType()),
             () -> assertEquals(LocalDate.of(1973,9,1), resultItem1.getDateCreation()),
             () -> assertEquals("Nord", resultItem1.getIntituleSansArticle()),
-            () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._2_ARTICLE_LE_CHARNIERE_DU_, resultItem1.getTypeArticle()),
+            () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._2, resultItem1.getTypeArticle()),
             () -> assertEquals("59350", resultItem1.getChefLieu()),
             () -> assertEquals("Nord", resultItem1.getIntitule())
     );
@@ -90,7 +90,7 @@ void should_return_1_departement_when_CommuneAssocieesCodeAscendants_code59355_d
                     () -> assertEquals(CommuneAssociee.TypeEnum.COMMUNE_ASSOCIEE, result.getType()),
                     () -> assertEquals(LocalDate.of(2000,2,27), result.getDateCreation()),
                     () -> assertEquals("Lomme", result.getIntituleSansArticle()),
-                    () -> assertEquals(CommuneAssociee.TypeArticleEnum._0_CHARNIERE_DE_, result.getTypeArticle()),
+                    () -> assertEquals(CommuneAssociee.TypeArticleEnum._0, result.getTypeArticle()),
                     () -> assertEquals("Lomme", result.getIntitule())
             );
         }
@@ -124,7 +124,7 @@ void should_return_1_departement_when_CommuneAssocieesCodeAscendants_code59355_d
                     () -> assertEquals(CommuneAssociee.TypeEnum.COMMUNE_ASSOCIEE, resultItem1.getType()),
                     () -> assertEquals(LocalDate.of(1973,1,1), resultItem1.getDateCreation()),
                     () -> assertEquals("Cordieux", resultItem1.getIntituleSansArticle()),
-                    () -> assertEquals(CommuneAssociee.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle()),
+                    () -> assertEquals(CommuneAssociee.TypeArticleEnum._0, resultItem1.getTypeArticle()),
                     () -> assertEquals("Cordieux", resultItem1.getIntitule())
             );
         }
@@ -144,7 +144,7 @@ void should_return_1_departement_when_CommuneAssocieesCodeAscendants_code59355_d
                 () -> assertEquals(LocalDate.of(1974,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals(LocalDate.of(1983,1,1), resultItem1.getDateSuppression()),
                 () -> assertEquals("Amareins", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(CommuneAssociee.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle()),
+                () -> assertEquals(CommuneAssociee.TypeArticleEnum._1, resultItem1.getTypeArticle()),
                 () -> assertEquals("Amareins", resultItem1.getIntitule())
         );
     }

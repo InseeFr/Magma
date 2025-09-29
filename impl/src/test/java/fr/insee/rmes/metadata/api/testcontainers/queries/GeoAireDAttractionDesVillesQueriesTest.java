@@ -37,7 +37,7 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
         assertEquals(AireDAttractionDesVilles2020.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, result.getType());
         assertEquals(LocalDate.of(2020,1,1), result.getDateCreation());
         assertEquals("Angoulême", result.getIntituleSansArticle());
-        assertEquals(AireDAttractionDesVilles2020.TypeArticleEnum._1_CHARNIERE_D_, result.getTypeArticle());
+        assertEquals(AireDAttractionDesVilles2020.TypeArticleEnum._1, result.getTypeArticle());
         assertEquals("Angoulême", result.getIntitule());
     }
 
@@ -58,7 +58,7 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
         assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());
         assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
         assertEquals("Ambérieux-en-Dombes", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._1_CHARNIERE_D_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._1, resultItem1.getTypeArticle());
         assertEquals("Ambérieux-en-Dombes", resultItem1.getIntitule());
     }
 
@@ -74,7 +74,7 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
         assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem1.getType());
         assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
         assertEquals("Lyon 1er Arrondissement", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Lyon 1er Arrondissement", resultItem1.getIntitule());
     }
 
@@ -95,7 +95,7 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
         assertEquals(AireDAttractionDesVilles2020.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType());
         assertEquals(LocalDate.of(2020,1,1), resultItem1.getDateCreation());
         assertEquals("Paris", resultItem1.getIntituleSansArticle());
-        assertEquals(AireDAttractionDesVilles2020.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(AireDAttractionDesVilles2020.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Paris", resultItem1.getIntitule());
     }
 
@@ -111,7 +111,7 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
         assertEquals(AireDAttractionDesVilles2020.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType());
         assertEquals(LocalDate.of(2020,1,1), resultItem1.getDateCreation());
         assertEquals("Paris", resultItem1.getIntituleSansArticle());
-        assertEquals(AireDAttractionDesVilles2020.TypeArticleEnum._0_CHARNIERE_DE_, resultItem1.getTypeArticle());
+        assertEquals(AireDAttractionDesVilles2020.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Paris", resultItem1.getIntitule());
     }
 
