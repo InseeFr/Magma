@@ -18,7 +18,7 @@ public record QueryBuilder(Configuration freemarkerConfiguration) {
     public static final String ASCENDANTS_OR_DESCENDANTS = "geographie/getAscendantsOrDescendantsByCodeTypeDate.ftlh";
     public static final String CONCEPT = "concepts/getConceptByCode.ftlh";
     public static final String CONCEPTS = "concepts/getConceptsByLabel.ftlh";
-    public static final String CONCEPTSUIVANTS = "concepts/getLinkedConceptsQuery.ftlh";
+    public static final String NEARBY_CONCEPTS = "concepts/getLinkedConceptsQuery.ftlh";
     public static final String TERRITOIRE = "geographie/getTerritoireByCodeDateNomCommune.ftlh";
     public static final String PRECEDENTS = "geographie/getPreviousOrNextByCodeTypeDate.ftlh";
     public static final String PROJETES = "geographie/getProjectionByCodeTypeDate.ftlh";
