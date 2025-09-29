@@ -26,7 +26,7 @@ public class ConceptDTO {
     private Boolean hasLink;
     @Getter
     private List<NearbyConcept> nearbyConcepts;
-    private ConceptConceptsSuivantsInner nearbyConcept;
+
 
 
     public Concept transformDTOenConcept() {
@@ -102,17 +102,23 @@ public class ConceptDTO {
         // Conversion de la date en LocalDate
         if (this.dateMiseAJour != null && !this.dateMiseAJour.isEmpty()) {
             try {
-                // Parser en LocalDateTime puis extraire la partie LocalDate
-                OffsetDateTime localDateTime = OffsetDateTime.parse(this.dateMiseAJour);
-                LocalDate localDate = localDateTime.toLocalDate();
-                concept.setDateMiseAJour(localDate);
-            } catch (DateTimeParseException e) {
+                // Parser en LocalDateTime puis extraire la partie LocalDate (ex : 2022-05-09T08:37:09.201144)
+                LocalDateTime localDateTime = LocalDateTime.parse(this.dateMiseAJour);
+                concept.setDateMiseAJour(localDateTime.toLocalDate());
+            } catch (DateTimeParseException e1) {
                 try {
-                    // Si le format est directement un LocalDate (ex: "2019-05-17")
-                    concept.setDateMiseAJour(LocalDate.parse(this.dateMiseAJour));
-                } catch (DateTimeParseException ex) {
-                    // Gérer l'erreur (par exemple, logger ou affecter null)
-                    concept.setDateMiseAJour(null);
+                    // Parser en LocalDateTime puis extraire la partie LocalDate (ex: 2016-10-13T00:00:00.000+02:00)
+                    OffsetDateTime localDateTime = OffsetDateTime.parse(this.dateMiseAJour);
+                    LocalDate localDate = localDateTime.toLocalDate();
+                    concept.setDateMiseAJour(localDate);
+                } catch (DateTimeParseException e2) {
+                    try {
+                        // Si le format est directement un LocalDate (ex: "2019-05-17")
+                        concept.setDateMiseAJour(LocalDate.parse(this.dateMiseAJour));
+                    } catch (DateTimeParseException e3) {
+                        // Gérer l'erreur (par exemple, logger ou affecter null)
+                        concept.setDateMiseAJour(null);
+                    }
                 }
             }
         } else {
@@ -142,7 +148,6 @@ public class ConceptDTO {
                 ConceptConceptsSuivantsInner inner = new ConceptConceptsSuivantsInner();
                 inner.setId(cs.getId());
                 inner.setUri(cs.getUri());
-                inner.setTypeOfLink(cs.getTypeOfLink());
 
                 if ("isReplacedBy".equals(cs.getTypeOfLink())) {
                     conceptsSuivants.add(inner);
