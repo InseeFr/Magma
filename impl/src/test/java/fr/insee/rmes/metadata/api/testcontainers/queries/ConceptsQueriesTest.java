@@ -33,7 +33,7 @@ public class ConceptsQueriesTest extends TestcontainerTest {
     ///             concepts/definition/{id}                          ///
     /////////////////////////////////////////////////////////////////////
 
-//    concepts/definition/c2066
+//    concepts/definition/c2066 : has conceptsSuivants
     @Test
     void should_return_conceptc2066_when_ConceptsDefinitionCode_codec2066(){
         var response  = endpoints.getconcept("c2066");
@@ -62,6 +62,39 @@ public class ConceptsQueriesTest extends TestcontainerTest {
         );
     }
 
+    //    concepts/definition/c1201 : has conceptsPrecedents and conceptsReferences
+    @Test
+    void should_return_conceptc1201_when_ConceptsDefinitionCode_codec1201(){
+        var response  = endpoints.getconcept("c1201");
+        var result = response.getBody();
+        assertAll(
+                () -> {
+                    Assertions.assertNotNull(result);
+                    assertEquals("c1201", result.getId());
+                },
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1201"), result.getUri()),
+                () -> assertEquals("Accueils collectifs de mineurs à caractère éducatif", result.getIntitule().getFirst().getContenu()),
+                () -> assertEquals("fr", result.getIntitule().getFirst().getLangue()),
+                () -> assertEquals("Collective education centres for minors", result.getIntitule().getLast().getContenu()),
+                () -> assertEquals("en", result.getIntitule().getLast().getLangue()),
+                () -> assertEquals("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Les accueils collectifs de mineurs, à caractère éducatif, sont destinés aux enfants et aux jeunes d’âge scolaire, donc âgés de 3 à 17 ans inclus, en dehors du temps scolaire. On distingue les accueils sans hébergement, qui se déroulent principalement au sein des accueils de loisirs, ou plus marginalement au sein des accueils de jeunes, des accueils avec hébergement comme les « colonies de vacances ».</p><p>Les accueils de scoutisme sont quant à eux comptabilisés à part, du fait d’une activité qui peut se dérouler avec ou sans hébergement, d’une réglementation propre et d’un mode de déclaration spécifique qui en découle.</p><p>Les accueils collectifs de mineurs se caractérisent par :</p><ul><li>Un projet éducatif et pédagogique ;</li><li>Un lieu d’accueil destiné à permettre aux mineurs de pratiquer des activités de loisirs éducatifs et de détente ;</li><li>Un organisateur (personne morale ou personne physique).</li></ul><p>Ils sont réglementés par le ministère en charge de la jeunesse (article L227-1 à L227-12 du code de l'action sociale et des familles) et sont encadrés par un personnel qualifié.</p><p>Jusqu'au 31 août 2006, ils étaient répartis dans les trois catégories suivantes : les centres de loisirs, les centres de vacances et les placements de vacances.</p></div>", result.getDefinition().getFirst().getContenu()),
+                () -> assertEquals("fr", result.getDefinition().getFirst().getLangue()),
+                () -> assertEquals("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Educational collective hosting of minors, is intended for children and young people of school age, therefore aged 3 to 17 inclusive, outside school hours. A distinction is made between hosting without accommodation, which takes place mainly within leisure hosting, or more marginally within hosting for young people, hosting with accommodation such as \"holiday camps\".</p><p>Scouting hosting is accounted for separately, because of an activity that can take place with or without accommodation, specific regulations and a specific reporting method that results.</p><p>Collective hosting of minors is characterized by:</p><ul><li>An educational and pedagogical project ;</li><li>A reception area intended to allow minors to practice educational leisure and relaxation activities;</li><li>An organizer (legal person or natural person).</li></ul><p>They are regulated by the ministry in charge of youth (article L227-1 to L227-12 of the code of social action and families) and are supervised by qualified personnel.</p><p>Until August 31, 2006, they were divided into the following three categories: leisure centres, holiday centers and holiday placements.</p></div>", result.getDefinition().getLast().getContenu()),
+                () -> assertEquals("en", result.getDefinition().getLast().getLangue()),
+                () -> assertEquals("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Source : mission Enquêtes, Données et Études Statistiques (MEDES), service statistique ministériel en charge de la jeunesse et des sports (site : https://injep.fr/mesurer/)</p></div>", result.getNoteEditoriale().getFirst().getContenu()),
+                () -> assertEquals("fr", result.getNoteEditoriale().getFirst().getLangue()),
+                () -> assertEquals("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Source : mission Enquêtes, Données et Études Statistiques (MEDES), service statistique ministériel en charge de la jeunesse et des sports (site : https://injep.fr/mesurer/) </p></div>", result.getNoteEditoriale().getLast().getContenu()),
+                () -> assertEquals("en", result.getNoteEditoriale().getLast().getLangue()),
+                () -> assertEquals(LocalDate.of(2022,5,9), result.getDateMiseAJour()),
+                () -> assertEquals(3, result.getConceptsPrecedents().size()),
+                () -> assertEquals("c1307", result.getConceptsPrecedents().getFirst().getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1307"), result.getConceptsPrecedents().getFirst().getUri()),
+                () -> assertEquals(3, result.getConceptsReferences().size()),
+                () -> assertEquals("c1533", result.getConceptsReferences().getFirst().getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1533"), result.getConceptsReferences().getFirst().getUri())
+
+        );
+    }
 
 //    concepts/definition/c1000
 @Test
