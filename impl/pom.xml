@@ -6,7 +6,7 @@
     <parent>
         <groupId>fr.insee.rmes</groupId>
         <artifactId>metadata-api-parent</artifactId>
-        <version>3.8.4</version>
+        <version>${revision}</version> <!-- Hérite de la propriété du parent -->
     </parent>
 
     <artifactId>metadata-api-impl</artifactId>
@@ -108,14 +108,18 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                        <exclude>TestcontainerTest.java</exclude>
+                        <exclude>org.projectlombok:lombok</exclude>
                     </excludes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
+
         </plugins>
     </build>
 </project>
