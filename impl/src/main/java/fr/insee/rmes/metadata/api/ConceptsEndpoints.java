@@ -50,32 +50,32 @@ public class ConceptsEndpoints implements ConceptsApi {
         }
     }
 
-//    @Override
-//    public ResponseEntity<List<ListeConceptsInner>> getconceptsliste(String libelle) {
-//        String label = StringUtils.isEmpty(libelle) ? "" : libelle;
-//        List<ConceptDTO> listConceptDTOs = requestProcessor.queryToFindConcepts()
-//                .with(new ConceptRequestParametizer("none", label))
-//                .executeQuery()
-//                .listResult(ConceptDTO.class)
-//                .result();
-//
-//        listConceptDTOs.forEach(conceptDto -> {
-//            if (conceptDto.getHasLink()){
-//                List<ConceptSuivant> conceptSuivantList = requestProcessor.queryToFindNearbyConcepts()
-//                        .with(new ConceptsNearbyRequestParametizer(conceptDto.getUri(), ConceptSuivant.class))
-//                        .executeQuery()
-//                        .listResult(ConceptSuivant.class).result();
-//                conceptDto.setConceptsSuivants(conceptSuivantList);
-//            }
-//        });
-//
-//        List<ListeConceptsInner> concepts = listConceptDTOs.stream()
-//                .map(ConceptDTO::transformDTOenDefinition)
-//                .collect(Collectors.toList());
-//
-//        return EndpointsUtils.toResponseEntity(concepts);
-//
-//    }
+    @Override
+    public ResponseEntity<List<ListeConceptsInner>> getconceptsliste(String libelle) {
+        String label = StringUtils.isEmpty(libelle) ? "" : libelle;
+        List<ConceptDTO> listConceptDTOs = requestProcessor.queryToFindConcepts()
+                .with(new ConceptRequestParametizer("none", label))
+                .executeQuery()
+                .listResult(ConceptDTO.class)
+                .result();
+
+        listConceptDTOs.forEach(conceptDto -> {
+            if (conceptDto.getHasLink()){
+                List<NearbyConcept> nearbyConceptList = requestProcessor.queryToFindNearbyConcepts()
+                        .with(new ConceptsNearbyRequestParametizer(conceptDto.getUri(), NearbyConcept.class))
+                        .executeQuery()
+                        .listResult(NearbyConcept.class).result();
+                conceptDto.setNearbyConcepts(nearbyConceptList);
+            }
+        });
+
+        List<ListeConceptsInner> concepts = listConceptDTOs.stream()
+                .map(ConceptDTO::transformDTOenDefinition)
+                .collect(Collectors.toList());
+
+        return EndpointsUtils.toResponseEntity(concepts);
+
+    }
 
 
 }
