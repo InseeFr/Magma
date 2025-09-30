@@ -113,7 +113,7 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
                 () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
                 () -> assertEquals("Abergement-de-Varey", resultItem1.getIntituleSansArticle()),
                 () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._5, resultItem1.getTypeArticle()),
-                () -> assertEquals("totale", resultItem1.getInclusion()),
+                () -> assertEquals(TerritoireTousAttributs.InclusionEnum.TOTALE, resultItem1.getInclusion()),
                 () -> assertEquals("L'Abergement-de-Varey", resultItem1.getIntitule())
         );
     }

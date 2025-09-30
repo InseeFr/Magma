@@ -5915,6 +5915,9 @@ components:
               description: 'Inclusion'
               xml:
                 name: inclusion
+              enum:
+                - partielle
+                - totale
 
     DepartementListeDescendants:
       description: 'Liste des descendants d''un département'
