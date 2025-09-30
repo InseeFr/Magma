@@ -10,6 +10,10 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+
 
 public class ConceptDTO {
 
@@ -117,6 +121,7 @@ public class ConceptDTO {
                         concept.setDateMiseAJour(LocalDate.parse(this.dateMiseAJour));
                     } catch (DateTimeParseException e3) {
                         // Gérer l'erreur (par exemple, logger ou affecter null)
+                        log.error("IMPOSSIBLE TO PARSE THE DATE '{}' : {}", this.dateMiseAJour, e3.getMessage());
                         concept.setDateMiseAJour(null);
                     }
                 }
@@ -221,32 +226,10 @@ public class ConceptDTO {
     public void setNoteEditorialeFr(String noteEditorialeFr) { this.noteEditorialeFr = noteEditorialeFr; }
 
     public String getNoteEditorialeEn() { return noteEditorialeEn; }
+
     public void setNoteEditorialeEn(String noteEditorialeEn) { this.noteEditorialeEn = noteEditorialeEn; }
 
-
-
-    public LocalDate getDateMiseAJour() {
-        if (this.dateMiseAJour == null || this.dateMiseAJour.isEmpty()) {
-            return null; // ou une valeur par défaut
-        }
-
-    try {
-        // Essayer de parser en tant que LocalDateTime (ex: "2019-05-17T14:04:34.437")
-        LocalDateTime localDateTime = LocalDateTime.parse(this.dateMiseAJour);
-        return localDateTime.toLocalDate();
-    } catch (DateTimeParseException e) {
-        try {
-            // Si échec, essayer de parser en tant que LocalDate (ex: "2019-05-17")
-            return LocalDate.parse(this.dateMiseAJour);
-        } catch (DateTimeParseException ex) {
-            // Gérer l'erreur (par exemple, logger ou retourner null)
-            return null;
-        }
-    }
-}
-
     public void setDateMiseAJour(String dateMiseAJour) { this.dateMiseAJour = dateMiseAJour; }
-
 
     public void setHasLink(Boolean hasLink) {
         this.hasLink = hasLink;
