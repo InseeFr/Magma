@@ -85,7 +85,7 @@
                             <generateApis>true</generateApis>
                             <generateModels>true</generateModels>
                             <supportingFilesToGenerate></supportingFilesToGenerate>
-                            <inlineSchemaNameMappings>DepartementListeDescendants_inner=Territoire_TousAttributs,DepartementListeAscendants_inner=Territoire_TousAttributs,CommunesListe_inner=TerritoireBase,CommuneListeAscendants_inner=Territoire_TousAttributs,DepartementListeProjetesAvecChefLieu_inner=TerritoireBase_ChefLieu</inlineSchemaNameMappings>
+                            <inlineSchemaNameMappings>DepartementListeDescendants_inner=Territoire_TousAttributs,DepartementListeAscendants_inner=Territoire_TousAttributs,CommunesListe_inner=TerritoireBase,CommuneListeAscendants_inner=Territoire_TousAttributs,DepartementListeProjetesAvecChefLieu_inner=TerritoireBase_ChefLieu,Concept_conceptsSuivants_inner=NearbyConcept</inlineSchemaNameMappings>
                             <generateSupportingFiles>true</generateSupportingFiles>
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>
