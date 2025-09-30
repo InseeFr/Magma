@@ -52,17 +52,17 @@ public class ConceptDTO {
         }
 
         if (this.nearbyConcepts != null) {
-            List<ConceptConceptsSuivantsInner> conceptsSuivants = new ArrayList<>();
-            List<ConceptConceptsSuivantsInner> conceptsPrecedents = new ArrayList<>();
-            List<ConceptConceptsSuivantsInner> conceptsLies = new ArrayList<>();
-            List<ConceptConceptsSuivantsInner> conceptsProches = new ArrayList<>();
-            List<ConceptConceptsSuivantsInner> conceptsPlusGeneriques = new ArrayList<>();
-            List<ConceptConceptsSuivantsInner> conceptsPlusSpecifiques = new ArrayList<>();
-            List<ConceptConceptsSuivantsInner> conceptsReferences = new ArrayList<>();
+            List<NearbyConcept> conceptsSuivants = new ArrayList<>();
+            List<NearbyConcept> conceptsPrecedents = new ArrayList<>();
+            List<NearbyConcept> conceptsLies = new ArrayList<>();
+            List<NearbyConcept> conceptsProches = new ArrayList<>();
+            List<NearbyConcept> conceptsPlusGeneriques = new ArrayList<>();
+            List<NearbyConcept> conceptsPlusSpecifiques = new ArrayList<>();
+            List<NearbyConcept> conceptsReferences = new ArrayList<>();
 
 
             this.nearbyConcepts.forEach(cs -> {
-                ConceptConceptsSuivantsInner inner = new ConceptConceptsSuivantsInner();
+                NearbyConcept inner = new NearbyConcept();
                 inner.setId(cs.getId());
                 inner.setUri(cs.getUri());
 
@@ -136,16 +136,16 @@ public class ConceptDTO {
         concept.setIntitule(this.intituleFr);
 
         if (this.nearbyConcepts != null) {
-            List<ConceptConceptsSuivantsInner> conceptsSuivants = new ArrayList<>();
-            List<ConceptConceptsSuivantsInner> conceptsPrecedents = new ArrayList<>();
-            List<ConceptConceptsSuivantsInner> conceptsLies = new ArrayList<>();
-            List<ConceptConceptsSuivantsInner> conceptsProches = new ArrayList<>();
-            List<ConceptConceptsSuivantsInner> conceptsPlusGeneriques = new ArrayList<>();
-            List<ConceptConceptsSuivantsInner> conceptsPlusSpecifiques = new ArrayList<>();
-            List<ConceptConceptsSuivantsInner> conceptsReferences = new ArrayList<>();
+            List<NearbyConcept> conceptsSuivants = new ArrayList<>();
+            List<NearbyConcept> conceptsPrecedents = new ArrayList<>();
+            List<NearbyConcept> conceptsLies = new ArrayList<>();
+            List<NearbyConcept> conceptsProches = new ArrayList<>();
+            List<NearbyConcept> conceptsPlusGeneriques = new ArrayList<>();
+            List<NearbyConcept> conceptsPlusSpecifiques = new ArrayList<>();
+            List<NearbyConcept> conceptsReferences = new ArrayList<>();
 
             this.nearbyConcepts.forEach(cs -> {
-                ConceptConceptsSuivantsInner inner = new ConceptConceptsSuivantsInner();
+                NearbyConcept inner = new NearbyConcept();
                 inner.setId(cs.getId());
                 inner.setUri(cs.getUri());
 
