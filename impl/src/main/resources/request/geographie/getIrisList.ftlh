@@ -1,4 +1,4 @@
-SELECT DISTINCT ?uri ?type ?code ?intitule ?intituleSansArticle ?typeArticle ?typeDIris ?dateCreation ?dateSuppression
+SELECT DISTINCT ?uri (STRAFTER(STR(?typeAvecUri), "#") AS ?type) ?code ?intitule ?intituleSansArticle ?typeArticle ?typeDIris ?dateCreation ?dateSuppression
 WHERE {
 	{
 		?s a igeo:Iris ;
@@ -30,8 +30,7 @@ WHERE {
 		igeo:codeArticle ?typeArticle ;
 		igeo:nomSansArticle ?intituleSansArticle ;
 		a ?typeRDF .
-	#BIND(STRAFTER(STR(?typeRDF),"http://rdf.insee.fr/def/geo#") AS ?type).
-	BIND(STR(?typeRDF) AS ?type).
+	BIND(STR(?typeRDF) AS ?typeAvecUri).
 	BIND(STR(?s) AS ?uri).
 	OPTIONAL {?s ^igeo:creation/igeo:date ?dateCreation }
 	OPTIONAL {?s ^igeo:suppression/igeo:date ?dateSuppression }
