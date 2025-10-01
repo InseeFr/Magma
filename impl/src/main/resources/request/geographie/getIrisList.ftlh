@@ -1,4 +1,5 @@
 SELECT DISTINCT ?uri (STRAFTER(STR(?typeAvecUri), "#") AS ?type) ?code ?intitule ?intituleSansArticle ?typeArticle ?typeDIris ?dateCreation ?dateSuppression
+FROM <http://rdf.insee.fr/graphes/geo/cog>
 WHERE {
 	{
 		?s a igeo:Iris ;
