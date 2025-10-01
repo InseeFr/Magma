@@ -117,7 +117,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
         var response  = endpoints.getcogcomcan("14475", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
         var resultItem1= result.getFirst();
-        assertEquals(4, result.size());
+        assertEquals(1, result.size());
         assertAll(
                 () -> assertEquals("1401", resultItem1.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/canton/25982682-5635-40ad-8040-09110edb43e1", resultItem1.getUri()),

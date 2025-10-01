@@ -1,4 +1,5 @@
 SELECT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu
+FROM <http://rdf.insee.fr/graphes/geo/cog>
 WHERE {
 ?commune a igeo:Commune ;
 igeo:codeINSEE '${code}' .
