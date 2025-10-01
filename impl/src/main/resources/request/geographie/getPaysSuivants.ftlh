@@ -1,4 +1,5 @@
 SELECT ?uri ?type ?code ?intitule ?intituleComplet ?iso3166alpha2 ?iso3166alpha3 ?iso3166num ?dateCreation ?dateSuppression
+FROM <http://rdf.insee.fr/graphes/geo/cog>
 WHERE {
 {
 # Sélection de la ressource d'origine (et de son événement destructeur)
