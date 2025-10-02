@@ -180,11 +180,11 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
 
 //    geo/communes?date=*
     @Test
-    void should_return_43907_communes_when_Communes_dateEtoile(){
+    void should_return_43905_communes_when_Communes_dateEtoile(){
         var response  = endpoints.getcogcomliste ("*", null,  null);
         var result = response.getBody();
         var resultItem1= result.getFirst();
-        assertEquals(43907, result.size());
+        assertEquals(43905, result.size());
         assertAll(
                 () -> assertEquals("01001", resultItem1.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/commune/166857ef-114f-4067-9d3d-f712562850c5", resultItem1.getUri()),

@@ -1,4 +1,5 @@
 SELECT DISTINCT ?uri ?type ?code ?intituleSansArticle ?intitule ?typeDIris ?dateCreation ?dateSuppression ?typeArticle
+FROM <http://rdf.insee.fr/graphes/geo/cog>
 WHERE {
 
 		?s a igeo:Iris ;
