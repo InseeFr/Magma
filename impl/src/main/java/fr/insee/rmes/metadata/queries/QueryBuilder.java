@@ -21,6 +21,7 @@ public record QueryBuilder(Configuration freemarkerConfiguration) {
     public static final String CONCEPTSUIVANTS = "concepts/getLinkedConceptsQuery.ftlh";
     public static final String TERRITOIRE = "geographie/getTerritoireByCodeDateNomCommune.ftlh";
     public static final String COMMUNE_CANTONS = "geographie/getCommuneCantonsByCodeDate.ftlh";
+    public static final String CANTON_COMMUNES = "geographie/getCantonCommunesByCodeDate.ftlh";
     public static final String PRECEDENTS = "geographie/getPreviousOrNextByCodeTypeDate.ftlh";
     public static final String PROJETES = "geographie/getProjectionByCodeTypeDate.ftlh";
     //    public static final String IRIS = "geographie/getIrisByCodeDate.ftlh";
