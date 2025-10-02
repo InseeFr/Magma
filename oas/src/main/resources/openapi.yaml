@@ -970,6 +970,27 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /geo/commune/{code}/cantons:
+    get:
+      tags:
+        - geoCommune
+      summary: 'Information sur le(s) canton(s) associé(s) à la commune identifiée par son code (cinq caractères)'
+      operationId: getcogcomcan
+      parameters:
+        - $ref: '#/components/parameters/codeCommuneInPath'
+        - $ref: '#/components/parameters/dateCommuneCantonsActifs'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommuneCantons200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
   /geo/commune/{code}/descendants:
     get:
       tags:
@@ -1925,6 +1946,15 @@ components:
       in: query
       description: |-
         Filtre pour renvoyer la commune active à la date donnée. Par défaut, c'est la date courante (format : 'AAAA-MM-JJ').
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    dateCommuneCantonsActifs:
+      in: query
+      description: |-
+        La requête renvoie les cantons actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
       name: date
       schema:
         type: 'string'
@@ -3600,6 +3630,17 @@ components:
         typeArticle: '0'
         intitule: 'Val d''Arry'
 
+    ListeCommuneCantons:
+      value:
+        - code: '1401'
+          uri: 'http://id.insee.fr/geo/canton/25982682-5635-40ad-8040-09110edb43e1'
+          type: 'Canton'
+          dateCreation: '2021-02-26'
+          chefLieu: '14027'
+          intituleSansArticle: 'Monts d’Aunay'
+          typeArticle: '4'
+          intitule: 'Les Monts d’Aunay'
+
     CommuneListeDescendants:
       value:
         - code: '14373'
@@ -4962,6 +5003,22 @@ components:
             défaut:
               $ref: '#/components/examples/Commune'
 
+    CommuneCantons200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeCommuneCantons'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCommuneCantons'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeCommuneCantons'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCommuneCantons'
+
     CommuneListePrecedents200:
       description: 'Opération réussie pour les communes précédentes'
       content:
@@ -6037,6 +6094,15 @@ components:
         name: AscendantsCommune
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
+    ListeCommuneCantons:
+      description: 'Liste des cantons ayant un territoire commun avec la commune'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCommuneCantons
+      items:
+        $ref: '#/components/schemas/Canton'
 
     CommuneListePrecedents:
       description: 'Liste des communes précédentes'

@@ -107,6 +107,30 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
     }
 
 
+    /////////////////////////////////////////////////////////////////////
+    ///                geo/commune/{code}/cantons                     ///
+    /////////////////////////////////////////////////////////////////////
+
+//    geo/commune/14475/cantons?date=2025-09-04
+    @Test
+    void should_return_1_canton_when_CommuneCodeCantons_code14475_date20250904() {
+        var response  = endpoints.getcogcomcan("14475", LocalDate.of(2025, 9, 4));
+        var result = response.getBody();
+        var resultItem1= result.getFirst();
+        assertEquals(1, result.size());
+        assertAll(
+                () -> assertEquals("1401", resultItem1.getCode()),
+                () -> assertEquals("http://id.insee.fr/geo/canton/25982682-5635-40ad-8040-09110edb43e1", resultItem1.getUri()),
+                () -> assertEquals(Canton.TypeEnum.CANTON, resultItem1.getType()),
+                () -> assertEquals(LocalDate.of(2021,2,26), resultItem1.getDateCreation()),
+                () -> assertEquals("Monts d’Aunay", resultItem1.getIntituleSansArticle()),
+                () -> assertEquals(Canton.TypeArticleEnum._4, resultItem1.getTypeArticle()),
+                () -> assertEquals("14027", resultItem1.getChefLieu()),
+                () -> assertEquals("Les Monts d’Aunay", resultItem1.getIntitule())
+        );
+
+    }
+
     ////////////////////////////////////////////////////////////////////
     ///                  geo/communes/descendants                    ///
     ////////////////////////////////////////////////////////////////////
