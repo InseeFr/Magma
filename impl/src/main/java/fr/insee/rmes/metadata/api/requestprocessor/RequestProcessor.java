@@ -45,6 +45,10 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
         return new RequestProcessor.QueryBuilder(TERRITOIRE, this);
     }
 
+    public RequestProcessor.QueryBuilder queryToFindCommunesOfCanton() {
+        return new RequestProcessor.QueryBuilder(CANTON_COMMUNES, this);
+    }
+
     public RequestProcessor.QueryBuilder queryforFindIrisDescendantsCommune() {
         return new RequestProcessor.QueryBuilder(LIEN_COMMUNE_IRIS, this);
     }

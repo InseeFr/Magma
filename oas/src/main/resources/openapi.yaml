@@ -563,6 +563,28 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /geo/canton/{code}/communes:
+    get:
+      tags:
+        - geoCanton
+      summary: 'Récupérer les informations concernant les communes qui ont un territoire commun avec le canton {code}'
+      operationId: 'getcogcancom'
+      parameters:
+        - $ref: '#/components/parameters/codeCantonInPath'
+        - $ref: '#/components/parameters/dateCantonCommunesActives'
+      responses:
+        '200':
+          $ref: '#/components/responses/CantonCommunes200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+
   /geo/cantons:
     get:
       tags:
@@ -2784,6 +2806,15 @@ components:
         type: 'string'
         format: date
 
+    dateCantonCommunesActives:
+      in: query
+      description: |-
+        La requête renvoie les communes actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
     dateCantonsActifs:
       in: query
       description: |-
@@ -3303,6 +3334,17 @@ components:
         intituleSansArticle: 'Ambérieu-en-Bugey'
         typeArticle: '1'
         intitule: 'Ambérieu-en-Bugey'
+
+    ListeCantonCommmunes:
+      value:
+        - code: '01002'
+          uri: 'http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'Abergement-de-Varey'
+          typeArticle: '5'
+          inclusion: 'totale'
+          intitule: 'L''Abergement-de-Varey'
 
     ListeCantons:
       value:
@@ -4616,6 +4658,22 @@ components:
             défaut:
               $ref: '#/components/examples/Canton'
 
+    CantonCommunes200:
+      description: 'Opération réussie pour les territoires d''un canton'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeCantonCommmunes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCantonCommmunes'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeCantonCommmunes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCantonCommmunes'
+
     CantonsListe200:
       description: 'Opération réussie pour les cantons'
       content:
@@ -5857,6 +5915,9 @@ components:
               description: 'Inclusion'
               xml:
                 name: inclusion
+              enum:
+                - partielle
+                - totale
 
     DepartementListeDescendants:
       description: 'Liste des descendants d''un département'
@@ -6892,6 +6953,15 @@ components:
       xml:
         attribute: true
       example: '0101'
+
+    ListeCantonCommmunes:
+      description: 'Liste des communes ayant un territoire commun avec le canton'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCantonCommunes
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
 
     ListeCantons:
       description: 'Liste des cantons'

@@ -40,6 +40,15 @@ public class GeoCantonEndpoints implements GeoCantonApi {
     }
 
     @Override
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogcancom(String code, LocalDate date) {
+        return requestProcessor.queryToFindCommunesOfCanton()
+                .with(new TerritoireRequestParametizer(code, date, TerritoireTousAttributs.class, "*"))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
+
+    @Override
     public ResponseEntity<List<Canton>> getcogcanliste(String date) {
         if (date==null) {
             date = LocalDate.now().toString();
