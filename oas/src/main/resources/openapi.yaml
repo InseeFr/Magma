@@ -1554,10 +1554,31 @@ paths:
       operationId: 'getcogiris'
       parameters:
         - $ref: '#/components/parameters/codeIrisInPath'
-        - $ref: '#/components/parameters/dateIrisActive'
+        - $ref: '#/components/parameters/dateIrisActif'
       responses:
         '200':
           $ref: '#/components/responses/Iris200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /geo/iris:
+    get:
+      tags:
+        - geoIris
+      summary: 'Informations sur tous les iris actifs à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcogirislist'
+      parameters:
+          - $ref: '#/components/parameters/dateIrisListActifs'
+          - $ref: '#/components/parameters/com'
+      responses:
+        '200':
+          $ref: '#/components/responses/IrisListe200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -2555,10 +2576,19 @@ components:
       schema:
         $ref: '#/components/schemas/Date2016ParDefaut'
 
-    dateIrisActive:
+    dateIrisActif:
       in: query
       description: |-
-        Filtre pour renvoyer l'Iris active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+        Filtre pour renvoyer l'Iris actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    dateIrisListActifs:
+      in: query
+      description: |-
+        Filtre pour renvoyer les Iris ou faux-Iris à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
       name: date
       schema:
         type: 'string'
@@ -4106,9 +4136,21 @@ components:
         type': 'Iris'
         dateCreation: '2008-01-01'
         typeDIris: 'H'
-        intitule: 'Les Pérouses-Triangle d''Activités'
         intituleSansArticle: 'Pérouses-Triangle d''Activités'
         typeArticle: '4'
+        intitule: 'Les Pérouses-Triangle d''Activités'
+
+
+    ListeIris:
+      value:
+        code: '010010000'
+        uri: 'http://id.insee.fr/geo/commune/166857ef-114f-4067-9d3d-f712562850c5'
+        type': 'Commune'
+        dateCreation: '1943-01-01'
+        intituleSansArticle: 'Abergement-Clémenciat'
+        typeArticle: '5'
+        intitule: 'L''Abergement-Clémenciat'
+
 
     Pays:
       value:
@@ -5451,6 +5493,22 @@ components:
             défaut:
               $ref: '#/components/examples/Iris'
 
+    IrisListe200:
+      description: 'Opération réussie pour la liste des Iris'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeIris'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeIris'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeIris'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeIris'
+
     Pays200:
       description: 'Opération réussie pour le pays'
       content:
@@ -6730,6 +6788,16 @@ components:
           properties:
             code:
               $ref: '#/components/schemas/CodeIris'
+
+    ListeIris:
+      description: 'Liste des iris'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeIris
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+#        return types Commune and Iris
 
     Pays:
       xml:
