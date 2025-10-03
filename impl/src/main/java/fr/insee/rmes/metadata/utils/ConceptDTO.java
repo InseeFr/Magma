@@ -4,9 +4,8 @@ import fr.insee.rmes.metadata.model.*;
 import lombok.Getter;
 
 import java.net.URI;
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,25 +105,11 @@ public class ConceptDTO {
         // Conversion de la date en LocalDate
         if (this.dateMiseAJour != null && !this.dateMiseAJour.isEmpty()) {
             try {
-                // Parser en LocalDateTime puis extraire la partie LocalDate (ex : 2022-05-09T08:37:09.201144)
-                LocalDateTime localDateTime = LocalDateTime.parse(this.dateMiseAJour);
-                concept.setDateMiseAJour(localDateTime.toLocalDate());
-            } catch (DateTimeParseException e1) {
-                try {
-                    // Parser en LocalDateTime puis extraire la partie LocalDate (ex: 2016-10-13T00:00:00.000+02:00)
-                    OffsetDateTime localDateTime = OffsetDateTime.parse(this.dateMiseAJour);
-                    LocalDate localDate = localDateTime.toLocalDate();
-                    concept.setDateMiseAJour(localDate);
-                } catch (DateTimeParseException e2) {
-                    try {
-                        // Si le format est directement un LocalDate (ex: "2019-05-17")
-                        concept.setDateMiseAJour(LocalDate.parse(this.dateMiseAJour));
-                    } catch (DateTimeParseException e3) {
-                        // Gérer l'erreur (par exemple, logger ou affecter null)
-                        log.error("IMPOSSIBLE TO PARSE THE DATE '{}' : {}", this.dateMiseAJour, e3.getMessage());
-                        concept.setDateMiseAJour(null);
-                    }
-                }
+                // Utilise Instant.parse() qui gère automatiquement les formats ISO
+                concept.setDateMiseAJour(Instant.parse(this.dateMiseAJour).atZone(java.time.ZoneId.systemDefault()).toLocalDate());
+            } catch (DateTimeParseException e) {
+                log.error("IMPOSSIBLE TO PARSE THE DATE '{}' : {}", this.dateMiseAJour, e.getMessage());
+                concept.setDateMiseAJour(null);
             }
         } else {
             concept.setDateMiseAJour(null);
