@@ -6380,15 +6380,80 @@ components:
         conceptsSuivants:
           type: array
           items:
-            $ref: '#/components/schemas/ConceptSuivant'
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPrecedents:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsLies:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsProches:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPlusGeneriques:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPlusSpecifiques:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
       required:
         - id
         - uri
 
-    ConceptSuivant:
+    Definition:
       type: object
       xml:
-        name: ConceptSuivant
+        name: Definition
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+          format: uri
+        intitule:
+          type: string
+        conceptsSuivants:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPrecedents:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsLies:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsProches:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPlusGeneriques:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPlusSpecifiques:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+
+    NearbyConcept:
+      type: object
+      xml:
+        name: NearbyConcept
       properties:
         id:
           type: string
@@ -6422,9 +6487,9 @@ components:
       type: array
       xml:
         wrapped: true
-        name: ListeConcepts
+        name: Definition
       items:
-        $ref: '#/components/schemas/Concept'
+         $ref: '#/components/schemas/Definition'
 
     AireDAttractionDesVilles2020:
       allOf:
