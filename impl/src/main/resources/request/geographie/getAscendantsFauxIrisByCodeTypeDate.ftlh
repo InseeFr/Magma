@@ -1,4 +1,5 @@
 SELECT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?cheflieu ?dateCreation ?dateSuppression
+FROM <http://rdf.insee.fr/graphes/geo/cog>
 WHERE {
 	{
 		SELECT DISTINCT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?cheflieu ?dateCreation ?dateSuppression

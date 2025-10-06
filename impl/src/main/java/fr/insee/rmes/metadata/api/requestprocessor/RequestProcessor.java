@@ -61,6 +61,10 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
         return new RequestProcessor.QueryBuilder(CANTON_COMMUNES, this);
     }
 
+    public RequestProcessor.QueryBuilder queryToFindAscendantsFauxIris() {
+        return new RequestProcessor.QueryBuilder(ASCENDANTS_FAUX_IRIS, this);
+    }
+
     public RequestProcessor.QueryBuilder queryforFindIrisDescendantsCommune() {
         return new RequestProcessor.QueryBuilder(LIEN_COMMUNE_IRIS, this);
     }
