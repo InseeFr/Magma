@@ -102,6 +102,12 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
         public ExecutableQuery with(ProjetesRequestParametizer projetesRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(projetesRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
+        public ExecutableQuery with(ClassificationRequestParametizer classificationRequestParametizer) {
+            return new ExecutableQuery(
+                    requestProcessor.queryBuilder().build(classificationRequestParametizer.toParameters(), queryPath),
+                    requestProcessor
+            );
+        }
     }
 
 

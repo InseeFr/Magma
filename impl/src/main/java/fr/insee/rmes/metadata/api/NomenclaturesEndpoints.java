@@ -1,8 +1,11 @@
+package fr.insee.rmes.metadata.api;
+
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.metadata.model.Nomenclature;
 import fr.insee.rmes.metadata.queries.parameters.ClassificationRequestParametizer;
 import org.springframework.http.ResponseEntity;
 
-public class NomenclaturesEndpoints implements NomenclatureApi {
+public class NomenclaturesEndpoints implements NomenclaturesApi {
 
     private final RequestProcessor requestProcessor;
 
@@ -15,7 +18,7 @@ public class NomenclaturesEndpoints implements NomenclatureApi {
         return requestProcessor.queryToFindClassification()
                 .with(new ClassificationRequestParametizer(classification, level, code))
                 .executeQuery()
-                .listResult()
+                .singleResult(Nomenclature.class)
                 .toResponseEntity();
     }
 }
