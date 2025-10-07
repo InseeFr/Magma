@@ -28,7 +28,7 @@ public record QueryBuilder(Configuration freemarkerConfiguration) {
     public static final Path DESCENDANTS_PAYS = Path.of("geographie/getPaysDescendants.ftlh");
     public static final Path PAYS_PRECEDENTS = Path.of("geographie/getPaysPrecedents.ftlh");
     public static final Path PAYS_SUIVANTS = Path.of("geographie/getPaysSuivants.ftlh");
-
+    public static final Path NOMENCLATURE = Path.of("classifications/getClassificationByCode.ftlh");
 
     public Query build(Map<String, Object> parameters, Path queryfile) {
         Template template;
@@ -42,5 +42,4 @@ public record QueryBuilder(Configuration freemarkerConfiguration) {
         }
         return new Query(out);
     }
-
 }

@@ -21,6 +21,10 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
 
     // Peut-être renommer les query en queryToFind et non en forFind
 
+    public RequestProcessor.QueryBuilder queryToFindClassification(){
+        return new RequestProcessor.QueryBuilder(NOMENCLATURE, this);
+    }
+
     public RequestProcessor.QueryBuilder queryToFindConcept(){
         return new RequestProcessor.QueryBuilder(CONCEPT,this);
     }

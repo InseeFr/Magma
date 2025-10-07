@@ -62,8 +62,8 @@ tags:
 
   # -- Nomenclatures
 
-#  - name: nomenclatures
-#    description: API Nomenclatures
+  - name: nomenclatures
+    description: API Nomenclatures
 
   # -- Opérations
 
@@ -1883,6 +1883,32 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  # -- Nomenclatures
+
+  /codes/{nomenclature}/{niveau}/{code}:
+    get:
+      tags:
+        - nomenclatures
+      summary: Informations sur une nomenclature d'un certain niveau identifiée par son code
+      operationId: getClassificationByCode
+      parameters:
+        - $ref: '#/components/parameters/classification'
+        - $ref: '#/components/parameters/classificationLevel'
+        - $ref: '#/components/parameters/classificationCode'
+      responses:
+        '200':
+          $ref: '#/components/responses/ClassificationByCode200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  # -- Opérations
+
 ### COMPONENTS SPECIFICATION ###
 
 components:
@@ -3079,9 +3105,120 @@ components:
         type: 'string'
         format: date
 
+    # -- Nomenclatures
+
+    classification:
+      name: classification
+      required: true
+      in: path
+      description: "Nom de la nomenclature"
+      schema:
+        $ref: '#/components/schemas/NomNomenclature'
+
+    classificationLevel:
+      name: level
+      required: true
+      in: path
+      description: "Niveau de la nomenclature"
+      schema:
+        $ref: '#/components/schemas/NiveauNomenclature'
+
+    classificationCode:
+      name: code
+      required: true
+      in: path
+      description: "Identifiant de la nomenclature"
+      schema:
+        $ref: '#/components/schemas/CodeNomenclature'
+
+    # -- Opérations
+
   ### EXAMPLES SPECIFICATION ###
 
   examples:
+    # -- Concepts
+
+    Concept:
+      value:
+        id: 'c2066'
+        uri: 'http://id.insee.fr/concepts/definition/c2066'
+        intitule:
+          - contenu: 'Auto-entrepreneur'
+            langue: 'fr'
+          - contenu: 'Auto-entrepreneur'
+            langue: 'en'
+        definition:
+          - contenu: '<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Le régime de l''« auto-entrepreneur » s''applique depuis le 1er janvier 2009 aux personnes physiques qui créent ou possèdent déjà une entreprise individuelle pour exercer une activité commerciale, artisanale ou libérale (hormis certaines activités exclues), à titre principal ou complémentaire, et dont l''entreprise individuelle remplit les conditions du régime fiscal de la micro-entreprise et qui opte pour exercer en franchise de TVA.</p><p>Il offre des formalités de création d''entreprises allégées ainsi qu''un mode de calcul et de paiement simplifié des cotisations sociales et de l''impôt sur le revenu. L''auto-entrepreneur bénéficie :</p><ul class=\"list1\"><li>d''un régime micro-social simplifié ;</li><li>d''une dispense d''immatriculation au registre du commerce et des sociétés (RCS) pour les commerçants, ou au répertoire des métiers (RM) pour les artisans ; toutefois, l''auto-entrepreneur qui crée une activité artisanale à titre principal, doit s''inscrire au RM.</li><li>d''une exonération de TVA ;</li><li>et sur option, d''un régime micro-fiscal simplifié (versement libératoire de l''impôt sur le revenu) et d''une exonération de la cotisation foncière des entreprises pendant 3 ans à compter de la date de création.</li></ul></div>'
+            langue: 'fr'
+          - contenu: '<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Since January 1st 2009, ‘auto-entrepreneur’ status applies to natural persons who set up or already possess a sole proprietorship, for the purpose of exercising a commercial or artisanal activity or one of the professions (with the exception of certain activities), as a main or complementary activity, and whose sole proprietorship fulfils the conditions of the micro-enterprise fiscal category, and who opt for VAT exemption.</p><p>This status offers less demanding regulations for starting up the business, as well as a simplified method for calculating and paying social security contributions and income tax. Auto-entrepreneurs benefit from:</p><ul class=\"list1\"><li>a simplified social scheme</li><li>exemption from the requirement of registration with the business register for commercial professionals, or the trade register for artisans; however, the auto-entrepreneur who creates an artisan activity with main title, has to join the RM.</li><li>exemption from VAT;</li><li>the option of a simplified tax scheme (payment in discharge of income tax) and exemption from porperty tax of firms for the first three years after establishment of the business.</li></ul></div>'
+            langue: 'en'
+        noteEditoriale:
+          - contenu: '<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Les professions libérales relevant de la Caisse interprofessionnelle de prévoyance et d''assurance vieillesse (CIPAV) et créateurs d''activité à compter du 1er janvier 2009 peuvent également bénéficier du statut d''auto-entrepreneur. Depuis janvier 2011, l''auto-entrepreneur peut bénéficier du statut de l''EIRL (entrepreneur individuel à responsabilité limitée) en affectant à son activité professionnelle un patrimoine spécifique séparé de son patrimoine personnel. Il conserve toutefois le régime fiscal et social forfaitaire lié au régime de l''auto-entreprise.</p></div>'
+            langue: 'fr'
+          - contenu: '<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>The professions falling under the aegis of the Inter-profession Body for Retirement Planning and Insurance (CIPAV) and those launching a business after January 1st 2009 can also benefit from auto-entrepreneur status. Since January, 2011, the auto-entrepreneur can benefit from EIRL (individual entrepreneur with limited liability) status by allocating to his professional activity a specific patrimony separated from his personal patrimony. However he preserves the fixed tax and social regime connected to the auto-entrepreneur status.</p></div>'
+            langue: 'en'
+        dateMiseAJour: '2016-10-13'
+        conceptsSuivants:
+          - id: 'c1500'
+            uri: 'http://id.insee.fr/concepts/definition/c1500'
+
+    ListeConcepts:
+      value:
+        - id: 'c1769'
+          uri: 'http://id.insee.fr/concepts/definition/c1769'
+          intitule: 'Commerce électronique'
+        - id: 'c1324'
+          uri: 'http://id.insee.fr/concepts/definition/c1324'
+          intitule: 'Consommation intérieure d''électricité'
+        - id: 'c1773'
+          uri: 'http://id.insee.fr/concepts/definition/c1773'
+          intitule: 'Consommation nette d''électricité'
+        - id: 'c1158'
+          uri: 'http://id.insee.fr/concepts/definition/c1158'
+          intitule: 'Fichier général des électeurs'
+          conceptsSuivants:
+            - id: 'c2131'
+              uri: 'http://id.insee.fr/concepts/definition/c2131'
+        - id: 'c2029'
+          uri: 'http://id.insee.fr/concepts/definition/c2029'
+          intitule: 'Haute tension et basse tension (électricité)'
+        - id: 'c2169'
+          uri: 'http://id.insee.fr/concepts/definition/c2169'
+          intitule: 'Listes électorales'
+        - id: 'c2167'
+          uri: 'http://id.insee.fr/concepts/definition/c2167'
+          intitule: 'Listes électorales complémentaires'
+        - id: 'c2170'
+          uri: 'http://id.insee.fr/concepts/definition/c2170'
+          intitule: 'Listes électorales consulaires'
+        - id: 'c2171'
+          uri: 'http://id.insee.fr/concepts/definition/c2171'
+          intitule': 'Listes électorales principales'
+        - id: 'c1833'
+          uri: 'http://id.insee.fr/concepts/definition/c1833'
+          intitule: 'Placement sous surveillance électronique mobile '
+        - id: 'c1291'
+          uri: 'http://id.insee.fr/concepts/definition/c1291'
+          intitule: 'Production brute d''électricité'
+        - id: 'c1095'
+          uri: 'http://id.insee.fr/concepts/definition/c1095'
+          intitule: 'Production nette d''électricité'
+        - id: 'c2131'
+          uri: 'http://id.insee.fr/concepts/definition/c2131'
+          intitule: 'Répertoire électoral unique'
+          conceptsPrecedents:
+            - id: 'c1158'
+              uri: 'http://id.insee.fr/concepts/definition/c1158'
+        - id: 'c2172'
+          uri: 'http://id.insee.fr/concepts/definition/c2172'
+          intitule: 'Unité de gestion des listes électorales'
+        - id: 'c1643'
+          uri: 'http://id.insee.fr/concepts/definition/c1643'
+          intitule: 'Élections aux comité d''entreprise'
+        - id: 'c1783'
+          uri: 'http://id.insee.fr/concepts/definition/c1783'
+          intitule: Électricité primaire'
+
     # -- Géographie
 
     AireDAttractionDesVilles2020:
@@ -3764,87 +3901,6 @@ components:
           typeArticle: '0'
           intitule: 'Arbignieu'
 
-    Concept:
-      value:
-        id: 'c2066'
-        uri: 'http://id.insee.fr/concepts/definition/c2066'
-        intitule:
-          - contenu: 'Auto-entrepreneur'
-            langue: 'fr'
-          - contenu: 'Auto-entrepreneur'
-            langue: 'en'
-        definition:
-          - contenu: '<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Le régime de l''« auto-entrepreneur » s''applique depuis le 1er janvier 2009 aux personnes physiques qui créent ou possèdent déjà une entreprise individuelle pour exercer une activité commerciale, artisanale ou libérale (hormis certaines activités exclues), à titre principal ou complémentaire, et dont l''entreprise individuelle remplit les conditions du régime fiscal de la micro-entreprise et qui opte pour exercer en franchise de TVA.</p><p>Il offre des formalités de création d''entreprises allégées ainsi qu''un mode de calcul et de paiement simplifié des cotisations sociales et de l''impôt sur le revenu. L''auto-entrepreneur bénéficie :</p><ul class=\"list1\"><li>d''un régime micro-social simplifié ;</li><li>d''une dispense d''immatriculation au registre du commerce et des sociétés (RCS) pour les commerçants, ou au répertoire des métiers (RM) pour les artisans ; toutefois, l''auto-entrepreneur qui crée une activité artisanale à titre principal, doit s''inscrire au RM.</li><li>d''une exonération de TVA ;</li><li>et sur option, d''un régime micro-fiscal simplifié (versement libératoire de l''impôt sur le revenu) et d''une exonération de la cotisation foncière des entreprises pendant 3 ans à compter de la date de création.</li></ul></div>'
-            langue: 'fr'
-          - contenu: '<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Since January 1st 2009, ‘auto-entrepreneur’ status applies to natural persons who set up or already possess a sole proprietorship, for the purpose of exercising a commercial or artisanal activity or one of the professions (with the exception of certain activities), as a main or complementary activity, and whose sole proprietorship fulfils the conditions of the micro-enterprise fiscal category, and who opt for VAT exemption.</p><p>This status offers less demanding regulations for starting up the business, as well as a simplified method for calculating and paying social security contributions and income tax. Auto-entrepreneurs benefit from:</p><ul class=\"list1\"><li>a simplified social scheme</li><li>exemption from the requirement of registration with the business register for commercial professionals, or the trade register for artisans; however, the auto-entrepreneur who creates an artisan activity with main title, has to join the RM.</li><li>exemption from VAT;</li><li>the option of a simplified tax scheme (payment in discharge of income tax) and exemption from porperty tax of firms for the first three years after establishment of the business.</li></ul></div>'
-            langue: 'en'
-        noteEditoriale:
-          - contenu: '<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Les professions libérales relevant de la Caisse interprofessionnelle de prévoyance et d''assurance vieillesse (CIPAV) et créateurs d''activité à compter du 1er janvier 2009 peuvent également bénéficier du statut d''auto-entrepreneur. Depuis janvier 2011, l''auto-entrepreneur peut bénéficier du statut de l''EIRL (entrepreneur individuel à responsabilité limitée) en affectant à son activité professionnelle un patrimoine spécifique séparé de son patrimoine personnel. Il conserve toutefois le régime fiscal et social forfaitaire lié au régime de l''auto-entreprise.</p></div>'
-            langue: 'fr'
-          - contenu: '<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>The professions falling under the aegis of the Inter-profession Body for Retirement Planning and Insurance (CIPAV) and those launching a business after January 1st 2009 can also benefit from auto-entrepreneur status. Since January, 2011, the auto-entrepreneur can benefit from EIRL (individual entrepreneur with limited liability) status by allocating to his professional activity a specific patrimony separated from his personal patrimony. However he preserves the fixed tax and social regime connected to the auto-entrepreneur status.</p></div>'
-            langue: 'en'
-        dateMiseAJour: '2016-10-13'
-        conceptsSuivants:
-          - id: 'c1500'
-            uri: 'http://id.insee.fr/concepts/definition/c1500'
-
-    ListeConcepts:
-      value:
-        - id: 'c1769'
-          uri: 'http://id.insee.fr/concepts/definition/c1769'
-          intitule: 'Commerce électronique'
-        - id: 'c1324'
-          uri: 'http://id.insee.fr/concepts/definition/c1324'
-          intitule: 'Consommation intérieure d''électricité'
-        - id: 'c1773'
-          uri: 'http://id.insee.fr/concepts/definition/c1773'
-          intitule: 'Consommation nette d''électricité'
-        - id: 'c1158'
-          uri: 'http://id.insee.fr/concepts/definition/c1158'
-          intitule: 'Fichier général des électeurs'
-          conceptsSuivants:
-            - id: 'c2131'
-              uri: 'http://id.insee.fr/concepts/definition/c2131'
-        - id: 'c2029'
-          uri: 'http://id.insee.fr/concepts/definition/c2029'
-          intitule: 'Haute tension et basse tension (électricité)'
-        - id: 'c2169'
-          uri: 'http://id.insee.fr/concepts/definition/c2169'
-          intitule: 'Listes électorales'
-        - id: 'c2167'
-          uri: 'http://id.insee.fr/concepts/definition/c2167'
-          intitule: 'Listes électorales complémentaires'
-        - id: 'c2170'
-          uri: 'http://id.insee.fr/concepts/definition/c2170'
-          intitule: 'Listes électorales consulaires'
-        - id: 'c2171'
-          uri: 'http://id.insee.fr/concepts/definition/c2171'
-          intitule': 'Listes électorales principales'
-        - id: 'c1833'
-          uri: 'http://id.insee.fr/concepts/definition/c1833'
-          intitule: 'Placement sous surveillance électronique mobile '
-        - id: 'c1291'
-          uri: 'http://id.insee.fr/concepts/definition/c1291'
-          intitule: 'Production brute d''électricité'
-        - id: 'c1095'
-          uri: 'http://id.insee.fr/concepts/definition/c1095'
-          intitule: 'Production nette d''électricité'
-        - id: 'c2131'
-          uri: 'http://id.insee.fr/concepts/definition/c2131'
-          intitule: 'Répertoire électoral unique'
-          conceptsPrecedents:
-            - id: 'c1158'
-              uri: 'http://id.insee.fr/concepts/definition/c1158'
-        - id: 'c2172'
-          uri: 'http://id.insee.fr/concepts/definition/c2172'
-          intitule: 'Unité de gestion des listes électorales'
-        - id: 'c1643'
-          uri: 'http://id.insee.fr/concepts/definition/c1643'
-          intitule: 'Élections aux comité d''entreprise'
-        - id: 'c1783'
-          uri: 'http://id.insee.fr/concepts/definition/c1783'
-          intitule: Électricité primaire'
-
     DepartementListeAscendants:
       value:
         - code: '53'
@@ -4248,6 +4304,16 @@ components:
           typeArticle: '1'
           intitule: 'Vierzon'
 
+    # -- Nomenclatures
+
+    Classification:
+      value:
+        - code: '10'
+          uri: 'http://id.insee.fr/codes/cj/n2/10'
+          intitule: 'Entrepreneur individuel'
+
+    # -- Opérations
+
   ### RESPONSES SPECIFICATION ###
 
   responses:
@@ -4263,6 +4329,8 @@ components:
 
     ServerError:
       description: 'Erreur interne du serveur'
+
+    # -- Concepts
 
     Concept200:
       description: 'Opération réussie'
@@ -4295,6 +4363,8 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeConcepts'
+
+    ## - Géographie
 
     AireDAttractionDesVilles200:
       description: 'Opération réussie pour l''aire d''attraction'
@@ -5623,6 +5693,26 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeZonesDEmploi2020'
+
+    # -- Nomenclatures
+
+    ClassificationByCode200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Nomenclature'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Classification'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Nomenclature'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Classification'
+
+    # -- Opérations
 
   ### SCHEMAS SPECIFICATION ###
 
@@ -7186,3 +7276,29 @@ components:
         name: ListeZonesDEmploi
       items:
         $ref: '#/components/schemas/ZoneDEmploi2020'
+
+    # -- Nomenclatures
+
+    CodeNomenclature:
+      type: string
+      example: '10'
+
+    NiveauNomenclature:
+      type: string
+      example: 'n2'
+
+    NomNomenclature:
+      type: string
+      example: 'cj'
+
+    Nomenclature:
+      type: object
+      properties:
+        code:
+          type: string
+        uri:
+          type: string
+        intitule:
+          type: string
+
+    # -- Opérations
