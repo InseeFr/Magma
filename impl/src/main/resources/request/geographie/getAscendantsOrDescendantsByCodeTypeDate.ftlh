@@ -94,6 +94,10 @@ BIND(SUBSTR(STR(?uriTypeDIris ), STRLEN(STR(?uriTypeDIris )), 1) AS ?typeDIris)
     ?uri a igeo:${typeEnumDescendantsIntercommunalite} .
 </#if>
 
+<#if typeEnumAscendantsIris != "none">
+    ?uri a igeo:${typeEnumAscendantsIris} .
+</#if>
+
 <#if typeEnumDescendantsRegion != "none">
     ?uri a igeo:${typeEnumDescendantsRegion} .
 </#if>
