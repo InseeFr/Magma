@@ -28,7 +28,7 @@ WHERE {
 		}
 			?ressource a ?typeRDF;
 <#if typeEnumAscendantsIris != "none">
-			 a igeo:${type} ;
+			 a igeo:${typeEnumAscendantsIris} ;
 </#if>
 				igeo:codeINSEE ?code ;
 				igeo:codeArticle ?typeArticle ;
