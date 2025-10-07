@@ -13,8 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,6 +37,7 @@ public class GeoZoneDEmploiQueriesTest extends TestcontainerTest{
     void should_return_uniteUrbaine2415_when_zoneDEmploi2020Code2415_date20250904() {
         var response  = endpoints.getcogze("2415", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
+        assertNotNull(result);
         assertAll(
                 () -> assertEquals("2415", result.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/zoneDEmploi2020/dbab03e7-3d8d-4797-8ab1-0ed36a4db9c1", result.getUri()),
@@ -59,6 +59,7 @@ public class GeoZoneDEmploiQueriesTest extends TestcontainerTest{
     void should_return_41_territoires_when_zoneDEmploi2020CodeDescendants_code2415_date20250904_typeNull(){
         var response  = endpoints.getcogzedesc("2415", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(41, result.size()),
@@ -77,6 +78,7 @@ public class GeoZoneDEmploiQueriesTest extends TestcontainerTest{
     void should_return_28_communes_when_zoneDEmploi2020CodeDescendants_code01121_date20250904_typeCommune(){
         var response  = endpoints.getcogzedesc("2415", LocalDate.of(2025, 9, 4), TypeEnumDescendantsZoneDEmploi.COMMUNE);
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(28, result.size()),
@@ -110,6 +112,7 @@ public class GeoZoneDEmploiQueriesTest extends TestcontainerTest{
     void should_return_306_zonesDEmploi_when_ZonesDEmploi2020_date20250904(){
         var response  = endpoints.getcogzeliste("2025-09-04");
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(306, result.size()),
@@ -127,6 +130,7 @@ public class GeoZoneDEmploiQueriesTest extends TestcontainerTest{
     void should_return_332_zonesDEmploi_when_ZonesDEmploi2020_dateEtoile(){
         var response  = endpoints.getcogzeliste("*");
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(332, result.size()),
