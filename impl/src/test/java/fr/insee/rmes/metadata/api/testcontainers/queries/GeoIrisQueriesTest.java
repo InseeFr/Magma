@@ -1,8 +1,8 @@
 package fr.insee.rmes.metadata.api.testcontainers.queries;
 
-import fr.insee.rmes.metadata.api.GeoIntercommunaliteEndpoints;
 import fr.insee.rmes.metadata.api.GeoIrisEndpoints;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +35,7 @@ public class GeoIrisQueriesTest  extends TestcontainerTest {
     void should_return_49343_territoires_when_Iris_date20250904(){
         var response  = endpoints.getcogirislist (LocalDate.of(2025,9,4), null);
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
@@ -55,6 +56,7 @@ public class GeoIrisQueriesTest  extends TestcontainerTest {
     void should_return_49444_territoires_when_Iris_date20250904_comTrue(){
         var response  = endpoints.getcogirislist (LocalDate.of(2025,9,4), true);
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
