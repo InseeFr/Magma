@@ -61,7 +61,7 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
         return new RequestProcessor.QueryBuilder(CANTON_COMMUNES, this);
     }
 
-    public RequestProcessor.QueryBuilder queryforFindIrisDescendantsCommune() {
+    public RequestProcessor.QueryBuilder queryToFindIrisDescendantsCommune() {
         return new RequestProcessor.QueryBuilder(LIEN_COMMUNE_IRIS, this);
     }
 
@@ -117,7 +117,7 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
         }
 
 
-        public ExecutableQuery with(IrisListRequestParametizer irisListRequestParametizer) {
+        public ExecutableQuery with(IrisRequestParametizer irisListRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(irisListRequestParametizer.toParameters(), queryPath), requestProcessor);}
     }
 
@@ -128,9 +128,10 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
             return new QueryResult(requestProcessor.queryExecutor().execute(query), requestProcessor);
         }
 
+        public Boolean executeAskQuery() {
+            return requestProcessor.queryExecutor().executeAskQuery(query);
+        }
     }
-
-
 
     public record QueryResult(Csv csv, RequestProcessor requestProcessor) {
         public <E> ListResult<E> listResult(Class<E> clazz) {
@@ -139,11 +140,6 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
 
         public <E> SingleResult<E> singleResult(Class<E> clazz) {
             return new SingleResult<>(requestProcessor.unmarshaller().unmarshalOrNull(csv, clazz));
-        }
-
-        public <E> ListeResultatsIris<E> listeResultatsIris(Class<E> clazz) {
-            List<E> list = requestProcessor.unmarshaller().unmarshalList(csv, clazz);
-            return new ListeResultatsIris<>(list);
         }
 
 
@@ -157,26 +153,10 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
     }
 
     public record SingleResult<E>(E result) {
-        //        public ResponseEntity<E> toResponseEntity() {return new ResponseEntity<>(result, HttpStatus.OK);}
         public ResponseEntity<E> toResponseEntity() {
             return EndpointsUtils.toResponseEntity(result);
         }
     }
 
-
-    public record ListeResultatsIris<E>(List<E> result) {
-        public boolean contains(String value) {
-            return result.stream().anyMatch(item -> item.toString().equals(value));
-        }
-
-        public ListeResultatsIris(List<E> result) {
-            this.result = result;
-        }
-
-        public List<E> getList() {
-            return result;
-        }
-
-    }
 
 }
