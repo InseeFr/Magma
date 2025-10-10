@@ -41,7 +41,7 @@ public class GeoIrisQueriesTest  extends TestcontainerTest {
         var response  = endpoints.getcogiris("010040101", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
         assertAll(
-                () -> assertEquals("98411", result.getCode()),
+                () -> assertEquals("010040101", result.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/iris/b8c772de-9551-4f13-81c5-eca5bb0f2f7d", result.getUri()),
                 () -> assertEquals(Iris.TypeEnum.IRIS, result.getType()),
                 () -> assertEquals(LocalDate.of(2008,1,1), result.getDateCreation()),
