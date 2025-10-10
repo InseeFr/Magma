@@ -87,7 +87,7 @@ public Boolean executeAskQuery(@NonNull Query query) {
 
         log.debug("SPARQL ASK response: {}", response);
 
-        // Parse la réponse JSON pour extraire le booléen
+        // Parse the Json response to extract the boolean
         return parseAskResponse(response);
     } catch (Exception e) {
         log.error("Unexpected error while executing SPARQL ASK query: {}", e.getMessage(), e);
