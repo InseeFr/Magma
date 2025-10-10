@@ -191,7 +191,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
 
     //    geo/departement/21/precedents?date=2025-09-04
     @Test
-        //le département 21 n'a pas de départments précédents
+        //département 21 has no départments précédents
     void should_return_404_when_DepartementCodePrecedents_code21_date20250904() throws Exception{
         mockMvc.perform(get("/geo/departement/21/precedents")
                 .param("date", "2025-09-01"))

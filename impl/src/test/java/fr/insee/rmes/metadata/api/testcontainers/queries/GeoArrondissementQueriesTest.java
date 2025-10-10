@@ -155,7 +155,7 @@ public class GeoArrondissementQueriesTest extends TestcontainerTest{
         var response = endpoints.getcogarrliste("*");
         var result = response.getBody();
         var resultItem1 = result.getFirst();
-        assertEquals(748, result.size()); // Remplacez 350 par le nombre réel attendu
+        assertEquals(748, result.size());
         assertEquals("011", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/arrondissement/d693d3ca-5851-4c40-a19e-dba1d750bfcf", resultItem1.getUri());
         assertEquals(Arrondissement.TypeEnum.ARRONDISSEMENT, resultItem1.getType());

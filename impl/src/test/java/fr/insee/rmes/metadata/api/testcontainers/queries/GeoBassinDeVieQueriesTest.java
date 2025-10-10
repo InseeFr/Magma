@@ -108,7 +108,7 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
         var resultItem1 = result.getFirst();
 
         // Vérification du nombre total de bassins de vie
-        assertEquals(1, result.size()); // Remplacez 1254 par le nombre réel attendu
+        assertEquals(1, result.size());
 
         assertEquals("01004", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/bassinDeVie2022/0e5bcc78-f043-404d-92af-d3d660772675", resultItem1.getUri());
