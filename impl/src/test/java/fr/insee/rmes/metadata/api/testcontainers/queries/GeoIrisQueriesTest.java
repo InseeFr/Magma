@@ -1,11 +1,8 @@
 package fr.insee.rmes.metadata.api.testcontainers.queries;
 
-import fr.insee.rmes.metadata.api.GeoIntercommunaliteEndpoints;
 import fr.insee.rmes.metadata.api.GeoIrisEndpoints;
-import fr.insee.rmes.metadata.model.District;
 import fr.insee.rmes.metadata.model.Iris;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
-import org.junit.Assert;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -49,10 +49,6 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
         return new RequestProcessor.QueryBuilder(IRIS_FAUX_IRIS, this);
     }
 
-    public RequestProcessor.QueryBuilder queryforFindIris() {
-        return new RequestProcessor.QueryBuilder(IRIS, this);
-    }
-
     public RequestProcessor.QueryBuilder queryToFindIrisList() {
         return new RequestProcessor.QueryBuilder(IRIS_LIST, this);
     }
