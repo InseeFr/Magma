@@ -1,7 +1,6 @@
 package fr.insee.rmes.metadata.api.testcontainers.queries;
 
 import fr.insee.rmes.metadata.api.GeoUniteUrbaineEndpoints;
-import fr.insee.rmes.metadata.model.Region;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsUniteUrbaine;
 import fr.insee.rmes.metadata.model.UniteUrbaine2020;

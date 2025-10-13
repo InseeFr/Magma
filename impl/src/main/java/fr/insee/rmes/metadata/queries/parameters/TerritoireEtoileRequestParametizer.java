@@ -2,7 +2,6 @@ package fr.insee.rmes.metadata.queries.parameters;
 
 
 import java.lang.reflect.RecordComponent;
-import java.time.LocalDate;
 
 public record TerritoireEtoileRequestParametizer(String code,
                                                  String date,

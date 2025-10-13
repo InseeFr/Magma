@@ -2,7 +2,6 @@ package fr.insee.rmes.metadata.api;
 
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.AireDAttractionDesVilles2020;
-import fr.insee.rmes.metadata.model.Pays;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsAireDAttractionDesVilles;
 import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
