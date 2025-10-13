@@ -116,9 +116,6 @@ public record RequestProcessor(fr.insee.rmes.metadata.queries.QueryBuilder query
             return new ExecutableQuery(requestProcessor.queryBuilder().build(projetesRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
 
-
-        public ExecutableQuery with(IrisRequestParametizer irisRequestParametizer) {
-            return new ExecutableQuery(requestProcessor.queryBuilder().build(irisRequestParametizer.toParameters(), queryPath), requestProcessor);}
     }
 
 

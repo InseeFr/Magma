@@ -4,16 +4,11 @@ import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.Commune;
 import fr.insee.rmes.metadata.model.Iris;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
-import fr.insee.rmes.metadata.queries.parameters.ConceptRequestParametizer;
-import fr.insee.rmes.metadata.queries.parameters.IrisRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
-import fr.insee.rmes.metadata.utils.ConceptDTO;
 import fr.insee.rmes.metadata.utils.EndpointsUtils;
-import jakarta.ws.rs.core.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
-import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -31,14 +26,14 @@ public class GeoIrisEndpoints implements GeoIrisApi {
     public ResponseEntity<Iris> getcogiris(String code, LocalDate date) {
         String codeCommune = code.substring(0, 5);
         boolean comHasIrisDescendant = requestProcessor.queryToFindIrisDescendantsCommune()
-                .with(new IrisRequestParametizer(codeCommune, date))
+                .with(new TerritoireRequestParametizer(codeCommune, date))
                 .executeAskQuery();
 
         if (comHasIrisDescendant){
 
             if (!code.endsWith("0000")) {
             Iris iris = requestProcessor.queryToFindIrisAndFauxIris()
-                    .with(new IrisRequestParametizer(code, date))
+                    .with(new TerritoireRequestParametizer(code, date))
                     .executeQuery()
                     .singleResult(Iris.class).result();
             return EndpointsUtils.toResponseEntity(iris);
@@ -66,7 +61,7 @@ public class GeoIrisEndpoints implements GeoIrisApi {
     public ResponseEntity<List<TerritoireTousAttributs>> getcogirislist (LocalDate date, Boolean com) {
         boolean finalcom = (com != null) && com;
         return requestProcessor.queryToFindIrisList()
-                .with(new IrisRequestParametizer(date, finalcom))
+                .with(new TerritoireRequestParametizer(date, finalcom))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

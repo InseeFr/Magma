@@ -1,5 +1,7 @@
 package fr.insee.rmes.metadata.queries.parameters;
 
+import fr.insee.rmes.metadata.model.Iris;
+
 import java.lang.reflect.RecordComponent;
 import java.time.LocalDate;
 
@@ -26,14 +28,17 @@ public record TerritoireRequestParametizer(String code,
         this("none", date, typeOrigine, "*", chefLieu, com);
 }
 
-    //for geo/communes and geo/bassinsDeVie2022 before date * developments : unused ?
-//    public TerritoireRequestParametizer(LocalDate date,
-//                                        Class<?> typeOrigine,
-//                                        String filtreNom,
-//                                        String chefLieu,
-//                                        boolean com) {
-//        this("none", date, typeOrigine, filtreNom, chefLieu, com);
-//    }
+    //for geo/iris
+    public TerritoireRequestParametizer(LocalDate date,
+                                        boolean com) {
+        this("none", date, Iris.class , "*", "*", com);//regardless of the values of typeOrigine, filtreNom et chefLieu
+    }
+
+    //for geo/iris/{code}
+    public TerritoireRequestParametizer(String code, LocalDate date) {
+        this(code, date, Iris.class, "*", "*", true);
+        //regardless of the values of typeOrigine, filtreNom, chefLieu and com, + date for hasIrisDescendant
+    }
 
     //for geo/arrondissements, geo/aireDAttractionDesVilles2020, etc
     public TerritoireRequestParametizer(LocalDate date,
