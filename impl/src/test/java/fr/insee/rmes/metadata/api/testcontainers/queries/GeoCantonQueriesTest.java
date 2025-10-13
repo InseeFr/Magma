@@ -2,7 +2,6 @@ package fr.insee.rmes.metadata.api.testcontainers.queries;
 
 import fr.insee.rmes.metadata.api.GeoCantonEndpoints;
 import fr.insee.rmes.metadata.model.Canton;
-import fr.insee.rmes.metadata.model.TerritoireBase;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumAscendantsCanton;
 import org.junit.jupiter.api.Tag;

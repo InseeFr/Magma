@@ -1,6 +1,5 @@
 package fr.insee.rmes.metadata.api.testcontainers.queries;
 
-import fr.insee.rmes.metadata.api.GeoCommuneDelegueeEndpoints;
 import fr.insee.rmes.metadata.api.GeoDistrictEndpoints;
 import fr.insee.rmes.metadata.model.*;
 import org.junit.Assert;

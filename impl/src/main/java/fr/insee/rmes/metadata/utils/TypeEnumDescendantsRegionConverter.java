@@ -1,6 +1,5 @@
 package fr.insee.rmes.metadata.utils;
 
-import fr.insee.rmes.metadata.model.TypeEnumDescendantsIntercommunalite;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsRegion;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
