@@ -1955,14 +1955,6 @@ components:
 
   parameters:
 
-    codeTerritoireInPath:
-      name: 'code'
-      in: path
-      description: 'Code identifiant un territoire'
-      required: true
-      schema:
-        type: string
-
     dateActive:
       in: query
       description: |-
@@ -1989,13 +1981,6 @@ components:
       name: dateProjection
       schema:
         $ref: '#/components/schemas/Date1950ParDefaut'
-
-    typeTerritoire:
-      name: 'type'
-      in: query
-      description: 'Filtre sur le type de territoire renvoyé'
-      schema:
-        $ref: '#/components/schemas/TypeEnum'
 
     filtreNomDescendant:
       name: 'filtreNom'
@@ -2965,13 +2950,6 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsCantonOuVille'
-
-    filtreNomDescendantSansExemple:
-      name: 'filtreNom'
-      in: query
-      description: 'Filtre sur le nom des territoires renvoyés'
-      schema:
-        type: string
 
     dateCantonsEtVillesActifs:
       in: query
@@ -5896,6 +5874,7 @@ components:
     Departement:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - type: object
           xml:
             name: Departement
           properties:
@@ -5923,7 +5902,6 @@ components:
           xml:
             attribute: true
         type:
-          type: string
           $ref: '#/components/schemas/TypeEnum'
         dateCreation:
           type: string
@@ -6095,21 +6073,6 @@ components:
         name: ListeTerritoiresChefLieu
       items:
         $ref: '#/components/schemas/TerritoireBase_ChefLieu'
-
-    TerritoireRef:
-      xml:
-        name: TerritoireRef
-      type: object
-      required:
-        - code
-        - territoireType
-      description: 'Références vers un territoire de n''importe quel type'
-      properties:
-        code:
-          type: string
-          description: 'Code identifiant un teritoire quelqconque'
-        territoireType:
-          $ref: '#/components/schemas/TypeEnum'
 
     CodeCom:
       pattern: '[0-9][0-9AB][0-9]{3}'
@@ -6474,14 +6437,6 @@ components:
         langue:
           type: string
 
-    ConceptRef:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-
     ListeConcepts:
       description: 'Liste des concepts'
       type: array
@@ -6494,6 +6449,7 @@ components:
     AireDAttractionDesVilles2020:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - type: object
           xml:
             name: Aire d'attraction
           properties:
@@ -6538,6 +6494,7 @@ components:
     Arrondissement:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - type: object
           xml:
             name: Arrondissement
           properties:
@@ -6617,6 +6574,7 @@ components:
     ArrondissementMunicipal:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - type: object
           xml:
             name: Arrondissement municipal
           properties:
@@ -6679,6 +6637,7 @@ components:
     CommuneAssociee:
       allOf:
         - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - type: object
           xml:
             name: CommuneAssociee
           properties:
@@ -6706,6 +6665,7 @@ components:
     CommuneDeleguee:
       allOf:
         - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - type: object
           xml:
             name: CommuneDeleguee
           properties:
@@ -6749,6 +6709,7 @@ components:
     District:
       allOf:
         - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - type: object
           xml:
             name: District
           properties:
@@ -6766,6 +6727,7 @@ components:
     Intercommunalite:
       allOf:
         - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - type: object
           xml:
             name: Intercommunalite
           properties:
@@ -6848,6 +6810,7 @@ components:
     Iris:
       allOf:
         - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - type: object
           xml:
             name: Iris
           properties:
@@ -6957,6 +6920,7 @@ components:
     Region:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - type: object
           xml:
             name: Region
           properties:
@@ -7035,6 +6999,7 @@ components:
     UniteUrbaine2020:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - type: object
           xml:
             name: UniteUrbaine
           properties:
@@ -7083,6 +7048,7 @@ components:
     BassinDeVie2022:
       allOf:
         - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - type: object
           xml:
             name: Canton
           properties:
@@ -7139,6 +7105,7 @@ components:
     Canton:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - type: object
           xml:
             name: Canton
           properties:
@@ -7227,6 +7194,7 @@ components:
     CantonOuVille:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - type: object
           xml:
             name: Canton
           properties:
@@ -7314,6 +7282,7 @@ components:
     CirconscriptionTerritoriale:
       allOf:
         - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - type: object
           xml:
             name: Circonscription territoriale
           properties:
@@ -7331,6 +7300,7 @@ components:
     CollectiviteDOutreMer:
       allOf:
         - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - type: object
           xml:
             name: CollectiviteDOutreMer
           properties:
@@ -7402,6 +7372,7 @@ components:
     ZoneDEmploi2020:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - type: object
           xml:
             name: ZoneDEmploi
           properties:
