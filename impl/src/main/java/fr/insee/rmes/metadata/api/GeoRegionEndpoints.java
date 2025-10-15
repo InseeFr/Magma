@@ -6,12 +6,12 @@ import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsRegion;
 import fr.insee.rmes.metadata.queries.parameters.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Controller
+@RestController
 public class GeoRegionEndpoints implements GeoRegionApi {
 
     private final RequestProcessor requestProcessor;

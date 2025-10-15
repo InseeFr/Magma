@@ -9,13 +9,13 @@ import fr.insee.rmes.metadata.queries.parameters.PrecedentsSuivantsRequestParame
 import fr.insee.rmes.metadata.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
 
 
-@Controller
+@RestController
 public class GeoPaysEndpoints implements GeoPaysApi {
 
     private final RequestProcessor requestProcessor;
