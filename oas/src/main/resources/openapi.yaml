@@ -563,6 +563,28 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /geo/canton/{code}/communes:
+    get:
+      tags:
+        - geoCanton
+      summary: 'Récupérer les informations concernant les communes qui ont un territoire commun avec le canton {code}'
+      operationId: 'getcogcancom'
+      parameters:
+        - $ref: '#/components/parameters/codeCantonInPath'
+        - $ref: '#/components/parameters/dateCantonCommunesActives'
+      responses:
+        '200':
+          $ref: '#/components/responses/CantonCommunes200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+
   /geo/cantons:
     get:
       tags:
@@ -939,6 +961,27 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Commune200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /geo/commune/{code}/cantons:
+    get:
+      tags:
+        - geoCommune
+      summary: 'Information sur le(s) canton(s) associé(s) à la commune identifiée par son code (cinq caractères)'
+      operationId: getcogcomcan
+      parameters:
+        - $ref: '#/components/parameters/codeCommuneInPath'
+        - $ref: '#/components/parameters/dateCommuneCantonsActifs'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommuneCantons200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -1511,10 +1554,31 @@ paths:
       operationId: 'getcogiris'
       parameters:
         - $ref: '#/components/parameters/codeIrisInPath'
-        - $ref: '#/components/parameters/dateIrisActive'
+        - $ref: '#/components/parameters/dateIrisActif'
       responses:
         '200':
           $ref: '#/components/responses/Iris200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /geo/iris:
+    get:
+      tags:
+        - geoIris
+      summary: 'Informations sur tous les iris actifs à la date donnée. Par défaut, c’est la date courante.'
+      operationId: 'getcogirislist'
+      parameters:
+          - $ref: '#/components/parameters/dateIrisListActifs'
+          - $ref: '#/components/parameters/com'
+      responses:
+        '200':
+          $ref: '#/components/responses/IrisListe200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -1903,6 +1967,15 @@ components:
       in: query
       description: |-
         Filtre pour renvoyer la commune active à la date donnée. Par défaut, c'est la date courante (format : 'AAAA-MM-JJ').
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    dateCommuneCantonsActifs:
+      in: query
+      description: |-
+        La requête renvoie les cantons actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
       name: date
       schema:
         type: 'string'
@@ -2503,10 +2576,19 @@ components:
       schema:
         $ref: '#/components/schemas/Date2016ParDefaut'
 
-    dateIrisActive:
+    dateIrisActif:
       in: query
       description: |-
-        Filtre pour renvoyer l'Iris active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+        Filtre pour renvoyer l'Iris actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    dateIrisListActifs:
+      in: query
+      description: |-
+        Filtre pour renvoyer les Iris ou faux-Iris à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
       name: date
       schema:
         type: 'string'
@@ -2779,6 +2861,15 @@ components:
       in: query
       description: |-
         Filtre pour renvoyer le canton actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    dateCantonCommunesActives:
+      in: query
+      description: |-
+        La requête renvoie les communes actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
       name: date
       schema:
         type: 'string'
@@ -3304,6 +3395,17 @@ components:
         typeArticle: '1'
         intitule: 'Ambérieu-en-Bugey'
 
+    ListeCantonCommmunes:
+      value:
+        - code: '01002'
+          uri: 'http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'Abergement-de-Varey'
+          typeArticle: '5'
+          inclusion: 'totale'
+          intitule: 'L''Abergement-de-Varey'
+
     ListeCantons:
       value:
         - code: '0101'
@@ -3557,6 +3659,17 @@ components:
         intituleSansArticle: 'Val d''Arry'
         typeArticle: '0'
         intitule: 'Val d''Arry'
+
+    ListeCommuneCantons:
+      value:
+        - code: '1401'
+          uri: 'http://id.insee.fr/geo/canton/25982682-5635-40ad-8040-09110edb43e1'
+          type: 'Canton'
+          dateCreation: '2021-02-26'
+          chefLieu: '14027'
+          intituleSansArticle: 'Monts d’Aunay'
+          typeArticle: '4'
+          intitule: 'Les Monts d’Aunay'
 
     CommuneListeDescendants:
       value:
@@ -4023,9 +4136,21 @@ components:
         type': 'Iris'
         dateCreation: '2008-01-01'
         typeDIris: 'H'
-        intitule: 'Les Pérouses-Triangle d''Activités'
         intituleSansArticle: 'Pérouses-Triangle d''Activités'
         typeArticle: '4'
+        intitule: 'Les Pérouses-Triangle d''Activités'
+
+
+    ListeIris:
+      value:
+        code: '010010000'
+        uri: 'http://id.insee.fr/geo/commune/166857ef-114f-4067-9d3d-f712562850c5'
+        type': 'Commune'
+        dateCreation: '1943-01-01'
+        intituleSansArticle: 'Abergement-Clémenciat'
+        typeArticle: '5'
+        intitule: 'L''Abergement-Clémenciat'
+
 
     Pays:
       value:
@@ -4616,6 +4741,22 @@ components:
             défaut:
               $ref: '#/components/examples/Canton'
 
+    CantonCommunes200:
+      description: 'Opération réussie pour les territoires d''un canton'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeCantonCommmunes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCantonCommmunes'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeCantonCommmunes'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCantonCommmunes'
+
     CantonsListe200:
       description: 'Opération réussie pour les cantons'
       content:
@@ -4903,6 +5044,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Commune'
+
+    CommuneCantons200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeCommuneCantons'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCommuneCantons'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeCommuneCantons'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeCommuneCantons'
 
     CommuneListePrecedents200:
       description: 'Opération réussie pour les communes précédentes'
@@ -5335,6 +5492,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Iris'
+
+    IrisListe200:
+      description: 'Opération réussie pour la liste des Iris'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeIris'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeIris'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeIris'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeIris'
 
     Pays200:
       description: 'Opération réussie pour le pays'
@@ -5773,36 +5946,30 @@ components:
             name: TypeArticle
           type: string
           enum:
-            - 0:
-                article:
-                charniere: 'De'
-            - 1:
-                article:
-                charniere: 'D'''
-            - 2:
-                article: 'Le'
-                charniere: 'Du'
-            - 3:
-                article: 'La'
-                charniere: 'De La'
-            - 4:
-                article: 'Les'
-                charniere: 'Des'
-            - 5:
-                article: 'L'''
-                charniere: 'De L'''
-            - 6:
-                article: 'Aux'
-                charniere: 'Des'
-            - 7:
-                article: 'Las'
-                charniere: 'De Las'
-            - 8:
-                article: 'Los'
-                charniere: 'De Los'
-            - X:
-                article:
-                charniere:
+            - '0'
+            - '1'
+            - '2'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - 'X'
+            - 'Y'
+          description: |
+            Type d'article pour les territoires:
+            - 0: charnière "De"
+            - 1: charnière "D'"
+            - 2: article "Le", charnière "Du"
+            - 3: article "La", charnière "De La"
+            - 4: article "Les", charnière "Des"
+            - 5: article "L'", charnière "De L'"
+            - 6: article "Aux", charnière "Des"
+            - 7: article "Las", charnière "De Las"
+            - 8: article "Los", charnière "De Los"
+            - X: article vide, charnière vide
+            - Y: article vide, charnière vide
         intitule:
           type: string
           xml:
@@ -5863,6 +6030,9 @@ components:
               description: 'Inclusion'
               xml:
                 name: inclusion
+              enum:
+                - partielle
+                - totale
 
     DepartementListeDescendants:
       description: 'Liste des descendants d''un département'
@@ -5982,6 +6152,15 @@ components:
         name: AscendantsCommune
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
+    ListeCommuneCantons:
+      description: 'Liste des cantons ayant un territoire commun avec la commune'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCommuneCantons
+      items:
+        $ref: '#/components/schemas/Canton'
 
     CommuneListePrecedents:
       description: 'Liste des communes précédentes'
@@ -6201,15 +6380,80 @@ components:
         conceptsSuivants:
           type: array
           items:
-            $ref: '#/components/schemas/ConceptSuivant'
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPrecedents:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsLies:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsProches:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPlusGeneriques:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPlusSpecifiques:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
       required:
         - id
         - uri
 
-    ConceptSuivant:
+    Definition:
       type: object
       xml:
-        name: ConceptSuivant
+        name: Definition
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+          format: uri
+        intitule:
+          type: string
+        conceptsSuivants:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPrecedents:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsLies:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsProches:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPlusGeneriques:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsPlusSpecifiques:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+        conceptsReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyConcept'
+
+    NearbyConcept:
+      type: object
+      xml:
+        name: NearbyConcept
       properties:
         id:
           type: string
@@ -6243,9 +6487,9 @@ components:
       type: array
       xml:
         wrapped: true
-        name: ListeConcepts
+        name: Definition
       items:
-        $ref: '#/components/schemas/Concept'
+         $ref: '#/components/schemas/Definition'
 
     AireDAttractionDesVilles2020:
       allOf:
@@ -6610,6 +6854,16 @@ components:
             code:
               $ref: '#/components/schemas/CodeIris'
 
+    ListeIris:
+      description: 'Liste des iris'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeIris
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+#        return types Commune and Iris
+
     Pays:
       xml:
         wrapped: true
@@ -6898,6 +7152,15 @@ components:
       xml:
         attribute: true
       example: '0101'
+
+    ListeCantonCommmunes:
+      description: 'Liste des communes ayant un territoire commun avec le canton'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeCantonCommunes
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
 
     ListeCantons:
       description: 'Liste des cantons'

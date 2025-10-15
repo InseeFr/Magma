@@ -28,6 +28,15 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
     }
 
     @Override
+    public ResponseEntity<List<Canton>> getcogcomcan (String code, LocalDate date) {
+        return requestProcessor.queryToFindCantonsOfCommune()
+                .with(new TerritoireRequestParametizer(code, date, Commune.class, "none"))
+                .executeQuery()
+                .listResult(Canton.class)
+                .toResponseEntity();
+    }
+
+    @Override
     public ResponseEntity<List<TerritoireBase>> getcogcomliste(String date, String filtreNom, Boolean com) {
         String finalFiltreNom = filtreNom == null ? "*" : filtreNom;
         boolean finalcom = (com != null) && com;

@@ -3,6 +3,8 @@ package fr.insee.rmes.metadata.api;
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.Commune;
 import fr.insee.rmes.metadata.model.Iris;
+import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
+import fr.insee.rmes.metadata.queries.parameters.IrisListRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +48,18 @@ public class GeoIrisEndpoints implements GeoIrisApi {
         return requestProcessor.queryforFindIris()
                 .with(new TerritoireRequestParametizer(code, date, Iris.class, "none"))
                 .executeQuery()
-                .singleResult(Iris.class).toResponseEntity();
+                .singleResult(Iris.class)
+                .toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogirislist (LocalDate date, Boolean com) {
+        boolean finalcom = (com != null) && com;
+        return requestProcessor.queryToFindIrisList()
+                .with(new IrisListRequestParametizer(date, finalcom))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+
     }
 }

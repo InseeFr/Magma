@@ -1,5 +1,6 @@
 PREFIX : <http://rdf.insee.fr/def/geo#>
 SELECT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?inclusion ?dateCreation ?dateSuppression
+FROM <http://rdf.insee.fr/graphes/geo/cog>
 WHERE {
 ?canton a :Canton ;
 :codeINSEE '${code}' .

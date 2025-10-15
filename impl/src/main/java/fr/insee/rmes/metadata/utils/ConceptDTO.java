@@ -1,16 +1,18 @@
 package fr.insee.rmes.metadata.utils;
 
-import com.fasterxml.jackson.core.io.BigDecimalParser;
-import fr.insee.rmes.metadata.model.Concept;
-import fr.insee.rmes.metadata.model.ConceptConceptsSuivantsInner;
-import fr.insee.rmes.metadata.model.ConceptIntituleInner;
-import fr.insee.rmes.metadata.model.ConceptSuivant;
+import fr.insee.rmes.metadata.model.*;
+import lombok.Getter;
+
 import java.net.URI;
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+
 
 public class ConceptDTO {
 
@@ -23,8 +25,11 @@ public class ConceptDTO {
     private String noteEditorialeFr;
     private String noteEditorialeEn;
     private String dateMiseAJour;
+    @Getter
     private Boolean hasLink;
-    private List<ConceptSuivant> conceptsSuivants;
+    @Getter
+    private List<NearbyConcept> nearbyConcepts;
+
 
 
     public Concept transformDTOenConcept() {
@@ -48,33 +53,63 @@ public class ConceptDTO {
             List<ConceptIntituleInner> noteEditoriales = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
             concept.setNoteEditoriale(noteEditoriales);
         }
-        if (this.conceptsSuivants != null) {
-            List<ConceptConceptsSuivantsInner> mapped = this.conceptsSuivants.stream()
-                    .map(cs -> {
-                        ConceptConceptsSuivantsInner inner = new ConceptConceptsSuivantsInner();
-                        inner.setId(cs.getId());
-                        inner.setUri(cs.getUri());
-                        inner.setTypeOfLink(cs.getTypeOfLink());
-                        return inner;
-                    })
-                    .toList();
-            concept.setConceptsSuivants(mapped);
+
+        if (this.nearbyConcepts != null) {
+            List<NearbyConcept> conceptsSuivants = new ArrayList<>();
+            List<NearbyConcept> conceptsPrecedents = new ArrayList<>();
+            List<NearbyConcept> conceptsLies = new ArrayList<>();
+            List<NearbyConcept> conceptsProches = new ArrayList<>();
+            List<NearbyConcept> conceptsPlusGeneriques = new ArrayList<>();
+            List<NearbyConcept> conceptsPlusSpecifiques = new ArrayList<>();
+            List<NearbyConcept> conceptsReferences = new ArrayList<>();
+
+
+            this.nearbyConcepts.forEach(cs -> {
+                NearbyConcept inner = new NearbyConcept();
+                inner.setId(cs.getId());
+                inner.setUri(cs.getUri());
+
+                if ("isReplacedBy".equals(cs.getTypeOfLink())) {
+                    conceptsSuivants.add(inner);
+                }
+                if ("replaces".equals(cs.getTypeOfLink())) {
+                    conceptsPrecedents.add(inner);
+                }
+                if ("related".equals(cs.getTypeOfLink())) {
+                    conceptsLies.add(inner);
+                }
+                if ("closeMatch".equals(cs.getTypeOfLink())) {
+                    conceptsProches.add(inner);
+                }
+                if ("broader".equals(cs.getTypeOfLink())) {
+                    conceptsPlusGeneriques.add(inner);
+                }
+                if ("narrower".equals(cs.getTypeOfLink())) {
+                    conceptsPlusSpecifiques.add(inner);
+                }
+                if ("references".equals(cs.getTypeOfLink())) {
+                    conceptsReferences.add(inner);
+                }
+
+            });
+
+            concept.setConceptsSuivants(conceptsSuivants);
+            concept.setConceptsPrecedents(conceptsPrecedents);
+            concept.setConceptsLies(conceptsLies);
+            concept.setConceptsProches(conceptsProches);
+            concept.setConceptsPlusGeneriques(conceptsPlusGeneriques);
+            concept.conceptsPlusSpecifiques(conceptsPlusSpecifiques);
+            concept.conceptsReferences(conceptsReferences);
         }
 
         // Conversion de la date en LocalDate
         if (this.dateMiseAJour != null && !this.dateMiseAJour.isEmpty()) {
             try {
-                // Parser en LocalDateTime puis extraire la partie LocalDate
-                LocalDateTime localDateTime = LocalDateTime.parse(this.dateMiseAJour);
-                concept.setDateMiseAJour(localDateTime.toLocalDate());
+                // Utilise Instant.parse() qui gère automatiquement les formats ISO
+                concept.setDateMiseAJour(Instant.parse(this.dateMiseAJour).atZone(java.time.ZoneId.systemDefault()).toLocalDate());
             } catch (DateTimeParseException e) {
-                try {
-                    // Si le format est directement un LocalDate (ex: "2019-05-17")
-                    concept.setDateMiseAJour(LocalDate.parse(this.dateMiseAJour));
-                } catch (DateTimeParseException ex) {
-                    // Gérer l'erreur (par exemple, logger ou affecter null)
-                    concept.setDateMiseAJour(null);
-                }
+                log.error("IMPOSSIBLE TO PARSE THE DATE '{}' : {}", this.dateMiseAJour, e.getMessage());
+                concept.setDateMiseAJour(null);
             }
         } else {
             concept.setDateMiseAJour(null);
@@ -82,6 +117,63 @@ public class ConceptDTO {
 
         return concept;
     }
+
+
+    public ListeConceptsInner transformDTOenDefinition() {
+        ListeConceptsInner concept = new ListeConceptsInner();
+        concept.setId(this.id);
+        concept.setUri(URI.create(this.uri));
+        concept.setIntitule(this.intituleFr);
+
+        if (this.nearbyConcepts != null) {
+            List<NearbyConcept> conceptsSuivants = new ArrayList<>();
+            List<NearbyConcept> conceptsPrecedents = new ArrayList<>();
+            List<NearbyConcept> conceptsLies = new ArrayList<>();
+            List<NearbyConcept> conceptsProches = new ArrayList<>();
+            List<NearbyConcept> conceptsPlusGeneriques = new ArrayList<>();
+            List<NearbyConcept> conceptsPlusSpecifiques = new ArrayList<>();
+            List<NearbyConcept> conceptsReferences = new ArrayList<>();
+
+            this.nearbyConcepts.forEach(cs -> {
+                NearbyConcept inner = new NearbyConcept();
+                inner.setId(cs.getId());
+                inner.setUri(cs.getUri());
+
+                if ("isReplacedBy".equals(cs.getTypeOfLink())) {
+                    conceptsSuivants.add(inner);
+                }
+                if ("replaces".equals(cs.getTypeOfLink())) {
+                    conceptsPrecedents.add(inner);
+                }
+                if ("related".equals(cs.getTypeOfLink())) {
+                    conceptsLies.add(inner);
+                }
+                if ("closeMatch".equals(cs.getTypeOfLink())) {
+                    conceptsProches.add(inner);
+                }
+                if ("broader".equals(cs.getTypeOfLink())) {
+                    conceptsPlusGeneriques.add(inner);
+                }
+                if ("narrower".equals(cs.getTypeOfLink())) {
+                    conceptsPlusSpecifiques.add(inner);
+                }
+                if ("references".equals(cs.getTypeOfLink())) {
+                    conceptsReferences.add(inner);
+                }
+            });
+
+            concept.setConceptsSuivants(conceptsSuivants);
+            concept.setConceptsPrecedents(conceptsPrecedents);
+            concept.setConceptsLies(conceptsLies);
+            concept.setConceptsProches(conceptsProches);
+            concept.setConceptsPlusGeneriques(conceptsPlusGeneriques);
+            concept.conceptsPlusSpecifiques(conceptsPlusSpecifiques);
+            concept.conceptsReferences(conceptsReferences);
+        }
+
+        return concept;
+    }
+
 
     public List<ConceptIntituleInner> createListLangueContenu(ConceptIntituleInner conceptIntituleInner1, ConceptIntituleInner conceptIntituleInner2) {
         List<ConceptIntituleInner> list = new ArrayList<>();
@@ -119,45 +211,16 @@ public class ConceptDTO {
     public void setNoteEditorialeFr(String noteEditorialeFr) { this.noteEditorialeFr = noteEditorialeFr; }
 
     public String getNoteEditorialeEn() { return noteEditorialeEn; }
+
     public void setNoteEditorialeEn(String noteEditorialeEn) { this.noteEditorialeEn = noteEditorialeEn; }
 
-
-    public LocalDate getDateMiseAJour() {
-        if (this.dateMiseAJour == null || this.dateMiseAJour.isEmpty()) {
-            return null; // ou une valeur par défaut
-        }
-
-    try {
-        // Essayer de parser en tant que LocalDateTime (ex: "2019-05-17T14:04:34.437")
-        LocalDateTime localDateTime = LocalDateTime.parse(this.dateMiseAJour);
-        return localDateTime.toLocalDate();
-    } catch (DateTimeParseException e) {
-        try {
-            // Si échec, essayer de parser en tant que LocalDate (ex: "2019-05-17")
-            return LocalDate.parse(this.dateMiseAJour);
-        } catch (DateTimeParseException ex) {
-            // Gérer l'erreur (par exemple, logger ou retourner null)
-            return null;
-        }
-    }
-}
-
     public void setDateMiseAJour(String dateMiseAJour) { this.dateMiseAJour = dateMiseAJour; }
-
-
-    public Boolean getHasLink() {
-        return hasLink;
-    }
 
     public void setHasLink(Boolean hasLink) {
         this.hasLink = hasLink;
     }
 
-    public List<ConceptSuivant> getConceptsSuivants() {
-        return conceptsSuivants;
-    }
-
-    public void setConceptsSuivants(List<ConceptSuivant> conceptsSuivants) {
-        this.conceptsSuivants = conceptsSuivants;
+    public void setNearbyConcepts(List<NearbyConcept> nearbyConcepts) {
+        this.nearbyConcepts = nearbyConcepts;
     }
 }

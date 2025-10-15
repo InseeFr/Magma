@@ -7,6 +7,8 @@ WHERE {
 	?uri a igeo:${typeOrigine} ;
 	a ?typeAvecIri ;
 	igeo:codeArticle ?typeArticle ;
+
+
 	igeo:nom ?intitule ;
 	igeo:nomSansArticle ?intituleSansArticle ;
 
