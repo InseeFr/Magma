@@ -10,11 +10,12 @@ import fr.insee.rmes.metadata.utils.ConceptDTO;
 import fr.insee.rmes.metadata.utils.EndpointsUtils;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 public class ConceptsEndpoints implements ConceptsApi {
 
     private final RequestProcessor requestProcessor;

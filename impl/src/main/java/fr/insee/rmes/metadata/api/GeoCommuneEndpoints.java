@@ -4,12 +4,12 @@ import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.metadata.model.*;
 import fr.insee.rmes.metadata.queries.parameters.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Controller
+@RestController
 public class GeoCommuneEndpoints implements GeoCommuneApi {
 
     private final RequestProcessor requestProcessor;

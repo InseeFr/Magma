@@ -9,12 +9,13 @@ import fr.insee.rmes.metadata.model.*;
 import fr.insee.rmes.metadata.queries.parameters.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
 
 
-@Controller
+@RestController
 public class GeoDepartementEndpoints implements GeoDepartementApi {
 
     private final RequestProcessor requestProcessor;
