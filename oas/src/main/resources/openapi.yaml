@@ -1546,6 +1546,28 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /geo/iris/{code}/ascendants:
+    get:
+      tags:
+        - geoIris
+      summary: 'Informations concernant les territoires qui contiennent l''Iris'
+      operationId: 'getcogirisasc'
+      parameters:
+        - $ref: '#/components/parameters/codeIrisInPath'
+        - $ref: '#/components/parameters/dateIrisActif'
+        - $ref: '#/components/parameters/typeTerritoireAscendantIris'
+      responses:
+        '200':
+          $ref: '#/components/responses/IrisListeAscendants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
   /geo/iris/{code}:
     get:
       tags:
@@ -2575,6 +2597,13 @@ components:
       name: date
       schema:
         $ref: '#/components/schemas/Date2016ParDefaut'
+
+    typeTerritoireAscendantIris:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnumAscendantsIris'
 
     dateIrisActif:
       in: query
@@ -4129,6 +4158,24 @@ components:
           categorieJuridique: 'Communauté de communes'
           intitule: 'La Plaine de l''Ain'
 
+    IrisListeAscendants:
+      value:
+        - code: '243'
+          uri: 'http://id.insee.fr/geo/aireDAttractionDesVilles2020/4af81671-0c2f-4547-a213-dff3f13531e2'
+          type: 'AireDAttractionDesVilles2020'
+          dateCreation: '2020-01-01'
+          intituleSansArticle: 'Ambérieu-en-Bugey'
+          typeArticle: '1'
+          intitule: 'Ambérieu-en-Bugey'
+        - code: '011'
+          uri: 'http://id.insee.fr/geo/arrondissement/cc3aee67-96dc-4e9a-ae4e-26860a90e0d5'
+          type: 'Arrondissement'
+          dateCreation: '2017-01-01'
+          intituleSansArticle: 'Belley'
+          typeArticle: '0'
+          chefLieu: '01034'
+          intitule: 'Belley'
+
     Iris:
       value:
         code: '010040101'
@@ -5476,6 +5523,23 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/IntercommunaliteListeSuivants'
+
+    IrisListeAscendants200:
+      description: 'Opération réussie pour les ascendants d''un Iris'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/IrisListeAscendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/IrisListeAscendants'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/IrisListeAscendants'
+          examples:
+            défaut:
+              $ref: '#/components/examples/IrisListeAscendants'
+
 
     Iris200:
       description: 'Opération réussie pour l''Iris'
@@ -6834,6 +6898,33 @@ components:
       xml:
         wrapped: true
         name: ListeIntercommunalitesSuivants
+      items:
+        $ref: '#/components/schemas/Territoire_TousAttributs'
+
+    TypeEnumAscendantsIris:
+      type: string
+      xml:
+        name: 'Type'
+      enum:
+        - Region
+        - Departement
+        - Arrondissement
+        - Commune
+        - AireDAttractionDesVilles2020
+        - BassinDeVie2022
+        - Canton
+        - CantonOuVille
+        - Intercommunalite
+        - UniteUrbaine2020
+        - ZoneDEmploi2020
+      example: 'Region'
+
+    IrisListeAscendants:
+      description: 'Liste des ascendants d''un Iris'
+      type: array
+      xml:
+        wrapped: true
+        name: AscendantsIris
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
 

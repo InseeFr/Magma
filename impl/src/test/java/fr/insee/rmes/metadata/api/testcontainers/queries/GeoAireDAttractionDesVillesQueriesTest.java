@@ -32,7 +32,6 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
     void should_return_1_aireDAttractionDesVilles_when_aireDAttractionDesVilles2020Code_code062_date20250904(){
         var response  = endpoints.getcogaav("062", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-        assertNotNull(result);
         assertEquals("062", result.getCode());
         assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/858ff6ab-fb4c-4a03-896c-18a20ed01a45", result.getUri());
         assertEquals(AireDAttractionDesVilles2020.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, result.getType());
@@ -52,7 +51,6 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
     void should_return_397_terrioires_when_DepartementCodeDescendants_code002_date20250904_typeCommune(){
         var response  = endpoints.getcogaavdesc("002", LocalDate.of(2025, 9, 4), TypeEnumDescendantsAireDAttractionDesVilles.COMMUNE);
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(397, result.size());
         assertEquals("01005", resultItem1.getCode());
@@ -69,7 +67,6 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
     void should_return_92_territoires_when_aireDAttractionDesVilles2020CodeDescendants_code002_date20250904_typeNull(){
         var response  = endpoints.getcogaavdesc("002", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1010, result.size());
         assertEquals("69381", resultItem1.getCode());
@@ -91,7 +88,6 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
     void should_return_699_aireDAttractionDesVilles2020_when_aireDAttractionDesVilles2020_date20250904(){
         var response  = endpoints.getcogaavliste ("2025-09-04");
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(699, result.size());
         assertEquals("001", resultItem1.getCode());
@@ -108,7 +104,6 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
     void should_return_721_aireDAttractionDesVilles2020_when_aireDAttractionDesVilles2020_dateEtoile(){
         var response  = endpoints.getcogaavliste("*");
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(721, result.size());
         assertEquals("001", resultItem1.getCode());

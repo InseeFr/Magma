@@ -4,7 +4,6 @@ import fr.insee.rmes.metadata.api.GeoIntercommunaliteEndpoints;
 import fr.insee.rmes.metadata.model.Intercommunalite;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumDescendantsIntercommunalite;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,7 +38,6 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
     void should_return_1_intercommunalite_when_intercommunaliteCodePrecedents_date20250904(){
         var response  = endpoints.getcogintercoprec ("200046977", LocalDate.of(2025,9,4));
         var result = response.getBody();
-        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
@@ -67,7 +66,6 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
     void should_return_intercommunalite240100883_when_IntercommunaliteCode_code240100883_date20250904(){
         var response  = endpoints.getcoginterco ("240100883", LocalDate.of(2025,9,4));
         var result = response.getBody();
-        assertNotNull(result);
         assertAll(
                 () -> assertEquals("240100883", result.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/intercommunalite/5a238840-5cbd-469f-80c8-43713bf8e4a8", result.getUri()),
@@ -91,7 +89,6 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
     void should_return_11_territoires_when_IntercommunaliteCodeDescendants_code200000438_date20250904_typeNull(){
         var response  = endpoints.getcogintercodes("200000438", LocalDate.of(2025,9,4), null);
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(11, result.size());
         assertAll(
@@ -111,7 +108,6 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
     void should_return_2_territoires_when_IntercommunaliteCodeDescendants_code200000438_date20250904_typeIris(){
         var response  = endpoints.getcogintercodes("200000438", LocalDate.of(2025,9,4), TypeEnumDescendantsIntercommunalite.IRIS);
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(2, result.size());
         assertAll(
@@ -137,7 +133,6 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
     void should_return_1_intercommunalite_when_Intercommunalites_date20250904_filtreNomPlaineDeLAin() {
         var response  = endpoints.getcogintercoliste("2025-09-04", "Plaine de l'Ain");
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
@@ -159,7 +154,6 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
     void should_return_2_intercommunalite_when_Intercommunalites_dateEtoile_filtreNomPlaineDeLAin() {
         var response  = endpoints.getcogintercoliste("*", "Plaine de l'Ain");
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
@@ -186,7 +180,6 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
     void should_return_1_intercommunalite_when_IntercommunalitesCodeProjetes_date20250904_dateProjection20130101() {
         var response  = endpoints.getcogintercoproj("200046977", LocalDate.of(2013,1,1), LocalDate.of(2025,9,4));
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
@@ -231,7 +224,6 @@ public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
     void should_return_1_intercommunalite_when_IntercommunalitesCodeSuivants_Code246900245_date20140101() {
         var response  = endpoints.getcogintercosuiv("246900245", LocalDate.of(2014,1,1));
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(

@@ -1,13 +1,13 @@
 package fr.insee.rmes.metadata.api;
 
 import fr.insee.rmes.metadata.api.requestprocessor.RequestProcessor;
-import fr.insee.rmes.metadata.model.Commune;
-import fr.insee.rmes.metadata.model.Iris;
-import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
+import fr.insee.rmes.metadata.model.*;
+import fr.insee.rmes.metadata.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.IrisListRequestParametizer;
 import fr.insee.rmes.metadata.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.testcontainers.shaded.org.bouncycastle.crypto.engines.EthereumIESEngine;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,6 +21,23 @@ public class GeoIrisEndpoints implements GeoIrisApi {
         this.requestProcessor = requestProcessor;
     }
 
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogirisasc (String code, LocalDate date, TypeEnumAscendantsIris type) {
+        if (code.matches("^.{5}0000$")) {
+            return requestProcessor.queryToFindAscendantsFauxIris()
+                    .with(new AscendantsDescendantsRequestParametizer(code, date, type, Iris.class))
+                    .executeQuery()
+                    .listResult(TerritoireTousAttributs.class)
+                    .toResponseEntity();
+        }
+        else {
+            return requestProcessor.queryforFindAscendantsDescendants()
+                    .with(new AscendantsDescendantsRequestParametizer(code, date, type, Iris.class))
+                    .executeQuery()
+                    .listResult(TerritoireTousAttributs.class)
+                    .toResponseEntity();
+        }
+    }
 
     @Override
     public ResponseEntity<Iris> getcogiris(String code, LocalDate date) {

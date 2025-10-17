@@ -31,6 +31,7 @@ interface ParameterValueDecoder<T> {
     String ENUM_DESCENDANTS_COMMUNE_CLASS = "fr.insee.rmes.metadata.model.TypeEnumDescendantsCommune";
     String ENUM_ASCENDANTS_COMMUNE_CLASS = "fr.insee.rmes.metadata.model.TypeEnumAscendantsCommune";
     String ENUM_DESCENDANTS_INTERCOMMUNALITE_CLASS = "fr.insee.rmes.metadata.model.TypeEnumDescendantsIntercommunalite";
+    String ENUM_ASCENDANTS_IRIS_CLASS = "fr.insee.rmes.metadata.model.TypeEnumAscendantsIris";
     String ENUM_DESCENDANTS_PAYS_CLASS = "fr.insee.rmes.metadata.model.TypeEnumDescendantsPays";
     String ENUM_DESCENDANTS_REGION_CLASS = "fr.insee.rmes.metadata.model.TypeEnumDescendantsRegion";
     String ENUM_DESCENDANTS_UNITEURBAINE_CLASS = "fr.insee.rmes.metadata.model.TypeEnumDescendantsUniteUrbaine";
@@ -78,6 +79,8 @@ interface ParameterValueDecoder<T> {
                     enumDepDesValue -> enumDepDesValue == null ? "none" : ((TypeEnumAscendantsDepartement) enumDepDesValue).getValue();
             case ENUM_DESCENDANTS_INTERCOMMUNALITE_CLASS ->
                     enumIntercoValue -> enumIntercoValue == null ? "none" : ((TypeEnumDescendantsIntercommunalite) enumIntercoValue).getValue();
+            case ENUM_ASCENDANTS_IRIS_CLASS ->
+                    enumIrisValue -> enumIrisValue == null ? "none" : ((TypeEnumAscendantsIris) enumIrisValue).getValue();
             case ENUM_DESCENDANTS_PAYS_CLASS ->
                     enumPaysValue -> enumPaysValue == null ? "none" : ((TypeEnumDescendantsPays) enumPaysValue).getValue();
             case ENUM_DESCENDANTS_REGION_CLASS ->
