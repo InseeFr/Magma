@@ -7,13 +7,13 @@ import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCantonOuVille;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCantonOuVille;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
 
 
-@Controller
+@RestController
 public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
     private final RequestProcessor requestProcessor;

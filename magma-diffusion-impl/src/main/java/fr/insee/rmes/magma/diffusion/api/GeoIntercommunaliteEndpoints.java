@@ -6,13 +6,13 @@ import fr.insee.rmes.magma.diffusion.model.Intercommunalite;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsIntercommunalite;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
 
 
-@Controller
+@RestController
 public class GeoIntercommunaliteEndpoints implements GeoIntercommunaliteApi {
 
     private final RequestProcessor requestProcessor;

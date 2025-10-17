@@ -30,7 +30,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <lombok.version>1.18.38</lombok.version>
-
+        <springdoc.version>2.8.3</springdoc.version>
 
         <!-- Configuration Sonar -->
         <sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
