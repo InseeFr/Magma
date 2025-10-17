@@ -1,6 +1,5 @@
 package fr.insee.rmes.metadata.api.testcontainers.queries;
 
-import fr.insee.rmes.metadata.api.GeoIntercommunaliteEndpoints;
 import fr.insee.rmes.metadata.api.GeoIrisEndpoints;
 import fr.insee.rmes.metadata.model.TerritoireTousAttributs;
 import fr.insee.rmes.metadata.model.TypeEnumAscendantsIris;
