@@ -26,9 +26,7 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
 
     public JacksonUnmarshaller() {
         this(CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
-                .addModule(enumModule(TerritoireBase.TypeArticleEnum.class))
                 .addModule(enumModule(TerritoireTousAttributs.TypeArticleEnum.class))
-                .addModule(enumModule(TerritoireBaseChefLieu.TypeArticleEnum.class))
                 .addModule(enumModule(AireDAttractionDesVilles2020.TypeArticleEnum.class))
                 .addModule(enumModule(Arrondissement.TypeArticleEnum.class))
                 .addModule(enumModule(ArrondissementMunicipal.TypeArticleEnum.class))

@@ -37,7 +37,7 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
     }
 
     @Override
-    public ResponseEntity<List<TerritoireBase>> getcogcomliste(String date, String filtreNom, Boolean com) {
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogcomliste(String date, String filtreNom, Boolean com) {
         String finalFiltreNom = filtreNom == null ? "*" : filtreNom;
         boolean finalcom = (com != null) && com;
         if (date==null) {
@@ -46,7 +46,7 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
         return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireEtoileRequestParametizer(date, Commune.class, finalFiltreNom, "none", finalcom))
                 .executeQuery()
-                .listResult(TerritoireBase.class)
+                .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
 
     }
@@ -70,19 +70,19 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
     }
 
     @Override
-    public ResponseEntity<List<TerritoireBase>> getcogcomprec( String code, LocalDate date) {
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogcomprec( String code, LocalDate date) {
         return requestProcessor.queryforFindPrecedentsSuivants()
                 .with(new PrecedentsSuivantsRequestParametizer(code, date, Commune.class, true))
                 .executeQuery()
-                .listResult(TerritoireBase.class)
+                .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
     }
 
     @Override
-    public ResponseEntity<List<TerritoireBase>> getcogcomproj( String code, LocalDate dateProjection, LocalDate date) {
-        //le booléen previous est calculé en fonction du paramètre dateProjection (paramètre obligatoire) et du paramètre date valorisé à la date du jour si absent
-        // (facultatif). La valorisation de date à la date du jour dans ParameterValueDecoder n'est pas conservée en dehors de la méthode
-        // => obligé de valoriser date ici aussi
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogcomproj( String code, LocalDate dateProjection, LocalDate date) {
+        //The Boolean previous is based on the dateProjection parameter (required parameter) and on the date parameter set to today's date if absent
+        // (optional). Setting the date to today's date in ParameterValueDecoder is not retained outside the method
+        // => must set the date here as well
         if (date == null) {
             date = LocalDate.now();
         }
@@ -90,16 +90,16 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
         return requestProcessor.queryforFindProjetes()
                 .with(new ProjetesRequestParametizer(code, dateProjection, date, Commune.class, previous))
                 .executeQuery()
-                .listResult(TerritoireBase.class)
+                .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
     }
 
     @Override
-    public ResponseEntity<List<TerritoireBase>>  getcogcomsuiv(String code, LocalDate date) {
+    public ResponseEntity<List<TerritoireTousAttributs>>  getcogcomsuiv(String code, LocalDate date) {
         return requestProcessor.queryforFindPrecedentsSuivants()
                 .with(new PrecedentsSuivantsRequestParametizer(code, date, Commune.class, false))
                 .executeQuery()
-                .listResult(TerritoireBase.class)
+                .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
     }
 }

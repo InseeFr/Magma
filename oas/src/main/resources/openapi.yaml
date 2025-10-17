@@ -5844,7 +5844,7 @@ components:
       xml:
         name: Commune
       allOf:
-        - $ref: '#/components/schemas/TerritoireBase'
+        - $ref: '#/components/schemas/Territoire'
       properties:
         code:
           $ref: '#/components/schemas/CodeCom'
@@ -5873,7 +5873,7 @@ components:
 
     Departement:
       allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: Departement
@@ -5881,7 +5881,7 @@ components:
             code:
               $ref: '#/components/schemas/CodeDep'
 
-    TerritoireBase:
+    Territoire:
       required:
         - code
         - uri
@@ -5891,8 +5891,13 @@ components:
         - intituleSansArticle
         - typeArticle
         - intitule
+        - chefLieu
+        - typeDIris
+        - categorieJuridique
+        - intituleComplet
+        - inclusion
       xml:
-        name: TerritoireBase
+        name: Territoire_TousAttributs
       properties:
         code:
           type: string
@@ -5952,65 +5957,35 @@ components:
           type: string
           xml:
             name: Intitule
+        chefLieu:
+          type: string
+          description: 'Chef-lieu du territoire'
+          xml:
+            name: ChefLieu
+        typeDIris:
+          type: string
+          description: 'Type d''iris'
+          xml:
+            name: typeDIris
+        categorieJuridique:
+          type: string
+          description: 'Catégorie juridique du territoire'
+          xml:
+            name: categorieJuridique
+        intituleComplet:
+          type: string
+          description: 'Intitulé complet du territoire'
+          xml:
+            name: intituleComplet
+        inclusion:
+          type: string
+          description: 'Inclusion'
+          xml:
+            name: inclusion
+          enum:
+            - partielle
+            - totale
 
-    TerritoireBase_ChefLieu:
-      xml:
-        wrapped: true
-        name: TerritoireBase_AvecChefLieu
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase'
-        - type: object
-          required:
-            - chefLieu
-          properties:
-            chefLieu:
-              type: string
-              description: 'Chef-lieu du territoire'
-              xml:
-                name: ChefLieu
-
-    Territoire_TousAttributs:
-      xml:
-        wrapped: true
-        name: TerritoireBase_AvecTousLesAttributsPossibles
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase'
-        - type: object
-          required:
-            - chefLieu
-            - typeDIris
-            - categorieJuridique
-            - intituleComplet
-            - inclusion
-          properties:
-            chefLieu:
-              type: string
-              description: 'Chef-lieu du territoire'
-              xml:
-                name: ChefLieu
-            typeDIris:
-              type: string
-              description: 'Type d''iris'
-              xml:
-                name: typeDIris
-            categorieJuridique:
-              type: string
-              description: 'Catégorie juridique du territoire'
-              xml:
-                name: categorieJuridique
-            intituleComplet:
-              type: string
-              description: 'Intitulé complet du territoire'
-              xml:
-                name: intituleComplet
-            inclusion:
-              type: string
-              description: 'Inclusion'
-              xml:
-                name: inclusion
-              enum:
-                - partielle
-                - totale
 
     DepartementListeDescendants:
       description: 'Liste des descendants d''un département'
@@ -6019,7 +5994,7 @@ components:
         wrapped: true
         name: DescendantsDepartement
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     DepartementListeAscendants:
       description: 'Liste des ascendants d''un département'
@@ -6028,7 +6003,7 @@ components:
         wrapped: true
         name: AscendantsDepartement
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     DepartementListeProjetesAvecChefLieu:
       description: 'Liste des départements projetés'
@@ -6037,7 +6012,7 @@ components:
         wrapped: true
         name: ListeDepartementsProjetes
       items:
-        $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        $ref: '#/components/schemas/Territoire'
 
     DepartementListePrecedentsAvecChefLieu:
       description: 'Liste des départements précédents'
@@ -6046,7 +6021,7 @@ components:
         wrapped: true
         name: ListeDepartementsPrecedents
       items:
-        $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        $ref: '#/components/schemas/Territoire'
 
     DepartementListeSuivantsAvecChefLieu:
       description: 'Liste des départements qui succèdent au département'
@@ -6055,7 +6030,7 @@ components:
         wrapped: true
         name: ListeDepartementsSuivants
       items:
-        $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        $ref: '#/components/schemas/Territoire'
 
     TypeEnumAscendantsDistrict:
       type: string
@@ -6072,7 +6047,7 @@ components:
         wrapped: true
         name: ListeTerritoiresChefLieu
       items:
-        $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        $ref: '#/components/schemas/Territoire'
 
     CodeCom:
       pattern: '[0-9][0-9AB][0-9]{3}'
@@ -6096,7 +6071,7 @@ components:
         wrapped: true
         name: Communes
       items:
-        $ref: '#/components/schemas/TerritoireBase'
+        $ref: '#/components/schemas/Territoire'
 
     CommuneListeDescendants:
       description: 'Liste des descendants d''une commune'
@@ -6105,7 +6080,7 @@ components:
         wrapped: true
         name: DescendantsCommune
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CommuneListeAscendants:
       description: 'Liste des ascendants d''une commune'
@@ -6114,7 +6089,7 @@ components:
         wrapped: true
         name: AscendantsCommune
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     ListeCommuneCantons:
       description: 'Liste des cantons ayant un territoire commun avec la commune'
@@ -6132,7 +6107,7 @@ components:
         wrapped: true
         name: ListeCommunesPrecedentes
       items:
-        $ref: '#/components/schemas/TerritoireBase'
+        $ref: '#/components/schemas/Territoire'
 
     CommuneListeProjetes:
       description: 'Liste des communes projetées'
@@ -6141,7 +6116,7 @@ components:
         wrapped: true
         name: ListeCommunesProjetees
       items:
-        $ref: '#/components/schemas/TerritoireBase'
+        $ref: '#/components/schemas/Territoire'
 
     CommuneListeSuivants:
       description: 'Liste des communes qui succèdent à la commune'
@@ -6150,7 +6125,7 @@ components:
         wrapped: true
         name: ListeCommunesSuivants
       items:
-        $ref: '#/components/schemas/TerritoireBase'
+        $ref: '#/components/schemas/Territoire'
 
     Date2000ParDefaut:
       description: 'date proposée par défaut'
@@ -6448,7 +6423,7 @@ components:
 
     AireDAttractionDesVilles2020:
       allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: Aire d'attraction
@@ -6471,7 +6446,7 @@ components:
         wrapped: true
         name: DescendantsAireDAttractionDesVilles
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     ListeAiresDAttractionDesVilles2020:
       description: 'Liste des aires d''attraction des villes'
@@ -6489,11 +6464,11 @@ components:
         wrapped: true
         name: AscendantsArrondissement
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     Arrondissement:
       allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: Arrondissement
@@ -6516,7 +6491,7 @@ components:
         wrapped: true
         name: DescendantsArrondissement
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     ListeArrondissements:
       description: 'Liste des arrondissements'
@@ -6534,7 +6509,7 @@ components:
         wrapped: true
         name: ListeArrondissementsPrecedents
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CodeArrondissementSuivant:
       description: 'Code d''un arrondissement'
@@ -6551,7 +6526,7 @@ components:
         wrapped: true
         name: ListeArrondissementsProjetes
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     ArrondissementListeSuivants:
       description: 'Liste des arrondissements qui succèdent à l''arrondissement'
@@ -6560,7 +6535,7 @@ components:
         wrapped: true
         name: ListeArrondissementsSuivants
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     ArrondissementMunicipalListeAscendants:
       description: 'Liste des ascendants d''un arrondissement municipal'
@@ -6569,11 +6544,11 @@ components:
         wrapped: true
         name: AscendantsArrondissementMunicipal
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     ArrondissementMunicipal:
       allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: Arrondissement municipal
@@ -6605,7 +6580,7 @@ components:
         wrapped: true
         name: ListeArrondissementsMunicipauxPrecedents
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     ArrondissementMunicipalListeProjetes:
       description: 'Liste des arrondissements municipaux projetés'
@@ -6614,7 +6589,7 @@ components:
         wrapped: true
         name: ListeArrondissementsMunicipauxProjetes
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     ArrondissementMunicipalListeSuivants:
       description: 'Liste des arrondissements municipaux qui succèdent à l''arrondissement municipal'
@@ -6623,7 +6598,7 @@ components:
         wrapped: true
         name: ListeArrondissementsMunicipauxSuivants
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CommuneAssocieeListeAscendants:
       description: 'Liste des ascendants d''une commune associée'
@@ -6632,11 +6607,11 @@ components:
         wrapped: true
         name: AscendantsCommuneAssociee
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CommuneAssociee:
       allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: CommuneAssociee
@@ -6660,11 +6635,11 @@ components:
         wrapped: true
         name: AscendantsCommuneDeleguee
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CommuneDeleguee:
       allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: CommuneDeleguee
@@ -6704,11 +6679,11 @@ components:
         wrapped: true
         name: AscendantsDistrict
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     District:
       allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: District
@@ -6726,7 +6701,7 @@ components:
 
     Intercommunalite:
       allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: Intercommunalite
@@ -6761,7 +6736,7 @@ components:
         wrapped: true
         name: DescendantsIntercommunalite
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     ListeIntercommunalites:
       description: 'Liste des intercommunalités'
@@ -6779,7 +6754,7 @@ components:
         wrapped: true
         name: ListeIntercommunalitesPrecedents
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     IntercommunaliteListeProjetes:
       description: 'Liste des intercommunalités projetées'
@@ -6788,7 +6763,7 @@ components:
         wrapped: true
         name: ListeIntercommunalitesProjetees
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     IntercommunaliteListeSuivants:
       description: 'Liste des intercommunalités qui succèdent à l''intercommunalité'
@@ -6797,7 +6772,7 @@ components:
         wrapped: true
         name: ListeIntercommunalitesSuivants
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CodeIris:
       description: 'Code d''une Iris'
@@ -6809,7 +6784,7 @@ components:
 
     Iris:
       allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: Iris
@@ -6824,7 +6799,7 @@ components:
         wrapped: true
         name: ListeIris
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 #        return types Commune and Iris
 
     Pays:
@@ -6832,7 +6807,7 @@ components:
         wrapped: true
         name: Pays
       allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           required:
             - iso3166alpha2
@@ -6872,7 +6847,7 @@ components:
         wrapped: true
         name: DescendantsPays
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     PaysListe:
       description: 'Liste des pays'
@@ -6919,7 +6894,7 @@ components:
 
     Region:
       allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: Region
@@ -6942,7 +6917,7 @@ components:
         wrapped: true
         name: DescendantsRegion
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     ListeRegions:
       description: 'Liste des régions'
@@ -6968,7 +6943,7 @@ components:
         wrapped: true
         name: ListeRegionsPrecedentes
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CodeRegSuivant:
       description: 'Code d''une région'
@@ -6985,7 +6960,7 @@ components:
         wrapped: true
         name: ListeRegionsProjetees
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     RegionListeSuivants:
       description: 'Liste des régions qui succèdent à la région'
@@ -6994,11 +6969,11 @@ components:
         wrapped: true
         name: ListeRegionSuivants
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     UniteUrbaine2020:
       allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: UniteUrbaine
@@ -7021,7 +6996,7 @@ components:
         wrapped: true
         name: DescendantsUniteUrbaine
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     TypeEnumDescendantsUniteUrbaine:
       type: string
@@ -7047,7 +7022,7 @@ components:
 
     BassinDeVie2022:
       allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: Canton
@@ -7082,7 +7057,7 @@ components:
         wrapped: true
         name: DescendantsBassinDeVie
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     ListeBassinsDeVie:
       description: 'Liste des bassins de vie'
@@ -7100,11 +7075,11 @@ components:
         wrapped: true
         name: AscendantsCanton
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     Canton:
       allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: Canton
@@ -7127,7 +7102,7 @@ components:
         wrapped: true
         name: ListeCantonCommunes
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     ListeCantons:
       description: 'Liste des cantons'
@@ -7153,7 +7128,7 @@ components:
         wrapped: true
         name: ListeCantonsPrecedents
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CantonListeProjetes:
       description: 'Liste des cantons projetés'
@@ -7162,7 +7137,7 @@ components:
         wrapped: true
         name: ListeCantonsProjetes
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CantonListeSuivants:
       description: 'Liste des cantons qui succèdent au canton'
@@ -7171,7 +7146,7 @@ components:
         wrapped: true
         name: ListeCantonsSuivants
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CantonOuVilleListeAscendants:
       description: 'Liste des ascendants d''un canton-ou-ville'
@@ -7180,7 +7155,7 @@ components:
         wrapped: true
         name: AscendantsCantonOuVille
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CantonOuVilleListeDescendants:
       description: 'Liste des descendants d''un canton-ou-ville'
@@ -7189,11 +7164,11 @@ components:
         wrapped: true
         name: DescendantsCantonOuVille
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CantonOuVille:
       allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: Canton
@@ -7242,7 +7217,7 @@ components:
         wrapped: true
         name: ListeCantonsOuVillesPrecedents
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CodeCantonOuVilleSuivants:
       description: 'Code d''un canton-ou-ville'
@@ -7259,7 +7234,7 @@ components:
         wrapped: true
         name: ListeCantonsOuVillesProjetes
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CantonOuVilleListeSuivants:
       description: 'Liste des cantons-ou-villes qui succèdent au canton-ou-ville'
@@ -7268,7 +7243,7 @@ components:
         wrapped: true
         name: ListeCantonsOuVillesSuivants
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CirconscriptionTerritorialeListeAscendants:
       description: 'Liste des ascendants d''une circonscription territoriale'
@@ -7277,11 +7252,11 @@ components:
         wrapped: true
         name: AscendantsCirconscriptionTerritoriale
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     CirconscriptionTerritoriale:
       allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: Circonscription territoriale
@@ -7299,7 +7274,7 @@ components:
 
     CollectiviteDOutreMer:
       allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: CollectiviteDOutreMer
@@ -7322,7 +7297,7 @@ components:
         wrapped: true
         name: DescendantsCollectiviteDOutreMer
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     ListeCollectivitesDOutreMer:
       description: 'Liste des collectivités d''outre-mer'
@@ -7371,7 +7346,7 @@ components:
 
     ZoneDEmploi2020:
       allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
+        - $ref: '#/components/schemas/Territoire'
         - type: object
           xml:
             name: ZoneDEmploi
@@ -7394,7 +7369,7 @@ components:
         wrapped: true
         name: DescendantsZoneDEmploi
       items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
+        $ref: '#/components/schemas/Territoire'
 
     ListeZonesDEmploi2020:
       description: 'Liste des zones d''emploi'

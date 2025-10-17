@@ -2,17 +2,19 @@ package fr.insee.rmes.metadata.api.testcontainers.queries;
 
 import fr.insee.rmes.metadata.api.GeoDepartementEndpoints;
 import fr.insee.rmes.metadata.model.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -145,10 +147,10 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
         assertEquals(101, result.size());
         assertEquals("01", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/departement/84680e6f-2e99-44c9-a9ba-2e96a2ae48b7", resultItem1.getUri());
-        assertEquals(TerritoireBaseChefLieu.TypeEnum.DEPARTEMENT, resultItem1.getType());
+        assertEquals(TerritoireTousAttributs.TypeEnum.DEPARTEMENT, resultItem1.getType());
         assertEquals(LocalDate.of(1967,12,31), resultItem1.getDateCreation());
         assertEquals("Ain", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireBaseChefLieu.TypeArticleEnum._5, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._5, resultItem1.getTypeArticle());
         assertEquals("01053", resultItem1.getChefLieu());
         assertEquals("Ain", resultItem1.getIntitule());
 
@@ -164,11 +166,11 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
         assertEquals(154, result.size());
         assertEquals("01", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/departement/69043f56-a413-47c8-804e-9d9ac0c0b67c", resultItem1.getUri());
-        assertEquals(TerritoireBaseChefLieu.TypeEnum.DEPARTEMENT, resultItem1.getType());
+        assertEquals(TerritoireTousAttributs.TypeEnum.DEPARTEMENT, resultItem1.getType());
         assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
         assertEquals(LocalDate.of(1967,12,31), resultItem1.getDateSuppression());
         assertEquals("Ain", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireBaseChefLieu.TypeArticleEnum._5, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._5, resultItem1.getTypeArticle());
         assertEquals("01053", resultItem1.getChefLieu());
         assertEquals("Ain", resultItem1.getIntitule());
     }
@@ -187,11 +189,11 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
         assertEquals(1, result.size());
         assertEquals("22", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/departement/95af7065-d100-4c4f-afd5-764edfe9ae9b", resultItem1.getUri());
-        assertEquals(TerritoireBaseChefLieu.TypeEnum.DEPARTEMENT, resultItem1.getType());
+        assertEquals(TerritoireTousAttributs.TypeEnum.DEPARTEMENT, resultItem1.getType());
         assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
         assertEquals(LocalDate.of(1990,3,8), resultItem1.getDateSuppression());
         assertEquals("Côtes-du-Nord", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireBaseChefLieu.TypeArticleEnum._4, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._4, resultItem1.getTypeArticle());
         assertEquals("22278", resultItem1.getChefLieu());
         assertEquals("Côtes-du-Nord", resultItem1.getIntitule());
     }
@@ -236,11 +238,11 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
         assertEquals(1, result.size());
         assertEquals("22", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/departement/95af7065-d100-4c4f-afd5-764edfe9ae9b", resultItem1.getUri());
-        assertEquals(TerritoireBaseChefLieu.TypeEnum.DEPARTEMENT, resultItem1.getType());
+        assertEquals(TerritoireTousAttributs.TypeEnum.DEPARTEMENT, resultItem1.getType());
         assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation());
         assertEquals(LocalDate.of(1990,3,8), resultItem1.getDateSuppression());
         assertEquals("Côtes-du-Nord", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireBaseChefLieu.TypeArticleEnum._4, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._4, resultItem1.getTypeArticle());
         assertEquals("22278", resultItem1.getChefLieu());
         assertEquals("Côtes-du-Nord", resultItem1.getIntitule());
     }
@@ -267,10 +269,10 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
         assertEquals(1, result.size());
         assertEquals("22", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/departement/f07f6a49-9dce-4f2d-a99e-5d61eedf2827", resultItem1.getUri());
-        assertEquals(TerritoireBaseChefLieu.TypeEnum.DEPARTEMENT, resultItem1.getType());
+        assertEquals(TerritoireTousAttributs.TypeEnum.DEPARTEMENT, resultItem1.getType());
         assertEquals(LocalDate.of(1990,3,8), resultItem1.getDateCreation());
         assertEquals("Côtes-d'Armor", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireBaseChefLieu.TypeArticleEnum._4, resultItem1.getTypeArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._4, resultItem1.getTypeArticle());
         assertEquals("22278", resultItem1.getChefLieu());
         assertEquals("Côtes-d'Armor", resultItem1.getIntitule());
     }
