@@ -4,7 +4,6 @@ import fr.insee.rmes.metadata.api.GeoCommuneDelegueeEndpoints;
 import fr.insee.rmes.metadata.api.GeoDistrictEndpoints;
 import fr.insee.rmes.metadata.model.*;
 import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,17 +38,16 @@ public class GeoDistrictQueriesTest extends TestcontainerTest {
     void should_return_1_COM_when_CommuneDelegueeCodeAscendants_code46248_date20250904(){
         var response  = endpoints.getcogdisasc("98411", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(1, result.size()),
-                () -> assertEquals("984", resultItem1.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/collectiviteDOutreMer/f6496613-8f78-4184-80ab-81a077db6b37", resultItem1.getUri()),
-                () -> assertEquals(TerritoireTousAttributs.TypeEnum.COLLECTIVITE_D_OUTRE_MER, resultItem1.getType()),
-                () -> assertEquals(LocalDate.of(2007,2,23), resultItem1.getDateCreation()),
-                () -> assertEquals("Terres australes et antarctiques françaises", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._4, resultItem1.getTypeArticle()),
-                () -> assertEquals("Terres australes et antarctiques françaises", resultItem1.getIntitule())
+                () -> Assert.assertEquals("984", resultItem1.getCode()),
+                () -> Assert.assertEquals("http://id.insee.fr/geo/collectiviteDOutreMer/f6496613-8f78-4184-80ab-81a077db6b37", resultItem1.getUri()),
+                () -> Assert.assertEquals(TerritoireTousAttributs.TypeEnum.COLLECTIVITE_D_OUTRE_MER, resultItem1.getType()),
+                () -> Assert.assertEquals(LocalDate.of(2007,2,23), resultItem1.getDateCreation()),
+                () -> Assert.assertEquals("Terres australes et antarctiques françaises", resultItem1.getIntituleSansArticle()),
+                () -> Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._4, resultItem1.getTypeArticle()),
+                () -> Assert.assertEquals("Terres australes et antarctiques françaises", resultItem1.getIntitule())
         );
     }
 
@@ -57,17 +56,16 @@ public class GeoDistrictQueriesTest extends TestcontainerTest {
     void should_return_1_arrondissement_when_CommuneDelegueeCodeAscendants_code46248_date20250904_typeCollectiviteDoutreMer(){
         var response  = endpoints.getcogdisasc("98411", LocalDate.of(2025, 9, 4), TypeEnumAscendantsDistrict.COLLECTIVITE_D_OUTRE_MER);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(1, result.size()),
-                () -> assertEquals("984", resultItem1.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/collectiviteDOutreMer/f6496613-8f78-4184-80ab-81a077db6b37", resultItem1.getUri()),
-                () -> assertEquals(TerritoireTousAttributs.TypeEnum.COLLECTIVITE_D_OUTRE_MER, resultItem1.getType()),
-                () -> assertEquals(LocalDate.of(2007,2,23), resultItem1.getDateCreation()),
-                () -> assertEquals("Terres australes et antarctiques françaises", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._4, resultItem1.getTypeArticle()),
-                () -> assertEquals("Terres australes et antarctiques françaises", resultItem1.getIntitule())
+                () -> Assert.assertEquals("984", resultItem1.getCode()),
+                () -> Assert.assertEquals("http://id.insee.fr/geo/collectiviteDOutreMer/f6496613-8f78-4184-80ab-81a077db6b37", resultItem1.getUri()),
+                () -> Assert.assertEquals(TerritoireTousAttributs.TypeEnum.COLLECTIVITE_D_OUTRE_MER, resultItem1.getType()),
+                () -> Assert.assertEquals(LocalDate.of(2007,2,23), resultItem1.getDateCreation()),
+                () -> Assert.assertEquals("Terres australes et antarctiques françaises", resultItem1.getIntituleSansArticle()),
+                () -> Assert.assertEquals(TerritoireTousAttributs.TypeArticleEnum._4, resultItem1.getTypeArticle()),
+                () -> Assert.assertEquals("Terres australes et antarctiques françaises", resultItem1.getIntitule())
         );
     }
 
@@ -80,15 +78,14 @@ public class GeoDistrictQueriesTest extends TestcontainerTest {
     void should_return_communeCode_98411_when_code98411_date20250904() {
         var response  = endpoints.getcogdis("98411", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-        assertNotNull(result);
         assertAll(
-                () -> assertEquals("98411", result.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/district/d028b78a-9c4d-4e22-9b60-efffd7085eb0", result.getUri()),
-                () -> assertEquals(District.TypeEnum.DISTRICT, result.getType()),
-                () -> assertEquals(LocalDate.of(2007,2,23), result.getDateCreation()),
-                () -> assertEquals("Îles Saint-Paul et Amsterdam", result.getIntituleSansArticle()),
-                () -> assertEquals(District.TypeArticleEnum._4, result.getTypeArticle()),
-                () -> assertEquals("Îles Saint-Paul et Amsterdam", result.getIntitule())
+                () -> Assert.assertEquals("98411", result.getCode()),
+                () -> Assert.assertEquals("http://id.insee.fr/geo/district/d028b78a-9c4d-4e22-9b60-efffd7085eb0", result.getUri()),
+                () -> Assert.assertEquals(District.TypeEnum.DISTRICT, result.getType()),
+                () -> Assert.assertEquals(LocalDate.of(2007,2,23), result.getDateCreation()),
+                () -> Assert.assertEquals("Îles Saint-Paul et Amsterdam", result.getIntituleSansArticle()),
+                () -> Assert.assertEquals(District.TypeArticleEnum._4, result.getTypeArticle()),
+                () -> Assert.assertEquals("Îles Saint-Paul et Amsterdam", result.getIntitule())
         );
     }
 

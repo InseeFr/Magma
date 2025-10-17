@@ -12,7 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,7 +37,6 @@ public class GeoPaysQueriesTest extends TestcontainerTest  {
     void should_return_Pays99132_when_PaysCode_code99132_date20250904(){
         var response  = endpoints.getcogpays("99132", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-        assertNotNull(result);
         assertAll(
                 () -> assertEquals("99132", result.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/pays/7c3380f3-897b-4470-a12f-2ae3b61fe4d0", result.getUri()),
@@ -67,7 +67,6 @@ public class GeoPaysQueriesTest extends TestcontainerTest  {
     void should_return_7_territoires_when_PaysCodeDescendants_code99132_date20250904_typeNull() {
         var response  = endpoints.getcogpaysdesc("99132", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(7, result.size());
         assertAll(
@@ -99,7 +98,6 @@ public class GeoPaysQueriesTest extends TestcontainerTest  {
     void should_return_196_pays_when_Pays_date20250904() {
         var response  = endpoints.getcogpayslist("2025-09-04");
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(196, result.size());
         assertAll(
@@ -121,7 +119,6 @@ public class GeoPaysQueriesTest extends TestcontainerTest  {
     void should_return_343_pays_when_Pays_dateEtoile(){
         var response  = endpoints.getcogpayslist ("*");
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
@@ -147,7 +144,6 @@ public class GeoPaysQueriesTest extends TestcontainerTest  {
     void should_return_2_pays_when_PaysCodePrecedents_code99309_date19650101() {
         var response  = endpoints.getcogpaysprec("99309", LocalDate.of(1965, 1, 1));
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(2, result.size());
         assertAll(
@@ -171,7 +167,6 @@ public class GeoPaysQueriesTest extends TestcontainerTest  {
     void should_return_3_pays_when_PaysCodeSuivants_code99121_date19500101() {
         var response  = endpoints.getcogpayssuiv("99121", LocalDate.of(1950, 1, 1));
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(3, result.size());
         assertAll(
