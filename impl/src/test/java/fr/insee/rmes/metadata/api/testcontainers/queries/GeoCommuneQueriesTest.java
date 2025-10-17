@@ -2,6 +2,7 @@ package fr.insee.rmes.metadata.api.testcontainers.queries;
 
 import fr.insee.rmes.metadata.api.GeoCommuneEndpoints;
 import fr.insee.rmes.metadata.model.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,6 +37,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
     void should_return_9_territoires_when_CommuneCodeAscendants_code14475_date20250904_typeNull(){
         var response  = endpoints.getcogcomasc("14475", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(9, result.size());
         assertEquals("024", resultItem1.getCode());
@@ -54,6 +55,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
     void should_return_1_departement_when_CommuneCodeAscendants_code14475_date20250904_typeDepartement(){
         var response  = endpoints.getcogcomasc("14475", LocalDate.of(2025, 9, 4), TypeEnumAscendantsCommune.DEPARTEMENT);
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertEquals("14", resultItem1.getCode());
@@ -87,6 +89,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
     void should_return_communeCode_14475_when_code14475_date20250904() {
         var response  = endpoints.getcogcom("14475", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
+        assertNotNull(result);
         assertAll(
                 () -> assertEquals("14475", result.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/commune/4b88116a-9ede-42f5-aef5-a70304de593b", result.getUri()),
@@ -116,6 +119,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
     void should_return_1_canton_when_CommuneCodeCantons_code14475_date20250904() {
         var response  = endpoints.getcogcomcan("14475", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertAll(
@@ -140,6 +144,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
     void should_return_4_communesDeleguees_when_CommuneCodeDescendants_code14475_date20250904_typeNull() {
         var response  = endpoints.getcogcomdesc("14475", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(4, result.size());
         assertAll(
@@ -158,6 +163,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
     void should_return_16_arrondissementsMunicipaux_when_CommuneCodeDescendants_code13055_date20250904_typeArrondissementMunicipal() {
         var response  = endpoints.getcogcomdesc("13055", LocalDate.of(2025, 9, 4), TypeEnumDescendantsCommune.ARRONDISSEMENT_MUNICIPAL);
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(16, result.size());
         assertAll(
@@ -189,6 +195,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
     void should_return_3_communes_when_Communes_date20250904_filtreNomBonnay_comFalse() {
         var response  = endpoints.getcogcomliste("2025-09-04", "Bonnay", false);
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(3, result.size());
         assertAll(
@@ -207,6 +214,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
     void should_return_43905_communes_when_Communes_dateEtoile(){
         var response  = endpoints.getcogcomliste ("*", null,  null);
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(43905, result.size());
         assertAll(
@@ -230,6 +238,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
     void should_return_3_communes_when_CommunesCodePrecedents_date20250904(){
         var response  = endpoints.getcogcomprec ("14475", LocalDate.of(2025,9,4));
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
@@ -262,6 +271,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
     void should_return_4_communes_when_CommunesCodeProjetes_date20250904_datePorjection19450626(){
         var response  = endpoints.getcogcomproj ("14475", LocalDate.of(1945,6,26), LocalDate.of(2025,9,4));
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
