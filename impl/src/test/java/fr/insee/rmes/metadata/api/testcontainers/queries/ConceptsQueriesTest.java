@@ -132,14 +132,14 @@ void should_return_404_when_ConceptsDefinitionCode_codec1000() throws Exception{
 
 //    geo/concepts/definitions
     @Test
-    void should_return_1230_concepts_when_ConceptsDefinitions_libelleNull() {
+    void should_return_1232_concepts_when_ConceptsDefinitions_libelleNull() {
         var response  = endpoints.getconceptsliste("");
         var result = response.getBody();
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
-                () -> assertEquals(1230, result.size()),
+                () -> assertEquals(1232, result.size()),
                 () -> assertEquals("c1601", resultItem1.getId()),
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1601"), resultItem1.getUri()),
                 () -> assertEquals("ADSL", resultItem1.getIntitule())
