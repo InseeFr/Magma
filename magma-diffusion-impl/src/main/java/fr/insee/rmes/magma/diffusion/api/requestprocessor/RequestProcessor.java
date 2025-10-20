@@ -20,6 +20,10 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
 
     // Peut-être renommer les query en queryToFind et non en forFind
 
+    public RequestProcessor.QueryBuilder queryToFindClassification(){
+        return new RequestProcessor.QueryBuilder(NOMENCLATURE, this);
+    }
+
     public QueryBuilder queryToFindConcept(){
         return new QueryBuilder(CONCEPT,this);
     }
@@ -114,6 +118,12 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
         }
         public ExecutableQuery with(ProjetesRequestParametizer projetesRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(projetesRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
+        public ExecutableQuery with(ClassificationRequestParametizer classificationRequestParametizer) {
+            return new ExecutableQuery(
+                    requestProcessor.queryBuilder().build(classificationRequestParametizer.toParameters(), queryPath),
+                    requestProcessor
+            );
         }
 
     }
