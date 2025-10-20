@@ -26,6 +26,6 @@ public class TestcontainerTest {
     static void overrideSpringProperties(DynamicPropertyRegistry registry) {
         String url  = "http://" + container.getHost() + ":" + container.getMappedPort(7200)+ "/repositories/data";
         log.info("Graphdb URL: " + url);
-        registry.add("fr.insee.rmes.magma.diffusion.api.sparqlEndpoint", () -> url) ;
+        registry.add("fr.insee.rmes.magma.api.sparqlEndpoint", () -> url) ;
     }
 }
