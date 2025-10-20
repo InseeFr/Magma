@@ -2,14 +2,13 @@ package fr.insee.rmes.magma.diffusion.utils;
 
 import fr.insee.rmes.magma.diffusion.model.*;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 

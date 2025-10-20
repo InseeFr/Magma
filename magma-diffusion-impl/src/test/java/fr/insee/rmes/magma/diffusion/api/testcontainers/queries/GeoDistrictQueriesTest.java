@@ -2,7 +2,7 @@ package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.GeoDistrictEndpoints;
 import fr.insee.rmes.magma.diffusion.model.*;
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,7 +37,6 @@ public class GeoDistrictQueriesTest extends TestcontainerTest {
     void should_return_1_COM_when_CommuneDelegueeCodeAscendants_code46248_date20250904(){
         var response  = endpoints.getcogdisasc("98411", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(1, result.size()),
@@ -55,7 +55,6 @@ public class GeoDistrictQueriesTest extends TestcontainerTest {
     void should_return_1_arrondissement_when_CommuneDelegueeCodeAscendants_code46248_date20250904_typeCollectiviteDoutreMer(){
         var response  = endpoints.getcogdisasc("98411", LocalDate.of(2025, 9, 4), TypeEnumAscendantsDistrict.COLLECTIVITE_D_OUTRE_MER);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(1, result.size()),
@@ -78,7 +77,6 @@ public class GeoDistrictQueriesTest extends TestcontainerTest {
     void should_return_communeCode_98411_when_code98411_date20250904() {
         var response  = endpoints.getcogdis("98411", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-        assertNotNull(result);
         assertAll(
                 () -> assertEquals("98411", result.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/district/d028b78a-9c4d-4e22-9b60-efffd7085eb0", result.getUri()),

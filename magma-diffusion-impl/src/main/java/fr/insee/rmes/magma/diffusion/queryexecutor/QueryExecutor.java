@@ -1,5 +1,7 @@
 package fr.insee.rmes.magma.diffusion.queryexecutor;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.rmes.magma.diffusion.queries.Query;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+
+import java.io.IOException;
 
 @Slf4j
 @Component
@@ -54,6 +58,51 @@ public record QueryExecutor(RestClient restClient, String urlTemplate) {
                             throw new RuntimeException("Error "+response.getStatusText()+" with message "+new String(response.getBody().readAllBytes()));
                         })
                 .body(String.class));
+    }
+
+public Boolean executeAskQuery(@NonNull Query query) {
+    String prefixedQuery = PREFIXES + query.value();
+    log.debug("Executing SPARQL ASK query: {}", prefixedQuery);
+
+    try {
+        String response = restClient.get()
+                .uri(urlTemplate, prefixedQuery)
+                .header("Accept", "application/sparql-results+json") // Format standard pour les résultats SPARQL
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, (request, reponse) -> {
+                    String errorMessage = "SPARQL ASK query failed: " + request.getURI();
+                    try {
+                        String body = new String(reponse.getBody().readAllBytes());
+                        errorMessage += " - Response: " + body;
+                    } catch (IOException e) {
+                        errorMessage += " - Error reading response body: " + e.getMessage();
+                    }
+                    log.error(errorMessage);
+                    throw new RuntimeException("SPARQL query error: " + reponse.getStatusText());
+                })
+                .body(String.class);
+
+        log.debug("SPARQL ASK response: {}", response);
+
+        // Parse the Json response to extract the boolean
+        return parseAskResponse(response);
+    } catch (Exception e) {
+        log.error("Unexpected error while executing SPARQL ASK query: {}", e.getMessage(), e);
+        throw new RuntimeException("Failed to execute SPARQL ASK query", e);
+    }
+}
+
+    // Method to parse the JSON response of a SPARQL ASK request
+    private Boolean parseAskResponse(String jsonResponse) {
+        try {
+            // Example of a Json response for an ASK request :
+            // {"head":{},"boolean":true}
+            JsonNode rootNode = new ObjectMapper().readTree(jsonResponse);
+            return rootNode.path("boolean").asBoolean();
+        } catch (Exception e) {
+            log.error("Failed to parse SPARQL ASK response: {}", jsonResponse, e);
+            throw new RuntimeException("Invalid SPARQL ASK response format", e);
+        }
     }
 
 }

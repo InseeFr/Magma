@@ -108,7 +108,7 @@ interface ParameterValueDecoder<T> {
      * </code>
      * <p>
      * The DelegaterDecoder is never be returned by
-     * { @link fr.insee.rmes.metadata.queries.parameters.ParameterValueDecoder#of(java.lang.Class)} and can only be
+     * { @link fr.insee.rmes.magma.diffusion.queries.parameters.ParameterValueDecoder#of(java.lang.Class)} and can only be
      * used when explicitly instanced in a method such as {@link AscendantsDescendantsRequestParametizer#findParameterValueDecoder(RecordComponent)}
      *
      * @param delegatedDecoder : a function applied to decode the value
