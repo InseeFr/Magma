@@ -2,7 +2,6 @@ package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.GeoCommuneDelegueeEndpoints;
 import fr.insee.rmes.magma.diffusion.model.*;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,7 +36,6 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
     void should_return_10_territoires_when_CommuneDelegueeCodeAscendants_code46248_date20250904_typeNull(){
         var response  = endpoints.getcogcomdasc("46248", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(10, result.size()),
@@ -57,7 +54,6 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
     void should_return_1_arrondissement_when_CommuneDelegueeCodeAscendants_code46248_date20250904_typeArrondissement(){
         var response  = endpoints.getcogcomdasc("46248", LocalDate.of(2025, 9, 4), TypeEnumAscendantsCommuneDeleguee.ARRONDISSEMENT);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(1, result.size()),
@@ -88,7 +84,6 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
     void should_return_communeCode_14475_when_code14475_date20250904() {
         var response  = endpoints.getcogcomd("46248", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-        Assertions.assertNotNull(result);
         assertAll(
                 () -> assertEquals("46248", result.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/communeDeleguee/c333331f-b09b-4253-b012-dc0d0a65a290", result.getUri()),
@@ -118,7 +113,6 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
     void should_return_2152_communesDeleguees_when_CommunesDeleguees_date20250904() {
         var response  = endpoints.getcogcomdliste("2025-09-04");
         var result = response.getBody();
-        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
@@ -138,7 +132,6 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
     void should_return_2599_communesDeleguees_when_CommunesDeleguees_dateEtoile() {
         var response  = endpoints.getcogcomdliste("*");
         var result = response.getBody();
-        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(

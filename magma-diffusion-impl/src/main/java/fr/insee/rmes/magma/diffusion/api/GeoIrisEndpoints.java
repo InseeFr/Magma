@@ -4,6 +4,8 @@ import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.diffusion.model.Commune;
 import fr.insee.rmes.magma.diffusion.model.Iris;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
+import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsIris;
+import fr.insee.rmes.magma.diffusion.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.IrisListRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,23 @@ public class GeoIrisEndpoints implements GeoIrisApi {
         this.requestProcessor = requestProcessor;
     }
 
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>> getcogirisasc (String code, LocalDate date, TypeEnumAscendantsIris type) {
+        if (code.matches("^.{5}0000$")) {
+            return requestProcessor.queryToFindAscendantsFauxIris()
+                    .with(new AscendantsDescendantsRequestParametizer(code, date, type, Iris.class))
+                    .executeQuery()
+                    .listResult(TerritoireTousAttributs.class)
+                    .toResponseEntity();
+        }
+        else {
+            return requestProcessor.queryforFindAscendantsDescendants()
+                    .with(new AscendantsDescendantsRequestParametizer(code, date, type, Iris.class))
+                    .executeQuery()
+                    .listResult(TerritoireTousAttributs.class)
+                    .toResponseEntity();
+        }
+    }
 
     @Override
     public ResponseEntity<Iris> getcogiris(String code, LocalDate date) {

@@ -81,7 +81,7 @@
                             <inputSpec>${project.baseUri}/target/openapi.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <modelPackage>fr.insee.rmes.magma.diffusion.model</modelPackage>
-                            <apiPackage>fr.insee.rmes.metadata.api</apiPackage>
+                            <apiPackage>fr.insee.rmes.magma.diffusion.api</apiPackage>
                             <generateApis>true</generateApis>
                             <generateModels>true</generateModels>
                             <supportingFilesToGenerate></supportingFilesToGenerate>

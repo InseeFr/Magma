@@ -7,6 +7,7 @@ import fr.insee.rmes.magma.diffusion.model.Arrondissement;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsArrondissement;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsArrondissement;
+import fr.insee.rmes.magma.diffusion.queries.parameters.AscendantsDescendantsRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

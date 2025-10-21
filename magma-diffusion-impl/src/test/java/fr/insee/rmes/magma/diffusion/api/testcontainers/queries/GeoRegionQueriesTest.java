@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,7 +38,6 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
     void should_return_region06_when_regionCode06_date20250904() {
         var response  = endpoints.getcogreg("06", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-        assertNotNull(result);
         assertAll(
                 () -> assertEquals("06", result.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/region/0e9f9adc-742d-4ab7-90bd-30e5aaf7b2ab", result.getUri()),
@@ -61,7 +60,6 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
     void should_return_167_territoires_when_RegionCodeDescendants_code06_date20250904_typeNull_filtreNomNull(){
         var response  = endpoints.getcogregdes("06", LocalDate.of(2025, 9, 4), null, null);
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(167, result.size()),
@@ -81,7 +79,6 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
     void should_return_1_cantonOuVIlle_when_RegionCodeDescendants_code06_date20250904_typeCantonOuVille_filtreNomDembeni(){
         var response  = endpoints.getcogregdes("06", LocalDate.of(2025, 9, 4), TypeEnumDescendantsRegion.CANTON_OU_VILLE, "Dembeni");
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(1, result.size()),
@@ -104,7 +101,6 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
     void should_return_18_territoires_when_Region_date20250904_typeNull_filtreNomNull(){
         var response  = endpoints.getcogregliste("2025-09-04");
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(18, result.size()),
@@ -124,7 +120,6 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
     void should_return_45_regions_when_Regions_dateEtoile(){
         var response  = endpoints.getcogregliste("*");
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(45, result.size()),
@@ -149,7 +144,6 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
     void should_return_2_regions_when_RegionsCodePrecedents_date20250904(){
         var response  = endpoints.getcogregprec("44", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(2, result.size()),
@@ -200,7 +194,6 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
     void should_return_5_regions_when_RegionsCodeProjetes_date20250904_dateProjection20100101(){
         var response  = endpoints.getcogregproj("44", LocalDate.of(2000, 1, 1), LocalDate.of(2025,9,4));
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(5, result.size()),
@@ -233,7 +226,6 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
     void should_return_1_region_when_RegionCodeSuivants_code41_date20000101(){
         var response  = endpoints.getcogregsuiv("41", LocalDate.of(2000,1,1));
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertEquals("44", resultItem1.getCode());

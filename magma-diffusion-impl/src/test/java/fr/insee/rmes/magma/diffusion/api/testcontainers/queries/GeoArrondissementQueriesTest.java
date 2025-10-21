@@ -11,10 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import java.time.LocalDate;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -38,11 +39,10 @@ public class GeoArrondissementQueriesTest extends TestcontainerTest{
     void should_return_2_ascendants_when_ArrondissementCodeAscendants_code674_date20250904_typeNull() {
         var response = endpoints.getcogarrasc("674", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
-        assertNotNull(result);
         assertEquals(2, result.size());
 
         // Premier ascendant : Département
-        var resultItem1 = result.getFirst();
+        var resultItem1 = result.get(0);
         assertEquals("67", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/departement/e62b35df-f168-4dfa-b60f-ef6cdb3279a0", resultItem1.getUri());
         assertEquals(TerritoireTousAttributs.TypeEnum.DEPARTEMENT, resultItem1.getType());
@@ -67,7 +67,6 @@ public class GeoArrondissementQueriesTest extends TestcontainerTest{
     void should_return_1_region_when_ArrondissementCodeAscendants_code674_date20250904_typeRegion() {
         var response = endpoints.getcogarrasc("674", LocalDate.of(2025, 9, 4), TypeEnumAscendantsArrondissement.REGION);
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1 = result.getFirst();
         assertEquals(1, result.size());
         assertEquals("44", resultItem1.getCode());
@@ -89,7 +88,6 @@ public class GeoArrondissementQueriesTest extends TestcontainerTest{
         var response = endpoints.getcogarr("674", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
 
-        assertNotNull(result);
         assertEquals("674", result.getCode());
         assertEquals("http://id.insee.fr/geo/arrondissement/7f59df93-132b-400f-9aa6-b3c6be1018eb", result.getUri());
         assertEquals(Arrondissement.TypeEnum.ARRONDISSEMENT, result.getType());
@@ -107,7 +105,6 @@ public class GeoArrondissementQueriesTest extends TestcontainerTest{
     void should_return_14_CommuneDeleguee_when_ArrondissementCodeDescendants_code674_typeCommuneDeleguee() {
         var response = endpoints.getcogarrdes("674", null, TypeEnumDescendantsArrondissement.COMMUNE_DELEGUEE);
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1 = result.getFirst();
         assertEquals(14, result.size());
         assertEquals("67004", resultItem1.getCode());
@@ -123,7 +120,6 @@ public class GeoArrondissementQueriesTest extends TestcontainerTest{
     void should_return_195_territoires_when_ArrondissementCodeDescendants_code674_date20250904_typeNull() {
         var response = endpoints.getcogarrdes("674", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1 = result.getFirst();
         assertEquals(195, result.size());
         assertEquals("67002", resultItem1.getCode());
@@ -142,7 +138,6 @@ public class GeoArrondissementQueriesTest extends TestcontainerTest{
     void should_return_333_arrondissements_when_Arrondissements_date20250904() {
         var response = endpoints.getcogarrliste("2025-09-04");
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1 = result.getFirst();
         assertEquals(333, result.size()); // À adapter selon le nombre réel attendu
         assertEquals("011", resultItem1.getCode());
@@ -160,7 +155,6 @@ public class GeoArrondissementQueriesTest extends TestcontainerTest{
     void should_return_748_arrondissements_when_Arrondissements_dateEtoile() {
         var response = endpoints.getcogarrliste("*");
         var result = response.getBody();
-        assertNotNull(result);
         var resultItem1 = result.getFirst();
         assertEquals(748, result.size()); // Remplacez 350 par le nombre réel attendu
         assertEquals("011", resultItem1.getCode());
@@ -181,8 +175,7 @@ public class GeoArrondissementQueriesTest extends TestcontainerTest{
     void should_return_2_arrondissements_when_ArrondissementCodePrecedents_code674_date20250904() {
         var response = endpoints.getcogarrprec("674", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-        assertNotNull(result);
-        var resultItem1 = result.getFirst();
+        var resultItem1 = result.get(0);
         assertEquals(2, result.size());
         assertEquals("672", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/arrondissement/f1b88b67-f15d-49ad-9bb2-ce221f249f04", resultItem1.getUri());
@@ -241,8 +234,7 @@ public class GeoArrondissementQueriesTest extends TestcontainerTest{
     void should_return_6_arrondissements_when_ArrondissementCodeProjetes_code674_date20250904_dateProjection19940730() {
         var response = endpoints.getcogarrproj("674", LocalDate.of(1994, 7, 30), LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-        assertNotNull(result);
-        var resultItem1 = result.getFirst();
+        var resultItem1 = result.get(0);
         assertEquals(6, result.size());
         assertEquals("672", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/arrondissement/3e815542-7173-4d26-9e94-ac663bba89f7", resultItem1.getUri());
@@ -285,11 +277,10 @@ public class GeoArrondissementQueriesTest extends TestcontainerTest{
         var result = response.getBody();
 
         // Vérification du nombre d'arrondissements suivants
-        assertNotNull(result);
         assertEquals(3, result.size());
 
         // Vérification du premier élément
-        var resultItem1 = result.getFirst();
+        var resultItem1 = result.get(0);
         assertEquals("042", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/arrondissement/1825eafe-2204-4849-b543-715f87615bb8", resultItem1.getUri());
         assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT, resultItem1.getType());
