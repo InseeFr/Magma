@@ -1956,9 +1956,9 @@ paths:
       summary: Informations sur une nomenclature d'un certain niveau identifiée par son code
       operationId: getClassificationByCode
       parameters:
-        - $ref: '#/components/parameters/classification'
-        - $ref: '#/components/parameters/classificationLevel'
-        - $ref: '#/components/parameters/classificationCode'
+        - $ref: '#/components/parameters/nomenclature'
+        - $ref: '#/components/parameters/niveauNomenclature'
+        - $ref: '#/components/parameters/codeNomenclature'
       responses:
         '200':
           $ref: '#/components/responses/ClassificationByCode200'
@@ -3182,23 +3182,23 @@ components:
 
     # -- Nomenclatures
 
-    classification:
-      name: classification
+    nomenclature:
+      name: nomenclature
       required: true
       in: path
       description: "Nom de la nomenclature"
       schema:
         $ref: '#/components/schemas/NomNomenclature'
 
-    classificationLevel:
-      name: level
+    niveauNomenclature:
+      name: niveau
       required: true
       in: path
       description: "Niveau de la nomenclature"
       schema:
         $ref: '#/components/schemas/NiveauNomenclature'
 
-    classificationCode:
+    codeNomenclature:
       name: code
       required: true
       in: path
@@ -4413,7 +4413,7 @@ components:
 
     # -- Nomenclatures
 
-    Classification:
+    Nomenclature:
       value:
         - code: '10'
           uri: 'http://id.insee.fr/codes/cj/n2/10'
@@ -5859,13 +5859,13 @@ components:
             $ref: '#/components/schemas/Nomenclature'
           examples:
             défaut:
-              $ref: '#/components/examples/Classification'
+              $ref: '#/components/examples/Nomenclature'
         application/xml:
           schema:
             $ref: '#/components/schemas/Nomenclature'
           examples:
             défaut:
-              $ref: '#/components/examples/Classification'
+              $ref: '#/components/examples/Nomenclature'
 
     # -- Opérations
 
