@@ -44,5 +44,4 @@ public record QueryBuilder(Configuration freemarkerConfiguration) {
         }
         return new Query(out);
     }
-
 }

@@ -4,7 +4,9 @@ import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.diffusion.model.Nomenclature;
 import fr.insee.rmes.magma.diffusion.queries.parameters.ClassificationRequestParametizer;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public class NomenclaturesEndpoints implements NomenclaturesApi {
 
     private final RequestProcessor requestProcessor;
