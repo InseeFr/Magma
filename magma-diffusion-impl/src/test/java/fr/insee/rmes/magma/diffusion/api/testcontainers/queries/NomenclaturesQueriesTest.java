@@ -1,18 +1,16 @@
 package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.NomenclaturesEndpoints;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 @Tag("integration")
 
 public class NomenclaturesQueriesTest extends TestcontainerTest {
