@@ -8,7 +8,7 @@ public record TerritoireEtoileRequestParametizer(String code,
                                                  Class<?> typeOrigine,
                                                  String filtreNom,
                                                  String chefLieu,
-                                                 boolean com) implements ParametersForQuery<fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer> {
+                                                 boolean com) implements ParametersForQuery<TerritoireRequestParametizer> {
 
     //for geo/departements, arrondissements, arrondissementsMunicipaux,
     public TerritoireEtoileRequestParametizer(String date,
