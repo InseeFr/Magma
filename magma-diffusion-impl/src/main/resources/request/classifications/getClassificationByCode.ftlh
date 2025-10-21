@@ -8,9 +8,9 @@ WHERE {
 
 	?poste a skos:Concept ; skos:notation "${code}" ; skos:notation ?notation ; skos:prefLabel ?label .
 
-	FILTER( REPLACE( STR(?nomenclature), '^http://id.insee.fr/codes/([^/]+).*$','$1' ) = "${classification}" )
+	FILTER( REPLACE( STR(?nomenclature), '^http://id.insee.fr/codes/([^/]+).*$','$1' ) = "${nomenclature}" )
 
-	FILTER( REPLACE( STR(?niveau), '^.+/([^/]+)$','$1' ) = "${level}" )
+	FILTER( REPLACE( STR(?niveau), '^.+/([^/]+)$','$1' ) = "${niveau}" )
 
 	FILTER( LANG(?label) = 'fr' )
 

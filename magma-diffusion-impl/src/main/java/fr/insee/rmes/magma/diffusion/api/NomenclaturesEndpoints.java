@@ -16,9 +16,9 @@ public class NomenclaturesEndpoints implements NomenclaturesApi {
     }
 
     @Override
-    public ResponseEntity<Nomenclature> getClassificationByCode(String classification, String level, String code){
+    public ResponseEntity<Nomenclature> getClassificationByCode(String nomenclature, String niveau, String code){
         return requestProcessor.queryToFindClassification()
-                .with(new ClassificationRequestParametizer(classification, level, code))
+                .with(new ClassificationRequestParametizer(nomenclature, niveau, code))
                 .executeQuery()
                 .singleResult(Nomenclature.class)
                 .toResponseEntity();
