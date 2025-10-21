@@ -4,6 +4,7 @@ package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 import fr.insee.rmes.magma.diffusion.api.GeoArrondissementMunipalEndpoints;
 import fr.insee.rmes.magma.diffusion.model.ArrondissementMunicipal;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,6 +39,7 @@ public class GeoArrondissementMunicipalQueriesTest extends TestcontainerTest {
     void should_return_11_territoires_when_ArrondissementMunicipalCodeAscendants_code13202_date20250904_typeNull(){
         var response  = endpoints.getcogarrmuasc("13202", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         assertEquals(11, result.size());
 
         // Vérifie le premier élément (AireDAttractionDesVilles2020)
@@ -65,9 +68,10 @@ public class GeoArrondissementMunicipalQueriesTest extends TestcontainerTest {
 
 //    geo/arrondissementMunicipal/69385?date=2025-09-04
     @Test
-    void should_return_ArrondissementMunicipal_When_code69385_date20250904() throws Exception {
+    void should_return_ArrondissementMunicipal_When_code69385_date20250904() {
         var response = endpoints.getcogarrmu("69385", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         assertEquals("69385", result.getCode());
         assertEquals("http://id.insee.fr/geo/arrondissementMunicipal/cd9f4663-684c-455d-b62e-39e51c6fad99", result.getUri());
         assertEquals(ArrondissementMunicipal.TypeEnum.ARRONDISSEMENT_MUNICIPAL, result.getType());
@@ -96,6 +100,7 @@ public class GeoArrondissementMunicipalQueriesTest extends TestcontainerTest {
     void should_return_45_arrondissementsMunicipaux_when_ArrondissementsMunicipaux_date20250904(){
         var response  = endpoints.getcogarrmuliste ("2025-09-04");
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(45, result.size());
         assertEquals("13201", resultItem1.getCode());
@@ -121,6 +126,7 @@ public class GeoArrondissementMunicipalQueriesTest extends TestcontainerTest {
 void should_return_45_arrondissementsMunicipaux_when_ArrondissementsMunicipaux_dateEtoile(){
     var response  = endpoints.getcogarrmuliste ("2025-09-04");
     var result = response.getBody();
+    Assertions.assertNotNull(result);
     var resultItem1= result.getFirst();
     assertEquals(45, result.size());
     assertEquals("13201", resultItem1.getCode());
@@ -150,6 +156,7 @@ void should_return_45_arrondissementsMunicipaux_when_ArrondissementsMunicipaux_d
     void should_return_1_arrondissementMunicipal_when_ArrondissementMunicipalCodePrecedents_code69385_date20250904(){
         var response  = endpoints.getcogarrmuprec ("69385", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertEquals("69385", resultItem1.getCode());
@@ -179,6 +186,7 @@ void should_return_45_arrondissementsMunicipaux_when_ArrondissementsMunicipaux_d
     void should_return_2_arrondissementsMunicipaux_when_ArrondissementMunicipalCodeProjetes_code69385_date19600101_dateProjection20111231(){
         var response  = endpoints.getcogarrmuproj ("69385", LocalDate.of(2011,12,31), LocalDate.of(1950,1,1));
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(2, result.size());
         assertEquals("69385", resultItem1.getCode());
@@ -208,6 +216,7 @@ void should_return_45_arrondissementsMunicipaux_when_ArrondissementsMunicipaux_d
     void should_return_2_arrondissementsMunicipaux_when_ArrondissementMunicipalCodeSuivants_code69385_date19600101(){
         var response  = endpoints.getcogarrmusuiv ("69385", LocalDate.of(1960,1,1));
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(2, result.size());
         assertEquals("69385", resultItem1.getCode());

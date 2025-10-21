@@ -3,6 +3,7 @@ package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 import fr.insee.rmes.magma.diffusion.api.GeoCirconscriptionTerritorialeEndpoints;
 import fr.insee.rmes.magma.diffusion.model.CirconscriptionTerritoriale;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,6 +38,7 @@ public class GeoCirconscriptionTerritorialeQueriesTest extends TestcontainerTest
     void should_return_1_circonscriptionTerritoriale_when_CirconscriptionTerritorialeCodeAscendants_code98611_date20250904_typeNull(){
         var response  = endpoints.getcogcirasc("98611", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertEquals("986", resultItem1.getCode());
@@ -67,6 +70,7 @@ public class GeoCirconscriptionTerritorialeQueriesTest extends TestcontainerTest
     void should_return_circonscriptionTerritorialeCode_98611_when_code98611_date20250904() {
         var response  = endpoints.getcogcir("98611", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         assertEquals("98611", result.getCode());
         assertEquals("http://id.insee.fr/geo/circonscriptionTerritoriale/31f556e9-55e5-4e48-9dac-2d8113fa609e", result.getUri());
         assertEquals(CirconscriptionTerritoriale.TypeEnum.CIRCONSCRIPTION_TERRITORIALE, result.getType());

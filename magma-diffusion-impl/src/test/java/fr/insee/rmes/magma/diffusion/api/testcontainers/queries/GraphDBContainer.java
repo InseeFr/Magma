@@ -1,11 +1,11 @@
 package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
-import org.testcontainers.containers.Container;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.MountableFile;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GraphDBContainer extends GenericContainer<GraphDBContainer> {
     public static final String DOCKER_ENTRYPOINT_INITDB = "/docker-entrypoint-initdb";
@@ -58,7 +58,7 @@ public class GraphDBContainer extends GenericContainer<GraphDBContainer> {
     }
 
     private void assertThatFileExists(String file) throws IOException, InterruptedException {
-        Container.ExecResult lsResult = execInContainer("ls", "-al", DOCKER_ENTRYPOINT_INITDB);
+        ExecResult lsResult = execInContainer("ls", "-al", DOCKER_ENTRYPOINT_INITDB);
         String stdout = lsResult.getStdout();
         assertThat(stdout).withFailMessage("Expecting file %1$s to be in folder %2$s of container", file, DOCKER_ENTRYPOINT_INITDB).contains(file);
     }

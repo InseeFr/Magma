@@ -1,7 +1,9 @@
 package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.GeoCommuneAssocieeEndpoints;
-import fr.insee.rmes.magma.diffusion.model.*;
+import fr.insee.rmes.magma.diffusion.model.CommuneAssociee;
+import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
+import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCommuneAssociee;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,6 +40,7 @@ public class GeoCommuneAssocieeQueriesTest extends TestcontainerTest {
     void should_return_10_territoires_when_CommuneAssocieeCodeAscendants_code59355_date20250904_typeNull(){
         var response  = endpoints.getcogcomaasc("59355", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
                 () -> assertEquals(10, result.size()),
@@ -56,6 +60,7 @@ public class GeoCommuneAssocieeQueriesTest extends TestcontainerTest {
 void should_return_1_departement_when_CommuneAssocieesCodeAscendants_code59355_date20250904_typeDepartement(){
     var response  = endpoints.getcogcomaasc("59355", LocalDate.of(2025, 9, 4), TypeEnumAscendantsCommuneAssociee.DEPARTEMENT);
     var result = response.getBody();
+    Assertions.assertNotNull(result);
     var resultItem1= result.getFirst();
     assertAll(
             () -> assertEquals(1, result.size()),
@@ -80,17 +85,15 @@ void should_return_1_departement_when_CommuneAssocieesCodeAscendants_code59355_d
         void should_return_communeCode_59355_when_code59355_date20250904() {
             var response  = endpoints.getcogcoma("59355", LocalDate.of(2025, 9, 4));
             var result = response.getBody();
+            Assertions.assertNotNull(result);
             assertAll(
-                    () -> {
-                        Assertions.assertNotNull(result);
-                        assertEquals("59355", result.getCode());
-                    },
-                    () -> assertEquals("http://id.insee.fr/geo/communeAssociee/84564ad2-a211-4744-9e01-1bb1900e2e68", result.getUri()),
-                    () -> assertEquals(CommuneAssociee.TypeEnum.COMMUNE_ASSOCIEE, result.getType()),
-                    () -> assertEquals(LocalDate.of(2000,2,27), result.getDateCreation()),
-                    () -> assertEquals("Lomme", result.getIntituleSansArticle()),
-                    () -> assertEquals(CommuneAssociee.TypeArticleEnum._0, result.getTypeArticle()),
-                    () -> assertEquals("Lomme", result.getIntitule())
+                () -> assertEquals("59355", result.getCode()),
+                () -> assertEquals("http://id.insee.fr/geo/communeAssociee/84564ad2-a211-4744-9e01-1bb1900e2e68", result.getUri()),
+                () -> assertEquals(CommuneAssociee.TypeEnum.COMMUNE_ASSOCIEE, result.getType()),
+                () -> assertEquals(LocalDate.of(2000,2,27), result.getDateCreation()),
+                () -> assertEquals("Lomme", result.getIntituleSansArticle()),
+                () -> assertEquals(CommuneAssociee.TypeArticleEnum._0, result.getTypeArticle()),
+                () -> assertEquals("Lomme", result.getIntitule())
             );
         }
 
@@ -114,6 +117,7 @@ void should_return_1_departement_when_CommuneAssocieesCodeAscendants_code59355_d
         void should_return_475_communesAssociees_when_CommunesAssociees_date20250904() {
             var response  = endpoints.getcogcomaliste("2025-09-04");
             var result = response.getBody();
+            Assertions.assertNotNull(result);
             var resultItem1= result.getFirst();
 
             assertAll(
@@ -134,6 +138,7 @@ void should_return_1_departement_when_CommuneAssocieesCodeAscendants_code59355_d
     void should_return_1046_communesAssociees_when_CommunesAssociees_dateEtoile(){
         var response  = endpoints.getcogcomaliste ("*");
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1046, result.size());
         assertAll(
