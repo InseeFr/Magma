@@ -13,22 +13,28 @@ import java.util.List;
 
 import static fr.insee.rmes.magma.diffusion.queries.QueryBuilder.*;
 
-
 @Component
 public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilder queryBuilder, QueryExecutor queryExecutor,
                                Unmarshaller unmarshaller) {
 
     // Peut-être renommer les query en queryToFind et non en forFind
 
+    public QueryBuilder queryToFindClassification(){
+        return new QueryBuilder(NOMENCLATURE, this);
+    }
+
     public QueryBuilder queryToFindConcept(){
         return new QueryBuilder(CONCEPT,this);
     }
+
     public QueryBuilder queryToFindNearbyConcepts() {
         return new QueryBuilder(NEARBY_CONCEPTS,this);
     }
+
     public QueryBuilder queryToFindConcepts(){
         return new QueryBuilder(CONCEPTS,this);
     }
+
     public QueryBuilder queryforFindAscendantsDescendants() {
         return new QueryBuilder(ASCENDANTS_OR_DESCENDANTS, this);
     }
@@ -81,9 +87,6 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
         return new QueryBuilder(PAYS_SUIVANTS, this);
     }
 
-
-
-
     public record QueryBuilder(String queryPath, RequestProcessor requestProcessor) {
         public ExecutableQuery with(AscendantsDescendantsRequestParametizer ascendantsDescendantsRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(ascendantsDescendantsRequestParametizer.toParameters(), queryPath), requestProcessor);
@@ -100,25 +103,32 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
         public ExecutableQuery with(PrecedentsSuivantsRequestParametizer precedentsRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(precedentsRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
+
         public ExecutableQuery with(ConceptRequestParametizer conceptRequestParametizer) {
             return new ExecutableQuery(
                     requestProcessor.queryBuilder().build(conceptRequestParametizer.toParameters(), queryPath),
                     requestProcessor
             );
         }
+
         public ExecutableQuery with(ConceptsNearbyRequestParametizer conceptSuivantRequestParametizer) {
             return new ExecutableQuery(
                     requestProcessor.queryBuilder().build(conceptSuivantRequestParametizer.toParameters(), queryPath),
                     requestProcessor
             );
         }
+
         public ExecutableQuery with(ProjetesRequestParametizer projetesRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(projetesRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
 
+        public ExecutableQuery with(ClassificationRequestParametizer classificationRequestParametizer) {
+            return new ExecutableQuery(
+                    requestProcessor.queryBuilder().build(classificationRequestParametizer.toParameters(), queryPath),
+                    requestProcessor
+            );
+        }
     }
-
-
 
     public record ExecutableQuery(Query query, RequestProcessor requestProcessor) {
         public QueryResult executeQuery() {
@@ -138,12 +148,9 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
         public <E> SingleResult<E> singleResult(Class<E> clazz) {
             return new SingleResult<>(requestProcessor.unmarshaller().unmarshalOrNull(csv, clazz));
         }
-
-
     }
 
     public record ListResult<E>(List<E> result) {
-
         public ResponseEntity<List<E>> toResponseEntity() {
             return EndpointsUtils.toResponseEntity(result);
         }
@@ -154,6 +161,5 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
             return EndpointsUtils.toResponseEntity(result);
         }
     }
-
 
 }

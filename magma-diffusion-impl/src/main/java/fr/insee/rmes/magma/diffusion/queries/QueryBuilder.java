@@ -30,7 +30,7 @@ public record QueryBuilder(Configuration freemarkerConfiguration) {
     public static final String DESCENDANTS_PAYS = "geographie/getPaysDescendants.ftlh";
     public static final String PAYS_PRECEDENTS = "geographie/getPaysPrecedents.ftlh";
     public static final String PAYS_SUIVANTS = "geographie/getPaysSuivants.ftlh";
-
+    public static final String NOMENCLATURE = "classifications/getClassificationByCode.ftlh";
 
     public Query build(Map<String, Object> parameters, String queryfile) {
         Template template;
@@ -44,5 +44,4 @@ public record QueryBuilder(Configuration freemarkerConfiguration) {
         }
         return new Query(out);
     }
-
 }
