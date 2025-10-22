@@ -293,5 +293,7 @@
         <module>magma-oas</module>
         <module>magma-diffusion-interface</module>
         <module>magma-diffusion-impl</module>
+        <module>magma-gestion-interface</module>
+        <module>magma-gestion-impl</module>
     </modules>
 </project>
