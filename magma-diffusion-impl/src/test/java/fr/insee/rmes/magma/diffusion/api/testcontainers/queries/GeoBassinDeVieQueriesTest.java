@@ -4,7 +4,6 @@ import fr.insee.rmes.magma.diffusion.api.GeoBassinDeVieEndpoints;
 import fr.insee.rmes.magma.diffusion.model.BassinDeVie2022;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsBassinDeVie;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,7 +40,6 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
         var response = endpoints.getcogbass("01004", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
 
-        Assertions.assertNotNull(result);
         assertEquals("01004", result.getCode());
         assertEquals("http://id.insee.fr/geo/bassinDeVie2022/0e5bcc78-f043-404d-92af-d3d660772675", result.getUri());
         assertEquals(BassinDeVie2022.TypeEnum.BASSIN_DE_VIE2022, result.getType());
@@ -69,7 +67,6 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
     void should_return_2_communes_when_BassinDeVie2022CodeDescendants_code35176_date20250904_typeCommune(){
         var response  = endpoints.getcogbassdes("35176", LocalDate.of(2025, 9, 4), TypeEnumDescendantsBassinDeVie.COMMUNE);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(2, result.size());
         assertEquals("35155", resultItem1.getCode());
@@ -86,7 +83,6 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
     void should_return_2_communes_when_BassinDeVie2022CodeDescendants_code35176_date20250904(){
         var response  = endpoints.getcogbassdes("35176", LocalDate.of(2025, 9, 4), TypeEnumDescendantsBassinDeVie.COMMUNE);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(2, result.size());
         assertEquals("35155", resultItem1.getCode());
@@ -109,11 +105,10 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
     void should_return_1_bassinDeVie2022_when_BassinsDeVie2022_date20250904_filtreNomAmberieuEnBugey() {
         var response = endpoints.getcogbassliste("2025-09-04","Amberieu-en-Bugey");
         var result = response.getBody();
-        Assertions.assertNotNull(result);
         var resultItem1 = result.getFirst();
 
         // Vérification du nombre total de bassins de vie
-        assertEquals(1, result.size()); // Remplacez 1254 par le nombre réel attendu
+        assertEquals(1, result.size());
 
         assertEquals("01004", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/bassinDeVie2022/0e5bcc78-f043-404d-92af-d3d660772675", resultItem1.getUri());
@@ -129,7 +124,6 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
     void should_return_1735_bassinDeVie2022_when_BassinsDeVie2022_date20250904_filtreNomNull() {
         var response = endpoints.getcogbassliste("*",null);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
         var resultItem1 = result.getFirst();
 
         // Vérification du nombre total de bassins de vie

@@ -27,10 +27,10 @@ public record TerritoireEtoileRequestParametizer(String code,
 
     //for geo/communes, geo/bassinsDeVie2022
     public TerritoireEtoileRequestParametizer(String date,
-                                        Class<?> typeOrigine,
-                                        String filtreNom,
-                                        String chefLieu,
-                                        boolean com) {
+                                              Class<?> typeOrigine,
+                                              String filtreNom,
+                                              String chefLieu,
+                                              boolean com) {
         this("none", date, typeOrigine, filtreNom, chefLieu, com);
     }
 

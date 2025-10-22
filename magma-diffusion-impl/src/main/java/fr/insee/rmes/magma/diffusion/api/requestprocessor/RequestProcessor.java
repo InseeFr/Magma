@@ -20,65 +20,65 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
 
     // Peut-être renommer les query en queryToFind et non en forFind
 
-    public RequestProcessor.QueryBuilder queryToFindConcept(){
-        return new RequestProcessor.QueryBuilder(CONCEPT,this);
+    public QueryBuilder queryToFindConcept(){
+        return new QueryBuilder(CONCEPT,this);
     }
-    public RequestProcessor.QueryBuilder queryToFindNearbyConcepts() {
-        return new RequestProcessor.QueryBuilder(NEARBY_CONCEPTS,this);
+    public QueryBuilder queryToFindNearbyConcepts() {
+        return new QueryBuilder(NEARBY_CONCEPTS,this);
     }
-    public RequestProcessor.QueryBuilder queryToFindConcepts(){
-        return new RequestProcessor.QueryBuilder(CONCEPTS,this);
+    public QueryBuilder queryToFindConcepts(){
+        return new QueryBuilder(CONCEPTS,this);
     }
-    public RequestProcessor.QueryBuilder queryforFindAscendantsDescendants() {
-        return new RequestProcessor.QueryBuilder(ASCENDANTS_OR_DESCENDANTS, this);
-    }
-
-    public RequestProcessor.QueryBuilder queryforFindPrecedentsSuivants() {
-        return new RequestProcessor.QueryBuilder(PRECEDENTS, this);
+    public QueryBuilder queryforFindAscendantsDescendants() {
+        return new QueryBuilder(ASCENDANTS_OR_DESCENDANTS, this);
     }
 
-    public RequestProcessor.QueryBuilder queryforFindProjetes() {
-        return new RequestProcessor.QueryBuilder(PROJETES, this);
+    public QueryBuilder queryforFindPrecedentsSuivants() {
+        return new QueryBuilder(PRECEDENTS, this);
     }
 
-    public RequestProcessor.QueryBuilder queryforFindTerritoire() {
-        return new RequestProcessor.QueryBuilder(TERRITOIRE, this);
+    public QueryBuilder queryforFindProjetes() {
+        return new QueryBuilder(PROJETES, this);
     }
 
-    public RequestProcessor.QueryBuilder queryforFindIris() {
-        return new RequestProcessor.QueryBuilder(IRIS, this);
+    public QueryBuilder queryforFindTerritoire() {
+        return new QueryBuilder(TERRITOIRE, this);
     }
 
-    public RequestProcessor.QueryBuilder queryToFindIrisList() {
-        return new RequestProcessor.QueryBuilder(IRIS_LIST, this);
+    public QueryBuilder queryToFindIrisAndFauxIris() {
+        return new QueryBuilder(IRIS_FAUX_IRIS, this);
     }
 
-    public RequestProcessor.QueryBuilder queryToFindCantonsOfCommune() {
-        return new RequestProcessor.QueryBuilder(COMMUNE_CANTONS, this);
+    public QueryBuilder queryToFindIrisList() {
+        return new QueryBuilder(IRIS_LIST, this);
     }
 
-    public RequestProcessor.QueryBuilder queryToFindCommunesOfCanton() {
-        return new RequestProcessor.QueryBuilder(CANTON_COMMUNES, this);
+    public QueryBuilder queryToFindCantonsOfCommune() {
+        return new QueryBuilder(COMMUNE_CANTONS, this);
     }
 
-    public RequestProcessor.QueryBuilder queryforFindIrisDescendantsCommune() {
-        return new RequestProcessor.QueryBuilder(LIEN_COMMUNE_IRIS, this);
+    public QueryBuilder queryToFindCommunesOfCanton() {
+        return new QueryBuilder(CANTON_COMMUNES, this);
     }
 
-    public RequestProcessor.QueryBuilder queryforFindPays() {
-        return new RequestProcessor.QueryBuilder(LIEN_PAYS, this);
+    public QueryBuilder queryToFindIrisDescendantsCommune() {
+        return new QueryBuilder(LIEN_COMMUNE_IRIS, this);
     }
 
-    public RequestProcessor.QueryBuilder queryforFindDescendantsPays() {
-        return new RequestProcessor.QueryBuilder(DESCENDANTS_PAYS, this);
+    public QueryBuilder queryforFindPays() {
+        return new QueryBuilder(LIEN_PAYS, this);
     }
 
-    public RequestProcessor.QueryBuilder queryforFindPaysPrecedents() {
-        return new RequestProcessor.QueryBuilder(PAYS_PRECEDENTS, this);
+    public QueryBuilder queryforFindDescendantsPays() {
+        return new QueryBuilder(DESCENDANTS_PAYS, this);
     }
 
-    public RequestProcessor.QueryBuilder queryforFindPaysSuivants() {
-        return new RequestProcessor.QueryBuilder(PAYS_SUIVANTS, this);
+    public QueryBuilder queryforFindPaysPrecedents() {
+        return new QueryBuilder(PAYS_PRECEDENTS, this);
+    }
+
+    public QueryBuilder queryforFindPaysSuivants() {
+        return new QueryBuilder(PAYS_SUIVANTS, this);
     }
 
 
@@ -116,9 +116,6 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
             return new ExecutableQuery(requestProcessor.queryBuilder().build(projetesRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
 
-
-        public ExecutableQuery with(IrisListRequestParametizer irisListRequestParametizer) {
-            return new ExecutableQuery(requestProcessor.queryBuilder().build(irisListRequestParametizer.toParameters(), queryPath), requestProcessor);}
     }
 
 
@@ -128,9 +125,10 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
             return new QueryResult(requestProcessor.queryExecutor().execute(query), requestProcessor);
         }
 
+        public Boolean executeAskQuery() {
+            return requestProcessor.queryExecutor().executeAskQuery(query);
+        }
     }
-
-
 
     public record QueryResult(Csv csv, RequestProcessor requestProcessor) {
         public <E> ListResult<E> listResult(Class<E> clazz) {
@@ -139,11 +137,6 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
 
         public <E> SingleResult<E> singleResult(Class<E> clazz) {
             return new SingleResult<>(requestProcessor.unmarshaller().unmarshalOrNull(csv, clazz));
-        }
-
-        public <E> ListeResultatsIris<E> listeResultatsIris(Class<E> clazz) {
-            List<E> list = requestProcessor.unmarshaller().unmarshalList(csv, clazz);
-            return new ListeResultatsIris<>(list);
         }
 
 
@@ -157,26 +150,10 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
     }
 
     public record SingleResult<E>(E result) {
-        //        public ResponseEntity<E> toResponseEntity() {return new ResponseEntity<>(result, HttpStatus.OK);}
         public ResponseEntity<E> toResponseEntity() {
             return EndpointsUtils.toResponseEntity(result);
         }
     }
 
-
-    public record ListeResultatsIris<E>(List<E> result) {
-        public boolean contains(String value) {
-            return result.stream().anyMatch(item -> item.toString().equals(value));
-        }
-
-        public ListeResultatsIris(List<E> result) {
-            this.result = result;
-        }
-
-        public List<E> getList() {
-            return result;
-        }
-
-    }
 
 }

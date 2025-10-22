@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.String;
 import java.util.Map;
 
 @Component
@@ -24,8 +23,7 @@ public record QueryBuilder(Configuration freemarkerConfiguration) {
     public static final String CANTON_COMMUNES = "geographie/getCantonCommunesByCodeDate.ftlh";
     public static final String PRECEDENTS = "geographie/getPreviousOrNextByCodeTypeDate.ftlh";
     public static final String PROJETES = "geographie/getProjectionByCodeTypeDate.ftlh";
-    //    public static final String IRIS = "geographie/getIrisByCodeDate.ftlh";
-    public static final String IRIS = "geographie/getTerritoireByCodeDateNomCommune.ftlh";
+    public static final String IRIS_FAUX_IRIS = "geographie/getIrisByCodeDate.ftlh";
     public static final String IRIS_LIST = "geographie/getIrisList.ftlh";
     public static final String LIEN_COMMUNE_IRIS = "geographie/hasIrisDescendant.ftlh";
     public static final String LIEN_PAYS = "geographie/getPays.ftlh";

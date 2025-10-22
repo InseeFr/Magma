@@ -4,8 +4,8 @@ import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.diffusion.model.Commune;
 import fr.insee.rmes.magma.diffusion.model.Iris;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
-import fr.insee.rmes.magma.diffusion.queries.parameters.IrisListRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer;
+import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,39 +24,44 @@ public class GeoIrisEndpoints implements GeoIrisApi {
 
     @Override
     public ResponseEntity<Iris> getcogiris(String code, LocalDate date) {
-        //cf carte https://github.com/orgs/InseeFr/projects/9/views/5?filterQuery=-application%3AColectica+-scope%3Atechnique+iris&pane=issue&itemId=49451501&issue=InseeFr%7CMetadata-API%7C103
-        String code_commune=code.substring(0, 5);
-//        RequestProcessor.ListResult<String> types = requestProcessor.queryforFindIrisDescendantsCommune()
-//               .with(new TerritoireRequestParametizer(code_commune, Commune.class))
-//               .executeQuery().listResult(String.class);
+        String codeCommune = code.substring(0, 5);
+        boolean comHasIrisDescendant = requestProcessor.queryToFindIrisDescendantsCommune()
+                .with(new TerritoireRequestParametizer(codeCommune, date))
+                .executeAskQuery();
 
-        // Exécuter la requête et obtenir le résultat
-        RequestProcessor.ListeResultatsIris<String> types = requestProcessor.queryforFindIrisDescendantsCommune()
-                .with(new TerritoireRequestParametizer(code_commune, Commune.class))
-                .executeQuery()
-                .listeResultatsIris(String.class);
-//plante à la méthode unmarshallAll'
+        if (comHasIrisDescendant){
 
-        // Obtenir la liste des résultats
-        List<String> typeList = types.getList();
-
-//condition à mettre : si l'un des types de la liste finit par "#Iris\r\n", cf https://github.com/InseeFr/Metadata-API/blob/main/src/main/java/fr/insee/rmes/utils/IrisUtils.java#L8
-        boolean containsIris = typeList.contains("http://rdf.insee.fr/def/geo#Iris");
-
-
-//bloc de fin pour que ça compile mais à revoir
-        return requestProcessor.queryforFindIris()
-                .with(new TerritoireRequestParametizer(code, date, Iris.class, "none"))
-                .executeQuery()
-                .singleResult(Iris.class)
-                .toResponseEntity();
+            if (!code.endsWith("0000")) {
+            Iris iris = requestProcessor.queryToFindIrisAndFauxIris()
+                    .with(new TerritoireRequestParametizer(code, date))
+                    .executeQuery()
+                    .singleResult(Iris.class).result();
+            return EndpointsUtils.toResponseEntity(iris);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        }
+        else { //it is a false-Iris
+            if (!code.endsWith("0000")) {
+                return ResponseEntity.notFound().build();
+            }
+            else {//return the COMMUNE
+                Iris iris = requestProcessor.queryforFindTerritoire()
+                        .with(new TerritoireRequestParametizer(codeCommune, date, Commune.class, "none"))
+                        .executeQuery()
+                        .singleResult(Iris.class).result();
+                iris.setCode(code); //modify code property to have in output the Iris code and not the commune code
+            return EndpointsUtils.toResponseEntity(iris);
+            }
+        }
     }
+
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogirislist (LocalDate date, Boolean com) {
         boolean finalcom = (com != null) && com;
         return requestProcessor.queryToFindIrisList()
-                .with(new IrisListRequestParametizer(date, finalcom))
+                .with(new TerritoireRequestParametizer(date, finalcom))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
