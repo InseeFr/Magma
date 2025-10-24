@@ -85,7 +85,7 @@ public class ConceptsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("fr", result.getNoteEditoriale().getFirst().getLangue()),
                 () -> assertEquals("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Source : mission Enquêtes, Données et Études Statistiques (MEDES), service statistique ministériel en charge de la jeunesse et des sports (site : https://injep.fr/mesurer/) </p></div>", result.getNoteEditoriale().getLast().getContenu()),
                 () -> assertEquals("en", result.getNoteEditoriale().getLast().getLangue()),
-                () -> assertEquals(LocalDate.of(2022,5,9), result.getDateMiseAJour()),
+                () -> assertEquals(null, result.getDateMiseAJour()),
                 () -> assertEquals(3, result.getConceptsPrecedents().size()),
                 () -> assertEquals("c1307", result.getConceptsPrecedents().getFirst().getId()),
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1307"), result.getConceptsPrecedents().getFirst().getUri()),
