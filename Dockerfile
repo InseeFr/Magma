@@ -7,7 +7,7 @@ COPY ./magma-diffusion-interface ./magma-diffusion-interface
 COPY ./magma-oas ./magma-oas
 RUN chmod +x mvnw
 RUN apt update
-RUN apt install -Y dos2unix
+RUN apt install dos2unix
 RUN dos2unix mvnw
 RUN ./mvnw clean install -DskipTests=true
 
