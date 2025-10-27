@@ -6,10 +6,7 @@ COPY ./magma-diffusion-impl ./magma-diffusion-impl
 COPY ./magma-diffusion-interface ./magma-diffusion-interface
 COPY ./magma-oas ./magma-oas
 RUN chmod +x mvnw
-RUN apt update
-RUN apt install dos2unix
-RUN dos2unix mvnw
-RUN ./mvnw clean install -DskipTests=true
+RUN ./mvnw clean install -DskipTests=true -X
 
 FROM eclipse-temurin:21-jre-jammy
 
