@@ -67,6 +67,8 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
         return new QueryBuilder(CANTON_COMMUNES, this);
     }
 
+    public QueryBuilder queryToFindAscendantsFauxIris() { return new RequestProcessor.QueryBuilder(ASCENDANTS_FAUX_IRIS, this);
+    }
     public QueryBuilder queryToFindIrisDescendantsCommune() {
         return new QueryBuilder(LIEN_COMMUNE_IRIS, this);
     }
