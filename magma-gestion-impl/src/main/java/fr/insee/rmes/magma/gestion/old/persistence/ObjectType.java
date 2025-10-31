@@ -3,7 +3,7 @@ package fr.insee.rmes.magma.gestion.old.persistence;
 import fr.insee.rmes.magma.gestion.old.persistence.ontologies.*;
 import fr.insee.rmes.magma.gestion.old.utils.Constants;
 import fr.insee.rmes.magma.gestion.old.utils.config.Config;
-import fr.insee.rmes.persistence.ontologies.*;
+import fr.insee.rmes.magma.gestion.old.persistence.ontologies.*;
 import jakarta.annotation.PostConstruct;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.vocabulary.FOAF;

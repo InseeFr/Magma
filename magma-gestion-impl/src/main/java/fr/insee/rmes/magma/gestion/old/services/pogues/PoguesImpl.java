@@ -11,7 +11,7 @@ import fr.insee.rmes.magma.gestion.old.persistence.RdfService;
 import fr.insee.rmes.magma.gestion.old.utils.Constants;
 import fr.insee.rmes.magma.gestion.old.utils.config.Config;
 import fr.insee.rmes.magma.gestion.old.utils.exceptions.RmesException;
-import fr.insee.rmes.modelSwagger.operation.*;
+import fr.insee.rmes.magma.gestion.old.modelSwagger.operation.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.json.JSONArray;

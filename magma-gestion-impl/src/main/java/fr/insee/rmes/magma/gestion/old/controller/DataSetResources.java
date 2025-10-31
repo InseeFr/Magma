@@ -1,12 +1,12 @@
 package fr.insee.rmes.magma.gestion.old.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import fr.insee.rmes.magma.gestion.old.dto.datasets.PatchDatasetDTO;
+import fr.insee.rmes.magma.gestion.old.datasets.PatchDatasetDTO;
 import fr.insee.rmes.magma.gestion.old.model.datasets.Distributions;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.dataset.DataSetModelSwagger;
 import fr.insee.rmes.magma.gestion.old.services.datasets.DataSetsServices;
 import fr.insee.rmes.magma.gestion.old.utils.exceptions.RmesException;
-import fr.insee.security.UserDecoder;
+import fr.insee.rmes.magma.gestion.security.UserDecoder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
