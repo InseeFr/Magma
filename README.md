@@ -9,7 +9,7 @@ An API specification for accessing statistical metadata
 
 If you contribute to Magma-API, you may fall in troubles with IntelliJ because the modules [`magma-[diffusion|gestion|commons]-interface`](./interface)
 contains generated source code which can be ignored by IntelliJ and cause failures in `magma-[diffusion|gestion|commons]-impl` builds. To prevent this, 
-the directory `magma-[diffusion|gestion|commons]/target/generated-sources/openapi/src/main/java` must be marked as a _Generated Sources Root_. This can be done in two steps :
+the directory `magma-[diffusion|gestion|commons]-interface/target/generated-sources/openapi/src/main/java` must be marked as a _Generated Sources Root_. This can be done in two steps :
 1. Run maven clean then maven install for the whole project (all modules)
 2. Two possibilities. Either :
 - by executing the action "Reload All Maven Projects" : the directory is marked automatically
