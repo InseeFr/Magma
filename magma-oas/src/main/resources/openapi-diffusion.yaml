@@ -1738,6 +1738,25 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /geo/quartiersPrioritairesDeLaPolitiqueDeLaVille2024:
+    get:
+      tags:
+        - geoQuartierPrioritaireDeLaPolitiqueDeLaVille
+      summary: 'Informations sur tous les quartiers prioritaires de la politique de la ville actifs à la date donnée. Par défaut, c''est la date courante.'
+      operationId: 'getcogqpvliste'
+      parameters:
+        - $ref: '#/components/parameters/dateQPVActifs'
+      responses:
+        '200':
+          $ref: '#/components/responses/QuartiersPrioritairesDeLaPolitiqueDeLaVilleListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
 
   /geo/region/{code}:
     get:
@@ -1787,7 +1806,7 @@ paths:
     get:
       tags:
         - geoRegion
-      summary: 'Informations sur toutes les régions actives à la date données. Par défaut, c''est la date courante.'
+      summary: 'Informations sur toutes les régions actives à la date donnée. Par défaut, c''est la date courante.'
       operationId: 'getcogregliste'
       parameters:
         - $ref: '#/components/parameters/dateRegionsActives'
@@ -2779,6 +2798,14 @@ components:
       schema:
         type: 'string'
         format: date
+
+    dateQPVActifs:
+      in: query
+      description: |-
+        Filtre pour renvoyer les quartiers prioritaires de la politique de la ville actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+      name: date
+      schema:
+        $ref: "#/components/schemas/dateAvecEtoile"
 
     dateRegionActive:
       in: query
@@ -4381,8 +4408,18 @@ components:
         type: 'QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
         dateCreation: '2024-01-01'
         intituleSansArticle: 'Ville Centre'
-        typeArticle: 'x'
+        typeArticle: 'X'
         intitule: 'Ville Centre'
+
+    ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille:
+      value:
+        - code: 'QN00101M'
+          uri: 'http://id.insee.fr/geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024/40526c49-2c78-4856-a4ed-21714bf70cb9'
+          type: 'QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
+          dateCreation: '2024-01-1'
+          intituleSansArticle: 'Grande Reyssouze Terre Des Fleurs'
+          typeArticle: 'X'
+          intitule: 'Grande Reyssouze Terre Des Fleurs'
 
     Region:
       value:
@@ -5789,6 +5826,22 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
+
+    QuartiersPrioritairesDeLaPolitiqueDeLaVilleListe200:
+      description: 'Opération réussie pour les quartiers prioritaires de la politique de la ville'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
 
     Region200:
       description: 'Opération réussie pour la région'
@@ -7205,20 +7258,31 @@ components:
 
     CodeQPV:
       description: 'Code d''un quartier prioritaire de la politique de la ville'
-      pattern: '^QN(0[013-8][0-9]|02[0-9AB]|09[0-5]|97[1-6])\d{2}[NMI]$'
+      pattern: '^QN(0[013-8][0-9]|02[0-9AB]|09[0-5]|97[1-9]|98[1-9])\d{2}[NMI]$'
+#      In addition to the list of departments, there are also the QPV of 978 (Saint Martin) and 987 (Polynésie Française).
       type: string
       xml:
         attribute: true
       example: 'QN06255M'
 
     QuartierPrioritaireDeLaPolitiqueDeLaVille2024:
+      xml:
+        name: QuartierPrioritaireDeLaPolitiqueDeLaVille2024
       allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
-          xml:
-            name: QuartierPrioritaireDeLaPolitiqueDeLaVille2024
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeQPV'
+        - $ref: '#/components/schemas/TerritoireBase'
+      properties:
+        code:
+          $ref: '#/components/schemas/CodeQPV'
+
+    ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille:
+      description: 'Liste des quartiers prioritaires de la politique de la ville'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille
+      items:
+        $ref: '#/components/schemas/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
+
     Region:
       allOf:
         - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
