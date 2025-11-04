@@ -2757,7 +2757,7 @@ components:
     codeQPVInPath:
       name: 'code'
       in: path
-      description: 'Code du quartier prioritaire de la ville (QN + code département + une lettre parmi N, M, I)'
+      description: 'Code du quartier prioritaire de la ville (QN + code département sur 3 positions + une lettre parmi N, M, I)'
       required: true
       schema:
         $ref: '#/components/schemas/CodeQPV'
@@ -6341,7 +6341,7 @@ components:
 
     CodeDep:
       description: 'Code d''un département'
-      pattern: '([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])'
+      pattern: '[013-8][0-9]|2[0-9AB]|9[0-5]|97[1-6]'
       type: string
       xml:
         attribute: true
@@ -7205,7 +7205,7 @@ components:
 
     CodeQPV:
       description: 'Code d''un quartier prioritaire de la politique de la ville'
-      pattern: '^QN0(([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6]))\d{2}[NMI]$'
+      pattern: '^QN(0[013-8][0-9]|02[0-9AB]|09[0-5]|97[1-6])\d{2}[NMI]$'
       type: string
       xml:
         attribute: true

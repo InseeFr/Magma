@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 
 @RestController
-
 public class GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints implements GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleApi {
 
     private final RequestProcessor requestProcessor;
