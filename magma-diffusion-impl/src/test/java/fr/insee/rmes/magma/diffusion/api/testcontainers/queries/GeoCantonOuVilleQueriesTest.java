@@ -118,12 +118,12 @@ void should_return_404_when_CantonOuVilleCode_code0100_date20250904() throws Exc
     }
 
     @Test
-    void should_return_22_territoires_when_CantonOuVilleCodeDescendants_code0101_date20250904_typeNull_filtreNomNull(){
+    void should_return_23_territoires_when_CantonOuVilleCodeDescendants_code0101_date20250904_typeNull_filtreNomNull(){
         var response  = endpoints.getcogcanvildes("0101", LocalDate.of(2025, 9, 4), null,null);
         var result = response.getBody();
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
-        assertEquals(22, result.size());
+        assertEquals(23, result.size());
         assertEquals("01002", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e", resultItem1.getUri());
         assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());

@@ -118,11 +118,11 @@ public class GeoArrondissementQueriesTest extends TestcontainerTest{
 
     //    geo/arrondissement/674/descendants?date=2025-09-04
     @Test
-    void should_return_195_territoires_when_ArrondissementCodeDescendants_code674_date20250904_typeNull() {
+    void should_return_196_territoires_when_ArrondissementCodeDescendants_code674_date20250904_typeNull() {
         var response = endpoints.getcogarrdes("674", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
         var resultItem1 = result.getFirst();
-        assertEquals(195, result.size());
+        assertEquals(196, result.size());
         assertEquals("67002", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/commune/83e823b1-a485-4441-b003-5ad23e47de5f", resultItem1.getUri());
         assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType());

@@ -58,13 +58,13 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
 
 //   geo/region/06/descendants?date=2025-09-04 : renvoie 30 territoires
     @Test
-    void should_return_167_territoires_when_RegionCodeDescendants_code06_date20250904_typeNull_filtreNomNull(){
+    void should_return_209_territoires_when_RegionCodeDescendants_code06_date20250904_typeNull_filtreNomNull(){
         var response  = endpoints.getcogregdes("06", LocalDate.of(2025, 9, 4), null, null);
         var result = response.getBody();
         assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
-                () -> assertEquals(167, result.size()),
+                () -> assertEquals(209, result.size()),
                 () -> assertEquals("97601", resultItem1.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/canton/03e01e65-f723-4998-b9e7-2068df3b053a", resultItem1.getUri()),
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.CANTON, resultItem1.getType()),

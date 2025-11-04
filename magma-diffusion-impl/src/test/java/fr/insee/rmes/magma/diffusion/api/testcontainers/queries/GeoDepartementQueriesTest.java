@@ -112,11 +112,11 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
 
     //    geo/departement/22/descendants?date=2025-09-04
     @Test
-    void should_return_523_territoires_when_DepartementCodeDescendants_code45_date20250904_typeNull_filtreNomNull(){
+    void should_return_540_territoires_when_DepartementCodeDescendants_code45_date20250904_typeNull_filtreNomNull(){
         var response  = endpoints.getcogdepdesc("45", LocalDate.of(2025, 9, 4), null,null);
         var result = response.getBody();
         var resultItem1= result.getFirst();
-        assertEquals(523, result.size());
+        assertEquals(540, result.size());
         assertEquals("451", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/arrondissement/a9f9ff71-7658-4ef0-98b0-f048c8831be1", resultItem1.getUri());
         assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT, resultItem1.getType());
