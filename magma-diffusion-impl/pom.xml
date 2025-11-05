@@ -9,7 +9,7 @@
         <version>magma-refactored-0.1-rc0</version> <!-- Hérite de la propriété du parent -->
     </parent>
 
-    <artifactId>magma-diffusion</artifactId>
+    <artifactId>magma-diffusion-impl</artifactId>
 
     <packaging>jar</packaging>
 

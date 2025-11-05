@@ -19,7 +19,7 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.projectKey>InseeFr_Magma</sonar.projectKey>
     </properties>
-    <artifactId>magma-gestion</artifactId>
+    <artifactId>magma-gestion-impl</artifactId>
 
     <packaging>jar</packaging>
 

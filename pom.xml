@@ -52,6 +52,44 @@
     <dependencyManagement>
 
         <dependencies>
+            <!-- Modules de Magma -->
+            <dependency>
+                <groupId>fr.insee.rmes</groupId>
+                <artifactId>magma-gestion-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.insee.rmes</groupId>
+                <artifactId>magma-diffusion-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.insee.rmes</groupId>
+                <artifactId>magma-diffusion-interface</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.insee.rmes</groupId>
+                <artifactId>magma-gestion-interface</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.insee.rmes</groupId>
+                <artifactId>magma-commons-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.insee.rmes</groupId>
+                <artifactId>magma-commons-interface</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.insee.rmes</groupId>
+                <artifactId>magma-oas</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
@@ -295,5 +333,8 @@
         <module>magma-diffusion-impl</module>
         <module>magma-gestion-interface</module>
         <module>magma-gestion-impl</module>
+        <module>magma-commons-impl</module>
+        <module>magma-commons-interface</module>
+        <module>magma-app</module>
     </modules>
 </project>
