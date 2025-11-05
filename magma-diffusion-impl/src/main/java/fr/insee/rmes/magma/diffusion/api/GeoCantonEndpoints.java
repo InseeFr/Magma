@@ -71,9 +71,9 @@ public class GeoCantonEndpoints implements GeoCantonApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanproj(String code, LocalDate dateProjection, LocalDate date) {
-        //le booléen previous est calculé en fonction du paramètre dateProjection (paramètre obligatoire) et du paramètre date valorisé à la date du jour si absent
-        // (facultatif). La valorisation de date à la date du jour dans ParameterValueDecoder n'est pas conservée en dehors de la méthode
-        // => obligé de valoriser date ici aussi
+        //The Boolean previous is based on the dateProjection parameter (required parameter) and on the date parameter set to today's date if absent
+        // (optional). Setting the date to today's date in ParameterValueDecoder is not retained outside the method
+        // => must set the date here as well
         if (date == null) {
             date = LocalDate.now();
         }
