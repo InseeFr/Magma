@@ -57,7 +57,7 @@ class GeoQuartiersPrioritairesDeLaPolitiqueDeLaVilleTest extends TestcontainerTe
 //    geo/quartiersPrioritairesDeLaPolitiqueDeLaVille2024?date=2025-09-04//
     @Test
     void should_return_1609_QPV_when_quartierPrioritaireDeLaPolitiqueDeLaVille2024_date20250904() {
-        var response  = endpoints.getcogqpvliste("2025-09-04");
+        var response  = endpoints.getcogqpvliste(LocalDate.of(2025,9,4));
         var result = response.getBody();
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
@@ -73,25 +73,5 @@ class GeoQuartiersPrioritairesDeLaPolitiqueDeLaVilleTest extends TestcontainerTe
                 () -> assertEquals("Grande Reyssouze Terre Des Fleurs", resultItem1.getIntitule())
         );
     }
-
-//    geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024?date=*
-    @Test
-    void should_return_1609_QPV_when_quartiersPrioritairesDeLaPolitiqueDeLaVille2024_dateEtoile() {
-        var response = endpoints.getcogqpvliste("*");
-        var result = response.getBody();
-        Assertions.assertNotNull(result);
-        var resultItem1 = result.getFirst();
-        assertAll(
-                () -> assertEquals(1609, result.size()),
-                () -> assertEquals("QN00101M", resultItem1.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024/40526c49-2c78-4856-a4ed-21714bf70cb9", resultItem1.getUri()),
-                () -> assertEquals(QuartierPrioritaireDeLaPolitiqueDeLaVille2024.TypeEnum.QUARTIER_PRIORITAIRE_DE_LA_POLITIQUE_DE_LA_VILLE2024, resultItem1.getType()),
-                () -> assertEquals(LocalDate.of(2024, 1, 1), resultItem1.getDateCreation()),
-                () -> assertEquals("Grande Reyssouze Terre Des Fleurs", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(QuartierPrioritaireDeLaPolitiqueDeLaVille2024.TypeArticleEnum.X, resultItem1.getTypeArticle()),
-                () -> assertEquals("Grande Reyssouze Terre Des Fleurs", resultItem1.getIntitule())
-        );
-    }
-
 
 }

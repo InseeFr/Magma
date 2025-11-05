@@ -2802,10 +2802,11 @@ components:
     dateQPVActifs:
       in: query
       description: |-
-        Filtre pour renvoyer les quartiers prioritaires de la politique de la ville actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
+        Filtre pour renvoyer les quartiers prioritaires de la politique de la ville actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        type: 'string'
+        format: date
 
     dateRegionActive:
       in: query

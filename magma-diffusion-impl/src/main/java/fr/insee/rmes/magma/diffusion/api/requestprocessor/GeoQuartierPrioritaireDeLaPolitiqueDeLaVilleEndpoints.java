@@ -29,12 +29,9 @@ public class GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints implements Ge
     }
 
     @Override
-    public ResponseEntity<List<QuartierPrioritaireDeLaPolitiqueDeLaVille2024>> getcogqpvliste (String date) {
-        if (date==null) {
-            date = LocalDate.now().toString();
-        }
-        return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireEtoileRequestParametizer(date, QuartierPrioritaireDeLaPolitiqueDeLaVille2024.class, "none"))
+    public ResponseEntity<List<QuartierPrioritaireDeLaPolitiqueDeLaVille2024>> getcogqpvliste (LocalDate date) {
+         return requestProcessor.queryforFindTerritoire()
+                .with(new TerritoireRequestParametizer(date, QuartierPrioritaireDeLaPolitiqueDeLaVille2024.class, "none"))
                 .executeQuery()
                 .listResult(QuartierPrioritaireDeLaPolitiqueDeLaVille2024.class)
                 .toResponseEntity();
