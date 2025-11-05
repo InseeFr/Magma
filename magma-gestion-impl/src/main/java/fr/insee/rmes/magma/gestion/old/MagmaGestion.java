@@ -13,17 +13,16 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @SpringBootApplication
 public class MagmaGestion {
 
-    private static final String PROPERTIES_FILENAME = "rmeswsgi";
 
     private static final Logger LOG = LoggerFactory.getLogger(MagmaGestion.class);
     @Autowired
     private Config config;
 
     public static void main(String[] args) {
-        configureApplicationBuilder(new SpringApplicationBuilder()).build().run(args);        }
+        configureApplicationBuilder(new SpringApplicationBuilder()).build().run(args);
+    }
 
     public static SpringApplicationBuilder configureApplicationBuilder(SpringApplicationBuilder springApplicationBuilder){
-        System.setProperty("spring.config.name", PROPERTIES_FILENAME);
         return springApplicationBuilder.sources(MagmaGestion.class)
                 .listeners(new PropertiesLogger());
     }
