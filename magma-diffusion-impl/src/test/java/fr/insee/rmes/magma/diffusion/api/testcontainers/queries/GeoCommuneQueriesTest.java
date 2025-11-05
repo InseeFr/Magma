@@ -313,6 +313,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
     void should_return_1_commune_when_CommunesCodeSuivants_date19450626(){
         var response  = endpoints.getcogcomsuiv ("14475", LocalDate.of(1945,6,26));
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(

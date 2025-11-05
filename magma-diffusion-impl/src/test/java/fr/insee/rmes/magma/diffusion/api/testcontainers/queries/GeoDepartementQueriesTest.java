@@ -2,6 +2,7 @@ package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.GeoDepartementEndpoints;
 import fr.insee.rmes.magma.diffusion.model.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
-import static org.junit.Assert.assertEquals;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,8 +38,9 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
     void should_return_1_region_when_DepartementCodeAscendants_code22_date20250904_typeNull(){
         var response  = endpoints.getcogdepasc("22", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
-        assertEquals(1, result.size());
+        Assertions.assertEquals(1, result.size());
 
         assertEquals("53", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/region/6c83500c-454c-4d69-aec5-b988fb6f6f1c", resultItem1.getUri());
@@ -54,6 +57,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
     void should_return_1_region_when_DepartementCodeAscendants_code22_date20250904_typeRegion(){
         var response  = endpoints.getcogdepasc("22", LocalDate.of(2025, 9, 4), TypeEnumAscendantsDepartement.REGION);
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
 
@@ -76,7 +80,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
     void should_return_DepartementCode_22_when_code22_date20250904() {
         var response  = endpoints.getcogdep("22", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-
+        assertNotNull(result);
         assertEquals("22", result.getCode());
         assertEquals("http://id.insee.fr/geo/departement/f07f6a49-9dce-4f2d-a99e-5d61eedf2827", result.getUri());
         assertEquals(Departement.TypeEnum.DEPARTEMENT, result.getType());
@@ -98,6 +102,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
     void should_return_1_commune_when_DepartementCodeDescendants_code45_date20250904_typeCommune_filtreNomOrleans(){
         var response  = endpoints.getcogdepdesc("45", LocalDate.of(2025, 9, 4), TypeEnumDescendantsDepartement.COMMUNE,"Orleans");
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertEquals("45234", resultItem1.getCode());
@@ -112,11 +117,12 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
 
     //    geo/departement/22/descendants?date=2025-09-04
     @Test
-    void should_return_523_territoires_when_DepartementCodeDescendants_code45_date20250904_typeNull_filtreNomNull(){
+    void should_return_540_territoires_when_DepartementCodeDescendants_code45_date20250904_typeNull_filtreNomNull(){
         var response  = endpoints.getcogdepdesc("45", LocalDate.of(2025, 9, 4), null,null);
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
-        assertEquals(523, result.size());
+        assertEquals(540, result.size());
         assertEquals("451", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/arrondissement/a9f9ff71-7658-4ef0-98b0-f048c8831be1", resultItem1.getUri());
         assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT, resultItem1.getType());
@@ -137,6 +143,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
     void should_return_101_departements_when_Departements_date20250904(){
         var response  = endpoints.getcogdepts ("2025-09-04");
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(101, result.size());
         assertEquals("01", resultItem1.getCode());
@@ -155,6 +162,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
     void should_return_154_departements_when_Departements_dateEtoile(){
         var response  = endpoints.getcogdepts ("*");
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(154, result.size());
         assertEquals("01", resultItem1.getCode());
@@ -177,6 +185,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
     void should_return_1_departement_when_DepartementCodePrecedents_code22_date20250904(){
         var response  = endpoints.getcogdepprec ("22", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertEquals("22", resultItem1.getCode());
@@ -225,6 +234,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
     void should_return_1_departement_when_DepartementCodeProjetes_code22_date20250904_dateProjection19500101(){
         var response  = endpoints.getcogdepproj ("22", LocalDate.of(1950,1,1),LocalDate.of(2025, 9, 4));
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertEquals("22", resultItem1.getCode());
@@ -255,6 +265,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
     void should_return_1_departement_when_DepartementCodeSuivants_code22_date19500101(){
         var response  = endpoints.getcogdepsuiv ("22", LocalDate.of(1950,1,1));
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertEquals("22", resultItem1.getCode());

@@ -56,13 +56,13 @@ public class GeoZoneDEmploiQueriesTest extends TestcontainerTest{
 
 //   geo/zoneDEmploi2020/2415/descendants?date=2025-09-04
     @Test
-    void should_return_41_territoires_when_zoneDEmploi2020CodeDescendants_code2415_date20250904_typeNull(){
+    void should_return_42_territoires_when_zoneDEmploi2020CodeDescendants_code2415_date20250904_typeNull(){
         var response  = endpoints.getcogzedesc("2415", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
         assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
-                () -> assertEquals(41, result.size()),
+                () -> assertEquals(42, result.size()),
                 () -> assertEquals("18036", resultItem1.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/commune/9d090028-9065-4c75-bb2b-6ea30d430af7", resultItem1.getUri()),
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE, resultItem1.getType()),

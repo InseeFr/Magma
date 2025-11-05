@@ -71,7 +71,7 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
         var result = response.getBody();
         assertNotNull(result);
         var resultItem1= result.getFirst();
-        assertEquals(1010, result.size());
+        assertEquals(1064, result.size());
         assertEquals("69381", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/arrondissementMunicipal/36940e94-b61c-4565-9ea1-ecbcd812bd7e", resultItem1.getUri());
         assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem1.getType());

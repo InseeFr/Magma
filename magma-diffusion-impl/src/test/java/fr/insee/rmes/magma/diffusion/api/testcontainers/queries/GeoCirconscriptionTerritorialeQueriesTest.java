@@ -88,7 +88,7 @@ public class GeoCirconscriptionTerritorialeQueriesTest extends TestcontainerTest
         mockMvc.perform(get("/geo/circonscriptionTerritoriale/98611")
                     .param("date", "1980-01-01"))
             .andExpect(status().isNotFound());
-}
+    }
 
 
 }
