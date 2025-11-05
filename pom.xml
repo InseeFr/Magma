@@ -333,8 +333,6 @@
         <module>magma-diffusion-impl</module>
         <module>magma-gestion-interface</module>
         <module>magma-gestion-impl</module>
-        <module>magma-commons-impl</module>
-        <module>magma-commons-interface</module>
         <module>magma-app</module>
     </modules>
 </project>
