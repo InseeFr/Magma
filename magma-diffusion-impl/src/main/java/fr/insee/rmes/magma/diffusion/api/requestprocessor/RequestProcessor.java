@@ -89,6 +89,8 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
         return new QueryBuilder(PAYS_SUIVANTS, this);
     }
 
+    public QueryBuilder queryToFindIntersections() {return new QueryBuilder(TERRITOIRES_LIES, this);}
+
     public record QueryBuilder(String queryPath, RequestProcessor requestProcessor) {
         public ExecutableQuery with(AscendantsDescendantsRequestParametizer ascendantsDescendantsRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(ascendantsDescendantsRequestParametizer.toParameters(), queryPath), requestProcessor);
@@ -124,12 +126,17 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
             return new ExecutableQuery(requestProcessor.queryBuilder().build(projetesRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
 
+        public ExecutableQuery with(TerritoiresLiesRequestParametizer territoiresLiesRequestParametizer) {
+            return new ExecutableQuery(requestProcessor.queryBuilder().build(territoiresLiesRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
+
         public ExecutableQuery with(ClassificationRequestParametizer classificationRequestParametizer) {
             return new ExecutableQuery(
                     requestProcessor.queryBuilder().build(classificationRequestParametizer.toParameters(), queryPath),
                     requestProcessor
             );
         }
+
     }
 
     public record ExecutableQuery(Query query, RequestProcessor requestProcessor) {

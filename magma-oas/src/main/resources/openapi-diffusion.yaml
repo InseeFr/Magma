@@ -957,7 +957,7 @@ paths:
       operationId: getcogcom
       parameters:
         - $ref: '#/components/parameters/codeCommuneInPath'
-        - $ref: '#/components/parameters/dateActive'
+        - $ref: '#/components/parameters/dateCommuneActive'
       responses:
         '200':
           $ref: '#/components/responses/Commune200'
@@ -1090,6 +1090,28 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/CommuneListeSuivants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /geo/commune/{code}/intersections:
+    get:
+      tags:
+        - geoCommune
+      summary: 'Informations concernant les territoires directement liés avec la commune'
+      operationId: 'getcogcomintersect'
+      parameters:
+        - $ref: '#/components/parameters/codeCommuneTerritoireLieInPath'
+        - $ref: '#/components/parameters/dateCommuneActive'
+        - $ref: '#/components/parameters/typeTerritoireLieACommune'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommuneListeTerritoiresLies200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -2011,7 +2033,7 @@ components:
       schema:
         type: string
 
-    dateActive:
+    dateCommuneActive:
       in: query
       description: |-
         Filtre pour renvoyer la commune active à la date donnée. Par défaut, c'est la date courante (format : 'AAAA-MM-JJ').
@@ -2019,6 +2041,7 @@ components:
       schema:
         type: 'string'
         format: date
+      example: '2025-01-01'
 
     dateCommuneCantonsActifs:
       in: query
@@ -2350,6 +2373,16 @@ components:
       schema:
         $ref: '#/components/schemas/CodeCom'
 
+    codeCommuneTerritoireLieInPath:
+      required: true
+      name: code
+      in: path
+      description: 'Code de la commune (cinq caractères)'
+      schema:
+        $ref: '#/components/schemas/CodeCom'
+      example: '01053'
+#      overload the CodeCom example (14475)
+
     dateCommuneDepart:
       in: query
       description: |-
@@ -2415,6 +2448,14 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsCommune'
+
+    typeTerritoireLieACommune:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnum'
+      example: 'Canton'
 
     filtreNomCommune:
       name: 'filtreNom'
@@ -3742,6 +3783,19 @@ components:
         intituleSansArticle: 'Val d''Arry'
         typeArticle: '0'
         intitule: 'Val d''Arry'
+
+    CommuneListeTerritoiresLies:
+      value:
+        - code: '0105'
+          uri: 'http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7'
+          type: 'Canton'
+          relation: 'intersecte'
+          intitule: 'Bourg-en-Bresse-1'
+        - code: '0106'
+          uri: 'http://id.insee.fr/geo/canton/888731da-1820-4662-9cc1-17be3544a01c'
+          type: 'Canton'
+          relation: 'intersecte'
+          intitule: 'Bourg-en-Bresse-2'
 
     ListeCommuneCantons:
       value:
@@ -5257,6 +5311,22 @@ components:
             défaut:
               $ref: '#/components/examples/CommuneListeAscendants'
 
+    CommuneListeTerritoiresLies200:
+      description: 'Opération réussie pour les territoires liés à une commune'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommuneListeTerritoiresLies'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListeTerritoiresLies'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/CommuneListeTerritoiresLies'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListeTerritoiresLies'
+
     CommuneAssocieeListeAscendants200:
       description: 'Opération réussie pour les ascendants d''une commune associée'
       content:
@@ -6065,6 +6135,7 @@ components:
         - intituleSansArticle
         - typeArticle
         - intitule
+
       xml:
         name: TerritoireBase
       properties:
@@ -6143,6 +6214,23 @@ components:
               description: 'Chef-lieu du territoire'
               xml:
                 name: ChefLieu
+
+    TerritoireBase_Relation:
+      xml:
+        wrapped: true
+        name: TerritoireBase_AvecRelation
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase'
+        - type: object
+          required:
+            - relation
+          properties:
+            relation:
+              type: string
+              description: 'Relation du territoire avec les autres (inclusion directe ou intersection)'
+              xml:
+                name: Relation
+
 
     Territoire_TousAttributs:
       xml:
@@ -6306,6 +6394,15 @@ components:
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
 
+    CommuneListeTerritoiresLies:
+      description: 'Liste des territoires liés à une commune'
+      type: array
+      xml:
+        wrapped: true
+        name: TerritoiresLiesACommune
+      items:
+        $ref: '#/components/schemas/TerritoireBase_Relation'
+
     ListeCommuneCantons:
       description: 'Liste des cantons ayant un territoire commun avec la commune'
       type: array
@@ -6436,6 +6533,7 @@ components:
         - Iris
         - ZoneDEmploi2020
         - UniteUrbaine2020
+        - QuartierPrioritaireDeLaPolitiqueDeLaVille2024
         - Territoire
       example: 'Canton'
 
