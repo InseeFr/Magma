@@ -5316,13 +5316,17 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CommuneListeTerritoiresLies'
+            type: array
+            items:
+              $ref: '#/components/schemas/TerritoireBase_Relation'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeTerritoiresLies'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CommuneListeTerritoiresLies'
+            type: array
+            items:
+              $ref: '#/components/schemas/TerritoireBase_Relation'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeTerritoiresLies'
@@ -6394,14 +6398,6 @@ components:
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
 
-    CommuneListeTerritoiresLies:
-      description: 'Liste des territoires liés à une commune'
-      type: array
-      xml:
-        wrapped: true
-        name: TerritoiresLiesACommune
-      items:
-        $ref: '#/components/schemas/TerritoireBase_Relation'
 
     ListeCommuneCantons:
       description: 'Liste des cantons ayant un territoire commun avec la commune'
