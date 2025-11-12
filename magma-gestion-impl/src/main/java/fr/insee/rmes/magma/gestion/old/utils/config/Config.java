@@ -14,7 +14,6 @@ import java.lang.reflect.Modifier;
 
 @Component
 
-@PropertySource("classpath:rmeswsgi-magma.properties")
 public class Config {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Config.class);
