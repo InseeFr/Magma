@@ -669,6 +669,29 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /geo/canton/{code}/intersections:
+    get:
+      tags:
+        - geoCanton
+      summary: 'Informations concernant les territoires directement liés au canton'
+      operationId: 'getcogcanintersect'
+      parameters:
+        - $ref: '#/components/parameters/codeCantonInPath'
+        - $ref: '#/components/parameters/dateCantonActif'
+        - $ref: '#/components/parameters/typeTerritoireLieACanton'
+      responses:
+        '200':
+          $ref: '#/components/responses/CantonListeTerritoiresLies200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+
   /geo/cantonOuVille/{code}/ascendants:
     get:
       tags:
@@ -3029,6 +3052,14 @@ components:
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsCanton'
 
+    typeTerritoireLieACanton:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnum'
+      example: 'Commune'
+
     codeCantonOuVilleInPath:
       name: 'code'
       in: path
@@ -3573,6 +3604,17 @@ components:
           typeArticle: '0'
           intitule: 'Valserhône'
 
+    CantonListeTerritoiresLies:
+      value:
+        - code: '01002'
+          uri: 'http://localhost:8080/geo/canton/0101/intersections'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle : 'Abergement-de-Varey'
+          typeArticle: '5'
+          intitule:	'L''Abergement-de-Varey'
+          relation: 'contient'
+
     CantonOuVilleListeAscendants:
       value:
         - code: '84'
@@ -3789,13 +3831,19 @@ components:
         - code: '0105'
           uri: 'http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7'
           type: 'Canton'
-          relation: 'intersecte'
+          dateCreation:	'2016-01-01'
+          intituleSansArticle: 'Bourg-en-Bresse-1'
+          typeArticle: '0'
           intitule: 'Bourg-en-Bresse-1'
+          relation: 'intersecte'
         - code: '0106'
           uri: 'http://id.insee.fr/geo/canton/888731da-1820-4662-9cc1-17be3544a01c'
           type: 'Canton'
-          relation: 'intersecte'
+          dateCreation: '2016-01-01'
+          intituleSansArticle: 'Bourg-en-Bresse-2'
+          typeArticle: '0'
           intitule: 'Bourg-en-Bresse-2'
+          relation: 'intersecte'
 
     ListeCommuneCantons:
       value:
@@ -4990,6 +5038,26 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CantonListeSuivants'
+
+    CantonListeTerritoiresLies200:
+      description: 'Opération réussie pour les territoires liés à un canton'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/TerritoireBase_Relation'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonListeTerritoiresLies'
+        application/xml:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/TerritoireBase_Relation'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonListeTerritoiresLies'
 
     CantonOuVilleListeAscendants200:
       description: 'Opération réussie pour les ascendants d''un canton-ou-ville'
