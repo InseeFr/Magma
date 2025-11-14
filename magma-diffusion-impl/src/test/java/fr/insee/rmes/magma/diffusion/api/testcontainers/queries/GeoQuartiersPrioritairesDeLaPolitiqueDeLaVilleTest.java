@@ -2,6 +2,7 @@ package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints;
 import fr.insee.rmes.magma.diffusion.model.QuartierPrioritaireDeLaPolitiqueDeLaVille2024;
+import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCommune;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,8 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -31,7 +34,7 @@ class GeoQuartiersPrioritairesDeLaPolitiqueDeLaVilleTest extends TestcontainerTe
     ///        geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024/{code}     ///
     /// ///////////////////////////////////////////////////////////////////////
 
-//    geo/quartiersPrioritairesDeLaPolitiqueDeLaVille2024/QN06255M?date=2025-09-04
+//    geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024/QN06255M?date=2025-09-04
     @Test
     void should_return_quartierPrioritaireDeLaVilleCode_QN06255M_when_codeQN06255M_date20250904() {
         var response = endpoints.getcogqpv("QN06255M", LocalDate.of(2025, 9, 4));
@@ -48,8 +51,24 @@ class GeoQuartiersPrioritairesDeLaPolitiqueDeLaVilleTest extends TestcontainerTe
         );
     }
 
+//    geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024/QN08255M?date=2025-09-04 should return 404
+    @Test
+    void should_return_404_when_CommuneCodeAscendants_codeQN08255M_date20250904() throws Exception{
+        mockMvc.perform(get("/geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024/QN08255M")
+                        .param("date", "2025-09-04"))
+                .andExpect(status().isNotFound());
+    }
+
+//    geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024/QJ08255M?date=2025-09-04 should return 400
+    @Test
+    void should_return_400_when_CommuneCodeAscendants_codeQJ08255M_date20250904() throws Exception{
+        mockMvc.perform(get("/geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024/QJ08255M")
+                        .param("date", "2025-09-04"))
+                .andExpect(status().isBadRequest());
+    }
+
     /// ///////////////////////////////////////////////////////////////////////
-    ///        geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024            ///
+    ///        geo/quartiersPrioritairesDeLaPolitiqueDeLaVille2024          ///
     /// ///////////////////////////////////////////////////////////////////////
 
 //    geo/quartiersPrioritairesDeLaPolitiqueDeLaVille2024?date=2025-09-04//
