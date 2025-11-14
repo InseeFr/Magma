@@ -1,8 +1,6 @@
 package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
-import fr.insee.rmes.magma.diffusion.api.requestprocessor.GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints;
-import fr.insee.rmes.magma.diffusion.model.ArrondissementMunicipal;
-import fr.insee.rmes.magma.diffusion.model.CommuneAssociee;
+import fr.insee.rmes.magma.diffusion.api.GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints;
 import fr.insee.rmes.magma.diffusion.model.QuartierPrioritaireDeLaPolitiqueDeLaVille2024;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
