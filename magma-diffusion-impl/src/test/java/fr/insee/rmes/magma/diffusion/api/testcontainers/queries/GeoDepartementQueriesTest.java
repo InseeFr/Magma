@@ -71,7 +71,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
     ///        geo/departement/{code}                     ///
     /////////////////////////////////////////////////////////
 
-    //    geo/departement/22?date=2025-09-04
+//    geo/departement/22?date=2025-09-04
     @Test
     void should_return_DepartementCode_22_when_code22_date20250904() {
         var response  = endpoints.getcogdep("22", LocalDate.of(2025, 9, 4));
@@ -86,6 +86,14 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
         assertEquals("22278", result.getChefLieu());
         assertEquals("Côtes-d'Armor", result.getIntitule());
 
+    }
+
+//    geo/departement/99?date=2025-09-04 should return 400
+    @Test
+    void should_return_404_when_departement_Code99_date20250904() throws Exception{
+        mockMvc.perform(get("/geo/departement/99")
+                        .param("date", "2025-09-04"))
+                .andExpect(status().isBadRequest());
     }
 
 
@@ -112,11 +120,11 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
 
     //    geo/departement/22/descendants?date=2025-09-04
     @Test
-    void should_return_523_territoires_when_DepartementCodeDescendants_code45_date20250904_typeNull_filtreNomNull(){
+    void should_return_540_territoires_when_DepartementCodeDescendants_code45_date20250904_typeNull_filtreNomNull(){
         var response  = endpoints.getcogdepdesc("45", LocalDate.of(2025, 9, 4), null,null);
         var result = response.getBody();
         var resultItem1= result.getFirst();
-        assertEquals(523, result.size());
+        assertEquals(540, result.size());
         assertEquals("451", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/arrondissement/a9f9ff71-7658-4ef0-98b0-f048c8831be1", resultItem1.getUri());
         assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT, resultItem1.getType());
