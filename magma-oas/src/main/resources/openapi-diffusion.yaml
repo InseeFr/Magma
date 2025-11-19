@@ -3666,9 +3666,9 @@ components:
           uri: 'http://localhost:8080/geo/canton/0101/intersections'
           type: 'Commune'
           dateCreation: '1943-01-01'
-          intituleSansArticle : 'Abergement-de-Varey'
+          intituleSansArticle: 'Abergement-de-Varey'
           typeArticle: '5'
-          intitule:	'L''Abergement-de-Varey'
+          intitule: 'L''Abergement-de-Varey'
           relation: 'contient'
 
     CantonOuVilleListeAscendants:
@@ -3887,7 +3887,7 @@ components:
         - code: '0105'
           uri: 'http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7'
           type: 'Canton'
-          dateCreation:	'2016-01-01'
+          dateCreation: '2016-01-01'
           intituleSansArticle: 'Bourg-en-Bresse-1'
           typeArticle: '0'
           intitule: 'Bourg-en-Bresse-1'
