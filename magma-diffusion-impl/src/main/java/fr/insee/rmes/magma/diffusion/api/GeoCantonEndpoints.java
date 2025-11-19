@@ -2,10 +2,8 @@ package fr.insee.rmes.magma.diffusion.api;
 
 
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.magma.diffusion.model.*;
 import fr.insee.rmes.magma.diffusion.queries.parameters.*;
-import fr.insee.rmes.magma.diffusion.model.Canton;
-import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
-import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCanton;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -91,6 +89,15 @@ public class GeoCantonEndpoints implements GeoCantonApi {
                 .with(new PrecedentsSuivantsRequestParametizer(code, date, Canton.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<TerritoireBaseRelation>> getcogcanintersect (String code, LocalDate date, TypeEnum type) {
+        return requestProcessor.queryToFindIntersections()
+                .with(new TerritoiresLiesRequestParametizer(code, date, type, Canton.class))
+                .executeQuery()
+                .listResult(TerritoireBaseRelation.class)
                 .toResponseEntity();
     }
 
