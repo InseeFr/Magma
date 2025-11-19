@@ -102,6 +102,15 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
                 .listResult(TerritoireBase.class)
                 .toResponseEntity();
     }
+
+    @Override
+    public ResponseEntity<List<TerritoireBaseRelation>>  getcogcomintersect (String code, LocalDate date, TypeEnum type) {
+        return requestProcessor.queryToFindIntersections()
+                .with(new TerritoiresLiesRequestParametizer(code, date, type, Commune.class))
+                .executeQuery()
+                .listResult(TerritoireBaseRelation.class)
+                .toResponseEntity();
+    }
 }
 
 

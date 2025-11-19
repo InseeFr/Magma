@@ -329,4 +329,63 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
         );
     }
 
+
+    ////////////////////////////////////////////////////////////////////
+    ///                  geo/commune/{code}/intersections            ///
+    ////////////////////////////////////////////////////////////////////
+
+// geo/commune/01053/intersections?date=2025-09-04
+    @Test
+    void should_return_30_territoires_when_CommuneCodeIntersections_code01053_date20250904(){
+        var response  = endpoints.getcogcomintersect ("01053", LocalDate.of(2025,9,4), null);
+        var result = response.getBody();
+        assertNotNull(result);
+        var resultItem1= result.getFirst();
+
+        assertAll(
+                () -> assertEquals(30, result.size()),
+                () -> assertEquals("01", resultItem1.getCode()),
+                () -> assertEquals("http://id.insee.fr/geo/departement/84680e6f-2e99-44c9-a9ba-2e96a2ae48b7", resultItem1.getUri()),
+                () -> assertEquals(TerritoireBaseRelation.TypeEnum.DEPARTEMENT, resultItem1.getType()),
+                () -> assertEquals(LocalDate.of(1967,12,31), resultItem1.getDateCreation()),
+                () -> assertEquals("Ain", resultItem1.getIntituleSansArticle()),
+                () -> assertEquals(TerritoireBaseRelation.TypeArticleEnum._5, resultItem1.getTypeArticle()),
+                () -> assertEquals("Ain", resultItem1.getIntitule()),
+                () -> assertEquals("inclus", resultItem1.getRelation())
+        );
+    }
+
+
+
+    @Test
+    void should_return_2_cantons_when_CommuneCodeIntersections_code01053_date20250904_typeCanton(){
+        var response  = endpoints.getcogcomintersect ("01053", LocalDate.of(2025,9,4), TypeEnum.CANTON);
+        var result = response.getBody();
+        assertNotNull(result);
+        var resultItem1= result.getFirst();
+        var resultItem2= result.get(1);
+
+        assertAll(
+                () -> assertEquals(2, result.size()),
+
+                () -> assertEquals("0105", resultItem1.getCode()),
+                () -> assertEquals("http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7", resultItem1.getUri()),
+                () -> assertEquals(TerritoireBaseRelation.TypeEnum.CANTON, resultItem1.getType()),
+                () -> assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation()),
+                () -> assertEquals("Bourg-en-Bresse-1", resultItem1.getIntituleSansArticle()),
+                () -> assertEquals(TerritoireBaseRelation.TypeArticleEnum._0, resultItem1.getTypeArticle()),
+                () -> assertEquals("Bourg-en-Bresse-1", resultItem1.getIntitule()),
+                () -> assertEquals("intersecte", resultItem1.getRelation()),
+
+                () -> assertEquals("0106", resultItem2.getCode()),
+                () -> assertEquals("http://id.insee.fr/geo/canton/888731da-1820-4662-9cc1-17be3544a01c", resultItem2.getUri()),
+                () -> assertEquals(TerritoireBaseRelation.TypeEnum.CANTON, resultItem2.getType()),
+                () -> assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation()),
+                () -> assertEquals("Bourg-en-Bresse-2", resultItem2.getIntituleSansArticle()),
+                () -> assertEquals(TerritoireBaseRelation.TypeArticleEnum._0, resultItem2.getTypeArticle()),
+                () -> assertEquals("Bourg-en-Bresse-2", resultItem2.getIntitule()),
+                () -> assertEquals("intersecte", resultItem2.getRelation())
+        );
+    }
+
 }

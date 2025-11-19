@@ -66,7 +66,7 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
 
     //    geo/aireDAttractionDesVilles2020/062/descendants?date=2025-09-04
     @Test
-    void should_return_92_territoires_when_aireDAttractionDesVilles2020CodeDescendants_code002_date20250904_typeNull(){
+    void should_return_1064_territoires_when_aireDAttractionDesVilles2020CodeDescendants_code002_date20250904_typeNull(){
         var response  = endpoints.getcogaavdesc("002", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
         assertNotNull(result);

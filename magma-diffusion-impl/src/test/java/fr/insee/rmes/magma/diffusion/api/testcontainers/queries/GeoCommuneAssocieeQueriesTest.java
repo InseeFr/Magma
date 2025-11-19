@@ -30,7 +30,7 @@ public class GeoCommuneAssocieeQueriesTest extends TestcontainerTest {
         private MockMvc mockMvc;
 
     /////////////////////////////////////////////////////////////////////
-    ///        geo/communeAssociee/{code}/ascendants        ///
+    ///        geo/communeAssociee/{code}/ascendants                  ///
     /////////////////////////////////////////////////////////////////////
 
     //   geo/communeAssociee/59355/ascendants?date=2025-09-04 : renvoie 10 territoires

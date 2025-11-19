@@ -51,6 +51,8 @@ tags:
     description: 'API géographie : Iris'
   - name: geoPays
     description: 'API géographie : Pays'
+  - name : geoQuartierPrioritaireDeLaPolitiqueDeLaVille
+    description: 'API géographie : Quartier Prioritaire de la politique de la ville 2024'
   - name: geoRegion
     description: 'API géographie : Région'
   - name: geoUniteUrbaine
@@ -669,6 +671,29 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /geo/canton/{code}/intersections:
+    get:
+      tags:
+        - geoCanton
+      summary: 'Informations concernant les territoires directement liés au canton'
+      operationId: 'getcogcanintersect'
+      parameters:
+        - $ref: '#/components/parameters/codeCantonInPath'
+        - $ref: '#/components/parameters/dateCantonActif'
+        - $ref: '#/components/parameters/typeTerritoireLieACanton'
+      responses:
+        '200':
+          $ref: '#/components/responses/CantonListeTerritoiresLies200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+
   /geo/cantonOuVille/{code}/ascendants:
     get:
       tags:
@@ -957,7 +982,7 @@ paths:
       operationId: getcogcom
       parameters:
         - $ref: '#/components/parameters/codeCommuneInPath'
-        - $ref: '#/components/parameters/dateActive'
+        - $ref: '#/components/parameters/dateCommuneActive'
       responses:
         '200':
           $ref: '#/components/responses/Commune200'
@@ -1090,6 +1115,28 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/CommuneListeSuivants200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /geo/commune/{code}/intersections:
+    get:
+      tags:
+        - geoCommune
+      summary: 'Informations concernant les territoires directement liés avec la commune'
+      operationId: 'getcogcomintersect'
+      parameters:
+        - $ref: '#/components/parameters/codeCommuneTerritoireLieInPath'
+        - $ref: '#/components/parameters/dateCommuneActive'
+        - $ref: '#/components/parameters/typeTerritoireLieACommune'
+      responses:
+        '200':
+          $ref: '#/components/responses/CommuneListeTerritoiresLies200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -1715,6 +1762,47 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 
+  /geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024/{code}:
+    get:
+      tags:
+        - geoQuartierPrioritaireDeLaPolitiqueDeLaVille
+      summary: 'Informations sur un quartier prioritaire de la politique de la ville identifié par son code (deux chiffres)'
+      operationId: 'getcogqpv'
+      parameters:
+        - $ref: '#/components/parameters/codeQPVInPath'
+        - $ref: '#/components/parameters/dateQPVActive'
+      responses:
+        '200':
+          $ref: '#/components/responses/QuartierPrioritaireDeLaPolitiqueDeLaVille200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /geo/quartiersPrioritairesDeLaPolitiqueDeLaVille2024:
+    get:
+      tags:
+        - geoQuartierPrioritaireDeLaPolitiqueDeLaVille
+      summary: 'Informations sur tous les quartiers prioritaires de la politique de la ville actifs à la date donnée. Par défaut, c''est la date courante.'
+      operationId: 'getcogqpvliste'
+      parameters:
+        - $ref: '#/components/parameters/dateQPVActifs'
+      responses:
+        '200':
+          $ref: '#/components/responses/QuartiersPrioritairesDeLaPolitiqueDeLaVilleListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
   /geo/region/{code}:
     get:
       tags:
@@ -1763,7 +1851,7 @@ paths:
     get:
       tags:
         - geoRegion
-      summary: 'Informations sur toutes les régions actives à la date données. Par défaut, c''est la date courante.'
+      summary: 'Informations sur toutes les régions actives à la date donnée. Par défaut, c''est la date courante.'
       operationId: 'getcogregliste'
       parameters:
         - $ref: '#/components/parameters/dateRegionsActives'
@@ -2003,7 +2091,15 @@ components:
 
   parameters:
 
-    dateActive:
+    codeTerritoireInPath:
+      name: 'code'
+      in: path
+      description: 'Code identifiant un territoire'
+      required: true
+      schema:
+        type: string
+
+    dateCommuneActive:
       in: query
       description: |-
         Filtre pour renvoyer la commune active à la date donnée. Par défaut, c'est la date courante (format : 'AAAA-MM-JJ').
@@ -2011,6 +2107,7 @@ components:
       schema:
         type: 'string'
         format: date
+      example: '2025-01-01'
 
     dateCommuneCantonsActifs:
       in: query
@@ -2335,6 +2432,16 @@ components:
       schema:
         $ref: '#/components/schemas/CodeCom'
 
+    codeCommuneTerritoireLieInPath:
+      required: true
+      name: code
+      in: path
+      description: 'Code de la commune (cinq caractères)'
+      schema:
+        $ref: '#/components/schemas/CodeCom'
+      example: '01053'
+#      overload the CodeCom example (14475)
+
     dateCommuneDepart:
       in: query
       description: |-
@@ -2400,6 +2507,14 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsCommune'
+
+    typeTerritoireLieACommune:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnum'
+      example: 'Canton'
 
     filtreNomCommune:
       name: 'filtreNom'
@@ -2715,6 +2830,15 @@ components:
       schema:
         $ref: '#/components/schemas/Date1950ParDefaut'
 
+    codeQPVInPath:
+      name: 'code'
+      in: path
+      description: 'Code du quartier prioritaire de la ville (QN + code département sur 3 positions + une lettre parmi N, M, I)'
+      required: true
+      schema:
+        $ref: '#/components/schemas/CodeQPV'
+
+
     codeRegInPath:
       name: 'code'
       in: path
@@ -2722,6 +2846,24 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/CodeReg'
+
+    dateQPVActive:
+      in: query
+      description: |-
+        Filtre pour renvoyer le quartier prioritaire de la politique de la ville actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
+
+    dateQPVActifs:
+      in: query
+      description: |-
+        Filtre pour renvoyer les quartiers prioritaires de la politique de la ville actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
+      name: date
+      schema:
+        type: 'string'
+        format: date
 
     dateRegionActive:
       in: query
@@ -2972,6 +3114,14 @@ components:
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumAscendantsCanton'
+
+    typeTerritoireLieACanton:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnum'
+      example: 'Commune'
 
     codeCantonOuVilleInPath:
       name: 'code'
@@ -3510,6 +3660,17 @@ components:
           typeArticle: '0'
           intitule: 'Valserhône'
 
+    CantonListeTerritoiresLies:
+      value:
+        - code: '01002'
+          uri: 'http://localhost:8080/geo/canton/0101/intersections'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle : 'Abergement-de-Varey'
+          typeArticle: '5'
+          intitule:	'L''Abergement-de-Varey'
+          relation: 'contient'
+
     CantonOuVilleListeAscendants:
       value:
         - code: '84'
@@ -3720,6 +3881,25 @@ components:
         intituleSansArticle: 'Val d''Arry'
         typeArticle: '0'
         intitule: 'Val d''Arry'
+
+    CommuneListeTerritoiresLies:
+      value:
+        - code: '0105'
+          uri: 'http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7'
+          type: 'Canton'
+          dateCreation:	'2016-01-01'
+          intituleSansArticle: 'Bourg-en-Bresse-1'
+          typeArticle: '0'
+          intitule: 'Bourg-en-Bresse-1'
+          relation: 'intersecte'
+        - code: '0106'
+          uri: 'http://id.insee.fr/geo/canton/888731da-1820-4662-9cc1-17be3544a01c'
+          type: 'Canton'
+          dateCreation: '2016-01-01'
+          intituleSansArticle: 'Bourg-en-Bresse-2'
+          typeArticle: '0'
+          intitule: 'Bourg-en-Bresse-2'
+          relation: 'intersecte'
 
     ListeCommuneCantons:
       value:
@@ -4309,6 +4489,26 @@ components:
           iso3166alpha2: 'SI'
           iso3166alpha3: 'SVN'
           iso3166num: '705'
+
+    QuartierPrioritaireDeLaPolitiqueDeLaVille2024:
+      value:
+        code: 'QN06255M'
+        uri: 'http://id.insee.fr/geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024/23498c07-2891-41e9-b3d5-d8846188ba0c'
+        type: 'QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
+        dateCreation: '2024-01-01'
+        intituleSansArticle: 'Ville Centre'
+        typeArticle: 'X'
+        intitule: 'Ville Centre'
+
+    ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille:
+      value:
+        - code: 'QN00101M'
+          uri: 'http://id.insee.fr/geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024/40526c49-2c78-4856-a4ed-21714bf70cb9'
+          type: 'QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
+          dateCreation: '2024-01-1'
+          intituleSansArticle: 'Grande Reyssouze Terre Des Fleurs'
+          typeArticle: 'X'
+          intitule: 'Grande Reyssouze Terre Des Fleurs'
 
     Region:
       value:
@@ -4915,6 +5115,26 @@ components:
             défaut:
               $ref: '#/components/examples/CantonListeSuivants'
 
+    CantonListeTerritoiresLies200:
+      description: 'Opération réussie pour les territoires liés à un canton'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/TerritoireBase_Relation'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonListeTerritoiresLies'
+        application/xml:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/TerritoireBase_Relation'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CantonListeTerritoiresLies'
+
     CantonOuVilleListeAscendants200:
       description: 'Opération réussie pour les ascendants d''un canton-ou-ville'
       content:
@@ -5234,6 +5454,26 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeAscendants'
+
+    CommuneListeTerritoiresLies200:
+      description: 'Opération réussie pour les territoires liés à une commune'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/TerritoireBase_Relation'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListeTerritoiresLies'
+        application/xml:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/TerritoireBase_Relation'
+          examples:
+            défaut:
+              $ref: '#/components/examples/CommuneListeTerritoiresLies'
 
     CommuneAssocieeListeAscendants200:
       description: 'Opération réussie pour les ascendants d''une commune associée'
@@ -5700,6 +5940,38 @@ components:
             défaut:
               $ref: '#/components/examples/PaysListeSuivants'
 
+    QuartierPrioritaireDeLaPolitiqueDeLaVille200:
+      description: 'Opération réussie pour le quartier prioritaire de la politique de la ville'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
+          examples:
+            défaut:
+              $ref: '#/components/examples/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
+          examples:
+            défaut:
+              $ref: '#/components/examples/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
+
+    QuartiersPrioritairesDeLaPolitiqueDeLaVilleListe200:
+      description: 'Opération réussie pour les quartiers prioritaires de la politique de la ville'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
+
     Region200:
       description: 'Opération réussie pour la région'
       content:
@@ -6044,6 +6316,7 @@ components:
         - intituleSansArticle
         - typeArticle
         - intitule
+
       xml:
         name: TerritoireBase
       properties:
@@ -6121,6 +6394,23 @@ components:
               description: 'Chef-lieu du territoire'
               xml:
                 name: ChefLieu
+
+    TerritoireBase_Relation:
+      xml:
+        wrapped: true
+        name: TerritoireBase_AvecRelation
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase'
+        - type: object
+          required:
+            - relation
+          properties:
+            relation:
+              type: string
+              description: 'Relation du territoire avec les autres (inclusion directe ou intersection)'
+              xml:
+                name: Relation
+
 
     Territoire_TousAttributs:
       xml:
@@ -6236,7 +6526,7 @@ components:
 
     CodeDep:
       description: 'Code d''un département'
-      pattern: '([013-8][0-9])|(2[0-9AB])|(9[0-5])|(97[1-6])'
+      pattern: '[013-8][0-9]|2[0-9AB]|9[0-5]|97[1-6]'
       type: string
       xml:
         attribute: true
@@ -6268,6 +6558,7 @@ components:
         name: AscendantsCommune
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
+
 
     ListeCommuneCantons:
       description: 'Liste des cantons ayant un territoire commun avec la commune'
@@ -6397,8 +6688,10 @@ components:
         - CollectiviteDOutreMer
         - CirconscriptionTerritoriale
         - Iris
+        - QuartierPrioritaireDeLaPolitiqueDeLaVille2024
         - ZoneDEmploi2020
         - UniteUrbaine2020
+        - QuartierPrioritaireDeLaPolitiqueDeLaVille2024
         - Territoire
       example: 'Canton'
 
@@ -7096,6 +7389,33 @@ components:
         name: ListePaysSuivants
       items:
         $ref: '#/components/schemas/Pays'
+
+    CodeQPV:
+      description: 'Code d''un quartier prioritaire de la politique de la ville'
+      pattern: '^QN(0[013-8][0-9]|02[0-9AB]|09[0-5]|97[1-9]|98[1-9])\d{2}[NMI]$'
+#      In addition to the list of departments, there are also the QPV of 978 (Saint Martin) and 987 (Polynésie Française).
+      type: string
+      xml:
+        attribute: true
+      example: 'QN06255M'
+
+    QuartierPrioritaireDeLaPolitiqueDeLaVille2024:
+      xml:
+        name: QuartierPrioritaireDeLaPolitiqueDeLaVille2024
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase'
+      properties:
+        code:
+          $ref: '#/components/schemas/CodeQPV'
+
+    ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille:
+      description: 'Liste des quartiers prioritaires de la politique de la ville'
+      type: array
+      xml:
+        wrapped: true
+        name: ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille
+      items:
+        $ref: '#/components/schemas/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
 
     Region:
       allOf:

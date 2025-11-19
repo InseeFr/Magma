@@ -75,7 +75,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
     ///        geo/departement/{code}                     ///
     /////////////////////////////////////////////////////////
 
-    //    geo/departement/22?date=2025-09-04
+//    geo/departement/22?date=2025-09-04
     @Test
     void should_return_DepartementCode_22_when_code22_date20250904() {
         var response  = endpoints.getcogdep("22", LocalDate.of(2025, 9, 4));
@@ -90,6 +90,14 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
         assertEquals("22278", result.getChefLieu());
         assertEquals("Côtes-d'Armor", result.getIntitule());
 
+    }
+
+//    geo/departement/99?date=2025-09-04 should return 400
+    @Test
+    void should_return_404_when_departement_Code99_date20250904() throws Exception{
+        mockMvc.perform(get("/geo/departement/99")
+                        .param("date", "2025-09-04"))
+                .andExpect(status().isBadRequest());
     }
 
 
