@@ -6328,6 +6328,7 @@ components:
           xml:
             attribute: true
         type:
+          type: string
           $ref: '#/components/schemas/TypeEnum'
         dateCreation:
           type: string
