@@ -2,6 +2,8 @@ package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints;
 import fr.insee.rmes.magma.diffusion.model.QuartierPrioritaireDeLaPolitiqueDeLaVille2024;
+import fr.insee.rmes.magma.diffusion.model.TerritoireBaseRelation;
+import fr.insee.rmes.magma.diffusion.model.TypeEnum;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCommune;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
@@ -36,7 +38,7 @@ class GeoQuartiersPrioritairesDeLaPolitiqueDeLaVilleTest extends TestcontainerTe
 
 //    geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024/QN06255M?date=2025-09-04
     @Test
-    void should_return_quartierPrioritaireDeLaVilleCode_QN06255M_when_codeQN06255M_date20250904() {
+    void should_return_quartierPrioritaireDeLaVilleCode_when_codeQN06255M_date20250904() {
         var response = endpoints.getcogqpv("QN06255M", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
         Assertions.assertNotNull(result);
@@ -73,7 +75,7 @@ class GeoQuartiersPrioritairesDeLaPolitiqueDeLaVilleTest extends TestcontainerTe
 
 //    geo/quartiersPrioritairesDeLaPolitiqueDeLaVille2024?date=2025-09-04//
     @Test
-    void should_return_1609_QPV_when_quartierPrioritaireDeLaPolitiqueDeLaVille2024_date20250904() {
+    void should_return_1609_QPV_when_quartiersPrioritairesDeLaPolitiqueDeLaVille2024_date20250904() {
         var response  = endpoints.getcogqpvliste(LocalDate.of(2025,9,4));
         var result = response.getBody();
         Assertions.assertNotNull(result);
@@ -90,5 +92,52 @@ class GeoQuartiersPrioritairesDeLaPolitiqueDeLaVilleTest extends TestcontainerTe
                 () -> assertEquals("Grande Reyssouze Terre Des Fleurs", resultItem1.getIntitule())
         );
     }
+
+    /// ////////////////////////////////////////////////////////////////////////////
+    /// geo/quartiersPrioritairesDeLaPolitiqueDeLaVille2024/{code}/intersections ///
+    /// ////////////////////////////////////////////////////////////////////////////
+
+//    geo/quartiersPrioritairesDeLaPolitiqueDeLaVille2024/QN08255M/intersections?date=2025-09-04//
+    @Test
+    void should_return_1_commune_when_quartierPrioritaireDeLaPolitiqueDeLaVille2024CodeIntersections_codeQN06255M_date20250904_typeNull() {
+        var response  = endpoints.getcogqpvintersect("QN06255M", LocalDate.of(2025,9,4), null);
+        var result = response.getBody();
+        Assertions.assertNotNull(result);
+        var resultItem1= result.getFirst();
+
+        assertAll(
+                () -> assertEquals(1, result.size()),
+                () -> assertEquals("62516", resultItem1.getCode()),
+                () -> assertEquals("http://id.insee.fr/geo/commune/2d740bbc-9c75-4fd5-b3f4-63fbab6f2713", resultItem1.getUri()),
+                () -> assertEquals(TerritoireBaseRelation.TypeEnum.COMMUNE, resultItem1.getType()),
+                () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
+                () -> assertEquals("Lillers", resultItem1.getIntituleSansArticle()),
+                () -> assertEquals(TerritoireBaseRelation.TypeArticleEnum._0, resultItem1.getTypeArticle()),
+                () -> assertEquals("Lillers", resultItem1.getIntitule()),
+                () -> assertEquals("inclus", resultItem1.getRelation())
+        );
+    }
+
+    //    geo/quartiersPrioritairesDeLaPolitiqueDeLaVille2024/QN08255M/intersections?date=2025-09-04&type=commune//
+    @Test
+    void should_return_1_commune_when_quartierPrioritaireDeLaPolitiqueDeLaVille2024CodeIntersections_codeQN06255M_date20250904_typeCommune() {
+        var response  = endpoints.getcogqpvintersect("QN06255M", LocalDate.of(2025,9,4), TypeEnum.COMMUNE);
+        var result = response.getBody();
+        Assertions.assertNotNull(result);
+        var resultItem1= result.getFirst();
+
+        assertAll(
+                () -> assertEquals(1, result.size()),
+                () -> assertEquals("62516", resultItem1.getCode()),
+                () -> assertEquals("http://id.insee.fr/geo/commune/2d740bbc-9c75-4fd5-b3f4-63fbab6f2713", resultItem1.getUri()),
+                () -> assertEquals(TerritoireBaseRelation.TypeEnum.COMMUNE, resultItem1.getType()),
+                () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
+                () -> assertEquals("Lillers", resultItem1.getIntituleSansArticle()),
+                () -> assertEquals(TerritoireBaseRelation.TypeArticleEnum._0, resultItem1.getTypeArticle()),
+                () -> assertEquals("Lillers", resultItem1.getIntitule()),
+                () -> assertEquals("inclus", resultItem1.getRelation())
+        );
+    }
+
 
 }

@@ -1,8 +1,12 @@
 package fr.insee.rmes.magma.diffusion.api;
 
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.magma.diffusion.model.Canton;
 import fr.insee.rmes.magma.diffusion.model.QuartierPrioritaireDeLaPolitiqueDeLaVille2024;
+import fr.insee.rmes.magma.diffusion.model.TerritoireBaseRelation;
+import fr.insee.rmes.magma.diffusion.model.TypeEnum;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer;
+import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoiresLiesRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,6 +36,15 @@ public class GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints implements Ge
                 .with(new TerritoireRequestParametizer(date, QuartierPrioritaireDeLaPolitiqueDeLaVille2024.class, "none"))
                 .executeQuery()
                 .listResult(QuartierPrioritaireDeLaPolitiqueDeLaVille2024.class)
+                .toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<TerritoireBaseRelation>> getcogqpvintersect (String code, LocalDate date, TypeEnum type) {
+        return requestProcessor.queryToFindIntersections()
+                .with(new TerritoiresLiesRequestParametizer(code, date, type, QuartierPrioritaireDeLaPolitiqueDeLaVille2024.class))
+                .executeQuery()
+                .listResult(TerritoireBaseRelation.class)
                 .toResponseEntity();
     }
 

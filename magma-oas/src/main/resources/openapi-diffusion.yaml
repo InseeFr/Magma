@@ -1770,7 +1770,7 @@ paths:
       operationId: 'getcogqpv'
       parameters:
         - $ref: '#/components/parameters/codeQPVInPath'
-        - $ref: '#/components/parameters/dateQPVActive'
+        - $ref: '#/components/parameters/dateQPVActif'
       responses:
         '200':
           $ref: '#/components/responses/QuartierPrioritaireDeLaPolitiqueDeLaVille200'
@@ -1794,6 +1794,28 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/QuartiersPrioritairesDeLaPolitiqueDeLaVilleListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /geo/quartierPrioritaireDeLaPolitiqueDeLaVille2024/{code}/intersections:
+    get:
+      tags:
+        - geoQuartierPrioritaireDeLaPolitiqueDeLaVille
+      summary: 'Informations concernant les territoires directement liés au quartier prioritaire de la politique de la ville'
+      operationId: 'getcogqpvintersect'
+      parameters:
+        - $ref: '#/components/parameters/codeQPVInPath'
+        - $ref: '#/components/parameters/dateQPVActif'
+        - $ref: '#/components/parameters/typeTerritoireLieAQuartierPrioritaireDeLaPolitiqueDeLaVille'
+      responses:
+        '200':
+          $ref: '#/components/responses/QuartierPrioritaireDeLaPolitiqueDeLaVilleListeTerritoiresLies200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -2854,7 +2876,7 @@ components:
       schema:
         $ref: '#/components/schemas/CodeReg'
 
-    dateQPVActive:
+    dateQPVActif:
       in: query
       description: |-
         Filtre pour renvoyer le quartier prioritaire de la politique de la ville actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
@@ -2871,6 +2893,13 @@ components:
       schema:
         type: 'string'
         format: date
+
+    typeTerritoireLieAQuartierPrioritaireDeLaPolitiqueDeLaVille:
+      name: 'type'
+      in: query
+      description: 'Filtre sur le type de territoire renvoyé'
+      schema:
+        $ref: '#/components/schemas/TypeEnum'
 
     dateRegionActive:
       in: query
@@ -4524,6 +4553,18 @@ components:
           typeArticle: 'X'
           intitule: 'Grande Reyssouze Terre Des Fleurs'
 
+    QuartierPrioritaireDeLaPolitiqueDeLaVilleListeTerritoiresLies200ListeTerritoiresLies:
+      value:
+        - code: '62516'
+          uri: 'http://id.insee.fr/geo/commune/2d740bbc-9c75-4fd5-b3f4-63fbab6f2713'
+          type: 'Commune'
+          dateCreation: '1943-01-01'
+          intituleSansArticle: 'Lillers'
+          typeArticle: '0'
+          intitule: 'Lillers'
+          relation: 'inclus'
+
+
     Region:
       value:
         code: '06'
@@ -5985,6 +6026,24 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
+
+    QuartierPrioritaireDeLaPolitiqueDeLaVilleListeTerritoiresLies200:
+      description: 'Opération réussie pour les territoires liés au quartier prioritaire de la politique de la ville'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/TerritoireBase_Relation'
+          examples:
+            défaut:
+              $ref: '#/components/examples/QuartierPrioritaireDeLaPolitiqueDeLaVilleListeTerritoiresLies200ListeTerritoiresLies'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/TerritoireBase_Relation'
+          examples:
+            défaut:
+              $ref: '#/components/examples/QuartierPrioritaireDeLaPolitiqueDeLaVilleListeTerritoiresLies200ListeTerritoiresLies'
 
     Region200:
       description: 'Opération réussie pour la région'
