@@ -14,8 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -129,6 +128,7 @@ public class GeoIrisQueriesTest extends TestcontainerTest {
     void should_return_irisCode_010040101_when_code010040101_date20250904() {
         var response  = endpoints.getcogiris("010040101", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
+        assertNotNull(result);
         assertAll(
                 () -> assertEquals("010040101", result.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/iris/b8c772de-9551-4f13-81c5-eca5bb0f2f7d", result.getUri()),
@@ -146,6 +146,7 @@ public class GeoIrisQueriesTest extends TestcontainerTest {
     void should_return_irisCode_010020000_when_code010020000_date20250904() {
         var response  = endpoints.getcogiris("010020000", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
+        assertNotNull(result);
         assertAll(
                 () -> assertEquals("010020000", result.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e", result.getUri()),
@@ -174,8 +175,8 @@ public class GeoIrisQueriesTest extends TestcontainerTest {
     void should_return_49343_territoires_when_Iris_date20250904(){
         var response  = endpoints.getcogirislist (LocalDate.of(2025,9,4), null);
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
-
         assertAll(
                 () -> assertEquals(49343, result.size()),
                 () -> assertEquals("010010000", resultItem1.getCode()),
@@ -194,8 +195,8 @@ public class GeoIrisQueriesTest extends TestcontainerTest {
     void should_return_49444_territoires_when_Iris_date20250904_comTrue(){
         var response  = endpoints.getcogirislist (LocalDate.of(2025,9,4), true);
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
-
         assertAll(
                 () -> assertEquals(49444, result.size()),
                 () -> assertEquals("010010000", resultItem1.getCode()),

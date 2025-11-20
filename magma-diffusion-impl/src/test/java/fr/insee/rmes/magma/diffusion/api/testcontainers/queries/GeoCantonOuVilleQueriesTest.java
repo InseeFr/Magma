@@ -5,7 +5,6 @@ import fr.insee.rmes.magma.diffusion.model.CantonOuVille;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCantonOuVille;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCantonOuVille;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,7 +39,7 @@ public class GeoCantonOuVilleQueriesTest extends TestcontainerTest {
     void should_return_1_region_1_departement_when_CantonOuVilleCodeAscendants_code0101_date20250904_typeNull(){
         var response  = endpoints.getcogcanvilasc("0101", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(2, result.size());
         assertEquals("01", resultItem1.getCode());
@@ -57,7 +57,7 @@ public class GeoCantonOuVilleQueriesTest extends TestcontainerTest {
     void should_return_1_region_when_CantonOuVilleCodeAscendants_code0101_date20250904_typeRegion(){
         var response  = endpoints.getcogcanvilasc("0101", LocalDate.of(2025, 9, 4), TypeEnumAscendantsCantonOuVille.REGION);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertEquals("84", resultItem1.getCode());
@@ -79,7 +79,7 @@ public class GeoCantonOuVilleQueriesTest extends TestcontainerTest {
     void should_return_CantonOuVille_When_code0101_date20250904() throws Exception {
         var response = endpoints.getcogcanvil("0101", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         assertEquals("0101", result.getCode());
         assertEquals("http://id.insee.fr/geo/cantonOuVille/5e75ead7-7564-4480-83b0-7e16a7d8acf7", result.getUri());
         assertEquals(CantonOuVille.TypeEnum.CANTON_OU_VILLE, result.getType());
@@ -105,7 +105,7 @@ void should_return_404_when_CantonOuVilleCode_code0100_date20250904() throws Exc
     void should_return_1_iris_when_CantonOuVilleCodeDescendants_code0101_date20250904_typeIris_filtreNomPerouses(){
         var response  = endpoints.getcogcanvildes("0101", LocalDate.of(2025, 9, 4), TypeEnumDescendantsCantonOuVille.IRIS,"Perouses");
         var result = response.getBody();
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertEquals("010040101", resultItem1.getCode());
@@ -121,7 +121,7 @@ void should_return_404_when_CantonOuVilleCode_code0100_date20250904() throws Exc
     void should_return_23_territoires_when_CantonOuVilleCodeDescendants_code0101_date20250904_typeNull_filtreNomNull(){
         var response  = endpoints.getcogcanvildes("0101", LocalDate.of(2025, 9, 4), null,null);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(23, result.size());
         assertEquals("01002", resultItem1.getCode());
@@ -142,7 +142,7 @@ void should_return_404_when_CantonOuVilleCode_code0100_date20250904() throws Exc
     void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_date20250904(){
         var response  = endpoints.getcogcanvilliste ("2025-09-04");
         var result = response.getBody();
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(2042, result.size());
         assertEquals("0101", resultItem1.getCode());
@@ -159,7 +159,7 @@ void should_return_404_when_CantonOuVilleCode_code0100_date20250904() throws Exc
 void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
     var response  = endpoints.getcogcanvilliste ("2025-09-04");
     var result = response.getBody();
-    Assertions.assertNotNull(result);
+    assertNotNull(result);
     var resultItem1= result.getFirst();
     assertEquals(2042, result.size());
     assertEquals("0101", resultItem1.getCode());
@@ -180,7 +180,7 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
     void should_return_3_cantonsOuVilles_when_CantonsOuVillesCodePrecedents_code0104_date20250904(){
         var response  = endpoints.getcogcanvilprec ("0104", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(3, result.size());
         assertEquals("0104", resultItem1.getCode());
@@ -210,7 +210,7 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
     void should_return_3_cantonsOuVilles_when_CantonsOuVillesCodeProjetes_code0104_date20250904_dateProjection20160101(){
         var response  = endpoints.getcogcanvilproj ("0104", LocalDate.of(2016,1,1),LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(3, result.size());
         assertEquals("0104", resultItem1.getCode());
@@ -249,7 +249,7 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
     void should_return_1_cantonOuVille_when_CantonOuVIlleCodeSuivants_code0103_date20160101(){
         var response  = endpoints.getcogcanvilsuiv ("0103", LocalDate.of(2016,1,1));
         var result = response.getBody();
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertEquals("0103", resultItem1.getCode());
