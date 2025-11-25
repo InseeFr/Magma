@@ -1,9 +1,8 @@
 package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.GeoCantonEndpoints;
-import fr.insee.rmes.magma.diffusion.model.Canton;
-import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
-import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCanton;
+import fr.insee.rmes.magma.diffusion.model.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,6 +37,7 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
     void should_return_1_region_and_1_departement_when_CantonCodeAscendants_code0101_date20250904_typeNull(){
         var response  = endpoints.getcogcanasc("0101", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(2, result.size());
         assertEquals("01", resultItem1.getCode());
@@ -56,6 +56,7 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
     void should_return_1_departement_when_CantonCodeAscendants_code0101_date20250904_typeDepartement(){
         var response  = endpoints.getcogcanasc("0101", LocalDate.of(2025, 9, 4), TypeEnumAscendantsCanton.DEPARTEMENT);
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertEquals("01", resultItem1.getCode());
@@ -76,6 +77,7 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
     void should_return_CantonCode_0101_when_code22_date20250904() {
         var response  = endpoints.getcogcan("0101", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
+        assertNotNull(result);
         assertEquals(Canton.TypeEnum.CANTON, result.getType());
         assertEquals(LocalDate.of(2016, 1, 1), result.getDateCreation());
         assertEquals("Ambérieu-en-Bugey", result.getIntituleSansArticle());
@@ -104,6 +106,7 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
     void should_return_18_communes_when_CantonCodeCommunes_code0101_date20250904() {
         var response  = endpoints.getcogcancom ("0101", LocalDate.of(2025,9,4));
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(18, result.size());
         assertAll(
@@ -127,6 +130,7 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
     void should_return_2054_cantons_when_Cantons_date20250904(){
         var response  = endpoints.getcogcanliste ("2025-09-04");
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(2054, result.size());
         assertEquals("0101", resultItem1.getCode());
@@ -144,6 +148,7 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
     void should_return_2250_cantons_when_Cantons_dateEtoile(){
         var response  = endpoints.getcogcanliste ("*");
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(2250, result.size());
         assertEquals("0101", resultItem1.getCode());
@@ -165,6 +170,7 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
     void should_return_1_canton_when_CantonCodePrecedents_code0103_date20250904() {
         var response  = endpoints.getcogcanprec ("0103", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1 = result.getFirst();
         assertEquals(1, result.size());
         assertEquals("0103", resultItem1.getCode());
@@ -194,6 +200,7 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
     void should_return_1_canton_when_CantonCodeProjetes_code0103_date20250904() {
         var response  = endpoints.getcogcanproj ("0103", LocalDate.of(2020,1,1), LocalDate.of(2025,9,4));
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertAll(
@@ -217,6 +224,7 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
     void should_return_1_canton_when_CantonCodeSuivants_code0103_date20250904() {
         var response  = endpoints.getcogcansuiv ("0103", LocalDate.of(2020,1,1));
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertAll(
@@ -238,4 +246,61 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
                 .andExpect(status().isNotFound());
     }
 
+    ////////////////////////////////////////////////////////////////////
+    ///                  geo/canton/{code}/intersections            ///
+    ////////////////////////////////////////////////////////////////////
+
+// geo/canton/0101/intersections?date=2025-09-04
+    @Test
+    void should_return_19_territoires_when_CantonCodeIntersections_code0101_date20250904(){
+        var response  = endpoints.getcogcanintersect ("0101", LocalDate.of(2025,9,4), null);
+        var result = response.getBody();
+        assertNotNull(result);
+        var resultItem1= result.getFirst();
+
+        assertAll(
+                () -> Assertions.assertEquals(19, result.size()),
+                () -> Assertions.assertEquals("01", resultItem1.getCode()),
+                () -> Assertions.assertEquals("http://id.insee.fr/geo/departement/84680e6f-2e99-44c9-a9ba-2e96a2ae48b7", resultItem1.getUri()),
+                () -> Assertions.assertEquals(TerritoireBaseRelation.TypeEnum.DEPARTEMENT, resultItem1.getType()),
+                () -> Assertions.assertEquals(LocalDate.of(1967,12,31), resultItem1.getDateCreation()),
+                () -> Assertions.assertEquals("Ain", resultItem1.getIntituleSansArticle()),
+                () -> Assertions.assertEquals(TerritoireBaseRelation.TypeArticleEnum._5, resultItem1.getTypeArticle()),
+                () -> Assertions.assertEquals("Ain", resultItem1.getIntitule()),
+                () -> Assertions.assertEquals("inclus", resultItem1.getRelation())
+        );
+    }
+
+    @Test
+    void should_return_18_communes_when_CantonCodeIntersections_code0101_date20250904_typeCommune(){
+        var response  = endpoints.getcogcanintersect ("0101", LocalDate.of(2025,9,4), TypeEnum.COMMUNE);
+        var result = response.getBody();
+        assertNotNull(result);
+        var resultItem1= result.getFirst();
+        var resultItem2= result.get(1);
+
+        assertAll(
+                () -> Assertions.assertEquals(18, result.size()),
+
+                () -> Assertions.assertEquals("01002", resultItem1.getCode()),
+                () -> Assertions.assertEquals("http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e", resultItem1.getUri()),
+                () -> Assertions.assertEquals(TerritoireBaseRelation.TypeEnum.COMMUNE, resultItem1.getType()),
+                () -> Assertions.assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
+                () -> Assertions.assertEquals("Abergement-de-Varey", resultItem1.getIntituleSansArticle()),
+                () -> Assertions.assertEquals(TerritoireBaseRelation.TypeArticleEnum._5, resultItem1.getTypeArticle()),
+                () -> Assertions.assertEquals("L'Abergement-de-Varey", resultItem1.getIntitule()),
+                () -> Assertions.assertEquals("contient", resultItem1.getRelation()),
+
+                () -> Assertions.assertEquals("01004", resultItem2.getCode()),
+                () -> Assertions.assertEquals("http://id.insee.fr/geo/commune/9957029c-4f49-4183-8c94-f6001a6e5a92", resultItem2.getUri()),
+                () -> Assertions.assertEquals(TerritoireBaseRelation.TypeEnum.COMMUNE, resultItem2.getType()),
+                () -> Assertions.assertEquals(LocalDate.of(1955,3,31), resultItem2.getDateCreation()),
+                () -> Assertions.assertEquals("Ambérieu-en-Bugey", resultItem2.getIntituleSansArticle()),
+                () -> Assertions.assertEquals(TerritoireBaseRelation.TypeArticleEnum._1, resultItem2.getTypeArticle()),
+                () -> Assertions.assertEquals("Ambérieu-en-Bugey", resultItem2.getIntitule()),
+                () -> Assertions.assertEquals("contient", resultItem2.getRelation())
+        );
+    }
+
 }
+

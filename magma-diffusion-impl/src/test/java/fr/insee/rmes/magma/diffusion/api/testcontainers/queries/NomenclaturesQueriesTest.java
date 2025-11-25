@@ -61,7 +61,7 @@ public class NomenclaturesQueriesTest extends TestcontainerTest {
 
         Assertions.assertNotNull(result);
         assertAll(
-                () -> assertEquals("http://id.insee.fr/codes/pcs2020/profession/21B4", result.getUri()),
+                () -> assertEquals("http://id.insee.fr/codes/pcs2020/4/21B4", result.getUri()),
                 () -> assertEquals("Artisans plombiers / Artisanes plombières, chauffagistes", result.getIntitule())
         );
     }

@@ -25,11 +25,13 @@ public record QueryBuilder(Configuration freemarkerConfiguration) {
     public static final String PROJETES = "geographie/getProjectionByCodeTypeDate.ftlh";
     public static final String IRIS_FAUX_IRIS = "geographie/getIrisByCodeDate.ftlh";
     public static final String IRIS_LIST = "geographie/getIrisList.ftlh";
+    public static final String ASCENDANTS_FAUX_IRIS = "geographie/getAscendantsFauxIrisByCodeTypeDate.ftlh";
     public static final String LIEN_COMMUNE_IRIS = "geographie/hasIrisDescendant.ftlh";
     public static final String LIEN_PAYS = "geographie/getPays.ftlh";
     public static final String DESCENDANTS_PAYS = "geographie/getPaysDescendants.ftlh";
     public static final String PAYS_PRECEDENTS = "geographie/getPaysPrecedents.ftlh";
     public static final String PAYS_SUIVANTS = "geographie/getPaysSuivants.ftlh";
+    public static final String TERRITOIRES_LIES = "geographie/getTerritoiresLies.ftlh";
     public static final String NOMENCLATURE = "classifications/getClassificationByCode.ftlh";
 
     public Query build(Map<String, Object> parameters, String queryfile) {

@@ -31,10 +31,12 @@ interface ParameterValueDecoder<T> {
     String ENUM_DESCENDANTS_COMMUNE_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCommune";
     String ENUM_ASCENDANTS_COMMUNE_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCommune";
     String ENUM_DESCENDANTS_INTERCOMMUNALITE_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsIntercommunalite";
+    String ENUM_ASCENDANTS_IRIS_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsIris";
     String ENUM_DESCENDANTS_PAYS_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsPays";
     String ENUM_DESCENDANTS_REGION_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsRegion";
     String ENUM_DESCENDANTS_UNITEURBAINE_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsUniteUrbaine";
     String ENUM_DESCENDANTS_ZONEDEMPLOI_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsZoneDEmploi";
+    String ENUM_TERRITOIRE_LIE = "fr.insee.rmes.magma.diffusion.model.TypeEnum";
 
     static <U> ParameterValueDecoder<U> of(Class<U> type) {
         return switch (type.getName()) {
@@ -78,6 +80,8 @@ interface ParameterValueDecoder<T> {
                     enumDepDesValue -> enumDepDesValue == null ? "none" : ((TypeEnumAscendantsDepartement) enumDepDesValue).getValue();
             case ENUM_DESCENDANTS_INTERCOMMUNALITE_CLASS ->
                     enumIntercoValue -> enumIntercoValue == null ? "none" : ((TypeEnumDescendantsIntercommunalite) enumIntercoValue).getValue();
+            case ENUM_ASCENDANTS_IRIS_CLASS ->
+                    enumIrisValue -> enumIrisValue == null ? "none" : ((TypeEnumAscendantsIris) enumIrisValue).getValue();
             case ENUM_DESCENDANTS_PAYS_CLASS ->
                     enumPaysValue -> enumPaysValue == null ? "none" : ((TypeEnumDescendantsPays) enumPaysValue).getValue();
             case ENUM_DESCENDANTS_REGION_CLASS ->
@@ -86,6 +90,8 @@ interface ParameterValueDecoder<T> {
                     enumUuValue -> enumUuValue == null ? "none" : ((TypeEnumDescendantsUniteUrbaine) enumUuValue).getValue();
             case ENUM_DESCENDANTS_ZONEDEMPLOI_CLASS ->
                     enumZeValue -> enumZeValue == null ? "none" : ((TypeEnumDescendantsZoneDEmploi) enumZeValue).getValue();
+            case ENUM_TERRITOIRE_LIE ->
+                    enumValue -> enumValue == null ? "none" : ((TypeEnum) enumValue).getValue();
             case String ignored when Enum.class.isAssignableFrom(type) -> simpleEnum -> ((Enum<?>) simpleEnum).name();
             default -> throw new IllegalArgumentException("Unsupported type: " + type.getName());
         };

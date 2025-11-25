@@ -13,8 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -39,7 +38,7 @@ public class GeoCollectiviteDOutreMerQueriesTest extends TestcontainerTest{
     void should_return_COMCode_988_when_code988_date20250904() {
         var response  = endpoints.getcogcoll("988", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         //Use assertAll() so that the test does not stop at the first error in the test.
         assertAll(
                 () -> assertEquals("988", result.getCode()),
@@ -62,7 +61,7 @@ public class GeoCollectiviteDOutreMerQueriesTest extends TestcontainerTest{
     void should_return_2_communes_2_iris_when_COMCodeDescendants_code975_date20250904_typeNull_filtreNomNull(){
         var response  = endpoints.getcogcolldes("975", LocalDate.of(2025, 9, 4), null,null);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(4, result.size());
         assertEquals("97501", resultItem1.getCode());
@@ -79,6 +78,7 @@ public class GeoCollectiviteDOutreMerQueriesTest extends TestcontainerTest{
     void should_return_1_commune_when_COMCodeDescendants_code975_date20250904_typeCommune_filtreNomMiquelon(){
         var response  = endpoints.getcogcolldes("975", LocalDate.of(2025, 9, 4), TypeEnumDescendantsCollectiviteDOutreMer.COMMUNE,"Miquelon");
         var result = response.getBody();
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(1, result.size());
         assertEquals("97501", resultItem1.getCode());
@@ -99,7 +99,7 @@ public class GeoCollectiviteDOutreMerQueriesTest extends TestcontainerTest{
     void should_return_9_COM_when_CollectivitesDOutreMer_date20250904(){
         var response  = endpoints.getcogcollliste ("2025-09-04");
         var result = response.getBody();
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
         var resultItem1= result.getFirst();
         assertEquals(9, result.size());
         assertEquals("975", resultItem1.getCode());
@@ -116,7 +116,7 @@ public class GeoCollectiviteDOutreMerQueriesTest extends TestcontainerTest{
 void should_return_67_COM_when_CollectivitesDOutreMer_dateEtoile(){
     var response  = endpoints.getcogcollliste ("*");
     var result = response.getBody();
-    Assertions.assertNotNull(result);
+    assertNotNull(result);
     var resultItem1= result.getFirst();
     assertEquals(67, result.size());
     assertEquals("90bis", resultItem1.getCode());

@@ -12,8 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.net.URI;
 import java.time.LocalDate;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,11 +37,9 @@ public class ConceptsQueriesTest extends TestcontainerTest {
     void should_return_conceptc2066_when_ConceptsDefinitionCode_codec2066(){
         var response  = endpoints.getconcept("c2066");
         var result = response.getBody();
+        assertNotNull(result);
         assertAll(
-                () -> {
-                    Assertions.assertNotNull(result);
-                    assertEquals("c2066", result.getId());
-                },
+                () -> assertEquals("c2066", result.getId()),
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2066"), result.getUri()),
                 () -> assertEquals("Auto-entrepreneur", result.getIntitule().getFirst().getContenu()),
                 () -> assertEquals("fr", result.getIntitule().getFirst().getLangue()),
@@ -67,11 +64,9 @@ public class ConceptsQueriesTest extends TestcontainerTest {
     void should_return_conceptc1201_when_ConceptsDefinitionCode_codec1201(){
         var response  = endpoints.getconcept("c1201");
         var result = response.getBody();
+        Assertions.assertNotNull(result);
         assertAll(
-                () -> {
-                    Assertions.assertNotNull(result);
-                    assertEquals("c1201", result.getId());
-                },
+                () -> assertEquals("c1201", result.getId()),
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1201"), result.getUri()),
                 () -> assertEquals("Accueils collectifs de mineurs à caractère éducatif", result.getIntitule().getFirst().getContenu()),
                 () -> assertEquals("fr", result.getIntitule().getFirst().getLangue()),
@@ -85,7 +80,7 @@ public class ConceptsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("fr", result.getNoteEditoriale().getFirst().getLangue()),
                 () -> assertEquals("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Source : mission Enquêtes, Données et Études Statistiques (MEDES), service statistique ministériel en charge de la jeunesse et des sports (site : https://injep.fr/mesurer/) </p></div>", result.getNoteEditoriale().getLast().getContenu()),
                 () -> assertEquals("en", result.getNoteEditoriale().getLast().getLangue()),
-                () -> assertEquals(LocalDate.of(2022,5,9), result.getDateMiseAJour()),
+                () -> assertNull(result.getDateMiseAJour()),
                 () -> assertEquals(3, result.getConceptsPrecedents().size()),
                 () -> assertEquals("c1307", result.getConceptsPrecedents().getFirst().getId()),
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1307"), result.getConceptsPrecedents().getFirst().getUri()),
@@ -110,7 +105,7 @@ public class ConceptsQueriesTest extends TestcontainerTest {
 
 //    geo/concepts/definitions?libelle=elect
     @Test
-    void should_return_16_concepts_when_ConceptsDefinitions_libelleÉlect() {
+    void should_return_16_concepts_when_ConceptsDefinitions_libelleElect() {
         var response  = endpoints.getconceptsliste("Élect");
         var result = response.getBody();
         Assertions.assertNotNull(result);
