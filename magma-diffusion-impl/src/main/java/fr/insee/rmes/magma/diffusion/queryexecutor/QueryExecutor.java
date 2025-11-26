@@ -46,6 +46,7 @@ public record QueryExecutor(RestClient restClient, String urlTemplate) {
 
     public Csv execute(@NonNull Query query) {
         String prefixedQuery = PREFIXES + query.value();
+        log.info("Query length: {}", prefixedQuery.length());
         return new Csv(restClient.get()
                 .uri(urlTemplate, prefixedQuery)
                 .retrieve()
