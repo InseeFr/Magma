@@ -51,6 +51,25 @@ public class GeoRegionQueriesTest extends TestcontainerTest{
         );
     }
 
+//    geo/region/82?date=1990-01-01 (region 82 does not exist anymore in 2025)
+@Test
+void should_return_region82_when_regionCode82_date19900101() {
+    var response  = endpoints.getcogreg("82", LocalDate.of(1990, 1, 1));
+    var result = response.getBody();
+    assertNotNull(result);
+    assertAll(
+            () -> assertEquals("82", result.getCode()),
+            () -> assertEquals("http://id.insee.fr/geo/region/b332a45b-1a2d-4012-912b-c7b494e51be0", result.getUri()),
+            () -> assertEquals(Region.TypeEnum.REGION, result.getType()),
+            () -> assertEquals(LocalDate.of(1982,3,2), result.getDateCreation()),
+            () -> assertEquals(LocalDate.of(2016,1,1), result.getDateSuppression()),
+            () -> assertEquals("Rhône-Alpes", result.getIntituleSansArticle()),
+            () -> assertEquals(Region.TypeArticleEnum._0, result.getTypeArticle()),
+            () -> assertEquals("69123", result.getChefLieu()),
+            () -> assertEquals("Rhône-Alpes", result.getIntitule())
+    );
+}
+
 
     /////////////////////////////////////////////////////////////////////
     ///                geo/region/{code}/descendants                  ///
