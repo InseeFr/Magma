@@ -17,6 +17,16 @@ public class RapportQualiteDTO {
     private String uri;
     private String labelLg1;
     private String labelLg2;
+
+    public String getValeurSimple() {
+        return valeurSimple;
+    }
+
+    public void setValeurSimple(String valeurSimple) {
+        this.valeurSimple = valeurSimple;
+    }
+
+    private String valeurSimple;
     @Getter
     private List<Rubrique> rubriques;
 
@@ -57,6 +67,20 @@ public class RapportQualiteDTO {
             List<ConceptIntituleInner> label = createListLangueContenu(createLangueContenu(labelLg1,"fr"),createLangueContenu("","en"));
             rapportQualite.setLabel(label);
         }
+        if (this.rubriques != null) {
+            List<Rubrique> rubriquesList = new ArrayList<>();
+            for (Rubrique r : this.rubriques) {
+                Rubrique inner = new Rubrique();
+                inner.setId(r.getId());
+                inner.setUri(r.getUri());
+                inner.setIdParent(r.getIdParent());
+                inner.setType(r.getType());
+                switch (r.getType()){
+                    case "DATE":
+
+                }
+            }
+        };
         return rapportQualite;
     }
 
