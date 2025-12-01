@@ -114,6 +114,14 @@ void should_return_region82_when_regionCode82_date19900101() {
         );
     }
 
+    //    geo/region/82/descendants?date=2025-09-04
+    @Test
+    void should_return_404_when_RegionCodeDescendants_code82_date20250904() throws Exception{
+        mockMvc.perform(get("/geo/region/82/descendants")
+                        .param("date", "2025-09-04"))
+                .andExpect(status().isNotFound());
+    }
+
     /////////////////////////////////////////////////////////////////////
     ///                geo/regions                                    ///
     /////////////////////////////////////////////////////////////////////
@@ -184,11 +192,19 @@ void should_return_region82_when_regionCode82_date19900101() {
         );
     }
 
-    //    geo/region/44/precedents?date=201-01-01
+    //    geo/region/44/precedents?date=2010-01-01
     @Test
     void should_return_404_when_RegionCodePrecedents_code44_date20100101() throws Exception{
         mockMvc.perform(get("/geo/region/44/precedents")
                         .param("date", "2010-01-01"))
+                .andExpect(status().isNotFound());
+    }
+
+    //    geo/region/82/precedents?date=2025-09-04 (region 82 does not in exist in 2025)
+    @Test
+    void should_return_404_when_RegionCodePrecedents_code82_date20250904() throws Exception{
+        mockMvc.perform(get("/geo/region/82/precedents")
+                        .param("date", "2025-01-01"))
                 .andExpect(status().isNotFound());
     }
 
@@ -234,6 +250,26 @@ void should_return_region82_when_regionCode82_date19900101() {
         );
     }
 
+    //  geo/region/82?date=1990-01-01&dateProjection=2000-01-01
+    @Test
+    void should_return_1_region_when_RegionsCodeProjetes_date19900101_dateProjection20000101(){
+        var response  = endpoints.getcogregproj("82", LocalDate.of(1990, 1, 1), LocalDate.of(2000,1,1));
+        var result = response.getBody();
+        assertNotNull(result);
+        var resultItem1= result.getFirst();
+        assertAll(
+                () -> assertEquals(1, result.size()),
+                () -> assertEquals("82", resultItem1.getCode()),
+                () -> assertEquals("http://id.insee.fr/geo/region/b332a45b-1a2d-4012-912b-c7b494e51be0", resultItem1.getUri()),
+                () -> assertEquals(TerritoireTousAttributs.TypeEnum.REGION, resultItem1.getType()),
+                () -> assertEquals(LocalDate.of(1982,3,2), resultItem1.getDateCreation()),
+                () -> assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateSuppression()),
+                () -> assertEquals("Rhône-Alpes", resultItem1.getIntituleSansArticle()),
+                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
+                () -> assertEquals("69123", resultItem1.getChefLieu()),
+                () -> assertEquals("Rhône-Alpes", resultItem1.getIntitule())
+        );
+    }
 
     /////////////////////////////////////////////////////////
     ///        geo/region/{code}/suivants            ///
@@ -266,5 +302,22 @@ void should_return_region82_when_regionCode82_date19900101() {
         assertEquals("Alsace-Champagne-Ardenne-Lorraine", resultItem1.getIntitule());
     }
 
+    //    geo/region/82/suivants?date=2000-01-01 (region 82 does not exist in 2025)
+    @Test
+    void should_return_1_region_when_RegionCodeSuivants_code82_date20000101(){
+        var response  = endpoints.getcogregsuiv("82", LocalDate.of(2000,1,1));
+        var result = response.getBody();
+        assertNotNull(result);
+        var resultItem1= result.getFirst();
+        assertEquals(1, result.size());
+        assertEquals("84", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/region/c12b23e7-d2e7-4443-ac4b-de8de5ce22f2", resultItem1.getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.REGION, resultItem1.getType());
+        assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
+        assertEquals("Auvergne-Rhône-Alpes", resultItem1.getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._1, resultItem1.getTypeArticle());
+        assertEquals("69123", resultItem1.getChefLieu());
+        assertEquals("Auvergne-Rhône-Alpes", resultItem1.getIntitule());
+    }
 
 }
