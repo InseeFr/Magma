@@ -2147,7 +2147,7 @@ components:
         Date vers laquelle est projeté le département. Paramètre obligatoire (format : 'AAAA-MM-JJ')
       name: dateProjection
       schema:
-        $ref: '#/components/schemas/Date1950ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date1950ParDefaut'
 
     filtreNomDescendant:
       name: 'filtreNom'
@@ -2162,7 +2162,7 @@ components:
       description: 'Code du département (deux ou trois caractères)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeDep'
+        $ref: './schemas.yaml/#/components/schemas/CodeDep'
 
     dateDepartementActif:
       in: query
@@ -2179,7 +2179,7 @@ components:
         Filtre pour renvoyer les départements actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     dateTerritoiresActifsDescendantsDepartement:
       in: query
@@ -2204,14 +2204,14 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumDescendantsDepartement'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumDescendantsDepartement'
 
     typeTerritoireAscendantDepartement:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumAscendantsDepartement'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumAscendantsDepartement'
 
     idConceptInPath:
       required: true
@@ -2219,7 +2219,7 @@ components:
       in: path
       description: 'Identifiant du concept (format : c[0-9]{4})'
       schema:
-        $ref: '#/components/schemas/IdConcept'
+        $ref: './schemas.yaml/#/components/schemas/IdConcept'
 
     libelleConceptInQuery:
       required: false
@@ -2236,7 +2236,7 @@ components:
       description: 'Code de l''aire d''attraction (trois chiffres)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeAireDAttractionDesVilles'
+        $ref: './schemas.yaml/#/components/schemas/CodeAireDAttractionDesVilles'
 
     dateAireDAttractionDesVillesActive:
       in: query
@@ -2253,7 +2253,7 @@ components:
         Filtre pour renvoyer les aires d'attraction actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     dateTerritoiresActifsDescendantsAireDAttractionDesVilles:
       in: query
@@ -2269,7 +2269,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumDescendantsAireDAttractionDesVilles'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumDescendantsAireDAttractionDesVilles'
 
     codeArrondissementInPath:
       name: 'code'
@@ -2277,7 +2277,7 @@ components:
       description: 'Code de l''arrondissement (trois ou quatre caractères)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeArrondissement'
+        $ref: './schemas.yaml/#/components/schemas/CodeArrondissement'
 
     dateArrondissementActif:
       in: query
@@ -2302,7 +2302,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumDescendantsArrondissement'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumDescendantsArrondissement'
 
     dateArrondissementsActifs:
       in: query
@@ -2310,7 +2310,7 @@ components:
         Filtre pour renvoyer les arrondissements actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     dateArrondissementDepart:
       in: query
@@ -2335,7 +2335,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumAscendantsArrondissement'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumAscendantsArrondissement'
 
     codeArrondissementSuivantInPath:
       name: 'code'
@@ -2343,7 +2343,7 @@ components:
       description: 'Code de l''arrondissement (trois ou quatre caractères)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeArrondissementSuivant'
+        $ref: './schemas.yaml/#/components/schemas/CodeArrondissementSuivant'
 
     dateProjectionArrondissementInPath:
       required: true
@@ -2352,7 +2352,7 @@ components:
         Date vers laquelle est projeté l'arrondissement. Paramètre obligatoire (format : 'AAAA-MM-JJ')
       name: dateProjection
       schema:
-        $ref: '#/components/schemas/Date1994ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date1994ParDefaut'
 
     dateArrondissementSuivantInPath:
       name: 'date'
@@ -2360,7 +2360,7 @@ components:
       description: |-
         Filtre pour préciser l'arrondissement de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       schema:
-        $ref: '#/components/schemas/Date2016ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date2016ParDefaut'
 
     codeArrondissementMunicipalInPath:
       name: 'code'
@@ -2368,7 +2368,7 @@ components:
       description: 'Code de l''arrondissement municipal (cinq caractères)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeArrondissementMunicipal'
+        $ref: './schemas.yaml/#/components/schemas/CodeArrondissementMunicipal'
 
     dateArrondissementMunicipalActif:
       in: query
@@ -2385,7 +2385,7 @@ components:
         Filtre pour renvoyer les arrondissements municipaux actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     dateArrondissementMunicipalDepart:
       in: query
@@ -2410,7 +2410,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumAscendantsArrondissementMunicipal'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumAscendantsArrondissementMunicipal'
 
     dateProjectionArrondissementMunicipalInPath:
       required: true
@@ -2419,7 +2419,7 @@ components:
         Date vers laquelle est projeté l'arrondissement municipal. Paramètre obligatoire (format : 'AAAA-MM-JJ')
       name: dateProjection
       schema:
-        $ref: '#/components/schemas/Date2011ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date2011ParDefaut'
 
     dateArrondissementMunicipalSuivantProjeteDepart:
       name: 'date'
@@ -2427,7 +2427,7 @@ components:
       description: |-
         Filtre pour préciser le département de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       schema:
-        $ref: '#/components/schemas/Date1960ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date1960ParDefaut'
 
     dateDepartementDepart:
       in: query
@@ -2444,7 +2444,7 @@ components:
       description: |-
         Filtre pour préciser le département de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       schema:
-        $ref: '#/components/schemas/Date1950ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date1950ParDefaut'
 
     codeCommuneInPath:
       required: true
@@ -2452,7 +2452,7 @@ components:
       in: path
       description: 'Code de la commune (cinq caractères)'
       schema:
-        $ref: '#/components/schemas/CodeCom'
+        $ref: './schemas.yaml/#/components/schemas/CodeCom'
 
     codeCommuneTerritoireLieInPath:
       required: true
@@ -2460,7 +2460,7 @@ components:
       in: path
       description: 'Code de la commune (cinq caractères)'
       schema:
-        $ref: '#/components/schemas/CodeCom'
+        $ref: './schemas.yaml/#/components/schemas/CodeCom'
       example: '01053'
 #      overload the CodeCom example (14475)
 
@@ -2479,7 +2479,7 @@ components:
       description: |-
         Filtre pour préciser la commune de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       schema:
-        $ref: '#/components/schemas/Date1945ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date1945ParDefaut'
 
     dateProjectionCommuneInPath:
       required: true
@@ -2488,7 +2488,7 @@ components:
         Date vers laquelle est projeté le departement. Paramètre obligatoire (format : 'AAAA-MM-JJ')
       name: dateProjection
       schema:
-        $ref: '#/components/schemas/Date1945ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date1945ParDefaut'
 
     dateTerritoiresActifsDescendantsCommune:
       in: query
@@ -2514,28 +2514,28 @@ components:
         Filtre pour renvoyer les communes actives à la date donnée. Par défaut, c'est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     typeTerritoireDescendantCommune:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumDescendantsCommune'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumDescendantsCommune'
 
     typeTerritoireAscendantCommune:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumAscendantsCommune'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumAscendantsCommune'
 
     typeTerritoireLieACommune:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnum'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnum'
       example: 'Canton'
 
     filtreNomCommune:
@@ -2561,7 +2561,7 @@ components:
       description: 'Code de la commune associée (cinq caractères)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeCommuneAssociee'
+        $ref: './schemas.yaml/#/components/schemas/CodeCommuneAssociee'
 
     dateCommuneAssocieeActive:
       in: query
@@ -2578,7 +2578,7 @@ components:
         Filtre pour renvoyer les communes associées actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     dateTerritoiresActifsAscendantsCommuneAssociee:
       in: query
@@ -2594,7 +2594,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumAscendantsCommuneAssociee'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumAscendantsCommuneAssociee'
 
     codeCommuneDelegueeInPath:
       name: 'code'
@@ -2602,7 +2602,7 @@ components:
       description: 'Code de la commune déléguée (cinq caractères)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeCommuneDeleguee'
+        $ref: './schemas.yaml/#/components/schemas/CodeCommuneDeleguee'
 
     dateCommuneDelegueeActive:
       in: query
@@ -2619,7 +2619,7 @@ components:
         Filtre pour renvoyer les communes déléguées actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     dateTerritoiresActifsAscendantsCommuneDeleguee:
       in: query
@@ -2635,7 +2635,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumAscendantsCommuneDeleguee'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumAscendantsCommuneDeleguee'
 
     codeDistrictInPath:
       name: 'code'
@@ -2643,7 +2643,7 @@ components:
       description: 'Code du district (cinq caractères)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeDistrict'
+        $ref: './schemas.yaml/#/components/schemas/CodeDistrict'
 
     dateDistrictActif:
       in: query
@@ -2668,7 +2668,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumAscendantsDistrict'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumAscendantsDistrict'
 
     dateIntercommunaliteActive:
       in: query
@@ -2685,7 +2685,7 @@ components:
       description: 'Code de l''intercommunalité (neuf caractères)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeInterco'
+        $ref: './schemas.yaml/#/components/schemas/CodeInterco'
 
     dateTerritoiresActifsDescendantsIntercommunalite:
       in: query
@@ -2701,7 +2701,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumDescendantsIntercommunalite'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumDescendantsIntercommunalite'
 
     dateIntercommunalitesActives:
       in: query
@@ -2709,7 +2709,7 @@ components:
         Filtre pour renvoyer les intercommunalités actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     filtreNomIntercommunalite:
       in: query
@@ -2736,7 +2736,7 @@ components:
         Date vers laquelle est projeté l'intercommunalité. Paramètre obligatoire (format : 'AAAA-MM-JJ')
       name: dateProjection
       schema:
-        $ref: '#/components/schemas/Date2013ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date2013ParDefaut'
 
     dateIntercommunaliteSuivantDepart:
       in: query
@@ -2744,14 +2744,14 @@ components:
         Filtre pour préciser l'intercommunalité de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       name: date
       schema:
-        $ref: '#/components/schemas/Date2016ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date2016ParDefaut'
 
     typeTerritoireAscendantIris:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumAscendantsIris'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumAscendantsIris'
 
     dateIrisActif:
       in: query
@@ -2777,7 +2777,7 @@ components:
       description: 'Code Insee de l''Iris (neuf caractères)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeIris'
+        $ref: './schemas.yaml/#/components/schemas/CodeIris'
 
     codePaysInPath:
       name: 'code'
@@ -2785,7 +2785,7 @@ components:
       description: 'Code de lu pays (cinq chiffres, débutant par 99)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodePays'
+        $ref: './schemas.yaml/#/components/schemas/CodePays'
 
     datePaysActif:
       in: query
@@ -2810,7 +2810,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumDescendantsPays'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumDescendantsPays'
 
     datePaysListActifs:
       in: query
@@ -2818,7 +2818,7 @@ components:
         Filtre pour renvoyer les pays actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     codePaysPrecInPath:
       name: 'code'
@@ -2826,7 +2826,7 @@ components:
       description: 'Code du pays (cinq chiffres, débutant par 99)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodePaysPrec'
+        $ref: './schemas.yaml/#/components/schemas/CodePaysPrec'
 
     datePaysDepart:
       in: query
@@ -2834,7 +2834,7 @@ components:
         Filtre pour préciser le pays de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       name: date
       schema:
-        $ref: '#/components/schemas/Date1965ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date1965ParDefaut'
 
     codePaysSuivantInPath:
       name: 'code'
@@ -2842,7 +2842,7 @@ components:
       description: 'Code du pays (cinq chiffres, débutant par 99)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodePaysSuivant'
+        $ref: './schemas.yaml/#/components/schemas/CodePaysSuivant'
 
     datePaysSuivantInPath:
       in: query
@@ -2850,7 +2850,7 @@ components:
         Filtre pour préciser le pays de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       name: date
       schema:
-        $ref: '#/components/schemas/Date1950ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date1950ParDefaut'
 
     codeQPVInPath:
       name: 'code'
@@ -2858,7 +2858,7 @@ components:
       description: 'Code du quartier prioritaire de la ville (QN + code département sur 3 positions + une lettre parmi N, M, I)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeQPV'
+        $ref: './schemas.yaml/#/components/schemas/CodeQPV'
 
 
     codeRegInPath:
@@ -2867,7 +2867,7 @@ components:
       description: 'Code de la région (deux chiffres)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeReg'
+        $ref: './schemas.yaml/#/components/schemas/CodeReg'
 
     dateQPVActif:
       in: query
@@ -2892,7 +2892,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnum'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnum'
 
     dateRegionActive:
       in: query
@@ -2917,7 +2917,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumDescendantsRegion'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumDescendantsRegion'
 
     dateRegionsActives:
       in: query
@@ -2925,7 +2925,7 @@ components:
         Filtre pour renvoyer les régions actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     codeRegPrecProjInPath:
       name: 'code'
@@ -2933,7 +2933,7 @@ components:
       description: 'Code de la région (deux chiffres)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeRegPrecProj'
+        $ref: './schemas.yaml/#/components/schemas/CodeRegPrecProj'
 
     dateRegionDepart:
       in: query
@@ -2951,7 +2951,7 @@ components:
         Date vers laquelle est projetée la région. Paramètre obligatoire (format : 'AAAA-MM-JJ')
       name: dateProjection
       schema:
-        $ref: '#/components/schemas/Date2000ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date2000ParDefaut'
 
     codeRegSuivantInPath:
       name: 'code'
@@ -2959,7 +2959,7 @@ components:
       description: 'Code de la région (deux chiffres)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeRegSuivant'
+        $ref: './schemas.yaml/#/components/schemas/CodeRegSuivant'
 
     dateRegionSuivantDepart:
       in: query
@@ -2967,7 +2967,7 @@ components:
         Filtre pour préciser la région de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       name: date
       schema:
-        $ref: '#/components/schemas/Date2000ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date2000ParDefaut'
 
     codeUniteUrbaineInPath:
       name: 'code'
@@ -2975,7 +2975,7 @@ components:
       description: 'Code de l''unité urbaine (cinq chiffres ou 1 chiffre, 1 lettre et 3 chiffres)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeUniteUrbaine'
+        $ref: './schemas.yaml/#/components/schemas/CodeUniteUrbaine'
 
     dateUniteUrbaineActive:
       in: query
@@ -3000,7 +3000,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumDescendantsUniteUrbaine'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumDescendantsUniteUrbaine'
 
     dateUnitesUrbainesActives:
       in: query
@@ -3008,7 +3008,7 @@ components:
         Filtre pour renvoyer les unités urbaines actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     codeBassinDeVieInPath:
       name: 'code'
@@ -3016,7 +3016,7 @@ components:
       description: 'Code du bassin de vie (cinq caractères)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeBassinDeVie'
+        $ref: './schemas.yaml/#/components/schemas/CodeBassinDeVie'
 
     dateBassinDeVieActif:
       in: query
@@ -3042,14 +3042,14 @@ components:
         Filtre pour renvoyer les bassins de vie actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     typeTerritoireDescendantBassinDeVie:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumDescendantsBassinDeVie'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumDescendantsBassinDeVie'
 
     filtreNomBassinDeVie:
       in: query
@@ -3066,7 +3066,7 @@ components:
       description: 'Code du canton (quatre chiffres pour la Métropole ou cinq chiffres pour les DOM ou 2A/2B plus 2 chiffres pour la Corse)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeCanton'
+        $ref: './schemas.yaml/#/components/schemas/CodeCanton'
 
     dateCantonActif:
       in: query
@@ -3092,7 +3092,7 @@ components:
         Filtre pour renvoyer les cantons actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     codeCantonPrecInPath:
       name: 'code'
@@ -3100,7 +3100,7 @@ components:
       description: 'Code du canton (quatre chiffres pour la Métropole ou cinq chiffres pour les DOM ou 2A/2B plus 2 chiffres pour la Corse)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeCantonPrec'
+        $ref: './schemas.yaml/#/components/schemas/CodeCantonPrec'
 
     dateCantonDepart:
       in: query
@@ -3118,7 +3118,7 @@ components:
         Date vers laquelle est projeté le canton. Paramètre obligatoire (format : 'AAAA-MM-JJ')
       name: dateProjection
       schema:
-        $ref: '#/components/schemas/Date2020ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date2020ParDefaut'
 
     dateCantonSuivantDepart:
       in: query
@@ -3126,7 +3126,7 @@ components:
         Filtre pour préciser le canton de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       name: date
       schema:
-        $ref: '#/components/schemas/Date2020ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date2020ParDefaut'
 
     dateTerritoiresActifsAscendantsCanton:
       in: query
@@ -3142,14 +3142,14 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumAscendantsCanton'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumAscendantsCanton'
 
     typeTerritoireLieACanton:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnum'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnum'
       example: 'Commune'
 
     codeCantonOuVilleInPath:
@@ -3158,7 +3158,7 @@ components:
       description: 'Code du canton-ou-ville (quatre caractères, ou cinq pour les DOM, exemple : 97602)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeCantonOuVille'
+        $ref: './schemas.yaml/#/components/schemas/CodeCantonOuVille'
 
     dateCantonOuVilleActif:
       in: query
@@ -3183,7 +3183,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumDescendantsCantonOuVille'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumDescendantsCantonOuVille'
 
     dateCantonsEtVillesActifs:
       in: query
@@ -3191,7 +3191,7 @@ components:
         Filtre pour renvoyer les cantons et villes actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     dateTerritoiresActifsAscendantsCantonOuVille:
       in: query
@@ -3207,7 +3207,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumAscendantsCantonOuVille'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumAscendantsCantonOuVille'
 
     codeCantonOuVillePrecInPath:
       name: 'code'
@@ -3215,7 +3215,7 @@ components:
       description: 'Code du canton-ou-ville (quatre caractères, ou cinq pour les DOM, exemple : 97602)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeCantonOuVillePrec'
+        $ref: './schemas.yaml/#/components/schemas/CodeCantonOuVillePrec'
 
     dateCantonOuVilleDepart:
       in: query
@@ -3233,7 +3233,7 @@ components:
         Date vers laquelle est projeté le canton-ou-ville. Paramètre obligatoire (format : 'AAAA-MM-JJ')
       name: dateProjection
       schema:
-        $ref: '#/components/schemas/Date2016ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date2016ParDefaut'
 
     codeCantonOuVilleSuivantInPath:
       name: 'code'
@@ -3241,7 +3241,7 @@ components:
       description: 'Code du canton-ou-ville (quatre caractères, ou cinq pour les DOM, exemple : 97602)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeCantonOuVilleSuivants'
+        $ref: './schemas.yaml/#/components/schemas/CodeCantonOuVilleSuivants'
 
     dateCantonOuVilleSuivantInPath:
       in: query
@@ -3249,7 +3249,7 @@ components:
         Filtre pour préciser le canton-ou-ville de départ. Par défaut, c’est la date courante qui est utilisée (format : 'AAAA-MM-JJ')
       name: date
       schema:
-        $ref: '#/components/schemas/Date2016ParDefaut'
+        $ref: './schemas.yaml/#/components/schemas/Date2016ParDefaut'
 
     codeCirconscriptionTerritorialeInPath:
       name: 'code'
@@ -3257,7 +3257,7 @@ components:
       description: 'Code de la circonscription territoriale (cinq caractères)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeCirconscriptionTerritoriale'
+        $ref: './schemas.yaml/#/components/schemas/CodeCirconscriptionTerritoriale'
 
     dateCirconscriptionTerritorialeActive:
       in: query
@@ -3282,7 +3282,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumAscendantsCirconscriptionTerritoriale'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumAscendantsCirconscriptionTerritoriale'
 
     codeCollectiviteDOutreMerInPath:
       name: 'code'
@@ -3290,7 +3290,7 @@ components:
       description: 'Code de la collectivité d''outre-mer (trois caractères)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeCollectiviteDOutreMer'
+        $ref: './schemas.yaml/#/components/schemas/CodeCollectiviteDOutreMer'
 
     dateCollectiviteDOutreMerActive:
       in: query
@@ -3315,7 +3315,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumDescendantsCollectiviteDOutreMer'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumDescendantsCollectiviteDOutreMer'
 
     dateCollectivitesDOutreMerActives:
       in: query
@@ -3323,7 +3323,7 @@ components:
         Filtre pour renvoyer les collectivités d'outre-mer à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     codeZoneDEmploiInPath:
       name: 'code'
@@ -3331,7 +3331,7 @@ components:
       description: 'Code de la zone d''emploi (quatre chiffres)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeZoneDEmploi'
+        $ref: './schemas.yaml/#/components/schemas/CodeZoneDEmploi'
 
     dateZoneDEmploiActive:
       in: query
@@ -3356,7 +3356,7 @@ components:
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
-        $ref: '#/components/schemas/TypeEnumDescendantsZoneDEmploi'
+        $ref: './schemas.yaml/#/components/schemas/TypeEnumDescendantsZoneDEmploi'
 
     dateZonesDEmploiActives:
       in: query
@@ -3364,7 +3364,7 @@ components:
         Filtre pour renvoyer les zones d'emploi actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
       name: date
       schema:
-        $ref: "#/components/schemas/dateAvecEtoile"
+        $ref: "./schemas.yaml/#/components/schemas/dateAvecEtoile"
 
     # -- Nomenclatures
 
@@ -3374,7 +3374,7 @@ components:
       in: path
       description: "Nom de la nomenclature"
       schema:
-        $ref: '#/components/schemas/NomNomenclature'
+        $ref: './schemas.yaml/#/components/schemas/NomNomenclature'
 
     niveauNomenclature:
       name: niveau
@@ -3382,7 +3382,7 @@ components:
       in: path
       description: "Niveau de la nomenclature"
       schema:
-        $ref: '#/components/schemas/NiveauNomenclature'
+        $ref: './schemas.yaml/#/components/schemas/NiveauNomenclature'
 
     codeNomenclature:
       name: code
@@ -3390,7 +3390,7 @@ components:
       in: path
       description: "Identifiant de la nomenclature"
       schema:
-        $ref: '#/components/schemas/CodeNomenclature'
+        $ref: './schemas.yaml/#/components/schemas/CodeNomenclature'
 
     # -- Opérations
 
@@ -4711,13 +4711,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Concept'
+            $ref: './schemas.yaml/#/components/schemas/Concept'
           examples:
             défaut:
               $ref: '#/components/examples/Concept'
         application/xml:
           schema:
-            $ref: '#/components/schemas/Concept'
+            $ref: './schemas.yaml/#/components/schemas/Concept'
           examples:
             défaut:
               $ref: '#/components/examples/Concept'
@@ -4727,13 +4727,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeConcepts'
+            $ref: './schemas.yaml/#/components/schemas/ListeConcepts'
           examples:
             défaut:
               $ref: '#/components/examples/ListeConcepts'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeConcepts'
+            $ref: './schemas.yaml/#/components/schemas/ListeConcepts'
           examples:
             défaut:
               $ref: '#/components/examples/ListeConcepts'
@@ -4745,13 +4745,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/AireDAttractionDesVilles2020'
+            $ref: './schemas.yaml/#/components/schemas/AireDAttractionDesVilles2020'
           examples:
             défaut:
               $ref: '#/components/examples/AireDAttractionDesVilles2020'
         application/xml:
           schema:
-            $ref: '#/components/schemas/AireDAttractionDesVilles2020'
+            $ref: './schemas.yaml/#/components/schemas/AireDAttractionDesVilles2020'
           examples:
             défaut:
               $ref: '#/components/examples/AireDAttractionDesVilles2020'
@@ -4761,13 +4761,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/AireDAttractionDesVillesListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/AireDAttractionDesVillesListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/AireDAttractionDesVillesListeDescendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/AireDAttractionDesVillesListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/AireDAttractionDesVillesListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/AireDAttractionDesVillesListeDescendants'
@@ -4777,13 +4777,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeAiresDAttractionDesVilles2020'
+            $ref: './schemas.yaml/#/components/schemas/ListeAiresDAttractionDesVilles2020'
           examples:
             défaut:
               $ref: '#/components/examples/ListeAiresDAttractionDesVilles2020'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeAiresDAttractionDesVilles2020'
+            $ref: './schemas.yaml/#/components/schemas/ListeAiresDAttractionDesVilles2020'
           examples:
             défaut:
               $ref: '#/components/examples/ListeAiresDAttractionDesVilles2020'
@@ -4793,13 +4793,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ArrondissementListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListeAscendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ArrondissementListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListeAscendants'
@@ -4809,13 +4809,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Arrondissement'
+            $ref: './schemas.yaml/#/components/schemas/Arrondissement'
           examples:
             défaut:
               $ref: '#/components/examples/Arrondissement'
         application/xml:
           schema:
-            $ref: '#/components/schemas/Arrondissement'
+            $ref: './schemas.yaml/#/components/schemas/Arrondissement'
           examples:
             défaut:
               $ref: '#/components/examples/Arrondissement'
@@ -4825,13 +4825,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ArrondissementListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListeDescendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ArrondissementListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListeDescendants'
@@ -4841,13 +4841,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeArrondissements'
+            $ref: './schemas.yaml/#/components/schemas/ListeArrondissements'
           examples:
             défaut:
               $ref: '#/components/examples/ListeArrondissements'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeArrondissements'
+            $ref: './schemas.yaml/#/components/schemas/ListeArrondissements'
           examples:
             défaut:
               $ref: '#/components/examples/ListeArrondissements'
@@ -4857,13 +4857,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ArrondissementListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListePrecedents'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ArrondissementListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListePrecedents'
@@ -4873,13 +4873,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ArrondissementListeProjetes'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementListeProjetes'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListeProjetes'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ArrondissementListeProjetes'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementListeProjetes'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListeProjetes'
@@ -4889,13 +4889,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ArrondissementListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListeSuivants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ArrondissementListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementListeSuivants'
@@ -4905,13 +4905,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ArrondissementMunicipalListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementMunicipalListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListeAscendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ArrondissementMunicipalListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementMunicipalListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListeAscendants'
@@ -4921,13 +4921,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ArrondissementMunicipal'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementMunicipal'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipal'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ArrondissementMunicipal'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementMunicipal'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipal'
@@ -4937,13 +4937,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeArrondissementsMunicipaux'
+            $ref: './schemas.yaml/#/components/schemas/ListeArrondissementsMunicipaux'
           examples:
             défaut:
               $ref: '#/components/examples/ListeArrondissementsMunicipaux'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeArrondissementsMunicipaux'
+            $ref: './schemas.yaml/#/components/schemas/ListeArrondissementsMunicipaux'
           examples:
             défaut:
               $ref: '#/components/examples/ListeArrondissementsMunicipaux'
@@ -4953,13 +4953,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ArrondissementMunicipalListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementMunicipalListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListePrecedents'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ArrondissementMunicipalListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementMunicipalListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListePrecedents'
@@ -4969,13 +4969,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ArrondissementMunicipalListeProjetes'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementMunicipalListeProjetes'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListeProjetes'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ArrondissementMunicipalListeProjetes'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementMunicipalListeProjetes'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListeProjetes'
@@ -4985,13 +4985,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ArrondissementMunicipalListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementMunicipalListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListeSuivants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ArrondissementMunicipalListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/ArrondissementMunicipalListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListeSuivants'
@@ -5001,13 +5001,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/BassinDeVie2022'
+            $ref: './schemas.yaml/#/components/schemas/BassinDeVie2022'
           examples:
             défaut:
               $ref: '#/components/examples/BassinDeVie2022'
         application/xml:
           schema:
-            $ref: '#/components/schemas/BassinDeVie2022'
+            $ref: './schemas.yaml/#/components/schemas/BassinDeVie2022'
           examples:
             défaut:
               $ref: '#/components/examples/BassinDeVie2022'
@@ -5017,13 +5017,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/BassinDeVieListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/BassinDeVieListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/BassinDeVieListeDescendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/BassinDeVieListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/BassinDeVieListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/BassinDeVieListeDescendants'
@@ -5033,13 +5033,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeBassinsDeVie'
+            $ref: './schemas.yaml/#/components/schemas/ListeBassinsDeVie'
           examples:
             défaut:
               $ref: '#/components/examples/ListeBassinsDeVie'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeBassinsDeVie'
+            $ref: './schemas.yaml/#/components/schemas/ListeBassinsDeVie'
           examples:
             défaut:
               $ref: '#/components/examples/ListeBassinsDeVie'
@@ -5049,13 +5049,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CantonListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/CantonListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/CantonListeAscendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CantonListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/CantonListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/CantonListeAscendants'
@@ -5065,13 +5065,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Canton'
+            $ref: './schemas.yaml/#/components/schemas/Canton'
           examples:
             défaut:
               $ref: '#/components/examples/Canton'
         application/xml:
           schema:
-            $ref: '#/components/schemas/Canton'
+            $ref: './schemas.yaml/#/components/schemas/Canton'
           examples:
             défaut:
               $ref: '#/components/examples/Canton'
@@ -5081,13 +5081,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeCantonCommmunes'
+            $ref: './schemas.yaml/#/components/schemas/ListeCantonCommmunes'
           examples:
             défaut:
               $ref: '#/components/examples/ListeCantonCommmunes'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeCantonCommmunes'
+            $ref: './schemas.yaml/#/components/schemas/ListeCantonCommmunes'
           examples:
             défaut:
               $ref: '#/components/examples/ListeCantonCommmunes'
@@ -5097,13 +5097,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeCantons'
+            $ref: './schemas.yaml/#/components/schemas/ListeCantons'
           examples:
             défaut:
               $ref: '#/components/examples/ListeCantons'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeCantons'
+            $ref: './schemas.yaml/#/components/schemas/ListeCantons'
           examples:
             défaut:
               $ref: '#/components/examples/ListeCantons'
@@ -5113,13 +5113,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CantonListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/CantonListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/CantonListePrecedents'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CantonListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/CantonListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/CantonListePrecedents'
@@ -5129,13 +5129,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CantonListeProjetes'
+            $ref: './schemas.yaml/#/components/schemas/CantonListeProjetes'
           examples:
             défaut:
               $ref: '#/components/examples/CantonListeProjetes'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CantonListeProjetes'
+            $ref: './schemas.yaml/#/components/schemas/CantonListeProjetes'
           examples:
             défaut:
               $ref: '#/components/examples/CantonListeProjetes'
@@ -5145,13 +5145,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CantonListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/CantonListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/CantonListeSuivants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CantonListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/CantonListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/CantonListeSuivants'
@@ -5163,7 +5163,7 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/TerritoireBase_Relation'
+              $ref: './schemas.yaml/#/components/schemas/TerritoireBase_Relation'
           examples:
             défaut:
               $ref: '#/components/examples/CantonListeTerritoiresLies'
@@ -5171,7 +5171,7 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/TerritoireBase_Relation'
+              $ref: './schemas.yaml/#/components/schemas/TerritoireBase_Relation'
           examples:
             défaut:
               $ref: '#/components/examples/CantonListeTerritoiresLies'
@@ -5181,13 +5181,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CantonOuVilleListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/CantonOuVilleListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListeAscendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CantonOuVilleListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/CantonOuVilleListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListeAscendants'
@@ -5197,13 +5197,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CantonOuVille'
+            $ref: './schemas.yaml/#/components/schemas/CantonOuVille'
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVille'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CantonOuVille'
+            $ref: './schemas.yaml/#/components/schemas/CantonOuVille'
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVille'
@@ -5213,13 +5213,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CantonOuVilleListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/CantonOuVilleListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListeDescendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CantonOuVilleListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/CantonOuVilleListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListeDescendants'
@@ -5229,13 +5229,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeCantonsEtVilles'
+            $ref: './schemas.yaml/#/components/schemas/ListeCantonsEtVilles'
           examples:
             défaut:
               $ref: '#/components/examples/ListeCantonsEtVilles'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeCantonsEtVilles'
+            $ref: './schemas.yaml/#/components/schemas/ListeCantonsEtVilles'
           examples:
             défaut:
               $ref: '#/components/examples/ListeCantonsEtVilles'
@@ -5245,13 +5245,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CantonOuVilleListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/CantonOuVilleListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListePrecedents'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CantonOuVilleListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/CantonOuVilleListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListePrecedents'
@@ -5261,13 +5261,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CantonOuVilleListeProjetes'
+            $ref: './schemas.yaml/#/components/schemas/CantonOuVilleListeProjetes'
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListeProjetes'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CantonOuVilleListeProjetes'
+            $ref: './schemas.yaml/#/components/schemas/CantonOuVilleListeProjetes'
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListeProjetes'
@@ -5277,13 +5277,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CantonOuVilleListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/CantonOuVilleListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListeSuivants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CantonOuVilleListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/CantonOuVilleListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/CantonOuVilleListeSuivants'
@@ -5293,13 +5293,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CirconscriptionTerritorialeListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/CirconscriptionTerritorialeListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/CirconscriptionTerritorialeListeAscendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CirconscriptionTerritorialeListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/CirconscriptionTerritorialeListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/CirconscriptionTerritorialeListeAscendants'
@@ -5309,13 +5309,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CirconscriptionTerritoriale'
+            $ref: './schemas.yaml/#/components/schemas/CirconscriptionTerritoriale'
           examples:
             défaut:
               $ref: '#/components/examples/CirconscriptionTerritoriale'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CirconscriptionTerritoriale'
+            $ref: './schemas.yaml/#/components/schemas/CirconscriptionTerritoriale'
           examples:
             défaut:
               $ref: '#/components/examples/CirconscriptionTerritoriale'
@@ -5325,13 +5325,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CollectiviteDOutreMer'
+            $ref: './schemas.yaml/#/components/schemas/CollectiviteDOutreMer'
           examples:
             défaut:
               $ref: '#/components/examples/CollectiviteDOutreMer'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CollectiviteDOutreMer'
+            $ref: './schemas.yaml/#/components/schemas/CollectiviteDOutreMer'
           examples:
             défaut:
               $ref: '#/components/examples/CollectiviteDOutreMer'
@@ -5341,13 +5341,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CollectiviteDOutreMerListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/CollectiviteDOutreMerListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/CollectiviteDOutreMerListeDescendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CollectiviteDOutreMerListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/CollectiviteDOutreMerListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/CollectiviteDOutreMerListeDescendants'
@@ -5357,13 +5357,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeCollectivitesDOutreMer'
+            $ref: './schemas.yaml/#/components/schemas/ListeCollectivitesDOutreMer'
           examples:
             défaut:
               $ref: '#/components/examples/ListeCollectivitesDOutreMer'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeCollectivitesDOutreMer'
+            $ref: './schemas.yaml/#/components/schemas/ListeCollectivitesDOutreMer'
           examples:
             défaut:
               $ref: '#/components/examples/ListeCollectivitesDOutreMer'
@@ -5373,13 +5373,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CommunesListe'
+            $ref: './schemas.yaml/#/components/schemas/CommunesListe'
           examples:
             défaut:
               $ref: '#/components/examples/CommunesListe'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CommunesListe'
+            $ref: './schemas.yaml/#/components/schemas/CommunesListe'
           examples:
             défaut:
               $ref: '#/components/examples/CommunesListe'
@@ -5389,13 +5389,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Commune'
+            $ref: './schemas.yaml/#/components/schemas/Commune'
           examples:
             défaut:
               $ref: '#/components/examples/Commune'
         application/xml:
           schema:
-            $ref: '#/components/schemas/Commune'
+            $ref: './schemas.yaml/#/components/schemas/Commune'
           examples:
             défaut:
               $ref: '#/components/examples/Commune'
@@ -5405,13 +5405,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeCommuneCantons'
+            $ref: './schemas.yaml/#/components/schemas/ListeCommuneCantons'
           examples:
             défaut:
               $ref: '#/components/examples/ListeCommuneCantons'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeCommuneCantons'
+            $ref: './schemas.yaml/#/components/schemas/ListeCommuneCantons'
           examples:
             défaut:
               $ref: '#/components/examples/ListeCommuneCantons'
@@ -5421,13 +5421,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CommuneListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/CommuneListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListePrecedents'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CommuneListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/CommuneListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListePrecedents'
@@ -5437,13 +5437,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CommuneListeProjetes'
+            $ref: './schemas.yaml/#/components/schemas/CommuneListeProjetes'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeProjetes'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CommuneListeProjetes'
+            $ref: './schemas.yaml/#/components/schemas/CommuneListeProjetes'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeProjetes'
@@ -5453,13 +5453,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CommuneListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/CommuneListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeSuivants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CommuneListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/CommuneListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeSuivants'
@@ -5469,13 +5469,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CommuneListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/CommuneListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeDescendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CommuneListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/CommuneListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeDescendants'
@@ -5485,13 +5485,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CommuneListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/CommuneListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeAscendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CommuneListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/CommuneListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeAscendants'
@@ -5503,7 +5503,7 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/TerritoireBase_Relation'
+              $ref: './schemas.yaml/#/components/schemas/TerritoireBase_Relation'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeTerritoiresLies'
@@ -5511,7 +5511,7 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/TerritoireBase_Relation'
+              $ref: './schemas.yaml/#/components/schemas/TerritoireBase_Relation'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneListeTerritoiresLies'
@@ -5521,13 +5521,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CommuneAssocieeListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/CommuneAssocieeListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneAssocieeListeAscendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CommuneAssocieeListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/CommuneAssocieeListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneAssocieeListeAscendants'
@@ -5537,13 +5537,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CommuneAssociee'
+            $ref: './schemas.yaml/#/components/schemas/CommuneAssociee'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneAssociee'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CommuneAssociee'
+            $ref: './schemas.yaml/#/components/schemas/CommuneAssociee'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneAssociee'
@@ -5553,13 +5553,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeCommunesAssociees'
+            $ref: './schemas.yaml/#/components/schemas/ListeCommunesAssociees'
           examples:
             défaut:
               $ref: '#/components/examples/ListeCommunesAssociees'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeCommunesAssociees'
+            $ref: './schemas.yaml/#/components/schemas/ListeCommunesAssociees'
           examples:
             défaut:
               $ref: '#/components/examples/ListeCommunesAssociees'
@@ -5569,13 +5569,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CommuneDelegueeListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/CommuneDelegueeListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneDelegueeListeAscendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CommuneDelegueeListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/CommuneDelegueeListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneDelegueeListeAscendants'
@@ -5585,13 +5585,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CommuneDeleguee'
+            $ref: './schemas.yaml/#/components/schemas/CommuneDeleguee'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneDeleguee'
         application/xml:
           schema:
-            $ref: '#/components/schemas/CommuneDeleguee'
+            $ref: './schemas.yaml/#/components/schemas/CommuneDeleguee'
           examples:
             défaut:
               $ref: '#/components/examples/CommuneDeleguee'
@@ -5601,13 +5601,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeCommunesDeleguees'
+            $ref: './schemas.yaml/#/components/schemas/ListeCommunesDeleguees'
           examples:
             défaut:
               $ref: '#/components/examples/ListeCommunesDeleguees'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeCommunesDeleguees'
+            $ref: './schemas.yaml/#/components/schemas/ListeCommunesDeleguees'
           examples:
             défaut:
               $ref: '#/components/examples/ListeCommunesDeleguees'
@@ -5617,13 +5617,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DepartementListeSuivantsAvecChefLieu'
+            $ref: './schemas.yaml/#/components/schemas/DepartementListeSuivantsAvecChefLieu'
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListeSuivants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/DepartementListeSuivantsAvecChefLieu'
+            $ref: './schemas.yaml/#/components/schemas/DepartementListeSuivantsAvecChefLieu'
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListeSuivants'
@@ -5633,13 +5633,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DepartementListeProjetesAvecChefLieu'
+            $ref: './schemas.yaml/#/components/schemas/DepartementListeProjetesAvecChefLieu'
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListeProjetes'
         application/xml:
           schema:
-            $ref: '#/components/schemas/DepartementListeProjetesAvecChefLieu'
+            $ref: './schemas.yaml/#/components/schemas/DepartementListeProjetesAvecChefLieu'
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListeProjetes'
@@ -5649,13 +5649,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DepartementListePrecedentsAvecChefLieu'
+            $ref: './schemas.yaml/#/components/schemas/DepartementListePrecedentsAvecChefLieu'
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListePrecedents'
         application/xml:
           schema:
-            $ref: '#/components/schemas/DepartementListePrecedentsAvecChefLieu'
+            $ref: './schemas.yaml/#/components/schemas/DepartementListePrecedentsAvecChefLieu'
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListePrecedents'
@@ -5665,13 +5665,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DepartementListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/DepartementListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListeDescendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/DepartementListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/DepartementListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListeDescendants'
@@ -5681,13 +5681,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DepartementListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/DepartementListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListeAscendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/DepartementListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/DepartementListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/DepartementListeAscendants'
@@ -5697,13 +5697,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeTerritoiresAvecChefLieu'
+            $ref: './schemas.yaml/#/components/schemas/ListeTerritoiresAvecChefLieu'
           examples:
             défaut:
               $ref: '#/components/examples/DepartementsListe'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeTerritoiresAvecChefLieu'
+            $ref: './schemas.yaml/#/components/schemas/ListeTerritoiresAvecChefLieu'
           examples:
             défaut:
               $ref: '#/components/examples/DepartementsListe'
@@ -5713,13 +5713,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Departement'
+            $ref: './schemas.yaml/#/components/schemas/Departement'
           examples:
             défaut:
               $ref: '#/components/examples/Departement'
         application/xml:
           schema:
-            $ref: '#/components/schemas/Departement'
+            $ref: './schemas.yaml/#/components/schemas/Departement'
           examples:
             défaut:
               $ref: '#/components/examples/Departement'
@@ -5729,13 +5729,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/DistrictListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/DistrictListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/DistrictListeAscendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/DistrictListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/DistrictListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/DistrictListeAscendants'
@@ -5745,13 +5745,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/District'
+            $ref: './schemas.yaml/#/components/schemas/District'
           examples:
             défaut:
               $ref: '#/components/examples/District'
         application/xml:
           schema:
-            $ref: '#/components/schemas/District'
+            $ref: './schemas.yaml/#/components/schemas/District'
           examples:
             défaut:
               $ref: '#/components/examples/District'
@@ -5761,13 +5761,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Intercommunalite'
+            $ref: './schemas.yaml/#/components/schemas/Intercommunalite'
           examples:
             défaut:
               $ref: '#/components/examples/Intercommunalite'
         application/xml:
           schema:
-            $ref: '#/components/schemas/Intercommunalite'
+            $ref: './schemas.yaml/#/components/schemas/Intercommunalite'
           examples:
             défaut:
               $ref: '#/components/examples/Intercommunalite'
@@ -5777,13 +5777,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/IntercommunaliteListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/IntercommunaliteListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/IntercommunaliteListeDescendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/IntercommunaliteListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/IntercommunaliteListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/IntercommunaliteListeDescendants'
@@ -5793,13 +5793,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeIntercommunalites'
+            $ref: './schemas.yaml/#/components/schemas/ListeIntercommunalites'
           examples:
             défaut:
               $ref: '#/components/examples/ListeIntercommunalites'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeIntercommunalites'
+            $ref: './schemas.yaml/#/components/schemas/ListeIntercommunalites'
           examples:
             défaut:
               $ref: '#/components/examples/ListeIntercommunalites'
@@ -5809,13 +5809,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/IntercommunaliteListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/IntercommunaliteListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/IntercommunaliteListePrecedents'
         application/xml:
           schema:
-            $ref: '#/components/schemas/IntercommunaliteListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/IntercommunaliteListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/IntercommunaliteListePrecedents'
@@ -5825,13 +5825,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/IntercommunaliteListeProjetes'
+            $ref: './schemas.yaml/#/components/schemas/IntercommunaliteListeProjetes'
           examples:
             défaut:
               $ref: '#/components/examples/IntercommunaliteListeProjetes'
         application/xml:
           schema:
-            $ref: '#/components/schemas/IntercommunaliteListeProjetes'
+            $ref: './schemas.yaml/#/components/schemas/IntercommunaliteListeProjetes'
           examples:
             défaut:
               $ref: '#/components/examples/IntercommunaliteListeProjetes'
@@ -5841,13 +5841,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/IntercommunaliteListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/IntercommunaliteListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/IntercommunaliteListeSuivants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/IntercommunaliteListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/IntercommunaliteListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/IntercommunaliteListeSuivants'
@@ -5857,13 +5857,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/IrisListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/IrisListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/IrisListeAscendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/IrisListeAscendants'
+            $ref: './schemas.yaml/#/components/schemas/IrisListeAscendants'
           examples:
             défaut:
               $ref: '#/components/examples/IrisListeAscendants'
@@ -5874,13 +5874,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Iris'
+            $ref: './schemas.yaml/#/components/schemas/Iris'
           examples:
             défaut:
               $ref: '#/components/examples/Iris'
         application/xml:
           schema:
-            $ref: '#/components/schemas/Iris'
+            $ref: './schemas.yaml/#/components/schemas/Iris'
           examples:
             défaut:
               $ref: '#/components/examples/Iris'
@@ -5890,13 +5890,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeIris'
+            $ref: './schemas.yaml/#/components/schemas/ListeIris'
           examples:
             défaut:
               $ref: '#/components/examples/ListeIris'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeIris'
+            $ref: './schemas.yaml/#/components/schemas/ListeIris'
           examples:
             défaut:
               $ref: '#/components/examples/ListeIris'
@@ -5906,13 +5906,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pays'
+            $ref: './schemas.yaml/#/components/schemas/Pays'
           examples:
             défaut:
               $ref: '#/components/examples/Pays'
         application/xml:
           schema:
-            $ref: '#/components/schemas/Pays'
+            $ref: './schemas.yaml/#/components/schemas/Pays'
           examples:
             défaut:
               $ref: '#/components/examples/Pays'
@@ -5922,13 +5922,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/PaysListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/PaysListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/PaysListeDescendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/PaysListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/PaysListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/PaysListeDescendants'
@@ -5938,13 +5938,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/PaysListe'
+            $ref: './schemas.yaml/#/components/schemas/PaysListe'
           examples:
             défaut:
               $ref: '#/components/examples/PaysListe'
         application/xml:
           schema:
-            $ref: '#/components/schemas/PaysListe'
+            $ref: './schemas.yaml/#/components/schemas/PaysListe'
           examples:
             défaut:
               $ref: '#/components/examples/PaysListe'
@@ -5954,13 +5954,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/PaysListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/PaysListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/PaysListePrecedents'
         application/xml:
           schema:
-            $ref: '#/components/schemas/PaysListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/PaysListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/PaysListePrecedents'
@@ -5970,13 +5970,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/PaysListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/PaysListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/PaysListeSuivants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/PaysListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/PaysListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/PaysListeSuivants'
@@ -5986,13 +5986,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
+            $ref: './schemas.yaml/#/components/schemas/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
           examples:
             défaut:
               $ref: '#/components/examples/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
         application/xml:
           schema:
-            $ref: '#/components/schemas/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
+            $ref: './schemas.yaml/#/components/schemas/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
           examples:
             défaut:
               $ref: '#/components/examples/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
@@ -6002,13 +6002,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
+            $ref: './schemas.yaml/#/components/schemas/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
           examples:
             défaut:
               $ref: '#/components/examples/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
+            $ref: './schemas.yaml/#/components/schemas/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
           examples:
             défaut:
               $ref: '#/components/examples/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
@@ -6020,13 +6020,13 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/TerritoireBase_Relation'
+              $ref: './schemas.yaml/#/components/schemas/TerritoireBase_Relation'
           examples:
             défaut:
               $ref: '#/components/examples/QuartierPrioritaireDeLaPolitiqueDeLaVilleListeTerritoiresLies200ListeTerritoiresLies'
         application/xml:
           schema:
-            $ref: '#/components/schemas/TerritoireBase_Relation'
+            $ref: './schemas.yaml/#/components/schemas/TerritoireBase_Relation'
           examples:
             défaut:
               $ref: '#/components/examples/QuartierPrioritaireDeLaPolitiqueDeLaVilleListeTerritoiresLies200ListeTerritoiresLies'
@@ -6036,13 +6036,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Region'
+            $ref: './schemas.yaml/#/components/schemas/Region'
           examples:
             défaut:
               $ref: '#/components/examples/Region'
         application/xml:
           schema:
-            $ref: '#/components/schemas/Region'
+            $ref: './schemas.yaml/#/components/schemas/Region'
           examples:
             défaut:
               $ref: '#/components/examples/Region'
@@ -6052,13 +6052,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/RegionListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/RegionListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/RegionListeDescendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/RegionListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/RegionListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/RegionListeDescendants'
@@ -6068,13 +6068,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeRegions'
+            $ref: './schemas.yaml/#/components/schemas/ListeRegions'
           examples:
             défaut:
               $ref: '#/components/examples/ListeRegions'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeRegions'
+            $ref: './schemas.yaml/#/components/schemas/ListeRegions'
           examples:
             défaut:
               $ref: '#/components/examples/ListeRegions'
@@ -6084,13 +6084,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/RegionListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/RegionListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/RegionListePrecedents'
         application/xml:
           schema:
-            $ref: '#/components/schemas/RegionListePrecedents'
+            $ref: './schemas.yaml/#/components/schemas/RegionListePrecedents'
           examples:
             défaut:
               $ref: '#/components/examples/RegionListePrecedents'
@@ -6100,13 +6100,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/RegionListeProjetes'
+            $ref: './schemas.yaml/#/components/schemas/RegionListeProjetes'
           examples:
             défaut:
               $ref: '#/components/examples/RegionListeProjetes'
         application/xml:
           schema:
-            $ref: '#/components/schemas/RegionListeProjetes'
+            $ref: './schemas.yaml/#/components/schemas/RegionListeProjetes'
           examples:
             défaut:
               $ref: '#/components/examples/RegionListeProjetes'
@@ -6116,13 +6116,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/RegionListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/RegionListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/RegionListeSuivants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/RegionListeSuivants'
+            $ref: './schemas.yaml/#/components/schemas/RegionListeSuivants'
           examples:
             défaut:
               $ref: '#/components/examples/RegionListeSuivants'
@@ -6132,13 +6132,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/UniteUrbaine2020'
+            $ref: './schemas.yaml/#/components/schemas/UniteUrbaine2020'
           examples:
             défaut:
               $ref: '#/components/examples/UniteUrbaine2020'
         application/xml:
           schema:
-            $ref: '#/components/schemas/UniteUrbaine2020'
+            $ref: './schemas.yaml/#/components/schemas/UniteUrbaine2020'
           examples:
             défaut:
               $ref: '#/components/examples/UniteUrbaine2020'
@@ -6148,13 +6148,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/UniteUrbaineListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/UniteUrbaineListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/UniteUrbaineListeDescendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/UniteUrbaineListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/UniteUrbaineListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/UniteUrbaineListeDescendants'
@@ -6164,13 +6164,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeUnitesUrbaines'
+            $ref: './schemas.yaml/#/components/schemas/ListeUnitesUrbaines'
           examples:
             défaut:
               $ref: '#/components/examples/ListeUnitesUrbaines'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeUnitesUrbaines'
+            $ref: './schemas.yaml/#/components/schemas/ListeUnitesUrbaines'
           examples:
             défaut:
               $ref: '#/components/examples/ListeUnitesUrbaines'
@@ -6180,13 +6180,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ZoneDEmploi2020'
+            $ref: './schemas.yaml/#/components/schemas/ZoneDEmploi2020'
           examples:
             défaut:
               $ref: '#/components/examples/ZoneDEmploi2020'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ZoneDEmploi2020'
+            $ref: './schemas.yaml/#/components/schemas/ZoneDEmploi2020'
           examples:
             défaut:
               $ref: '#/components/examples/ZoneDEmploi2020'
@@ -6196,13 +6196,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ZoneDEmploiListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/ZoneDEmploiListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/ZoneDEmploiListeDescendants'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ZoneDEmploiListeDescendants'
+            $ref: './schemas.yaml/#/components/schemas/ZoneDEmploiListeDescendants'
           examples:
             défaut:
               $ref: '#/components/examples/ZoneDEmploiListeDescendants'
@@ -6212,13 +6212,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ListeZonesDEmploi2020'
+            $ref: './schemas.yaml/#/components/schemas/ListeZonesDEmploi2020'
           examples:
             défaut:
               $ref: '#/components/examples/ListeZonesDEmploi2020'
         application/xml:
           schema:
-            $ref: '#/components/schemas/ListeZonesDEmploi2020'
+            $ref: './schemas.yaml/#/components/schemas/ListeZonesDEmploi2020'
           examples:
             défaut:
               $ref: '#/components/examples/ListeZonesDEmploi2020'
@@ -6230,1769 +6230,16 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Nomenclature'
+            $ref: './schemas.yaml/#/components/schemas/Nomenclature'
           examples:
             défaut:
               $ref: '#/components/examples/Nomenclature'
         application/xml:
           schema:
-            $ref: '#/components/schemas/Nomenclature'
+            $ref: './schemas.yaml/#/components/schemas/Nomenclature'
           examples:
             défaut:
               $ref: '#/components/examples/Nomenclature'
 
     # -- Opérations
 
-  ### SCHEMAS SPECIFICATION ###
-
-  schemas:
-
-    TypeEnumDescendantsAireDAttractionDesVilles:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Commune
-        - CommuneAssociee
-        - CommuneDeleguee
-        - Iris
-        - ArrondissementMunicipal
-      example: 'Commune'
-
-    TypeEnumDescendantsArrondissement:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Commune
-        - CommuneAssociee
-        - CommuneDeleguee
-        - Iris
-        - ArrondissementMunicipal
-      example: 'CommuneDeleguee'
-
-    TypeEnumAscendantsArrondissement:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Region
-        - Departement
-      example: 'Region'
-
-    TypeEnumAscendantsArrondissementMunicipal:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Region
-        - Departement
-        - Arrondissement
-        - Commune
-        - AireDAttractionDesVilles2020
-        - BassinDeVie2022
-        - Canton
-        - CantonOuVille
-        - Intercommunalite
-        - UniteUrbaine2020
-        - ZoneDEmploi2020
-      example: 'Region'
-
-    TypeEnumAscendantsCanton:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Region
-        - Departement
-      example: 'Region'
-
-    TypeEnumAscendantsCantonOuVille:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Region
-        - Departement
-      example: 'Region'
-
-    TypeEnumAscendantsCirconscriptionTerritoriale:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - CollectiviteDOutreMer
-      example: 'CollectiviteDOutreMer'
-
-    Commune:
-      xml:
-        name: Commune
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase'
-      properties:
-        code:
-          $ref: '#/components/schemas/CodeCom'
-
-    TypeEnumAscendantsCommuneAssociee:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Region
-        - Departement
-        - Arrondissement
-        - Commune
-      example: 'Region'
-
-    TypeEnumAscendantsCommuneDeleguee:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Region
-        - Departement
-        - Arrondissement
-        - Commune
-      example: 'Region'
-
-    Departement:
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
-        - type: object
-          xml:
-            name: Departement
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeDep'
-
-    TerritoireBase:
-      required:
-        - code
-        - uri
-        - type
-        - dateCreation
-        - dateSuppression
-        - intituleSansArticle
-        - typeArticle
-        - intitule
-
-      xml:
-        name: TerritoireBase
-      properties:
-        code:
-          type: string
-        uri:
-          type: string
-          pattern: uri
-          xml:
-            attribute: true
-        type:
-          type: string
-          $ref: '#/components/schemas/TypeEnum'
-        dateCreation:
-          type: string
-          description: 'Date de création du territoire s''il n''existait pas au premier COG du 1er janvier 1943'
-          format: date
-          xml:
-            name: DateCreation
-        dateSuppression:
-          type: string
-          description: 'Date de suppression du territoire'
-          format: date
-          xml:
-            name: DateSuppression
-        intituleSansArticle:
-          xml:
-            name: IntituleSansArticle
-          type: string
-        typeArticle:
-          xml:
-            name: TypeArticle
-          type: string
-          enum:
-            - '0'
-            - '1'
-            - '2'
-            - '3'
-            - '4'
-            - '5'
-            - '6'
-            - '7'
-            - '8'
-            - 'X'
-            - 'Y'
-          description: |
-            Type d'article pour les territoires:
-            - 0: charnière "De"
-            - 1: charnière "D'"
-            - 2: article "Le", charnière "Du"
-            - 3: article "La", charnière "De La"
-            - 4: article "Les", charnière "Des"
-            - 5: article "L'", charnière "De L'"
-            - 6: article "Aux", charnière "Des"
-            - 7: article "Las", charnière "De Las"
-            - 8: article "Los", charnière "De Los"
-            - X: article vide, charnière vide
-            - Y: article vide, charnière vide
-        intitule:
-          type: string
-          xml:
-            name: Intitule
-
-    TerritoireBase_ChefLieu:
-      xml:
-        wrapped: true
-        name: TerritoireBase_AvecChefLieu
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase'
-        - type: object
-          required:
-            - chefLieu
-          properties:
-            chefLieu:
-              type: string
-              description: 'Chef-lieu du territoire'
-              xml:
-                name: ChefLieu
-
-    TerritoireBase_Relation:
-      xml:
-        wrapped: true
-        name: TerritoireBase_AvecRelation
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase'
-        - type: object
-          required:
-            - relation
-          properties:
-            relation:
-              type: string
-              description: 'Relation du territoire avec les autres (inclusion directe ou intersection)'
-              xml:
-                name: Relation
-
-
-    Territoire_TousAttributs:
-      xml:
-        wrapped: true
-        name: TerritoireBase_AvecTousLesAttributsPossibles
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase'
-        - type: object
-          required:
-            - chefLieu
-            - typeDIris
-            - categorieJuridique
-            - intituleComplet
-            - inclusion
-          properties:
-            chefLieu:
-              type: string
-              description: 'Chef-lieu du territoire'
-              xml:
-                name: ChefLieu
-            typeDIris:
-              type: string
-              description: 'Type d''iris'
-              xml:
-                name: typeDIris
-            categorieJuridique:
-              type: string
-              description: 'Catégorie juridique du territoire'
-              xml:
-                name: categorieJuridique
-            intituleComplet:
-              type: string
-              description: 'Intitulé complet du territoire'
-              xml:
-                name: intituleComplet
-            inclusion:
-              type: string
-              description: 'Inclusion'
-              xml:
-                name: inclusion
-              enum:
-                - partielle
-                - totale
-
-    DepartementListeDescendants:
-      description: 'Liste des descendants d''un département'
-      type: array
-      xml:
-        wrapped: true
-        name: DescendantsDepartement
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    DepartementListeAscendants:
-      description: 'Liste des ascendants d''un département'
-      type: array
-      xml:
-        wrapped: true
-        name: AscendantsDepartement
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    DepartementListeProjetesAvecChefLieu:
-      description: 'Liste des départements projetés'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeDepartementsProjetes
-      items:
-        $ref: '#/components/schemas/TerritoireBase_ChefLieu'
-
-    DepartementListePrecedentsAvecChefLieu:
-      description: 'Liste des départements précédents'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeDepartementsPrecedents
-      items:
-        $ref: '#/components/schemas/TerritoireBase_ChefLieu'
-
-    DepartementListeSuivantsAvecChefLieu:
-      description: 'Liste des départements qui succèdent au département'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeDepartementsSuivants
-      items:
-        $ref: '#/components/schemas/TerritoireBase_ChefLieu'
-
-    TypeEnumAscendantsDistrict:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - CollectiviteDOutreMer
-      example: 'CollectiviteDOutreMer'
-
-    ListeTerritoiresAvecChefLieu:
-      description: 'Liste de territoires décrits avec chef-lieu'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeTerritoiresChefLieu
-      items:
-        $ref: '#/components/schemas/TerritoireBase_ChefLieu'
-
-    CodeCom:
-      pattern: '[0-9][0-9AB][0-9]{3}'
-      type: 'string'
-      xml:
-        attribute: true
-      example: '14475'
-
-    CodeDep:
-      description: 'Code d''un département'
-      pattern: '[013-8][0-9]|2[0-9AB]|9[0-5]|97[1-6]'
-      type: string
-      xml:
-        attribute: true
-      example: '22'
-
-    CommunesListe:
-      description: 'Liste de communes'
-      type: array
-      xml:
-        wrapped: true
-        name: Communes
-      items:
-        $ref: '#/components/schemas/TerritoireBase'
-
-    CommuneListeDescendants:
-      description: 'Liste des descendants d''une commune'
-      type: array
-      xml:
-        wrapped: true
-        name: DescendantsCommune
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CommuneListeAscendants:
-      description: 'Liste des ascendants d''une commune'
-      type: array
-      xml:
-        wrapped: true
-        name: AscendantsCommune
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-
-    ListeCommuneCantons:
-      description: 'Liste des cantons ayant un territoire commun avec la commune'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCommuneCantons
-      items:
-        $ref: '#/components/schemas/Canton'
-
-    CommuneListePrecedents:
-      description: 'Liste des communes précédentes'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCommunesPrecedentes
-      items:
-        $ref: '#/components/schemas/TerritoireBase'
-
-    CommuneListeProjetes:
-      description: 'Liste des communes projetées'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCommunesProjetees
-      items:
-        $ref: '#/components/schemas/TerritoireBase'
-
-    CommuneListeSuivants:
-      description: 'Liste des communes qui succèdent à la commune'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCommunesSuivants
-      items:
-        $ref: '#/components/schemas/TerritoireBase'
-
-    Date2000ParDefaut:
-      description: 'date proposée par défaut'
-      type: date
-      xml:
-        attribute: true
-      example: '2000-01-01'
-
-    Date2011ParDefaut:
-      description: 'date proposée par défaut'
-      type: date
-      xml:
-        attribute: true
-      example: '2011-12-31'
-
-    Date2013ParDefaut:
-      description: 'date proposée par défaut'
-      type: date
-      xml:
-        attribute: true
-      example: '2013-01-01'
-
-    Date2020ParDefaut:
-      description: 'date proposée par défaut'
-      type: date
-      xml:
-        attribute: true
-      example: '2020-01-01'
-
-    Date1994ParDefaut:
-      description: 'date proposée par défaut'
-      type: date
-      xml:
-        attribute: true
-      example: '1994-07-30'
-
-    Date1960ParDefaut:
-      description: 'date proposée par défaut'
-      type: date
-      xml:
-        attribute: true
-      example: '1960-01-01'
-
-    Date1950ParDefaut:
-      description: 'date proposée par défaut'
-      type: date
-      xml:
-        attribute: true
-      example: '1950-01-01'
-
-    Date1945ParDefaut:
-      description: 'date proposée par défaut'
-      type: date
-      xml:
-        attribute: true
-      example: '1945-06-26'
-
-    Date1965ParDefaut:
-      description: 'date proposée par défaut'
-      type: date
-      xml:
-        attribute: true
-      example: '1965-01-01'
-
-    Date2016ParDefaut:
-      description: 'date proposée par défaut'
-      type: date
-      xml:
-        attribute: true
-      example: '2016-01-01'
-
-    TypeEnum:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Commune
-        - CommuneAssociee
-        - CommuneDeleguee
-        - Canton
-        - CantonOuVille
-        - Arrondissement
-        - ArrondissementMunicipal
-        - Departement
-        - Pays
-        - Region
-        - Intercommunalite
-        - District
-        - AireDAttractionDesVilles2020
-        - BassinDeVie2022
-        - CollectiviteDOutreMer
-        - CirconscriptionTerritoriale
-        - Iris
-        - QuartierPrioritaireDeLaPolitiqueDeLaVille2024
-        - ZoneDEmploi2020
-        - UniteUrbaine2020
-        - QuartierPrioritaireDeLaPolitiqueDeLaVille2024
-        - Territoire
-      example: 'Canton'
-
-    TypeEnumDescendantsCollectiviteDOutreMer:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Commune
-        - CirconscriptionTerritoriale
-        - Iris
-        - District
-
-    TypeEnumDescendantsDepartement:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Commune
-        - CommuneAssociee
-        - CommuneDeleguee
-        - Iris
-        - Arrondissement
-        - ArrondissementMunicipal
-      example: 'Arrondissement'
-
-    TypeEnumAscendantsDepartement:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Region
-      example: 'Region'
-
-    TypeEnumDescendantsCommune:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - CommuneAssociee
-        - CommuneDeleguee
-        - Iris
-        - ArrondissementMunicipal
-      example: 'Arrondissement'
-
-    TypeEnumAscendantsCommune:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Departement
-        - Region
-        - Arrondissement
-        - CollectiviteDOutreMer
-        - AireDAttractionDesVilles2020
-        - BassinDeVie2022
-        - Canton
-        - CantonOuVille
-        - Intercommunalite
-        - ZoneDEmploi2020
-      example: 'Departement'
-
-    IdConcept:
-      pattern: 'c[0-9]{4}'
-      type: 'string'
-      xml:
-        attribute: true
-      example: 'c2066'
-
-    Concept:
-      type: object
-      xml:
-        name: Concept
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-          format: uri
-        intitule:
-          type: array
-          items:
-            $ref: '#/components/schemas/LangueContenu'
-        definition:
-          type: array
-          items:
-            $ref: '#/components/schemas/LangueContenu'
-        noteEditoriale:
-          type: array
-          items:
-            $ref: '#/components/schemas/LangueContenu'
-        dateMiseAJour:
-          type: string
-          format: date
-        conceptsSuivants:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyConcept'
-        conceptsPrecedents:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyConcept'
-        conceptsLies:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyConcept'
-        conceptsProches:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyConcept'
-        conceptsPlusGeneriques:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyConcept'
-        conceptsPlusSpecifiques:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyConcept'
-        conceptsReferences:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyConcept'
-      required:
-        - id
-        - uri
-
-    Definition:
-      type: object
-      xml:
-        name: Definition
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-          format: uri
-        intitule:
-          type: string
-        conceptsSuivants:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyConcept'
-        conceptsPrecedents:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyConcept'
-        conceptsLies:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyConcept'
-        conceptsProches:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyConcept'
-        conceptsPlusGeneriques:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyConcept'
-        conceptsPlusSpecifiques:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyConcept'
-        conceptsReferences:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyConcept'
-
-    NearbyConcept:
-      type: object
-      xml:
-        name: NearbyConcept
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-          format: uri
-        typeOfLink:
-          type: string
-      required:
-        - id
-        - uri
-
-    LangueContenu:
-      type: object
-      properties:
-        contenu:
-          type: string
-        langue:
-          type: string
-
-    ListeConcepts:
-      description: 'Liste des concepts'
-      type: array
-      xml:
-        wrapped: true
-        name: Definition
-      items:
-         $ref: '#/components/schemas/Definition'
-
-    AireDAttractionDesVilles2020:
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
-        - type: object
-          xml:
-            name: Aire d'attraction
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeAireDAttractionDesVilles'
-
-    CodeAireDAttractionDesVilles:
-      description: 'Code d''une aire d''attraction'
-      pattern: '[a-zA-Z0-9]{3}'
-      type: string
-      xml:
-        attribute: true
-      example: '062'
-
-    AireDAttractionDesVillesListeDescendants:
-      description: 'Liste des descendants d''une aire d''attraction des villes'
-      type: array
-      xml:
-        wrapped: true
-        name: DescendantsAireDAttractionDesVilles
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    ListeAiresDAttractionDesVilles2020:
-      description: 'Liste des aires d''attraction des villes'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeAiresDAttractionDesVilles2020
-      items:
-        $ref: '#/components/schemas/AireDAttractionDesVilles2020'
-
-    ArrondissementListeAscendants:
-      description: 'Liste des ascendants d''un arrondissement'
-      type: array
-      xml:
-        wrapped: true
-        name: AscendantsArrondissement
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    Arrondissement:
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
-        - type: object
-          xml:
-            name: Arrondissement
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeArrondissement'
-
-    CodeArrondissement:
-      description: 'Code d''un arrondissement'
-      pattern: '[a-zA-Z0-9]{3,4}'
-      type: string
-      xml:
-        attribute: true
-      example: '674'
-
-    ArrondissementListeDescendants:
-      description: 'Liste des descendants d''un arrondissement'
-      type: array
-      xml:
-        wrapped: true
-        name: DescendantsArrondissement
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    ListeArrondissements:
-      description: 'Liste des arrondissements'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeArrondissements
-      items:
-        $ref: '#/components/schemas/Arrondissement'
-
-    ArrondissementListePrecedents:
-      description: 'Liste des arrondissements précédents'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeArrondissementsPrecedents
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CodeArrondissementSuivant:
-      description: 'Code d''un arrondissement'
-      pattern: '[a-zA-Z0-9]{3,4}'
-      type: string
-      xml:
-        attribute: true
-      example: '042'
-
-    ArrondissementListeProjetes:
-      description: 'Liste des arrondissements projetés'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeArrondissementsProjetes
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    ArrondissementListeSuivants:
-      description: 'Liste des arrondissements qui succèdent à l''arrondissement'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeArrondissementsSuivants
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    ArrondissementMunicipalListeAscendants:
-      description: 'Liste des ascendants d''un arrondissement municipal'
-      type: array
-      xml:
-        wrapped: true
-        name: AscendantsArrondissementMunicipal
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    ArrondissementMunicipal:
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
-        - type: object
-          xml:
-            name: Arrondissement municipal
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeArrondissementMunicipal'
-
-    CodeArrondissementMunicipal:
-      description: 'Code d''un arrondissement municipal'
-      pattern: '[a-zA-Z0-9]{5}'
-      type: string
-      xml:
-        attribute: true
-      example: '69385'
-
-    ListeArrondissementsMunicipaux:
-      description: 'Liste des arrondissements municipaux'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeArrondissementsMunicipaux
-      items:
-        $ref: '#/components/schemas/ArrondissementMunicipal'
-
-    ArrondissementMunicipalListePrecedents:
-      description: 'Liste des arrondissements municipaux précédents'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeArrondissementsMunicipauxPrecedents
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    ArrondissementMunicipalListeProjetes:
-      description: 'Liste des arrondissements municipaux projetés'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeArrondissementsMunicipauxProjetes
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    ArrondissementMunicipalListeSuivants:
-      description: 'Liste des arrondissements municipaux qui succèdent à l''arrondissement municipal'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeArrondissementsMunicipauxSuivants
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CommuneAssocieeListeAscendants:
-      description: 'Liste des ascendants d''une commune associée'
-      type: array
-      xml:
-        wrapped: true
-        name: AscendantsCommuneAssociee
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CommuneAssociee:
-      allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
-        - type: object
-          xml:
-            name: CommuneAssociee
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeCommuneAssociee'
-
-    ListeCommunesAssociees:
-      description: 'Liste des communes associées'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCommunesAssociees
-      items:
-        $ref: '#/components/schemas/CommuneAssociee'
-
-    CommuneDelegueeListeAscendants:
-      description: 'Liste des ascendants d''une commune déléguée'
-      type: array
-      xml:
-        wrapped: true
-        name: AscendantsCommuneDeleguee
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CommuneDeleguee:
-      allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
-        - type: object
-          xml:
-            name: CommuneDeleguee
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeCommuneDeleguee'
-
-    ListeCommunesDeleguees:
-      description: 'Liste des communes déléguées'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCommunesDeleguees
-      items:
-        $ref: '#/components/schemas/CommuneDeleguee'
-
-    CodeCommuneAssociee:
-      description: 'Code de la commune associée'
-      pattern: '([0-9]{5})'
-      type: string
-      xml:
-        attribute: true
-      example: '14463'
-
-    CodeCommuneDeleguee:
-      description: 'Code de la commune déléguée'
-      pattern: '([0-9]{5})'
-      type: string
-      xml:
-        attribute: true
-      example: '46248'
-
-    DistrictListeAscendants:
-      description: 'Liste des ascendants d''un district'
-      type: array
-      xml:
-        wrapped: true
-        name: AscendantsDistrict
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    District:
-      allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
-        - type: object
-          xml:
-            name: District
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeDistrict'
-
-    CodeDistrict:
-      description: 'Code du district'
-      pattern: '([0-9]{5})'
-      type: string
-      xml:
-        attribute: true
-      example: '98411'
-
-    Intercommunalite:
-      allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
-        - type: object
-          xml:
-            name: Intercommunalite
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeInterco'
-
-    CodeInterco:
-      description: 'Code d''une intercommunalité'
-      pattern: '([0-9]{9})'
-      type: string
-      xml:
-        attribute: true
-      example: '240100883'
-
-    TypeEnumDescendantsIntercommunalite:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Commune
-        - CommuneAssociee
-        - CommuneDeleguee
-        - Iris
-        - ArrondissementMunicipal
-      example: 'Arrondissement'
-
-    IntercommunaliteListeDescendants:
-      description: 'Liste des descendants d''une intercommunalité'
-      type: array
-      xml:
-        wrapped: true
-        name: DescendantsIntercommunalite
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    ListeIntercommunalites:
-      description: 'Liste des intercommunalités'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeIntercommunalites
-      items:
-        $ref: '#/components/schemas/Intercommunalite'
-
-    IntercommunaliteListePrecedents:
-      description: 'Liste des intercommunalités précédentes'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeIntercommunalitesPrecedents
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    IntercommunaliteListeProjetes:
-      description: 'Liste des intercommunalités projetées'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeIntercommunalitesProjetees
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    IntercommunaliteListeSuivants:
-      description: 'Liste des intercommunalités qui succèdent à l''intercommunalité'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeIntercommunalitesSuivants
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    TypeEnumAscendantsIris:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Region
-        - Departement
-        - Arrondissement
-        - Commune
-        - AireDAttractionDesVilles2020
-        - BassinDeVie2022
-        - Canton
-        - CantonOuVille
-        - Intercommunalite
-        - UniteUrbaine2020
-        - ZoneDEmploi2020
-      example: 'Region'
-
-    IrisListeAscendants:
-      description: 'Liste des ascendants d''un Iris'
-      type: array
-      xml:
-        wrapped: true
-        name: AscendantsIris
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CodeIris:
-      description: 'Code d''une Iris'
-      pattern: '[0-9][0-9AB][0-9]{7}'
-      type: string
-      xml:
-        attribute: true
-      example: '010040101'
-
-    Iris:
-      allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
-        - type: object
-          xml:
-            name: Iris
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeIris'
-
-    ListeIris:
-      description: 'Liste des iris'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeIris
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-#        return types Commune and Iris
-
-    Pays:
-      xml:
-        wrapped: true
-        name: Pays
-      allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
-        - type: object
-          required:
-            - iso3166alpha2
-            - iso3166alpha3
-            - iso3166num
-          properties:
-            iso3166alpha2:
-              type: string
-              description: 'Code ISO 3166-1 alpha-2 du pays'
-              xml:
-                name: Iso3166alpha2
-            iso3166alpha3:
-              type: string
-              description: 'Code ISO 3166-1 alpha-3 du pays'
-              xml:
-                name: Iso3166alpha3
-            iso3166num:
-              type: string
-              description: 'Code ISO 3166-1 numérique du pays'
-              xml:
-                name: Iso3166num
-            code:
-              $ref: '#/components/schemas/CodePays'
-
-    CodePays:
-      description: 'Code d''un pays'
-      pattern: '^99[0-9]{3}$'
-      type: string
-      xml:
-        attribute: true
-      example: '99132'
-
-    PaysListeDescendants:
-      description: 'Liste des descendants d''un pays'
-      type: array
-      xml:
-        wrapped: true
-        name: DescendantsPays
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    PaysListe:
-      description: 'Liste des pays'
-      type: array
-      xml:
-        wrapped: true
-        name: ListePays
-      items:
-        $ref: '#/components/schemas/Pays'
-
-    CodePaysPrec:
-      description: 'Code d''un pays'
-      pattern: '^99[0-9]{3}$'
-      type: string
-      xml:
-        attribute: true
-      example: '99309'
-
-    PaysListePrecedents:
-      description: 'Liste des pays précédents'
-      type: array
-      xml:
-        wrapped: true
-        name: ListePaysPrecedents
-      items:
-        $ref: '#/components/schemas/Pays'
-
-    CodePaysSuivant:
-      description: 'Code d''un pays'
-      pattern: '^99[0-9]{3}$'
-      type: string
-      xml:
-        attribute: true
-      example: '99121'
-
-    PaysListeSuivants:
-      description: 'Liste des pays qui succèdent au pays'
-      type: array
-      xml:
-        wrapped: true
-        name: ListePaysSuivants
-      items:
-        $ref: '#/components/schemas/Pays'
-
-    CodeQPV:
-      description: 'Code d''un quartier prioritaire de la politique de la ville'
-      pattern: '^QN(0[013-8][0-9]|02[0-9AB]|09[0-5]|97[1-9]|98[1-9])\d{2}[NMI]$'
-#      In addition to the list of departments, there are also the QPV of 978 (Saint Martin) and 987 (Polynésie Française).
-      type: string
-      xml:
-        attribute: true
-      example: 'QN06255M'
-
-    QuartierPrioritaireDeLaPolitiqueDeLaVille2024:
-      xml:
-        name: QuartierPrioritaireDeLaPolitiqueDeLaVille2024
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase'
-      properties:
-        code:
-          $ref: '#/components/schemas/CodeQPV'
-
-    ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille:
-      description: 'Liste des quartiers prioritaires de la politique de la ville'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille
-      items:
-        $ref: '#/components/schemas/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
-
-    Region:
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
-        - type: object
-          xml:
-            name: Region
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeReg'
-
-    CodeReg:
-      description: 'Code d''une région'
-      pattern: '^(01|02|03|04|06|11|24|27|28|32|44|52|53|75|76|84|93|94)$'
-      type: string
-      xml:
-        attribute: true
-      example: '06'
-
-    RegionListeDescendants:
-      description: 'Liste des descendants d''une région'
-      type: array
-      xml:
-        wrapped: true
-        name: DescendantsRegion
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    ListeRegions:
-      description: 'Liste des régions'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeRegions
-      items:
-        $ref: '#/components/schemas/Region'
-
-    CodeRegPrecProj:
-      description: 'Code d''une région'
-      pattern: '^(01|02|03|04|06|11|24|27|28|32|44|52|53|75|76|84|93|94)$'
-      type: string
-      xml:
-        attribute: true
-      example: '44'
-
-    RegionListePrecedents:
-      description: 'Liste des régions précédentes'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeRegionsPrecedentes
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CodeRegSuivant:
-      description: 'Code d''une région'
-      pattern: '^[0-9]{2}$'
-      type: string
-      xml:
-        attribute: true
-      example: '41'
-
-    RegionListeProjetes:
-      description: 'Liste des régions projetées'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeRegionsProjetees
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    RegionListeSuivants:
-      description: 'Liste des régions qui succèdent à la région'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeRegionSuivants
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    UniteUrbaine2020:
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
-        - type: object
-          xml:
-            name: UniteUrbaine
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeUniteUrbaine'
-
-    CodeUniteUrbaine:
-      description: 'Code d''une unité urbaine'
-      pattern: '^([0-9][0-9A-Z][0-9]{3})$'
-      type: string
-      xml:
-        attribute: true
-      example: '01121'
-
-    UniteUrbaineListeDescendants:
-      description: 'Liste des descendants d''une unité urbaine'
-      type: array
-      xml:
-        wrapped: true
-        name: DescendantsUniteUrbaine
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    TypeEnumDescendantsUniteUrbaine:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Commune
-        - CommuneAssociee
-        - CommuneDeleguee
-        - Iris
-        - Arrondissement
-        - ArrondissementMunicipal
-      example: 'Commune'
-
-    ListeUnitesUrbaines:
-      description: 'Liste des unités urbaines'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeUnitesUrbaines
-      items:
-        $ref: '#/components/schemas/UniteUrbaine2020'
-
-    BassinDeVie2022:
-      allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
-        - type: object
-          xml:
-            name: Canton
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeBassinDeVie'
-
-    CodeBassinDeVie:
-      description: 'Code d''un bassin de vie'
-      pattern: '[a-zA-Z0-9]{5}'
-      type: string
-      xml:
-        attribute: true
-      example: '01004'
-
-    TypeEnumDescendantsBassinDeVie:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Commune
-        - CommuneAssociee
-        - CommuneDeleguee
-        - Iris
-        - ArrondissementMunicipal
-      example: 'Commune'
-
-    BassinDeVieListeDescendants:
-      description: 'Liste des descendants d''un bassin de vie'
-      type: array
-      xml:
-        wrapped: true
-        name: DescendantsBassinDeVie
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    ListeBassinsDeVie:
-      description: 'Liste des bassins de vie'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeBassinsDeVie
-      items:
-        $ref: '#/components/schemas/BassinDeVie2022'
-
-    CantonListeAscendants:
-      description: 'Liste des ascendants d''un canton'
-      type: array
-      xml:
-        wrapped: true
-        name: AscendantsCanton
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    Canton:
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
-        - type: object
-          xml:
-            name: Canton
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeCanton'
-
-    CodeCanton:
-      description: 'Code d''un canton'
-      pattern: '[0-9]{4}|[0-9]{5}|2[ABab][0-9]{2}'
-      type: string
-      xml:
-        attribute: true
-      example: '0101'
-
-    ListeCantonCommmunes:
-      description: 'Liste des communes ayant un territoire commun avec le canton'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCantonCommunes
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    ListeCantons:
-      description: 'Liste des cantons'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCantons
-      items:
-        $ref: '#/components/schemas/Canton'
-
-    CodeCantonPrec:
-      description: 'Code d''un canton'
-      pattern: '[0-9]{4}|[0-9]{5}|2[ABab][0-9]{2}'
-      type: string
-      xml:
-        attribute: true
-      example: '0103'
-
-    CantonListePrecedents:
-      description: 'Liste des cantons précédents'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCantonsPrecedents
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CantonListeProjetes:
-      description: 'Liste des cantons projetés'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCantonsProjetes
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CantonListeSuivants:
-      description: 'Liste des cantons qui succèdent au canton'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCantonsSuivants
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CantonOuVilleListeAscendants:
-      description: 'Liste des ascendants d''un canton-ou-ville'
-      type: array
-      xml:
-        wrapped: true
-        name: AscendantsCantonOuVille
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CantonOuVilleListeDescendants:
-      description: 'Liste des descendants d''un canton-ou-ville'
-      type: array
-      xml:
-        wrapped: true
-        name: DescendantsCantonOuVille
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CantonOuVille:
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
-        - type: object
-          xml:
-            name: Canton
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeCantonOuVille'
-
-    CodeCantonOuVille:
-      description: 'Code d''un canton-ou-ville'
-      pattern: '[0-9]{4,5}'
-      type: string
-      xml:
-        attribute: true
-      example: '0101'
-
-    TypeEnumDescendantsCantonOuVille:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Commune
-        - Iris
-      example: 'Commune'
-
-    ListeCantonsEtVilles:
-      description: 'Liste des cantons et villes'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCantonsEtVilles
-      items:
-        $ref: '#/components/schemas/CantonOuVille'
-
-    CodeCantonOuVillePrec:
-      description: 'Code d''un canton-ou-ville'
-      pattern: '[0-9]{4,5}'
-      type: string
-      xml:
-        attribute: true
-      example: '0104'
-
-    CantonOuVilleListePrecedents:
-      description: 'Liste des cantons-ou-villes précédents'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCantonsOuVillesPrecedents
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CodeCantonOuVilleSuivants:
-      description: 'Code d''un canton-ou-ville'
-      pattern: '[0-9]{4,5}'
-      type: string
-      xml:
-        attribute: true
-      example: '0103'
-
-    CantonOuVilleListeProjetes:
-      description: 'Liste des cantons-ou-villes projetés'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCantonsOuVillesProjetes
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CantonOuVilleListeSuivants:
-      description: 'Liste des cantons-ou-villes qui succèdent au canton-ou-ville'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCantonsOuVillesSuivants
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CirconscriptionTerritorialeListeAscendants:
-      description: 'Liste des ascendants d''une circonscription territoriale'
-      type: array
-      xml:
-        wrapped: true
-        name: AscendantsCirconscriptionTerritoriale
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    CirconscriptionTerritoriale:
-      allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
-        - type: object
-          xml:
-            name: Circonscription territoriale
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeCirconscriptionTerritoriale'
-
-    CodeCirconscriptionTerritoriale:
-      description: 'Code d''une circonscription territoriale'
-      pattern: '[a-zA-Z0-9]{5}'
-      type: string
-      xml:
-        attribute: true
-      example: '98611'
-
-    CollectiviteDOutreMer:
-      allOf:
-        - $ref: '#/components/schemas/Territoire_TousAttributs'
-        - type: object
-          xml:
-            name: CollectiviteDOutreMer
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeCollectiviteDOutreMer'
-
-    CodeCollectiviteDOutreMer:
-      description: 'Code d''une collectivité d''outre-mer'
-      pattern: '[a-zA-Z0-9]{3}'
-      type: string
-      xml:
-        attribute: true
-      example: '988'
-
-    CollectiviteDOutreMerListeDescendants:
-      description: 'Liste des descendants d''une collectivité d''outre-mer'
-      type: array
-      xml:
-        wrapped: true
-        name: DescendantsCollectiviteDOutreMer
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    ListeCollectivitesDOutreMer:
-      description: 'Liste des collectivités d''outre-mer'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeCollectivitesDOutreMer
-      items:
-        $ref: '#/components/schemas/CollectiviteDOutreMer'
-
-    TypeEnumDescendantsPays:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Territoire
-      example: 'Territoire'
-
-    TypeEnumDescendantsRegion:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Commune
-        - CommuneAssociee
-        - CommuneDeleguee
-        - Iris
-        - Arrondissement
-        - ArrondissementMunicipal
-        - Departement
-        - Canton
-        - CantonOuVille
-      example: 'Commune'
-
-    TypeEnumDescendantsZoneDEmploi:
-      type: string
-      xml:
-        name: 'Type'
-      enum:
-        - Commune
-        - CommuneAssociee
-        - CommuneDeleguee
-        - Iris
-        - Arrondissement
-        - ArrondissementMunicipal
-
-    ZoneDEmploi2020:
-      allOf:
-        - $ref: '#/components/schemas/TerritoireBase_ChefLieu'
-        - type: object
-          xml:
-            name: ZoneDEmploi
-          properties:
-            code:
-              $ref: '#/components/schemas/CodeZoneDEmploi'
-
-    CodeZoneDEmploi:
-      description: 'Code d''une zone d''emploi'
-      pattern: '[0-9]{4}'
-      type: string
-      xml:
-        attribute: true
-      example: '2415'
-
-    ZoneDEmploiListeDescendants:
-      description: 'Liste des descendants d''une zone d''emploi'
-      type: array
-      xml:
-        wrapped: true
-        name: DescendantsZoneDEmploi
-      items:
-        $ref: '#/components/schemas/Territoire_TousAttributs'
-
-    ListeZonesDEmploi2020:
-      description: 'Liste des zones d''emploi'
-      type: array
-      xml:
-        wrapped: true
-        name: ListeZonesDEmploi
-      items:
-        $ref: '#/components/schemas/ZoneDEmploi2020'
-
-    dateAvecEtoile:
-      type: string
-      pattern: '^\d{4}-\d{2}-\d{2}$|\*$'
-      example: "2025-08-28"
-      description: "Accepte soit une date au format ISO 8601 (YYYY-MM-DD), soit le caractère *"
-
-    # -- Nomenclatures
-
-    CodeNomenclature:
-      type: string
-      example: '10'
-
-    NiveauNomenclature:
-      type: string
-      example: 'n2'
-
-    NomNomenclature:
-      type: string
-      example: 'cj'
-
-    Nomenclature:
-      type: object
-      properties:
-        code:
-          type: string
-        uri:
-          type: string
-        intitule:
-          type: string
-
-    # -- Opérations

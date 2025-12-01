@@ -78,6 +78,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
+                            <inputSpecRootDirectory>${project.baseUri}/target/</inputSpecRootDirectory>
                             <inputSpec>${project.baseUri}/target/openapi-diffusion.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <modelPackage>fr.insee.rmes.magma.diffusion.model</modelPackage>
