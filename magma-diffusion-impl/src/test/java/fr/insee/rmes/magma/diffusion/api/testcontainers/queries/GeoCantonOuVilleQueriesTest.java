@@ -213,6 +213,14 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
                 .andExpect(status().isNotFound());
     }
 
+//    geo/cantonOuVille/2B05/precedents?date=2025-09-04
+    @Test
+    void should_return_404_when_CantonOuVilleCodePrecedents_code2B05_date20250904() throws Exception{
+        mockMvc.perform(get("/geo/cantonOuVille/2B05/precedents")
+                        .param("date", "2025-09-04"))
+                .andExpect(status().isNotFound());
+    }
+
     ////////////////////////////////////////////////////////////////////
     ///        geo/cantonOuVille/{code}/projetes           ///
     ////////////////////////////////////////////////////////////////////
@@ -293,8 +301,16 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
 
     //    geo/cantonOuVille/0103/suivants?date=2025-09-04
     @Test
-    void should_return_404_when_CantonOuVIlleCodeSuivants_code0103_date20250904() throws Exception{
+    void should_return_404_when_CantonOuVilleCodeSuivants_code0103_date20250904() throws Exception{
         mockMvc.perform(get("/geo/cantonOuVille/0103/suivants")
+                        .param("date", "2025-09-04"))
+                .andExpect(status().isNotFound());
+    }
+
+    //    geo/cantonOuVille/2B05/suivants?date=2025-09-04
+    @Test
+    void should_return_404_when_CantonOuVilleCodeSuivants_code2B05_date20250904() throws Exception{
+        mockMvc.perform(get("/geo/cantonOuVille/2B05/suivants")
                         .param("date", "2025-09-04"))
                 .andExpect(status().isNotFound());
     }
