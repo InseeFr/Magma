@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,12 +77,30 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
         var response  = endpoints.getcogcan("0101", LocalDate.of(2025, 9, 4));
         var result = response.getBody();
         assertNotNull(result);
+        assertEquals("0101", result.getCode());
+        assertEquals("http://id.insee.fr/geo/canton/f96a2438-478f-4ebb-b659-434305dff18f", result.getUri());
         assertEquals(Canton.TypeEnum.CANTON, result.getType());
         assertEquals(LocalDate.of(2016, 1, 1), result.getDateCreation());
         assertEquals("Ambérieu-en-Bugey", result.getIntituleSansArticle());
         assertEquals(Canton.TypeArticleEnum._1, result.getTypeArticle());
         assertEquals("Ambérieu-en-Bugey", result.getIntitule());
         assertEquals("01004", result.getChefLieu());
+    }
+
+    //    geo/canton/2B05?date=2025-09-04 (in addition to Metadata-API)
+    @Test
+    void should_return_CantonCode_2B05_when_code2B05_date20250904() {
+        var response  = endpoints.getcogcan("2B05", LocalDate.of(2025, 9, 4));
+        var result = response.getBody();
+        assertNotNull(result);
+        assertEquals("2B05", result.getCode());
+        assertEquals("http://id.insee.fr/geo/canton/7d8565df-5f17-4a13-9a19-10792df227e1", result.getUri());
+        assertEquals(Canton.TypeEnum.CANTON, result.getType());
+        assertEquals(LocalDate.of(2016, 1, 1), result.getDateCreation());
+        assertEquals("Biguglia-Nebbio", result.getIntituleSansArticle());
+        assertEquals(Canton.TypeArticleEnum._0, result.getTypeArticle());
+        assertEquals("Biguglia-Nebbio", result.getIntitule());
+        assertEquals("2B037", result.getChefLieu());
     }
 
 
@@ -259,15 +276,15 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
         var resultItem1= result.getFirst();
 
         assertAll(
-                () -> Assertions.assertEquals(19, result.size()),
-                () -> Assertions.assertEquals("01", resultItem1.getCode()),
-                () -> Assertions.assertEquals("http://id.insee.fr/geo/departement/84680e6f-2e99-44c9-a9ba-2e96a2ae48b7", resultItem1.getUri()),
-                () -> Assertions.assertEquals(TerritoireBaseRelation.TypeEnum.DEPARTEMENT, resultItem1.getType()),
-                () -> Assertions.assertEquals(LocalDate.of(1967,12,31), resultItem1.getDateCreation()),
-                () -> Assertions.assertEquals("Ain", resultItem1.getIntituleSansArticle()),
-                () -> Assertions.assertEquals(TerritoireBaseRelation.TypeArticleEnum._5, resultItem1.getTypeArticle()),
-                () -> Assertions.assertEquals("Ain", resultItem1.getIntitule()),
-                () -> Assertions.assertEquals("inclus", resultItem1.getRelation())
+                () -> assertEquals(19, result.size()),
+                () -> assertEquals("01", resultItem1.getCode()),
+                () -> assertEquals("http://id.insee.fr/geo/departement/84680e6f-2e99-44c9-a9ba-2e96a2ae48b7", resultItem1.getUri()),
+                () -> assertEquals(TerritoireBaseRelation.TypeEnum.DEPARTEMENT, resultItem1.getType()),
+                () -> assertEquals(LocalDate.of(1967,12,31), resultItem1.getDateCreation()),
+                () -> assertEquals("Ain", resultItem1.getIntituleSansArticle()),
+                () -> assertEquals(TerritoireBaseRelation.TypeArticleEnum._5, resultItem1.getTypeArticle()),
+                () -> assertEquals("Ain", resultItem1.getIntitule()),
+                () -> assertEquals("inclus", resultItem1.getRelation())
         );
     }
 
@@ -282,23 +299,23 @@ public class GeoCantonQueriesTest extends TestcontainerTest{
         assertAll(
                 () -> Assertions.assertEquals(18, result.size()),
 
-                () -> Assertions.assertEquals("01002", resultItem1.getCode()),
-                () -> Assertions.assertEquals("http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e", resultItem1.getUri()),
-                () -> Assertions.assertEquals(TerritoireBaseRelation.TypeEnum.COMMUNE, resultItem1.getType()),
-                () -> Assertions.assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
-                () -> Assertions.assertEquals("Abergement-de-Varey", resultItem1.getIntituleSansArticle()),
-                () -> Assertions.assertEquals(TerritoireBaseRelation.TypeArticleEnum._5, resultItem1.getTypeArticle()),
-                () -> Assertions.assertEquals("L'Abergement-de-Varey", resultItem1.getIntitule()),
-                () -> Assertions.assertEquals("contient", resultItem1.getRelation()),
+                () -> assertEquals("01002", resultItem1.getCode()),
+                () -> assertEquals("http://id.insee.fr/geo/commune/43018c68-c278-433a-b285-3531e8d5347e", resultItem1.getUri()),
+                () -> assertEquals(TerritoireBaseRelation.TypeEnum.COMMUNE, resultItem1.getType()),
+                () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
+                () -> assertEquals("Abergement-de-Varey", resultItem1.getIntituleSansArticle()),
+                () -> assertEquals(TerritoireBaseRelation.TypeArticleEnum._5, resultItem1.getTypeArticle()),
+                () -> assertEquals("L'Abergement-de-Varey", resultItem1.getIntitule()),
+                () -> assertEquals("contient", resultItem1.getRelation()),
 
-                () -> Assertions.assertEquals("01004", resultItem2.getCode()),
-                () -> Assertions.assertEquals("http://id.insee.fr/geo/commune/9957029c-4f49-4183-8c94-f6001a6e5a92", resultItem2.getUri()),
-                () -> Assertions.assertEquals(TerritoireBaseRelation.TypeEnum.COMMUNE, resultItem2.getType()),
-                () -> Assertions.assertEquals(LocalDate.of(1955,3,31), resultItem2.getDateCreation()),
-                () -> Assertions.assertEquals("Ambérieu-en-Bugey", resultItem2.getIntituleSansArticle()),
-                () -> Assertions.assertEquals(TerritoireBaseRelation.TypeArticleEnum._1, resultItem2.getTypeArticle()),
-                () -> Assertions.assertEquals("Ambérieu-en-Bugey", resultItem2.getIntitule()),
-                () -> Assertions.assertEquals("contient", resultItem2.getRelation())
+                () -> assertEquals("01004", resultItem2.getCode()),
+                () -> assertEquals("http://id.insee.fr/geo/commune/9957029c-4f49-4183-8c94-f6001a6e5a92", resultItem2.getUri()),
+                () -> assertEquals(TerritoireBaseRelation.TypeEnum.COMMUNE, resultItem2.getType()),
+                () -> assertEquals(LocalDate.of(1955,3,31), resultItem2.getDateCreation()),
+                () -> assertEquals("Ambérieu-en-Bugey", resultItem2.getIntituleSansArticle()),
+                () -> assertEquals(TerritoireBaseRelation.TypeArticleEnum._1, resultItem2.getTypeArticle()),
+                () -> assertEquals("Ambérieu-en-Bugey", resultItem2.getIntitule()),
+                () -> assertEquals("contient", resultItem2.getRelation())
         );
     }
 
