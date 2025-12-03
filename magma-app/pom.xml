@@ -6,7 +6,7 @@
     <parent>
         <groupId>fr.insee.rmes</groupId>
         <artifactId>magma-parent</artifactId>
-        <version>magma-refactored-0.1-rc0</version>
+        <version>magma-refactored-1.0-rc0</version>
     </parent>
 
     <artifactId>magma-app</artifactId>
