@@ -103,7 +103,7 @@ public class ConceptsQueriesTest extends TestcontainerTest {
     ///             concepts/definitions                              ///
     /////////////////////////////////////////////////////////////////////
 
-//    geo/concepts/definitions?libelle=elect
+//    concepts/definitions?libelle=elect
     @Test
     void should_return_16_concepts_when_ConceptsDefinitions_libelleElect() {
         var response  = endpoints.getconceptsliste("Élect");
@@ -111,6 +111,7 @@ public class ConceptsQueriesTest extends TestcontainerTest {
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         var resultItem4= result.get(3);
+        var resultItem6= result.get(5);
         assertAll(
                 () -> assertEquals(16, result.size()),
 
@@ -118,17 +119,27 @@ public class ConceptsQueriesTest extends TestcontainerTest {
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1769"), resultItem1.getUri()),
                 () -> assertEquals("Commerce électronique", resultItem1.getIntitule()),
 
-
                 () -> assertEquals("c1158", resultItem4.getId()),
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1158"), resultItem4.getUri()),
                 () -> assertEquals("Fichier général des électeurs ", resultItem4.getIntitule()),
                 () -> assertEquals("c2131", resultItem4.getConceptsSuivants().getFirst().getId()),
-                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2131"), resultItem4.getConceptsSuivants().getFirst().getUri())
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2131"), resultItem4.getConceptsSuivants().getFirst().getUri()),
+
+                () -> assertEquals("c2169", resultItem6.getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2169"), resultItem6.getUri()),
+                () -> assertEquals("Listes électorales", resultItem6.getIntitule()),
+                () -> assertEquals("c2167", resultItem6.getConceptsPlusSpecifiques().getFirst().getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2167"), resultItem6.getConceptsPlusSpecifiques().getFirst().getUri()),
+                () -> assertEquals("c2170", resultItem6.getConceptsPlusSpecifiques().get(1).getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2170"), resultItem6.getConceptsPlusSpecifiques().get(1).getUri()),
+                () -> assertEquals("c2171", resultItem6.getConceptsPlusSpecifiques().get(2).getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2171"), resultItem6.getConceptsPlusSpecifiques().get(2).getUri())
 
         );
     }
 
-    //    geo/concepts/definitions
+
+    //    concepts/definitions
     @Test
     void should_return_1232_concepts_when_ConceptsDefinitions_libelleNull() {
         var response  = endpoints.getconceptsliste("");
