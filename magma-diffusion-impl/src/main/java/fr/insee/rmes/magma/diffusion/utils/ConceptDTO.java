@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 
@@ -53,53 +54,7 @@ public class ConceptDTO {
             concept.setNoteEditoriale(noteEditoriales);
         }
 
-        if (this.nearbyConcepts != null) {
-            List<NearbyConcept> conceptsSuivants = new ArrayList<>();
-            List<NearbyConcept> conceptsPrecedents = new ArrayList<>();
-            List<NearbyConcept> conceptsLies = new ArrayList<>();
-            List<NearbyConcept> conceptsProches = new ArrayList<>();
-            List<NearbyConcept> conceptsPlusGeneriques = new ArrayList<>();
-            List<NearbyConcept> conceptsPlusSpecifiques = new ArrayList<>();
-            List<NearbyConcept> conceptsReferences = new ArrayList<>();
-
-
-            this.nearbyConcepts.forEach(cs -> {
-                NearbyConcept inner = new NearbyConcept();
-                inner.setId(cs.getId());
-                inner.setUri(cs.getUri());
-
-                if ("isReplacedBy".equals(cs.getTypeOfLink())) {
-                    conceptsSuivants.add(inner);
-                }
-                if ("replaces".equals(cs.getTypeOfLink())) {
-                    conceptsPrecedents.add(inner);
-                }
-                if ("related".equals(cs.getTypeOfLink())) {
-                    conceptsLies.add(inner);
-                }
-                if ("closeMatch".equals(cs.getTypeOfLink())) {
-                    conceptsProches.add(inner);
-                }
-                if ("broader".equals(cs.getTypeOfLink())) {
-                    conceptsPlusGeneriques.add(inner);
-                }
-                if ("narrower".equals(cs.getTypeOfLink())) {
-                    conceptsPlusSpecifiques.add(inner);
-                }
-                if ("references".equals(cs.getTypeOfLink())) {
-                    conceptsReferences.add(inner);
-                }
-
-            });
-
-            concept.setConceptsSuivants(conceptsSuivants);
-            concept.setConceptsPrecedents(conceptsPrecedents);
-            concept.setConceptsLies(conceptsLies);
-            concept.setConceptsProches(conceptsProches);
-            concept.setConceptsPlusGeneriques(conceptsPlusGeneriques);
-            concept.conceptsPlusSpecifiques(conceptsPlusSpecifiques);
-            concept.conceptsReferences(conceptsReferences);
-        }
+        addNearByConcepts(concept);
 
         // Conversion de la date en LocalDate
         if (this.dateMiseAJour != null && !this.dateMiseAJour.isEmpty()) {
@@ -117,12 +72,132 @@ public class ConceptDTO {
         return concept;
     }
 
+    private void addNearByConcepts(Concept concept) {
+        concept.setConceptsSuivants(null);
+        concept.setConceptsPrecedents(null);
+        concept.setConceptsLies(null);
+        concept.setConceptsProches(null);
+        concept.setConceptsPlusGeneriques(null);
+        concept.setConceptsPlusSpecifiques(null);
+        concept.setConceptsReferences(null);
+
+        if (this.nearbyConcepts != null) {
+            boolean hasReplacedBy = this.nearbyConcepts.stream()
+                    .anyMatch(cs -> "isReplacedBy".equals(cs.getTypeOfLink()));
+            if (hasReplacedBy) {
+                List<NearbyConcept> conceptsSuivants = this.nearbyConcepts.stream()
+                        .filter(cs -> "isReplacedBy".equals(cs.getTypeOfLink()))
+                        .map(cs -> {
+                            NearbyConcept inner = new NearbyConcept();
+                            inner.setId(cs.getId());
+                            inner.setUri(cs.getUri());
+                            return inner;
+                        })
+                        .collect(Collectors.toList());
+                concept.setConceptsSuivants(conceptsSuivants);
+            }
+
+            boolean replaces = this.nearbyConcepts.stream()
+                    .anyMatch(cs -> "replaces".equals(cs.getTypeOfLink()));
+            if (replaces) {
+                List<NearbyConcept> conceptsPrecedents = this.nearbyConcepts.stream()
+                        .filter(cs -> "replaces".equals(cs.getTypeOfLink()))
+                        .map(cs -> {
+                            NearbyConcept inner = new NearbyConcept();
+                            inner.setId(cs.getId());
+                            inner.setUri(cs.getUri());
+                            return inner;
+                        })
+                        .collect(Collectors.toList());
+                concept.setConceptsPrecedents(conceptsPrecedents);
+            }
+
+            boolean related = this.nearbyConcepts.stream()
+                    .anyMatch(cs -> "related".equals(cs.getTypeOfLink()));
+            if (related) {
+                List<NearbyConcept> conceptsLies = this.nearbyConcepts.stream()
+                        .filter(cs -> "related".equals(cs.getTypeOfLink()))
+                        .map(cs -> {
+                            NearbyConcept inner = new NearbyConcept();
+                            inner.setId(cs.getId());
+                            inner.setUri(cs.getUri());
+                            return inner;
+                        })
+                        .collect(Collectors.toList());
+                concept.setConceptsLies(conceptsLies);
+            }
+
+            boolean closeMatch = this.nearbyConcepts.stream()
+                    .anyMatch(cs -> "closeMatch".equals(cs.getTypeOfLink()));
+            if (closeMatch) {
+                List<NearbyConcept> conceptsProches = this.nearbyConcepts.stream()
+                        .filter(cs -> "closeMatch".equals(cs.getTypeOfLink()))
+                        .map(cs -> {
+                            NearbyConcept inner = new NearbyConcept();
+                            inner.setId(cs.getId());
+                            inner.setUri(cs.getUri());
+                            return inner;
+                        })
+                        .collect(Collectors.toList());
+                concept.setConceptsProches(conceptsProches);
+            }
+
+            boolean broader = this.nearbyConcepts.stream()
+                    .anyMatch(cs -> "broader".equals(cs.getTypeOfLink()));
+            if (broader) {
+                List<NearbyConcept> conceptsPlusGeneriques = this.nearbyConcepts.stream()
+                        .filter(cs -> "broader".equals(cs.getTypeOfLink()))
+                        .map(cs -> {
+                            NearbyConcept inner = new NearbyConcept();
+                            inner.setId(cs.getId());
+                            inner.setUri(cs.getUri());
+                            return inner;
+                        })
+                        .collect(Collectors.toList());
+                concept.setConceptsPlusGeneriques(conceptsPlusGeneriques);
+            }
+
+            boolean narrower = this.nearbyConcepts.stream()
+                    .anyMatch(cs -> "narrower".equals(cs.getTypeOfLink()));
+            if (narrower) {
+                List<NearbyConcept> conceptsPlusSpecifiques = this.nearbyConcepts.stream()
+                        .filter(cs -> "narrower".equals(cs.getTypeOfLink()))
+                        .map(cs -> {
+                            NearbyConcept inner = new NearbyConcept();
+                            inner.setId(cs.getId());
+                            inner.setUri(cs.getUri());
+                            return inner;
+                        })
+                        .collect(Collectors.toList());
+                concept.setConceptsPlusSpecifiques(conceptsPlusSpecifiques);
+            }
+
+            boolean references = this.nearbyConcepts.stream()
+                    .anyMatch(cs -> "references".equals(cs.getTypeOfLink()));
+            if (references) {
+                List<NearbyConcept> conceptsReferences = this.nearbyConcepts.stream()
+                        .filter(cs -> "references".equals(cs.getTypeOfLink()))
+                        .map(cs -> {
+                            NearbyConcept inner = new NearbyConcept();
+                            inner.setId(cs.getId());
+                            inner.setUri(cs.getUri());
+                            return inner;
+                        })
+                        .collect(Collectors.toList());
+                concept.setConceptsReferences(conceptsReferences);
+            }
+
+
+        }
+    }
+
 
     public ListeConceptsInner transformDTOenDefinition() {
         ListeConceptsInner concept = new ListeConceptsInner();
         concept.setId(this.id);
         concept.setUri(URI.create(this.uri));
         concept.setIntitule(this.intituleFr);
+
 
         if (this.nearbyConcepts != null) {
             List<NearbyConcept> conceptsSuivants = new ArrayList<>();
