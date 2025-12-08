@@ -54,6 +54,8 @@ public class ConceptsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>The professions falling under the aegis of the Inter-profession Body for Retirement Planning and Insurance (CIPAV) and those launching a business after January 1st 2009 can also benefit from auto-entrepreneur status. Since January, 2011, the auto-entrepreneur can benefit from EIRL (individual entrepreneur with limited liability) status by allocating to his professional activity a specific patrimony separated from his personal patrimony. However he preserves the fixed tax and social regime connected to the auto-entrepreneur status.</p></div>", result.getNoteEditoriale().getLast().getContenu()),
                 () -> assertEquals("en", result.getNoteEditoriale().getLast().getLangue()),
                 () -> assertEquals(LocalDate.of(2016,10,13), result.getDateMiseAJour()),
+                () -> assertEquals(LocalDate.of(2009,6,26), result.getDateCreation()),
+                () -> assertEquals(LocalDate.of(2014,12,19), result.getDateFinDeValidite()),
                 () -> assertEquals("c1500", result.getConceptsSuivants().getFirst().getId()),
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1500"), result.getConceptsSuivants().getFirst().getUri())
         );
@@ -81,6 +83,7 @@ public class ConceptsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Source : mission Enquêtes, Données et Études Statistiques (MEDES), service statistique ministériel en charge de la jeunesse et des sports (site : https://injep.fr/mesurer/) </p></div>", result.getNoteEditoriale().getLast().getContenu()),
                 () -> assertEquals("en", result.getNoteEditoriale().getLast().getLangue()),
                 () -> assertNull(result.getDateMiseAJour()),
+                () -> assertNull(result.getDateCreation()),
                 () -> assertEquals(3, result.getConceptsPrecedents().size()),
                 () -> assertEquals("c1307", result.getConceptsPrecedents().getFirst().getId()),
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1307"), result.getConceptsPrecedents().getFirst().getUri()),
