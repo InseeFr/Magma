@@ -25,6 +25,8 @@ public class ConceptDTO {
     private String noteEditorialeFr;
     private String noteEditorialeEn;
     private String dateMiseAJour;
+    private String dateCreation;
+    private String dateFinDeValidite;
     @Getter
     private Boolean hasLink;
     @Getter
@@ -49,6 +51,7 @@ public class ConceptDTO {
             List<ConceptIntituleInner> definitions = createListLangueContenu(createLangueContenu(definitionFr,"fr"),createLangueContenu(definitionEn,"en"));
             concept.setDefinition(definitions);
         }
+
         if  (this.noteEditorialeFr != null && this.noteEditorialeEn != null) {
             List<ConceptIntituleInner> noteEditoriales = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
             concept.setNoteEditoriale(noteEditoriales);
@@ -56,7 +59,9 @@ public class ConceptDTO {
 
         addNearByConcepts(concept);
 
-        // Conversion de la date en LocalDate
+        //Traitement des dates
+
+        // Conversion de dateMiseAJour en LocalDate
         if (this.dateMiseAJour != null && !this.dateMiseAJour.isEmpty()) {
             try {
                 // Utilise Instant.parse() qui gère automatiquement les formats ISO
@@ -68,6 +73,34 @@ public class ConceptDTO {
         } else {
             concept.setDateMiseAJour(null);
         }
+
+        // Conversion de dateCreation  en LocalDate
+        if (this.dateCreation  != null && !this.dateCreation .isEmpty()) {
+            try {
+                // Utilise Instant.parse() qui gère automatiquement les formats ISO
+                concept.setDateCreation(Instant.parse(this.dateCreation ).atZone(java.time.ZoneId.systemDefault()).toLocalDate());
+            } catch (DateTimeParseException e) {
+                log.error("IMPOSSIBLE TO PARSE THE DATE '{}' : {}", this.dateCreation , e.getMessage());
+                concept.setDateCreation(null);
+            }
+        } else {
+            concept.setDateCreation (null);
+        }
+
+        // Conversion de dateFinDeValidite  en LocalDate
+        if (this.dateFinDeValidite  != null && !this.dateFinDeValidite .isEmpty()) {
+            try {
+                // Utilise Instant.parse() qui gère automatiquement les formats ISO
+                concept.setDateFinDeValidite(Instant.parse(this.dateFinDeValidite ).atZone(java.time.ZoneId.systemDefault()).toLocalDate());
+            } catch (DateTimeParseException e) {
+                log.error("IMPOSSIBLE TO PARSE THE DATE '{}' : {}", this.dateFinDeValidite , e.getMessage());
+                concept.setDateFinDeValidite(null);
+            }
+        } else {
+            concept.setDateFinDeValidite (null);
+        }
+
+
 
         return concept;
     }
@@ -289,6 +322,8 @@ public class ConceptDTO {
     public void setNoteEditorialeEn(String noteEditorialeEn) { this.noteEditorialeEn = noteEditorialeEn; }
 
     public void setDateMiseAJour(String dateMiseAJour) { this.dateMiseAJour = dateMiseAJour; }
+    public void setDateCreation(String dateCreation) { this.dateCreation = dateCreation; }
+    public void setDateFinDeValidite(String dateFinDeValidite) { this.dateFinDeValidite = dateFinDeValidite; }
 
     public void setHasLink(Boolean hasLink) {
         this.hasLink = hasLink;

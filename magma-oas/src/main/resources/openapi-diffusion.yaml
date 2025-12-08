@@ -6846,6 +6846,12 @@ components:
         dateMiseAJour:
           type: string
           format: date
+        dateCreation:
+          type: string
+          format: date
+        dateFinDeValidite:
+          type: string
+          format: date
         conceptsSuivants:
           type: array
           items:
