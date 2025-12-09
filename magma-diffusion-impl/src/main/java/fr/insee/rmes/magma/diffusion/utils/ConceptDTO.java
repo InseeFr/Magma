@@ -30,32 +30,37 @@ public class ConceptDTO {
     @Getter
     private Boolean hasLink;
     @Getter
+    private Boolean hasIntitulesAlternatifs;
+    @Getter
     private List<NearbyConcept> nearbyConcepts;
-
+    private List<ConceptIntituleInner> intitulesAlternatifs;
 
 
     public Concept transformDTOenConcept() {
         Concept concept = new Concept();
         concept.setId(this.id);
         concept.setUri(URI.create(this.uri));
-        if  (this.intituleFr != null && this.intituleEn != null) {
+        if  (this.intituleFr != null || this.intituleEn != null) {
             List<ConceptIntituleInner> intitules = createListLangueContenu(createLangueContenu(intituleFr,"fr"),createLangueContenu(intituleEn,"en"));
             concept.setIntitule(intitules);
         }
-        if  (this.intituleFr != null && this.intituleEn == null) {
-            List<ConceptIntituleInner> intitules = createListLangueContenu(createLangueContenu(intituleFr,"fr"),createLangueContenu("","en"));
-            concept.setIntitule(intitules);
-        }
 
-        if  (this.definitionFr != null && this.definitionEn != null) {
+        if  (this.definitionFr != null || this.definitionEn != null) {
             List<ConceptIntituleInner> definitions = createListLangueContenu(createLangueContenu(definitionFr,"fr"),createLangueContenu(definitionEn,"en"));
             concept.setDefinition(definitions);
         }
 
-        if  (this.noteEditorialeFr != null && this.noteEditorialeEn != null) {
-            List<ConceptIntituleInner> noteEditoriales = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
-            concept.setNoteEditoriale(noteEditoriales);
+        if  (this.noteEditorialeFr != null || this.noteEditorialeEn != null) {
+            List<ConceptIntituleInner> noteEditoriale = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
+            concept.setNoteEditoriale(noteEditoriale);
         }
+
+
+        if (hasIntitulesAlternatifs) {
+            addIntitulesAlternatifs(concept);
+        }
+        else concept.setIntitulesAlternatifs(null);
+
 
         addNearByConcepts(concept);
 
@@ -225,7 +230,15 @@ public class ConceptDTO {
     }
 
 
-    public ListeConceptsInner transformDTOenDefinition() {
+private void addIntitulesAlternatifs(Concept concept) {
+         for (ConceptIntituleInner item : intitulesAlternatifs) {
+         ConceptIntituleInner newIntitule = createLangueContenu(item.getContenu(), item.getLangue());
+         concept.addIntitulesAlternatifsItem(newIntitule);
+    }
+}
+
+
+ public ListeConceptsInner transformDTOenDefinition() {
         ListeConceptsInner concept = new ListeConceptsInner();
         concept.setId(this.id);
         concept.setUri(URI.create(this.uri));
@@ -284,8 +297,13 @@ public class ConceptDTO {
 
     public List<ConceptIntituleInner> createListLangueContenu(ConceptIntituleInner conceptIntituleInner1, ConceptIntituleInner conceptIntituleInner2) {
         List<ConceptIntituleInner> list = new ArrayList<>();
-        list.add(conceptIntituleInner1);
-        list.add(conceptIntituleInner2);
+        if (conceptIntituleInner1 != null) {
+            list.add(conceptIntituleInner1);
+        }
+        if (conceptIntituleInner2 != null) {
+            list.add(conceptIntituleInner2);
+        }
+
         return list;
     }
 
@@ -327,6 +345,14 @@ public class ConceptDTO {
 
     public void setHasLink(Boolean hasLink) {
         this.hasLink = hasLink;
+    }
+
+    public void setHasIntitulesAlternatifs(Boolean hasIntitulesAlternatifs) {
+        this.hasIntitulesAlternatifs = hasIntitulesAlternatifs;
+    }
+
+    public void setIntitulesAlternatifs(List<ConceptIntituleInner> intitulesAlternatifs) {
+        this.intitulesAlternatifs = intitulesAlternatifs;
     }
 
     public void setNearbyConcepts(List<NearbyConcept> nearbyConcepts) {

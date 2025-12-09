@@ -1,6 +1,6 @@
 SELECT distinct ?uri ?intituleFr ?intituleEn 
 ?definitionFr ?definitionEn ?noteEditorialeFr ?noteEditorialeEn ?scopeNoteFr ?scopeNoteEn
- ?dateMiseAJour ?dateCreation ?dateFinDeValidite ?hasLink ?id
+ ?dateMiseAJour ?dateCreation ?dateFinDeValidite ?hasLink ?hasIntitulesAlternatifs ?id
 FROM <http://rdf.insee.fr/graphes/concepts/definitions>
 WHERE {
 			BIND("${id}" AS ?id) .
@@ -96,7 +96,9 @@ WHERE {
 					?editorial2En pav:version ?v2een .
 					filter (?v2een > ?veen)
 				}
-			} 
+			}
+
+			BIND(EXISTS{?uri skos:altLabel ?labelAlt } AS ?hasIntitulesAlternatifs)
 
 }
 ORDER BY DESC(?dateMiseAJour) 

@@ -31,6 +31,10 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
         return new QueryBuilder(NEARBY_CONCEPTS,this);
     }
 
+    public QueryBuilder queryToFindConceptIntitulesAlternatifs() {
+        return new QueryBuilder(INTITULES_ALTERNATIFS, this);
+    }
+
     public QueryBuilder queryToFindConcepts(){
         return new QueryBuilder(CONCEPTS,this);
     }

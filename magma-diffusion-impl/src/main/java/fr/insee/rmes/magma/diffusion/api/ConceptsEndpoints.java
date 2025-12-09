@@ -3,6 +3,7 @@ package fr.insee.rmes.magma.diffusion.api;
 
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.diffusion.model.Concept;
+import fr.insee.rmes.magma.diffusion.model.ConceptIntituleInner;
 import fr.insee.rmes.magma.diffusion.model.ListeConceptsInner;
 import fr.insee.rmes.magma.diffusion.model.NearbyConcept;
 import fr.insee.rmes.magma.diffusion.queries.parameters.ConceptRequestParametizer;
@@ -39,6 +40,18 @@ public class ConceptsEndpoints implements ConceptsApi {
                         .executeQuery()
                         .listResult(NearbyConcept.class).result();
                 conceptDTO.setNearbyConcepts(nearbyConceptList);
+            }
+
+            if (conceptDTO.getHasIntitulesAlternatifs()){
+                List<ConceptIntituleInner> intitulesAlternatifs = requestProcessor.queryToFindConceptIntitulesAlternatifs()
+                        .with(new ConceptsNearbyRequestParametizer(conceptDTO.getUri(), Concept.class))
+                        .executeQuery()
+                        .listResult(ConceptIntituleInner.class)
+                        .result();
+
+                //TODO modifier nom de ConceptsNearbyRequestParametizer + supprimer le paramètre TypeOrigine ?
+                conceptDTO.setIntitulesAlternatifs(intitulesAlternatifs);
+
             }
 
             Concept concept = conceptDTO.transformDTOenConcept();

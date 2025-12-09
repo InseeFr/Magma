@@ -6852,6 +6852,10 @@ components:
         dateFinDeValidite:
           type: string
           format: date
+        intitulesAlternatifs:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangueContenu'
         conceptsSuivants:
           type: array
           items:
