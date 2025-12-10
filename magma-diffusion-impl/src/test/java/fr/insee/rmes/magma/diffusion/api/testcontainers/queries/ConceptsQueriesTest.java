@@ -94,6 +94,25 @@ public class ConceptsQueriesTest extends TestcontainerTest {
         );
     }
 
+//      concepts/definition/c1829 : has intitulesAlternatifs (we don't test all attributes)
+    @Test
+    void should_return_conceptc1829_when_ConceptsDefinitionCode_codec1829() {
+        var response = endpoints.getconcept("c1829");
+        var result = response.getBody();
+        Assertions.assertNotNull(result);
+        assertAll(
+                () -> assertEquals("c1829", result.getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1829"), result.getUri()),
+                () -> assertEquals(3, result.getIntitulesAlternatifs().size()),
+                () -> assertEquals("Enfant légitime et enfant hors mariage", result.getIntitulesAlternatifs().getFirst().getContenu()),
+                () -> assertEquals("fr", result.getIntitulesAlternatifs().getFirst().getLangue()),
+                () -> assertEquals("Enfant naturel et enfant illégitime", result.getIntitulesAlternatifs().get(1).getContenu()),
+                () -> assertEquals("fr", result.getIntitulesAlternatifs().get(1).getLangue()),
+                () -> assertEquals("Naissance naturelle et naissance illégitime", result.getIntitulesAlternatifs().get(2).getContenu()),
+                () -> assertEquals("fr", result.getIntitulesAlternatifs().get(2).getLangue())
+        );
+    }
+
     //    concepts/definition/c1000
     @Test
     void should_return_404_when_ConceptsDefinitionCode_codec1000() throws Exception{
