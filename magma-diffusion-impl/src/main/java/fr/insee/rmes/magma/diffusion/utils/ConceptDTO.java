@@ -49,11 +49,13 @@ public class ConceptDTO {
             List<ConceptIntituleInner> definitions = createListLangueContenu(createLangueContenu(definitionFr,"fr"),createLangueContenu(definitionEn,"en"));
             concept.setDefinition(definitions);
         }
+        else concept.setDefinition(null);
 
         if  (this.noteEditorialeFr != null || this.noteEditorialeEn != null) {
             List<ConceptIntituleInner> noteEditoriale = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
             concept.setNoteEditoriale(noteEditoriale);
         }
+        else concept.setNoteEditoriale(null);
 
 
         if (hasIntitulesAlternatifs) {
