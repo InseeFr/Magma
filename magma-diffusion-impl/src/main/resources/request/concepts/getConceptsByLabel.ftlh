@@ -8,6 +8,6 @@ FILTER(REGEX(STR(?conceptScheme),'/concepts/definitions/scheme'))
 FILTER(lang(?intitule) = 'fr')
 FILTER(CONTAINS(LCASE(STR(?intitule)), LCASE("${label}")))
 BIND(STR(?intitule) AS ?intituleFr)
-BIND(EXISTS{?uri dcterms:replaces|^dcterms:replaces ?repl } AS ?hasLink)
+BIND(EXISTS{?uri (skos:broader|skos:narrower|skos:related|dcterms:replaces|dcterms:isReplacedBy|skos:closeMatch|dcterms:references) ?repl } AS ?hasLink)
 }
  ORDER BY ?intituleFr
