@@ -3,6 +3,7 @@ package fr.insee.rmes.magma.diffusion.utils;
 import fr.insee.rmes.magma.diffusion.model.*;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
 import java.time.Instant;
@@ -133,105 +134,49 @@ public class ConceptDTO {
             boolean hasReplacedBy = this.nearbyConcepts.stream()
                     .anyMatch(cs -> "isReplacedBy".equals(cs.getTypeOfLink()));
             if (hasReplacedBy) {
-                List<NearbyConcept> conceptsSuivants = this.nearbyConcepts.stream()
-                        .filter(cs -> "isReplacedBy".equals(cs.getTypeOfLink()))
-                        .map(cs -> {
-                            NearbyConcept inner = new NearbyConcept();
-                            inner.setId(cs.getId());
-                            inner.setUri(cs.getUri());
-                            return inner;
-                        })
-                        .collect(Collectors.toList());
+                List<NearbyConcept> conceptsSuivants = getNearbyConceptList("isReplacedBy");
                 concept.setConceptsSuivants(conceptsSuivants);
             }
 
             boolean replaces = this.nearbyConcepts.stream()
                     .anyMatch(cs -> "replaces".equals(cs.getTypeOfLink()));
             if (replaces) {
-                List<NearbyConcept> conceptsPrecedents = this.nearbyConcepts.stream()
-                        .filter(cs -> "replaces".equals(cs.getTypeOfLink()))
-                        .map(cs -> {
-                            NearbyConcept inner = new NearbyConcept();
-                            inner.setId(cs.getId());
-                            inner.setUri(cs.getUri());
-                            return inner;
-                        })
-                        .collect(Collectors.toList());
+                List<NearbyConcept> conceptsPrecedents = getNearbyConceptList("replaces");
                 concept.setConceptsPrecedents(conceptsPrecedents);
             }
 
             boolean related = this.nearbyConcepts.stream()
                     .anyMatch(cs -> "related".equals(cs.getTypeOfLink()));
             if (related) {
-                List<NearbyConcept> conceptsLies = this.nearbyConcepts.stream()
-                        .filter(cs -> "related".equals(cs.getTypeOfLink()))
-                        .map(cs -> {
-                            NearbyConcept inner = new NearbyConcept();
-                            inner.setId(cs.getId());
-                            inner.setUri(cs.getUri());
-                            return inner;
-                        })
-                        .collect(Collectors.toList());
+                List<NearbyConcept> conceptsLies = getNearbyConceptList("related");
                 concept.setConceptsLies(conceptsLies);
             }
 
             boolean closeMatch = this.nearbyConcepts.stream()
                     .anyMatch(cs -> "closeMatch".equals(cs.getTypeOfLink()));
             if (closeMatch) {
-                List<NearbyConcept> conceptsProches = this.nearbyConcepts.stream()
-                        .filter(cs -> "closeMatch".equals(cs.getTypeOfLink()))
-                        .map(cs -> {
-                            NearbyConcept inner = new NearbyConcept();
-                            inner.setId(cs.getId());
-                            inner.setUri(cs.getUri());
-                            return inner;
-                        })
-                        .collect(Collectors.toList());
+                List<NearbyConcept> conceptsProches = getNearbyConceptList("closeMatch");
                 concept.setConceptsProches(conceptsProches);
             }
 
             boolean broader = this.nearbyConcepts.stream()
                     .anyMatch(cs -> "broader".equals(cs.getTypeOfLink()));
             if (broader) {
-                List<NearbyConcept> conceptsPlusGeneriques = this.nearbyConcepts.stream()
-                        .filter(cs -> "broader".equals(cs.getTypeOfLink()))
-                        .map(cs -> {
-                            NearbyConcept inner = new NearbyConcept();
-                            inner.setId(cs.getId());
-                            inner.setUri(cs.getUri());
-                            return inner;
-                        })
-                        .collect(Collectors.toList());
+                List<NearbyConcept> conceptsPlusGeneriques = getNearbyConceptList("broader");
                 concept.setConceptsPlusGeneriques(conceptsPlusGeneriques);
             }
 
             boolean narrower = this.nearbyConcepts.stream()
                     .anyMatch(cs -> "narrower".equals(cs.getTypeOfLink()));
             if (narrower) {
-                List<NearbyConcept> conceptsPlusSpecifiques = this.nearbyConcepts.stream()
-                        .filter(cs -> "narrower".equals(cs.getTypeOfLink()))
-                        .map(cs -> {
-                            NearbyConcept inner = new NearbyConcept();
-                            inner.setId(cs.getId());
-                            inner.setUri(cs.getUri());
-                            return inner;
-                        })
-                        .collect(Collectors.toList());
+                List<NearbyConcept> conceptsPlusSpecifiques = getNearbyConceptList("narrower");
                 concept.setConceptsPlusSpecifiques(conceptsPlusSpecifiques);
             }
 
             boolean references = this.nearbyConcepts.stream()
                     .anyMatch(cs -> "references".equals(cs.getTypeOfLink()));
             if (references) {
-                List<NearbyConcept> conceptsReferences = this.nearbyConcepts.stream()
-                        .filter(cs -> "references".equals(cs.getTypeOfLink()))
-                        .map(cs -> {
-                            NearbyConcept inner = new NearbyConcept();
-                            inner.setId(cs.getId());
-                            inner.setUri(cs.getUri());
-                            return inner;
-                        })
-                        .collect(Collectors.toList());
+                List<NearbyConcept> conceptsReferences = getNearbyConceptList("references");
                 concept.setConceptsReferences(conceptsReferences);
             }
 
@@ -239,8 +184,20 @@ public class ConceptDTO {
         }
     }
 
+    private @NotNull List<NearbyConcept> getNearbyConceptList(String typeOfLink) {
+        return this.nearbyConcepts.stream()
+                .filter(cs -> typeOfLink.equals(cs.getTypeOfLink()))
+                .map(cs -> {
+                    NearbyConcept inner = new NearbyConcept();
+                    inner.setId(cs.getId());
+                    inner.setUri(cs.getUri());
+                    return inner;
+                })
+                .collect(Collectors.toList());
+    }
 
-private void addIntitulesAlternatifs(Concept concept) {
+
+    private void addIntitulesAlternatifs(Concept concept) {
          for (ConceptIntituleInner item : intitulesAlternatifs) {
          ConceptIntituleInner newIntitule = createLangueContenu(item.getContenu(), item.getLangue());
          concept.addIntitulesAlternatifsItem(newIntitule);
