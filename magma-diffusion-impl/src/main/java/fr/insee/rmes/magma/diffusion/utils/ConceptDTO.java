@@ -22,6 +22,8 @@ public class ConceptDTO {
     private String intituleEn;
     private String definitionFr;
     private String definitionEn;
+    private String scopeNoteFr;
+    private String scopeNoteEn;
     private String noteEditorialeFr;
     private String noteEditorialeEn;
     private String dateMiseAJour;
@@ -50,6 +52,12 @@ public class ConceptDTO {
             concept.setDefinition(definitions);
         }
         else concept.setDefinition(null);
+
+        if  (this.scopeNoteFr != null || this.scopeNoteEn != null) {
+            List<ConceptIntituleInner> definitionCourte = createListLangueContenu(createLangueContenu(scopeNoteFr,"fr"),createLangueContenu(scopeNoteEn,"en"));
+            concept.setDefinitionCourte(definitionCourte);
+        }
+        else concept.setDefinitionCourte(null);
 
         if  (this.noteEditorialeFr != null || this.noteEditorialeEn != null) {
             List<ConceptIntituleInner> noteEditoriale = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
@@ -333,6 +341,12 @@ private void addIntitulesAlternatifs(Concept concept) {
 
     public String getDefinitionEn() { return definitionEn; }
     public void setDefinitionEn(String definitionEn) { this.definitionEn = definitionEn; }
+
+    public String getScopeNoteFr() { return scopeNoteFr; }
+    public void setScopeNoteFr(String scopeNoteFr) { this.scopeNoteFr = scopeNoteFr; }
+
+    public String getScopeNoteEn() { return scopeNoteEn; }
+    public void setScopeNoteEn(String scopeNoteEn) { this.scopeNoteEn = scopeNoteEn; }
 
     public String getNoteEditorialeFr() { return noteEditorialeFr; }
     public void setNoteEditorialeFr(String noteEditorialeFr) { this.noteEditorialeFr = noteEditorialeFr; }

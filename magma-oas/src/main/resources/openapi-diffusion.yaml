@@ -6843,6 +6843,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LangueContenu'
+        definitionCourte:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangueContenu'
         dateMiseAJour:
           type: string
           format: date
