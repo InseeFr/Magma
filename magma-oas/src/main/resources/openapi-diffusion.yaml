@@ -7489,7 +7489,7 @@ components:
 
     CodeReg:
       description: 'Code d''une région'
-      pattern: '^(01|02|03|04|06|11|24|27|28|32|44|52|53|75|76|84|93|94)$'
+      pattern: '^[0-9]{2}$'
       type: string
       xml:
         attribute: true
@@ -7515,7 +7515,7 @@ components:
 
     CodeRegPrecProj:
       description: 'Code d''une région'
-      pattern: '^(01|02|03|04|06|11|24|27|28|32|44|52|53|75|76|84|93|94)$'
+      pattern: '^[0-9]{2}$'
       type: string
       xml:
         attribute: true
