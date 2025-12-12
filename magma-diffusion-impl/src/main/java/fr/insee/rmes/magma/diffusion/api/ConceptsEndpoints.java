@@ -3,10 +3,10 @@ package fr.insee.rmes.magma.diffusion.api;
 
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.diffusion.model.Concept;
+import fr.insee.rmes.magma.diffusion.model.ConceptIntituleInner;
 import fr.insee.rmes.magma.diffusion.model.ListeConceptsInner;
 import fr.insee.rmes.magma.diffusion.model.NearbyConcept;
-import fr.insee.rmes.magma.diffusion.queries.parameters.ConceptRequestParametizer;
-import fr.insee.rmes.magma.diffusion.queries.parameters.ConceptsNearbyRequestParametizer;
+import fr.insee.rmes.magma.diffusion.queries.parameters.ConceptsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.utils.ConceptDTO;
 import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import io.micrometer.common.util.StringUtils;
@@ -28,17 +28,29 @@ public class ConceptsEndpoints implements ConceptsApi {
     @Override
     public ResponseEntity<Concept> getconcept(String id) {
         ConceptDTO conceptDTO = requestProcessor.queryToFindConcept()
-                .with(new ConceptRequestParametizer(id, "none"))
+                .with(new ConceptsRequestParametizer(id, "none"))
                 .executeQuery()
                 .singleResult(ConceptDTO.class).result();
 
         if (conceptDTO != null) {
             if (conceptDTO.getHasLink()) {
                 List<NearbyConcept> nearbyConceptList = requestProcessor.queryToFindNearbyConcepts()
-                        .with(new ConceptsNearbyRequestParametizer(conceptDTO.getUri(), NearbyConcept.class))
+                        .with(new ConceptsRequestParametizer(conceptDTO.getUri()))
                         .executeQuery()
                         .listResult(NearbyConcept.class).result();
                 conceptDTO.setNearbyConcepts(nearbyConceptList);
+            }
+
+            if (conceptDTO.getHasIntitulesAlternatifs()){
+                List<ConceptIntituleInner> intitulesAlternatifs = requestProcessor.queryToFindConceptIntitulesAlternatifs()
+                        .with(new ConceptsRequestParametizer(conceptDTO.getUri()))
+                        .executeQuery()
+                        .listResult(ConceptIntituleInner.class)
+                        .result();
+
+                //TODO modifier nom de ConceptsNearbyRequestParametizer + supprimer le paramètre TypeOrigine ?
+                conceptDTO.setIntitulesAlternatifs(intitulesAlternatifs);
+
             }
 
             Concept concept = conceptDTO.transformDTOenConcept();
@@ -55,7 +67,7 @@ public class ConceptsEndpoints implements ConceptsApi {
     public ResponseEntity<List<ListeConceptsInner>> getconceptsliste(String libelle) {
         String label = StringUtils.isEmpty(libelle) ? "" : libelle;
         List<ConceptDTO> listConceptDTOs = requestProcessor.queryToFindConcepts()
-                .with(new ConceptRequestParametizer("none", label))
+                .with(new ConceptsRequestParametizer("none", label))
                 .executeQuery()
                 .listResult(ConceptDTO.class)
                 .result();
@@ -63,7 +75,7 @@ public class ConceptsEndpoints implements ConceptsApi {
         listConceptDTOs.forEach(conceptDto -> {
             if (conceptDto.getHasLink()){
                 List<NearbyConcept> nearbyConceptList = requestProcessor.queryToFindNearbyConcepts()
-                        .with(new ConceptsNearbyRequestParametizer(conceptDto.getUri(), NearbyConcept.class))
+                        .with(new ConceptsRequestParametizer(conceptDto.getUri()))
                         .executeQuery()
                         .listResult(NearbyConcept.class).result();
                 conceptDto.setNearbyConcepts(nearbyConceptList);

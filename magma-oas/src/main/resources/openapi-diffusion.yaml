@@ -6843,9 +6843,23 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LangueContenu'
+        definitionCourte:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangueContenu'
         dateMiseAJour:
           type: string
           format: date
+        dateCreation:
+          type: string
+          format: date
+        dateFinDeValidite:
+          type: string
+          format: date
+        intitulesAlternatifs:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangueContenu'
         conceptsSuivants:
           type: array
           items:

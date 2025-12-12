@@ -31,6 +31,10 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
         return new QueryBuilder(NEARBY_CONCEPTS,this);
     }
 
+    public QueryBuilder queryToFindConceptIntitulesAlternatifs() {
+        return new QueryBuilder(INTITULES_ALTERNATIFS, this);
+    }
+
     public QueryBuilder queryToFindConcepts(){
         return new QueryBuilder(CONCEPTS,this);
     }
@@ -108,16 +112,9 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
             return new ExecutableQuery(requestProcessor.queryBuilder().build(precedentsRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
 
-        public ExecutableQuery with(ConceptRequestParametizer conceptRequestParametizer) {
+         public ExecutableQuery with(ConceptsRequestParametizer conceptsRequestParametizer) {
             return new ExecutableQuery(
-                    requestProcessor.queryBuilder().build(conceptRequestParametizer.toParameters(), queryPath),
-                    requestProcessor
-            );
-        }
-
-        public ExecutableQuery with(ConceptsNearbyRequestParametizer conceptSuivantRequestParametizer) {
-            return new ExecutableQuery(
-                    requestProcessor.queryBuilder().build(conceptSuivantRequestParametizer.toParameters(), queryPath),
+                    requestProcessor.queryBuilder().build(conceptsRequestParametizer.toParameters(), queryPath),
                     requestProcessor
             );
         }
@@ -136,6 +133,7 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
                     requestProcessor
             );
         }
+
 
     }
 
