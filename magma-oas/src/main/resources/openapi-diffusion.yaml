@@ -6839,11 +6839,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LangueContenu'
-        noteEditoriale:
+        definitionCourte:
           type: array
           items:
             $ref: '#/components/schemas/LangueContenu'
-        definitionCourte:
+        noteEditoriale:
           type: array
           items:
             $ref: '#/components/schemas/LangueContenu'
