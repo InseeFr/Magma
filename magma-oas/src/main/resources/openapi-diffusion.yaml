@@ -7033,6 +7033,18 @@ components:
         langue:
           type: string
 
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase'
+        - type: object
+          required:
+            - chefLieu
+          properties:
+            chefLieu:
+              type: string
+              description: 'Chef-lieu du territoire'
+              xml:
+                name: ChefLieu
+
     ListeConcepts:
       description: 'Liste des concepts'
       type: array
@@ -8113,6 +8125,8 @@ components:
       required:
         - id
         - uri
+        - label
+        - rubriques
 
     Rubrique:
       type: object
@@ -8128,20 +8142,48 @@ components:
           type: string
         type:
           type: string
-        date:
-          type: string
         titre:
           type: array
           items:
             $ref: '#/components/schemas/LangueContenu'
-        contenus:
-          type: array
-          items:
-            $ref: '#/components/schemas/LangueTexte'
         label:
           type: array
           items:
-            $ref: '#/components/schemas/LangueContenu'
+            $ref: '#/components/schemas/LangueTexte'
+        contenus:
+          type: array
+          items:
+            type: object
+            properties:
+              texte:
+                type: string
+              langue:
+                type: string
+              documents:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    label:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/LangueContenu'
+                    dateMiseAJour:
+                      type: string
+                      format: date-time
+                    langue:
+                      type: string
+                    url:
+                      type: string
+                      format: uri
+                  required:
+                    - label
+                    - url
+                required:
+                  - langue
+                oneOf:
+                  - required: [texte]
+                  - required: [documents]
         territoire:
           type: object
           properties:
@@ -8149,25 +8191,43 @@ components:
               type: string
             uri:
               type: string
+              format: uri
+              description: URI du territoire.
             label:
               type: array
               items:
                 $ref: '#/components/schemas/LangueContenu'
+              description: Label multilingue du territoire.
         codes:
           type: array
           items:
-            $ref: '#/components/schemas/Code'
+            type: object
+            properties:
+              id:
+                type: string
+              uri:
+                type: string
+                format: uri
+              label:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LangueContenu'
+            required:
+                - id
+                - uri
+                - label
+        date:
+          type: string
+          format: date
+      required:
+            - id
+            - uri
+            - type
+            - titre
+      oneOf:
+        - required: [label]
+        - required: [contenus]
+        - required: [territoire]
+        - required: [codes]
+        - required: [date]
 
-    Code:
-      type: object
-      xml:
-        name: CodeRubrique
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: '#/components/schemas/LangueContenu'
