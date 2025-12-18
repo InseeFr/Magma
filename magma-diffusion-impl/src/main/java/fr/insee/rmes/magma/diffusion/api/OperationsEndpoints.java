@@ -1,14 +1,12 @@
 package fr.insee.rmes.magma.diffusion.api;
 
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
-import fr.insee.rmes.magma.diffusion.model.Concept;
 import fr.insee.rmes.magma.diffusion.model.RapportQualite;
-import fr.insee.rmes.magma.diffusion.model.Rubrique;
+//import fr.insee.rmes.magma.diffusion.model.Rubrique;
 import fr.insee.rmes.magma.diffusion.queries.parameters.OperationRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.OperationRubriquesRequestParametizer;
-import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import fr.insee.rmes.magma.diffusion.utils.RapportQualiteDTO;
-import io.micrometer.common.util.StringUtils;
+import fr.insee.rmes.magma.diffusion.utils.RubriqueDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,15 +33,16 @@ public class OperationsEndpoints implements OperationsApi {
             String LG1_CL = "http://id.insee.fr/codes/langue/fr";
             String LG2_CL = "http://id.insee.fr/codes/langue/en";
 
-            List<Rubrique> rubriqueList = requestProcessor.queryToFindRubriques()
+            List<RubriqueDTO> rubriqueList = requestProcessor.queryToFindRubriques()
                         .with(new OperationRubriquesRequestParametizer(rapportQualiteDTO.getId(), LG1_CL, LG2_CL))
                         .executeQuery()
-                        .listResult(Rubrique.class).result();
-            rapportQualiteDTO.setRubriques(rubriqueList);
+                        .listResult(RubriqueDTO.class)
+                        .result();
+            rapportQualiteDTO.setRubriqueDTOList(rubriqueList);
             }
-        return null;
 
-//            RapportQualite rapportQualite = rapportQualiteDTO.transformDTOenRapportQualite();
+
+            RapportQualite rapportQualite = rapportQualiteDTO.transformDTOenRapportQualite();
 //
 //            return EndpointsUtils.toResponseEntity(rapportQualite);
 //
@@ -51,6 +50,7 @@ public class OperationsEndpoints implements OperationsApi {
 //            return ResponseEntity.notFound().build();
 //
 //        }
+        return null;
     }
 }
 

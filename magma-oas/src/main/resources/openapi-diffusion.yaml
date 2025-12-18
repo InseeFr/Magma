@@ -19,6 +19,9 @@ tags:
 
   # -- Géographie
 
+  - name: geo
+    description: 'API géographie : Générique'
+
   - name: geoAireDAttractionDesVilles
     description: 'API géographie : aire d''attraction des villes 2020'
   - name: geoArrondissement
@@ -59,8 +62,7 @@ tags:
     description: 'API géographie : Unité urbaine 2020'
   - name: geoZoneDEmploi
     description: 'API géographie : Zone d''emploi'
-  - name: geo
-    description: 'API géographie : Générique'
+
 
   # -- Nomenclatures
 
@@ -8121,113 +8123,120 @@ components:
         rubriques:
           type: array
           items:
-            $ref: '#/components/schemas/Rubrique'
-      required:
-        - id
-        - uri
-        - label
-        - rubriques
-
-    Rubrique:
-      type: object
-      xml:
-        name: Rubrique
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-          format: uri
-        idParent:
-          type: string
-        type:
-          type: string
-        titre:
-          type: array
-          items:
-            $ref: '#/components/schemas/LangueContenu'
-        label:
-          type: array
-          items:
-            $ref: '#/components/schemas/LangueTexte'
-        contenus:
-          type: array
-          items:
             type: object
-            properties:
-              texte:
-                type: string
-              langue:
-                type: string
-              documents:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    label:
-                      type: array
-                      items:
-                        $ref: '#/components/schemas/LangueContenu'
-                    dateMiseAJour:
-                      type: string
-                      format: date-time
-                    langue:
-                      type: string
-                    url:
-                      type: string
-                      format: uri
-                  required:
-                    - label
-                    - url
-                required:
-                  - langue
-                oneOf:
-                  - required: [texte]
-                  - required: [documents]
-        territoire:
-          type: object
-          properties:
-            id:
-              type: string
-            uri:
-              type: string
-              format: uri
-              description: URI du territoire.
-            label:
-              type: array
-              items:
-                $ref: '#/components/schemas/LangueContenu'
-              description: Label multilingue du territoire.
-        codes:
-          type: array
-          items:
-            type: object
+            xml:
+              name: Rubrique
             properties:
               id:
                 type: string
               uri:
                 type: string
                 format: uri
+              idParent:
+                type: string
+              type:
+                type: string
+              titre:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    contenu:
+                      type: string
+                    langue:
+                      type: string
+                  required:
+                    - contenu
+                    - langue
               label:
                 type: array
                 items:
-                  $ref: '#/components/schemas/LangueContenu'
+                  $ref: '#/components/schemas/LangueTexte'
+              contenus:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    texte:
+                      type: string
+                    langue:
+                      type: string
+                    documents:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          label:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/LangueContenu'
+                          dateMiseAJour:
+                            type: string
+                            format: date-time
+                          langue:
+                            type: string
+                          url:
+                            type: string
+                            format: uri
+                        required:
+                          - label
+                          - url
+                      required:
+                        - langue
+                      oneOf:
+                        - required: [ texte ]
+                        - required: [ documents ]
+              territoire:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  uri:
+                    type: string
+                    format: uri
+                    description: URI du territoire.
+                  label:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LangueContenu'
+                    description: Label multilingue du territoire.
+              codes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    uri:
+                      type: string
+                    label:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/LangueContenu'
+                  required:
+                    - id
+                    - uri
+                    - label
+              date:
+                type: string
+                format: date
             required:
-                - id
-                - uri
-                - label
-        date:
-          type: string
-          format: date
+              - id
+              - uri
+              - type
+              - titre
+            oneOf:
+              - required: [ label ]
+              - required: [ contenus ]
+              - required: [ territoire ]
+              - required: [ codes ]
+              - required: [ date ]
       required:
-            - id
-            - uri
-            - type
-            - titre
-      oneOf:
-        - required: [label]
-        - required: [contenus]
-        - required: [territoire]
-        - required: [codes]
-        - required: [date]
+        - id
+        - uri
+        - label
+        - rubriques
+
+
+
 
