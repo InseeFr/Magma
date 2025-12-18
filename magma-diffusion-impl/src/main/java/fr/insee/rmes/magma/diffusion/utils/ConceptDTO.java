@@ -7,6 +7,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,50 +78,34 @@ public class ConceptDTO {
 
         addNearByConcepts(concept);
 
-        //Traitement des dates
-
-        // Conversion de dateMiseAJour en LocalDate
-        if (this.dateMiseAJour != null && !this.dateMiseAJour.isEmpty()) {
-            try {
-                // Utilise Instant.parse() qui gère automatiquement les formats ISO
-                concept.setDateMiseAJour(Instant.parse(this.dateMiseAJour).atZone(java.time.ZoneId.systemDefault()).toLocalDate());
-            } catch (DateTimeParseException e) {
-                log.error("IMPOSSIBLE TO PARSE THE DATE '{}' : {}", this.dateMiseAJour, e.getMessage());
-                concept.setDateMiseAJour(null);
-            }
-        } else {
-            concept.setDateMiseAJour(null);
-        }
-
-        // Conversion de dateCreation  en LocalDate
-        if (this.dateCreation  != null && !this.dateCreation .isEmpty()) {
-            try {
-                // Utilise Instant.parse() qui gère automatiquement les formats ISO
-                concept.setDateCreation(Instant.parse(this.dateCreation ).atZone(java.time.ZoneId.systemDefault()).toLocalDate());
-            } catch (DateTimeParseException e) {
-                log.error("IMPOSSIBLE TO PARSE THE DATE '{}' : {}", this.dateCreation , e.getMessage());
-                concept.setDateCreation(null);
-            }
-        } else {
-            concept.setDateCreation (null);
-        }
-
-        // Conversion de dateFinDeValidite  en LocalDate
-        if (this.dateFinDeValidite  != null && !this.dateFinDeValidite .isEmpty()) {
-            try {
-                // Utilise Instant.parse() qui gère automatiquement les formats ISO
-                concept.setDateFinDeValidite(Instant.parse(this.dateFinDeValidite ).atZone(java.time.ZoneId.systemDefault()).toLocalDate());
-            } catch (DateTimeParseException e) {
-                log.error("IMPOSSIBLE TO PARSE THE DATE '{}' : {}", this.dateFinDeValidite , e.getMessage());
-                concept.setDateFinDeValidite(null);
-            }
-        } else {
-            concept.setDateFinDeValidite (null);
-        }
-
+        //Dates
+        concept.setDateMiseAJour(tryParseDateToLocalDate(this.dateMiseAJour));
+        concept.setDateCreation(tryParseDateToLocalDate(this.dateCreation));
+        concept.setDateFinDeValidite(tryParseDateToLocalDate(this.dateFinDeValidite));
 
 
         return concept;
+    }
+
+
+    private static LocalDate tryParseDateToLocalDate(String dateString) {
+        if (dateString == null || dateString.isEmpty()) {
+            return null;
+        }
+        // Try first to parse as Instant
+        try {
+            return Instant.parse(dateString)
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+        } catch (DateTimeParseException e1) {
+            // If failed, try to parse as LocalDateTime
+            try {
+                return LocalDateTime.parse(dateString).toLocalDate();
+            } catch (DateTimeParseException e2) {
+                log.error("IMPOSSIBLE TO PARSE THE DATE '{}' : {}", dateString, e2.getMessage());
+                return null;
+            }
+        }
     }
 
     private void addNearByConcepts(Concept concept) {
