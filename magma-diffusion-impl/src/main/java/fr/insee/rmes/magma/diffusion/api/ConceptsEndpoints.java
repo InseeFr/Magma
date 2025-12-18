@@ -4,7 +4,7 @@ package fr.insee.rmes.magma.diffusion.api;
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.diffusion.model.Concept;
 import fr.insee.rmes.magma.diffusion.model.ConceptIntituleInner;
-import fr.insee.rmes.magma.diffusion.model.ListeConceptsInner;
+import fr.insee.rmes.magma.diffusion.model.ConceptForList;
 import fr.insee.rmes.magma.diffusion.model.NearbyConcept;
 import fr.insee.rmes.magma.diffusion.queries.parameters.ConceptsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.utils.ConceptDTO;
@@ -64,7 +64,7 @@ public class ConceptsEndpoints implements ConceptsApi {
     }
 
     @Override
-    public ResponseEntity<List<ListeConceptsInner>> getconceptsliste(String libelle) {
+    public ResponseEntity<List<ConceptForList>> getconceptsliste(String libelle) {
         String label = StringUtils.isEmpty(libelle) ? "" : libelle;
         List<ConceptDTO> listConceptDTOs = requestProcessor.queryToFindConcepts()
                 .with(new ConceptsRequestParametizer("none", label))
@@ -82,7 +82,7 @@ public class ConceptsEndpoints implements ConceptsApi {
             }
         });
 
-        List<ListeConceptsInner> concepts = listConceptDTOs.stream()
+        List<ConceptForList> concepts = listConceptDTOs.stream()
                 .map(ConceptDTO::transformDTOenDefinition)
                 .collect(Collectors.toList());
 

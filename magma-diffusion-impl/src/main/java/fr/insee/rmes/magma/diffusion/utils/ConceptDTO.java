@@ -184,7 +184,7 @@ public class ConceptDTO {
         }
     }
 
-    private void addNearByConcepts(ListeConceptsInner concept) {
+    private void addNearByConcepts(ConceptForList concept) {
         concept.setConceptsSuivants(null);
         concept.setConceptsPrecedents(null);
         concept.setConceptsLies(null);
@@ -268,8 +268,8 @@ public class ConceptDTO {
 }
 
 
-    public ListeConceptsInner transformDTOenDefinition() {
-        ListeConceptsInner concept = new ListeConceptsInner();
+    public ConceptForList transformDTOenDefinition() {
+        ConceptForList concept = new ConceptForList();
         concept.setId(this.id);
         concept.setUri(URI.create(this.uri));
         concept.setIntitule(this.intituleFr);
