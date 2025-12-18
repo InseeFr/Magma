@@ -39,7 +39,7 @@ public class ConceptDTO {
     private Boolean hasIntitulesAlternatifs;
     @Getter
     private List<NearbyConcept> nearbyConcepts;
-    private List<ConceptIntituleInner> intitulesAlternatifs;
+    private List<LangueContenu> intitulesAlternatifs;
 
 
     public Concept transformDTOenConcept() {
@@ -47,24 +47,24 @@ public class ConceptDTO {
         concept.setId(this.id);
         concept.setUri(URI.create(this.uri));
         if  (this.intituleFr != null || this.intituleEn != null) {
-            List<ConceptIntituleInner> intitules = createListLangueContenu(createLangueContenu(intituleFr,"fr"),createLangueContenu(intituleEn,"en"));
+            List<LangueContenu> intitules = createListLangueContenu(createLangueContenu(intituleFr,"fr"),createLangueContenu(intituleEn,"en"));
             concept.setIntitule(intitules);
         }
 
         if  (this.definitionFr != null || this.definitionEn != null) {
-            List<ConceptIntituleInner> definitions = createListLangueContenu(createLangueContenu(definitionFr,"fr"),createLangueContenu(definitionEn,"en"));
+            List<LangueContenu> definitions = createListLangueContenu(createLangueContenu(definitionFr,"fr"),createLangueContenu(definitionEn,"en"));
             concept.setDefinition(definitions);
         }
         else concept.setDefinition(null);
 
         if  (this.scopeNoteFr != null || this.scopeNoteEn != null) {
-            List<ConceptIntituleInner> definitionCourte = createListLangueContenu(createLangueContenu(scopeNoteFr,"fr"),createLangueContenu(scopeNoteEn,"en"));
+            List<LangueContenu> definitionCourte = createListLangueContenu(createLangueContenu(scopeNoteFr,"fr"),createLangueContenu(scopeNoteEn,"en"));
             concept.setDefinitionCourte(definitionCourte);
         }
         else concept.setDefinitionCourte(null);
 
         if  (this.noteEditorialeFr != null || this.noteEditorialeEn != null) {
-            List<ConceptIntituleInner> noteEditoriale = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
+            List<LangueContenu> noteEditoriale = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
             concept.setNoteEditoriale(noteEditoriale);
         }
         else concept.setNoteEditoriale(null);
@@ -116,61 +116,97 @@ public class ConceptDTO {
         concept.setConceptsPlusGeneriques(null);
         concept.setConceptsPlusSpecifiques(null);
         concept.setConceptsReferences(null);
-
         if (this.nearbyConcepts != null) {
-            boolean hasReplacedBy = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "isReplacedBy".equals(cs.getTypeOfLink()));
-            if (hasReplacedBy) {
-                List<NearbyConcept> conceptsSuivants = getNearbyConceptList("isReplacedBy");
-                concept.setConceptsSuivants(conceptsSuivants);
-            }
-
-            boolean replaces = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "replaces".equals(cs.getTypeOfLink()));
-            if (replaces) {
-                List<NearbyConcept> conceptsPrecedents = getNearbyConceptList("replaces");
-                concept.setConceptsPrecedents(conceptsPrecedents);
-            }
-
-            boolean related = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "related".equals(cs.getTypeOfLink()));
-            if (related) {
-                List<NearbyConcept> conceptsLies = getNearbyConceptList("related");
-                concept.setConceptsLies(conceptsLies);
-            }
-
-            boolean closeMatch = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "closeMatch".equals(cs.getTypeOfLink()));
-            if (closeMatch) {
-                List<NearbyConcept> conceptsProches = getNearbyConceptList("closeMatch");
-                concept.setConceptsProches(conceptsProches);
-            }
-
-            boolean broader = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "broader".equals(cs.getTypeOfLink()));
-            if (broader) {
-                List<NearbyConcept> conceptsPlusGeneriques = getNearbyConceptList("broader");
-                concept.setConceptsPlusGeneriques(conceptsPlusGeneriques);
-            }
-
-            boolean narrower = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "narrower".equals(cs.getTypeOfLink()));
-            if (narrower) {
-                List<NearbyConcept> conceptsPlusSpecifiques = getNearbyConceptList("narrower");
-                concept.setConceptsPlusSpecifiques(conceptsPlusSpecifiques);
-            }
-
-            boolean references = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "references".equals(cs.getTypeOfLink()));
-            if (references) {
-                List<NearbyConcept> conceptsReferences = getNearbyConceptList("references");
-                concept.setConceptsReferences(conceptsReferences);
-            }
-
-
+            this.nearbyConcepts.forEach(c -> {
+                if ("isReplacedBy".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsSuivants() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsSuivants());
+                    collections.add(c);
+                    concept.setConceptsSuivants(collections);
+                }
+                if ("replaces".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsPrecedents() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsPrecedents());
+                    collections.add(c);
+                    concept.setConceptsPrecedents(collections);
+                }
+                if ("related".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsLies() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsLies());
+                    collections.add(c);
+                    concept.setConceptsLies(collections);
+                }
+                if ("closeMatch".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsProches() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsProches());
+                    collections.add(c);
+                    concept.setConceptsProches(collections);
+                }
+                if ("broader".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsPlusGeneriques() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsPlusGeneriques());
+                    collections.add(c);
+                    concept.setConceptsPlusGeneriques(collections);
+                }
+                if ("narrower".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsPlusSpecifiques() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsPlusSpecifiques());
+                    collections.add(c);
+                    concept.setConceptsPlusSpecifiques(collections);
+                }
+                if ("references".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsReferences() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsReferences());
+                    collections.add(c);
+                    concept.setConceptsReferences(collections);
+                }
+            });
         }
+
     }
 
+    private void addNearByConcepts(ConceptForList concept) {
+        concept.setConceptsSuivants(null);
+        concept.setConceptsPrecedents(null);
+        concept.setConceptsLies(null);
+        concept.setConceptsProches(null);
+        concept.setConceptsPlusGeneriques(null);
+        concept.setConceptsPlusSpecifiques(null);
+        concept.setConceptsReferences(null);
+        if (this.nearbyConcepts != null) {
+            this.nearbyConcepts.forEach(c -> {
+                if ("isReplacedBy".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsSuivants() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsSuivants());
+                    collections.add(c);
+                    concept.setConceptsSuivants(collections);
+                }
+                if ("replaces".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsPrecedents() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsPrecedents());
+                    collections.add(c);
+                    concept.setConceptsPrecedents(collections);
+                }
+                if ("related".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsLies() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsLies());
+                    collections.add(c);
+                    concept.setConceptsLies(collections);
+                }
+                if ("closeMatch".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsProches() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsProches());
+                    collections.add(c);
+                    concept.setConceptsProches(collections);
+                }
+                if ("broader".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsPlusGeneriques() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsPlusGeneriques());
+                    collections.add(c);
+                    concept.setConceptsPlusGeneriques(collections);
+                }
+                if ("narrower".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsPlusSpecifiques() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsPlusSpecifiques());
+                    collections.add(c);
+                    concept.setConceptsPlusSpecifiques(collections);
+                }
+                if ("references".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsReferences() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsReferences());
+                    collections.add(c);
+                    concept.setConceptsReferences(collections);
+                }
+            });
+        }
+
+    }
     private @NotNull List<NearbyConcept> getNearbyConceptList(String typeOfLink) {
         return this.nearbyConcepts.stream()
                 .filter(cs -> typeOfLink.equals(cs.getTypeOfLink()))
@@ -185,72 +221,27 @@ public class ConceptDTO {
 
 
     private void addIntitulesAlternatifs(Concept concept) {
-         for (ConceptIntituleInner item : intitulesAlternatifs) {
-         ConceptIntituleInner newIntitule = createLangueContenu(item.getContenu(), item.getLangue());
+         for (LangueContenu item : intitulesAlternatifs) {
+             LangueContenu newIntitule = createLangueContenu(item.getContenu(), item.getLangue());
          concept.addIntitulesAlternatifsItem(newIntitule);
     }
 }
 
 
- public ListeConceptsInner transformDTOenDefinition() {
-        ListeConceptsInner concept = new ListeConceptsInner();
+    public ConceptForList transformDTOenDefinition() {
+        ConceptForList concept = new ConceptForList();
         concept.setId(this.id);
         concept.setUri(URI.create(this.uri));
         concept.setIntitule(this.intituleFr);
 
-
-        if (this.nearbyConcepts != null) {
-            List<NearbyConcept> conceptsSuivants = new ArrayList<>();
-            List<NearbyConcept> conceptsPrecedents = new ArrayList<>();
-            List<NearbyConcept> conceptsLies = new ArrayList<>();
-            List<NearbyConcept> conceptsProches = new ArrayList<>();
-            List<NearbyConcept> conceptsPlusGeneriques = new ArrayList<>();
-            List<NearbyConcept> conceptsPlusSpecifiques = new ArrayList<>();
-            List<NearbyConcept> conceptsReferences = new ArrayList<>();
-
-            this.nearbyConcepts.forEach(cs -> {
-                NearbyConcept inner = new NearbyConcept();
-                inner.setId(cs.getId());
-                inner.setUri(cs.getUri());
-
-                if ("isReplacedBy".equals(cs.getTypeOfLink())) {
-                    conceptsSuivants.add(inner);
-                }
-                if ("replaces".equals(cs.getTypeOfLink())) {
-                    conceptsPrecedents.add(inner);
-                }
-                if ("related".equals(cs.getTypeOfLink())) {
-                    conceptsLies.add(inner);
-                }
-                if ("closeMatch".equals(cs.getTypeOfLink())) {
-                    conceptsProches.add(inner);
-                }
-                if ("broader".equals(cs.getTypeOfLink())) {
-                    conceptsPlusGeneriques.add(inner);
-                }
-                if ("narrower".equals(cs.getTypeOfLink())) {
-                    conceptsPlusSpecifiques.add(inner);
-                }
-                if ("references".equals(cs.getTypeOfLink())) {
-                    conceptsReferences.add(inner);
-                }
-            });
-
-            concept.setConceptsSuivants(conceptsSuivants);
-            concept.setConceptsPrecedents(conceptsPrecedents);
-            concept.setConceptsLies(conceptsLies);
-            concept.setConceptsProches(conceptsProches);
-            concept.setConceptsPlusGeneriques(conceptsPlusGeneriques);
-            concept.conceptsPlusSpecifiques(conceptsPlusSpecifiques);
-            concept.conceptsReferences(conceptsReferences);
-        }
+        addNearByConcepts(concept);
 
         return concept;
     }
 
 
-    public List<ConceptIntituleInner> createListLangueContenu(ConceptIntituleInner conceptIntituleInner1, ConceptIntituleInner conceptIntituleInner2) {
-        List<ConceptIntituleInner> list = new ArrayList<>();
+    public List<LangueContenu> createListLangueContenu(LangueContenu conceptIntituleInner1, LangueContenu conceptIntituleInner2) {
+        List<LangueContenu> list = new ArrayList<>();
         if (conceptIntituleInner1 != null) {
             list.add(conceptIntituleInner1);
         }
@@ -261,8 +252,8 @@ public class ConceptDTO {
         return list;
     }
 
-    public ConceptIntituleInner createLangueContenu(String contenu, String langue) {
-        ConceptIntituleInner conceptIntituleInner = new ConceptIntituleInner();
+    public LangueContenu createLangueContenu(String contenu, String langue) {
+        LangueContenu conceptIntituleInner = new LangueContenu();
         conceptIntituleInner.setContenu(contenu);
         conceptIntituleInner.setLangue(langue);
         return conceptIntituleInner;
@@ -311,7 +302,7 @@ public class ConceptDTO {
         this.hasIntitulesAlternatifs = hasIntitulesAlternatifs;
     }
 
-    public void setIntitulesAlternatifs(List<ConceptIntituleInner> intitulesAlternatifs) {
+    public void setIntitulesAlternatifs(List<LangueContenu> intitulesAlternatifs) {
         this.intitulesAlternatifs = intitulesAlternatifs;
     }
 
