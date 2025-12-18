@@ -36,7 +36,7 @@ public class ConceptDTO {
     private Boolean hasIntitulesAlternatifs;
     @Getter
     private List<NearbyConcept> nearbyConcepts;
-    private List<ConceptIntituleInner> intitulesAlternatifs;
+    private List<LangueContenu> intitulesAlternatifs;
 
 
     public Concept transformDTOenConcept() {
@@ -44,24 +44,24 @@ public class ConceptDTO {
         concept.setId(this.id);
         concept.setUri(URI.create(this.uri));
         if  (this.intituleFr != null || this.intituleEn != null) {
-            List<ConceptIntituleInner> intitules = createListLangueContenu(createLangueContenu(intituleFr,"fr"),createLangueContenu(intituleEn,"en"));
+            List<LangueContenu> intitules = createListLangueContenu(createLangueContenu(intituleFr,"fr"),createLangueContenu(intituleEn,"en"));
             concept.setIntitule(intitules);
         }
 
         if  (this.definitionFr != null || this.definitionEn != null) {
-            List<ConceptIntituleInner> definitions = createListLangueContenu(createLangueContenu(definitionFr,"fr"),createLangueContenu(definitionEn,"en"));
+            List<LangueContenu> definitions = createListLangueContenu(createLangueContenu(definitionFr,"fr"),createLangueContenu(definitionEn,"en"));
             concept.setDefinition(definitions);
         }
         else concept.setDefinition(null);
 
         if  (this.scopeNoteFr != null || this.scopeNoteEn != null) {
-            List<ConceptIntituleInner> definitionCourte = createListLangueContenu(createLangueContenu(scopeNoteFr,"fr"),createLangueContenu(scopeNoteEn,"en"));
+            List<LangueContenu> definitionCourte = createListLangueContenu(createLangueContenu(scopeNoteFr,"fr"),createLangueContenu(scopeNoteEn,"en"));
             concept.setDefinitionCourte(definitionCourte);
         }
         else concept.setDefinitionCourte(null);
 
         if  (this.noteEditorialeFr != null || this.noteEditorialeEn != null) {
-            List<ConceptIntituleInner> noteEditoriale = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
+            List<LangueContenu> noteEditoriale = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
             concept.setNoteEditoriale(noteEditoriale);
         }
         else concept.setNoteEditoriale(null);
@@ -261,8 +261,8 @@ public class ConceptDTO {
 
 
     private void addIntitulesAlternatifs(Concept concept) {
-         for (ConceptIntituleInner item : intitulesAlternatifs) {
-         ConceptIntituleInner newIntitule = createLangueContenu(item.getContenu(), item.getLangue());
+         for (LangueContenu item : intitulesAlternatifs) {
+             LangueContenu newIntitule = createLangueContenu(item.getContenu(), item.getLangue());
          concept.addIntitulesAlternatifsItem(newIntitule);
     }
 }
@@ -280,8 +280,8 @@ public class ConceptDTO {
     }
 
 
-    public List<ConceptIntituleInner> createListLangueContenu(ConceptIntituleInner conceptIntituleInner1, ConceptIntituleInner conceptIntituleInner2) {
-        List<ConceptIntituleInner> list = new ArrayList<>();
+    public List<LangueContenu> createListLangueContenu(LangueContenu conceptIntituleInner1, LangueContenu conceptIntituleInner2) {
+        List<LangueContenu> list = new ArrayList<>();
         if (conceptIntituleInner1 != null) {
             list.add(conceptIntituleInner1);
         }
@@ -292,8 +292,8 @@ public class ConceptDTO {
         return list;
     }
 
-    public ConceptIntituleInner createLangueContenu(String contenu, String langue) {
-        ConceptIntituleInner conceptIntituleInner = new ConceptIntituleInner();
+    public LangueContenu createLangueContenu(String contenu, String langue) {
+        LangueContenu conceptIntituleInner = new LangueContenu();
         conceptIntituleInner.setContenu(contenu);
         conceptIntituleInner.setLangue(langue);
         return conceptIntituleInner;
@@ -342,7 +342,7 @@ public class ConceptDTO {
         this.hasIntitulesAlternatifs = hasIntitulesAlternatifs;
     }
 
-    public void setIntitulesAlternatifs(List<ConceptIntituleInner> intitulesAlternatifs) {
+    public void setIntitulesAlternatifs(List<LangueContenu> intitulesAlternatifs) {
         this.intitulesAlternatifs = intitulesAlternatifs;
     }
 
