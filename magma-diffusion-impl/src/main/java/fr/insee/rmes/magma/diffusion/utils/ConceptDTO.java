@@ -129,59 +129,46 @@ public class ConceptDTO {
         concept.setConceptsPlusGeneriques(null);
         concept.setConceptsPlusSpecifiques(null);
         concept.setConceptsReferences(null);
-
         if (this.nearbyConcepts != null) {
-            boolean hasReplacedBy = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "isReplacedBy".equals(cs.getTypeOfLink()));
-            if (hasReplacedBy) {
-                List<NearbyConcept> conceptsSuivants = getNearbyConceptList("isReplacedBy");
-                concept.setConceptsSuivants(conceptsSuivants);
-            }
-
-            boolean replaces = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "replaces".equals(cs.getTypeOfLink()));
-            if (replaces) {
-                List<NearbyConcept> conceptsPrecedents = getNearbyConceptList("replaces");
-                concept.setConceptsPrecedents(conceptsPrecedents);
-            }
-
-            boolean related = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "related".equals(cs.getTypeOfLink()));
-            if (related) {
-                List<NearbyConcept> conceptsLies = getNearbyConceptList("related");
-                concept.setConceptsLies(conceptsLies);
-            }
-
-            boolean closeMatch = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "closeMatch".equals(cs.getTypeOfLink()));
-            if (closeMatch) {
-                List<NearbyConcept> conceptsProches = getNearbyConceptList("closeMatch");
-                concept.setConceptsProches(conceptsProches);
-            }
-
-            boolean broader = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "broader".equals(cs.getTypeOfLink()));
-            if (broader) {
-                List<NearbyConcept> conceptsPlusGeneriques = getNearbyConceptList("broader");
-                concept.setConceptsPlusGeneriques(conceptsPlusGeneriques);
-            }
-
-            boolean narrower = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "narrower".equals(cs.getTypeOfLink()));
-            if (narrower) {
-                List<NearbyConcept> conceptsPlusSpecifiques = getNearbyConceptList("narrower");
-                concept.setConceptsPlusSpecifiques(conceptsPlusSpecifiques);
-            }
-
-            boolean references = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "references".equals(cs.getTypeOfLink()));
-            if (references) {
-                List<NearbyConcept> conceptsReferences = getNearbyConceptList("references");
-                concept.setConceptsReferences(conceptsReferences);
-            }
-
-
+            this.nearbyConcepts.forEach(c -> {
+                if ("isReplacedBy".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsSuivants() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsSuivants());
+                    collections.add(c);
+                    concept.setConceptsSuivants(collections);
+                }
+                if ("replaces".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsPrecedents() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsPrecedents());
+                    collections.add(c);
+                    concept.setConceptsPrecedents(collections);
+                }
+                if ("related".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsLies() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsLies());
+                    collections.add(c);
+                    concept.setConceptsLies(collections);
+                }
+                if ("closeMatch".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsProches() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsProches());
+                    collections.add(c);
+                    concept.setConceptsProches(collections);
+                }
+                if ("broader".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsPlusGeneriques() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsPlusGeneriques());
+                    collections.add(c);
+                    concept.setConceptsPlusGeneriques(collections);
+                }
+                if ("narrower".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsPlusSpecifiques() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsPlusSpecifiques());
+                    collections.add(c);
+                    concept.setConceptsPlusSpecifiques(collections);
+                }
+                if ("references".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsReferences() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsReferences());
+                    collections.add(c);
+                    concept.setConceptsReferences(collections);
+                }
+            });
         }
+
     }
 
     private void addNearByConcepts(ConceptForList concept) {
@@ -192,61 +179,47 @@ public class ConceptDTO {
         concept.setConceptsPlusGeneriques(null);
         concept.setConceptsPlusSpecifiques(null);
         concept.setConceptsReferences(null);
-
         if (this.nearbyConcepts != null) {
-            boolean hasReplacedBy = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "isReplacedBy".equals(cs.getTypeOfLink()));
-            if (hasReplacedBy) {
-                List<NearbyConcept> conceptsSuivants = getNearbyConceptList("isReplacedBy");
-                concept.setConceptsSuivants(conceptsSuivants);
-            }
-
-            boolean replaces = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "replaces".equals(cs.getTypeOfLink()));
-            if (replaces) {
-                List<NearbyConcept> conceptsPrecedents = getNearbyConceptList("replaces");
-                concept.setConceptsPrecedents(conceptsPrecedents);
-            }
-
-            boolean related = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "related".equals(cs.getTypeOfLink()));
-            if (related) {
-                List<NearbyConcept> conceptsLies = getNearbyConceptList("related");
-                concept.setConceptsLies(conceptsLies);
-            }
-
-            boolean closeMatch = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "closeMatch".equals(cs.getTypeOfLink()));
-            if (closeMatch) {
-                List<NearbyConcept> conceptsProches = getNearbyConceptList("closeMatch");
-                concept.setConceptsProches(conceptsProches);
-            }
-
-            boolean broader = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "broader".equals(cs.getTypeOfLink()));
-            if (broader) {
-                List<NearbyConcept> conceptsPlusGeneriques = getNearbyConceptList("broader");
-                concept.setConceptsPlusGeneriques(conceptsPlusGeneriques);
-            }
-
-            boolean narrower = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "narrower".equals(cs.getTypeOfLink()));
-            if (narrower) {
-                List<NearbyConcept> conceptsPlusSpecifiques = getNearbyConceptList("narrower");
-                concept.setConceptsPlusSpecifiques(conceptsPlusSpecifiques);
-            }
-
-            boolean references = this.nearbyConcepts.stream()
-                    .anyMatch(cs -> "references".equals(cs.getTypeOfLink()));
-            if (references) {
-                List<NearbyConcept> conceptsReferences = getNearbyConceptList("references");
-                concept.setConceptsReferences(conceptsReferences);
-            }
-
-
+            this.nearbyConcepts.forEach(c -> {
+                if ("isReplacedBy".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsSuivants() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsSuivants());
+                    collections.add(c);
+                    concept.setConceptsSuivants(collections);
+                }
+                if ("replaces".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsPrecedents() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsPrecedents());
+                    collections.add(c);
+                    concept.setConceptsPrecedents(collections);
+                }
+                if ("related".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsLies() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsLies());
+                    collections.add(c);
+                    concept.setConceptsLies(collections);
+                }
+                if ("closeMatch".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsProches() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsProches());
+                    collections.add(c);
+                    concept.setConceptsProches(collections);
+                }
+                if ("broader".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsPlusGeneriques() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsPlusGeneriques());
+                    collections.add(c);
+                    concept.setConceptsPlusGeneriques(collections);
+                }
+                if ("narrower".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsPlusSpecifiques() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsPlusSpecifiques());
+                    collections.add(c);
+                    concept.setConceptsPlusSpecifiques(collections);
+                }
+                if ("references".equals(c.getTypeOfLink())) {
+                    ArrayList<NearbyConcept> collections = concept.getConceptsReferences() == null ? new ArrayList<>() : new ArrayList<>(concept.getConceptsReferences());
+                    collections.add(c);
+                    concept.setConceptsReferences(collections);
+                }
+            });
         }
-    }
 
+    }
     private @NotNull List<NearbyConcept> getNearbyConceptList(String typeOfLink) {
         return this.nearbyConcepts.stream()
                 .filter(cs -> typeOfLink.equals(cs.getTypeOfLink()))
