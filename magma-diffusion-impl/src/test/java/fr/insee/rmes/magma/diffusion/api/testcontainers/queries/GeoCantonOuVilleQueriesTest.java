@@ -1,10 +1,7 @@
 package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.GeoCantonOuVilleEndpoints;
-import fr.insee.rmes.magma.diffusion.model.CantonOuVille;
-import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
-import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCantonOuVille;
-import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCantonOuVille;
+import fr.insee.rmes.magma.diffusion.model.*;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +68,7 @@ public class GeoCantonOuVilleQueriesTest extends TestcontainerTest {
     }
 
     /////////////////////////////////////////////////////////////////////
-    ///        geo/cantonOuVille/{code}                     ///
+    ///                  geo/cantonOuVille/{code}                     ///
     /////////////////////////////////////////////////////////////////////
 
 //    geo/cantonOuVille/0101?date=2025-09-04
@@ -87,6 +84,21 @@ public class GeoCantonOuVilleQueriesTest extends TestcontainerTest {
         assertEquals("Ambérieu-en-Bugey", result.getIntituleSansArticle());
         assertEquals(CantonOuVille.TypeArticleEnum._1, result.getTypeArticle());
         assertEquals("Ambérieu-en-Bugey", result.getIntitule());
+    }
+
+//    geo/cantonOuVille/2B05?date=2025-09-04
+    @Test
+    void should_return_CantonCode_2B05_when_code2B05_date20250904() {
+        var response  = endpoints.getcogcanvil("2B05", LocalDate.of(2025, 9, 4));
+        var result = response.getBody();
+        assertNotNull(result);
+        assertEquals("2B05", result.getCode());
+        assertEquals("http://id.insee.fr/geo/cantonOuVille/3a6d53ee-51bb-41d7-91e9-44557fa11791", result.getUri());
+        assertEquals(CantonOuVille.TypeEnum.CANTON_OU_VILLE, result.getType());
+        assertEquals(LocalDate.of(2016, 1, 1), result.getDateCreation());
+        assertEquals("Biguglia-Nebbio", result.getIntituleSansArticle());
+        assertEquals(CantonOuVille.TypeArticleEnum._0, result.getTypeArticle());
+        assertEquals("Biguglia-Nebbio", result.getIntitule());
     }
 
 //    geo/cantonOuVille/0100?date=2025-09-04 renvoie 404
@@ -201,6 +213,14 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
                 .andExpect(status().isNotFound());
     }
 
+//    geo/cantonOuVille/2B05/precedents?date=2025-09-04
+    @Test
+    void should_return_404_when_CantonOuVilleCodePrecedents_code2B05_date20250904() throws Exception{
+        mockMvc.perform(get("/geo/cantonOuVille/2B05/precedents")
+                        .param("date", "2025-09-04"))
+                .andExpect(status().isNotFound());
+    }
+
     ////////////////////////////////////////////////////////////////////
     ///        geo/cantonOuVille/{code}/projetes           ///
     ////////////////////////////////////////////////////////////////////
@@ -221,6 +241,24 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
         assertEquals("Belley", resultItem1.getIntituleSansArticle());
         assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
         assertEquals("Belley", resultItem1.getIntitule());
+    }
+
+
+    //    geo/cantonOuVille/2B05/projetes?date=2025-09-04&dateProjection=2016-01-01 renvoie 1 cantonOuVilles
+    @Test
+    void should_return_1_cantonsOuVilles_when_CantonsOuVillesCodeProjetes_code2B05_date20250904_dateProjection20160101(){
+        var response  = endpoints.getcogcanvilproj ("2B05", LocalDate.of(2016,1,1),LocalDate.of(2025, 9, 4));
+        var result = response.getBody();
+        assertNotNull(result);
+        var resultItem1= result.getFirst();
+        assertEquals(1, result.size());
+        assertEquals("2B05", resultItem1.getCode());
+        assertEquals("http://id.insee.fr/geo/cantonOuVille/3a6d53ee-51bb-41d7-91e9-44557fa11791", resultItem1.getUri());
+        assertEquals(TerritoireTousAttributs.TypeEnum.CANTON_OU_VILLE, resultItem1.getType());
+        assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation());
+        assertEquals("Biguglia-Nebbio", resultItem1.getIntituleSansArticle());
+        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
+        assertEquals("Biguglia-Nebbio", resultItem1.getIntitule());
     }
 
     //    geo/cantonOuVille/0104/projetes?date=2025-09-01
@@ -263,8 +301,16 @@ void should_return_2042_cantonsEtVilles_when_cantonsEtVilles_dateEtoile(){
 
     //    geo/cantonOuVille/0103/suivants?date=2025-09-04
     @Test
-    void should_return_404_when_CantonOuVIlleCodeSuivants_code0103_date20250904() throws Exception{
+    void should_return_404_when_CantonOuVilleCodeSuivants_code0103_date20250904() throws Exception{
         mockMvc.perform(get("/geo/cantonOuVille/0103/suivants")
+                        .param("date", "2025-09-04"))
+                .andExpect(status().isNotFound());
+    }
+
+    //    geo/cantonOuVille/2B05/suivants?date=2025-09-04
+    @Test
+    void should_return_404_when_CantonOuVilleCodeSuivants_code2B05_date20250904() throws Exception{
+        mockMvc.perform(get("/geo/cantonOuVille/2B05/suivants")
                         .param("date", "2025-09-04"))
                 .andExpect(status().isNotFound());
     }

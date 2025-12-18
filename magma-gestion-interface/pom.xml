@@ -6,10 +6,10 @@
     <parent>
         <groupId>fr.insee.rmes</groupId>
         <artifactId>magma-parent</artifactId>
-        <version>magma-refactored-0.1-rc0</version> <!-- Hérite de la propriété du parent -->
+        <version>magma-refactored-1.0-rc0</version> <!-- Hérite de la propriété du parent -->
     </parent>
 
-    <artifactId>metadata-gestion-interface</artifactId>
+    <artifactId>magma-gestion-interface</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -78,10 +78,10 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.baseUri}/target/openapi.yaml</inputSpec>
+                            <inputSpec>${project.baseUri}/target/openapi-gestion.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <modelPackage>fr.insee.rmes.magma.diffusion.model</modelPackage>
-                            <apiPackage>fr.insee.rmes.metadata.api</apiPackage>
+                            <modelPackage>fr.insee.rmes.magma.gestion.model</modelPackage>
+                            <apiPackage>fr.insee.rmes.magma.gestion.api</apiPackage>
                             <generateApis>true</generateApis>
                             <generateModels>true</generateModels>
                             <supportingFilesToGenerate></supportingFilesToGenerate>

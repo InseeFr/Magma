@@ -54,6 +54,8 @@ public class ConceptsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>The professions falling under the aegis of the Inter-profession Body for Retirement Planning and Insurance (CIPAV) and those launching a business after January 1st 2009 can also benefit from auto-entrepreneur status. Since January, 2011, the auto-entrepreneur can benefit from EIRL (individual entrepreneur with limited liability) status by allocating to his professional activity a specific patrimony separated from his personal patrimony. However he preserves the fixed tax and social regime connected to the auto-entrepreneur status.</p></div>", result.getNoteEditoriale().getLast().getContenu()),
                 () -> assertEquals("en", result.getNoteEditoriale().getLast().getLangue()),
                 () -> assertEquals(LocalDate.of(2016,10,13), result.getDateMiseAJour()),
+                () -> assertEquals(LocalDate.of(2009,6,26), result.getDateCreation()),
+                () -> assertEquals(LocalDate.of(2014,12,19), result.getDateFinDeValidite()),
                 () -> assertEquals("c1500", result.getConceptsSuivants().getFirst().getId()),
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1500"), result.getConceptsSuivants().getFirst().getUri())
         );
@@ -77,10 +79,15 @@ public class ConceptsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Educational collective hosting of minors, is intended for children and young people of school age, therefore aged 3 to 17 inclusive, outside school hours. A distinction is made between hosting without accommodation, which takes place mainly within leisure hosting, or more marginally within hosting for young people, hosting with accommodation such as \"holiday camps\".</p><p>Scouting hosting is accounted for separately, because of an activity that can take place with or without accommodation, specific regulations and a specific reporting method that results.</p><p>Collective hosting of minors is characterized by:</p><ul><li>An educational and pedagogical project ;</li><li>A reception area intended to allow minors to practice educational leisure and relaxation activities;</li><li>An organizer (legal person or natural person).</li></ul><p>They are regulated by the ministry in charge of youth (article L227-1 to L227-12 of the code of social action and families) and are supervised by qualified personnel.</p><p>Until August 31, 2006, they were divided into the following three categories: leisure centres, holiday centers and holiday placements.</p></div>", result.getDefinition().getLast().getContenu()),
                 () -> assertEquals("en", result.getDefinition().getLast().getLangue()),
                 () -> assertEquals("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Source : mission Enquêtes, Données et Études Statistiques (MEDES), service statistique ministériel en charge de la jeunesse et des sports (site : https://injep.fr/mesurer/)</p></div>", result.getNoteEditoriale().getFirst().getContenu()),
+                () -> assertEquals("fr", result.getDefinitionCourte().getFirst().getLangue()),
+                () -> assertEquals("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Les accueils collectifs de mineurs, à caractère éducatif, sont destinés aux enfants et aux jeunes d’âge scolaire, donc âgés de 3 à 17 ans inclus, en dehors du temps scolaire. On distingue les accueils sans hébergement, qui se déroulent principalement au sein des accueils de loisirs, des accueils avec hébergement comme les « colonies de vacances ».</p></div>", result.getDefinitionCourte().getFirst().getContenu()),
+                () -> assertEquals("en", result.getDefinitionCourte().getLast().getLangue()),
+                () -> assertEquals("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Educational collective hosting of minors, is intended for children and young people of school age, therefore aged 3 to 17 inclusive, outside school hours. A distinction is made between hosting without accommodation, which mainly take place within leisure hosting, and hosting with accommodation such as \"holiday camps\".</p><p><br/></p></div>", result.getDefinitionCourte().getLast().getContenu()),
                 () -> assertEquals("fr", result.getNoteEditoriale().getFirst().getLangue()),
                 () -> assertEquals("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Source : mission Enquêtes, Données et Études Statistiques (MEDES), service statistique ministériel en charge de la jeunesse et des sports (site : https://injep.fr/mesurer/) </p></div>", result.getNoteEditoriale().getLast().getContenu()),
                 () -> assertEquals("en", result.getNoteEditoriale().getLast().getLangue()),
-                () -> assertNull(result.getDateMiseAJour()),
+                () -> assertEquals(LocalDate.of(2022,5,9), result.getDateMiseAJour()),
+                () -> assertEquals(LocalDate.of(2008,9,17), result.getDateCreation()),
                 () -> assertEquals(3, result.getConceptsPrecedents().size()),
                 () -> assertEquals("c1307", result.getConceptsPrecedents().getFirst().getId()),
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1307"), result.getConceptsPrecedents().getFirst().getUri()),
@@ -88,6 +95,25 @@ public class ConceptsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("c1533", result.getConceptsReferences().getFirst().getId()),
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1533"), result.getConceptsReferences().getFirst().getUri())
 
+        );
+    }
+
+//      concepts/definition/c1829 : has intitulesAlternatifs (we don't test all attributes)
+    @Test
+    void should_return_conceptc1829_when_ConceptsDefinitionCode_codec1829() {
+        var response = endpoints.getconcept("c1829");
+        var result = response.getBody();
+        Assertions.assertNotNull(result);
+        assertAll(
+                () -> assertEquals("c1829", result.getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1829"), result.getUri()),
+                () -> assertEquals(3, result.getIntitulesAlternatifs().size()),
+                () -> assertEquals("Enfant légitime et enfant hors mariage", result.getIntitulesAlternatifs().getFirst().getContenu()),
+                () -> assertEquals("fr", result.getIntitulesAlternatifs().getFirst().getLangue()),
+                () -> assertEquals("Enfant naturel et enfant illégitime", result.getIntitulesAlternatifs().get(1).getContenu()),
+                () -> assertEquals("fr", result.getIntitulesAlternatifs().get(1).getLangue()),
+                () -> assertEquals("Naissance naturelle et naissance illégitime", result.getIntitulesAlternatifs().get(2).getContenu()),
+                () -> assertEquals("fr", result.getIntitulesAlternatifs().get(2).getLangue())
         );
     }
 
@@ -103,7 +129,7 @@ public class ConceptsQueriesTest extends TestcontainerTest {
     ///             concepts/definitions                              ///
     /////////////////////////////////////////////////////////////////////
 
-//    geo/concepts/definitions?libelle=elect
+//    concepts/definitions?libelle=elect
     @Test
     void should_return_16_concepts_when_ConceptsDefinitions_libelleElect() {
         var response  = endpoints.getconceptsliste("Élect");
@@ -111,6 +137,7 @@ public class ConceptsQueriesTest extends TestcontainerTest {
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         var resultItem4= result.get(3);
+        var resultItem6= result.get(5);
         assertAll(
                 () -> assertEquals(16, result.size()),
 
@@ -118,17 +145,27 @@ public class ConceptsQueriesTest extends TestcontainerTest {
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1769"), resultItem1.getUri()),
                 () -> assertEquals("Commerce électronique", resultItem1.getIntitule()),
 
-
                 () -> assertEquals("c1158", resultItem4.getId()),
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1158"), resultItem4.getUri()),
                 () -> assertEquals("Fichier général des électeurs ", resultItem4.getIntitule()),
                 () -> assertEquals("c2131", resultItem4.getConceptsSuivants().getFirst().getId()),
-                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2131"), resultItem4.getConceptsSuivants().getFirst().getUri())
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2131"), resultItem4.getConceptsSuivants().getFirst().getUri()),
+
+                () -> assertEquals("c2169", resultItem6.getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2169"), resultItem6.getUri()),
+                () -> assertEquals("Listes électorales", resultItem6.getIntitule()),
+                () -> assertEquals("c2167", resultItem6.getConceptsPlusSpecifiques().getFirst().getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2167"), resultItem6.getConceptsPlusSpecifiques().getFirst().getUri()),
+                () -> assertEquals("c2170", resultItem6.getConceptsPlusSpecifiques().get(1).getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2170"), resultItem6.getConceptsPlusSpecifiques().get(1).getUri()),
+                () -> assertEquals("c2171", resultItem6.getConceptsPlusSpecifiques().get(2).getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2171"), resultItem6.getConceptsPlusSpecifiques().get(2).getUri())
 
         );
     }
 
-    //    geo/concepts/definitions
+
+    //    concepts/definitions
     @Test
     void should_return_1232_concepts_when_ConceptsDefinitions_libelleNull() {
         var response  = endpoints.getconceptsliste("");

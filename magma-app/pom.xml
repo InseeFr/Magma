@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>fr.insee.rmes</groupId>
+        <artifactId>magma-parent</artifactId>
+        <version>magma-refactored-1.0-rc0</version>
+    </parent>
+
+    <artifactId>magma-app</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>fr.insee.rmes</groupId>
+            <artifactId>magma-diffusion-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>fr.insee.rmes</groupId>
+            <artifactId>magma-gestion-impl</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>org.projectlombok:lombok</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -124,14 +124,14 @@ paths:
     get:
       tags:
         - geoAireDAttractionDesVilles
-      summary: 'Informations sur une aire d''attraction française identifiée par son code (trois caractères)'
+      summary: 'Informations sur une aire d''attraction 2020 française identifiée par son code (trois caractères)'
       operationId: 'getcogaav'
       parameters:
-        - $ref: '#/components/parameters/codeAireDAttractionDesVillesInPath'
-        - $ref: '#/components/parameters/dateAireDAttractionDesVillesActive'
+        - $ref: '#/components/parameters/codeAireDAttractionDesVilles2020InPath'
+        - $ref: '#/components/parameters/dateAireDAttractionDesVilles2020Active'
       responses:
         '200':
-          $ref: '#/components/responses/AireDAttractionDesVilles200'
+          $ref: '#/components/responses/AireDAttractionDesVilles2020_200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -145,15 +145,15 @@ paths:
     get:
       tags:
         - geoAireDAttractionDesVilles
-      summary: 'Informations concernant les territoires inclus dans l''aire d''attraction'
+      summary: 'Informations concernant les territoires inclus dans l''aire d''attraction 2020'
       operationId: 'getcogaavdesc'
       parameters:
-        - $ref: '#/components/parameters/codeAireDAttractionDesVillesInPath'
-        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsAireDAttractionDesVilles'
-        - $ref: '#/components/parameters/typeTerritoireDescendantAireDAttractionDesVilles'
+        - $ref: '#/components/parameters/codeAireDAttractionDesVilles2020InPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsAireDAttractionDesVilles2020'
+        - $ref: '#/components/parameters/typeTerritoireDescendantAireDAttractionDesVilles2020'
       responses:
         '200':
-          $ref: '#/components/responses/AireDAttractionDesVillesListeDescendants200'
+          $ref: '#/components/responses/AireDAttractionDesVilles2020ListeDescendants200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -167,13 +167,13 @@ paths:
     get:
       tags:
         - geoAireDAttractionDesVilles
-      summary: 'Informations sur toutes les aires d''attraction actives à la date donnée. Par défaut, c’est la date courante.'
+      summary: 'Informations sur toutes les aires d''attraction 2020 actives à la date donnée. Par défaut, c’est la date courante.'
       operationId: 'getcogaavliste'
       parameters:
-        - $ref: '#/components/parameters/dateAiresDAttractionDesVillesActives'
+        - $ref: '#/components/parameters/dateAiresDAttractionDesVilles2020Actives'
       responses:
         '200':
-          $ref: '#/components/responses/AiresDAttractionDesVillesListe200'
+          $ref: '#/components/responses/AiresDAttractionDesVilles2020Liste200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -463,14 +463,14 @@ paths:
     get:
       tags:
         - geoBassinDeVie
-      summary: 'Informations sur un bassin de vie identifié par son code (neuf caractères)'
+      summary: 'Informations sur un bassin de vie 2022 identifié par son code (neuf caractères)'
       operationId: 'getcogbass'
       parameters:
-        - $ref: '#/components/parameters/codeBassinDeVieInPath'
-        - $ref: '#/components/parameters/dateBassinDeVieActif'
+        - $ref: '#/components/parameters/codeBassinDeVie2022InPath'
+        - $ref: '#/components/parameters/dateBassinDeVie2022Actif'
       responses:
         '200':
-          $ref: '#/components/responses/BassinDeVie200'
+          $ref: '#/components/responses/BassinDeVie2022_200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -484,15 +484,15 @@ paths:
     get:
       tags:
         - geoBassinDeVie
-      summary: 'Informations concernant les territoires inclus dans le bassin de vie'
+      summary: 'Informations concernant les territoires inclus dans le bassin de vie 2022'
       operationId: 'getcogbassdes'
       parameters:
-        - $ref: '#/components/parameters/codeBassinDeVieInPath'
-        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsBassinDeVie'
-        - $ref: '#/components/parameters/typeTerritoireDescendantBassinDeVie'
+        - $ref: '#/components/parameters/codeBassinDeVie2022InPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsBassinDeVie2022'
+        - $ref: '#/components/parameters/typeTerritoireDescendantBassinDeVie2022'
       responses:
         '200':
-          $ref: '#/components/responses/BassinDeVieListeDescendants200'
+          $ref: '#/components/responses/BassinDeVie2022ListeDescendants200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -506,14 +506,14 @@ paths:
     get:
       tags:
         - geoBassinDeVie
-      summary: 'Informations sur tous les bassins de vie actifs à la date donnée. Par défaut, c’est la date courante.'
+      summary: 'Informations sur tous les bassins de vie 2022 actifs à la date donnée. Par défaut, c’est la date courante.'
       operationId: 'getcogbassliste'
       parameters:
-        - $ref: '#/components/parameters/dateBassinsDeVieActifs'
-        - $ref: '#/components/parameters/filtreNomBassinDeVie'
+        - $ref: '#/components/parameters/dateBassinsDeVie2022Actifs'
+        - $ref: '#/components/parameters/filtreNomBassinDeVie2022'
       responses:
         '200':
-          $ref: '#/components/responses/BassinsDeVieListe200'
+          $ref: '#/components/responses/BassinsDeVie2022Liste200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -1767,14 +1767,14 @@ paths:
     get:
       tags:
         - geoQuartierPrioritaireDeLaPolitiqueDeLaVille
-      summary: 'Informations sur un quartier prioritaire de la politique de la ville identifié par son code (deux chiffres)'
+      summary: 'Informations sur un quartier prioritaire de la politique de la ville 2024 identifié par son code (deux chiffres)'
       operationId: 'getcogqpv'
       parameters:
-        - $ref: '#/components/parameters/codeQPVInPath'
-        - $ref: '#/components/parameters/dateQPVActif'
+        - $ref: '#/components/parameters/codeQPV2024InPath'
+        - $ref: '#/components/parameters/dateQPV2024Actif'
       responses:
         '200':
-          $ref: '#/components/responses/QuartierPrioritaireDeLaPolitiqueDeLaVille200'
+          $ref: '#/components/responses/QuartierPrioritaireDeLaPolitiqueDeLaVille2024_200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -1788,13 +1788,13 @@ paths:
     get:
       tags:
         - geoQuartierPrioritaireDeLaPolitiqueDeLaVille
-      summary: 'Informations sur tous les quartiers prioritaires de la politique de la ville actifs à la date donnée. Par défaut, c''est la date courante.'
+      summary: 'Informations sur tous les quartiers prioritaires de la politique de la ville 2024 actifs à la date donnée. Par défaut, c''est la date courante.'
       operationId: 'getcogqpvliste'
       parameters:
-        - $ref: '#/components/parameters/dateQPVActifs'
+        - $ref: '#/components/parameters/dateQPV2024Actifs'
       responses:
         '200':
-          $ref: '#/components/responses/QuartiersPrioritairesDeLaPolitiqueDeLaVilleListe200'
+          $ref: '#/components/responses/QuartiersPrioritairesDeLaPolitiqueDeLaVille2024Liste200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -1808,15 +1808,15 @@ paths:
     get:
       tags:
         - geoQuartierPrioritaireDeLaPolitiqueDeLaVille
-      summary: 'Informations concernant les territoires directement liés au quartier prioritaire de la politique de la ville'
+      summary: 'Informations concernant les territoires directement liés au quartier prioritaire de la politique de la ville 2024'
       operationId: 'getcogqpvintersect'
       parameters:
-        - $ref: '#/components/parameters/codeQPVInPath'
-        - $ref: '#/components/parameters/dateQPVActif'
-        - $ref: '#/components/parameters/typeTerritoireLieAQuartierPrioritaireDeLaPolitiqueDeLaVille'
+        - $ref: '#/components/parameters/codeQPV2024InPath'
+        - $ref: '#/components/parameters/dateQPV2024Actif'
+        - $ref: '#/components/parameters/typeTerritoireLieAQuartierPrioritaireDeLaPolitiqueDeLaVille2024'
       responses:
         '200':
-          $ref: '#/components/responses/QuartierPrioritaireDeLaPolitiqueDeLaVilleListeTerritoiresLies200'
+          $ref: '#/components/responses/QuartierPrioritaireDeLaPolitiqueDeLaVille2024ListeTerritoiresLies200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -1958,14 +1958,14 @@ paths:
     get:
       tags:
         - geoUniteUrbaine
-      summary: 'Informations sur une unité urbaine identifiée par son code (cinq chiffres ou 1 chiffre, 1 lettre et 3 chiffres)'
+      summary: 'Informations sur une unité urbaine 2020 identifiée par son code (cinq chiffres ou 1 chiffre, 1 lettre et 3 chiffres)'
       operationId: 'getcoguu'
       parameters:
-        - $ref: '#/components/parameters/codeUniteUrbaineInPath'
-        - $ref: '#/components/parameters/dateUniteUrbaineActive'
+        - $ref: '#/components/parameters/codeUniteUrbaine2020InPath'
+        - $ref: '#/components/parameters/dateUniteUrbaine2020Active'
       responses:
         '200':
-          $ref: '#/components/responses/UniteUrbaine200'
+          $ref: '#/components/responses/UniteUrbaine2020_200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -1979,15 +1979,15 @@ paths:
     get:
       tags:
         - geoUniteUrbaine
-      summary: 'Informations concernant les territoires inclus dans l''unité urbaine'
+      summary: 'Informations concernant les territoires inclus dans l''unité urbaine 2020'
       operationId: 'getcoguudes'
       parameters:
-        - $ref: '#/components/parameters/codeUniteUrbaineInPath'
-        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsUniteUrbaine'
-        - $ref: '#/components/parameters/typeTerritoireDescendantUniteUrbaine'
+        - $ref: '#/components/parameters/codeUniteUrbaine2020InPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsUniteUrbaine2020'
+        - $ref: '#/components/parameters/typeTerritoireDescendantUniteUrbaine2020'
       responses:
         '200':
-          $ref: '#/components/responses/UniteUrbaineListeDescendants200'
+          $ref: '#/components/responses/UniteUrbaine2020ListeDescendants200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -2001,13 +2001,13 @@ paths:
     get:
       tags:
         - geoUniteUrbaine
-      summary: 'Informations sur toutes les unités urbaines actives à la date donnée. Par défaut, c’est la date courante.'
+      summary: 'Informations sur toutes les unités urbaines 2020 actives à la date donnée. Par défaut, c’est la date courante.'
       operationId: 'getcoguuliste'
       parameters:
-        - $ref: '#/components/parameters/dateUnitesUrbainesActives'
+        - $ref: '#/components/parameters/dateUnitesUrbaines2020Actives'
       responses:
         '200':
-          $ref: '#/components/responses/UnitesUrbainesListe200'
+          $ref: '#/components/responses/UnitesUrbaines2020Liste200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -2021,14 +2021,14 @@ paths:
     get:
       tags:
         - geoZoneDEmploi
-      summary: 'Informations sur une zone d''emploi française identifiée par son code (quatre chiffres)'
+      summary: 'Informations sur une zone d''emploi 2020 française identifiée par son code (quatre chiffres)'
       operationId: 'getcogze'
       parameters:
-        - $ref: '#/components/parameters/codeZoneDEmploiInPath'
-        - $ref: '#/components/parameters/dateZoneDEmploiActive'
+        - $ref: '#/components/parameters/codeZoneDEmploi2020InPath'
+        - $ref: '#/components/parameters/dateZoneDEmploi2020Active'
       responses:
         '200':
-          $ref: '#/components/responses/ZoneDEmploi200'
+          $ref: '#/components/responses/ZoneDEmploi2020_200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -2045,12 +2045,12 @@ paths:
       summary: 'Informations concernant les territoires inclus dans la zone d''emploi'
       operationId: 'getcogzedesc'
       parameters:
-        - $ref: '#/components/parameters/codeZoneDEmploiInPath'
-        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsZoneDEmploi'
-        - $ref: '#/components/parameters/typeTerritoireDescendantZoneDEmplooi'
+        - $ref: '#/components/parameters/codeZoneDEmploi2020InPath'
+        - $ref: '#/components/parameters/dateTerritoiresActifsDescendantsZoneDEmploi2020'
+        - $ref: '#/components/parameters/typeTerritoireDescendantZoneDEmploi2020'
       responses:
         '200':
-          $ref: '#/components/responses/ZoneDEmploiListeDescendants200'
+          $ref: '#/components/responses/ZoneDEmploi2020ListeDescendants200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -2064,13 +2064,13 @@ paths:
     get:
       tags:
         - geoZoneDEmploi
-      summary: 'Informations sur toutes les zones d''emploi actives à la date donnée. Par défaut, c’est la date courante.'
+      summary: 'Informations sur toutes les zones d''emploi 2020 actives à la date donnée. Par défaut, c’est la date courante.'
       operationId: 'getcogzeliste'
       parameters:
-        - $ref: '#/components/parameters/dateZonesDEmploiActives'
+        - $ref: '#/components/parameters/dateZonesDEmploi2020Actives'
       responses:
         '200':
-          $ref: '#/components/responses/ZonesDEmploiListe200'
+          $ref: '#/components/responses/ZonesDEmploi2020Liste200'
         '400':
           $ref: '#/components/responses/IncorrectRequest'
         '404':
@@ -2251,7 +2251,7 @@ components:
         type: 'string'
         example: 'élect'
 
-    codeAireDAttractionDesVillesInPath:
+    codeAireDAttractionDesVilles2020InPath:
       name: 'code'
       in: path
       description: 'Code de l''aire d''attraction (trois chiffres)'
@@ -2259,7 +2259,7 @@ components:
       schema:
         $ref: '#/components/schemas/CodeAireDAttractionDesVilles'
 
-    dateAireDAttractionDesVillesActive:
+    dateAireDAttractionDesVilles2020Active:
       in: query
       description: |-
         Filtre pour renvoyer l'aire d'attraction active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
@@ -2268,7 +2268,7 @@ components:
         type: 'string'
         format: date
 
-    dateAiresDAttractionDesVillesActives:
+    dateAiresDAttractionDesVilles2020Actives:
       in: query
       description: |-
         Filtre pour renvoyer les aires d'attraction actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
@@ -2276,7 +2276,7 @@ components:
       schema:
         $ref: "#/components/schemas/dateAvecEtoile"
 
-    dateTerritoiresActifsDescendantsAireDAttractionDesVilles:
+    dateTerritoiresActifsDescendantsAireDAttractionDesVilles2020:
       in: query
       description: |-
         Filtre pour renvoyer les territoires inclus dans l'aire d'attraction active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
@@ -2285,7 +2285,7 @@ components:
         type: 'string'
         format: date
 
-    typeTerritoireDescendantAireDAttractionDesVilles:
+    typeTerritoireDescendantAireDAttractionDesVilles2020:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
@@ -2873,7 +2873,7 @@ components:
       schema:
         $ref: '#/components/schemas/Date1950ParDefaut'
 
-    codeQPVInPath:
+    codeQPV2024InPath:
       name: 'code'
       in: path
       description: 'Code du quartier prioritaire de la ville (QN + code département sur 3 positions + une lettre parmi N, M, I)'
@@ -2890,7 +2890,7 @@ components:
       schema:
         $ref: '#/components/schemas/CodeReg'
 
-    dateQPVActif:
+    dateQPV2024Actif:
       in: query
       description: |-
         Filtre pour renvoyer le quartier prioritaire de la politique de la ville actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
@@ -2899,7 +2899,7 @@ components:
         type: 'string'
         format: date
 
-    dateQPVActifs:
+    dateQPV2024Actifs:
       in: query
       description: |-
         Filtre pour renvoyer les quartiers prioritaires de la politique de la ville actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
@@ -2908,7 +2908,7 @@ components:
         type: 'string'
         format: date
 
-    typeTerritoireLieAQuartierPrioritaireDeLaPolitiqueDeLaVille:
+    typeTerritoireLieAQuartierPrioritaireDeLaPolitiqueDeLaVille2024:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
@@ -2990,15 +2990,15 @@ components:
       schema:
         $ref: '#/components/schemas/Date2000ParDefaut'
 
-    codeUniteUrbaineInPath:
+    codeUniteUrbaine2020InPath:
       name: 'code'
       in: path
-      description: 'Code de l''unité urbaine (cinq chiffres ou 1 chiffre, 1 lettre et 3 chiffres)'
+      description: 'Code de l''unité urbaine 2020 (cinq chiffres ou 1 chiffre, 1 lettre et 3 chiffres)'
       required: true
       schema:
-        $ref: '#/components/schemas/CodeUniteUrbaine'
+        $ref: '#/components/schemas/CodeUniteUrbaine2020'
 
-    dateUniteUrbaineActive:
+    dateUniteUrbaine2020Active:
       in: query
       description: |-
         Filtre pour renvoyer l'unité urbaine active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
@@ -3007,7 +3007,7 @@ components:
         type: 'string'
         format: date
 
-    dateTerritoiresActifsDescendantsUniteUrbaine:
+    dateTerritoiresActifsDescendantsUniteUrbaine2020:
       in: query
       description: |-
         Filtre pour renvoyer les territoires inclus dans l'unité urbaine active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ').
@@ -3016,14 +3016,14 @@ components:
         type: 'string'
         format: date
 
-    typeTerritoireDescendantUniteUrbaine:
+    typeTerritoireDescendantUniteUrbaine2020:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsUniteUrbaine'
 
-    dateUnitesUrbainesActives:
+    dateUnitesUrbaines2020Actives:
       in: query
       description: |-
         Filtre pour renvoyer les unités urbaines actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
@@ -3031,7 +3031,7 @@ components:
       schema:
         $ref: "#/components/schemas/dateAvecEtoile"
 
-    codeBassinDeVieInPath:
+    codeBassinDeVie2022InPath:
       name: 'code'
       in: path
       description: 'Code du bassin de vie (cinq caractères)'
@@ -3039,7 +3039,7 @@ components:
       schema:
         $ref: '#/components/schemas/CodeBassinDeVie'
 
-    dateBassinDeVieActif:
+    dateBassinDeVie2022Actif:
       in: query
       description: |-
         Filtre pour renvoyer le bassin de vie actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
@@ -3048,7 +3048,7 @@ components:
         type: 'string'
         format: date
 
-    dateTerritoiresActifsDescendantsBassinDeVie:
+    dateTerritoiresActifsDescendantsBassinDeVie2022:
       in: query
       description: |-
         Filtre pour renvoyer les territoires inclus dans le bassin de vie actif à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ').
@@ -3057,7 +3057,7 @@ components:
         type: 'string'
         format: date
 
-    dateBassinsDeVieActifs:
+    dateBassinsDeVie2022Actifs:
       in: query
       description: |-
         Filtre pour renvoyer les bassins de vie actifs à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
@@ -3065,14 +3065,14 @@ components:
       schema:
         $ref: "#/components/schemas/dateAvecEtoile"
 
-    typeTerritoireDescendantBassinDeVie:
+    typeTerritoireDescendantBassinDeVie2022:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsBassinDeVie'
 
-    filtreNomBassinDeVie:
+    filtreNomBassinDeVie2022:
       in: query
       description: |-
         Filtre sur le nom du bassin de vie
@@ -3346,7 +3346,7 @@ components:
       schema:
         $ref: "#/components/schemas/dateAvecEtoile"
 
-    codeZoneDEmploiInPath:
+    codeZoneDEmploi2020InPath:
       name: 'code'
       in: path
       description: 'Code de la zone d''emploi (quatre chiffres)'
@@ -3354,7 +3354,7 @@ components:
       schema:
         $ref: '#/components/schemas/CodeZoneDEmploi'
 
-    dateZoneDEmploiActive:
+    dateZoneDEmploi2020Active:
       in: query
       description: |-
         Filtre pour renvoyer la zone d'emploi active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ')
@@ -3363,7 +3363,7 @@ components:
         type: 'string'
         format: date
 
-    dateTerritoiresActifsDescendantsZoneDEmploi:
+    dateTerritoiresActifsDescendantsZoneDEmploi2020:
       in: query
       description: |-
         Filtre pour renvoyer les territoires inclus dans la zone d'emploi active à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ').
@@ -3372,14 +3372,14 @@ components:
         type: 'string'
         format: date
 
-    typeTerritoireDescendantZoneDEmplooi:
+    typeTerritoireDescendantZoneDEmploi2020:
       name: 'type'
       in: query
       description: 'Filtre sur le type de territoire renvoyé'
       schema:
         $ref: '#/components/schemas/TypeEnumDescendantsZoneDEmploi'
 
-    dateZonesDEmploiActives:
+    dateZonesDEmploi2020Actives:
       in: query
       description: |-
         Filtre pour renvoyer les zones d'emploi actives à la date donnée. Par défaut, c’est la date courante (format : 'AAAA-MM-JJ'). Le paramètre '*' permet de renvoyer tout l'historique.
@@ -4808,7 +4808,7 @@ components:
 
     # -- Géographie
 
-    AireDAttractionDesVilles200:
+    AireDAttractionDesVilles2020_200:
       description: 'Opération réussie pour l''aire d''attraction'
       content:
         application/json:
@@ -4824,7 +4824,7 @@ components:
             défaut:
               $ref: '#/components/examples/AireDAttractionDesVilles2020'
 
-    AireDAttractionDesVillesListeDescendants200:
+    AireDAttractionDesVilles2020ListeDescendants200:
       description: 'Opération réussie pour les descendants d''une aire d''attraction des villes'
       content:
         application/json:
@@ -4840,7 +4840,7 @@ components:
             défaut:
               $ref: '#/components/examples/AireDAttractionDesVillesListeDescendants'
 
-    AiresDAttractionDesVillesListe200:
+    AiresDAttractionDesVilles2020Liste200:
       description: 'Opération réussie pour les aires d''attraction'
       content:
         application/json:
@@ -5064,7 +5064,7 @@ components:
             défaut:
               $ref: '#/components/examples/ArrondissementMunicipalListeSuivants'
 
-    BassinDeVie200:
+    BassinDeVie2022_200:
       description: 'Opération réussie pour le bassin de vie'
       content:
         application/json:
@@ -5080,7 +5080,7 @@ components:
             défaut:
               $ref: '#/components/examples/BassinDeVie2022'
 
-    BassinDeVieListeDescendants200:
+    BassinDeVie2022ListeDescendants200:
       description: 'Opération réussie pour les descendants d''un bassin de vie'
       content:
         application/json:
@@ -5096,7 +5096,7 @@ components:
             défaut:
               $ref: '#/components/examples/BassinDeVieListeDescendants'
 
-    BassinsDeVieListe200:
+    BassinsDeVie2022Liste200:
       description: 'Opération réussie pour les bassins de vie'
       content:
         application/json:
@@ -6049,7 +6049,7 @@ components:
             défaut:
               $ref: '#/components/examples/PaysListeSuivants'
 
-    QuartierPrioritaireDeLaPolitiqueDeLaVille200:
+    QuartierPrioritaireDeLaPolitiqueDeLaVille2024_200:
       description: 'Opération réussie pour le quartier prioritaire de la politique de la ville'
       content:
         application/json:
@@ -6065,7 +6065,7 @@ components:
             défaut:
               $ref: '#/components/examples/QuartierPrioritaireDeLaPolitiqueDeLaVille2024'
 
-    QuartiersPrioritairesDeLaPolitiqueDeLaVilleListe200:
+    QuartiersPrioritairesDeLaPolitiqueDeLaVille2024Liste200:
       description: 'Opération réussie pour les quartiers prioritaires de la politique de la ville'
       content:
         application/json:
@@ -6081,7 +6081,7 @@ components:
             défaut:
               $ref: '#/components/examples/ListeQuartiersPrioritairesDeLaPolitiqueDeLaVille'
 
-    QuartierPrioritaireDeLaPolitiqueDeLaVilleListeTerritoiresLies200:
+    QuartierPrioritaireDeLaPolitiqueDeLaVille2024ListeTerritoiresLies200:
       description: 'Opération réussie pour les territoires liés au quartier prioritaire de la politique de la ville'
       content:
         application/json:
@@ -6195,7 +6195,7 @@ components:
             défaut:
               $ref: '#/components/examples/RegionListeSuivants'
 
-    UniteUrbaine200:
+    UniteUrbaine2020_200:
       description: 'Opération réussie pour l''unité urbaine'
       content:
         application/json:
@@ -6211,7 +6211,7 @@ components:
             défaut:
               $ref: '#/components/examples/UniteUrbaine2020'
 
-    UniteUrbaineListeDescendants200:
+    UniteUrbaine2020ListeDescendants200:
       description: 'Opération réussie pour les descendants d''une unité urbaine'
       content:
         application/json:
@@ -6227,7 +6227,7 @@ components:
             défaut:
               $ref: '#/components/examples/UniteUrbaineListeDescendants'
 
-    UnitesUrbainesListe200:
+    UnitesUrbaines2020Liste200:
       description: 'Opération réussie pour les unités urbaines'
       content:
         application/json:
@@ -6243,7 +6243,7 @@ components:
             défaut:
               $ref: '#/components/examples/ListeUnitesUrbaines'
 
-    ZoneDEmploi200:
+    ZoneDEmploi2020_200:
       description: 'Opération réussie pour la zone d''emploi'
       content:
         application/json:
@@ -6259,7 +6259,7 @@ components:
             défaut:
               $ref: '#/components/examples/ZoneDEmploi2020'
 
-    ZoneDEmploiListeDescendants200:
+    ZoneDEmploi2020ListeDescendants200:
       description: 'Opération réussie pour les descendants d''une zone d''emploi'
       content:
         application/json:
@@ -6275,7 +6275,7 @@ components:
             défaut:
               $ref: '#/components/examples/ZoneDEmploiListeDescendants'
 
-    ZonesDEmploiListe200:
+    ZonesDEmploi2020Liste200:
       description: 'Opération réussie pour les zones d''emploi'
       content:
         application/json:
@@ -6662,7 +6662,7 @@ components:
         $ref: '#/components/schemas/TerritoireBase_ChefLieu'
 
     CodeCom:
-      pattern: '[0-9][0-9AB][0-9]{3}'
+      pattern: '^[0-9][0-9AB][0-9]{3}$'
       type: 'string'
       xml:
         attribute: true
@@ -6670,7 +6670,7 @@ components:
 
     CodeDep:
       description: 'Code d''un département'
-      pattern: '[013-8][0-9]|2[0-9AB]|9[0-5]|97[1-6]'
+      pattern: '^[013-8][0-9]|2[0-9AB]|9[0-5]|97[1-6]$'
       type: string
       xml:
         attribute: true
@@ -6923,6 +6923,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LangueContenu'
+        definitionCourte:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangueContenu'
         noteEditoriale:
           type: array
           items:
@@ -6930,6 +6934,16 @@ components:
         dateMiseAJour:
           type: string
           format: date
+        dateCreation:
+          type: string
+          format: date
+        dateFinDeValidite:
+          type: string
+          format: date
+        intitulesAlternatifs:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangueContenu'
         conceptsSuivants:
           type: array
           items:
@@ -7068,7 +7082,7 @@ components:
 
     CodeAireDAttractionDesVilles:
       description: 'Code d''une aire d''attraction'
-      pattern: '[a-zA-Z0-9]{3}'
+      pattern: '^[0-9A-Z]{3}$'
       type: string
       xml:
         attribute: true
@@ -7113,7 +7127,7 @@ components:
 
     CodeArrondissement:
       description: 'Code d''un arrondissement'
-      pattern: '[a-zA-Z0-9]{3,4}'
+      pattern: '^[0-9][0-9AB][0-9]{1,2}$'
       type: string
       xml:
         attribute: true
@@ -7148,7 +7162,7 @@ components:
 
     CodeArrondissementSuivant:
       description: 'Code d''un arrondissement'
-      pattern: '[a-zA-Z0-9]{3,4}'
+      pattern: '^[a-zA-Z0-9]{3,4}$'
       type: string
       xml:
         attribute: true
@@ -7193,7 +7207,7 @@ components:
 
     CodeArrondissementMunicipal:
       description: 'Code d''un arrondissement municipal'
-      pattern: '[a-zA-Z0-9]{5}'
+      pattern: '^(132|693|751)[0-9]{2}$'
       type: string
       xml:
         attribute: true
@@ -7293,7 +7307,7 @@ components:
 
     CodeCommuneAssociee:
       description: 'Code de la commune associée'
-      pattern: '([0-9]{5})'
+      pattern: '^[0-9]{5}$'
       type: string
       xml:
         attribute: true
@@ -7301,7 +7315,7 @@ components:
 
     CodeCommuneDeleguee:
       description: 'Code de la commune déléguée'
-      pattern: '([0-9]{5})'
+      pattern: '^^[0-9]{5}$'
       type: string
       xml:
         attribute: true
@@ -7328,7 +7342,7 @@ components:
 
     CodeDistrict:
       description: 'Code du district'
-      pattern: '([0-9]{5})'
+      pattern: '^[0-9]{5}$'
       type: string
       xml:
         attribute: true
@@ -7346,7 +7360,7 @@ components:
 
     CodeInterco:
       description: 'Code d''une intercommunalité'
-      pattern: '([0-9]{9})'
+      pattern: '^[0-9]{9}$'
       type: string
       xml:
         attribute: true
@@ -7438,7 +7452,7 @@ components:
 
     CodeIris:
       description: 'Code d''une Iris'
-      pattern: '[0-9][0-9AB][0-9]{7}'
+      pattern: '^[0-9][0-9AB][0-9]{7}$'
       type: string
       xml:
         attribute: true
@@ -7593,7 +7607,7 @@ components:
 
     CodeReg:
       description: 'Code d''une région'
-      pattern: '^(01|02|03|04|06|11|24|27|28|32|44|52|53|75|76|84|93|94)$'
+      pattern: '^[0-9]{2}$'
       type: string
       xml:
         attribute: true
@@ -7619,7 +7633,7 @@ components:
 
     CodeRegPrecProj:
       description: 'Code d''une région'
-      pattern: '^(01|02|03|04|06|11|24|27|28|32|44|52|53|75|76|84|93|94)$'
+      pattern: '^[0-9]{2}$'
       type: string
       xml:
         attribute: true
@@ -7668,10 +7682,10 @@ components:
             name: UniteUrbaine
           properties:
             code:
-              $ref: '#/components/schemas/CodeUniteUrbaine'
+              $ref: '#/components/schemas/CodeUniteUrbaine2020'
 
-    CodeUniteUrbaine:
-      description: 'Code d''une unité urbaine'
+    CodeUniteUrbaine2020:
+      description: 'Code d''une unité urbaine 2020'
       pattern: '^([0-9][0-9A-Z][0-9]{3})$'
       type: string
       xml:
@@ -7721,7 +7735,7 @@ components:
 
     CodeBassinDeVie:
       description: 'Code d''un bassin de vie'
-      pattern: '[a-zA-Z0-9]{5}'
+      pattern: '^[0-9][0-9AB][0-9]{3}$'
       type: string
       xml:
         attribute: true
@@ -7778,7 +7792,7 @@ components:
 
     CodeCanton:
       description: 'Code d''un canton'
-      pattern: '[0-9]{4}|[0-9]{5}|2[ABab][0-9]{2}'
+      pattern: '^[0-9][0-9AB][0-9]{2,3}$'
       type: string
       xml:
         attribute: true
@@ -7804,7 +7818,7 @@ components:
 
     CodeCantonPrec:
       description: 'Code d''un canton'
-      pattern: '[0-9]{4}|[0-9]{5}|2[ABab][0-9]{2}'
+      pattern: '^[0-9]{4}|[0-9]{5}|2[ABab][0-9]{2}$'
       type: string
       xml:
         attribute: true
@@ -7867,7 +7881,7 @@ components:
 
     CodeCantonOuVille:
       description: 'Code d''un canton-ou-ville'
-      pattern: '[0-9]{4,5}'
+      pattern: '^[0-9][0-9AB][0-9]{2,3}$'
       type: string
       xml:
         attribute: true
@@ -7893,7 +7907,7 @@ components:
 
     CodeCantonOuVillePrec:
       description: 'Code d''un canton-ou-ville'
-      pattern: '[0-9]{4,5}'
+      pattern: '^[0-9][0-9AB][0-9]{2,3}$'
       type: string
       xml:
         attribute: true
@@ -7910,7 +7924,7 @@ components:
 
     CodeCantonOuVilleSuivants:
       description: 'Code d''un canton-ou-ville'
-      pattern: '[0-9]{4,5}'
+      pattern: '^[0-9][0-9AB][0-9]{2,3}$'
       type: string
       xml:
         attribute: true
@@ -7955,7 +7969,7 @@ components:
 
     CodeCirconscriptionTerritoriale:
       description: 'Code d''une circonscription territoriale'
-      pattern: '[a-zA-Z0-9]{5}'
+      pattern: '^[0-9][0-9AB][0-9]{3}$'
       type: string
       xml:
         attribute: true
@@ -7973,7 +7987,7 @@ components:
 
     CodeCollectiviteDOutreMer:
       description: 'Code d''une collectivité d''outre-mer'
-      pattern: '[a-zA-Z0-9]{3}'
+      pattern: '^9[78][0-9]$'
       type: string
       xml:
         attribute: true
@@ -8045,7 +8059,7 @@ components:
 
     CodeZoneDEmploi:
       description: 'Code d''une zone d''emploi'
-      pattern: '[0-9]{4}'
+      pattern: '^[0-9]{4}$'
       type: string
       xml:
         attribute: true

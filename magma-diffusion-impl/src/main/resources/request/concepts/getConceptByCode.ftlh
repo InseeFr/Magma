@@ -1,6 +1,6 @@
 SELECT distinct ?uri ?intituleFr ?intituleEn 
 ?definitionFr ?definitionEn ?noteEditorialeFr ?noteEditorialeEn ?scopeNoteFr ?scopeNoteEn
- ?dateMiseAJour ?hasLink ?id
+ ?dateMiseAJour ?dateCreation ?dateFinDeValidite ?hasLink ?hasIntitulesAlternatifs ?id
 FROM <http://rdf.insee.fr/graphes/concepts/definitions>
 WHERE {
 			BIND("${id}" AS ?id) .
@@ -15,7 +15,9 @@ WHERE {
 
 			BIND(EXISTS{?uri (skos:broader|skos:narrower|skos:related|dcterms:replaces|dcterms:isReplacedBy|skos:closeMatch|dcterms:references) ?repl } AS ?hasLink)
 			
-			OPTIONAL{ ?uri dcterms:modified ?dateMiseAJour } 
+			OPTIONAL{ ?uri dcterms:modified ?dateMiseAJour }
+			OPTIONAL{ ?uri dcterms:created ?dateCreation  }
+			OPTIONAL{ ?uri dcterms:valid ?dateFinDeValidite }
 		
 			
 			OPTIONAL {
@@ -94,7 +96,9 @@ WHERE {
 					?editorial2En pav:version ?v2een .
 					filter (?v2een > ?veen)
 				}
-			} 
+			}
+
+			BIND(EXISTS{?uri skos:altLabel ?labelAlt } AS ?hasIntitulesAlternatifs)
 
 }
 ORDER BY DESC(?dateMiseAJour) 

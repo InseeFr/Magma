@@ -1,0 +1,76 @@
+package fr.insee.rmes.magma.gestion.old.utils.config.freemarker;
+
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.cache.MultiTemplateLoader;
+import freemarker.cache.TemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.TemplateExceptionHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Locale;
+
+
+public class FreemarkerConfig {
+
+	static final Logger logger = LogManager.getLogger(FreemarkerConfig.class);
+
+	static Configuration cfg ;
+
+	private FreemarkerConfig(){}
+	
+	public static void init()  {
+		// Create your Configuration instance, and specify if up to what FreeMarker
+		// version (here 2.3.27) do you want to apply the fixes that are not 100%
+		// backward-compatible. See the Configuration JavaDoc for details.
+		cfg = new Configuration(Configuration.VERSION_2_3_30);
+
+		// Specify the source where the template files come from. Here I set a
+		// plain directory for it, but non-file-system sources are possible too:
+
+        MultiTemplateLoader mtl = getTemplateLoader();
+        logger.info("Init freemarker templateloader {}", FreemarkerConfig.class.getClassLoader().getResource("queries"));
+        cfg.setTemplateLoader(mtl);
+
+        // Set the preferred charset template files are stored in. UTF-8 is
+		// a good choice in most applications:
+		cfg.setDefaultEncoding("UTF-8");
+        cfg.setLocale(Locale.FRANCE);
+
+		// Sets how errors will appear.
+		// During web page *development* TemplateExceptionHandler.HTML_DEBUG_HANDLER is better.
+		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+
+		// Don't log exceptions inside FreeMarker that will be thrown at you anyway:
+		cfg.setLogTemplateExceptions(false);
+
+		// Wrap unchecked exceptions thrown during template processing into TemplateException-s.
+		cfg.setWrapUncheckedExceptions(true);
+		
+		
+	}
+
+	/**
+	 * Get template loader
+	 * @return
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
+	private static MultiTemplateLoader getTemplateLoader() {
+		ClassTemplateLoader ctl = new ClassTemplateLoader(FreemarkerConfig.class, "/queries");
+		MultiTemplateLoader mtl = new MultiTemplateLoader(new TemplateLoader[]{ ctl });
+		return mtl;
+	}
+
+	public static Configuration getCfg() {
+		if (cfg == null) {
+			init();
+		}
+		return cfg;
+	}
+
+	
+
+}

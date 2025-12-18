@@ -1,12 +1,8 @@
 FROM eclipse-temurin:21-jdk-jammy AS builder
 WORKDIR /opt/app
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-COPY ./magma-diffusion-impl ./magma-diffusion-impl
-COPY ./magma-diffusion-interface ./magma-diffusion-interface
-COPY ./magma-oas ./magma-oas
+COPY . .
 RUN chmod +x mvnw
-RUN ./mvnw clean install -DskipTests=true -X
+RUN ./mvnw clean package -DskipTests=true
 
 FROM eclipse-temurin:21-jre-jammy
 
@@ -16,7 +12,7 @@ RUN mkdir /opt/app/
 RUN chown -R 10000:10000 /opt/app/
 
 USER 10000
-COPY --from=builder /opt/app/magma-diffusion-impl/target/*.jar /opt/app/magma.jar
+COPY --from=builder /opt/app/magma-app/target/*.jar /opt/app/magma.jar
 
 EXPOSE 8080
 
