@@ -8,23 +8,6 @@
         <artifactId>magma-parent</artifactId>
         <version>magma-refactored-1.0-rc0</version> <!-- Hérite de la propriété du parent -->
     </parent>
-    <properties>
-        <vertx-json-schema.version>5.0.6</vertx-json-schema.version>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-json-schema</artifactId>
-            <version>${vertx-json-schema.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
     <artifactId>magma-oas</artifactId>
 
