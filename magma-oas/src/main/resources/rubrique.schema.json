@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://magma.insee/rubrique.schema.json",
+  "title": "Rubrique",
+  "description": "Rubrique d'un rapport qualité",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "uri":{
+      "type": "string"
+    },
+    "idParent": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "titre": {
+      "type": "array",
+      "items": {
+        "$ref": "langue-contenu.schema.json"
+      }
+    },
+    "label": {
+      "type": "array",
+      "items": {
+        "$ref": "langue-texte.schema.json"
+      }
+    },
+    "contenus": {
+      "type": "array",
+      "items": {
+        "documents":{
+          "type": "array",
+          "items": {
+            "$ref": "document.schema.json"
+          }
+        },
+        "$ref": "langue-texte.schema.json"
+      }
+    },
+    "territoire": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "label": {
+          "type": "array",
+          "items": {
+            "$ref": "langue-contenu.schema.json"
+          }
+          }
+        }
+      },
+    "codes": {
+      "type": "array",
+      "items": {
+        "id": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "label": {
+          "type": "array",
+          "items": {
+            "$ref": "langue-contenu.schema.json"
+          }
+        }
+      },
+      "date": {
+        "type": "string",
+        "format": "date"
+      }
+    }
+  },
+  "required": ["id", "uri", "type", "titre", "label"],
+  "additionalProperties": false
+}

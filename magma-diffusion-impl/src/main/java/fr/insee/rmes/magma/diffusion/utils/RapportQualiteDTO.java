@@ -1,6 +1,7 @@
 package fr.insee.rmes.magma.diffusion.utils;
 
 import fr.insee.rmes.magma.diffusion.model.LangueContenu;
+import fr.insee.rmes.magma.diffusion.model.LocalisedLabel;
 import fr.insee.rmes.magma.diffusion.model.RapportQualite;
 import lombok.extern.slf4j.Slf4j;
 
@@ -102,7 +103,7 @@ public class RapportQualiteDTO {
         rapportQualite.setId(this.id);
         rapportQualite.setUri(URI.create(this.uri));
         if (this.labelLg1 != null && this.labelLg2 != null) {
-            List<LangueContenu> label = createListLangueContenu(createLangueContenu(labelLg1, "fr"), createLangueContenu(labelLg2, "en"));
+            List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(labelLg1, "fr"), createLangueContenu(labelLg2, "en"));
             rapportQualite.setLabel(label);
         }
         if (this.labelLg1 != null && this.labelLg2 == null) {

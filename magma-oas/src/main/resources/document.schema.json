@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://magma.insee/document.schema.json",
+  "title": "Document",
+  "description": "Document avec label, date de mise à jour, langue et url",
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "array",
+      "items": {
+        "$ref": "langue-contenu.schema.json"
+      }
+    },
+    "dateMiseAJour": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "langue":{
+      "type": "string"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "required": ["label","url"]
+}

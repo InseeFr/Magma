@@ -6316,13 +6316,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/RapportQualite'
+            $ref: './rapport-qualite.schema.json'
           examples:
             défaut:
               $ref: '#/components/examples/RapportQualite'
         application/xml:
           schema:
-            $ref: '#/components/schemas/RapportQualite'
+            $ref: './rapport-qualite.schema.json'
           examples:
             défaut:
               $ref: '#/components/examples/RapportQualite'
@@ -8120,136 +8120,6 @@ components:
       example: '1979'
       description: 'Identifiant d''une documentation'
 
-    RapportQualite:
-      type: object
-      xml:
-        name: RapportQualite
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-          format: uri
-        label:
-          type: array
-          items:
-            $ref: '#/components/schemas/LangueContenu'
-        rubriques:
-          type: array
-          items:
-            type: object
-            xml:
-              name: Rubrique
-            properties:
-              id:
-                type: string
-              uri:
-                type: string
-                format: uri
-              idParent:
-                type: string
-              type:
-                type: string
-              titre:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    contenu:
-                      type: string
-                    langue:
-                      type: string
-                  required:
-                    - contenu
-                    - langue
-              label:
-                type: array
-                items:
-                  $ref: '#/components/schemas/LangueTexte'
-              contenus:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    texte:
-                      type: string
-                    langue:
-                      type: string
-                    documents:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          label:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/LangueContenu'
-                          dateMiseAJour:
-                            type: string
-                            format: date-time
-                          langue:
-                            type: string
-                          url:
-                            type: string
-                            format: uri
-                        required:
-                          - label
-                          - url
-                      required:
-                        - langue
-                      oneOf:
-                        - required: [ texte ]
-                        - required: [ documents ]
-              territoire:
-                type: object
-                properties:
-                  id:
-                    type: string
-                  uri:
-                    type: string
-                    format: uri
-                    description: URI du territoire.
-                  label:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/LangueContenu'
-                    description: Label multilingue du territoire.
-              codes:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                    uri:
-                      type: string
-                    label:
-                      type: array
-                      items:
-                        $ref: '#/components/schemas/LangueContenu'
-                  required:
-                    - id
-                    - uri
-                    - label
-              date:
-                type: string
-                format: date
-            required:
-              - id
-              - uri
-              - type
-              - titre
-            oneOf:
-              - required: [ label ]
-              - required: [ contenus ]
-              - required: [ territoire ]
-              - required: [ codes ]
-              - required: [ date ]
-      required:
-        - id
-        - uri
-        - label
-        - rubriques
 
 
 

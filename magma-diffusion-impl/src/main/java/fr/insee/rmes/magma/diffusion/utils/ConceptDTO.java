@@ -50,12 +50,12 @@ public class ConceptDTO {
         concept.setId(this.id);
         concept.setUri(URI.create(this.uri));
         if  (this.intituleFr != null || this.intituleEn != null) {
-            List<LangueContenu> intitules = createListLangueContenu(createLangueContenu(intituleFr,"fr"),createLangueContenu(intituleEn,"en"));
+            List<LocalisedLabel> intitules = createListLangueContenu(createLangueContenu(intituleFr,"fr"),createLangueContenu(intituleEn,"en"));
             concept.setIntitule(intitules);
         }
 
         if  (this.definitionFr != null || this.definitionEn != null) {
-            List<LangueContenu> definitions = createListLangueContenu(createLangueContenu(definitionFr,"fr"),createLangueContenu(definitionEn,"en"));
+            List<LocalisedLabel> definitions = createListLangueContenu(createLangueContenu(definitionFr,"fr"),createLangueContenu(definitionEn,"en"));
             concept.setDefinition(definitions);
         }
         else concept.setDefinition(null);
