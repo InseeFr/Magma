@@ -11,7 +11,8 @@
     },
     "uri": {
       "description": "URI du schema",
-      "type": "string"
+      "type": "string",
+      "format": "uri"
     },
     "label": {
       "description": "Labels localisés",

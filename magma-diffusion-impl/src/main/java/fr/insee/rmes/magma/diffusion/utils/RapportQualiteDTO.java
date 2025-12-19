@@ -107,7 +107,7 @@ public class RapportQualiteDTO {
             rapportQualite.setLabel(label);
         }
         if (this.labelLg1 != null && this.labelLg2 == null) {
-            List<LangueContenu> label = createListLangueContenu(createLangueContenu(labelLg1, "fr"), createLangueContenu("", "en"));
+            List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(labelLg1, "fr"), createLangueContenu("", "en"));
             rapportQualite.setLabel(label);
         }
         if (this.rubriqueDTOList != null) {

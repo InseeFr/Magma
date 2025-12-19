@@ -6918,19 +6918,19 @@ components:
         intitule:
           type: array
           items:
-            $ref: '#/components/schemas/LangueContenu'
+            $ref: './langue-contenu.schema.json'
         definition:
           type: array
           items:
-            $ref: '#/components/schemas/LangueContenu'
+            $ref: './langue-contenu.schema.json'
         definitionCourte:
           type: array
           items:
-            $ref: '#/components/schemas/LangueContenu'
+            $ref: './langue-contenu.schema.json'
         noteEditoriale:
           type: array
           items:
-            $ref: '#/components/schemas/LangueContenu'
+            $ref: './langue-contenu.schema.json'
         dateMiseAJour:
           type: string
           format: date
@@ -6943,7 +6943,7 @@ components:
         intitulesAlternatifs:
           type: array
           items:
-            $ref: '#/components/schemas/LangueContenu'
+            $ref: './langue-contenu.schema.json'
         conceptsSuivants:
           type: array
           items:

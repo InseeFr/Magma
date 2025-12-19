@@ -42,7 +42,7 @@ public class ConceptDTO {
     private Boolean hasIntitulesAlternatifs;
     @Getter
     private List<NearbyConcept> nearbyConcepts;
-    private List<LangueContenu> intitulesAlternatifs;
+    private List<LocalisedLabel> intitulesAlternatifs;
 
 
     public Concept transformDTOenConcept() {
@@ -61,13 +61,13 @@ public class ConceptDTO {
         else concept.setDefinition(null);
 
         if  (this.scopeNoteFr != null || this.scopeNoteEn != null) {
-            List<LangueContenu> definitionCourte = createListLangueContenu(createLangueContenu(scopeNoteFr,"fr"),createLangueContenu(scopeNoteEn,"en"));
+            List<LocalisedLabel> definitionCourte = createListLangueContenu(createLangueContenu(scopeNoteFr,"fr"),createLangueContenu(scopeNoteEn,"en"));
             concept.setDefinitionCourte(definitionCourte);
         }
         else concept.setDefinitionCourte(null);
 
         if  (this.noteEditorialeFr != null || this.noteEditorialeEn != null) {
-            List<LangueContenu> noteEditoriale = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
+            List<LocalisedLabel> noteEditoriale = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
             concept.setNoteEditoriale(noteEditoriale);
         }
         else concept.setNoteEditoriale(null);
@@ -224,8 +224,8 @@ public class ConceptDTO {
 
 
     private void addIntitulesAlternatifs(Concept concept) {
-         for (LangueContenu item : intitulesAlternatifs) {
-             LangueContenu newIntitule = createLangueContenu(item.getContenu(), item.getLangue());
+         for (LocalisedLabel item : intitulesAlternatifs) {
+             LocalisedLabel newIntitule = createLangueContenu(item.getContenu(), item.getLangue());
          concept.addIntitulesAlternatifsItem(newIntitule);
     }
 }
@@ -288,7 +288,7 @@ public class ConceptDTO {
         this.hasIntitulesAlternatifs = hasIntitulesAlternatifs;
     }
 
-    public void setIntitulesAlternatifs(List<LangueContenu> intitulesAlternatifs) {
+    public void setIntitulesAlternatifs(List<LocalisedLabel> intitulesAlternatifs) {
         this.intitulesAlternatifs = intitulesAlternatifs;
     }
 
