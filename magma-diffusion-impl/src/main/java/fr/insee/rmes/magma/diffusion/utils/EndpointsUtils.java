@@ -1,7 +1,10 @@
 package fr.insee.rmes.magma.diffusion.utils;
 
+import fr.insee.rmes.magma.diffusion.model.LangueContenu;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class EndpointsUtils {
@@ -40,5 +43,24 @@ public class EndpointsUtils {
         return ResponseEntity.ok()
                 .contentType(contentType)
                 .body(result);
+    }
+
+    public static List<LangueContenu> createListLangueContenu(LangueContenu langueContenu1, LangueContenu langueContenu2) {
+        List<LangueContenu> list = new ArrayList<>();
+        if (langueContenu1 != null) {
+            list.add(langueContenu1);
+        }
+        if (langueContenu2 != null) {
+            list.add(langueContenu2);
+        }
+
+        return list;
+    }
+
+    public static LangueContenu createLangueContenu(String contenu, String langue) {
+        LangueContenu langueContenu = new LangueContenu();
+        langueContenu.setContenu(contenu);
+        langueContenu.setLangue(langue);
+        return langueContenu;
     }
 }

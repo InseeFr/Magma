@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.createLangueContenu;
+import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.createListLangueContenu;
+
 @Slf4j
 
 
@@ -240,24 +243,7 @@ public class ConceptDTO {
     }
 
 
-    public List<LangueContenu> createListLangueContenu(LangueContenu conceptIntituleInner1, LangueContenu conceptIntituleInner2) {
-        List<LangueContenu> list = new ArrayList<>();
-        if (conceptIntituleInner1 != null) {
-            list.add(conceptIntituleInner1);
-        }
-        if (conceptIntituleInner2 != null) {
-            list.add(conceptIntituleInner2);
-        }
 
-        return list;
-    }
-
-    public LangueContenu createLangueContenu(String contenu, String langue) {
-        LangueContenu conceptIntituleInner = new LangueContenu();
-        conceptIntituleInner.setContenu(contenu);
-        conceptIntituleInner.setLangue(langue);
-        return conceptIntituleInner;
-    }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }

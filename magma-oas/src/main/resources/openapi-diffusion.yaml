@@ -19,6 +19,9 @@ tags:
 
   # -- Géographie
 
+  - name: geo
+    description: 'API géographie : Générique'
+
   - name: geoAireDAttractionDesVilles
     description: 'API géographie : aire d''attraction des villes 2020'
   - name: geoArrondissement
@@ -59,8 +62,7 @@ tags:
     description: 'API géographie : Unité urbaine 2020'
   - name: geoZoneDEmploi
     description: 'API géographie : Zone d''emploi'
-  - name: geo
-    description: 'API géographie : Générique'
+
 
   # -- Nomenclatures
 
@@ -68,9 +70,8 @@ tags:
     description: API Nomenclatures
 
   # -- Opérations
-
-#  - name: operations
-#    description: API opérations
+  - name: operations
+    description: API opérations
 
 ### PATHS SPECIFICATION ###
 
@@ -1643,8 +1644,8 @@ paths:
       summary: 'Informations sur tous les iris actifs à la date donnée. Par défaut, c’est la date courante.'
       operationId: 'getcogirislist'
       parameters:
-          - $ref: '#/components/parameters/dateIrisListActifs'
-          - $ref: '#/components/parameters/com'
+        - $ref: '#/components/parameters/dateIrisListActifs'
+        - $ref: '#/components/parameters/com'
       responses:
         '200':
           $ref: '#/components/responses/IrisListe200'
@@ -2105,6 +2106,26 @@ paths:
 
   # -- Opérations
 
+  /operations/rapportQualite/{id}:
+    get:
+      tags:
+        - operations
+      summary: Documentation d''une opération, d''un indicateur ou d''une série
+      operationId: 'getRapportQualiteByCode'
+      parameters:
+        - $ref: '#/components/parameters/idDocumentation'
+      responses:
+        '200':
+          $ref: '#/components/responses/RapportQualiteByCode200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
 ### COMPONENTS SPECIFICATION ###
 
 components:
@@ -2462,7 +2483,7 @@ components:
       schema:
         $ref: '#/components/schemas/CodeCom'
       example: '01053'
-#      overload the CodeCom example (14475)
+    #      overload the CodeCom example (14475)
 
     dateCommuneDepart:
       in: query
@@ -3394,6 +3415,14 @@ components:
 
     # -- Opérations
 
+    idDocumentation:
+      name: id
+      required: true
+      in: path
+      description: "Identifiant de la documentation"
+      schema:
+        $ref: '#/components/schemas/IdDocumentation'
+
   ### EXAMPLES SPECIFICATION ###
 
   examples:
@@ -3506,7 +3535,7 @@ components:
           typeArticle: '0'
           chefLieu: '04039'
           intitule: 'Castellane'
-    
+
     ArrondissementMunicipalListeAscendants:
       value:
         - code: '84'
@@ -4687,6 +4716,45 @@ components:
           intitule: 'Entrepreneur individuel'
 
     # -- Opérations
+
+    RapportQualite:
+      value:
+        id: '1979'
+        uri: 'http://id.insee.fr/qualite/rapport/1979'
+        label:
+          - contenu: 'Rapport qualité : Enquête emploi en continu 2020'
+            langue: 'fr'
+          - contenu: 'Quality report: Labour force survey 2020'
+            langue: 'en'
+        rubriques:
+          - id: 'I.18.7'
+            uri: 'http://id.insee.fr/qualite/simsv2fr/attribut/I.18.7'
+            idParent: 'S.18'
+            type: 'RICH_TEXT'
+            titre:
+              - contenu: 'Période de collecte'
+                langue: 'fr'
+              - contenu: 'Data collection period'
+                langue: 'en'
+            contenus:
+              - texte: '<p>La collecte est réalisée en continu sur toutes les semaines de l''année.<br />\nLa collecte s''effectue, sauf exception, dans les 2 semaines et 2 jours après la fin de la semaine de référence.<br />\nChaque logement est enquêté six trimestres de suite.</p>'
+                langue: 'fr'
+              - texte: '<p>The data collection is conducted continuously, every week of the year. The interview is usually conducted in the 2 weeks and 2 days following the reference week.<br />\nEach dwelling is surveyed six consecutive quarters.</p>'
+                langue: 'en'
+          - id: 'S.3.8'
+            uri: 'http://ec.europa.eu/eurostat/simsv2/attribute/S.3.8'
+            idParent: 'S.3'
+            type: '_TEXT'
+            label:
+              - contenu: '<p>L''ensemble de l''année.</p>'
+                langue: 'fr'
+              - contenu: '<p>The complete year.</p>'
+                langue: 'en'
+            titre:
+              - contenu: 'Couverture temporelle'
+                langue: 'fr'
+              - contenu: 'Time coverage'
+                langue: 'en'
 
   ### RESPONSES SPECIFICATION ###
 
@@ -6243,6 +6311,22 @@ components:
 
     # -- Opérations
 
+    RapportQualiteByCode200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RapportQualite'
+          examples:
+            défaut:
+              $ref: '#/components/examples/RapportQualite'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/RapportQualite'
+          examples:
+            défaut:
+              $ref: '#/components/examples/RapportQualite'
+
   ### SCHEMAS SPECIFICATION ###
 
   schemas:
@@ -6957,6 +7041,26 @@ components:
         langue:
           type: string
 
+    LangueTexte:
+      type: object
+      properties:
+        texte:
+          type: string
+        langue:
+          type: string
+
+      allOf:
+        - $ref: '#/components/schemas/TerritoireBase'
+        - type: object
+          required:
+            - chefLieu
+          properties:
+            chefLieu:
+              type: string
+              description: 'Chef-lieu du territoire'
+              xml:
+                name: ChefLieu
+
     ListeConcepts:
       description: 'Liste des concepts'
       type: array
@@ -6964,7 +7068,7 @@ components:
         wrapped: true
         name: Definition
       items:
-         $ref: '#/components/schemas/Definition'
+        $ref: '#/components/schemas/Definition'
 
     AireDAttractionDesVilles2020:
       allOf:
@@ -7372,7 +7476,7 @@ components:
         name: ListeIris
       items:
         $ref: '#/components/schemas/Territoire_TousAttributs'
-#        return types Commune and Iris
+    #        return types Commune and Iris
 
     Pays:
       xml:
@@ -7467,7 +7571,7 @@ components:
     CodeQPV:
       description: 'Code d''un quartier prioritaire de la politique de la ville'
       pattern: '^QN(0[013-8][0-9]|02[0-9AB]|09[0-5]|97[1-9]|98[1-9])\d{2}[NMI]$'
-#      In addition to the list of departments, there are also the QPV of 978 (Saint Martin) and 987 (Polynésie Française).
+      #      In addition to the list of departments, there are also the QPV of 978 (Saint Martin) and 987 (Polynésie Française).
       type: string
       xml:
         attribute: true
@@ -8010,3 +8114,143 @@ components:
           type: string
 
     # -- Opérations
+    IdDocumentation:
+      type: string
+      pattern: '^[0-9]{4}$'
+      example: '1979'
+      description: 'Identifiant d''une documentation'
+
+    RapportQualite:
+      type: object
+      xml:
+        name: RapportQualite
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+          format: uri
+        label:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangueContenu'
+        rubriques:
+          type: array
+          items:
+            type: object
+            xml:
+              name: Rubrique
+            properties:
+              id:
+                type: string
+              uri:
+                type: string
+                format: uri
+              idParent:
+                type: string
+              type:
+                type: string
+              titre:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    contenu:
+                      type: string
+                    langue:
+                      type: string
+                  required:
+                    - contenu
+                    - langue
+              label:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LangueTexte'
+              contenus:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    texte:
+                      type: string
+                    langue:
+                      type: string
+                    documents:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          label:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/LangueContenu'
+                          dateMiseAJour:
+                            type: string
+                            format: date-time
+                          langue:
+                            type: string
+                          url:
+                            type: string
+                            format: uri
+                        required:
+                          - label
+                          - url
+                      required:
+                        - langue
+                      oneOf:
+                        - required: [ texte ]
+                        - required: [ documents ]
+              territoire:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  uri:
+                    type: string
+                    format: uri
+                    description: URI du territoire.
+                  label:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LangueContenu'
+                    description: Label multilingue du territoire.
+              codes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    uri:
+                      type: string
+                    label:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/LangueContenu'
+                  required:
+                    - id
+                    - uri
+                    - label
+              date:
+                type: string
+                format: date
+            required:
+              - id
+              - uri
+              - type
+              - titre
+            oneOf:
+              - required: [ label ]
+              - required: [ contenus ]
+              - required: [ territoire ]
+              - required: [ codes ]
+              - required: [ date ]
+      required:
+        - id
+        - uri
+        - label
+        - rubriques
+
+
+
+
