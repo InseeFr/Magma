@@ -1,0 +1,51 @@
+{
+
+  "id": "I.18.7",
+
+  "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/I.18.7",
+
+  "idParent": "S.18",
+
+  "type": "RICH_TEXT",
+
+  "titre": [
+
+    {
+
+      "contenu": "Période de collecte",
+
+      "langue": "fr"
+
+    },
+
+    {
+
+      "contenu": "Data collection period",
+
+      "langue": "en"
+
+    }
+
+  ],
+
+  "contenus": [
+
+    {
+
+      "texte": "<p>La collecte est réalisée en continu sur toutes les semaines de l'année.<br />\nLa collecte s'effectue, sauf exception, dans les 2 semaines et 2 jours après la fin de la semaine de référence.<br />\nChaque logement est enquêté six trimestres de suite.</p>",
+
+      "langue": "fr"
+
+    },
+
+    {
+
+      "texte": "<p>The data collection is conducted continuously, every week of the year. The interview is usually conducted in the 2 weeks and 2 days following the reference week.<br />\nEach dwelling is surveyed six consecutive quarters.</p>",
+
+      "langue": "en"
+
+    }
+
+  ]
+
+}

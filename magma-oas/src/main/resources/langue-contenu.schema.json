@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://magma.insee/langue-contenu.schema.json",
+  "title": "LocalisedLabel",
+  "description": "Label avec langue",
+  "type": "object",
+  "properties": {
+    "contenu": {
+      "type": "string"
+    },
+    "langue":{
+      "type": "string"
+    }
+  },
+  "required": ["contenu","langue"]
+}
