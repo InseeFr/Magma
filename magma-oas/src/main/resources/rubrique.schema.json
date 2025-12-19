@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://magma.insee/rubrique.schema.json",
+  "title": "Rubrique",
+  "description": "Rubrique d'un rapport qualité",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "idParent": {
+      "type": "string"
+    },
+    "uri":{
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "titre": {
+      "type": "array",
+      "items": {
+        "$ref": "langue-contenu.schema.json"
+      }
+    },
+    "contenus": {
+      "type": "array",
+      "items": {
+        "$ref": "langue-texte.schema.json"
+      }
+    }
+  },
+  "required": ["id", "uri", "type", "titre", "contenus"],
+  "additionalProperties": false
+}
