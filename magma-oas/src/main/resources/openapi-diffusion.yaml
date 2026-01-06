@@ -6847,10 +6847,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LangueContenu'
-        dateMiseAJour:
+        dateCreation:
           type: string
           format: date
-        dateCreation:
+        dateMiseAJour:
           type: string
           format: date
         dateFinDeValidite:
