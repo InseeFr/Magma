@@ -1,20 +1,22 @@
 package fr.insee.rmes.magma.diffusion.utils;
 
-import fr.insee.rmes.magma.diffusion.model.LangueContenu;
-import fr.insee.rmes.magma.diffusion.model.LocalisedLabel;
-import fr.insee.rmes.magma.diffusion.model.RapportQualite;
+import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.magma.diffusion.model.*;
+import fr.insee.rmes.magma.diffusion.queries.parameters.OperationsDocumentsRequestParametizer;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
-import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.createLangueContenu;
-import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.createListLangueContenu;
+import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.*;
 
 @Slf4j
 
 public class RapportQualiteDTO {
 
+
+    private RequestProcessor requestProcessor;
     private String id;
     private String uri;
     private String labelLg1;
@@ -24,6 +26,14 @@ public class RapportQualiteDTO {
     private String labelCibleLg1;
     private String labelCibleLg2;
     private List<RubriqueDTO> rubriqueDTOList;
+
+    public RapportQualiteDTO() {
+    }
+
+    public RapportQualiteDTO(RequestProcessor requestProcessor) {
+        this.requestProcessor = requestProcessor;
+    }
+
 
     public String getId() {
         return id;
@@ -43,6 +53,19 @@ public class RapportQualiteDTO {
 
     public String getLabelLg1() {
         return labelLg1;
+    }
+
+    public RapportQualiteDTO(RequestProcessor requestProcessor, String id, String uri, String labelLg1, String labelLg2, String idCible, String cible, String labelCibleLg1, String labelCibleLg2, List<RubriqueDTO> rubriqueDTOList) {
+        this.requestProcessor = requestProcessor;
+        this.id = id;
+        this.uri = uri;
+        this.labelLg1 = labelLg1;
+        this.labelLg2 = labelLg2;
+        this.idCible = idCible;
+        this.cible = cible;
+        this.labelCibleLg1 = labelCibleLg1;
+        this.labelCibleLg2 = labelCibleLg2;
+        this.rubriqueDTOList = rubriqueDTOList;
     }
 
     public void setLabelLg1(String labelLg1) {
@@ -98,7 +121,7 @@ public class RapportQualiteDTO {
         this.rubriqueDTOList = rubriqueDTOList;
     }
 
-    public RapportQualite transformDTOenRapportQualite() {
+    public RapportQualite transformDTOenRapportQualite(RequestProcessor requestProcessor) {
         RapportQualite rapportQualite = new RapportQualite();
         rapportQualite.setId(this.id);
         rapportQualite.setUri(URI.create(this.uri));
@@ -110,31 +133,79 @@ public class RapportQualiteDTO {
             List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(labelLg1, "fr"), createLangueContenu("", "en"));
             rapportQualite.setLabel(label);
         }
+        rapportQualite.setRubriques(null);
+
         if (this.rubriqueDTOList != null) {
-            for (RubriqueDTO r : this.rubriqueDTOList) {
-                //  private List<@Valid Rubrique> rubriques = new ArrayList<>();
-//                Rubrique rubrique = new Rubrique();
-//                rubrique.setId(r.getId());
-//                rubrique.setUri(URI.create(this.uri));
-//                rubrique.setIdParent(r.getIdParent());
-//                rubrique.setType(r.getType());
-//                if  (r.getTitreLg1() != null && r.getTitreLg2() != null) {
-//                    List<Object> titre = createListLangueContenu(createLangueContenu(labelLg1,"fr"),createLangueContenu(labelLg2,"en"));
-//                    rapportQualite.setLabel(label);
-//                }
-//
-//                switch (r.getType()){
-//                    case "TEXT":
-//                        List<ConceptIntituleInner> label = createListLangueContenu(createLangueContenu(labelLg1,"fr"),createLangueContenu("","en"));
-//                        rubrique.setLabel(label);
-//                }
-//            }
-//        };
-//
-//            }
-//
+            for (RubriqueDTO rub : this.rubriqueDTOList) {
+                Rubrique rubrique = new Rubrique();
+                rubrique.setId(rub.getId());
+                rubrique.setUri(rub.getUri());
+                rubrique.setIdParent(rub.getIdParent());
+                rubrique.setType(rub.getType());
+                if (rub.getTitreLg1() != null && rub.getTitreLg2() != null) {
+                    List<LocalisedLabel> titre = createListLangueContenu(createLangueContenu(rub.getTitreLg1(), "fr"), createLangueContenu(rub.getTitreLg2(), "en"));
+                    rubrique.setTitre(titre);
+                }
+
+                switch (rub.getType()) {
+                    case "DATE":
+                        rubrique.setDate(rub.getValeurSimple());
+                        break;
+//                    case "CODE_LIST":
+                    case "RICH_TEXT":
+                        Contenu contenuLg1 = new Contenu();
+                        contenuLg1.setTexte(rub.getLabelLg1());
+                        contenuLg1.setLangue("fr");
+                        if (rub.isHasDocLg1()) {
+                            List<Document> rubriqueDocuments = requestProcessor.queryToFindDocuments()
+                                    .with(new OperationsDocumentsRequestParametizer(rapportQualite.getId(), rub.getId(),"fr"))
+                                    .executeQuery()
+                                    .listResult(Document.class)
+                                    .result();
+                            contenuLg1.setDocuments(rubriqueDocuments);
+                        }
+                        rubrique.addContenusItem(contenuLg1);
+                        if (!rub.getLabelLg2().isEmpty()||rub.isHasDocLg2()){
+                            Contenu contenuLg2 = new Contenu();
+                            contenuLg2.setTexte(rub.getLabelLg2());
+                            contenuLg2.setLangue("en");
+                            if (rub.isHasDocLg2()){
+                                List<Document> rubriqueDocuments = requestProcessor.queryToFindDocuments()
+                                        .with(new OperationsDocumentsRequestParametizer(rapportQualite.getId(), rub.getId(),"en"))
+                                        .executeQuery()
+                                        .listResult(Document.class)
+                                        .result();
+                                contenuLg2.setDocuments(rubriqueDocuments);
+                            }
+                            rubrique.addContenusItem(contenuLg2);
+                        }
+                    break;
+                    case "TEXT":
+                        List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(rub.getLabelLg1(), "fr"), createLangueContenu(rub.getLabelLg2(), "en"));
+                        rubrique.setLabel(label);
+                    break;
+//                    case "GEOGRAPHY":
+//                        SimpleObject valeurGeo =
+//                                new SimpleObject(
+//                                        cr.getValeurSimple(),
+//                                        cr.getGeoUri(),
+//                                        cr.getLabelObjLg1(),
+//                                        cr.getLabelObjLg2());
+//                        r.setValeurGeographie(valeurGeo);
+//                        break;
+                    default:
+                        break;
+                }
+                rapportQualite.addRubriquesItem(rubrique);
             }
         }
+
+        ArrayList<Rubrique> rubriques = rapportQualite.getRubriques() == null ? new ArrayList<>() : new ArrayList<>(rapportQualite.getRubriques());
+
+        rapportQualite.setRubriques(rubriques);
+
+
+
         return rapportQualite;
     }
 }

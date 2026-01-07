@@ -97,7 +97,9 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
 
     public QueryBuilder queryToFindRapportQualite (){return new QueryBuilder(RAPPORT_QUALITE,this);}
 
-    public QueryBuilder queryToFindRubriques (){return new QueryBuilder(RUBRIQUES,this);}
+    public QueryBuilder queryToFindRubriques(){return new QueryBuilder(RUBRIQUES,this);}
+
+    public QueryBuilder queryToFindDocuments(){return new QueryBuilder(DOCUMENTS,this);}
 
     public record QueryBuilder(String queryPath, RequestProcessor requestProcessor) {
         public ExecutableQuery with(AscendantsDescendantsRequestParametizer ascendantsDescendantsRequestParametizer) {
@@ -148,6 +150,10 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
                     requestProcessor.queryBuilder().build(operationRubriquesRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
 
+        public ExecutableQuery with(OperationsDocumentsRequestParametizer operationsDocumentsRequestParametizer) {
+            return new ExecutableQuery(
+                    requestProcessor.queryBuilder().build(operationsDocumentsRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
     }
 
     public record ExecutableQuery(Query query, RequestProcessor requestProcessor) {

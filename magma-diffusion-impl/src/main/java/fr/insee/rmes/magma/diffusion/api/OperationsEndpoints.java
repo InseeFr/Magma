@@ -4,6 +4,7 @@ import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.diffusion.model.RapportQualite;
 import fr.insee.rmes.magma.diffusion.queries.parameters.OperationRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.OperationRubriquesRequestParametizer;
+import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import fr.insee.rmes.magma.diffusion.utils.RapportQualiteDTO;
 import fr.insee.rmes.magma.diffusion.utils.RubriqueDTO;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,8 @@ public class OperationsEndpoints implements OperationsApi {
         RapportQualiteDTO rapportQualiteDTO = requestProcessor.queryToFindRapportQualite()
                 .with(new OperationRequestParametizer(idSims))
                 .executeQuery()
-                .singleResult(RapportQualiteDTO.class).result();
+                .singleResult(RapportQualiteDTO.class)
+                .result();
 
         if (rapportQualiteDTO.getUri() != null) {
             String LG1_CL = "http://id.insee.fr/codes/langue/fr";
@@ -40,16 +42,16 @@ public class OperationsEndpoints implements OperationsApi {
         }
 
 
-        RapportQualite rapportQualite = rapportQualiteDTO.transformDTOenRapportQualite();
-//
-//            return EndpointsUtils.toResponseEntity(rapportQualite);
-//
+        RapportQualite rapportQualite = rapportQualiteDTO.transformDTOenRapportQualite(requestProcessor);
+
+            return EndpointsUtils.toResponseEntity(rapportQualite);
+
 //        } else {
 //            return ResponseEntity.notFound().build();
-//
-//        }
-        return null;
+
+        }
+//        return null;
     }
-}
+
 
 

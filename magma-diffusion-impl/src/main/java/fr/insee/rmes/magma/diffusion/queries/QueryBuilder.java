@@ -35,6 +35,7 @@ public record QueryBuilder(Configuration freemarkerConfiguration) {
     public static final String TERRITOIRES_LIES = "geographie/getTerritoiresLies.ftlh";
     public static final String RAPPORT_QUALITE = "operations/getDocumentationTitleByIdSimsQuery.ftlh";
     public static final String RUBRIQUES = "operations/getDocumentationRubricsByIdSimsQuery.ftlh";
+    public static final String DOCUMENTS = "operations/getDocumentsQueryByIdSimsIdRubric.ftlh";
     public static final String NOMENCLATURE = "classifications/getClassificationByCode.ftlh";
 
     public Query build(Map<String, Object> parameters, String queryfile) {
