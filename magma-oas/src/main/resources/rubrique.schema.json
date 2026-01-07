@@ -29,7 +29,7 @@
     "label": {
       "type": "array",
       "items": {
-        "$ref": "langue-texte.schema.json"
+        "$ref": "langue-contenu.schema.json"
       }
     },
     "contenus": {
