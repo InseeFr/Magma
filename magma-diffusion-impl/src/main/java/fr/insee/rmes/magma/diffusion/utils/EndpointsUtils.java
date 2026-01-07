@@ -1,6 +1,7 @@
 package fr.insee.rmes.magma.diffusion.utils;
 
 import fr.insee.rmes.magma.diffusion.model.LocalisedLabel;
+import fr.insee.rmes.magma.diffusion.model.LocalisedText;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -62,5 +63,24 @@ public class EndpointsUtils {
         langueContenu.setContenu(contenu);
         langueContenu.setLangue(langue);
         return langueContenu;
+    }
+
+    public static List<LocalisedText> createListLangueTexte(LocalisedText langueText1, LocalisedText langueText2) {
+        List<LocalisedText> list = new ArrayList<>();
+        if (langueText1 != null) {
+            list.add(langueText1);
+        }
+        if (langueText2 != null) {
+            list.add(langueText2);
+        }
+
+        return list;
+    }
+
+    public static LocalisedText createLangueText(String texte, String langue) {
+        LocalisedText langueText = new LocalisedText();
+        langueText.setTexte(texte);
+        langueText.setLangue(langue);
+        return langueText;
     }
 }
