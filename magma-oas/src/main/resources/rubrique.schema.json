@@ -17,6 +17,9 @@
     "type": {
       "type": "string"
     },
+    "date": {
+      "type": "string"
+    },
     "titre": {
       "type": "array",
       "items": {
@@ -32,13 +35,7 @@
     "contenus": {
       "type": "array",
       "items": {
-        "documents":{
-          "type": "array",
-          "items": {
-            "$ref": "document.schema.json"
-          }
-        },
-        "$ref": "langue-texte.schema.json"
+        "$ref": "contenu.schema.json"
       }
     },
     "territoire": {
