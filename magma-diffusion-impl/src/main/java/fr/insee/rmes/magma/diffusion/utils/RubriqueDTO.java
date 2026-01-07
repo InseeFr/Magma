@@ -1,8 +1,6 @@
 package fr.insee.rmes.magma.diffusion.utils;
 
 
-import java.net.URI;
-
 public class RubriqueDTO {
     private String id;
     private String uri;

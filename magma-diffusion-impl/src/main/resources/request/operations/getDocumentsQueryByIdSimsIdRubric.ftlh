@@ -2,8 +2,10 @@ SELECT distinct ?url ?labelLg1 ?labelLg2 ?dateMiseAJour ?langue
 FROM <http://rdf.insee.fr/graphes/qualite/rapport/${idSims}>
 FROM <http://rdf.insee.fr/graphes/qualite/documents>
 WHERE {
+    BIND('${LANG}' AS ?LANG)
+    BIND(IRI(CONCAT("http://id.insee.fr/codes/langue/", ?LANG)) AS ?langueURI)
     ?text rdf:type <http://purl.org/dc/dcmitype/Text> .
-    ?text dcterms:language <${LANG}> .
+    ?text dcterms:language ?langueURI .
     ?text insee:additionalMaterial ?document .
     ?document rdf:type <http://xmlns.com/foaf/0.1/Document> .
     ?document <http://schema.org/url> ?url

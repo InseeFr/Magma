@@ -4,6 +4,7 @@ import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.diffusion.model.*;
 import fr.insee.rmes.magma.diffusion.queries.parameters.OperationsDocumentsRequestParametizer;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -150,32 +151,49 @@ public class RapportQualiteDTO {
                 switch (rub.getType()) {
                     case "DATE":
                         rubrique.setDate(rub.getValeurSimple());
-                        break;
+                    break;
 //                    case "CODE_LIST":
                     case "RICH_TEXT":
                         Contenu contenuLg1 = new Contenu();
                         contenuLg1.setTexte(rub.getLabelLg1());
                         contenuLg1.setLangue("fr");
                         if (rub.isHasDocLg1()) {
-                            List<Document> rubriqueDocuments = requestProcessor.queryToFindDocuments()
+                            List<DocumentDTO> rubriqueDocuments = requestProcessor.queryToFindDocuments()
                                     .with(new OperationsDocumentsRequestParametizer(rapportQualite.getId(), rub.getId(),"fr"))
                                     .executeQuery()
-                                    .listResult(Document.class)
+                                    .listResult(DocumentDTO.class)
                                     .result();
-                            contenuLg1.setDocuments(rubriqueDocuments);
+                            for (DocumentDTO documentDTO : rubriqueDocuments) {
+                                Document document = new Document();
+                                List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.getLabelLg1(), "fr"), createLangueContenu(documentDTO.getLabelLg2(), "en"));
+                                document.label(label);
+                                document.setDateMiseAJour(documentDTO.getDateMiseAJour());
+                                document.setLangue(documentDTO.getLangue());
+                                document.setUrl(documentDTO.getUrl());
+                                contenuLg1.addDocumentsItem(document);
+                            }
                         }
                         rubrique.addContenusItem(contenuLg1);
-                        if (!rub.getLabelLg2().isEmpty()||rub.isHasDocLg2()){
+
+                        if (StringUtils.isNotEmpty(rub.getLabelLg2())||rub.isHasDocLg2()){
                             Contenu contenuLg2 = new Contenu();
                             contenuLg2.setTexte(rub.getLabelLg2());
                             contenuLg2.setLangue("en");
-                            if (rub.isHasDocLg2()){
-                                List<Document> rubriqueDocuments = requestProcessor.queryToFindDocuments()
+                            if (rub.isHasDocLg2()) {
+                                List<DocumentDTO> rubriqueDocuments = requestProcessor.queryToFindDocuments()
                                         .with(new OperationsDocumentsRequestParametizer(rapportQualite.getId(), rub.getId(),"en"))
                                         .executeQuery()
-                                        .listResult(Document.class)
+                                        .listResult(DocumentDTO.class)
                                         .result();
-                                contenuLg2.setDocuments(rubriqueDocuments);
+                                for (DocumentDTO documentDTO : rubriqueDocuments) {
+                                    Document document = new Document();
+                                    List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.getLabelLg1(), "fr"), createLangueContenu(documentDTO.getLabelLg2(), "en"));
+                                    document.label(label);
+                                    document.setDateMiseAJour(documentDTO.getDateMiseAJour());
+                                    document.setLangue(documentDTO.getLangue());
+                                    document.setUrl(documentDTO.getUrl());
+                                    contenuLg2.addDocumentsItem(document);
+                                }
                             }
                             rubrique.addContenusItem(contenuLg2);
                         }
