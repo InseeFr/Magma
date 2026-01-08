@@ -1,6 +1,7 @@
 openapi: 3.1.0
 info:
-  title: magma
+  title: Magma Gestion API
+  description: API de gestion des métadonnées statistiques
   contact:
     name: dr59-sndil
     url: https://www.insee.fr/fr/accueil
@@ -8,7 +9,7 @@ info:
   version: 1.4.11
 servers:
   - url: https://api-rmes-gestion.insee.fr
-    description: Generated server url
+    description: Production server
 tags:
   - name: Codes lists
     description: Consultation Gestion API - listes des codes
@@ -18,11 +19,18 @@ tags:
     description: Consultation Magma API - Structures/Composants
   - name: Concepts
     description: Consultation Gestion API - Concepts
-  - name: Series-Opérations
+  - name: Series-Operations
     description: Consultation des Séries et Opérations de la base de gestion
-  - name: datasets
+  - name: Datasets
     description: Consultation Magma API - datasets
+
+security:
+  - bearerAuth: []
+
 paths:
+  # ============================================
+  # STRUCTURES / COMPOSANTS
+  # ============================================
   /structures:
     get:
       tags:
@@ -39,17 +47,17 @@ paths:
       responses:
         '200':
           description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
           content:
             application/json:
               schema:
                 type: array
-                $ref: '#/components/schemas/AllStructureModelSwagger'
+                items:
+                  $ref: '#/components/schemas/AllStructure'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
   /structure/{id}:
     get:
       tags:
@@ -64,6 +72,7 @@ paths:
             type: string
         - name: dateMiseAJour
           in: query
+          description: If true, returns only the update date
           required: false
           schema:
             type: boolean
@@ -71,23 +80,21 @@ paths:
       responses:
         '200':
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureById'
         '404':
           description: Not found
         '500':
           description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/StructureByIdModelSwagger'
+
   /structure/{id}/sliceKeys:
     get:
       tags:
         - Structures/Composants
       summary: Get slice keys
-      operationId: getSlice
+      operationId: getSliceKeys
       parameters:
         - name: id
           in: path
@@ -97,471 +104,17 @@ paths:
       responses:
         '200':
           description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
           content:
             application/json:
               schema:
                 type: array
-                $ref: '#/components/schemas/StructureSliceKeysModelSwagger'
-  /organisations:
-    get:
-      tags:
-        - Organisations
-      summary: Get all organisations
-      operationId: getAllOrganisations
-      responses:
-        '200':
-          description: Success
+                items:
+                  $ref: '#/components/schemas/StructureSliceKeys'
         '404':
           description: Not found
         '500':
           description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/OrganisationsModelSwagger'
-  /organisation/{id}/:
-    get:
-      tags:
-        - Organisations
-      summary: Get one organisation
-      operationId: getOrganisationById.ftlh
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/OrganisationsModelSwagger'
-  /operations/series:
-    get:
-      tags:
-        - Series-Opérations
-      summary: Get all series
-      operationId: getAllSeries
-      parameters:
-        - name: survey
-          in: query
-          description: param for survey only
-          required: true
-          schema:
-            type: boolean
-      responses:
-        '200':
-          description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/SerieByIdModelSwagger'
-  /operations/serie/{id}:
-    get:
-      tags:
-        - Series-Opérations
-      summary: Get one serie
-      operationId: getSerieById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/SerieByIdModelSwagger'
-  /operations/serie/{id}/operations:
-    get:
-      tags:
-        - Series-Opérations
-      summary: Get operations by serie
-      operationId: getOperationsBySerie
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/OperationBySerieIdModelSwagger'
-  /operations/operation/{id}:
-    get:
-      tags:
-        - Series-Opérations
-      summary: Get operations by code
-      operationId: getOperationsBycode
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/OperationByIdModelSwagger'
-  /listesCodes:
-    get:
-      tags:
-        - Codes lists
-      summary: Get all codes lists
-      operationId: getAllCodesLists
-      parameters:
-        - name: dateMiseAJour
-          in: query
-          description: 'Date of last update. Example: 2023-01-31'
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/AllListCodeModelSwagger'
-  /listeCode/{id}:
-    get:
-      tags:
-        - Codes lists
-      summary: Get one codes list
-      operationId: getCodesList
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: dateMiseAJour
-          in: query
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: withCodes
-          in: query
-          required: true
-          schema:
-            type: boolean
-      responses:
-        '200':
-          description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/ListCodeByIdModelSwagger'
-  /listeCode/{id}/pagination:
-    get:
-      tags:
-        - Codes lists
-      summary: Get one codes list with  5 codes per page.
-      operationId: getCodesListPagination
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: pageNumber
-          in: query
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/ListCodeByIdModelSwagger'
-  /datasets/list:
-    get:
-      tags:
-        - datasets
-      summary: Get list of datasets
-      operationId: getListDatasets
-      parameters:
-        - name: dateMiseAJour
-          in: query
-          description: 'Date of last update. Example: 2023-01-31'
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-        '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/DataSetModelSwagger'
-  /dataset/{id}:
-    get:
-      tags:
-        - datasets
-      summary: Get one dataset
-      operationId: getDataSetById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: dateMiseAJour
-          in: query
-          required: false
-          schema:
-            type: boolean
-            default: false
-      responses:
-        '200':
-          description: Success
-        '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: string
-                $ref: '#/components/schemas/DataSetModelSwagger'
-  /dataset/{id}/distributions:
-    get:
-      tags:
-        - datasets
-      operationId: getDataSetDistributionsById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-        '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-  /concepts:
-    get:
-      tags:
-        - Concepts
-      summary: List of concepts
-      operationId: getAllConcepts
-      parameters:
-        - name: dateMiseAJour
-          in: query
-          description: 'Date of last update. Example: 2023-01-31'
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/ConceptByIdModelSwagger'
-  /concepts/collection{id}:
-    get:
-      tags:
-        - Concepts
-      summary: List of collection's concepts
-      operationId: getCollectionOfConcepts
-      parameters:
-        - name: id
-          in: path
-          description: 'Identifiant interne de la collection '
-          required: true
-          schema:
-            type: string
-          example: definitions-insee-fr
-      responses:
-        '200':
-          description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/CollectionOfConceptsModelSwagger'
-  /concepts/collection/{id}/concepts:
-    get:
-      tags:
-        - Concepts
-      summary: Set of concepts in a collection
-      operationId: getSetOfConceptsInACollection
-      parameters:
-        - name: id
-          in: path
-          description: 'Identifiant interne de la collection '
-          required: true
-          schema:
-            type: string
-          example: definitions-insee-fr
-      responses:
-        '200':
-          description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/SetOfConceptsModelSwagger'
-  /concept/{id}:
-    get:
-      tags:
-        - Concepts
-      summary: Get one concept
-      operationId: getDetailedConcept
-      parameters:
-        - name: id
-          in: path
-          description: 'Identifiant du concept (format : c[0-9]{4})'
-          required: true
-          schema:
-            type: string
-            pattern: c[0-9]{4}
-          example: c2066
-        - name: dateMiseAJour
-          in: query
-          required: false
-          schema:
-            type: boolean
-            default: false
-      responses:
-        '200':
-          description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/AllConceptModelSwagger'
+
   /composants:
     get:
       tags:
@@ -578,24 +131,23 @@ paths:
       responses:
         '200':
           description: Success
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-        default:
-          description: default response
           content:
             application/json:
               schema:
                 type: array
-                $ref: '#/components/schemas/AllComponentModelSwagger'
+                items:
+                  $ref: '#/components/schemas/AllComponent'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
 
   /composant/{id}:
     get:
       tags:
         - Structures/Composants
       summary: Get a component
-      operationId: getComponent
+      operationId: getComponentById
       parameters:
         - name: id
           in: path
@@ -604,6 +156,7 @@ paths:
             type: string
         - name: dateMiseAJour
           in: query
+          description: If true, returns only the update date
           required: false
           schema:
             type: boolean
@@ -611,21 +164,566 @@ paths:
       responses:
         '200':
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentById'
         '404':
           description: Not found
         '500':
           description: Internal server error
-        default:
-          description: default response
+
+  # ============================================
+  # ORGANISATIONS
+  # ============================================
+  /organisations:
+    get:
+      tags:
+        - Organisations
+      summary: Get all organisations
+      operationId: getAllOrganisations
+      responses:
+        '200':
+          description: Success
           content:
             application/json:
               schema:
                 type: array
-                $ref: '#/components/schemas/ComponentByIdModelSwagger'
+                items:
+                  $ref: '#/components/schemas/Organisation'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
+  /organisation/{id}/:
+    get:
+      tags:
+        - Organisations
+      summary: Get one organisation
+      operationId: getOrganisationById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organisation'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
+  # ============================================
+  # SERIES / OPERATIONS (Pogues)
+  # ============================================
+  /operations/series:
+    get:
+      tags:
+        - Series-Operations
+      summary: Get all series
+      operationId: getAllSeries
+      parameters:
+        - name: survey
+          in: query
+          description: Filter for survey only
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SerieById'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
+  /operations/serie/{id}:
+    get:
+      tags:
+        - Series-Operations
+      summary: Get one serie
+      operationId: getSerieById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SerieById'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
+  /operations/serie/{id}/operations:
+    get:
+      tags:
+        - Series-Operations
+      summary: Get operations by serie
+      operationId: getOperationsBySerie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OperationBySerieId'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
+  /operations/operation/{id}:
+    get:
+      tags:
+        - Series-Operations
+      summary: Get operation by code
+      operationId: getOperationByCode
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationById'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
+  # ============================================
+  # CODES LISTS
+  # ============================================
+  /listesCodes:
+    get:
+      tags:
+        - Codes lists
+      summary: Get all codes lists
+      operationId: getAllCodesLists
+      parameters:
+        - name: dateMiseAJour
+          in: query
+          description: 'Date of last update. Example: 2023-01-31'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AllListCode'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
+  /listeCode/{id}:
+    get:
+      tags:
+        - Codes lists
+      summary: Get one codes list
+      operationId: getCodesList
+      parameters:
+        - name: id
+          in: path
+          description: Notation of the code list
+          required: true
+          schema:
+            type: string
+        - name: dateMiseAJour
+          in: query
+          description: If true, returns only the update date
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: withCodes
+          in: query
+          description: Include codes in the response
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCodeById'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
+  /listeCode/{id}/pagination:
+    get:
+      tags:
+        - Codes lists
+      summary: Get one codes list with 5 codes per page
+      operationId: getCodesListPagination
+      parameters:
+        - name: id
+          in: path
+          description: Notation of the code list
+          required: true
+          schema:
+            type: string
+        - name: pageNumber
+          in: query
+          description: Page number (starting from 0)
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCodeById'
+        '404':
+          description: Not found
+        '416':
+          description: Requested Range Not Satisfiable - Page does not exist
+        '500':
+          description: Internal server error
+
+  # ============================================
+  # DATASETS
+  # ============================================
+  /datasets/list:
+    get:
+      tags:
+        - Datasets
+      summary: Get list of datasets
+      operationId: getListDatasets
+      parameters:
+        - name: dateMiseAJour
+          in: query
+          description: 'Date of last update. Example: 2023-01-31'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataSet'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
+  /dataset/{id}:
+    get:
+      tags:
+        - Datasets
+      summary: Get one dataset
+      operationId: getDataSetById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: dateMiseAJour
+          in: query
+          description: If true, returns only the update date summary
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataSet'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+    patch:
+      tags:
+        - Datasets
+      summary: Update some properties of a dataset
+      description: Update ObservationNumber, issued, modified, temporal, or numSeries of a dataset
+      operationId: patchDataSet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: JSON with parameters you want to change
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchDataset'
+            example:
+              issued: "2022-11-11"
+              modified: "2023-12-31"
+              temporal:
+                startPeriod: "2020-01-01"
+                endPeriod: "2024-01-01"
+              numObservations: 150
+              numSeries: 12
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
+  /dataset/{id}/distributions:
+    get:
+      tags:
+        - Datasets
+      summary: Get dataset distributions
+      operationId: getDataSetDistributionsById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Distribution'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
+  # ============================================
+  # CONCEPTS
+  # ============================================
+  /concepts:
+    get:
+      tags:
+        - Concepts
+      summary: List of concepts
+      operationId: getAllConcepts
+      parameters:
+        - name: dateMiseAJour
+          in: query
+          description: 'Date of last update. Example: 2023-01-31'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConceptById'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
+  /concept/{id}:
+    get:
+      tags:
+        - Concepts
+      summary: Get one concept
+      operationId: getDetailedConcept
+      parameters:
+        - name: id
+          in: path
+          description: 'Identifiant du concept (format : c[0-9]{4})'
+          required: true
+          schema:
+            type: string
+            pattern: 'c[0-9]{4}'
+          example: c2066
+        - name: dateMiseAJour
+          in: query
+          description: If true, returns only the update date
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllConcept'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
+  /concepts/collection{id}:
+    get:
+      tags:
+        - Concepts
+      summary: List of collection's concepts
+      operationId: getCollectionOfConcepts
+      parameters:
+        - name: id
+          in: path
+          description: Identifiant interne de la collection
+          required: true
+          schema:
+            type: string
+          example: definitions-insee-fr
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionOfConcepts'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
+  /concepts/collection/{id}/concepts:
+    get:
+      tags:
+        - Concepts
+      summary: Set of concepts in a collection
+      operationId: getSetOfConceptsInACollection
+      parameters:
+        - name: id
+          in: path
+          description: Identifiant interne de la collection
+          required: true
+          schema:
+            type: string
+          example: definitions-insee-fr
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SetOfConcepts'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
-    AllStructureModelSwagger:
+    # ============================================
+    # COMMON / SHARED SCHEMAS
+    # ============================================
+    Label:
+      type: object
+      properties:
+        langue:
+          type: string
+        contenu:
+          type: string
+
+    LangContent:
+      type: object
+      properties:
+        lang:
+          type: string
+        content:
+          type: string
+
+    IdLabel:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        label:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangContent'
+
+    # ============================================
+    # STRUCTURES / COMPOSANTS SCHEMAS
+    # ============================================
+    AllStructure:
       type: object
       properties:
         dateMiseAJour:
@@ -634,102 +732,8 @@ components:
           type: string
         id:
           type: string
-    Attribut:
-      type: object
-      properties:
-        ordre:
-          type: string
-        notation:
-          type: string
-        listCode:
-          $ref: '#/components/schemas/ListCode'
-        attachement:
-          type: string
-        obligatoire:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label__2'
-        uri:
-          type: string
-        representation:
-          type: string
-    Dimension:
-      type: object
-      properties:
-        ordre:
-          type: string
-        notation:
-          type: string
-        listCode:
-          $ref: '#/components/schemas/ListCode__1'
-        label:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label__3'
-        uri:
-          type: string
-        representation:
-          type: string
-    Label:
-      type: object
-      properties:
-        langue:
-          type: string
-        contenu:
-          type: string
-    Label__1:
-      type: object
-      properties:
-        langue:
-          type: string
-        contenu:
-          type: string
-    Label__2:
-      type: object
-      properties:
-        langue:
-          type: string
-        contenu:
-          type: string
-    Label__3:
-      type: object
-      properties:
-        langue:
-          type: string
-        contenu:
-          type: string
-    ListCode:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-    ListCode__1:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-    Mesure:
-      type: object
-      properties:
-        ordre:
-          type: string
-        notation:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label'
-        uri:
-          type: string
-        representation:
-          type: string
-    StructureByIdModelSwagger:
+
+    StructureById:
       type: object
       properties:
         dateMiseAJour:
@@ -749,7 +753,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label__1'
+            $ref: '#/components/schemas/Label'
         uri:
           type: string
         version:
@@ -762,7 +766,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Dimension'
-    StructureSliceKeysModelSwagger:
+
+    StructureSliceKeys:
       type: object
       properties:
         composants:
@@ -775,7 +780,135 @@ components:
             $ref: '#/components/schemas/Label'
         type:
           type: string
-    OrganisationsModelSwagger:
+
+    Mesure:
+      type: object
+      properties:
+        ordre:
+          type: string
+        notation:
+          type: string
+        label:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+        uri:
+          type: string
+        representation:
+          type: string
+
+    Attribut:
+      type: object
+      properties:
+        ordre:
+          type: string
+        notation:
+          type: string
+        listCode:
+          $ref: '#/components/schemas/ListCodeRef'
+        attachement:
+          type: string
+        obligatoire:
+          type: string
+        label:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+        uri:
+          type: string
+        representation:
+          type: string
+
+    Dimension:
+      type: object
+      properties:
+        ordre:
+          type: string
+        notation:
+          type: string
+        listCode:
+          $ref: '#/components/schemas/ListCodeRef'
+        label:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+        uri:
+          type: string
+        representation:
+          type: string
+
+    ListCodeRef:
+      type: object
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+
+    AllComponent:
+      type: object
+      properties:
+        dateMiseAJour:
+          type: string
+        statutValidation:
+          type: string
+        id:
+          type: string
+
+    ComponentById:
+      type: object
+      properties:
+        dateMiseAJour:
+          type: string
+        dateCreation:
+          type: string
+        concept:
+          $ref: '#/components/schemas/ConceptRef'
+        statutValidation:
+          type: string
+        label:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+        type:
+          type: string
+        uri:
+          type: string
+        representation:
+          type: string
+        version:
+          type: string
+        notation:
+          type: string
+        id:
+          type: string
+        listeCode:
+          $ref: '#/components/schemas/ListeCodeWithCodes'
+
+    ConceptRef:
+      type: object
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+
+    ListeCodeWithCodes:
+      type: object
+      properties:
+        codes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Code'
+        id:
+          type: string
+        uri:
+          type: string
+
+    # ============================================
+    # ORGANISATIONS SCHEMAS
+    # ============================================
+    Organisation:
       type: object
       properties:
         id:
@@ -796,48 +929,23 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Label'
-    AltLabel:
-      type: object
-      properties:
-        langue:
-          type: string
-        contenu:
-          type: string
-    Famille:
-      type: object
-      properties:
-        id:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label'
-        uri:
-          type: string
-    Frequence:
-      type: object
-      properties:
-        id:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label'
-        uri:
-          type: string
-    SerieByIdModelSwagger:
+
+    # ============================================
+    # SERIES / OPERATIONS SCHEMAS
+    # ============================================
+    SerieById:
       type: object
       properties:
         altLabel:
           type: array
           items:
-            $ref: '#/components/schemas/AltLabel'
+            $ref: '#/components/schemas/Label'
         label:
           type: array
           items:
             $ref: '#/components/schemas/Label'
         type:
-          $ref: '#/components/schemas/Type'
+          $ref: '#/components/schemas/TypeRef'
         series:
           type: string
         id:
@@ -852,7 +960,8 @@ components:
           type: array
           items:
             type: string
-    Type:
+
+    TypeRef:
       type: object
       properties:
         id:
@@ -863,13 +972,38 @@ components:
             $ref: '#/components/schemas/Label'
         uri:
           type: string
-    OperationBySerieIdModelSwagger:
+
+    Frequence:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+        uri:
+          type: string
+
+    Famille:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+        uri:
+          type: string
+
+    OperationBySerieId:
       type: object
       properties:
         altLabel:
           type: array
           items:
-            $ref: '#/components/schemas/AltLabel'
+            $ref: '#/components/schemas/Label'
         label:
           type: array
           items:
@@ -877,12 +1011,13 @@ components:
         uri:
           type: string
         serie:
-          $ref: '#/components/schemas/Serie'
+          $ref: '#/components/schemas/SerieRef'
         id:
           type: string
         millesime:
           type: string
-    Serie:
+
+    SerieRef:
       type: object
       properties:
         id:
@@ -895,11 +1030,12 @@ components:
           type: string
         frequence:
           $ref: '#/components/schemas/Frequence'
-    OperationByIdModelSwagger:
+
+    OperationById:
       type: object
       properties:
         serie:
-          $ref: '#/components/schemas/Serie'
+          $ref: '#/components/schemas/SerieRef'
         id:
           type: string
         label:
@@ -912,7 +1048,11 @@ components:
           type: string
         millesime:
           type: string
-    AllListCodeModelSwagger:
+
+    # ============================================
+    # CODE LISTS SCHEMAS
+    # ============================================
+    AllListCode:
       type: object
       properties:
         ordre:
@@ -925,18 +1065,8 @@ components:
           type: string
         dateMiseAJour:
           type: string
-    Code:
-      type: object
-      properties:
-        code:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label__1'
-        uri:
-          type: string
-    ListCodeByIdModelSwagger:
+
+    ListCodeById:
       type: object
       properties:
         codes:
@@ -948,14 +1078,30 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label__1'
+            $ref: '#/components/schemas/Label'
         uri:
           type: string
         version:
           type: string
         dateMiseAJour:
           type: string
-    DataSetModelSwagger:
+
+    Code:
+      type: object
+      properties:
+        code:
+          type: string
+        label:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+        uri:
+          type: string
+
+    # ============================================
+    # DATASETS SCHEMAS
+    # ============================================
+    DataSet:
       type: object
       properties:
         id:
@@ -1031,7 +1177,7 @@ components:
         theme:
           type: array
           items:
-            $ref: '#/components/schemas/ThemeModelSwagger'
+            $ref: '#/components/schemas/Theme'
         landingPage:
           type: array
           items:
@@ -1076,24 +1222,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LangContent'
-    IdLabel:
+
+    Theme:
       type: object
       properties:
-        id:
-          type: string
-        type:
+        uri:
           type: string
         label:
           type: array
           items:
             $ref: '#/components/schemas/LangContent'
-    LabelDataSet:
-      type: object
-      properties:
-        lang:
+        themeTaxonomy:
           type: string
-        content:
-          type: string
+
     LandingPage:
       type: object
       properties:
@@ -1101,13 +1242,7 @@ components:
           type: string
         url:
           type: string
-    LangContent:
-      type: object
-      properties:
-        content:
-          type: string
-        lang:
-          type: string
+
     ProcessStep:
       type: object
       properties:
@@ -1115,6 +1250,15 @@ components:
           type: string
         label:
           $ref: '#/components/schemas/Label'
+
+    Temporal:
+      type: object
+      properties:
+        startPeriod:
+          type: string
+        endPeriod:
+          type: string
+
     Structure:
       type: object
       properties:
@@ -1124,24 +1268,7 @@ components:
           type: string
         dsd:
           type: string
-    Temporal:
-      type: object
-      properties:
-        startPeriod:
-          type: string
-        endPeriod:
-          type: string
-    ThemeModelSwagger:
-      type: object
-      properties:
-        uri:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: '#/components/schemas/LabelDataSet'
-        themeTaxonomy:
-          type: string
+
     WasDerivedFrom:
       type: object
       properties:
@@ -1153,7 +1280,74 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LangContent'
-    ConceptByIdModelSwagger:
+
+    Distribution:
+      type: object
+      properties:
+        identifier:
+          type: string
+        byteSize:
+          type: string
+        created:
+          type: string
+        description:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangContent'
+        downloadURL:
+          type: array
+          items:
+            type: string
+        format:
+          type: string
+        modified:
+          type: string
+        title:
+          type: array
+          items:
+            $ref: '#/components/schemas/LangContent'
+        uri:
+          type: string
+
+    PatchDataset:
+      type: object
+      description: DTO for patching dataset properties
+      properties:
+        issued:
+          type: string
+          description: Issue date (format YYYY-MM-DD)
+          example: "2022-11-11"
+        modified:
+          type: string
+          description: Last modification date (format YYYY-MM-DD)
+          example: "2023-12-31"
+        temporal:
+          $ref: '#/components/schemas/Temporal'
+        numObservations:
+          type: integer
+          format: int32
+          description: Number of observations
+          example: 150
+        numSeries:
+          type: integer
+          format: int32
+          description: Number of series
+          example: 12
+
+    # ============================================
+    # CONCEPTS SCHEMAS
+    # ============================================
+    AllConcept:
+      type: object
+      properties:
+        dateMiseAJour:
+          type: string
+        statutValidation:
+          type: string
+        id:
+          type: string
+
+    ConceptById:
       type: object
       properties:
         dateCreation:
@@ -1167,7 +1361,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/LabelConcept'
+            $ref: '#/components/schemas/Label'
         dateFinValidite:
           type: string
         uri:
@@ -1183,14 +1377,8 @@ components:
         definitionCourte:
           type: array
           items:
-            $ref: '#/components/schemas/ConceptDefCourte'
-    ConceptDefCourte:
-      type: object
-      properties:
-        content:
-          type: string
-        lang:
-          type: string
+            $ref: '#/components/schemas/LangContent'
+
     ConceptSDMX:
       type: object
       properties:
@@ -1198,14 +1386,8 @@ components:
           type: string
         id:
           type: string
-    LabelConcept:
-      type: object
-      properties:
-        langue:
-          type: string
-        contenu:
-          type: string
-    CollectionOfConceptsModelSwagger:
+
+    CollectionOfConcepts:
       type: object
       properties:
         id:
@@ -1221,75 +1403,11 @@ components:
         description:
           type: array
           items:
-            $ref: '#/components/schemas/ConceptDefCourte'
-    SetOfConceptsModelSwagger:
+            $ref: '#/components/schemas/LangContent'
+
+    SetOfConcepts:
       type: object
       properties:
-        id:
-          type: string
-        uri:
-          type: string
-    AllConceptModelSwagger:
-      type: object
-      properties:
-        dateMiseAJour:
-          type: string
-        statutValidation:
-          type: string
-        id:
-          type: string
-    AllComponentModelSwagger:
-      type: object
-      properties:
-        dateMiseAJour:
-          type: string
-        statutValidation:
-          type: string
-        id:
-          type: string
-    ComponentByIdModelSwagger:
-      type: object
-      properties:
-        dateMiseAJour:
-          type: string
-        dateCreation:
-          type: string
-        concept:
-          $ref: '#/components/schemas/Concept'
-        statutValidation:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label'
-        type:
-          type: string
-        uri:
-          type: string
-        representation:
-          type: string
-        version:
-          type: string
-        notation:
-          type: string
-        id:
-          type: string
-        listeCode:
-          $ref: '#/components/schemas/ListeCode'
-    Concept:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-    ListeCode:
-      type: object
-      properties:
-        codes:
-          type: array
-          items:
-            $ref: '#/components/schemas/Code'
         id:
           type: string
         uri:
