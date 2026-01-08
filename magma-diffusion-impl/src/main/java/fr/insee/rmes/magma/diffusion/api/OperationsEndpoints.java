@@ -46,11 +46,8 @@ public class OperationsEndpoints implements OperationsApi {
 
             return EndpointsUtils.toResponseEntity(rapportQualite);
 
-//        } else {
-//            return ResponseEntity.notFound().build();
-
         }
-//        return null;
+
     }
 
 

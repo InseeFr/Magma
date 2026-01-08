@@ -53,12 +53,12 @@
           "items": {
             "$ref": "langue-contenu.schema.json"
           }
-          }
         }
-      },
-    "codes": {
-      "type": "array",
-      "items": {
+      }
+    },
+    "organisme": {
+      "type": "object",
+      "properties": {
         "id": {
           "type": "string"
         },
@@ -70,6 +70,27 @@
           "type": "array",
           "items": {
             "$ref": "langue-contenu.schema.json"
+          }
+        }
+      }
+    },
+    "codes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "uri": {
+            "type": "string",
+            "format": "uri"
+          },
+          "label": {
+            "type": "array",
+            "items": {
+              "$ref": "langue-contenu.schema.json"
+            }
           }
         }
       },

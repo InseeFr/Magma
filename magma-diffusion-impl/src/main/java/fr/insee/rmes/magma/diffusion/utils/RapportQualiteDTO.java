@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.*;
 
@@ -156,7 +157,34 @@ public class RapportQualiteDTO {
                         rubrique.setDate(rub.getValeurSimple());
                         break;
                     case "CODE_LIST":
+                        RubriqueTerritoireCodeListOrganisme rubriqueCodeList = new RubriqueTerritoireCodeListOrganisme();
+                        rubriqueCodeList.setId(rub.getValeurSimple());
+                        rubriqueCodeList.setUri(URI.create(rub.getCodeUri()));
 
+                        if (rub.getLabelObjLg1() != null && rub.getLabelObjLg2() != null) {
+                            List<LocalisedLabel> labelCodeList = createListLangueContenu(createLangueContenu(rub.getLabelObjLg1(), "fr"), createLangueContenu(rub.getLabelObjLg2(), "en"));
+                            rubriqueCodeList.setLabel(labelCodeList);
+                        }
+                        if (rub.getLabelObjLg1() != null && rub.getLabelObjLg2() == null) {
+                            LocalisedLabel labelCodeListLg1 = createLangueContenu(rub.getLabelObjLg1(), "fr");
+                            List<LocalisedLabel> labelTerritoire = new ArrayList<>();
+                            labelTerritoire.add(labelCodeListLg1);
+                            rubriqueCodeList.setLabel(labelTerritoire);
+                        }
+                        boolean rubricExist = rapportQualite.getRubriques().stream()
+                                .anyMatch(r ->  r.getId().equals(rub.getId()));
+
+                        if (rub.getMaxOccurs() != null && rubricExist){
+                            Rubrique rubriqueExistante = rapportQualite.getRubriques().stream()
+                                    .filter(r -> r.getId().equals(rub.getId()))
+                                    .findFirst()
+                                    .orElse(null);
+                            assert rubriqueExistante != null;
+                            rubriqueExistante.addCodesItem(rubriqueCodeList);//add rubric in RapportQualite
+                            
+                        } else {
+                            rubrique.addCodesItem(rubriqueCodeList);
+                        }
                         break;
                     case "RICH_TEXT":
                         Contenu contenuLg1 = new Contenu();
@@ -208,7 +236,7 @@ public class RapportQualiteDTO {
                         rubrique.setLabel(label);
                         break;
                     case "GEOGRAPHY":
-                        RubriqueTerritoire rubriqueTerritoire = new RubriqueTerritoire();
+                        RubriqueTerritoireCodeListOrganisme rubriqueTerritoire = new RubriqueTerritoireCodeListOrganisme();
                         rubriqueTerritoire.setId(rub.getValeurSimple());
                         rubriqueTerritoire.setUri(URI.create(rub.getGeoUri()));
 
@@ -218,14 +246,28 @@ public class RapportQualiteDTO {
                         }
                         if (rub.getLabelObjLg1() != null && rub.getLabelObjLg2() == null) {
                             LocalisedLabel labelTerritoireLg1 = createLangueContenu(rub.getLabelObjLg1(), "fr");
-                            LocalisedLabel labelTerritoireLg2 = null ;
                             List<LocalisedLabel> labelTerritoire = new ArrayList<>();
                             labelTerritoire.add(labelTerritoireLg1);
                             rubriqueTerritoire.setLabel(labelTerritoire);
                         }
-
-
                         rubrique.setTerritoire(rubriqueTerritoire);
+                        break;
+                    case "ORGANIZATION":
+                        RubriqueTerritoireCodeListOrganisme rubriqueOrganisme = new RubriqueTerritoireCodeListOrganisme();
+                        rubriqueOrganisme.setId(rub.getValeurSimple());
+                        rubriqueOrganisme.setUri(URI.create(rub.getGeoUri()));
+
+                        if (rub.getLabelObjLg1() != null && rub.getLabelObjLg2() != null) {
+                            List<LocalisedLabel> labelOrganisme = createListLangueContenu(createLangueContenu(rub.getLabelObjLg1(), "fr"), createLangueContenu(rub.getLabelObjLg2(), "en"));
+                            rubriqueOrganisme.setLabel(labelOrganisme);
+                        }
+                        if (rub.getLabelObjLg1() != null && rub.getLabelObjLg2() == null) {
+                            LocalisedLabel labelOrganismeLg1 = createLangueContenu(rub.getLabelObjLg1(), "fr");
+                            List<LocalisedLabel> labelOrganisme = new ArrayList<>();
+                            labelOrganisme.add(labelOrganismeLg1);
+                            rubriqueOrganisme.setLabel(labelOrganisme);
+                        }
+                        rubrique.setTerritoire(rubriqueOrganisme);
                         break;
                     default:
                         break;
