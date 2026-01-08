@@ -1,10 +1,8 @@
 package fr.insee.rmes.magma.diffusion.utils;
 
 import fr.insee.rmes.magma.diffusion.model.LocalisedLabel;
-//import fr.insee.rmes.magma.diffusion.model.LocalisedText;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
 import java.util.ArrayList;
 import java.util.List;
 

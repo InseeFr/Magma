@@ -143,6 +143,9 @@ public class RapportQualiteDTO {
                 rubrique.setUri(rub.getUri());
                 rubrique.setIdParent(rub.getIdParent());
                 rubrique.setType(rub.getType());
+                rubrique.setLabel(null);//valorised later only if necessary
+                rubrique.setContenus(null);//valorised later only if necessary
+                rubrique.setCodes(null);//valorised later only if necessary
                 if (rub.getTitreLg1() != null && rub.getTitreLg2() != null) {
                     List<LocalisedLabel> titre = createListLangueContenu(createLangueContenu(rub.getTitreLg1(), "fr"), createLangueContenu(rub.getTitreLg2(), "en"));
                     rubrique.setTitre(titre);
@@ -151,8 +154,10 @@ public class RapportQualiteDTO {
                 switch (rub.getType()) {
                     case "DATE":
                         rubrique.setDate(rub.getValeurSimple());
-                    break;
-//                    case "CODE_LIST":
+                        break;
+                    case "CODE_LIST":
+
+                        break;
                     case "RICH_TEXT":
                         Contenu contenuLg1 = new Contenu();
                         contenuLg1.setTexte(rub.getLabelLg1());
@@ -197,20 +202,31 @@ public class RapportQualiteDTO {
                             }
                             rubrique.addContenusItem(contenuLg2);
                         }
-                    break;
+                        break;
                     case "TEXT":
                         List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(rub.getLabelLg1(), "fr"), createLangueContenu(rub.getLabelLg2(), "en"));
                         rubrique.setLabel(label);
-                    break;
-//                    case "GEOGRAPHY":
-//                        SimpleObject valeurGeo =
-//                                new SimpleObject(
-//                                        cr.getValeurSimple(),
-//                                        cr.getGeoUri(),
-//                                        cr.getLabelObjLg1(),
-//                                        cr.getLabelObjLg2());
-//                        r.setValeurGeographie(valeurGeo);
-//                        break;
+                        break;
+                    case "GEOGRAPHY":
+                        RubriqueTerritoire rubriqueTerritoire = new RubriqueTerritoire();
+                        rubriqueTerritoire.setId(rub.getValeurSimple());
+                        rubriqueTerritoire.setUri(URI.create(rub.getGeoUri()));
+
+                        if (rub.getLabelObjLg1() != null && rub.getLabelObjLg2() != null) {
+                            List<LocalisedLabel> labelTerritoire = createListLangueContenu(createLangueContenu(rub.getLabelObjLg1(), "fr"), createLangueContenu(rub.getLabelObjLg2(), "en"));
+                            rubriqueTerritoire.setLabel(labelTerritoire);
+                        }
+                        if (rub.getLabelObjLg1() != null && rub.getLabelObjLg2() == null) {
+                            LocalisedLabel labelTerritoireLg1 = createLangueContenu(rub.getLabelObjLg1(), "fr");
+                            LocalisedLabel labelTerritoireLg2 = null ;
+                            List<LocalisedLabel> labelTerritoire = new ArrayList<>();
+                            labelTerritoire.add(labelTerritoireLg1);
+                            rubriqueTerritoire.setLabel(labelTerritoire);
+                        }
+
+
+                        rubrique.setTerritoire(rubriqueTerritoire);
+                        break;
                     default:
                         break;
                 }
