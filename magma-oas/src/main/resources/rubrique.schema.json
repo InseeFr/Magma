@@ -20,13 +20,13 @@
     "date": {
       "type": "string"
     },
-    "titre": {
+    "label": {
       "type": "array",
       "items": {
         "$ref": "langue-contenu.schema.json"
       }
     },
-    "label": {
+    "titre": {
       "type": "array",
       "items": {
         "$ref": "langue-contenu.schema.json"
