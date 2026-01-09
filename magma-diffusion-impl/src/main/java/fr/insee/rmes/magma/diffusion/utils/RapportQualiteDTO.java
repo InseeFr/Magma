@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.*;
@@ -144,9 +145,9 @@ public class RapportQualiteDTO {
                 rubrique.setUri(rub.getUri());
                 rubrique.setIdParent(rub.getIdParent());
                 rubrique.setType(rub.getType());
-                rubrique.setLabel(null);//valorised later only if necessary
-                rubrique.setContenus(null);//valorised later only if necessary
-                rubrique.setCodes(null);//valorised later only if necessary
+                rubrique.setLabel(null);//valued later only if exists
+                rubrique.setContenus(null);//valued later only if exists
+                rubrique.setCodes(null);//valued later only if exists
                 if (rub.getTitreLg1() != null && rub.getTitreLg2() != null) {
                     List<LocalisedLabel> titre = createListLangueContenu(createLangueContenu(rub.getTitreLg1(), "fr"), createLangueContenu(rub.getTitreLg2(), "en"));
                     rubrique.setTitre(titre);
@@ -171,8 +172,10 @@ public class RapportQualiteDTO {
                             labelTerritoire.add(labelCodeListLg1);
                             rubriqueCodeList.setLabel(labelTerritoire);
                         }
+
                         boolean rubricExist = rapportQualite.getRubriques().stream()
-                                .anyMatch(r ->  r.getId().equals(rub.getId()));
+                                .filter(Objects::nonNull) // We keep only not null rubrics, otherwise NullPointer Exception when r.getId()
+                                .anyMatch(r -> r.getId().equals(rub.getId()));
 
                         if (rub.getMaxOccurs() != null && rubricExist){
                             Rubrique rubriqueExistante = rapportQualite.getRubriques().stream()
@@ -181,7 +184,7 @@ public class RapportQualiteDTO {
                                     .orElse(null);
                             assert rubriqueExistante != null;
                             rubriqueExistante.addCodesItem(rubriqueCodeList);//add rubric in RapportQualite
-                            
+                            rubrique = null ;
                         } else {
                             rubrique.addCodesItem(rubriqueCodeList);
                         }
@@ -272,15 +275,15 @@ public class RapportQualiteDTO {
                     default:
                         break;
                 }
-                rapportQualite.addRubriquesItem(rubrique);
+                if (rubrique != null) { //case of a CODE_LIST rubric with several codes
+                    rapportQualite.addRubriquesItem(rubrique);
+                }
             }
         }
 
         ArrayList<Rubrique> rubriques = rapportQualite.getRubriques() == null ? new ArrayList<>() : new ArrayList<>(rapportQualite.getRubriques());
 
         rapportQualite.setRubriques(rubriques);
-
-
 
         return rapportQualite;
     }
