@@ -198,7 +198,6 @@ public class RapportQualiteDTO {
                         } else {
                             contenuLg1.setTexte("");
                         }
-
                         contenuLg1.setLangue("fr");
                         if (rub.isHasDocLg1()) {
                             List<DocumentDTO> rubriqueDocuments = requestProcessor.queryToFindDocuments()
@@ -208,8 +207,16 @@ public class RapportQualiteDTO {
                                     .result();
                             for (DocumentDTO documentDTO : rubriqueDocuments) {
                                 Document document = new Document();
-                                List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.getLabelLg1(), "fr"), createLangueContenu(documentDTO.getLabelLg2(), "en"));
-                                document.label(label);
+                                if (documentDTO.getLabelLg1() != null && documentDTO.getLabelLg2() != null){
+                                    List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.getLabelLg1(), "fr"), createLangueContenu(documentDTO.getLabelLg2(), "en"));
+                                    document.label(label);
+                                }
+                                if (documentDTO.getLabelLg1() != null && documentDTO.getLabelLg2() == null) {
+                                    LocalisedLabel labelLg1 = createLangueContenu(documentDTO.getLabelLg1(), "fr");
+                                    List<LocalisedLabel> label = createListLangueContenu(labelLg1,null);
+                                    document.label(label);
+                                }
+
                                 document.setDateMiseAJour(documentDTO.getDateMiseAJour());
                                 document.setLangue(documentDTO.getLangue());
                                 document.setUrl(documentDTO.getUrl());
@@ -221,8 +228,13 @@ public class RapportQualiteDTO {
                         if (StringUtils.isNotEmpty(rub.getLabelLg2())||rub.isHasDocLg2()){
                             Contenu contenuLg2 = new Contenu();
                             contenuLg2.setDocuments(null);// will be valued only if a document exists
-                            contenuLg2.setTexte(rub.getLabelLg2());
+                            if (StringUtils.isNotEmpty(rub.getLabelLg2())) {
+                                contenuLg2.setTexte(rub.getLabelLg2());
+                            } else {
+                                contenuLg2.setTexte("");
+                            }
                             contenuLg2.setLangue("en");
+
                             if (rub.isHasDocLg2()) {
                                 List<DocumentDTO> rubriqueDocuments = requestProcessor.queryToFindDocuments()
                                         .with(new OperationsDocumentsRequestParametizer(rapportQualite.getId(), rub.getId(),"en"))
@@ -231,8 +243,16 @@ public class RapportQualiteDTO {
                                         .result();
                                 for (DocumentDTO documentDTO : rubriqueDocuments) {
                                     Document document = new Document();
-                                    List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.getLabelLg1(), "fr"), createLangueContenu(documentDTO.getLabelLg2(), "en"));
-                                    document.label(label);
+                                    if (documentDTO.getLabelLg1() != null && documentDTO.getLabelLg2() != null){
+                                        List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.getLabelLg1(), "fr"), createLangueContenu(documentDTO.getLabelLg2(), "en"));
+                                        document.label(label);
+                                    }
+                                    if (documentDTO.getLabelLg1() != null && documentDTO.getLabelLg2() == null) {
+                                        LocalisedLabel labelLg1 = createLangueContenu(documentDTO.getLabelLg1(), "fr");
+                                        List<LocalisedLabel> label = createListLangueContenu(labelLg1,null);
+                                        document.label(label);
+                                    }
+
                                     document.setDateMiseAJour(documentDTO.getDateMiseAJour());
                                     document.setLangue(documentDTO.getLangue());
                                     document.setUrl(documentDTO.getUrl());
