@@ -1,0 +1,807 @@
+{
+  "id": "1979",
+  "uri": "http://id.insee.fr/qualite/rapport/1979",
+  "label": [
+    {
+      "contenu": "Rapport qualité : Enquête emploi en continu 2020",
+      "langue": "fr"
+    },
+    {
+      "contenu": "Quality report: Labour force survey 2020",
+      "langue": "en"
+    }
+  ],
+  "rubriques": [
+    {
+      "id": "I.18.7",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/I.18.7",
+      "idParent": "S.18",
+      "type": "RICH_TEXT",
+      "titre": [
+        {
+          "contenu": "Période de collecte",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Data collection period",
+          "langue": "en"
+        }
+      ],
+      "contenus": [
+        {
+          "texte": "<p>La collecte est réalisée en continu sur toutes les semaines de l'année.<br />\nLa collecte s'effectue, sauf exception, dans les 2 semaines et 2 jours après la fin de la semaine de référence.<br />\nChaque logement est enquêté six trimestres de suite.</p>",
+          "langue": "fr"
+        },
+        {
+          "texte": "<p>The data collection is conducted continuously, every week of the year. The interview is usually conducted in the 2 weeks and 2 days following the reference week.<br />\nEach dwelling is surveyed six consecutive quarters.</p>",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "S.3.8",
+      "uri": "http://ec.europa.eu/eurostat/simsv2/attribute/S.3.8",
+      "idParent": "S.3",
+      "type": "TEXT",
+      "label": [
+        {
+          "contenu": "<p>L'ensemble de l'année.</p>",
+          "langue": "fr"
+        },
+        {
+          "contenu": "<p>The complete year.</p>",
+          "langue": "en"
+        }
+      ],
+      "titre": [
+        {
+          "contenu": "Couverture temporelle",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Time coverage",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "S.3.7",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/S.3.7",
+      "idParent": "S.3",
+      "type": "GEOGRAPHY",
+      "titre": [
+        {
+          "contenu": "Zone géographique de référence",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Reference area",
+          "langue": "en"
+        }
+      ],
+      "territoire": {
+        "id": "franceHorsMayotte",
+        "uri": "http://id.insee.fr/qualite/territoire/franceHorsMayotte",
+        "label": [
+          {
+            "contenu": "France hors Mayotte",
+            "langue": "fr"
+          }
+        ]
+      }
+    },
+    {
+      "id": "I.18.9",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/I.18.9",
+      "idParent": "S.18",
+      "type": "CODE_LIST",
+      "titre": [
+        {
+          "contenu": "Unité(s) enquêtée(s)",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Survey unit",
+          "langue": "en"
+        }
+      ],
+      "codes": [
+        {
+          "id": "H",
+          "uri": "http://id.insee.fr/codes/uniteEnquetee/H",
+          "label": [
+            {
+              "contenu": "Ménage",
+              "langue": "fr"
+            },
+            {
+              "contenu": "Household",
+              "langue": "en"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "I.18.8",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/I.18.8",
+      "idParent": "S.18",
+      "type": "CODE_LIST",
+      "titre": [
+        {
+          "contenu": "Mode de collecte",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Collection mode",
+          "langue": "en"
+        }
+      ],
+      "codes": [
+        {
+          "id": "F",
+          "uri": "http://id.insee.fr/codes/modeCollecte/F",
+          "label": [
+            {
+              "contenu": "Face à face par enquêteur",
+              "langue": "fr"
+            },
+            {
+              "contenu": "Face to face by interviewer",
+              "langue": "en"
+            }
+          ]
+        },
+        {
+          "id": "P",
+          "uri": "http://id.insee.fr/codes/modeCollecte/P",
+          "label": [
+            {
+              "contenu": "Par téléphone",
+              "langue": "fr"
+            },
+            {
+              "contenu": "By phone",
+              "langue": "en"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S.3.6",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/S.3.6",
+      "idParent": "S.3",
+      "type": "RICH_TEXT",
+      "titre": [
+        {
+          "contenu": "Population statistique",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Statistical population",
+          "langue": "en"
+        }
+      ],
+      "contenus": [
+        {
+          "texte": "<p>Individus de 15 ans ou plus vivant en : <a href=\"https://www.insee.fr/fr/metadonnees/definition/c2056\">logement ordinaire</a>.</p>",
+          "langue": "fr"
+        },
+        {
+          "texte": "<p>Persons aged 15 or more, living in: <a href=\"https://www.insee.fr/en/metadonnees/definition/c2056\">ordinary housing</a>.</p>",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "I.6.3",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/I.6.3",
+      "idParent": "S.6",
+      "type": "CODE_LIST",
+      "titre": [
+        {
+          "contenu": "Statut de l'enquête",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Survey status",
+          "langue": "en"
+        }
+      ],
+      "codes": [
+        {
+          "id": "T",
+          "uri": "http://id.insee.fr/codes/statutEnquete/T",
+          "label": [
+            {
+              "contenu": "Enquête d'intérêt général et de qualité statistique à caractère obligatoire",
+              "langue": "fr"
+            },
+            {
+              "contenu": "Survey of general interest and statistical quality, with compulsory nature",
+              "langue": "en"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "I.6.4",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/I.6.4",
+      "idParent": "S.6",
+      "type": "TEXT",
+      "label": [
+        {
+          "contenu": "<p>2018T006EC</p>",
+          "langue": "fr"
+        },
+        {
+          "contenu": "<p>2018T006EC</p>",
+          "langue": "en"
+        }
+      ],
+      "titre": [
+        {
+          "contenu": "n° de visa",
+          "langue": "fr"
+        },
+        {
+          "contenu": "n° visa",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "I.18.11",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/I.18.11",
+      "idParent": "S.18",
+      "type": "TEXT",
+      "label": [
+        {
+          "contenu": "<p>Chaque trimestre en moyenne, jusqu'au T3 2019, environ 92 000 logements sont enquêtés, dont 73 000 qui sont  des résidences principales et entrent dans le champ de l'enquête. La taille va progressivement diminuer avec le renouvellement de l'échantillon. Au final, au T4 2020, la taille de l'échantillon sera inférieure d'environ 15 % à celle observée avant.</p>",
+          "langue": "fr"
+        },
+        {
+          "contenu": "<p>Each quarter, until Q3 2019, 92,000 dwellings are surveyed, 73,000 of which are principal residences and are in the target population. The size will gradually decrease with the renewal of the sample. In the end, in Q4 2020, the sample size will be about 15% smaller.</p>",
+          "langue": "en"
+        }
+      ],
+      "titre": [
+        {
+          "contenu": "Taille de l'échantillon",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Sample size",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "I.18.12",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/I.18.12",
+      "idParent": "S.18",
+      "type": "RICH_TEXT",
+      "titre": [
+        {
+          "contenu": "Documents de collecte",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Data collection documents",
+          "langue": "en"
+        }
+      ],
+      "contenus": [
+        {
+          "documents": [
+            {
+              "label": [
+                {
+                  "contenu": "Questionnaire EEC 2020",
+                  "langue": "fr"
+                }
+              ],
+              "dateMiseAJour": "0010-07-14",
+              "langue": "fr",
+              "url": "https://www.insee.fr/fr/metadonnees/source/fichier/EEC2020_Questionnaire.pdf"
+            },
+            {
+              "label": [
+                {
+                  "contenu": "Questionnaire module complémentaire EEC 2020",
+                  "langue": "fr"
+                },
+                {
+                  "contenu": "Ad-hoc module LFS 2020",
+                  "langue": "en"
+                }
+              ],
+              "dateMiseAJour": "2020-01-01T00:00:00",
+              "langue": "fr",
+              "url": "https://www.insee.fr/fr/metadonnees/source/fichier/QuestionnaireFR-MAD2020.pdf"
+            }
+          ],
+          "texte": "",
+          "langue": "fr"
+        }
+      ]
+    },
+    {
+      "id": "I.18.10",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/I.18.10",
+      "idParent": "S.18",
+      "type": "RICH_TEXT",
+      "titre": [
+        {
+          "contenu": "Plan de sondage",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Sampling method",
+          "langue": "en"
+        }
+      ],
+      "contenus": [
+        {
+          "texte": "<p>L'échantillon de l'enquête Emploi est un échantillon de logements, et non d'individus. Il présente deux caractéristiques principales : il est aréolaire (constitué d'un tirage de groupes de logements proches) et rotatif (les logements entrants dans l'échantillon un trimestre donné sont enquêtés pendant six trimestres consécutifs).</p>\n<p>En France métropolitaine, l'échantillon de l'EEC est en cours de renouvellement. À partir du T3 2019, les grappes entrantes (soit 1/6e de l'échantillon) sont issues de ce nouvel échantillon. Ceci va assurer le renouvellement progressif de l'échantillon. Au final, l'échantillon de France métropolitaine sera complètement renouvelé au T4 2020.</p>\n<p>En France métropolitaine, la base de sondage de l'enquête Emploi est constituée :<br />\n- pour l'ancien échantillon, des fichiers de la taxe d'habitation 2006 ;<br />\n- pour le nouvel échantillon, du fichier démographique des logements et des individus 2016 (Fideli).</p>\n<p>En France métropolitaine, le tirage de l'échantillon est stratifié par région. Au sein de chaque région, le tirage des secteurs est fait de manière &lt;&lt; équilibrée &gt;&gt;, proportionnellement au nombre de résidences principales, selon des caractéristiques de la base de sondage.</p>\n<p>Pour les DOM, il s'agit d'un échantillonnage stratifié (selon des zones géographiques) à un degré, avec tirage systématique de logements à probabilités égales au sein de chaque strate.</p>\n<p>L'échantillon est uniformément réparti sur les 13 semaines de chaque trimestre ; chaque grappe est affectée à une semaine &lt;&lt; de référence &gt;&gt;.</p>\n<p>Le taux de sondage moyen est de 1/400.</p>\n<p>Le module complémentaire est posé aux grappes entrantes et sortantes.</p>",
+          "langue": "fr"
+        },
+        {
+          "texte": "<p>The sampling unit is dwelling. The sample is rotational: each cluster is surveyed 6 consecutive quarters, then replaced by a new cluster of the same sector.</p>\n<p>In Metropolitan France, the sample is currently being renewed. As of Q3 2019, each new cluster (1st wave : 1/6th of the sample) belongs to the new sample. This will ensure the gradual renewal of the sample. In the end, the sample from Metropolitan France will be completely renewed in Q4 2020. The sampling frame is the housing-tax register for the old sample and the demographic file of dwellings and individuals (&lt;&lt; Fideli &gt;&gt;) for the new sample.  The sample selection is stratified by region. For each region, the sample is balanced, proportionnaly of the number of main residences, on some variables from the sampling frame.</p>\n<p>For DOM, the sampling is stratified (geographic strata) and systematic (with equal inclusion probabilities, within geographic strata).</p>\n<p>The sample is uniformely distributed among the 13 weeks of the quarter. Each cluster is affected to a reference week.</p>\n<p>The complementary module is asked to the ingoing and outgoing clusters.</p>",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "S.4",
+      "uri": "http://ec.europa.eu/eurostat/simsv2/attribute/S.4",
+      "type": "TEXT",
+      "label": [
+        {
+          "contenu": "<p>personnes</p>",
+          "langue": "fr"
+        },
+        {
+          "contenu": "<p>Persons</p>",
+          "langue": "en"
+        }
+      ],
+      "titre": [
+        {
+          "contenu": "Unité de mesure",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Unit of measure",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "S.5",
+      "uri": "http://ec.europa.eu/eurostat/simsv2/attribute/S.5",
+      "type": "TEXT",
+      "label": [
+        {
+          "contenu": "<p>Le statut d'activité au sens du BIT est mesuré en référence à une semaine donnée fixe, dite &lt;&lt; semaine de référence &gt;&gt;.</p>",
+          "langue": "fr"
+        },
+        {
+          "contenu": "<p>The ILO status of activity is measured according to a fixed week, named reference week.</p>",
+          "langue": "en"
+        }
+      ],
+      "titre": [
+        {
+          "contenu": "Période de référence",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Reference period",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "S.9",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/S.9",
+      "type": "CODE_LIST",
+      "titre": [
+        {
+          "contenu": "Fréquence de diffusion",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Frequency of dissemination",
+          "langue": "en"
+        }
+      ],
+      "codes": [
+        {
+          "id": "Q",
+          "uri": "http://id.insee.fr/codes/frequence/Q",
+          "label": [
+            {
+              "contenu": "Trimestrielle",
+              "langue": "fr"
+            },
+            {
+              "contenu": "Quarterly",
+              "langue": "en"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S.10.4",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/S.10.4",
+      "idParent": "S.10",
+      "type": "RICH_TEXT",
+      "titre": [
+        {
+          "contenu": "Accès aux micro-données",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Micro-data access",
+          "langue": "en"
+        }
+      ],
+      "contenus": [
+        {
+          "texte": "<p>Un fichier à destination des chercheurs est accessible par le réseau Quételet : <a href=\"http://www.progedo-adisp.fr/index.php\">http://www.progedo-adisp.fr/index.php</a></p>",
+          "langue": "fr"
+        },
+        {
+          "texte": "<p>A file for researchers is accessible through the Quételet network : <a href=\"http://www.progedo-adisp.fr/index.php\">http://www.progedo-adisp.fr/index.php</a></p>",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "S.13.1",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/S.13.1",
+      "idParent": "S.13",
+      "type": "RICH_TEXT",
+      "titre": [
+        {
+          "contenu": "Précision globale",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Overall accuracy",
+          "langue": "en"
+        }
+      ],
+      "contenus": [
+        {
+          "texte": "<p>Le taux de chômage trimestriel en France métropolitaine est estimé avec un intervalle de confiance à 95 % de ± 0,3 point.</p>",
+          "langue": "fr"
+        },
+        {
+          "texte": "<p>The unemployment rate in Metropolitan is estimated with a confidence interval at 95% of +- 0.3 pt.</p>",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "I.20",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/I.20",
+      "type": "RICH_TEXT",
+      "titre": [
+        {
+          "contenu": "Voir aussi",
+          "langue": "fr"
+        },
+        {
+          "contenu": "See Also",
+          "langue": "en"
+        }
+      ],
+      "contenus": [
+        {
+          "texte": "<p>Un dossier pédagogique sur le chômage est disponible sur :<br />\n<a href=\"https://www.insee.fr/fr/information/2022025\">https://www.insee.fr/fr/information/2022025</a></p>",
+          "langue": "fr"
+        },
+        {
+          "texte": "<p>An educational file on unemployment is available on:<br />\n<a href=\"https://www.insee.fr/fr/information/2022025\">https://www.insee.fr/fr/information/2022025</a></p>",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "S.10.6",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/S.10.6",
+      "idParent": "S.10",
+      "type": "RICH_TEXT",
+      "titre": [
+        {
+          "contenu": "Documentation sur la méthodologie",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Documentation on methodology",
+          "langue": "en"
+        }
+      ],
+      "contenus": [
+        {
+          "documents": [
+            {
+              "label": [
+                {
+                  "contenu": "Note méthodologique EEC juillet 2021",
+                  "langue": "fr"
+                },
+                {
+                  "contenu": "LFS methodological note July 2021",
+                  "langue": "en"
+                }
+              ],
+              "dateMiseAJour": "2021-07-13T00:00:00",
+              "langue": "fr",
+              "url": "https://www.insee.fr/fr/metadonnees/source/fichier/EEC2021_Note-methodologique-juillet-2021.pdf"
+            }
+          ],
+          "texte": "",
+          "langue": "fr"
+        },
+        {
+          "documents": [
+            {
+              "label": [
+                {
+                  "contenu": "Note méthodologique EEC juillet 2021",
+                  "langue": "fr"
+                },
+                {
+                  "contenu": "LFS methodological note July 2021",
+                  "langue": "en"
+                }
+              ],
+              "dateMiseAJour": "2021-07-13T00:00:00",
+              "langue": "fr",
+              "url": "https://www.insee.fr/fr/metadonnees/source/fichier/EEC2021_Note-methodologique-juillet-2021.pdf"
+            }
+          ],
+          "texte": "",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "S.17.2",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/S.17.2",
+      "idParent": "S.17",
+      "type": "RICH_TEXT",
+      "titre": [
+        {
+          "contenu": "Révision des données — pratiques",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Data revision - practice and A6. Data revision - average size for U",
+          "langue": "en"
+        }
+      ],
+      "contenus": [
+        {
+          "texte": "<p>Les données définitives seront disponibles en 2024, après révision, pour tenir compte de l'estimation définitive de la population de 2020</p>",
+          "langue": "fr"
+        },
+        {
+          "texte": "<p>Final data will be available in 2024, after revision, to take into account the final population estimate for 2020.</p>",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "S.18.3",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/S.18.3",
+      "idParent": "S.18",
+      "type": "RICH_TEXT",
+      "titre": [
+        {
+          "contenu": "Collecte des données",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Data collection",
+          "langue": "en"
+        }
+      ],
+      "contenus": [
+        {
+          "texte": "<p>Les données sont collectées tout au long de l'année.</p>\n<p>La collecte est effectuée sous collecte assistée par informatique (Capi), en face-à-face pour la première et la dernière interrogations, et par téléphone pour les interrogations intermédiaires.<br />\nSi une personne ne peut (ou ne veut) pas répondre, une autre personne peut le faire à sa place (proxy).</p>\n<p>Une enquête annuelle spécifique a lieu à Mayotte.</p>",
+          "langue": "fr"
+        },
+        {
+          "texte": "<p>The survey is conducted continuously, every week of the year.</p>\n<p>Data is collected by computer-assisted data collection (CAPI). The interview is done face to face for the first and last waves and by phone for the intermediate waves.<br />\nIf a person cannot respond (or does not want to), another person household can answer in their  place (proxy).</p>\n<p>An annual specific survey is conducted in Mayotte.</p>",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "S.18.2",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/S.18.2",
+      "idParent": "S.18",
+      "type": "CODE_LIST",
+      "titre": [
+        {
+          "contenu": "Fréquence de collecte des données",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Frequency of data collection",
+          "langue": "en"
+        }
+      ],
+      "codes": [
+        {
+          "id": "C",
+          "uri": "http://id.insee.fr/codes/frequence/C",
+          "label": [
+            {
+              "contenu": "Continue",
+              "langue": "fr"
+            },
+            {
+              "contenu": "Continuous",
+              "langue": "en"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S.18.5",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/S.18.5",
+      "idParent": "S.18",
+      "type": "RICH_TEXT",
+      "titre": [
+        {
+          "contenu": "Élaboration des données",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Data compilation",
+          "langue": "en"
+        }
+      ],
+      "contenus": [
+        {
+          "texte": "<p>Pour la métropole, un calage sur marge est effectué pour à la fois corriger de la non-réponse et contrôler les fluctuations d'échantillonnage. Les marges sont de niveau individuel (ventilation par sexe, âge, région) et de niveau logement (nombre de logements, type de logement, nombre de pièces, déciles de revenu du ménage....).<br />\nPour les DOM, la correction se fait en 2 étapes : un modèle de non réponse, puis un calage sur marges (nombre et type de logements, diplôme, lieu de naissance...).</p>",
+          "langue": "fr"
+        },
+        {
+          "texte": "<p>For Metropolitan France, a unique calibration is performed both to correct biases induced by non-response and to get consistency with external margins. The margins are individual characteristics (sex, age, NUTS2,...) and dwelling characteristics (number of dwellings, type of housing, income of the households,...). <br />\nFor DOM, weights are first adjusted by using an estimation of response probabilities, and are next calibrated on external margins (number of dwellings, type of housing, diploma, place of birth...).</p>",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "S.3.5",
+      "uri": "http://ec.europa.eu/eurostat/simsv2/attribute/S.3.5",
+      "idParent": "S.3",
+      "type": "TEXT",
+      "label": [
+        {
+          "contenu": "<p>Individus</p>",
+          "langue": "fr"
+        },
+        {
+          "contenu": "<p>Persons</p>",
+          "langue": "en"
+        }
+      ],
+      "titre": [
+        {
+          "contenu": "Unité statistique",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Statistical unit",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "S.3.4",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/S.3.4",
+      "idParent": "S.3",
+      "type": "RICH_TEXT",
+      "titre": [
+        {
+          "contenu": "Concepts et définitions statistiques",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Statistical concepts and definitions",
+          "langue": "en"
+        }
+      ],
+      "contenus": [
+        {
+          "texte": "<p>L'enquête permet de mesurer les concepts d'activité, d'emploi et de chômage conformément aux critères établis par le BIT. Elle comporte des questions permettant de décrire l'emploi (statut, profession, temps de travail....) selon des nomenclatures / définitions européennes.<br />\nElle mesure également les concepts de formation formelle et non formelle tels que définis par Eurostat.</p>",
+          "langue": "fr"
+        },
+        {
+          "texte": "<p>The LFS provides a measurement of activity, employment and unemployment according to the ILO definition. It gives a description of the job (status, occupation, working time...) according to european classifications / definitions.<br />\nIt measures the concepts related to formal and non formal education following the european approach.</p>",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "S.6.1",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/S.6.1",
+      "idParent": "S.6",
+      "type": "RICH_TEXT",
+      "titre": [
+        {
+          "contenu": "Actes juridiques et autres accords",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Legal acts and other agreements",
+          "langue": "en"
+        }
+      ],
+      "contenus": [
+        {
+          "texte": "<p>L'enquête Emploi s'inscrit dans un cadre européen, défini par le règlement 577/1998 du Conseil du 9 mars 1998. Ce texte a été ponctuellement modifié ou complété par d'autres textes réglementaires. Le plus important est le règlement 1991/2002 qui fixe à 2003 la date limite pour la mise en oeuvre d'une enquête en continu, couvrant toutes les semaines de l'année.</p>",
+          "langue": "fr"
+        },
+        {
+          "texte": "<p>The LFS is defined by the regulation n°577/1998 of the Council of 9 march 1998. This text has been modified and amended. In particular, the regulation n°1991/2002 imposed to have from 2003 a continuous survey, covering all the weeks of the year.</p>",
+          "langue": "en"
+        }
+      ]
+    },
+    {
+      "id": "S.2.3",
+      "uri": "http://ec.europa.eu/eurostat/simsv2/attribute/S.2.3",
+      "idParent": "S.2",
+      "type": "DATE",
+      "titre": [
+        {
+          "contenu": "Dernière mise à jour des métadonnées",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Metadata last update",
+          "langue": "en"
+        }
+      ],
+      "date": "2018-12-17"
+    },
+    {
+      "id": "S.3.1",
+      "uri": "http://id.insee.fr/qualite/simsv2fr/attribut/S.3.1",
+      "idParent": "S.3",
+      "type": "RICH_TEXT",
+      "titre": [
+        {
+          "contenu": "Description  des données",
+          "langue": "fr"
+        },
+        {
+          "contenu": "Data description",
+          "langue": "en"
+        }
+      ],
+      "contenus": [
+        {
+          "texte": "<p>Le questionnaire de l'enquête Emploi est structuré autour des thèmes suivants :<br />\n- la description du ménage et des personnes qui le composent ;<br />\n- le statut d'activité au sens du BIT ;<br />\n- la description de l'emploi principal en cours (profession, durée du travail, type de contrat, revenus du travail...) ;<br />\n- le niveau d'études et la participation à des formations ;<br />\n- la situation un an avant l'enquête (lieu de résidence, situation par rapport au marché du travail...) ;<br />\n- la perception d'allocations, parmi lesquelles les allocations chômage et les retraites ;<br />\n- l'origine sociale et géographique ;<br />\n- l'état de santé ;<br />\n- la trajectoire sur le marché du travail au cours des 12 derniers mois.<br />\nEn 2020, le module complémentaire porte sur les accidents du travail et les problèmes de santé liés au travail.</p>",
+          "langue": "fr"
+        },
+        {
+          "texte": "<p>The LFS questionnaire is structured around the following themes:<br />\n- a description of the household and its members;<br />\n- the status of an activity according to the ILO definition;<br />\n- a detailed description of the current main job (occupation, working time, kind of contract, income from work, etc.);<br />\n- the level of education and participation in training;<br />\n- the situation one year before the survey (place of residence, labour market situation, etc.);<br />\n- the receipt of benefits, including unemployment benefits and old-age pensions;<br />\n- social and geographical origin;<br />\n- health status;<br />\n- labour market trajectory over the past 12 months.<br />\nIn 2020, the complementary module focuses on accidents at work and other work-related health problems.</p>",
+          "langue": "en"
+        }
+      ]
+    }
+  ]
+}
