@@ -10,9 +10,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
-import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.*;
+import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.createLangueContenu;
+import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.createListLangueContenu;
 
 @Slf4j
 
@@ -148,6 +148,7 @@ public class RapportQualiteDTO {
                 rubrique.setLabel(null);//valued later only if exists
                 rubrique.setContenus(null);//valued later only if exists
                 rubrique.setCodes(null);//valued later only if exists
+
                 if (rub.getTitreLg1() != null && rub.getTitreLg2() != null) {
                     List<LocalisedLabel> titre = createListLangueContenu(createLangueContenu(rub.getTitreLg1(), "fr"), createLangueContenu(rub.getTitreLg2(), "en"));
                     rubrique.setTitre(titre);
@@ -158,7 +159,7 @@ public class RapportQualiteDTO {
                         rubrique.setDate(rub.getValeurSimple());
                         break;
                     case "CODE_LIST":
-                        RubriqueTerritoireCodeListOrganisme rubriqueCodeList = new RubriqueTerritoireCodeListOrganisme();
+                        IdUriLabel rubriqueCodeList = new IdUriLabel();
                         rubriqueCodeList.setId(rub.getValeurSimple());
                         rubriqueCodeList.setUri(URI.create(rub.getCodeUri()));
 
@@ -191,7 +192,13 @@ public class RapportQualiteDTO {
                         break;
                     case "RICH_TEXT":
                         Contenu contenuLg1 = new Contenu();
-                        contenuLg1.setTexte(rub.getLabelLg1());
+                        contenuLg1.setDocuments(null);// will be valued only if a document exists
+                        if (StringUtils.isNotEmpty(rub.getLabelLg1())) {
+                            contenuLg1.setTexte(rub.getLabelLg1());
+                        } else {
+                            contenuLg1.setTexte("");
+                        }
+
                         contenuLg1.setLangue("fr");
                         if (rub.isHasDocLg1()) {
                             List<DocumentDTO> rubriqueDocuments = requestProcessor.queryToFindDocuments()
@@ -213,6 +220,7 @@ public class RapportQualiteDTO {
 
                         if (StringUtils.isNotEmpty(rub.getLabelLg2())||rub.isHasDocLg2()){
                             Contenu contenuLg2 = new Contenu();
+                            contenuLg2.setDocuments(null);// will be valued only if a document exists
                             contenuLg2.setTexte(rub.getLabelLg2());
                             contenuLg2.setLangue("en");
                             if (rub.isHasDocLg2()) {
@@ -239,7 +247,7 @@ public class RapportQualiteDTO {
                         rubrique.setLabel(label);
                         break;
                     case "GEOGRAPHY":
-                        RubriqueTerritoireCodeListOrganisme rubriqueTerritoire = new RubriqueTerritoireCodeListOrganisme();
+                        IdUriLabel rubriqueTerritoire = new IdUriLabel();
                         rubriqueTerritoire.setId(rub.getValeurSimple());
                         rubriqueTerritoire.setUri(URI.create(rub.getGeoUri()));
 
@@ -256,7 +264,7 @@ public class RapportQualiteDTO {
                         rubrique.setTerritoire(rubriqueTerritoire);
                         break;
                     case "ORGANIZATION":
-                        RubriqueTerritoireCodeListOrganisme rubriqueOrganisme = new RubriqueTerritoireCodeListOrganisme();
+                        IdUriLabel rubriqueOrganisme = new IdUriLabel();
                         rubriqueOrganisme.setId(rub.getValeurSimple());
                         rubriqueOrganisme.setUri(URI.create(rub.getGeoUri()));
 

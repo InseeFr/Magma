@@ -5,12 +5,12 @@
 "description": "Label avec langue",
 "type": "object",
 "properties": {
-"contenu": {
-"type": "string"
-},
-"langue":{
-"type": "string"
-}
+  "contenu": {
+    "type": "string"
+  },
+  "langue":{
+    "type": "string"
+  }
 },
 "required": ["contenu","langue"]
 }
