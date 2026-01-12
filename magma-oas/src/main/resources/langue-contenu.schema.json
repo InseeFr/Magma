@@ -11,6 +11,5 @@
   "langue":{
     "type": "string"
   }
-},
-"required": ["contenu","langue"]
+}
 }

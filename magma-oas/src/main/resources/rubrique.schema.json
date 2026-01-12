@@ -52,6 +52,6 @@
       }
     }
   },
-  "required": ["id", "uri", "type", "titre", "label"],
+  "required": ["id"],
   "additionalProperties": false
 }
