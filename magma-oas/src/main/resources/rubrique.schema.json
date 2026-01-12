@@ -39,60 +39,16 @@
       }
     },
     "territoire": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "uri": {
-          "type": "string",
-          "format": "uri"
-        },
-        "label": {
-          "type": "array",
-          "items": {
-            "$ref": "langue-contenu.schema.json"
-          }
-        }
-      }
+      "$ref": "id-uri-label.schema.json"
     },
     "organisme": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "uri": {
-          "type": "string",
-          "format": "uri"
-        },
-        "label": {
-          "type": "array",
-          "items": {
-            "$ref": "langue-contenu.schema.json"
-          }
-        }
-      }
+      "$ref": "id-uri-label.schema.json"
     },
     "codes": {
       "type": "array",
       "items": {
         "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "uri": {
-            "type": "string",
-            "format": "uri"
-          },
-          "label": {
-            "type": "array",
-            "items": {
-              "$ref": "langue-contenu.schema.json"
-            }
-          }
-        }
+          "$ref": "id-uri-label.schema.json"
       },
       "date": {
         "type": "string",
