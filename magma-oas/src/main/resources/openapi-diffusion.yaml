@@ -6930,7 +6930,7 @@ components:
         noteEditoriale:
           type: array
           items:
-            $ref: '#/components/schemas/LangueContenu'
+            $ref: './langue-contenu.schema.json'
         dateCreation:
           type: string
           format: date
@@ -7032,22 +7032,6 @@ components:
       required:
         - id
         - uri
-
-    LangueContenu:
-      type: object
-      properties:
-        contenu:
-          type: string
-        langue:
-          type: string
-
-    LangueTexte:
-      type: object
-      properties:
-        texte:
-          type: string
-        langue:
-          type: string
 
       allOf:
         - $ref: '#/components/schemas/TerritoireBase'
