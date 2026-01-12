@@ -333,5 +333,6 @@
         <module>magma-gestion-interface</module>
         <module>magma-gestion-impl</module>
         <module>magma-app</module>
+        <module>magma-commons-infra</module>
     </modules>
 </project>
