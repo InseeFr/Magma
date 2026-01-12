@@ -29,5 +29,5 @@
       }
     }
   },
-  "required": ["id","uri","label","rubriques"]
+  "required": ["id","uri"]
 }
