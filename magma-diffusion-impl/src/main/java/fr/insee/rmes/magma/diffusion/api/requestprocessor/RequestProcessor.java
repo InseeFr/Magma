@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.diffusion.api.requestprocessor;
 
-import fr.insee.rmes.magma.diffusion.queries.Query;
+import fr.insee.rmes.magma.queries.Query;
 import fr.insee.rmes.magma.diffusion.queries.parameters.*;
 import fr.insee.rmes.magma.diffusion.queryexecutor.Csv;
 import fr.insee.rmes.magma.diffusion.queryexecutor.QueryExecutor;

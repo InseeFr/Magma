@@ -97,6 +97,12 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc.version}</version>
         </dependency>
+        <dependency>
+            <groupId>fr.insee.rmes</groupId>
+            <artifactId>magma-commons-infra</artifactId>
+            <version>magma-refactored-1.0-rc0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

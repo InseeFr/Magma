@@ -2,7 +2,7 @@ package fr.insee.rmes.magma.diffusion.queryexecutor;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.insee.rmes.magma.diffusion.queries.Query;
+import fr.insee.rmes.magma.queries.Query;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

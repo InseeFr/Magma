@@ -6,12 +6,12 @@ import java.time.LocalDate;
 public record PrecedentsSuivantsRequestParametizer(String code,
                                                    LocalDate date,
                                                    Class<?> typeOrigine,
-                                                   boolean previous) implements ParametersForQuery<PrecedentsSuivantsRequestParametizer> {
+                                                   boolean previous) implements ParametersForQueryDiffusion<PrecedentsSuivantsRequestParametizer> {
 
 
     @Override
-    public ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent) {
-        return ParametersForQuery.super.findParameterValueDecoder(recordComponent);
+    public ParameterValueDecoderDiffusion<?> findParameterValueDecoder(RecordComponent recordComponent) {
+        return ParametersForQueryDiffusion.super.findParameterValueDecoder(recordComponent);
     }
 }
 

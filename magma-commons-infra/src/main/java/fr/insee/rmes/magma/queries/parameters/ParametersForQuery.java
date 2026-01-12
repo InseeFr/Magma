@@ -1,4 +1,4 @@
-package fr.insee.rmes.magma.diffusion.queries.parameters;
+package fr.insee.rmes.magma.queries.parameters;
 
 import java.lang.reflect.RecordComponent;
 import java.util.Arrays;
@@ -29,9 +29,7 @@ public interface ParametersForQuery<E extends Record & ParametersForQuery<E>> {
         return invokeMethod(recordComponent.getAccessor(), this);
     }
 
-    default ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent){
-        return ParameterValueDecoder.of(recordComponent.getType());
-    }
+    ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent);
 
 
 }

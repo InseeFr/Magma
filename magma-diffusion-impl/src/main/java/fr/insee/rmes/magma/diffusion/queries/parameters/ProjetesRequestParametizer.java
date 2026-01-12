@@ -8,12 +8,12 @@ import java.time.LocalDate;
                                              LocalDate dateProjection,
                                              LocalDate date,
                                              Class<?> typeOrigine,
-                                             boolean previous) implements ParametersForQuery<ProjetesRequestParametizer> {
+                                             boolean previous) implements ParametersForQueryDiffusion<ProjetesRequestParametizer> {
 
 
     @Override
-    public ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent) {
-        return ParametersForQuery.super.findParameterValueDecoder(recordComponent);
+    public ParameterValueDecoderDiffusion<?> findParameterValueDecoder(RecordComponent recordComponent) {
+        return ParametersForQueryDiffusion.super.findParameterValueDecoder(recordComponent);
     }
 
 }

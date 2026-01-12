@@ -1,5 +1,6 @@
 package fr.insee.rmes.magma.diffusion.queries;
 
+import fr.insee.rmes.magma.queries.Query;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

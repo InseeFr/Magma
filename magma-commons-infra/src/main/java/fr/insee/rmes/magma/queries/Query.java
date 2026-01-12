@@ -1,4 +1,4 @@
-package fr.insee.rmes.magma.diffusion.queries;
+package fr.insee.rmes.magma.queries;
 
 import java.io.Writer;
 

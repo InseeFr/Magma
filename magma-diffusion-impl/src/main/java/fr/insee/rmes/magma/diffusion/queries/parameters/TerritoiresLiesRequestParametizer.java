@@ -9,11 +9,11 @@ import java.time.LocalDate;
 public record TerritoiresLiesRequestParametizer(String code,
                                                 LocalDate date,
                                                 TypeEnum type,
-                                                Class<?> typeOrigine) implements ParametersForQuery<TerritoiresLiesRequestParametizer> {
+                                                Class<?> typeOrigine) implements ParametersForQueryDiffusion<TerritoiresLiesRequestParametizer> {
 
 
     @Override
-    public ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent) {
-        return ParametersForQuery.super.findParameterValueDecoder(recordComponent);
+    public ParameterValueDecoderDiffusion<?> findParameterValueDecoder(RecordComponent recordComponent) {
+        return ParametersForQueryDiffusion.super.findParameterValueDecoder(recordComponent);
     }
 }
