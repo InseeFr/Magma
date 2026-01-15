@@ -19,7 +19,6 @@ import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.createListLangu
 public class RapportQualiteDTO {
 
 
-    private RequestProcessor requestProcessor;
     private String id;
     private String uri;
     private String labelLg1;
@@ -32,11 +31,6 @@ public class RapportQualiteDTO {
 
     public RapportQualiteDTO() {
     }
-
-    public RapportQualiteDTO(RequestProcessor requestProcessor) {
-        this.requestProcessor = requestProcessor;
-    }
-
 
     public String getId() {
         return id;
@@ -56,19 +50,6 @@ public class RapportQualiteDTO {
 
     public String getLabelLg1() {
         return labelLg1;
-    }
-
-    public RapportQualiteDTO(RequestProcessor requestProcessor, String id, String uri, String labelLg1, String labelLg2, String idCible, String cible, String labelCibleLg1, String labelCibleLg2, List<RubriqueDTO> rubriqueDTOList) {
-        this.requestProcessor = requestProcessor;
-        this.id = id;
-        this.uri = uri;
-        this.labelLg1 = labelLg1;
-        this.labelLg2 = labelLg2;
-        this.idCible = idCible;
-        this.cible = cible;
-        this.labelCibleLg1 = labelCibleLg1;
-        this.labelCibleLg2 = labelCibleLg2;
-        this.rubriqueDTOList = rubriqueDTOList;
     }
 
     public void setLabelLg1(String labelLg1) {
@@ -248,8 +229,8 @@ public class RapportQualiteDTO {
                                         document.label(label);
                                     }
                                     if (documentDTO.getLabelLg1() != null && documentDTO.getLabelLg2() == null) {
-                                        LocalisedLabel labelLg1 = createLangueContenu(documentDTO.getLabelLg1(), "fr");
-                                        List<LocalisedLabel> label = createListLangueContenu(labelLg1,null);
+                                        LocalisedLabel labelFr = createLangueContenu(documentDTO.getLabelLg1(), "fr");
+                                        List<LocalisedLabel> label = createListLangueContenu(labelFr,null);
                                         document.label(label);
                                     }
 
