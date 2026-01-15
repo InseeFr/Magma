@@ -47,7 +47,6 @@
     "codes": {
       "type": "array",
       "items": {
-        "type": "object",
           "$ref": "id-uri-label.schema.json"
       }
     }
