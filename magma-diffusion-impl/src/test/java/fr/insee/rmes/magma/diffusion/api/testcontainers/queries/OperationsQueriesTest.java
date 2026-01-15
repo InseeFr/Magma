@@ -91,9 +91,9 @@ public class OperationsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("en", rubrique8.getContenus().getFirst().getDocuments().getFirst().getLabel().getLast().getLangue()),
                 () -> assertEquals("2021-07-13T00:00:00", rubrique8.getContenus().getFirst().getDocuments().getFirst().getDateMiseAJour()),
                 () -> assertEquals("fr", rubrique8.getContenus().getFirst().getDocuments().getFirst().getLangue()),
-                () -> assertEquals(	"https://www.insee.fr/fr/metadonnees/source/fichier/EEC2021_Note-methodologique-juillet-2021.pdf", rubrique8.getContenus().getFirst().getDocuments().getFirst().getUrl()),
-                () -> assertEquals("",rubrique8.getContenus().getFirst().getTexte()),
-                () -> assertEquals("fr",rubrique8.getContenus().getFirst().getLangue()),
+                () -> assertEquals("https://www.insee.fr/fr/metadonnees/source/fichier/EEC2021_Note-methodologique-juillet-2021.pdf", rubrique8.getContenus().getFirst().getDocuments().getFirst().getUrl()),
+                () -> assertEquals("", rubrique8.getContenus().getFirst().getTexte()),
+                () -> assertEquals("fr", rubrique8.getContenus().getFirst().getLangue()),
 
                 () -> assertEquals("Note méthodologique EEC juillet 2021", rubrique8.getContenus().getLast().getDocuments().getFirst().getLabel().getFirst().getContenu()),
                 () -> assertEquals("fr", rubrique8.getContenus().getLast().getDocuments().getFirst().getLabel().getFirst().getLangue()),
@@ -101,9 +101,9 @@ public class OperationsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("en", rubrique8.getContenus().getLast().getDocuments().getFirst().getLabel().getLast().getLangue()),
                 () -> assertEquals("2021-07-13T00:00:00", rubrique8.getContenus().getLast().getDocuments().getFirst().getDateMiseAJour()),
                 () -> assertEquals("fr", rubrique8.getContenus().getLast().getDocuments().getFirst().getLangue()),
-                () -> assertEquals(	"https://www.insee.fr/fr/metadonnees/source/fichier/EEC2021_Note-methodologique-juillet-2021.pdf", rubrique8.getContenus().getLast().getDocuments().getFirst().getUrl()),
-                () -> assertEquals("",rubrique8.getContenus().getLast().getTexte()),
-                () -> assertEquals("en",rubrique8.getContenus().getLast().getLangue()),
+                () -> assertEquals("https://www.insee.fr/fr/metadonnees/source/fichier/EEC2021_Note-methodologique-juillet-2021.pdf", rubrique8.getContenus().getLast().getDocuments().getFirst().getUrl()),
+                () -> assertEquals("", rubrique8.getContenus().getLast().getTexte()),
+                () -> assertEquals("en", rubrique8.getContenus().getLast().getLangue()),
 
                 // 10th rubric
                 () -> assertEquals("S.3.7", rubrique10.getId()),
@@ -153,5 +153,31 @@ public class OperationsQueriesTest extends TestcontainerTest {
         );
     }
 
+    @Test
+    void should_return_rapportQualite1981_when_OperationsRapportQualite_id1981() throws IOException {
+        var response = endpoints.getRapportQualiteByCode("1981");
+        var result = response.getBody();
+        Assertions.assertNotNull(result);
+
+        var rubrique8 = result.getRubriques().get(7); // ORGANIZATION type rubric
+
+        assertAll(
+                () -> assertEquals("S.1.2", rubrique8.getId()),
+                () -> assertEquals("http://id.insee.fr/qualite/simsv2fr/attribut/S.1.2", rubrique8.getUri()),
+                () -> assertEquals("S.1", rubrique8.getIdParent()),
+                () -> assertEquals("ORGANIZATION", rubrique8.getType()),
+                () -> assertEquals("Unité d'appartenance du  contact dans l'organisme", rubrique8.getTitre().getFirst().getContenu()),
+                () -> assertEquals("fr", rubrique8.getTitre().getFirst().getLangue()),
+                () -> assertEquals("Contact organisation unit", rubrique8.getTitre().getLast().getContenu()),
+                () -> assertEquals("en", rubrique8.getTitre().getLast().getLangue()),
+                () -> {
+                    Assertions.assertNotNull(rubrique8.getOrganisme());
+                    assertEquals("DG75-E330", rubrique8.getOrganisme().getId());
+                    assertEquals(URI.create("http://id.insee.fr/organisations/insee/HIE2000265"), rubrique8.getOrganisme().getUri());
+                    assertEquals("Division Elaboration des statistiques de production industrielle (ESPRI)", rubrique8.getOrganisme().getLabel().getFirst().getContenu());
+                    assertEquals("fr", rubrique8.getOrganisme().getLabel().getFirst().getLangue());
+                }
+        );
+    }
 }
 
