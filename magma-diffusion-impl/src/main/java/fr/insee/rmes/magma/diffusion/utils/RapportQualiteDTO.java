@@ -286,7 +286,7 @@ public class RapportQualiteDTO {
                     case "ORGANIZATION":
                         IdUriLabel rubriqueOrganisme = new IdUriLabel();
                         rubriqueOrganisme.setId(rub.getValeurSimple());
-                        rubriqueOrganisme.setUri(URI.create(rub.getGeoUri()));
+                        rubriqueOrganisme.setUri(URI.create(rub.getOrganisationUri()));
 
                         if (rub.getLabelObjLg1() != null && rub.getLabelObjLg2() != null) {
                             List<LocalisedLabel> labelOrganisme = createListLangueContenu(createLangueContenu(rub.getLabelObjLg1(), "fr"), createLangueContenu(rub.getLabelObjLg2(), "en"));
@@ -298,7 +298,7 @@ public class RapportQualiteDTO {
                             labelOrganisme.add(labelOrganismeLg1);
                             rubriqueOrganisme.setLabel(labelOrganisme);
                         }
-                        rubrique.setTerritoire(rubriqueOrganisme);
+                        rubrique.setOrganisme(rubriqueOrganisme);
                         break;
                     default:
                         break;
