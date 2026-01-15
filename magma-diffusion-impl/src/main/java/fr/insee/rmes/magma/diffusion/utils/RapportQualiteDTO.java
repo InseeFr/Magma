@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.createLangueContenu;
-import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.createListLangueContenu;
+import static fr.insee.rmes.magma.diffusion.utils.LocalisedLabelUtils.createLangueContenu;
+import static fr.insee.rmes.magma.diffusion.utils.LocalisedLabelUtils.createListLangueContenu;
 
 @Slf4j
 

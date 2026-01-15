@@ -1,6 +1,9 @@
 package fr.insee.rmes.magma.diffusion.utils;
 
-import fr.insee.rmes.magma.diffusion.model.*;
+import fr.insee.rmes.magma.diffusion.model.Concept;
+import fr.insee.rmes.magma.diffusion.model.ConceptForList;
+import fr.insee.rmes.magma.diffusion.model.LocalisedLabel;
+import fr.insee.rmes.magma.diffusion.model.NearbyConcept;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -15,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.createLangueContenu;
-import static fr.insee.rmes.magma.diffusion.utils.EndpointsUtils.createListLangueContenu;
+import static fr.insee.rmes.magma.diffusion.utils.LocalisedLabelUtils.createLangueContenu;
+import static fr.insee.rmes.magma.diffusion.utils.LocalisedLabelUtils.createListLangueContenu;
 
 @Slf4j
 
