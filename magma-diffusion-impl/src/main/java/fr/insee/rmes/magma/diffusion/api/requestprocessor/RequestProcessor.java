@@ -1,101 +1,102 @@
 package fr.insee.rmes.magma.diffusion.api.requestprocessor;
 
-import fr.insee.rmes.magma.queries.Query;
 import fr.insee.rmes.magma.diffusion.queries.parameters.*;
-import fr.insee.rmes.magma.diffusion.queryexecutor.Csv;
-import fr.insee.rmes.magma.diffusion.queryexecutor.QueryExecutor;
+import fr.insee.rmes.magma.queryexecutor.Csv;
 import fr.insee.rmes.magma.diffusion.unmarshaller.Unmarshaller;
-import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
+import fr.insee.rmes.magma.utils.EndpointsUtils;
+import fr.insee.rmes.magma.queries.Query;
+import fr.insee.rmes.magma.queries.QueryBuilder;
+import fr.insee.rmes.magma.queryexecutor.QueryExecutor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static fr.insee.rmes.magma.diffusion.queries.QueryBuilder.*;
+import static fr.insee.rmes.magma.diffusion.queries.QueryPathListDiffusion.*;
 
 @Component
-public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilder queryBuilder, QueryExecutor queryExecutor,
+public record RequestProcessor(QueryBuilder queryBuilder, QueryExecutor queryExecutor,
                                Unmarshaller unmarshaller) {
 
     // Peut-être renommer les query en queryToFind et non en forFind
 
-    public QueryBuilder queryToFindClassification(){
-        return new QueryBuilder(NOMENCLATURE, this);
+    public ExecutableQueryBuilder queryToFindClassification(){
+        return new ExecutableQueryBuilder(NOMENCLATURE, this);
     }
 
-    public QueryBuilder queryToFindConcept(){
-        return new QueryBuilder(CONCEPT,this);
+    public ExecutableQueryBuilder queryToFindConcept(){
+        return new ExecutableQueryBuilder(CONCEPT,this);
     }
 
-    public QueryBuilder queryToFindNearbyConcepts() {
-        return new QueryBuilder(NEARBY_CONCEPTS,this);
+    public ExecutableQueryBuilder queryToFindNearbyConcepts() {
+        return new ExecutableQueryBuilder(NEARBY_CONCEPTS,this);
     }
 
-    public QueryBuilder queryToFindConceptIntitulesAlternatifs() {
-        return new QueryBuilder(INTITULES_ALTERNATIFS, this);
+    public ExecutableQueryBuilder queryToFindConceptIntitulesAlternatifs() {
+        return new ExecutableQueryBuilder(INTITULES_ALTERNATIFS, this);
     }
 
-    public QueryBuilder queryToFindConcepts(){
-        return new QueryBuilder(CONCEPTS,this);
+    public ExecutableQueryBuilder queryToFindConcepts(){
+        return new ExecutableQueryBuilder(CONCEPTS,this);
     }
 
-    public QueryBuilder queryforFindAscendantsDescendants() {
-        return new QueryBuilder(ASCENDANTS_OR_DESCENDANTS, this);
+    public ExecutableQueryBuilder queryforFindAscendantsDescendants() {
+        return new ExecutableQueryBuilder(ASCENDANTS_OR_DESCENDANTS, this);
     }
 
-    public QueryBuilder queryforFindPrecedentsSuivants() {
-        return new QueryBuilder(PRECEDENTS, this);
+    public ExecutableQueryBuilder queryforFindPrecedentsSuivants() {
+        return new ExecutableQueryBuilder(PRECEDENTS, this);
     }
 
-    public QueryBuilder queryforFindProjetes() {
-        return new QueryBuilder(PROJETES, this);
+    public ExecutableQueryBuilder queryforFindProjetes() {
+        return new ExecutableQueryBuilder(PROJETES, this);
     }
 
-    public QueryBuilder queryforFindTerritoire() {
-        return new QueryBuilder(TERRITOIRE, this);
+    public ExecutableQueryBuilder queryforFindTerritoire() {
+        return new ExecutableQueryBuilder(TERRITOIRE, this);
     }
 
-    public QueryBuilder queryToFindIrisAndFauxIris() {
-        return new QueryBuilder(IRIS_FAUX_IRIS, this);
+    public ExecutableQueryBuilder queryToFindIrisAndFauxIris() {
+        return new ExecutableQueryBuilder(IRIS_FAUX_IRIS, this);
     }
 
-    public QueryBuilder queryToFindIrisList() {
-        return new QueryBuilder(IRIS_LIST, this);
+    public ExecutableQueryBuilder queryToFindIrisList() {
+        return new ExecutableQueryBuilder(IRIS_LIST, this);
     }
 
-    public QueryBuilder queryToFindCantonsOfCommune() {
-        return new QueryBuilder(COMMUNE_CANTONS, this);
+    public ExecutableQueryBuilder queryToFindCantonsOfCommune() {
+        return new ExecutableQueryBuilder(COMMUNE_CANTONS, this);
     }
 
-    public QueryBuilder queryToFindCommunesOfCanton() {
-        return new QueryBuilder(CANTON_COMMUNES, this);
+    public ExecutableQueryBuilder queryToFindCommunesOfCanton() {
+        return new ExecutableQueryBuilder(CANTON_COMMUNES, this);
     }
 
-    public QueryBuilder queryToFindAscendantsFauxIris() { return new RequestProcessor.QueryBuilder(ASCENDANTS_FAUX_IRIS, this);
+    public ExecutableQueryBuilder queryToFindAscendantsFauxIris() { return new ExecutableQueryBuilder(ASCENDANTS_FAUX_IRIS, this);
     }
-    public QueryBuilder queryToFindIrisDescendantsCommune() {
-        return new QueryBuilder(LIEN_COMMUNE_IRIS, this);
-    }
-
-    public QueryBuilder queryforFindPays() {
-        return new QueryBuilder(LIEN_PAYS, this);
+    public ExecutableQueryBuilder queryToFindIrisDescendantsCommune() {
+        return new ExecutableQueryBuilder(LIEN_COMMUNE_IRIS, this);
     }
 
-    public QueryBuilder queryforFindDescendantsPays() {
-        return new QueryBuilder(DESCENDANTS_PAYS, this);
+    public ExecutableQueryBuilder queryforFindPays() {
+        return new ExecutableQueryBuilder(LIEN_PAYS, this);
     }
 
-    public QueryBuilder queryforFindPaysPrecedents() {
-        return new QueryBuilder(PAYS_PRECEDENTS, this);
+    public ExecutableQueryBuilder queryforFindDescendantsPays() {
+        return new ExecutableQueryBuilder(DESCENDANTS_PAYS, this);
     }
 
-    public QueryBuilder queryforFindPaysSuivants() {
-        return new QueryBuilder(PAYS_SUIVANTS, this);
+    public ExecutableQueryBuilder queryforFindPaysPrecedents() {
+        return new ExecutableQueryBuilder(PAYS_PRECEDENTS, this);
     }
 
-    public QueryBuilder queryToFindIntersections() {return new QueryBuilder(TERRITOIRES_LIES, this);}
+    public ExecutableQueryBuilder queryforFindPaysSuivants() {
+        return new ExecutableQueryBuilder(PAYS_SUIVANTS, this);
+    }
 
-    public record QueryBuilder(String queryPath, RequestProcessor requestProcessor) {
+    public ExecutableQueryBuilder queryToFindIntersections() {return new ExecutableQueryBuilder(TERRITOIRES_LIES, this);}
+
+    public record ExecutableQueryBuilder(String queryPath, RequestProcessor requestProcessor) {
         public ExecutableQuery with(AscendantsDescendantsRequestParametizer ascendantsDescendantsRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(ascendantsDescendantsRequestParametizer.toParameters(), queryPath), requestProcessor);
         }

@@ -1,4 +1,4 @@
-package fr.insee.rmes.magma.diffusion.utils;
+package fr.insee.rmes.magma.utils;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

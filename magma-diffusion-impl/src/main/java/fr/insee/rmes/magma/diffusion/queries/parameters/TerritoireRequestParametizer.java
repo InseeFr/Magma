@@ -1,6 +1,7 @@
 package fr.insee.rmes.magma.diffusion.queries.parameters;
 
 import fr.insee.rmes.magma.diffusion.model.Iris;
+import fr.insee.rmes.magma.queries.parameters.ParameterValueDecoder;
 
 import java.lang.reflect.RecordComponent;
 import java.time.LocalDate;
@@ -54,7 +55,7 @@ public record TerritoireRequestParametizer(String code,
     }
 
     @Override
-    public ParameterValueDecoderDiffusion<?> findParameterValueDecoder(RecordComponent recordComponent) {
+    public ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent) {
         return ParametersForQueryDiffusion.super.findParameterValueDecoder(recordComponent);
     }
 

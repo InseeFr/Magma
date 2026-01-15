@@ -8,7 +8,7 @@ import fr.insee.rmes.magma.diffusion.model.ConceptForList;
 import fr.insee.rmes.magma.diffusion.model.NearbyConcept;
 import fr.insee.rmes.magma.diffusion.queries.parameters.ConceptsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.utils.ConceptDTO;
-import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
+import fr.insee.rmes.magma.utils.EndpointsUtils;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

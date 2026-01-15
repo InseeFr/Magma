@@ -87,6 +87,11 @@
                 <artifactId>magma-oas</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>fr.insee.rmes</groupId>
+                <artifactId>magma-commons-infra</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
 
             <dependency>

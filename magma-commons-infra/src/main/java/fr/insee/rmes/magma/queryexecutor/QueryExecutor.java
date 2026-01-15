@@ -1,4 +1,4 @@
-package fr.insee.rmes.magma.diffusion.queryexecutor;
+package fr.insee.rmes.magma.queryexecutor;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

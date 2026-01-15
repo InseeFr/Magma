@@ -48,10 +48,6 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
@@ -100,8 +96,6 @@
         <dependency>
             <groupId>fr.insee.rmes</groupId>
             <artifactId>magma-commons-infra</artifactId>
-            <version>magma-refactored-1.0-rc0</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

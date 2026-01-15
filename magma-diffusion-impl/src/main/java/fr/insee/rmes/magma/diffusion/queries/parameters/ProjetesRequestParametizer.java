@@ -1,5 +1,7 @@
 package fr.insee.rmes.magma.diffusion.queries.parameters;
 
+import fr.insee.rmes.magma.queries.parameters.ParameterValueDecoder;
+
 import java.lang.reflect.RecordComponent;
 import java.time.LocalDate;
 
@@ -12,7 +14,7 @@ import java.time.LocalDate;
 
 
     @Override
-    public ParameterValueDecoderDiffusion<?> findParameterValueDecoder(RecordComponent recordComponent) {
+    public ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent) {
         return ParametersForQueryDiffusion.super.findParameterValueDecoder(recordComponent);
     }
 

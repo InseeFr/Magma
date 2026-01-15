@@ -1,31 +1,33 @@
 package fr.insee.rmes.magma.gestion.api;
 
+import fr.insee.rmes.magma.gestion.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.gestion.model.*;
+import fr.insee.rmes.magma.gestion.queries.parameters.StructureComponentsRequestParametizer;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
+@RestController
 public class StructuresComposantsEndpoints implements StructuresComposantsApi {
     private final RequestProcessor requestProcessor;
 
-    @Override
-    public ResponseEntity<List<AllComponent>> getAllComponents(String dateMiseAJour) {
-        if (date==null) {
-            date = LocalDate.now().toString();
-        }
-        return requestProcessor.queryforFindTerritoire()
-                .with(new TerritoireEtoileRequestParametizer(date, Departement.class, "prefecture", true))
+	public StructuresComposantsEndpoints(RequestProcessor requestProcessor) {
+		this.requestProcessor = requestProcessor;
+	}
+
+	@Override
+    public ResponseEntity<List<AllComponent>> getAllComponents(LocalDate dateMiseAJour) {
+        return requestProcessor.queryForFindStructuresComponents()
+                .with(new StructureComponentsRequestParametizer(dateMiseAJour, AllComponent.class))
                 .executeQuery()
-                .listResult(TerritoireBaseChefLieu.class)
+                .listResult(AllComponent.class)
                 .toResponseEntity();
-        return StructuresComposantsApi.super.getAllComponents(dateMiseAJour);
     }
 
     @Override
-    public ResponseEntity<List<AllStructure>> getAllStructures(String dateMiseAJour) {
+    public ResponseEntity<List<AllStructure>> getAllStructures(LocalDate dateMiseAJour) {
         return StructuresComposantsApi.super.getAllStructures(dateMiseAJour);
     }
 

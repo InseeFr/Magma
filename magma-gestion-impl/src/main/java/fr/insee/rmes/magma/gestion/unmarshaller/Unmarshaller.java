@@ -1,4 +1,4 @@
-package fr.insee.rmes.magma.diffusion.unmarshaller;
+package fr.insee.rmes.magma.gestion.unmarshaller;
 
 import fr.insee.rmes.magma.queryexecutor.Csv;
 import lombok.NonNull;
