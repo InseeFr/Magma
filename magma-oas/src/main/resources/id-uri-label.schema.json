@@ -18,5 +18,7 @@
         "$ref": "langue-contenu.schema.json"
       }
     }
-  }
+  },
+  "required": ["id"],
+  "additionalProperties": false
 }
