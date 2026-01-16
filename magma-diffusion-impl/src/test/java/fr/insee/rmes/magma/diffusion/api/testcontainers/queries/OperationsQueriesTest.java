@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.io.IOException;
 import java.net.URI;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -37,7 +36,7 @@ public class OperationsQueriesTest extends TestcontainerTest {
     //    operations/rapportQualite/1979
 
     @Test
-    void should_return_rapportQualite1979_when_OperationsRapportQualite_id1979() throws IOException {
+    void should_return_rapportQualite1979_when_OperationsRapportQualite_id1979() {
         var response = endpoints.getRapportQualiteByCode("1979");
         var result = response.getBody();
         Assertions.assertNotNull(result);
@@ -280,7 +279,7 @@ public class OperationsQueriesTest extends TestcontainerTest {
     //    operations/rapportQualite/1981
 
     @Test
-    void should_return_rapportQualite1981_when_OperationsRapportQualite_id1981_BusinessLogicTest() throws IOException {
+    void should_return_rapportQualite1981_when_OperationsRapportQualite_id1981_BusinessLogicTest() {
         var response = endpoints.getRapportQualiteByCode("1981");
         var result = response.getBody();
         Assertions.assertNotNull(result);
