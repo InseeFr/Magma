@@ -6,7 +6,6 @@ import fr.insee.rmes.magma.diffusion.model.LocalisedLabel;
 import fr.insee.rmes.magma.diffusion.model.NearbyConcept;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
 import java.time.Instant;
@@ -16,7 +15,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static fr.insee.rmes.magma.diffusion.utils.LocalisedLabelUtils.createLangueContenu;
 import static fr.insee.rmes.magma.diffusion.utils.LocalisedLabelUtils.createListLangueContenu;
@@ -212,17 +210,6 @@ public class ConceptDTO {
             });
         }
 
-    }
-    private @NotNull List<NearbyConcept> getNearbyConceptList(String typeOfLink) {
-        return this.nearbyConcepts.stream()
-                .filter(cs -> typeOfLink.equals(cs.getTypeOfLink()))
-                .map(cs -> {
-                    NearbyConcept inner = new NearbyConcept();
-                    inner.setId(cs.getId());
-                    inner.setUri(cs.getUri());
-                    return inner;
-                })
-                .collect(Collectors.toList());
     }
 
 
