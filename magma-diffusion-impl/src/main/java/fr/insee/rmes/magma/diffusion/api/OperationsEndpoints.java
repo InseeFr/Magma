@@ -4,6 +4,7 @@ import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.diffusion.model.RapportQualite;
 import fr.insee.rmes.magma.diffusion.queries.parameters.OperationRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.OperationRubriquesRequestParametizer;
+import fr.insee.rmes.magma.diffusion.services.RapportQualiteService;
 import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import fr.insee.rmes.magma.diffusion.utils.RapportQualiteDTO;
 import fr.insee.rmes.magma.diffusion.utils.RubriqueDTO;
@@ -15,9 +16,11 @@ import java.util.List;
 public class OperationsEndpoints implements OperationsApi {
 
     private final RequestProcessor requestProcessor;
+    private final RapportQualiteService rapportQualiteService;
 
-    public OperationsEndpoints(RequestProcessor requestProcessor) {
+    public OperationsEndpoints(RequestProcessor requestProcessor, RapportQualiteService rapportQualiteService) {
         this.requestProcessor = requestProcessor;
+        this.rapportQualiteService = rapportQualiteService;
     }
 
 
@@ -42,7 +45,8 @@ public class OperationsEndpoints implements OperationsApi {
         }
 
 
-        RapportQualite rapportQualite = rapportQualiteDTO.transformDTOenRapportQualite(requestProcessor);
+        RapportQualite rapportQualite = rapportQualiteService.transformDTOenRapportQualite(rapportQualiteDTO, requestProcessor);
+//        RapportQualite rapportQualite = rapportQualiteDTO.transformDTOenRapportQualite(requestProcessor);
 
             return EndpointsUtils.toResponseEntity(rapportQualite);
 
