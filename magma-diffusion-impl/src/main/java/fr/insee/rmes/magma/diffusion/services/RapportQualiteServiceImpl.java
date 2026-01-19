@@ -37,15 +37,19 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
         rapportQualite.setRubriques(null);
 
         if (rapportQualiteDTO.getRubriqueDTOList() != null) {
-            for (RubriqueDTO rubriqueDTO : rapportQualiteDTO.getRubriqueDTOList()){
-                transformRubrique(rubriqueDTO, rapportQualite, requestProcessor);
+
+            for (RubriqueDTO rubDTO : rapportQualiteDTO.getRubriqueDTOList()) {
+                Rubrique rubrique = transformRubrique(rubDTO, rapportQualite, requestProcessor);
+                if (rubrique != null) { //rubric can be null : case of a CODE_LIST rubric with several codes and return null for addCodeList when rubric has been yet added with another code (it's the case when maxOccurs not null and rubricExist is true)
+                    rapportQualite.addRubriquesItem(rubrique);
+                }
             }
         }
 
             return rapportQualite;
     }
 
-    private RapportQualite transformRubrique(RubriqueDTO rubriqueDTO, RapportQualite rapportQualite, RequestProcessor requestProcessor) {
+    private Rubrique transformRubrique(RubriqueDTO rubriqueDTO, RapportQualite rapportQualite, RequestProcessor requestProcessor) {
 
         Rubrique rubrique = new Rubrique();
         rubrique.setId(rubriqueDTO.getId());
@@ -66,9 +70,8 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
                 rubrique.setDate(rubriqueDTO.getValeurSimple());
                 break;
             case "CODE_LIST":
-                addCodeList(rubriqueDTO, rubrique, rapportQualite);
+                rubrique = addCodeList(rubriqueDTO, rubrique, rapportQualite);
                 break;
-                //no break : case of a CODE_LIST rubric with several codes and return null for addCodeList (it's the case when maxOccurs not null and rubricExist is true)
             case "RICH_TEXT":
                 addRichText(rubriqueDTO, rubrique, rapportQualite, requestProcessor);
                 break;
@@ -86,9 +89,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
                 break;
         }
 
-        rapportQualite.addRubriquesItem(rubrique);
-
-        return rapportQualite;
+        return rubrique;
 
     }
 
