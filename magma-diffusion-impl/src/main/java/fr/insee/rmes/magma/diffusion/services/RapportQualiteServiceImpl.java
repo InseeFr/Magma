@@ -203,17 +203,20 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
             rubriqueCodeList.setLabel(label);
         }
 
-        boolean rubricExist = rapportQualite.getRubriques().stream()
-                .filter(Objects::nonNull) // We keep only not null rubrics, otherwise NullPointer Exception when r.getId()
-                .anyMatch(r -> r.getId().equals(rubriqueDTO.getId()));
+        if (rapportQualite.getRubriques() != null) {//is null if the first rubrique is a CODE_LIST type rubrique
 
-        if (rubriqueDTO.getMaxOccurs() != null && rubricExist) {
-            Rubrique rubriqueExistante = rapportQualite.getRubriques().stream()
-                    .filter(r -> r.getId().equals(rubriqueDTO.getId()))
-                    .findFirst()
-                    .orElseThrow();
-            rubriqueExistante.addCodesItem(rubriqueCodeList);//add rubric in RapportQualite
-            return null;
+            boolean rubricExist = rapportQualite.getRubriques().stream()
+                    .filter(Objects::nonNull) // We keep only not null rubrics, otherwise NullPointer Exception when r.getId()
+                    .anyMatch(r -> r.getId().equals(rubriqueDTO.getId()));
+
+            if (rubriqueDTO.getMaxOccurs() != null && rubricExist) {
+                Rubrique rubriqueExistante = rapportQualite.getRubriques().stream()
+                        .filter(r -> r.getId().equals(rubriqueDTO.getId()))
+                        .findFirst()
+                        .orElseThrow();
+                rubriqueExistante.addCodesItem(rubriqueCodeList);//add rubric in RapportQualite
+                return null;
+            }
         }
         rubrique.addCodesItem(rubriqueCodeList);
         return rubrique;
