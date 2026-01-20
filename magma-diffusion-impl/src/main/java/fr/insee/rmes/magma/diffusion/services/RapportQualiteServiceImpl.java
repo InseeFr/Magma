@@ -130,19 +130,19 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
                     .result();
             for (DocumentDTO documentDTO : rubriqueDocuments) {
                 Document document = new Document();
-                if (documentDTO.getLabelLg1() != null && documentDTO.getLabelLg2() != null){
-                    List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.getLabelLg1(), "fr"), createLangueContenu(documentDTO.getLabelLg2(), "en"));
+                if (documentDTO.labelLg1() != null && documentDTO.labelLg2() != null){
+                    List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.labelLg1(), "fr"), createLangueContenu(documentDTO.labelLg2(), "en"));
                     document.label(label);
                 }
-                if (documentDTO.getLabelLg1() != null && documentDTO.getLabelLg2() == null) {
-                    LocalisedLabel labelLg1 = createLangueContenu(documentDTO.getLabelLg1(), "fr");
+                if (documentDTO.labelLg1() != null && documentDTO.labelLg2() == null) {
+                    LocalisedLabel labelLg1 = createLangueContenu(documentDTO.labelLg1(), "fr");
                     List<LocalisedLabel> label = createListLangueContenu(labelLg1,null);
                     document.label(label);
                 }
 
-                document.setDateMiseAJour(documentDTO.getDateMiseAJour());
-                document.setLangue(documentDTO.getLangue());
-                document.setUrl(documentDTO.getUrl());
+                document.setDateMiseAJour(documentDTO.dateMiseAJour());
+                document.setLangue(documentDTO.langue());
+                document.setUrl(documentDTO.url());
                 contenuLg1.addDocumentsItem(document);
             }
 
@@ -167,19 +167,19 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
                         .result();
                 for (DocumentDTO documentDTO : rubriqueDocuments) {
                     Document document = new Document();
-                    if (documentDTO.getLabelLg1() != null && documentDTO.getLabelLg2() != null){
-                        List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.getLabelLg1(), "fr"), createLangueContenu(documentDTO.getLabelLg2(), "en"));
+                    if (documentDTO.labelLg1() != null && documentDTO.labelLg2() != null){
+                        List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.labelLg1(), "fr"), createLangueContenu(documentDTO.labelLg2(), "en"));
                         document.label(label);
                     }
-                    if (documentDTO.getLabelLg1() != null && documentDTO.getLabelLg2() == null) {
-                        LocalisedLabel labelFr = createLangueContenu(documentDTO.getLabelLg1(), "fr");
+                    if (documentDTO.labelLg1() != null && documentDTO.labelLg2() == null) {
+                        LocalisedLabel labelFr = createLangueContenu(documentDTO.labelLg1(), "fr");
                         List<LocalisedLabel> label = createListLangueContenu(labelFr,null);
                         document.label(label);
                     }
 
-                    document.setDateMiseAJour(documentDTO.getDateMiseAJour());
-                    document.setLangue(documentDTO.getLangue());
-                    document.setUrl(documentDTO.getUrl());
+                    document.setDateMiseAJour(documentDTO.dateMiseAJour());
+                    document.setLangue(documentDTO.langue());
+                    document.setUrl(documentDTO.url());
                     contenuLg2.addDocumentsItem(document);
                 }
             }
