@@ -13,7 +13,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static fr.insee.rmes.magma.diffusion.utils.LocalisedLabelUtils.createLangueContenu;
 import static fr.insee.rmes.magma.diffusion.utils.LocalisedLabelUtils.createListLangueContenu;
@@ -52,22 +51,22 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
     private Rubrique transformRubrique(RubriqueDTO rubriqueDTO, RapportQualite rapportQualite, RequestProcessor requestProcessor) {
 
         Rubrique rubrique = new Rubrique();
-        rubrique.setId(rubriqueDTO.getId());
-        rubrique.setUri(rubriqueDTO.getUri());
-        rubrique.setIdParent(rubriqueDTO.getIdParent());
-        rubrique.setType(rubriqueDTO.getType());
+        rubrique.setId(rubriqueDTO.id());
+        rubrique.setUri(rubriqueDTO.uri());
+        rubrique.setIdParent(rubriqueDTO.idParent());
+        rubrique.setType(rubriqueDTO.type());
         rubrique.setLabel(null);//valued later only if exists
         rubrique.setContenus(null);//valued later only if exists
         rubrique.setCodes(null);//valued later only if exists
 
-        if (rubriqueDTO.getTitreLg1() != null && rubriqueDTO.getTitreLg2() != null) {
-            List<LocalisedLabel> titre = createListLangueContenu(createLangueContenu(rubriqueDTO.getTitreLg1(), "fr"), createLangueContenu(rubriqueDTO.getTitreLg2(), "en"));
+        if (rubriqueDTO.titreLg1() != null && rubriqueDTO.titreLg2() != null) {
+            List<LocalisedLabel> titre = createListLangueContenu(createLangueContenu(rubriqueDTO.titreLg1(), "fr"), createLangueContenu(rubriqueDTO.titreLg2(), "en"));
             rubrique.setTitre(titre);
         }
 
-        switch (rubriqueDTO.getType()) {
+        switch (rubriqueDTO.type()) {
             case "DATE":
-                rubrique.setDate(rubriqueDTO.getValeurSimple());
+                rubrique.setDate(rubriqueDTO.valeurSimple());
                 break;
             case "CODE_LIST":
                 rubrique = addCodeList(rubriqueDTO, rubrique, rapportQualite);
@@ -76,14 +75,14 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
                 addRichText(rubriqueDTO, rubrique, rapportQualite, requestProcessor);
                 break;
             case "TEXT":
-                List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(rubriqueDTO.getLabelLg1(), "fr"), createLangueContenu(rubriqueDTO.getLabelLg2(), "en"));
+                List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(rubriqueDTO.labelLg1(), "fr"), createLangueContenu(rubriqueDTO.labelLg2(), "en"));
                 rubrique.setLabel(label);
                 break;
             case "GEOGRAPHY":
-                rubrique.setTerritoire(createIdUriLabel(rubriqueDTO, rubriqueDTO.getGeoUri()));
+                rubrique.setTerritoire(createIdUriLabel(rubriqueDTO, rubriqueDTO.geoUri()));
                 break;
             case "ORGANIZATION":
-                rubrique.setOrganisme(createIdUriLabel(rubriqueDTO, rubriqueDTO.getOrganisationUri()));
+                rubrique.setOrganisme(createIdUriLabel(rubriqueDTO, rubriqueDTO.organisationUri()));
                 break;
             default:
                 break;
@@ -96,15 +95,15 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
 
     private IdUriLabel createIdUriLabel(RubriqueDTO rubriqueDTO, String uri) {
         IdUriLabel rubriqueWithIdUriLabel = new IdUriLabel();
-        rubriqueWithIdUriLabel.setId(rubriqueDTO.getValeurSimple());
+        rubriqueWithIdUriLabel.setId(rubriqueDTO.valeurSimple());
         rubriqueWithIdUriLabel.setUri(URI.create(uri));
 
-        if (rubriqueDTO.getLabelObjLg1() != null && rubriqueDTO.getLabelObjLg2() != null) {
-            List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(rubriqueDTO.getLabelObjLg1(), "fr"), createLangueContenu(rubriqueDTO.getLabelObjLg2(), "en"));
+        if (rubriqueDTO.labelObjLg1() != null && rubriqueDTO.labelObjLg2() != null) {
+            List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(rubriqueDTO.labelObjLg1(), "fr"), createLangueContenu(rubriqueDTO.labelObjLg2(), "en"));
             rubriqueWithIdUriLabel.setLabel(label);
         }
-        if (rubriqueDTO.getLabelObjLg1() != null && rubriqueDTO.getLabelObjLg2() == null) {
-            LocalisedLabel labelLg1 = createLangueContenu(rubriqueDTO.getLabelObjLg1(), "fr");
+        if (rubriqueDTO.labelObjLg1() != null && rubriqueDTO.labelObjLg2() == null) {
+            LocalisedLabel labelLg1 = createLangueContenu(rubriqueDTO.labelObjLg1(), "fr");
             List<LocalisedLabel> label = new ArrayList<>();
             label.add(labelLg1);
             rubriqueWithIdUriLabel.setLabel(label);
@@ -116,15 +115,15 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
     private Rubrique addRichText(RubriqueDTO rubriqueDTO, Rubrique rubrique, RapportQualite rapportQualite, RequestProcessor requestProcessor) {
         Contenu contenuLg1 = new Contenu();
         contenuLg1.setDocuments(null);// will be valued only if a document exists
-        if (StringUtils.isNotEmpty(rubriqueDTO.getLabelLg1())) {
-            contenuLg1.setTexte(rubriqueDTO.getLabelLg1());
+        if (StringUtils.isNotEmpty(rubriqueDTO.labelLg1())) {
+            contenuLg1.setTexte(rubriqueDTO.labelLg1());
         } else {
             contenuLg1.setTexte("");
         }
         contenuLg1.setLangue("fr");
-        if (rubriqueDTO.isHasDocLg1()) {
+        if (rubriqueDTO.hasDocLg1()) {
             List<DocumentDTO> rubriqueDocuments = requestProcessor.queryToFindDocuments()
-                    .with(new OperationsDocumentsRequestParametizer(rapportQualite.getId(), rubriqueDTO.getId(),"fr"))
+                    .with(new OperationsDocumentsRequestParametizer(rapportQualite.getId(), rubriqueDTO.id(),"fr"))
                     .executeQuery()
                     .listResult(DocumentDTO.class)
                     .result();
@@ -149,19 +148,19 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
         }
         rubrique.addContenusItem(contenuLg1);
 
-        if (StringUtils.isNotEmpty(rubriqueDTO.getLabelLg2())||rubriqueDTO.isHasDocLg2()){
+        if (StringUtils.isNotEmpty(rubriqueDTO.labelLg2())||rubriqueDTO.hasDocLg2()){
             Contenu contenuLg2 = new Contenu();
             contenuLg2.setDocuments(null);// will be valued only if a document exists
-            if (StringUtils.isNotEmpty(rubriqueDTO.getLabelLg2())) {
-                contenuLg2.setTexte(rubriqueDTO.getLabelLg2());
+            if (StringUtils.isNotEmpty(rubriqueDTO.labelLg2())) {
+                contenuLg2.setTexte(rubriqueDTO.labelLg2());
             } else {
                 contenuLg2.setTexte("");
             }
             contenuLg2.setLangue("en");
 
-            if (rubriqueDTO.isHasDocLg2()) {
+            if (rubriqueDTO.hasDocLg2()) {
                 List<DocumentDTO> rubriqueDocuments = requestProcessor.queryToFindDocuments()
-                        .with(new OperationsDocumentsRequestParametizer(rapportQualite.getId(), rubriqueDTO.getId(),"en"))
+                        .with(new OperationsDocumentsRequestParametizer(rapportQualite.getId(), rubriqueDTO.id(),"en"))
                         .executeQuery()
                         .listResult(DocumentDTO.class)
                         .result();
@@ -190,14 +189,14 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
 
     private Rubrique addCodeList (RubriqueDTO rubriqueDTO, Rubrique rubrique, RapportQualite rapportQualite) {
         IdUriLabel rubriqueCodeList = new IdUriLabel();
-        rubriqueCodeList.setId(rubriqueDTO.getValeurSimple());
-        rubriqueCodeList.setUri(URI.create(rubriqueDTO.getCodeUri()));
-        if (rubriqueDTO.getLabelObjLg1() != null && rubriqueDTO.getLabelObjLg2() != null) {
-            List<LocalisedLabel> labelCodeList = createListLangueContenu(createLangueContenu(rubriqueDTO.getLabelObjLg1(), "fr"), createLangueContenu(rubriqueDTO.getLabelObjLg2(), "en"));
+        rubriqueCodeList.setId(rubriqueDTO.valeurSimple());
+        rubriqueCodeList.setUri(URI.create(rubriqueDTO.codeUri()));
+        if (rubriqueDTO.labelObjLg1() != null && rubriqueDTO.labelObjLg2() != null) {
+            List<LocalisedLabel> labelCodeList = createListLangueContenu(createLangueContenu(rubriqueDTO.labelObjLg1(), "fr"), createLangueContenu(rubriqueDTO.labelObjLg2(), "en"));
             rubriqueCodeList.setLabel(labelCodeList);
         }
-        if (rubriqueDTO.getLabelObjLg1() != null && rubriqueDTO.getLabelObjLg2() == null) {
-            LocalisedLabel labelCodeListLg1 = createLangueContenu(rubriqueDTO.getLabelObjLg1(), "fr");
+        if (rubriqueDTO.labelObjLg1() != null && rubriqueDTO.labelObjLg2() == null) {
+            LocalisedLabel labelCodeListLg1 = createLangueContenu(rubriqueDTO.labelObjLg1(), "fr");
             List<LocalisedLabel> label = new ArrayList<>();
             label.add(labelCodeListLg1);
             rubriqueCodeList.setLabel(label);
@@ -207,11 +206,11 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
 
             boolean rubricExist = rapportQualite.getRubriques().stream()
                     .filter(Objects::nonNull) // We keep only not null rubrics, otherwise NullPointer Exception when r.getId()
-                    .anyMatch(r -> r.getId().equals(rubriqueDTO.getId()));
+                    .anyMatch(r -> r.getId().equals(rubriqueDTO.id()));
 
-            if (rubriqueDTO.getMaxOccurs() != null && rubricExist) {
+            if (rubriqueDTO.maxOccurs() != null && rubricExist) {
                 Rubrique rubriqueExistante = rapportQualite.getRubriques().stream()
-                        .filter(r -> r.getId().equals(rubriqueDTO.getId()))
+                        .filter(r -> r.getId().equals(rubriqueDTO.id()))
                         .findFirst()
                         .orElseThrow();
                 rubriqueExistante.addCodesItem(rubriqueCodeList);//add rubric in RapportQualite

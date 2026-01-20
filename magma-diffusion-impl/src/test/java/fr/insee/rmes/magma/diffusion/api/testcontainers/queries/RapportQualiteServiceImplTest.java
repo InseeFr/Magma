@@ -86,9 +86,9 @@ public class RapportQualiteServiceImplTest {
         // Given
         RapportQualiteDTO dto = createBasicDTO();
         RubriqueDTO rubriqueDTO = createRubriqueDTO("rubrique-date", "DATE");
-        rubriqueDTO.setValeurSimple("2024-01-15");
-        rubriqueDTO.setTitreLg1("Date de publication");
-        rubriqueDTO.setTitreLg2("Publication date");
+        rubriqueDTO = rubriqueDTO.withValeurSimple("2024-01-15");
+        rubriqueDTO = rubriqueDTO.withTitreLg1("Date de publication");
+        rubriqueDTO = rubriqueDTO.withTitreLg2("Publication date");
         dto.setRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
@@ -96,12 +96,13 @@ public class RapportQualiteServiceImplTest {
 
         // Then
         assertThat(result.getRubriques()).hasSize(1);
-        Rubrique rubrique = result.getRubriques().get(0);
+        Rubrique rubrique = result.getRubriques().getFirst();
         assertThat(rubrique.getId()).isEqualTo("rubrique-date");
         assertThat(rubrique.getType()).isEqualTo("DATE");
         assertThat(rubrique.getDate()).isEqualTo("2024-01-15");
         assertThat(rubrique.getTitre()).hasSize(2);
         assertThat(rubrique.getTitre().getFirst().getContenu()).isEqualTo("Date de publication");
+        assertThat(rubrique.getTitre().get(1).getContenu()).isEqualTo("Publication date");
     }
 
     @Test
@@ -109,8 +110,8 @@ public class RapportQualiteServiceImplTest {
         // Given
         RapportQualiteDTO dto = createBasicDTO();
         RubriqueDTO rubriqueDTO = createRubriqueDTO("rubrique-text", "TEXT");
-        rubriqueDTO.setLabelLg1("Texte français");
-        rubriqueDTO.setLabelLg2("English text");
+        rubriqueDTO = rubriqueDTO.withLabelLg1("Texte français");
+        rubriqueDTO = rubriqueDTO.withLabelLg2("English text");
         dto.setRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
@@ -130,10 +131,10 @@ public class RapportQualiteServiceImplTest {
         // Given
         RapportQualiteDTO dto = createBasicDTO();
         RubriqueDTO rubriqueDTO = createRubriqueDTO("rubrique-geo", "GEOGRAPHY");
-        rubriqueDTO.setValeurSimple("FR");
-        rubriqueDTO.setGeoUri("http://example.com/geo/fr");
-        rubriqueDTO.setLabelObjLg1("France");
-        rubriqueDTO.setLabelObjLg2("France");
+        rubriqueDTO = rubriqueDTO.withValeurSimple("FR");
+        rubriqueDTO = rubriqueDTO.withGeoUri("http://example.com/geo/fr");
+        rubriqueDTO = rubriqueDTO.withLabelObjLg1("France");
+        rubriqueDTO = rubriqueDTO.withLabelObjLg2("France2");
         dto.setRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
@@ -141,13 +142,14 @@ public class RapportQualiteServiceImplTest {
 
         // Then
         assertThat(result.getRubriques()).hasSize(1);
-        Rubrique rubrique = result.getRubriques().get(0);
+        Rubrique rubrique = result.getRubriques().getFirst();
         assertThat(rubrique.getType()).isEqualTo("GEOGRAPHY");
         assertThat(rubrique.getTerritoire()).isNotNull();
         assertThat(rubrique.getTerritoire().getId()).isEqualTo("FR");
         assertThat(rubrique.getTerritoire().getUri()).isEqualTo(URI.create("http://example.com/geo/fr"));
         assertThat(rubrique.getTerritoire().getLabel()).hasSize(2);
         assertThat(rubrique.getTerritoire().getLabel().getFirst().getContenu()).isEqualTo("France");
+        assertThat(rubrique.getTerritoire().getLabel().get(1).getContenu()).isEqualTo("France2");
     }
 
     @Test
@@ -155,10 +157,10 @@ public class RapportQualiteServiceImplTest {
         // Given
         RapportQualiteDTO dto = createBasicDTO();
         RubriqueDTO rubriqueDTO = createRubriqueDTO("rubrique-geo", "GEOGRAPHY");
-        rubriqueDTO.setValeurSimple("FR");
-        rubriqueDTO.setGeoUri("http://example.com/geo/fr");
-        rubriqueDTO.setLabelObjLg1("France métropolitaine");
-        rubriqueDTO.setLabelObjLg2(null);
+        rubriqueDTO = rubriqueDTO.withValeurSimple("FR");
+        rubriqueDTO = rubriqueDTO.withGeoUri("http://example.com/geo/fr");
+        rubriqueDTO = rubriqueDTO.withLabelObjLg1("France métropolitaine");
+        rubriqueDTO = rubriqueDTO.withLabelObjLg2(null);
         dto.setRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
@@ -168,6 +170,7 @@ public class RapportQualiteServiceImplTest {
         Rubrique rubrique = result.getRubriques().getFirst();
         Assertions.assertNotNull(rubrique.getTerritoire());
         assertThat(rubrique.getTerritoire().getLabel()).hasSize(1);
+        assertThat(rubrique.getTerritoire().getUri()).isEqualTo(URI.create("http://example.com/geo/fr"));
         assertThat(rubrique.getTerritoire().getLabel().getFirst().getContenu()).isEqualTo("France métropolitaine");
     }
 
@@ -176,10 +179,10 @@ public class RapportQualiteServiceImplTest {
         // Given
         RapportQualiteDTO dto = createBasicDTO();
         RubriqueDTO rubriqueDTO = createRubriqueDTO("rubrique-org", "ORGANIZATION");
-        rubriqueDTO.setValeurSimple("INSEE");
-        rubriqueDTO.setOrganisationUri("http://example.com/org/insee");
-        rubriqueDTO.setLabelObjLg1("Institut national de la statistique");
-        rubriqueDTO.setLabelObjLg2("National Institute of Statistics");
+        rubriqueDTO = rubriqueDTO.withValeurSimple("INSEE");
+        rubriqueDTO = rubriqueDTO.withOrganisationUri("http://example.com/org/insee");
+        rubriqueDTO = rubriqueDTO.withLabelObjLg1("Institut national de la statistique");
+        rubriqueDTO = rubriqueDTO.withLabelObjLg2("National Institute of Statistics");
         dto.setRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
@@ -187,7 +190,7 @@ public class RapportQualiteServiceImplTest {
 
         // Then
         assertThat(result.getRubriques()).hasSize(1);
-        Rubrique rubrique = result.getRubriques().get(0);
+        Rubrique rubrique = result.getRubriques().getFirst();
         assertThat(rubrique.getType()).isEqualTo("ORGANIZATION");
         assertThat(rubrique.getOrganisme()).isNotNull();
         assertThat(rubrique.getOrganisme().getId()).isEqualTo("INSEE");
@@ -200,11 +203,11 @@ public class RapportQualiteServiceImplTest {
         // Given
         RapportQualiteDTO dto = createBasicDTO();
         RubriqueDTO rubriqueDTO = createRubriqueDTO("rubrique-code", "CODE_LIST");
-        rubriqueDTO.setValeurSimple("CODE-001");
-        rubriqueDTO.setCodeUri("http://example.com/code/code-001");
-        rubriqueDTO.setLabelObjLg1("Code français");
-        rubriqueDTO.setLabelObjLg2("English code");
-        rubriqueDTO.setMaxOccurs(null);
+        rubriqueDTO = rubriqueDTO.withValeurSimple("CODE-001");
+        rubriqueDTO = rubriqueDTO.withCodeUri("http://example.com/code/code-001");
+        rubriqueDTO = rubriqueDTO.withLabelObjLg1("Code français");
+        rubriqueDTO = rubriqueDTO.withLabelObjLg2("English code");
+        rubriqueDTO = rubriqueDTO.withMaxOccurs(null);
         dto.setRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
@@ -226,24 +229,24 @@ public class RapportQualiteServiceImplTest {
         RapportQualiteDTO dto = createBasicDTO();
 
         RubriqueDTO rubrique1 = createRubriqueDTO("rubrique-code", "CODE_LIST");
-        rubrique1.setValeurSimple("CODE-001");
-        rubrique1.setCodeUri("http://example.com/code/code-001");
-        rubrique1.setLabelObjLg1("Code 1");
-        rubrique1.setLabelObjLg2("Code 1 EN");
-        rubrique1.setMaxOccurs("unbounded");
+        rubrique1 = rubrique1.withValeurSimple("CODE-001");
+        rubrique1 = rubrique1.withCodeUri("http://example.com/code/code-001");
+        rubrique1 = rubrique1.withLabelObjLg1("Code 1");
+        rubrique1 = rubrique1.withLabelObjLg2("Code 1 EN");
+        rubrique1 = rubrique1.withMaxOccurs("unbounded");
 
         RubriqueDTO rubrique2 = createRubriqueDTO("rubrique-code", "CODE_LIST");
-        rubrique2.setValeurSimple("CODE-002");
-        rubrique2.setCodeUri("http://example.com/code/code-002");
-        rubrique2.setLabelObjLg1("Code 2");
-        rubrique2.setLabelObjLg2("Code 2 EN");
-        rubrique2.setMaxOccurs("unbounded");
+        rubrique2 = rubrique2.withValeurSimple("CODE-002");
+        rubrique2 = rubrique2.withCodeUri("http://example.com/code/code-002");
+        rubrique2 = rubrique2.withLabelObjLg1("Code 2");
+        rubrique2 = rubrique2.withLabelObjLg2("Code 2 EN");
+        rubrique2 = rubrique2.withMaxOccurs("unbounded");
 
         RubriqueDTO rubrique3 = createRubriqueDTO("rubrique-code", "CODE_LIST");
-        rubrique3.setValeurSimple("CODE-003");
-        rubrique3.setCodeUri("http://example.com/code/code-003");
-        rubrique3.setLabelObjLg1("Code 3");
-        rubrique3.setMaxOccurs("unbounded");
+        rubrique3 = rubrique3.withValeurSimple("CODE-003");
+        rubrique3 = rubrique3.withCodeUri("http://example.com/code/code-003");
+        rubrique3 = rubrique3.withLabelObjLg1("Code 3");
+        rubrique3 = rubrique3.withMaxOccurs("unbounded");
 
         dto.setRubriqueDTOList(List.of(rubrique1, rubrique2, rubrique3));
 
@@ -268,10 +271,10 @@ public class RapportQualiteServiceImplTest {
         // Given
         RapportQualiteDTO dto = createBasicDTO();
         RubriqueDTO rubriqueDTO = createRubriqueDTO("rubrique-rich", "RICH_TEXT");
-        rubriqueDTO.setLabelLg1("Texte riche français");
-        rubriqueDTO.setLabelLg2("English rich text");
-        rubriqueDTO.setHasDocLg1(false);
-        rubriqueDTO.setHasDocLg2(false);
+        rubriqueDTO = rubriqueDTO.withLabelLg1("Texte riche français");
+        rubriqueDTO = rubriqueDTO.withLabelLg2("English rich text");
+        rubriqueDTO = rubriqueDTO.withHasDocLg1(false);
+        rubriqueDTO = rubriqueDTO.withHasDocLg2(false);
         dto.setRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
@@ -279,10 +282,10 @@ public class RapportQualiteServiceImplTest {
 
         // Then
         assertThat(result.getRubriques()).hasSize(1);
-        Rubrique rubrique = result.getRubriques().get(0);
+        Rubrique rubrique = result.getRubriques().getFirst();
         assertThat(rubrique.getType()).isEqualTo("RICH_TEXT");
         assertThat(rubrique.getContenus()).hasSize(2);
-        assertThat(rubrique.getContenus().get(0).getLangue()).isEqualTo("fr");
+        assertThat(rubrique.getContenus().getFirst().getLangue()).isEqualTo("fr");
         assertThat(rubrique.getContenus().get(0).getTexte()).isEqualTo("Texte riche français");
         assertThat(rubrique.getContenus().get(0).getDocuments()).isNull();
         assertThat(rubrique.getContenus().get(1).getLangue()).isEqualTo("en");
@@ -294,19 +297,19 @@ public class RapportQualiteServiceImplTest {
         // Given
         RapportQualiteDTO dto = createBasicDTO();
         RubriqueDTO rubriqueDTO = createRubriqueDTO("rubrique-rich", "RICH_TEXT");
-        rubriqueDTO.setLabelLg1("Texte français uniquement");
-        rubriqueDTO.setLabelLg2(null);
-        rubriqueDTO.setHasDocLg1(false);
-        rubriqueDTO.setHasDocLg2(false);
+        rubriqueDTO = rubriqueDTO.withLabelLg1("Texte français uniquement");
+        rubriqueDTO = rubriqueDTO.withLabelLg2(null);
+        rubriqueDTO = rubriqueDTO.withHasDocLg1(false);
+        rubriqueDTO = rubriqueDTO.withHasDocLg2(false);
         dto.setRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
 
         // Then
-        Rubrique rubrique = result.getRubriques().get(0);
+        Rubrique rubrique = result.getRubriques().getFirst();
         assertThat(rubrique.getContenus()).hasSize(1);
-        assertThat(rubrique.getContenus().get(0).getLangue()).isEqualTo("fr");
+        assertThat(rubrique.getContenus().getFirst().getLangue()).isEqualTo("fr");
     }
 
     @Test
@@ -315,16 +318,16 @@ public class RapportQualiteServiceImplTest {
         RapportQualiteDTO dto = createBasicDTO();
 
         RubriqueDTO dateRubrique = createRubriqueDTO("rubrique-date", "DATE");
-        dateRubrique.setValeurSimple("2024-01-15");
+        dateRubrique = dateRubrique.withValeurSimple("2024-01-15");
 
         RubriqueDTO textRubrique = createRubriqueDTO("rubrique-text", "TEXT");
-        textRubrique.setLabelLg1("Texte");
-        textRubrique.setLabelLg2("Text");
+        textRubrique = textRubrique.withLabelLg1("Texte");
+        textRubrique = textRubrique.withLabelLg2("Text");
 
         RubriqueDTO geoRubrique = createRubriqueDTO("rubrique-geo", "GEOGRAPHY");
-        geoRubrique.setValeurSimple("FR");
-        geoRubrique.setGeoUri("http://example.com/geo/fr");
-        geoRubrique.setLabelObjLg1("France");
+        geoRubrique = geoRubrique.withValeurSimple("FR");
+        geoRubrique = geoRubrique.withGeoUri("http://example.com/geo/fr");
+        geoRubrique = geoRubrique.withLabelObjLg1("France");
 
         dto.setRubriqueDTOList(List.of(dateRubrique, textRubrique, geoRubrique));
 
@@ -344,13 +347,10 @@ public class RapportQualiteServiceImplTest {
         RapportQualiteDTO dto = createBasicDTO();
 
         RubriqueDTO rub1 = createRubriqueDTO("rubrique-1", "TEXT");
-        rub1.setLabelLg1("Premier");
 
         RubriqueDTO rub2 = createRubriqueDTO("rubrique-2", "TEXT");
-        rub2.setLabelLg1("Deuxième");
 
         RubriqueDTO rub3 = createRubriqueDTO("rubrique-3", "TEXT");
-        rub3.setLabelLg1("Troisième");
 
         dto.setRubriqueDTOList(List.of(rub1, rub2, rub3));
 
@@ -373,10 +373,7 @@ public class RapportQualiteServiceImplTest {
     }
 
     private RubriqueDTO createRubriqueDTO(String id, String type) {
-        RubriqueDTO dto = new RubriqueDTO();
-        dto.setId(id);
-        dto.setUri("http://example.com/" + id);
-        dto.setType(type);
+        RubriqueDTO dto = new RubriqueDTO(id,"http://example.com/" + id, null, type, null,null,null,null,null,null,null,false,false,null,null,null,null);
         return dto;
     }
 }
