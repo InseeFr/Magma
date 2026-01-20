@@ -27,11 +27,7 @@ public class RapportQualiteServiceImplTest {
     @Test
     void transformDTOenRapportQualite_shouldMapBasicFields() {
         // Given
-        RapportQualiteDTO dto = new RapportQualiteDTO();
-        dto.setId("rubrique-001");
-        dto.setUri("http://example.com/rubrique-001");
-        dto.setLabelLg1("Rapport qualité");
-        dto.setLabelLg2("Quality report");
+        RapportQualiteDTO dto = new RapportQualiteDTO("rubrique-001","http://example.com/rubrique-001","Rapport qualité","Quality report", null,null,null,null,null);
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
@@ -52,11 +48,7 @@ public class RapportQualiteServiceImplTest {
     @Test
     void transformDTOenRapportQualite_shouldHandleOnlyFrenchLabel() {
         // Given
-        RapportQualiteDTO dto = new RapportQualiteDTO();
-        dto.setId("rubrique-002");
-        dto.setUri("http://example.com/rubrique-002");
-        dto.setLabelLg1("Rapport qualité");
-        dto.setLabelLg2(null);
+        RapportQualiteDTO dto = new RapportQualiteDTO("rubrique-002","http://example.com/rubrique-002","Rapport qualité",null,null,null,null,null,null);
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
@@ -71,7 +63,7 @@ public class RapportQualiteServiceImplTest {
     void transformDTOenRapportQualite_shouldHandleNullRubriqueList() {
         // Given
         RapportQualiteDTO dto = createBasicDTO();
-        dto.setRubriqueDTOList(null);
+        dto.withRubriqueDTOList(null);
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
@@ -89,7 +81,7 @@ public class RapportQualiteServiceImplTest {
         rubriqueDTO = rubriqueDTO.withValeurSimple("2024-01-15");
         rubriqueDTO = rubriqueDTO.withTitreLg1("Date de publication");
         rubriqueDTO = rubriqueDTO.withTitreLg2("Publication date");
-        dto.setRubriqueDTOList(List.of(rubriqueDTO));
+        dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
@@ -112,7 +104,7 @@ public class RapportQualiteServiceImplTest {
         RubriqueDTO rubriqueDTO = createRubriqueDTO("rubrique-text", "TEXT");
         rubriqueDTO = rubriqueDTO.withLabelLg1("Texte français");
         rubriqueDTO = rubriqueDTO.withLabelLg2("English text");
-        dto.setRubriqueDTOList(List.of(rubriqueDTO));
+        dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
@@ -135,7 +127,7 @@ public class RapportQualiteServiceImplTest {
         rubriqueDTO = rubriqueDTO.withGeoUri("http://example.com/geo/fr");
         rubriqueDTO = rubriqueDTO.withLabelObjLg1("France");
         rubriqueDTO = rubriqueDTO.withLabelObjLg2("France2");
-        dto.setRubriqueDTOList(List.of(rubriqueDTO));
+        dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
@@ -161,7 +153,7 @@ public class RapportQualiteServiceImplTest {
         rubriqueDTO = rubriqueDTO.withGeoUri("http://example.com/geo/fr");
         rubriqueDTO = rubriqueDTO.withLabelObjLg1("France métropolitaine");
         rubriqueDTO = rubriqueDTO.withLabelObjLg2(null);
-        dto.setRubriqueDTOList(List.of(rubriqueDTO));
+        dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
@@ -183,7 +175,7 @@ public class RapportQualiteServiceImplTest {
         rubriqueDTO = rubriqueDTO.withOrganisationUri("http://example.com/org/insee");
         rubriqueDTO = rubriqueDTO.withLabelObjLg1("Institut national de la statistique");
         rubriqueDTO = rubriqueDTO.withLabelObjLg2("National Institute of Statistics");
-        dto.setRubriqueDTOList(List.of(rubriqueDTO));
+        dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
@@ -208,7 +200,7 @@ public class RapportQualiteServiceImplTest {
         rubriqueDTO = rubriqueDTO.withLabelObjLg1("Code français");
         rubriqueDTO = rubriqueDTO.withLabelObjLg2("English code");
         rubriqueDTO = rubriqueDTO.withMaxOccurs(null);
-        dto.setRubriqueDTOList(List.of(rubriqueDTO));
+        dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
@@ -248,7 +240,7 @@ public class RapportQualiteServiceImplTest {
         rubrique3 = rubrique3.withLabelObjLg1("Code 3");
         rubrique3 = rubrique3.withMaxOccurs("unbounded");
 
-        dto.setRubriqueDTOList(List.of(rubrique1, rubrique2, rubrique3));
+        dto = dto.withRubriqueDTOList(List.of(rubrique1, rubrique2, rubrique3));
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
@@ -275,7 +267,7 @@ public class RapportQualiteServiceImplTest {
         rubriqueDTO = rubriqueDTO.withLabelLg2("English rich text");
         rubriqueDTO = rubriqueDTO.withHasDocLg1(false);
         rubriqueDTO = rubriqueDTO.withHasDocLg2(false);
-        dto.setRubriqueDTOList(List.of(rubriqueDTO));
+        dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
@@ -301,7 +293,7 @@ public class RapportQualiteServiceImplTest {
         rubriqueDTO = rubriqueDTO.withLabelLg2(null);
         rubriqueDTO = rubriqueDTO.withHasDocLg1(false);
         rubriqueDTO = rubriqueDTO.withHasDocLg2(false);
-        dto.setRubriqueDTOList(List.of(rubriqueDTO));
+        dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
@@ -329,7 +321,7 @@ public class RapportQualiteServiceImplTest {
         geoRubrique = geoRubrique.withGeoUri("http://example.com/geo/fr");
         geoRubrique = geoRubrique.withLabelObjLg1("France");
 
-        dto.setRubriqueDTOList(List.of(dateRubrique, textRubrique, geoRubrique));
+        dto = dto.withRubriqueDTOList(List.of(dateRubrique, textRubrique, geoRubrique));
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
@@ -345,14 +337,10 @@ public class RapportQualiteServiceImplTest {
     void transformRubrique_shouldPreserveRubriqueOrder() {
         // Given
         RapportQualiteDTO dto = createBasicDTO();
-
         RubriqueDTO rub1 = createRubriqueDTO("rubrique-1", "TEXT");
-
         RubriqueDTO rub2 = createRubriqueDTO("rubrique-2", "TEXT");
-
         RubriqueDTO rub3 = createRubriqueDTO("rubrique-3", "TEXT");
-
-        dto.setRubriqueDTOList(List.of(rub1, rub2, rub3));
+        dto = dto.withRubriqueDTOList(List.of(rub1, rub2, rub3));
 
         // When
         RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
@@ -364,11 +352,7 @@ public class RapportQualiteServiceImplTest {
     }
 
     private RapportQualiteDTO createBasicDTO() {
-        RapportQualiteDTO dto = new RapportQualiteDTO();
-        dto.setId("rubrique-test");
-        dto.setUri("http://example.com/rubrique-test");
-        dto.setLabelLg1("Test rapport");
-        dto.setLabelLg2("Test report");
+        RapportQualiteDTO dto = new RapportQualiteDTO("rubrique-test","http://example.com/rubrique-test","Test rapport","Test report",null,null,null,null,null);
         return dto;
     }
 

@@ -23,21 +23,21 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
     @Override
     public RapportQualite transformDTOenRapportQualite(RapportQualiteDTO rapportQualiteDTO, RequestProcessor requestProcessor) {
         RapportQualite rapportQualite = new RapportQualite();
-        rapportQualite.setId(rapportQualiteDTO.getId());
-        rapportQualite.setUri(URI.create(rapportQualiteDTO.getUri()));
-        if (rapportQualiteDTO.getLabelLg1() != null && rapportQualiteDTO.getLabelLg2() != null) {
-            List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(rapportQualiteDTO.getLabelLg1(), "fr"), createLangueContenu(rapportQualiteDTO.getLabelLg2(), "en"));
+        rapportQualite.setId(rapportQualiteDTO.id());
+        rapportQualite.setUri(URI.create(rapportQualiteDTO.uri()));
+        if (rapportQualiteDTO.labelLg1() != null && rapportQualiteDTO.labelLg2() != null) {
+            List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(rapportQualiteDTO.labelLg1(), "fr"), createLangueContenu(rapportQualiteDTO.labelLg2(), "en"));
             rapportQualite.setLabel(label);
         }
-        if (rapportQualiteDTO.getLabelLg1() != null && rapportQualiteDTO.getLabelLg2() == null) {
-            List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(rapportQualiteDTO.getLabelLg1(), "fr"), createLangueContenu("", "en"));
+        if (rapportQualiteDTO.labelLg1() != null && rapportQualiteDTO.labelLg2() == null) {
+            List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(rapportQualiteDTO.labelLg1(), "fr"), createLangueContenu("", "en"));
             rapportQualite.setLabel(label);
         }
         rapportQualite.setRubriques(null);
 
-        if (rapportQualiteDTO.getRubriqueDTOList() != null) {
+        if (rapportQualiteDTO.rubriqueDTOList() != null) {
 
-            for (RubriqueDTO rubDTO : rapportQualiteDTO.getRubriqueDTOList()) {
+            for (RubriqueDTO rubDTO : rapportQualiteDTO.rubriqueDTOList()) {
                 Rubrique rubrique = transformRubrique(rubDTO, rapportQualite, requestProcessor);
                 if (rubrique != null) { //rubric can be null : case of a CODE_LIST rubric with several codes and return null for addCodeList when rubric has been yet added with another code (it's the case when maxOccurs not null and rubricExist is true)
                     rapportQualite.addRubriquesItem(rubrique);

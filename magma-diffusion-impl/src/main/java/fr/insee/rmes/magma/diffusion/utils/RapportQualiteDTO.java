@@ -6,93 +6,31 @@ import java.util.List;
 
 @Slf4j
 
-public class RapportQualiteDTO {
-
-
-    private String id;
-    private String uri;
-    private String labelLg1;
-    private String labelLg2;
-    private String idCible;
-    private String cible;
-    private String labelCibleLg1;
-    private String labelCibleLg2;
-    private List<RubriqueDTO> rubriqueDTOList;
-
-    public RapportQualiteDTO() {
+public record RapportQualiteDTO(
+    String id,
+    String uri,
+    String labelLg1,
+    String labelLg2,
+    String idCible,
+    String cible,
+    String labelCibleLg1,
+    String labelCibleLg2,
+    List<RubriqueDTO> rubriqueDTOList
+)
+{
+    public RapportQualiteDTO withId(String id) {
+        return new RapportQualiteDTO(id, uri, labelLg1, labelLg2, idCible, cible, labelCibleLg1, labelCibleLg2, rubriqueDTOList);
     }
-
-    public String getId() {
-        return id;
+    public RapportQualiteDTO withUri(String uri) {
+        return new RapportQualiteDTO(id, uri, labelLg1, labelLg2, idCible, cible, labelCibleLg1, labelCibleLg2, rubriqueDTOList);
     }
-
-    public void setId(String id) {
-        this.id = id;
+    public RapportQualiteDTO withLabelLg1(String labelLg1) {
+        return new RapportQualiteDTO(id, uri, labelLg1, labelLg2, idCible, cible, labelCibleLg1, labelCibleLg2, rubriqueDTOList);
     }
-
-    public String getUri() {
-        return uri;
+    public RapportQualiteDTO withLabelLg2(String labelLg2) {
+        return new RapportQualiteDTO(id, uri, labelLg1, labelLg2, idCible, cible, labelCibleLg1, labelCibleLg2, rubriqueDTOList);
     }
-
-    public void setUri(String uri) {
-        this.uri = uri;
+    public RapportQualiteDTO withRubriqueDTOList(List<RubriqueDTO> rubriqueDTOList) {
+        return new RapportQualiteDTO(id, uri, labelLg1, labelLg2, idCible, cible, labelCibleLg1, labelCibleLg2, rubriqueDTOList);
     }
-
-    public String getLabelLg1() {
-        return labelLg1;
-    }
-
-    public void setLabelLg1(String labelLg1) {
-        this.labelLg1 = labelLg1;
-    }
-
-    public String getLabelLg2() {
-        return labelLg2;
-    }
-
-    public void setLabelLg2(String labelLg2) {
-        this.labelLg2 = labelLg2;
-    }
-
-    public String getIdCible() {
-        return idCible;
-    }
-
-    public void setIdCible(String idCible) {
-        this.idCible = idCible;
-    }
-
-    public String getCible() {
-        return cible;
-    }
-
-    public void setCible(String cible) {
-        this.cible = cible;
-    }
-
-    public String getLabelCibleLg1() {
-        return labelCibleLg1;
-    }
-
-    public void setLabelCibleLg1(String labelCibleLg1) {
-        this.labelCibleLg1 = labelCibleLg1;
-    }
-
-    public String getLabelCibleLg2() {
-        return labelCibleLg2;
-    }
-
-    public void setLabelCibleLg2(String labelCibleLg2) {
-        this.labelCibleLg2 = labelCibleLg2;
-    }
-
-
-    public List<RubriqueDTO> getRubriqueDTOList() {
-        return rubriqueDTOList;
-    }
-
-    public void setRubriqueDTOList(List<RubriqueDTO> rubriqueDTOList) {
-        this.rubriqueDTOList = rubriqueDTOList;
-    }
-
 }
