@@ -32,7 +32,7 @@ public class OperationsQueriesTest extends TestcontainerTest {
     ///             operations/rapportQualite/{id}                     ///
     /// //////////////////////////////////////////////////////////////////
 
-    // "logique métier" test of a rapportQualite with all types of rubrics except ORGANIZATION
+    //  end to end test without any mock of a rapportQualite with all types of rubrics except ORGANIZATION
     //    operations/rapportQualite/1979
 
     @Test
@@ -275,7 +275,7 @@ public class OperationsQueriesTest extends TestcontainerTest {
     }
 
 
-    // "logique métier" test of an ORGANIZATION rubric
+    //  end to end test without any mock, of an ORGANIZATION rubric
     //    operations/rapportQualite/1981
 
     @Test
