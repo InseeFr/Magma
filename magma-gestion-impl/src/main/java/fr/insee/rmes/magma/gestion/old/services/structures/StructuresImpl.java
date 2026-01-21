@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.gestion.old.services.structures;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.structure.StructureByIdModelSwagger;
 import fr.insee.rmes.magma.gestion.old.persistence.FreeMarkerUtils;
 import fr.insee.rmes.magma.gestion.old.persistence.RdfService;
@@ -84,7 +84,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	}
 
 	@Override
-	public String getStructure(String id) throws RmesException, JsonProcessingException {
+	public String getStructure(String id) throws RmesException, JacksonException {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put(STRUCTURES_GRAPH, config.getBaseGraph() + config.getStructuresGraph());
 		params.put(STRUCTURE_ID, id);
@@ -153,7 +153,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 
 
 	@Override
-	public String getStructureDateMAJ(String id) throws RmesException, JsonProcessingException {
+	public String getStructureDateMAJ(String id) throws RmesException, JacksonException {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put(STRUCTURES_GRAPH, config.getBaseGraph() + config.getStructuresGraph());
 		params.put(STRUCTURE_ID, id);

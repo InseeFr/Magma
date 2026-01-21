@@ -1,8 +1,8 @@
 package fr.insee.rmes.magma.gestion.old.services.datasets;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 import fr.insee.rmes.magma.gestion.old.datasets.PatchDatasetDTO;
 import fr.insee.rmes.magma.gestion.old.model.CodeList.Code;
 import fr.insee.rmes.magma.gestion.old.model.datasets.*;
@@ -26,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.*;
 @Service
@@ -39,7 +40,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     public static final String DATASET_LIST ="getListDatasets/";
 
     private final Map<String,Object> params = initParams();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = JsonMapper.builder().build();
     private final RestClient restClient;
     private final CodeListsServices codeListsServices;
 
@@ -69,7 +70,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
     @Override
-    public String getListDataSets(String dateMiseAJour) throws RmesException, JsonProcessingException {
+    public String getListDataSets(String dateMiseAJour) throws RmesException, JacksonException {
         JSONArray listDataSet;
         if (dateMiseAJour.isEmpty()){
             listDataSet =  repoGestion.getResponseAsArray(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_LIST,"getListDatasets.ftlh", params));
@@ -96,7 +97,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
 
     @Override
-    public String getDataSetByID (String id) throws RmesException, JsonProcessingException {
+    public String getDataSetByID (String id) throws RmesException, JacksonException {
         JsonNode dataSetFinalNode = emptyDataSetModelSwagger(findDataSetModelSwagger(id));
         return dataSetFinalNode.toString();
     }
@@ -107,7 +108,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
         while (it.hasNext()) {
             JsonNode node = it.next();
-            if (node.isContainerNode() && node.isEmpty()) {
+            if (node.isContainer() && node.isEmpty()) {
                 it.remove();
             }
         }
@@ -135,7 +136,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return ResponseEntity.status(response.getStatusCode()).build();
     }
 
-    protected DataSetModelSwagger findDataSetModelSwagger(String id) throws RmesException, JsonProcessingException {
+    protected DataSetModelSwagger findDataSetModelSwagger(String id) throws RmesException, JacksonException {
         //paramétrage de la requête
         params.put("ID", id);
         JSONObject catalogue_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH +DATASET_BY_ID_PATH, "getDataSetById_catalogue.ftlh", params));
@@ -176,7 +177,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         }
     }
 
-    protected void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JsonProcessingException {
+    protected void testPresenceVariablePuisAjout(DataSetModelSwagger reponse, JSONObject catalogue_result, JSONObject adms_result, JSONObject codes_result, JSONObject organisations_result, JSONObject structures_result) throws RmesException, JacksonException {
         //récupération de le date de mofidication
         if (catalogue_result.has("dateModification")) {
             Modified modified = new Modified(catalogue_result.getString("dateModification"));
@@ -395,7 +396,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
     @Override
-    public String getDataSetByIDSummary(String id) throws RmesException, JsonProcessingException {
+    public String getDataSetByIDSummary(String id) throws RmesException, JacksonException {
         //parametrage de la requête
 
         params.put("ID", id);
@@ -418,7 +419,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     }
 
     @Override
-    public Distributions[] getDataSetDistributionsById(String id) throws RmesException, JsonProcessingException {
+    public Distributions[] getDataSetDistributionsById(String id) throws RmesException, JacksonException {
         //parametrage de la requête
         params.put("ID", id);
 
@@ -575,7 +576,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
         return spatialResolution;
     }
 
-    private List<ThemeModelSwagger> getThemeModelSwaggerS(JSONObject dataSetId) throws RmesException, JsonProcessingException {
+    private List<ThemeModelSwagger> getThemeModelSwaggerS(JSONObject dataSetId) throws RmesException, JacksonException {
         String[] parts = dataSetId.getString("names").split(",");
         List<ThemeModelSwagger> themeListModelSwaggerS = new ArrayList<>();
 

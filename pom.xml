@@ -17,7 +17,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <jersey.version>4.0.0</jersey.version>
-        <jackson.version>2.20.1</jackson.version>
+        <jackson.version>3.0.0</jackson.version>
         <jakarta.version>6.1.0</jakarta.version>
         <log.version>2.18.0</log.version>
         <swagger.version>2.2.41</swagger.version>
@@ -178,18 +178,18 @@
 
             <!-- Bind csv into POJOs -->
             <dependency>
-                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <groupId>tools.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-csv</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
             <!-- XML mapping -->
             <dependency>
-                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <groupId>tools.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+                <groupId>tools.jackson.jakarta.rs</groupId>
                 <artifactId>jackson-jakarta-rs-json-provider</artifactId>
                 <version>2.17.2</version>
             </dependency>

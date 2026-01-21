@@ -1,12 +1,12 @@
 package fr.insee.rmes.magma.diffusion.unmarshaller;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.*;
+import tools.jackson.databind.JacksonModule;
+import tools.jackson.databind.module.SimpleModule;
+import tools.jackson.dataformat.csv.CsvMapper;
+import tools.jackson.dataformat.csv.CsvSchema;
 import fr.insee.rmes.magma.diffusion.model.*;
 import fr.insee.rmes.magma.diffusion.queryexecutor.Csv;
 import lombok.NonNull;
@@ -25,7 +25,7 @@ import java.util.function.Function;
 public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
 
     public JacksonUnmarshaller() {
-        this(CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+        this(CsvMapper.builder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
                 .addModule(enumModule(TerritoireBase.TypeArticleEnum.class))
                 .addModule(enumModule(TerritoireTousAttributs.TypeArticleEnum.class))
                 .addModule(enumModule(TerritoireBaseChefLieu.TypeArticleEnum.class))
@@ -46,25 +46,19 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
                 .addModule(enumModule(Region.TypeArticleEnum.class))
                 .addModule(enumModule(UniteUrbaine2020.TypeArticleEnum.class))
                 .addModule(enumModule(ZoneDEmploi2020.TypeArticleEnum.class))
-                .addModule(new JavaTimeModule())
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .build());
     }
 
-    private static <E extends Enum<E>>  Module enumModule(Class<E> enumClass) {
+    private static <E extends Enum<E>> JacksonModule enumModule(Class<E> enumClass) {
         var module = new SimpleModule();
-        module.addDeserializer(enumClass, new JsonDeserializer<>()  {
+        module.addDeserializer(enumClass, new ValueDeserializer<>()  {
             @Override
             public E deserialize(JsonParser parser, DeserializationContext ctxt) {
-                try {
-                    String value = parser.getValueAsString();
-                    // Transformation des valeurs numériques en noms d'enum valides
-                    String enumName = value.matches("\\d+") ? "_" + value : value;
-                    return Enum.valueOf(enumClass, enumName);
-                }
-                catch (IOException e) {
-                    return null;
-                }
+                String value = parser.getValueAsString();
+                // Transformation des valeurs numériques en noms d'enum valides
+                String enumName = value.matches("\\d+") ? "_" + value : value;
+                return Enum.valueOf(enumClass, enumName);
             }
         });
         return module;
@@ -96,9 +90,6 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
         List<G> results;
         try (MappingIterator<G> mappingIterator = reader.readValues(csv)) {
             results = mappingIterator.readAll();
-        } catch (IOException e) {
-            log.error("While reading \n{}\nMESSAGE : {}\n===> RETURN WILL BE EMPTY", csv, e.getMessage());
-            return resultEmpty;
         }
         return extractResults.apply(results);
     }

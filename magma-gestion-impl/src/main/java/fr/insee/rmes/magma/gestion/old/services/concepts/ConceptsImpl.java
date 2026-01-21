@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.gestion.old.services.concepts;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 import fr.insee.rmes.magma.gestion.old.model.concept.ConceptById;
 import fr.insee.rmes.magma.gestion.old.model.concept.ConceptDefCourte;
 import fr.insee.rmes.magma.gestion.old.model.concept.ConceptSDMX;
@@ -40,7 +40,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
 
 
     @Override
-    public String getDetailedConcept(String id) throws RmesException, JsonProcessingException {
+    public String getDetailedConcept(String id) throws RmesException, JacksonException {
         Map<String, Object> params = initParams();
         params.put("ID", id);
 
@@ -99,7 +99,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
     }
 
     @Override
-    public String getDetailedConceptDateMAJ(String id) throws RmesException, JsonProcessingException {
+    public String getDetailedConceptDateMAJ(String id) throws RmesException, JacksonException {
         Map<String, Object> params = initParams();
         params.put("ID", id);
         JSONObject concept = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getDetailedConceptDateMAJ.ftlh", params));
@@ -140,7 +140,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
     }
 
     @Override
-    public String getCollectionOfConcepts(String id) throws RmesException, JsonProcessingException {
+    public String getCollectionOfConcepts(String id) throws RmesException, JacksonException {
 
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> params = initParams();
