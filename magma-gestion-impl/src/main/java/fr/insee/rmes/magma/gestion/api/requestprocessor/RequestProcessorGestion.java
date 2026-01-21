@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.gestion.api.requestprocessor;
 
 import fr.insee.rmes.magma.gestion.queries.parameters.StructureComponentsRequestParametizer;
-import fr.insee.rmes.magma.gestion.unmarshaller.Unmarshaller;
+import fr.insee.rmes.magma.gestion.unmarshaller.JacksonUnmarshallerGestion;
 import fr.insee.rmes.magma.queries.Query;
 import fr.insee.rmes.magma.queries.QueryBuilder;
 import fr.insee.rmes.magma.queryexecutor.Csv;
@@ -9,14 +9,14 @@ import fr.insee.rmes.magma.queryexecutor.QueryExecutor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import fr.insee.rmes.magma.utils.EndpointsUtils;
-
+import fr.insee.rmes.magma.unmarshaller.Unmarshaller;
 import java.util.List;
 
 import static fr.insee.rmes.magma.gestion.queries.QueryPathListGestion.STRUCTURES_COMPONENTS;
 
 @Component
-public record RequestProcessor(QueryBuilder queryBuilder, QueryExecutor queryExecutor,
-                               Unmarshaller unmarshaller) {
+public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor queryExecutor,
+                                      JacksonUnmarshallerGestion unmarshaller) {
 
     // Peut-être renommer les query en queryToFind et non en forFind
 
@@ -25,13 +25,13 @@ public record RequestProcessor(QueryBuilder queryBuilder, QueryExecutor queryExe
 
     }
 
-    public record ExecutableQueryBuilder(String queryPath, RequestProcessor requestProcessor) {
+    public record ExecutableQueryBuilder(String queryPath, RequestProcessorGestion requestProcessor) {
         public ExecutableQuery with(StructureComponentsRequestParametizer structureComponentsRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(structureComponentsRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
     }
 
-    public record ExecutableQuery(Query query, RequestProcessor requestProcessor) {
+    public record ExecutableQuery(Query query, RequestProcessorGestion requestProcessor) {
         public QueryResult executeQuery() {
             return new QueryResult(requestProcessor.queryExecutor().execute(query), requestProcessor);
         }
@@ -41,7 +41,7 @@ public record RequestProcessor(QueryBuilder queryBuilder, QueryExecutor queryExe
         }
     }
 
-    public record QueryResult(Csv csv, RequestProcessor requestProcessor) {
+    public record QueryResult(Csv csv, RequestProcessorGestion requestProcessor) {
         public <E> ListResult<E> listResult(Class<E> clazz) {
             return new ListResult<>(requestProcessor.unmarshaller().unmarshalList(csv, clazz));
         }

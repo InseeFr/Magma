@@ -16,14 +16,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import fr.insee.rmes.magma.unmarshaller.Unmarshaller;
 
 
 @Component
 @Slf4j
 // TODO proposer une autre implémentation d'unmarshaller ?
-public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
+public record JacksonUnmarshallerGestion(CsvMapper csvMapper) implements Unmarshaller {
 
-    public JacksonUnmarshaller() {
+    public JacksonUnmarshallerGestion() {
         this(CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
                 .addModule(new JavaTimeModule())
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)

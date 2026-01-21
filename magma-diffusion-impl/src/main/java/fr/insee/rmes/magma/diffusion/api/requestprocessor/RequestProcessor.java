@@ -1,8 +1,9 @@
 package fr.insee.rmes.magma.diffusion.api.requestprocessor;
 
 import fr.insee.rmes.magma.diffusion.queries.parameters.*;
+import fr.insee.rmes.magma.diffusion.unmarshaller.JacksonUnmarshaller;
 import fr.insee.rmes.magma.queryexecutor.Csv;
-import fr.insee.rmes.magma.diffusion.unmarshaller.Unmarshaller;
+import fr.insee.rmes.magma.unmarshaller.Unmarshaller;
 import fr.insee.rmes.magma.utils.EndpointsUtils;
 import fr.insee.rmes.magma.queries.Query;
 import fr.insee.rmes.magma.queries.QueryBuilder;
@@ -14,9 +15,10 @@ import java.util.List;
 
 import static fr.insee.rmes.magma.diffusion.queries.QueryPathListDiffusion.*;
 
+// TODO: Renommer la classe en RequestProcessorDiffusion pour coller au nomage de gestion
 @Component
 public record RequestProcessor(QueryBuilder queryBuilder, QueryExecutor queryExecutor,
-                               Unmarshaller unmarshaller) {
+                               JacksonUnmarshaller unmarshaller) {
 
     // Peut-être renommer les query en queryToFind et non en forFind
 

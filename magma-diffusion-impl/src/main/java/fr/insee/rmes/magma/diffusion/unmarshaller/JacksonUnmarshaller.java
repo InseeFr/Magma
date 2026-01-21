@@ -18,11 +18,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-
 @Component
 @Slf4j
 // TODO proposer une autre implémentation d'unmarshaller ?
-public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
+// TODO: renomer la classe en JacksonUnmarshallerDiffusion afin de suivre le nomage de JacksonUnmarshallerGestion
+public record JacksonUnmarshaller(CsvMapper csvMapper) implements fr.insee.rmes.magma.unmarshaller.Unmarshaller {
 
     public JacksonUnmarshaller() {
         this(CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)

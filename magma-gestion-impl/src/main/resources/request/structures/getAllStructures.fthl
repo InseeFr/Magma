@@ -1,5 +1,5 @@
 SELECT DISTINCT ?id ?dateMiseAJour ?statutValidation
-FROM <${STRUCTURES_COMPONENTS_GRAPH}>
+FROM <http://rdf.insee.fr/graphes/composants>
 WHERE {
 
     { ?uriComposant rdf:type qb:DimensionProperty . }

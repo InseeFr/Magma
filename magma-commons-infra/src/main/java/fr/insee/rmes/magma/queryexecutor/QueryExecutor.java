@@ -30,19 +30,29 @@ public record QueryExecutor(RestClient restClient, String urlTemplate) {
 
     public static final String PREFIXES =
             """
-                    PREFIX igeo: <http://rdf.insee.fr/def/geo#>
-                    PREFIX dcterms: <http://purl.org/dc/terms/>
-                    PREFIX xkos: <http://rdf-vocabulary.ddialliance.org/xkos#>
-                    PREFIX evoc: <http://eurovoc.europa.eu/schema#>
-                    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-                    PREFIX dc: <http://purl.org/dc/elements/1.1/>
-                    PREFIX insee: <http://rdf.insee.fr/def/base#>
-                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                    PREFIX pav: <http://purl.org/pav/>
-                    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-                    PREFIX prov: <http://www.w3.org/ns/prov#>
-                    PREFIX sdmx-mm: <http://www.w3.org/ns/sdmx-mm#>
-                    """;
+            PREFIX dcterms:<http://purl.org/dc/terms/>
+            PREFIX xkos:<http://rdf-vocabulary.ddialliance.org/xkos#>
+            PREFIX evoc:<http://eurovoc.europa.eu/schema#>
+            PREFIX skos:<http://www.w3.org/2004/02/skos/core#>
+            PREFIX skosxl:<http://www.w3.org/2008/05/skos-xl#>
+            PREFIX dc:<http://purl.org/dc/elements/1.1/>
+            PREFIX insee:<http://rdf.insee.fr/def/base#>
+            PREFIX geo:<http://www.opengis.net/ont/geosparql#>
+            PREFIX igeo:<http://rdf.insee.fr/def/geo#>
+            PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            PREFIX pav:<http://purl.org/pav/>
+            PREFIX foaf:<http://xmlns.com/foaf/0.1/>
+            PREFIX org:<http://www.w3.org/ns/org#>
+            PREFIX prov:<http://www.w3.org/ns/prov#>
+            PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>
+            PREFIX sdmx-mm:<http://www.w3.org/ns/sdmx-mm#>
+            PREFIX qb:<http://purl.org/linked-data/cube#>
+            PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX dcmitype:<http://purl.org/dc/dcmitype/>
+            PREFIX adms:<http://www.w3.org/ns/adms#>
+            PREFIX stat-dcat-ap:<http://data.europa.eu/m8g/>
+            PREFIX dcat:<http://www.w3.org/ns/dcat#>
+            """;
 
     public Csv execute(@NonNull Query query) {
         String prefixedQuery = PREFIXES + query.value();

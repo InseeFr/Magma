@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.gestion.api;
 
-import fr.insee.rmes.magma.gestion.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.magma.gestion.api.requestprocessor.RequestProcessorGestion;
 import fr.insee.rmes.magma.gestion.model.*;
 import fr.insee.rmes.magma.gestion.queries.parameters.StructureComponentsRequestParametizer;
 import org.springframework.http.ResponseEntity;
@@ -11,16 +11,16 @@ import java.util.List;
 
 @RestController
 public class StructuresComposantsEndpoints implements StructuresComposantsApi {
-    private final RequestProcessor requestProcessor;
+    private final RequestProcessorGestion requestProcessor;
 
-	public StructuresComposantsEndpoints(RequestProcessor requestProcessor) {
+	public StructuresComposantsEndpoints(RequestProcessorGestion requestProcessor) {
 		this.requestProcessor = requestProcessor;
 	}
 
 	@Override
     public ResponseEntity<List<AllComponent>> getAllComponents(LocalDate dateMiseAJour) {
         return requestProcessor.queryForFindStructuresComponents()
-                .with(new StructureComponentsRequestParametizer(dateMiseAJour, AllComponent.class))
+                .with(new StructureComponentsRequestParametizer(dateMiseAJour))
                 .executeQuery()
                 .listResult(AllComponent.class)
                 .toResponseEntity();
