@@ -95,6 +95,12 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
 
     public QueryBuilder queryToFindIntersections() {return new QueryBuilder(TERRITOIRES_LIES, this);}
 
+    public QueryBuilder queryToFindRapportQualite (){return new QueryBuilder(RAPPORT_QUALITE,this);}
+
+    public QueryBuilder queryToFindRubriques(){return new QueryBuilder(RUBRIQUES,this);}
+
+    public QueryBuilder queryToFindDocuments(){return new QueryBuilder(DOCUMENTS,this);}
+
     public record QueryBuilder(String queryPath, RequestProcessor requestProcessor) {
         public ExecutableQuery with(AscendantsDescendantsRequestParametizer ascendantsDescendantsRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(ascendantsDescendantsRequestParametizer.toParameters(), queryPath), requestProcessor);
@@ -134,7 +140,20 @@ public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilde
             );
         }
 
+        public ExecutableQuery with(OperationRequestParametizer operationRequestParametizer) {
+            return new ExecutableQuery(
+                    requestProcessor.queryBuilder().build(operationRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
 
+        public ExecutableQuery with(OperationRubriquesRequestParametizer operationRubriquesRequestParametizer) {
+            return new ExecutableQuery(
+                    requestProcessor.queryBuilder().build(operationRubriquesRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
+
+        public ExecutableQuery with(OperationsDocumentsRequestParametizer operationsDocumentsRequestParametizer) {
+            return new ExecutableQuery(
+                    requestProcessor.queryBuilder().build(operationsDocumentsRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
     }
 
     public record ExecutableQuery(Query query, RequestProcessor requestProcessor) {

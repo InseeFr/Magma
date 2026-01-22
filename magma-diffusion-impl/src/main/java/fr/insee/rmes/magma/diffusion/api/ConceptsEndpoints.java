@@ -2,10 +2,7 @@ package fr.insee.rmes.magma.diffusion.api;
 
 
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
-import fr.insee.rmes.magma.diffusion.model.Concept;
-import fr.insee.rmes.magma.diffusion.model.LangueContenu;
-import fr.insee.rmes.magma.diffusion.model.ConceptForList;
-import fr.insee.rmes.magma.diffusion.model.NearbyConcept;
+import fr.insee.rmes.magma.diffusion.model.*;
 import fr.insee.rmes.magma.diffusion.queries.parameters.ConceptsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.utils.ConceptDTO;
 import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
@@ -42,10 +39,10 @@ public class ConceptsEndpoints implements ConceptsApi {
             }
 
             if (conceptDTO.getHasIntitulesAlternatifs()){
-                List<LangueContenu> intitulesAlternatifs = requestProcessor.queryToFindConceptIntitulesAlternatifs()
+                List<LocalisedLabel> intitulesAlternatifs = requestProcessor.queryToFindConceptIntitulesAlternatifs()
                         .with(new ConceptsRequestParametizer(conceptDTO.getUri()))
                         .executeQuery()
-                        .listResult(LangueContenu.class)
+                        .listResult(LocalisedLabel.class)
                         .result();
 
                 //TODO modifier nom de ConceptsNearbyRequestParametizer + supprimer le paramètre TypeOrigine ?

@@ -2,6 +2,7 @@ package fr.insee.rmes.magma.diffusion.utils;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 
 public class EndpointsUtils {
@@ -13,13 +14,13 @@ public class EndpointsUtils {
             return ResponseEntity.notFound().build();
         }
 
-        MediaType contentType = MediaType.APPLICATION_JSON;
-        if (isXmlRequest()) {
-            contentType = MediaType.APPLICATION_XML;
-        }
+//        MediaType contentType = MediaType.APPLICATION_JSON;
+//        if (isXmlRequest()) {
+//            contentType = MediaType.APPLICATION_XML;
+//        }
 
         return ResponseEntity.ok()
-                .contentType(contentType)
+//                .contentType(contentType)
                 .body(result);
     }
 
@@ -32,13 +33,16 @@ public class EndpointsUtils {
             return ResponseEntity.notFound().build();
         }
 
-        MediaType contentType = MediaType.APPLICATION_JSON;
-        if (isXmlRequest()) {
-            contentType = MediaType.APPLICATION_XML;
-        }
+//        MediaType contentType = MediaType.APPLICATION_JSON;
+//        if (isXmlRequest()) {
+//            contentType = MediaType.APPLICATION_XML;
+//        }
 
         return ResponseEntity.ok()
-                .contentType(contentType)
+//                .contentType(contentType)
                 .body(result);
     }
+
+
+
 }

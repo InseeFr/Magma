@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://magma.insee/rapport-qualite.schema.json",
+  "title": "RapportQualite",
+  "description": "Rapport qualité",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Identifiant rapport qualité",
+      "type": "string"
+    },
+    "uri": {
+      "description": "URI du schema",
+      "type": "string",
+      "format": "uri"
+    },
+    "label": {
+      "description": "Labels localisés",
+      "type": "array",
+      "items": {
+        "$ref": "langue-contenu.schema.json"
+      }
+    },
+    "rubriques": {
+      "description": "Rubriques composant le rapport",
+      "type": "array",
+      "items": {
+        "$ref": "rubrique.schema.json"
+      }
+    }
+  },
+  "required": ["id","uri"]
+}
