@@ -1,19 +1,17 @@
 package fr.insee.rmes.magma.diffusion.unmarshaller;
 
-import tools.jackson.core.JsonParser;
-import tools.jackson.databind.ValueDeserializer;
-import tools.jackson.databind.*;
-import tools.jackson.databind.JacksonModule;
-import tools.jackson.databind.module.SimpleModule;
-import tools.jackson.dataformat.csv.CsvMapper;
-import tools.jackson.dataformat.csv.CsvSchema;
 import fr.insee.rmes.magma.diffusion.model.*;
 import fr.insee.rmes.magma.diffusion.queryexecutor.Csv;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.*;
+import tools.jackson.databind.module.SimpleModule;
+import tools.jackson.dataformat.csv.CsvMapper;
+import tools.jackson.dataformat.csv.CsvSchema;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -55,10 +53,15 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
         module.addDeserializer(enumClass, new ValueDeserializer<>()  {
             @Override
             public E deserialize(JsonParser parser, DeserializationContext ctxt) {
-                String value = parser.getValueAsString();
-                // Transformation des valeurs numériques en noms d'enum valides
-                String enumName = value.matches("\\d+") ? "_" + value : value;
-                return Enum.valueOf(enumClass, enumName);
+                try {
+                    String value = parser.getValueAsString();
+                    // Transformation des valeurs numériques en noms d'enum valides
+                    String enumName = value.matches("\\d+") ? "_" + value : value;
+                    return Enum.valueOf(enumClass, enumName);
+                }
+                catch (JacksonException e) {
+                    return null;
+                }
             }
         });
         return module;
@@ -90,6 +93,9 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
         List<G> results;
         try (MappingIterator<G> mappingIterator = reader.readValues(csv)) {
             results = mappingIterator.readAll();
+        }  catch (JacksonException e) {
+            log.error("While reading \n{}\nMESSAGE : {}\n===> RETURN WILL BE EMPTY", csv, e.getMessage());
+            return resultEmpty;
         }
         return extractResults.apply(results);
     }
