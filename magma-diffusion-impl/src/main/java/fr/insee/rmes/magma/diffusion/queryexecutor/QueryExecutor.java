@@ -1,7 +1,6 @@
 package fr.insee.rmes.magma.diffusion.queryexecutor;
 
 import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
 import fr.insee.rmes.magma.diffusion.queries.Query;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -98,7 +97,7 @@ public Boolean executeAskQuery(@NonNull Query query) {
         try {
             // Example of a Json response for an ASK request :
             // {"head":{},"boolean":true}
-            ObjectMapper mapper = JsonMapper.builder().build();
+            JsonMapper mapper = JsonMapper.builder().build();
             JsonNode rootNode = mapper.readTree(jsonResponse);
             return rootNode.path("boolean").asBoolean();
         } catch (Exception e) {

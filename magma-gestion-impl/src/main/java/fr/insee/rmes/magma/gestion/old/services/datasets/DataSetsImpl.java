@@ -2,7 +2,6 @@ package fr.insee.rmes.magma.gestion.old.services.datasets;
 
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
 import fr.insee.rmes.magma.gestion.old.datasets.PatchDatasetDTO;
 import fr.insee.rmes.magma.gestion.old.model.CodeList.Code;
 import fr.insee.rmes.magma.gestion.old.model.datasets.*;
@@ -40,7 +39,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
     public static final String DATASET_LIST ="getListDatasets/";
 
     private final Map<String,Object> params = initParams();
-    private final ObjectMapper objectMapper = JsonMapper.builder().build();
+    private final JsonMapper objectMapper = JsonMapper.builder().build();
     private final RestClient restClient;
     private final CodeListsServices codeListsServices;
 

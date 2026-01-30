@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.gestion.old.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.component.AllComponentModelSwagger;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.component.ComponentByIdModelSwagger;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.structure.AllStructureModelSwagger;
@@ -55,7 +55,7 @@ public class StructuresResources {
 	@Operation(operationId = "getStructure", summary = "Get a structure",security = @SecurityRequirement(name = "bearerScheme"), responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = StructureByIdModelSwagger.class)))})
 	public ResponseEntity <String> getStructure(@PathVariable(Constants.ID) String id,
 												@RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour
-	) throws RmesException, JsonProcessingException {
+	) throws RmesException, JacksonException {
 
 		// par défaut ce booléen est faux et donc on renvoie tout les infos d'un dataset
 		if (!boolDateMiseAJour){
@@ -125,7 +125,7 @@ public class StructuresResources {
 	@Operation(operationId = "getSlice", summary = "Get slice keys",security = @SecurityRequirement(name = "bearerScheme"),
 			responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array",implementation = StructureSliceKeysModelSwagger.class)))})
 
-	public ResponseEntity <String> getSlice(@PathVariable(Constants.ID) String id) throws RmesException, JsonProcessingException {
+	public ResponseEntity <String> getSlice(@PathVariable(Constants.ID) String id) throws RmesException, JacksonException {
 		String jsonResult = structuresServices.getSlice(id);
 		if(jsonResult.isEmpty()){
 			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();

@@ -1,7 +1,6 @@
 package fr.insee.rmes.magma.gestion.old.services.structures;
 
 import tools.jackson.core.JacksonException;
-import tools.jackson.databind.ObjectMapper;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.structure.StructureByIdModelSwagger;
 import fr.insee.rmes.magma.gestion.old.persistence.FreeMarkerUtils;
 import fr.insee.rmes.magma.gestion.old.persistence.RdfService;
@@ -17,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -141,7 +141,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 
 			getStructureComponents(id, structure);
 
-			ObjectMapper mapper = new ObjectMapper();
+			JsonMapper mapper = JsonMapper.builder().build();
 			StructureByIdModelSwagger structureByID = mapper.readValue(structure.toString(), StructureByIdModelSwagger.class);
 
 			return mapper.writeValueAsString(structureByID);
@@ -163,7 +163,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 
 			JSONObject structure = (JSONObject) structureArray.get(0);
 
-			ObjectMapper mapper = new ObjectMapper();
+			JsonMapper mapper = JsonMapper.builder().build();
 			StructureByIdModelSwagger structureByID = mapper.readValue(structure.toString(), StructureByIdModelSwagger.class);
 
 			return mapper.writeValueAsString(structureByID);
