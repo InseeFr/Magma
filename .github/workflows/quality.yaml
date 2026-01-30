@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - main
+  schedule:
+    # Tous les lundis à 6h UTC
+    - cron: '0 12 * * 5'
 jobs:
   test-build:
     name: build & test & analyze
