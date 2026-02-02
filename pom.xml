@@ -6,13 +6,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.6</version>
+        <version>3.5.10</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <packaging>jar</packaging>
     <groupId>fr.insee.rmes</groupId>
     <artifactId>magma</artifactId>
-    <version>1.4.11</version>
+    <version>1.4.12-rc0</version>
     <name>magma</name>
     <description>Metadata management API</description>
     <organization>
@@ -32,6 +32,13 @@
     </properties>
 
     <dependencies>
+         <!-- A supprimer après une mise à jour de spring boot > 3.5.10 -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.27.7</version>
+        </dependency>
+        <!-- Fin des dépendances à supprimer pour la maj -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
