@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.gestion.old.services.concepts;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 import fr.insee.rmes.magma.gestion.old.model.concept.ConceptById;
 import fr.insee.rmes.magma.gestion.old.model.concept.ConceptDefCourte;
 import fr.insee.rmes.magma.gestion.old.model.concept.ConceptSDMX;
@@ -40,7 +40,7 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
 
 
     @Override
-    public String getDetailedConcept(String id) throws RmesException, JsonProcessingException {
+    public String getDetailedConcept(String id) throws RmesException, JacksonException {
         Map<String, Object> params = initParams();
         params.put("ID", id);
 
@@ -59,7 +59,8 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
             ConceptDefCourte defCourteEN = new ConceptDefCourte((String) defcourteen.get(CONTENU), Config.LG2);
             defCourtes.add(defCourteEN);
         }
-        ObjectMapper jsonResponse = new ObjectMapper();
+
+        JsonMapper jsonResponse = JsonMapper.builder().build();
         ConceptById conceptById = jsonResponse.readValue(concept.toString(), ConceptById.class);
 
         LabelConcept labelConcept1 = new LabelConcept(Config.LG1, conceptById.getPrefLabelLg1());
@@ -72,12 +73,12 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
 
 
         JSONArray sdmxArray = repoGestion.getResponseAsArray(buildRequest(Constants.CONCEPTS_QUERIES_PATH, "getConceptsSdmx.ftlh", params));
-        ObjectMapper mapper = new ObjectMapper();
+        JsonMapper mapper = JsonMapper.builder().build();
         ConceptByIdModelSwagger conceptByIdModelSwagger = new ConceptByIdModelSwagger();
         conceptByIdModelSwagger = new ConceptByIdModelSwagger(conceptById.getDateCreation(), conceptById.getDateMiseAJour(), conceptById.getStatutValidation(), conceptById.getId(), labelConcepts, conceptById.getDateFinValidite(), conceptById.getUri(), conceptById.getVersion(), defCourtes);
 
         if (sdmxArray.length() > 0) {
-            ObjectMapper jsonResponse2 = new ObjectMapper();
+            JsonMapper jsonResponse2 = JsonMapper.builder().build();
             ConceptSDMX[] conceptsSDMX = jsonResponse2.readValue(sdmxArray.toString(), ConceptSDMX[].class);
             conceptByIdModelSwagger.setConceptsSDMX(conceptsSDMX);
         }
@@ -99,16 +100,16 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
     }
 
     @Override
-    public String getDetailedConceptDateMAJ(String id) throws RmesException, JsonProcessingException {
+    public String getDetailedConceptDateMAJ(String id) throws RmesException, JacksonException {
         Map<String, Object> params = initParams();
         params.put("ID", id);
         JSONObject concept = repoGestion.getResponseAsObject(buildRequest(Constants.CONCEPTS_QUERIES_PATH,"getDetailedConceptDateMAJ.ftlh", params));
         if (concept.has("id")) {
 
-            ObjectMapper jsonResponse = new ObjectMapper();
+            JsonMapper jsonResponse = JsonMapper.builder().build();
             ConceptById conceptById = jsonResponse.readValue(concept.toString(), ConceptById.class);
 
-            ObjectMapper mapper = new ObjectMapper();
+            JsonMapper mapper = JsonMapper.builder().build();
             ConceptByIdModelSwagger conceptByIdModelSwagger = new ConceptByIdModelSwagger(conceptById.getDateCreation(), conceptById.getDateMiseAJour(), conceptById.getStatutValidation(), conceptById.getId(), conceptById.getDateFinValidite(), conceptById.getUri(), conceptById.getVersion());
             return mapper.writeValueAsString(conceptByIdModelSwagger);
         }
@@ -140,9 +141,9 @@ public class ConceptsImpl extends RdfService implements ConceptsServices {
     }
 
     @Override
-    public String getCollectionOfConcepts(String id) throws RmesException, JsonProcessingException {
+    public String getCollectionOfConcepts(String id) throws RmesException, JacksonException {
 
-        ObjectMapper mapper = new ObjectMapper();
+        JsonMapper mapper = JsonMapper.builder().build();
         Map<String, Object> params = initParams();
         params.put("ID", id);
 

@@ -1,7 +1,6 @@
 package fr.insee.rmes.magma.gestion.old.services.structures;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.structure.StructureByIdModelSwagger;
 import fr.insee.rmes.magma.gestion.old.persistence.FreeMarkerUtils;
 import fr.insee.rmes.magma.gestion.old.persistence.RdfService;
@@ -17,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -84,7 +84,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 	}
 
 	@Override
-	public String getStructure(String id) throws RmesException, JsonProcessingException {
+	public String getStructure(String id) throws RmesException, JacksonException {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put(STRUCTURES_GRAPH, config.getBaseGraph() + config.getStructuresGraph());
 		params.put(STRUCTURE_ID, id);
@@ -141,7 +141,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 
 			getStructureComponents(id, structure);
 
-			ObjectMapper mapper = new ObjectMapper();
+			JsonMapper mapper = JsonMapper.builder().build();
 			StructureByIdModelSwagger structureByID = mapper.readValue(structure.toString(), StructureByIdModelSwagger.class);
 
 			return mapper.writeValueAsString(structureByID);
@@ -153,7 +153,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 
 
 	@Override
-	public String getStructureDateMAJ(String id) throws RmesException, JsonProcessingException {
+	public String getStructureDateMAJ(String id) throws RmesException, JacksonException {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put(STRUCTURES_GRAPH, config.getBaseGraph() + config.getStructuresGraph());
 		params.put(STRUCTURE_ID, id);
@@ -163,7 +163,7 @@ public class StructuresImpl extends RdfService implements StructuresServices {
 
 			JSONObject structure = (JSONObject) structureArray.get(0);
 
-			ObjectMapper mapper = new ObjectMapper();
+			JsonMapper mapper = JsonMapper.builder().build();
 			StructureByIdModelSwagger structureByID = mapper.readValue(structure.toString(), StructureByIdModelSwagger.class);
 
 			return mapper.writeValueAsString(structureByID);

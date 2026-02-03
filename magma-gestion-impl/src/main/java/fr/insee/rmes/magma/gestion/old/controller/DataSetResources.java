@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.gestion.old.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import fr.insee.rmes.magma.gestion.old.datasets.PatchDatasetDTO;
 import fr.insee.rmes.magma.gestion.old.model.datasets.Distributions;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.dataset.DataSetModelSwagger;
@@ -51,7 +51,7 @@ public class DataSetResources {
     @GetMapping(path = "/datasets/list", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(operationId = "getListDatasets", summary = "Get list of datasets", security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(type = "array", implementation = DataSetModelSwagger.class)))})
-    public ResponseEntity<String> getListDatasets(@RequestParam(required = false) @Parameter(description = "Date of last update. Example: 2023-01-31") String dateMiseAJour) throws RmesException, JsonProcessingException {
+    public ResponseEntity<String> getListDatasets(@RequestParam(required = false) @Parameter(description = "Date of last update. Example: 2023-01-31") String dateMiseAJour) throws RmesException, JacksonException {
         if (dateMiseAJour == null){
             dateMiseAJour = "";
         }
@@ -69,7 +69,7 @@ public class DataSetResources {
 
     public ResponseEntity<String> getDataSetByID(@PathVariable("id") String id,
                                                  @RequestParam(name = "dateMiseAJour", defaultValue = "false") boolean boolDateMiseAJour
-    ) throws RmesException, JsonProcessingException {
+    ) throws RmesException, JacksonException {
 
         // par défaut ce booléen est faux et donc on renvoie tout les infos d'un dataset
         if (!boolDateMiseAJour) {
@@ -95,7 +95,7 @@ public class DataSetResources {
 
 
     @GetMapping(path = "/dataset/{id}/distributions", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Distributions[]>  getDataSetDistributionsById(@PathVariable String id) throws RmesException, JsonProcessingException {
+    public ResponseEntity<Distributions[]>  getDataSetDistributionsById(@PathVariable String id) throws RmesException, JacksonException {
 
         return ResponseEntity.ok(dataSetsServices.getDataSetDistributionsById(id));
     }
