@@ -121,77 +121,52 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
             contenuLg1.setTexte("");
         }
         contenuLg1.setLangue("fr");
-        if (rubriqueDTO.hasDocLg1() != null) {
-            if (rubriqueDTO.hasDocLg1()) {
-                List<DocumentDTO> rubriqueDocuments = requestProcessor.queryToFindDocuments()
-                        .with(new OperationsDocumentsRequestParametizer(rapportQualite.getId(), rubriqueDTO.id(),"fr"))
-                        .executeQuery()
-                        .listResult(DocumentDTO.class)
-                        .result();
-                for (DocumentDTO documentDTO : rubriqueDocuments) {
-                    Document document = new Document();
-                    if (documentDTO.labelLg1() != null && documentDTO.labelLg2() != null){
-                        List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.labelLg1(), "fr"), createLangueContenu(documentDTO.labelLg2(), "en"));
-                        document.label(label);
-                    }
-                    if (documentDTO.labelLg1() != null && documentDTO.labelLg2() == null) {
-                        LocalisedLabel labelLg1 = createLangueContenu(documentDTO.labelLg1(), "fr");
-                        List<LocalisedLabel> label = createListLangueContenu(labelLg1,null);
-                        document.label(label);
-                    }
-
-                    document.setDateMiseAJour(documentDTO.dateMiseAJour());
-                    document.setLangue(documentDTO.langue());
-                    document.setUrl(documentDTO.url());
-                    contenuLg1.addDocumentsItem(document);
-                }
-
-            }
+        if (rubriqueDTO.hasDocLg1() != null && rubriqueDTO.hasDocLg1()) {
+            addContenu(requestProcessor, rapportQualite, rubriqueDTO, "fr", contenuLg1);
         }
-
         rubrique.addContenusItem(contenuLg1);
 
-        if (rubriqueDTO.hasDocLg2() != null) {
-            if (StringUtils.isNotEmpty(rubriqueDTO.labelLg2())||rubriqueDTO.hasDocLg2()){
-                Contenu contenuLg2 = new Contenu();
-                contenuLg2.setDocuments(null);// will be valued only if a document exists
-                if (StringUtils.isNotEmpty(rubriqueDTO.labelLg2())) {
-                    contenuLg2.setTexte(rubriqueDTO.labelLg2());
-                } else {
-                    contenuLg2.setTexte("");
-                }
-                contenuLg2.setLangue("en");
-
-                if (rubriqueDTO.hasDocLg2()) {
-                    List<DocumentDTO> rubriqueDocuments = requestProcessor.queryToFindDocuments()
-                            .with(new OperationsDocumentsRequestParametizer(rapportQualite.getId(), rubriqueDTO.id(),"en"))
-                            .executeQuery()
-                            .listResult(DocumentDTO.class)
-                            .result();
-                    for (DocumentDTO documentDTO : rubriqueDocuments) {
-                        Document document = new Document();
-                        if (documentDTO.labelLg1() != null && documentDTO.labelLg2() != null){
-                            List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.labelLg1(), "fr"), createLangueContenu(documentDTO.labelLg2(), "en"));
-                            document.label(label);
-                        }
-                        if (documentDTO.labelLg1() != null && documentDTO.labelLg2() == null) {
-                            LocalisedLabel labelFr = createLangueContenu(documentDTO.labelLg1(), "fr");
-                            List<LocalisedLabel> label = createListLangueContenu(labelFr,null);
-                            document.label(label);
-                        }
-
-                        document.setDateMiseAJour(documentDTO.dateMiseAJour());
-                        document.setLangue(documentDTO.langue());
-                        document.setUrl(documentDTO.url());
-                        contenuLg2.addDocumentsItem(document);
-                    }
-                }
-                rubrique.addContenusItem(contenuLg2);
+        if (rubriqueDTO.hasDocLg2() != null && (StringUtils.isNotEmpty(rubriqueDTO.labelLg2())||rubriqueDTO.hasDocLg2())){
+            Contenu contenuLg2 = new Contenu();
+            contenuLg2.setDocuments(null);// will be valued only if a document exists
+            if (StringUtils.isNotEmpty(rubriqueDTO.labelLg2())) {
+                contenuLg2.setTexte(rubriqueDTO.labelLg2());
+            } else {
+                contenuLg2.setTexte("");
             }
+            contenuLg2.setLangue("en");
+            if (rubriqueDTO.hasDocLg2()) {
+                addContenu(requestProcessor, rapportQualite, rubriqueDTO, "en", contenuLg2);
+            }
+            rubrique.addContenusItem(contenuLg2);
         }
 
-
         return rubrique;
+    }
+
+    private static void addContenu(RequestProcessor requestProcessor, RapportQualite rapportQualite, RubriqueDTO rubriqueDTO, String lang, Contenu contenuLg1) {
+        List<DocumentDTO> rubriqueDocuments = requestProcessor.queryToFindDocuments()
+                .with(new OperationsDocumentsRequestParametizer(rapportQualite.getId(), rubriqueDTO.id(), lang))
+                .executeQuery()
+                .listResult(DocumentDTO.class)
+                .result();
+        for (DocumentDTO documentDTO : rubriqueDocuments) {
+            Document document = new Document();
+            if (documentDTO.labelLg1() != null && documentDTO.labelLg2() != null) {
+                List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.labelLg1(), "fr"), createLangueContenu(documentDTO.labelLg2(), "en"));
+                document.label(label);
+            }
+            if (documentDTO.labelLg1() != null && documentDTO.labelLg2() == null) {
+                LocalisedLabel labelsLg1 = createLangueContenu(documentDTO.labelLg1(), "fr");
+                List<LocalisedLabel> label = createListLangueContenu(labelsLg1, null);
+                document.label(label);
+            }
+
+            document.setDateMiseAJour(documentDTO.dateMiseAJour());
+            document.setLangue(documentDTO.langue());
+            document.setUrl(documentDTO.url());
+            contenuLg1.addDocumentsItem(document);
+        }
     }
 
     private Rubrique addCodeList (RubriqueDTO rubriqueDTO, Rubrique rubrique, RapportQualite rapportQualite) {
