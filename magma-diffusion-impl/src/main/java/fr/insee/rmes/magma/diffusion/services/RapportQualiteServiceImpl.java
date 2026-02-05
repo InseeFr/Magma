@@ -116,7 +116,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
 
     }
 
-    private Rubrique addRichText(RubriqueDTO rubriqueDTO, Rubrique rubrique, RapportQualite rapportQualite, RequestProcessor requestProcessor) {
+    private void addRichText(RubriqueDTO rubriqueDTO, Rubrique rubrique, RapportQualite rapportQualite, RequestProcessor requestProcessor) {
         Contenu contenuLg1 = new Contenu();
         contenuLg1.setDocuments(null);// will be valued only if a document exists
         if (StringUtils.isNotEmpty(rubriqueDTO.labelLg1())) {
@@ -145,7 +145,6 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
             rubrique.addContenusItem(contenuLg2);
         }
 
-        return rubrique;
     }
 
     private static void addContenu(RequestProcessor requestProcessor, RapportQualite rapportQualite, RubriqueDTO rubriqueDTO, String lang, Contenu contenuLg1) {
@@ -177,15 +176,11 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
         IdUriLabel rubriqueCodeList = new IdUriLabel();
         rubriqueCodeList.setId(rubriqueDTO.valeurSimple());
         rubriqueCodeList.setUri(URI.create(rubriqueDTO.codeUri()));
-        if (rubriqueDTO.labelObjLg1() != null && rubriqueDTO.labelObjLg2() != null) {
-            List<LocalisedLabel> labelCodeList = createListLangueContenu(createLangueContenu(rubriqueDTO.labelObjLg1(), "fr"), createLangueContenu(rubriqueDTO.labelObjLg2(), "en"));
-            rubriqueCodeList.setLabel(labelCodeList);
-        }
-        if (rubriqueDTO.labelObjLg1() != null && rubriqueDTO.labelObjLg2() == null) {
-            LocalisedLabel labelCodeListLg1 = createLangueContenu(rubriqueDTO.labelObjLg1(), "fr");
-            List<LocalisedLabel> label = new ArrayList<>();
-            label.add(labelCodeListLg1);
-            rubriqueCodeList.setLabel(label);
+        if (rubriqueDTO.labelObjLg1() != null) {
+            LocalisedLabel labelLg1 = rubriqueDTO.labelObjLg1() != null ? createLangueContenu(rubriqueDTO.labelObjLg1(), "fr") : null;
+            LocalisedLabel labelLg2 = rubriqueDTO.labelObjLg2() != null ? createLangueContenu(rubriqueDTO.labelObjLg2(), "en") : null;
+
+            rubriqueCodeList.setLabel(createListLangueContenu(labelLg1, labelLg2));
         }
 
         if (rapportQualite.getRubriques() != null) {//is null if the first rubric is a CODE_LIST type rubric
