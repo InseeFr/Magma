@@ -51,8 +51,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
     private Rubrique transformRubrique(RubriqueDTO rubriqueDTO, RapportQualite rapportQualite, RequestProcessor requestProcessor) {
 
         Rubrique rubrique = new Rubrique();
-        rubrique.setId(rubriqueDTO.id());
-        rubrique.setUri(rubriqueDTO.uri());
+        createIdUriLabel(rubriqueDTO, rubrique);
         rubrique.setIdParent(rubriqueDTO.idParent());
         rubrique.setType(rubriqueDTO.type());
         rubrique.setLabel(null);//valued later only if exists
@@ -79,10 +78,10 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
                 rubrique.setLabel(label);
                 break;
             case "GEOGRAPHY":
-                rubrique.setTerritoire(createIdUriLabel(rubriqueDTO, rubriqueDTO.geoUri()));
+                rubrique.setTerritoire(createUriLabel(rubriqueDTO, rubriqueDTO.geoUri()));
                 break;
             case "ORGANIZATION":
-                rubrique.setOrganisme(createIdUriLabel(rubriqueDTO, rubriqueDTO.organisationUri()));
+                rubrique.setOrganisme(createUriLabel(rubriqueDTO, rubriqueDTO.organisationUri()));
                 break;
             default:
                 break;
@@ -92,8 +91,13 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
 
     }
 
+    private static void createIdUriLabel(RubriqueDTO rubriqueDTO, Rubrique rubrique) {
+        rubrique.setId(rubriqueDTO.id());
+        rubrique.setUri(rubriqueDTO.uri());
+    }
 
-    private IdUriLabel createIdUriLabel(RubriqueDTO rubriqueDTO, String uri) {
+
+    private IdUriLabel createUriLabel(RubriqueDTO rubriqueDTO, String uri) {
         IdUriLabel rubriqueWithIdUriLabel = new IdUriLabel();
         rubriqueWithIdUriLabel.setId(rubriqueDTO.valeurSimple());
         rubriqueWithIdUriLabel.setUri(URI.create(uri));
@@ -184,7 +188,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
             rubriqueCodeList.setLabel(label);
         }
 
-        if (rapportQualite.getRubriques() != null) {//is null if the first rubrique is a CODE_LIST type rubrique
+        if (rapportQualite.getRubriques() != null) {//is null if the first rubric is a CODE_LIST type rubric
 
             boolean rubricExist = rapportQualite.getRubriques().stream()
                     .filter(Objects::nonNull) // We keep only not null rubrics, otherwise NullPointer Exception when r.getId()
