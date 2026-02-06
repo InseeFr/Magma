@@ -50,13 +50,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
 
     private Rubrique transformRubrique(RubriqueDTO rubriqueDTO, RapportQualite rapportQualite, RequestProcessor requestProcessor) {
 
-        Rubrique rubrique = new Rubrique();
-        createIdUriLabel(rubriqueDTO, rubrique);
-        rubrique.setIdParent(rubriqueDTO.idParent());
-        rubrique.setType(rubriqueDTO.type());
-        rubrique.setLabel(null);//valued later only if exists
-        rubrique.setContenus(null);//valued later only if exists
-        rubrique.setCodes(null);//valued later only if exists
+        Rubrique rubrique = createRubrique(rubriqueDTO);
 
         if (rubriqueDTO.titreLg1() != null && rubriqueDTO.titreLg2() != null) {
             List<LocalisedLabel> titre = createListLangueContenu(createLangueContenu(rubriqueDTO.titreLg1(), "fr"), createLangueContenu(rubriqueDTO.titreLg2(), "en"));
@@ -91,9 +85,16 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
 
     }
 
-    private static void createIdUriLabel(RubriqueDTO rubriqueDTO, Rubrique rubrique) {
+    private static Rubrique createRubrique(RubriqueDTO rubriqueDTO) {
+        Rubrique rubrique = new Rubrique();
         rubrique.setId(rubriqueDTO.id());
         rubrique.setUri(rubriqueDTO.uri());
+        rubrique.setIdParent(rubriqueDTO.idParent());
+        rubrique.setType(rubriqueDTO.type());
+        rubrique.setLabel(null);//valued only if exists
+        rubrique.setContenus(null);//valued only if exists
+        rubrique.setCodes(null);//valued only if exists
+        return rubrique;
     }
 
 
@@ -125,12 +126,12 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
             contenuLg1.setTexte("");
         }
         contenuLg1.setLangue("fr");
-        if (rubriqueDTO.hasDocLg1() != null && rubriqueDTO.hasDocLg1()) {
+        if (rubriqueDTO.hasDocLg1()) {
             addContenu(requestProcessor, rapportQualite, rubriqueDTO, "fr", contenuLg1);
         }
         rubrique.addContenusItem(contenuLg1);
 
-        if (rubriqueDTO.hasDocLg2() != null && (StringUtils.isNotEmpty(rubriqueDTO.labelLg2())||rubriqueDTO.hasDocLg2())){
+        if (rubriqueDTO.isDocLg2NotEmpty() && (StringUtils.isNotEmpty(rubriqueDTO.labelLg2())||rubriqueDTO.hasDocLg2())){
             Contenu contenuLg2 = new Contenu();
             contenuLg2.setDocuments(null);// will be valued only if a document exists
             if (StringUtils.isNotEmpty(rubriqueDTO.labelLg2())) {
@@ -146,6 +147,8 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
         }
 
     }
+
+
 
     private static void addContenu(RequestProcessor requestProcessor, RapportQualite rapportQualite, RubriqueDTO rubriqueDTO, String lang, Contenu contenuLg1) {
         List<DocumentDTO> rubriqueDocuments = requestProcessor.queryToFindDocuments()
@@ -177,7 +180,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
         rubriqueCodeList.setId(rubriqueDTO.valeurSimple());
         rubriqueCodeList.setUri(URI.create(rubriqueDTO.codeUri()));
         if (rubriqueDTO.labelObjLg1() != null) {
-            LocalisedLabel labelLg1 = rubriqueDTO.labelObjLg1() != null ? createLangueContenu(rubriqueDTO.labelObjLg1(), "fr") : null;
+             LocalisedLabel labelLg1 = createLangueContenu(rubriqueDTO.labelObjLg1(), "fr");
             LocalisedLabel labelLg2 = rubriqueDTO.labelObjLg2() != null ? createLangueContenu(rubriqueDTO.labelObjLg2(), "en") : null;
 
             rubriqueCodeList.setLabel(createListLangueContenu(labelLg1, labelLg2));
