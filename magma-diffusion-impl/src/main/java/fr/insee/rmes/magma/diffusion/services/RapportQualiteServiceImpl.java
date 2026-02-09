@@ -20,6 +20,11 @@ import static fr.insee.rmes.magma.diffusion.utils.LocalisedLabelUtils.createList
 @Service
 public class RapportQualiteServiceImpl implements RapportQualiteService {
 
+    private final RequestProcessor requestProcessor;
+    public RapportQualiteServiceImpl(RequestProcessor requestProcessor) {
+        this.requestProcessor = requestProcessor;
+    }
+
     @Override
     public RapportQualite transformDTOenRapportQualite(RapportQualiteDTO rapportQualiteDTO, RequestProcessor requestProcessor) {
         RapportQualite rapportQualite = new RapportQualite();
@@ -38,7 +43,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
         if (rapportQualiteDTO.rubriqueDTOList() != null) {
 
             for (RubriqueDTO rubDTO : rapportQualiteDTO.rubriqueDTOList()) {
-                Rubrique rubrique = transformRubrique(rubDTO, rapportQualite, requestProcessor);
+                Rubrique rubrique = transformRubrique(rubDTO, rapportQualite);
                 if (rubrique != null) { //rubric can be null : case of a CODE_LIST rubric with several codes and return null for addCodeList when rubric has been yet added with another code (it's the case when maxOccurs not null and rubricExist is true)
                     rapportQualite.addRubriquesItem(rubrique);
                 }
@@ -48,7 +53,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
             return rapportQualite;
     }
 
-    private Rubrique transformRubrique(RubriqueDTO rubriqueDTO, RapportQualite rapportQualite, RequestProcessor requestProcessor) {
+    private Rubrique transformRubrique(RubriqueDTO rubriqueDTO, RapportQualite rapportQualite) {
 
         Rubrique rubrique = createRubrique(rubriqueDTO);
 
@@ -65,7 +70,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
                 rubrique = addCodeList(rubriqueDTO, rubrique, rapportQualite);
                 break;
             case "RICH_TEXT":
-                addRichText(rubriqueDTO, rubrique, rapportQualite, requestProcessor);
+                addRichText(rubriqueDTO, rubrique, rapportQualite);
                 break;
             case "TEXT":
                 List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(rubriqueDTO.labelLg1(), "fr"), createLangueContenu(rubriqueDTO.labelLg2(), "en"));
@@ -117,7 +122,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
 
     }
 
-    private void addRichText(RubriqueDTO rubriqueDTO, Rubrique rubrique, RapportQualite rapportQualite, RequestProcessor requestProcessor) {
+    private void addRichText(RubriqueDTO rubriqueDTO, Rubrique rubrique, RapportQualite rapportQualite) {
         Contenu contenuLg1 = new Contenu();
         contenuLg1.setDocuments(null);// will be valued only if a document exists
         if (StringUtils.isNotEmpty(rubriqueDTO.labelLg1())) {
@@ -127,7 +132,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
         }
         contenuLg1.setLangue("fr");
         if (Boolean.TRUE.equals(rubriqueDTO.hasDocLg1())) {
-            contenuLg1.addDocumentsItem(findDocument(requestProcessor, rapportQualite.getId(), rubriqueDTO.id(), "fr"));
+            contenuLg1.addDocumentsItem(findDocument(rapportQualite.getId(), rubriqueDTO.id(), "fr"));
         }
         rubrique.addContenusItem(contenuLg1);
 
@@ -141,15 +146,15 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
             }
             contenuLg2.setLangue("en");
             if (Boolean.TRUE.equals(rubriqueDTO.hasDocLg2())) {
-                contenuLg2.addDocumentsItem(findDocument(requestProcessor,rapportQualite.getId(), rubriqueDTO.id(), "en"));
+                contenuLg2.addDocumentsItem(findDocument(rapportQualite.getId(), rubriqueDTO.id(), "en"));
             }
             rubrique.addContenusItem(contenuLg2);
         }
 
     }
-    
-    private static Document findDocument(RequestProcessor requestProcessor, String rapportQualiteId, String rubriqueDTOId, String lang) {
-        DocumentDTO documentDTO = requestProcessor.queryToFindDocuments()
+
+    private Document findDocument(String rapportQualiteId, String rubriqueDTOId, String lang) {
+        DocumentDTO documentDTO = this.requestProcessor.queryToFindDocuments()
                 .with(new OperationsDocumentsRequestParametizer(rapportQualiteId, rubriqueDTOId, lang))
                 .executeQuery()
                 .singleResult(DocumentDTO.class)
