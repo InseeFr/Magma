@@ -1,5 +1,4 @@
-SELECT DISTINCT
-?creator ?labelCreatorLg1 ?labelCreatorLg2 ?idCreator
+SELECT DISTINCT  (group_concat(distinct ?idCreator;separator=",") as ?names)
 
 WHERE {
         ?uri a dcat:CatalogRecord ;
@@ -8,7 +7,6 @@ WHERE {
 
         OPTIONAL{?uriDataset dcterms:creator ?creator  .
                 ?creator dcterms:identifier ?idCreator.
-                ?creator dcterms:identifier '${CREATOR}'.
         		?creator skos:prefLabel ?labelCreatorLg1 .
         		FILTER(lang(?labelCreatorLg1)= '${LG1}') .
         		?creator skos:prefLabel ?labelCreatorLg2 .
