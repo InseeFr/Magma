@@ -21,9 +21,6 @@ public record RubriqueDTO (
     String geoUri
 ){
 
-        public boolean isDocLg1NotEmpty() {
-            return hasDocLg1() != null;
-        }
 
         public boolean isDocLg2NotEmpty() {
             return hasDocLg2() != null;
