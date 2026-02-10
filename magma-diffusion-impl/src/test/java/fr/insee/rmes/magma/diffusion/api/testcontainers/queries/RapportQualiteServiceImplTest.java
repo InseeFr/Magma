@@ -21,7 +21,7 @@ public class RapportQualiteServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        service = new RapportQualiteServiceImpl();
+        service = new RapportQualiteServiceImpl(requestProcessor);
     }
 
     @Test

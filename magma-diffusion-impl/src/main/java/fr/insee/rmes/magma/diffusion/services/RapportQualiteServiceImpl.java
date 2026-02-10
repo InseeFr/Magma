@@ -20,6 +20,11 @@ import static fr.insee.rmes.magma.diffusion.utils.LocalisedLabelUtils.createList
 @Service
 public class RapportQualiteServiceImpl implements RapportQualiteService {
 
+    private final RequestProcessor requestProcessor;
+    public RapportQualiteServiceImpl(RequestProcessor requestProcessor) {
+        this.requestProcessor = requestProcessor;
+    }
+
     @Override
     public RapportQualite transformDTOenRapportQualite(RapportQualiteDTO rapportQualiteDTO, RequestProcessor requestProcessor) {
         RapportQualite rapportQualite = new RapportQualite();
@@ -38,7 +43,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
         if (rapportQualiteDTO.rubriqueDTOList() != null) {
 
             for (RubriqueDTO rubDTO : rapportQualiteDTO.rubriqueDTOList()) {
-                Rubrique rubrique = transformRubrique(rubDTO, rapportQualite, requestProcessor);
+                Rubrique rubrique = transformRubrique(rubDTO, rapportQualite);
                 if (rubrique != null) { //rubric can be null : case of a CODE_LIST rubric with several codes and return null for addCodeList when rubric has been yet added with another code (it's the case when maxOccurs not null and rubricExist is true)
                     rapportQualite.addRubriquesItem(rubrique);
                 }
@@ -48,16 +53,9 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
             return rapportQualite;
     }
 
-    private Rubrique transformRubrique(RubriqueDTO rubriqueDTO, RapportQualite rapportQualite, RequestProcessor requestProcessor) {
+    private Rubrique transformRubrique(RubriqueDTO rubriqueDTO, RapportQualite rapportQualite) {
 
-        Rubrique rubrique = new Rubrique();
-        rubrique.setId(rubriqueDTO.id());
-        rubrique.setUri(rubriqueDTO.uri());
-        rubrique.setIdParent(rubriqueDTO.idParent());
-        rubrique.setType(rubriqueDTO.type());
-        rubrique.setLabel(null);//valued later only if exists
-        rubrique.setContenus(null);//valued later only if exists
-        rubrique.setCodes(null);//valued later only if exists
+        Rubrique rubrique = createRubrique(rubriqueDTO);
 
         if (rubriqueDTO.titreLg1() != null && rubriqueDTO.titreLg2() != null) {
             List<LocalisedLabel> titre = createListLangueContenu(createLangueContenu(rubriqueDTO.titreLg1(), "fr"), createLangueContenu(rubriqueDTO.titreLg2(), "en"));
@@ -72,17 +70,17 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
                 rubrique = addCodeList(rubriqueDTO, rubrique, rapportQualite);
                 break;
             case "RICH_TEXT":
-                addRichText(rubriqueDTO, rubrique, rapportQualite, requestProcessor);
+                addRichText(rubriqueDTO, rubrique, rapportQualite);
                 break;
             case "TEXT":
                 List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(rubriqueDTO.labelLg1(), "fr"), createLangueContenu(rubriqueDTO.labelLg2(), "en"));
                 rubrique.setLabel(label);
                 break;
             case "GEOGRAPHY":
-                rubrique.setTerritoire(createIdUriLabel(rubriqueDTO, rubriqueDTO.geoUri()));
+                rubrique.setTerritoire(createUriLabel(rubriqueDTO, rubriqueDTO.geoUri()));
                 break;
             case "ORGANIZATION":
-                rubrique.setOrganisme(createIdUriLabel(rubriqueDTO, rubriqueDTO.organisationUri()));
+                rubrique.setOrganisme(createUriLabel(rubriqueDTO, rubriqueDTO.organisationUri()));
                 break;
             default:
                 break;
@@ -92,8 +90,20 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
 
     }
 
+    private static Rubrique createRubrique(RubriqueDTO rubriqueDTO) {
+        Rubrique rubrique = new Rubrique();
+        rubrique.setId(rubriqueDTO.id());
+        rubrique.setUri(rubriqueDTO.uri());
+        rubrique.setIdParent(rubriqueDTO.idParent());
+        rubrique.setType(rubriqueDTO.type());
+        rubrique.setLabel(null);//valued only if exists
+        rubrique.setContenus(null);//valued only if exists
+        rubrique.setCodes(null);//valued only if exists
+        return rubrique;
+    }
 
-    private IdUriLabel createIdUriLabel(RubriqueDTO rubriqueDTO, String uri) {
+
+    private IdUriLabel createUriLabel(RubriqueDTO rubriqueDTO, String uri) {
         IdUriLabel rubriqueWithIdUriLabel = new IdUriLabel();
         rubriqueWithIdUriLabel.setId(rubriqueDTO.valeurSimple());
         rubriqueWithIdUriLabel.setUri(URI.create(uri));
@@ -112,7 +122,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
 
     }
 
-    private Rubrique addRichText(RubriqueDTO rubriqueDTO, Rubrique rubrique, RapportQualite rapportQualite, RequestProcessor requestProcessor) {
+    private void addRichText(RubriqueDTO rubriqueDTO, Rubrique rubrique, RapportQualite rapportQualite) {
         Contenu contenuLg1 = new Contenu();
         contenuLg1.setDocuments(null);// will be valued only if a document exists
         if (StringUtils.isNotEmpty(rubriqueDTO.labelLg1())) {
@@ -121,34 +131,12 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
             contenuLg1.setTexte("");
         }
         contenuLg1.setLangue("fr");
-        if (rubriqueDTO.hasDocLg1()) {
-            List<DocumentDTO> rubriqueDocuments = requestProcessor.queryToFindDocuments()
-                    .with(new OperationsDocumentsRequestParametizer(rapportQualite.getId(), rubriqueDTO.id(),"fr"))
-                    .executeQuery()
-                    .listResult(DocumentDTO.class)
-                    .result();
-            for (DocumentDTO documentDTO : rubriqueDocuments) {
-                Document document = new Document();
-                if (documentDTO.labelLg1() != null && documentDTO.labelLg2() != null){
-                    List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.labelLg1(), "fr"), createLangueContenu(documentDTO.labelLg2(), "en"));
-                    document.label(label);
-                }
-                if (documentDTO.labelLg1() != null && documentDTO.labelLg2() == null) {
-                    LocalisedLabel labelLg1 = createLangueContenu(documentDTO.labelLg1(), "fr");
-                    List<LocalisedLabel> label = createListLangueContenu(labelLg1,null);
-                    document.label(label);
-                }
-
-                document.setDateMiseAJour(documentDTO.dateMiseAJour());
-                document.setLangue(documentDTO.langue());
-                document.setUrl(documentDTO.url());
-                contenuLg1.addDocumentsItem(document);
-            }
-
+        if (Boolean.TRUE.equals(rubriqueDTO.hasDocLg1())) {
+            contenuLg1.addDocumentsItem(findDocument(rapportQualite.getId(), rubriqueDTO.id(), "fr"));
         }
         rubrique.addContenusItem(contenuLg1);
 
-        if (StringUtils.isNotEmpty(rubriqueDTO.labelLg2())||rubriqueDTO.hasDocLg2()){
+        if (rubriqueDTO.isDocLg2NotEmpty() && (StringUtils.isNotEmpty(rubriqueDTO.labelLg2())||rubriqueDTO.hasDocLg2())){
             Contenu contenuLg2 = new Contenu();
             contenuLg2.setDocuments(null);// will be valued only if a document exists
             if (StringUtils.isNotEmpty(rubriqueDTO.labelLg2())) {
@@ -157,52 +145,49 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
                 contenuLg2.setTexte("");
             }
             contenuLg2.setLangue("en");
-
-            if (rubriqueDTO.hasDocLg2()) {
-                List<DocumentDTO> rubriqueDocuments = requestProcessor.queryToFindDocuments()
-                        .with(new OperationsDocumentsRequestParametizer(rapportQualite.getId(), rubriqueDTO.id(),"en"))
-                        .executeQuery()
-                        .listResult(DocumentDTO.class)
-                        .result();
-                for (DocumentDTO documentDTO : rubriqueDocuments) {
-                    Document document = new Document();
-                    if (documentDTO.labelLg1() != null && documentDTO.labelLg2() != null){
-                        List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.labelLg1(), "fr"), createLangueContenu(documentDTO.labelLg2(), "en"));
-                        document.label(label);
-                    }
-                    if (documentDTO.labelLg1() != null && documentDTO.labelLg2() == null) {
-                        LocalisedLabel labelFr = createLangueContenu(documentDTO.labelLg1(), "fr");
-                        List<LocalisedLabel> label = createListLangueContenu(labelFr,null);
-                        document.label(label);
-                    }
-
-                    document.setDateMiseAJour(documentDTO.dateMiseAJour());
-                    document.setLangue(documentDTO.langue());
-                    document.setUrl(documentDTO.url());
-                    contenuLg2.addDocumentsItem(document);
-                }
+            if (Boolean.TRUE.equals(rubriqueDTO.hasDocLg2())) {
+                contenuLg2.addDocumentsItem(findDocument(rapportQualite.getId(), rubriqueDTO.id(), "en"));
             }
             rubrique.addContenusItem(contenuLg2);
         }
-        return rubrique;
+
+    }
+
+    private Document findDocument(String rapportQualiteId, String rubriqueDTOId, String lang) {
+        DocumentDTO documentDTO = this.requestProcessor.queryToFindDocuments()
+                .with(new OperationsDocumentsRequestParametizer(rapportQualiteId, rubriqueDTOId, lang))
+                .executeQuery()
+                .singleResult(DocumentDTO.class)
+                .result();
+        Document document = new Document();
+        if (documentDTO.labelLg1() != null && documentDTO.labelLg2() != null) {
+            List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.labelLg1(), "fr"), createLangueContenu(documentDTO.labelLg2(), "en"));
+            document.label(label);
+        }
+        if (documentDTO.labelLg1() != null && documentDTO.labelLg2() == null) {
+            LocalisedLabel labelsLg1 = createLangueContenu(documentDTO.labelLg1(), "fr");
+            List<LocalisedLabel> label = createListLangueContenu(labelsLg1, null);
+            document.label(label);
+        }
+
+        document.setDateMiseAJour(documentDTO.dateMiseAJour());
+        document.setLangue(documentDTO.langue());
+        document.setUrl(documentDTO.url());
+        return document;
     }
 
     private Rubrique addCodeList (RubriqueDTO rubriqueDTO, Rubrique rubrique, RapportQualite rapportQualite) {
         IdUriLabel rubriqueCodeList = new IdUriLabel();
         rubriqueCodeList.setId(rubriqueDTO.valeurSimple());
         rubriqueCodeList.setUri(URI.create(rubriqueDTO.codeUri()));
-        if (rubriqueDTO.labelObjLg1() != null && rubriqueDTO.labelObjLg2() != null) {
-            List<LocalisedLabel> labelCodeList = createListLangueContenu(createLangueContenu(rubriqueDTO.labelObjLg1(), "fr"), createLangueContenu(rubriqueDTO.labelObjLg2(), "en"));
-            rubriqueCodeList.setLabel(labelCodeList);
-        }
-        if (rubriqueDTO.labelObjLg1() != null && rubriqueDTO.labelObjLg2() == null) {
-            LocalisedLabel labelCodeListLg1 = createLangueContenu(rubriqueDTO.labelObjLg1(), "fr");
-            List<LocalisedLabel> label = new ArrayList<>();
-            label.add(labelCodeListLg1);
-            rubriqueCodeList.setLabel(label);
+        if (rubriqueDTO.labelObjLg1() != null) {
+             LocalisedLabel labelLg1 = createLangueContenu(rubriqueDTO.labelObjLg1(), "fr");
+            LocalisedLabel labelLg2 = rubriqueDTO.labelObjLg2() != null ? createLangueContenu(rubriqueDTO.labelObjLg2(), "en") : null;
+
+            rubriqueCodeList.setLabel(createListLangueContenu(labelLg1, labelLg2));
         }
 
-        if (rapportQualite.getRubriques() != null) {//is null if the first rubrique is a CODE_LIST type rubrique
+        if (rapportQualite.getRubriques() != null) {//is null if the first rubric is a CODE_LIST type rubric
 
             boolean rubricExist = rapportQualite.getRubriques().stream()
                     .filter(Objects::nonNull) // We keep only not null rubrics, otherwise NullPointer Exception when r.getId()

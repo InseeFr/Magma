@@ -13,13 +13,18 @@ public record RubriqueDTO (
     String labelLg2,
     String codeUri,
     String organisationUri,
-    boolean hasDocLg1,
-    boolean hasDocLg2,
+    Boolean hasDocLg1,
+    Boolean hasDocLg2,
     String labelObjLg1,
     String labelObjLg2,
     String maxOccurs,
     String geoUri
 ){
+
+
+        public boolean isDocLg2NotEmpty() {
+            return hasDocLg2() != null;
+        }
 
         public RubriqueDTO withLabelLg1(String labelLg1) {
             return new RubriqueDTO(id, uri, idParent, type, titreLg1, titreLg2, valeurSimple, labelLg1, labelLg2, codeUri, organisationUri,
