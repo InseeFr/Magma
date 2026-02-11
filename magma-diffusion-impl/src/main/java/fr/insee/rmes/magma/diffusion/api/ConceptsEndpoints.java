@@ -30,7 +30,7 @@ public class ConceptsEndpoints implements ConceptsApi {
                 .singleResult(ConceptDTO.class).result();
 
         if (conceptDTO != null) {
-            if (conceptDTO.getHasLink()) {
+            if (Boolean.TRUE.equals(conceptDTO.getHasLink())) {
                 List<NearbyConcept> nearbyConceptList = requestProcessor.queryToFindNearbyConcepts()
                         .with(new ConceptsRequestParametizer(conceptDTO.getUri()))
                         .executeQuery()
@@ -38,14 +38,13 @@ public class ConceptsEndpoints implements ConceptsApi {
                 conceptDTO.setNearbyConcepts(nearbyConceptList);
             }
 
-            if (conceptDTO.getHasIntitulesAlternatifs()){
+            if (Boolean.TRUE.equals(conceptDTO.getHasIntitulesAlternatifs())){
                 List<LocalisedLabel> intitulesAlternatifs = requestProcessor.queryToFindConceptIntitulesAlternatifs()
                         .with(new ConceptsRequestParametizer(conceptDTO.getUri()))
                         .executeQuery()
                         .listResult(LocalisedLabel.class)
                         .result();
 
-                //TODO modifier nom de ConceptsNearbyRequestParametizer + supprimer le paramètre TypeOrigine ?
                 conceptDTO.setIntitulesAlternatifs(intitulesAlternatifs);
 
             }
@@ -70,7 +69,7 @@ public class ConceptsEndpoints implements ConceptsApi {
                 .result();
 
         listConceptDTOs.forEach(conceptDto -> {
-            if (conceptDto.getHasLink()){
+            if (Boolean.TRUE.equals(conceptDto.getHasLink())){
                 List<NearbyConcept> nearbyConceptList = requestProcessor.queryToFindNearbyConcepts()
                         .with(new ConceptsRequestParametizer(conceptDto.getUri()))
                         .executeQuery()
@@ -81,7 +80,7 @@ public class ConceptsEndpoints implements ConceptsApi {
 
         List<ConceptForList> concepts = listConceptDTOs.stream()
                 .map(ConceptDTO::transformDTOenDefinition)
-                .collect(Collectors.toList());
+                .toList();
 
         return EndpointsUtils.toResponseEntity(concepts);
 
