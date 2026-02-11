@@ -133,7 +133,7 @@ public class ConceptsQueriesTest extends TestcontainerTest {
 //    concepts/definitions?libelle=elect
     @Test
     void should_return_16_concepts_when_ConceptsDefinitions_libelleElect() {
-        var response  = endpoints.getconceptsliste("Élect");
+        var response  = endpoints.getconceptsliste("Élect",null);
         var result = response.getBody();
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
@@ -169,7 +169,7 @@ public class ConceptsQueriesTest extends TestcontainerTest {
     //    concepts/definitions
     @Test
     void should_return_1232_concepts_when_ConceptsDefinitions_libelleNull() {
-        var response  = endpoints.getconceptsliste("");
+        var response  = endpoints.getconceptsliste("",null);
         var result = response.getBody();
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();

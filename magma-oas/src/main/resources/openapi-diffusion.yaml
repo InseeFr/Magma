@@ -106,6 +106,7 @@ paths:
       operationId: getconceptsliste
       parameters:
         - $ref: '#/components/parameters/libelleConceptInQuery'
+        - $ref: '#/components/parameters/collectionConceptInQuery'
       responses:
         '200':
           $ref: '#/components/responses/ConceptsListe200'
@@ -2250,6 +2251,15 @@ components:
       schema:
         type: 'string'
         example: 'élect'
+
+    collectionConceptInQuery:
+      required: false
+      name: collection
+      in: query
+      description: 'Recherche dans les collections'
+      schema:
+        type: 'string'
+        example: 'appli-mobile'
 
     codeAireDAttractionDesVilles2020InPath:
       name: 'code'
