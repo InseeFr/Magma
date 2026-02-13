@@ -196,4 +196,15 @@ public class DataSetModelSwagger implements Serializable  {
         this.validationState = validationState;
         this.themeModelSwaggerS = themeModelSwaggerS;
     }
+
+    public DataSetModelSwagger(Id id, List<LangContent> title, Uri uri, String validationState, CatalogRecordCreated catalogRecordCreated, CatalogRecordModified catalogRecordModified, CatalogRecordCreator catalogRecordCreator, CatalogRecordContributor catalogRecordContributor) {
+        this.id = id.toString();
+        this.title = title;
+        this.uri = uri.toString();
+        this.validationState = validationState;
+        this.catalogRecordContributor = catalogRecordContributor;
+        this.catalogRecordCreator = catalogRecordCreator;
+        this.catalogRecordCreated = catalogRecordCreated;
+        this.catalogRecordModified = catalogRecordModified;
+    }
 }
