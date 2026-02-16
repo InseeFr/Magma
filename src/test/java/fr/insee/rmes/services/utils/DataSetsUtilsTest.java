@@ -69,4 +69,6 @@ public class DataSetsUtilsTest {
 
     public static final String CATALOGUE_RESULT_RELATIONS = "{\"relations\":\"http://www.insee.fr,http://www.rdf.insee.fr\"}";
     public static final String EXPECTED_RELATIONS = "[\"http://www.insee.fr\", \"http://www.rdf.insee.fr\"]";
+    public static final String CATALOGUE_RESULT_MINIMAL = "{\"id\":\"jd1000\", \"titleLg1\":\"Titre FR\", \"titleLg2\":\"Title EN\", \"uri\":\"http://bauhaus/catalogues/jeuDeDonnees/jd1000\", \"catalogRecordCreated\":\"2024-01-01T00:00:00\", \"catalogRecordModified\":\"2024-01-02T00:00:00\", \"catalogRecordCreator\":\"creator1\", \"catalogRecordContributor\":\"contributor1\", \"statutValidation\":\"Modified\"}";
+
 }

@@ -251,19 +251,6 @@ class DataSetsImplTest {
 
     // --- Tests for findDataSetModelSwagger ---
 
-    private JSONObject buildMinimalCatalogueResult() {
-        JSONObject catalogue = new JSONObject();
-        catalogue.put("id", "jd1000");
-        catalogue.put("titleLg1", "Titre FR");
-        catalogue.put("titleLg2", "Title EN");
-        catalogue.put("uri", "http://bauhaus/catalogues/jeuDeDonnees/jd1000");
-        catalogue.put("catalogRecordCreated", "2024-01-01T00:00:00");
-        catalogue.put("catalogRecordModified", "2024-01-02T00:00:00");
-        catalogue.put("catalogRecordCreator", "creator1");
-        catalogue.put("catalogRecordContributor", "contributor1");
-        catalogue.put("statutValidation", "Modified");
-        return catalogue;
-    }
 
     private void mockSubQueries(JSONObject adms, JSONObject codes, JSONObject ontologies, JSONObject organisations, JSONObject structures) throws RmesException {
         when(repoGestion.getResponseAsObject("getDataSetById_catalogueAdms.ftlh")).thenReturn(adms);
@@ -275,7 +262,7 @@ class DataSetsImplTest {
 
     @Test
     void findDataSetModelSwagger_shouldReturnMinimalDataSet_withoutDisseminationStatus() throws RmesException, JsonProcessingException {
-        JSONObject catalogueResult = buildMinimalCatalogueResult();
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
         JSONObject emptyJson = new JSONObject();
 
         when(repoGestion.getResponseAsObject("getDataSetById_catalogue.ftlh")).thenReturn(catalogueResult);
@@ -297,7 +284,7 @@ class DataSetsImplTest {
 
     @Test
     void findDataSetModelSwagger_shouldReturnDataSet_withDisseminationStatus() throws RmesException, JsonProcessingException {
-        JSONObject catalogueResult = buildMinimalCatalogueResult();
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
         JSONObject emptyJson = new JSONObject();
         JSONObject ontologiesResult = new JSONObject();
         ontologiesResult.put("labeldisseminationStatusLg1", "Public");
@@ -314,7 +301,7 @@ class DataSetsImplTest {
 
     @Test
     void findDataSetModelSwagger_shouldSetOptionalFields_whenPresentInCatalogue() throws RmesException, JsonProcessingException {
-        JSONObject catalogueResult = buildMinimalCatalogueResult();
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
         catalogueResult.put("dateModification", "2024-06-15T10:00:00");
         catalogueResult.put("subtitleLg1", "Sous-titre FR");
         catalogueResult.put("subtitleLg2", "Subtitle EN");
@@ -339,7 +326,7 @@ class DataSetsImplTest {
 
     @Test
     void findDataSetModelSwagger_shouldSetIdentifier_whenPresentInAdms() throws RmesException, JsonProcessingException {
-        JSONObject catalogueResult = buildMinimalCatalogueResult();
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
         JSONObject admsResult = new JSONObject();
         admsResult.put("identifier", "INSEE-JD1000");
         JSONObject emptyJson = new JSONObject();
@@ -354,7 +341,7 @@ class DataSetsImplTest {
 
     @Test
     void findDataSetModelSwagger_shouldSetPublisher_whenPresentInOrganisations() throws RmesException, JsonProcessingException {
-        JSONObject catalogueResult = buildMinimalCatalogueResult();
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
         JSONObject organisationsResult = new JSONObject();
         organisationsResult.put("idPublisher", "INSEE");
         organisationsResult.put("labelPublisherLg1", "Institut national de la statistique");
@@ -372,7 +359,7 @@ class DataSetsImplTest {
 
     @Test
     void findDataSetModelSwagger_shouldSetTypeAndAccessRights_whenPresentInCodes() throws RmesException, JsonProcessingException {
-        JSONObject catalogueResult = buildMinimalCatalogueResult();
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
         JSONObject codesResult = new JSONObject();
         codesResult.put("labeltypeLg1", "Fichier detail");
         codesResult.put("labeltypeLg2", "Detail file");
@@ -391,7 +378,7 @@ class DataSetsImplTest {
 
     @Test
     void findDataSetModelSwagger_shouldSetTemporal_whenPresentInCatalogue() throws RmesException, JsonProcessingException {
-        JSONObject catalogueResult = buildMinimalCatalogueResult();
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
         catalogueResult.put("startPeriod", "2020-01-01");
         catalogueResult.put("endPeriod", "2023-12-31");
         JSONObject emptyJson = new JSONObject();
@@ -406,7 +393,7 @@ class DataSetsImplTest {
 
     @Test
     void findDataSetModelSwagger_shouldSetStructure_whenDsdPresentInStructures() throws RmesException, JsonProcessingException {
-        JSONObject catalogueResult = buildMinimalCatalogueResult();
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
         JSONObject structuresResult = new JSONObject();
         structuresResult.put("uri", "http://structures/dsd1");
         structuresResult.put("structureId", "dsd1");
@@ -424,7 +411,7 @@ class DataSetsImplTest {
 
     @Test
     void findDataSetModelSwagger_shouldSetStructureFromUri_whenNoDsd() throws RmesException, JsonProcessingException {
-        JSONObject catalogueResult = buildMinimalCatalogueResult();
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
         JSONObject structuresResult = new JSONObject();
         structuresResult.put("uri", "http://structures/struct1");
         JSONObject emptyJson = new JSONObject();
