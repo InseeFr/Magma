@@ -25,6 +25,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -48,7 +50,7 @@ class DataSetsImplTest {
     void getListDataSetsTest() throws RmesException, JsonProcessingException {
         JSONArray mockJSON = new JSONArray(DataSetsUtilsTest.DATA_SET_LIST);
         when(repoGestion.getResponseAsArray(Mockito.anyString())).thenReturn(mockJSON);
-        assertThat(MAPPER.readTree(dataSetsImpl.getListDataSets(""))).isEqualTo(MAPPER.readTree(DataSetsUtilsTest.EXPECTED_GET_DATA_SET_LIST.toString()));
+        assertThat(MAPPER.readTree(dataSetsImpl.getListDataSets(""))).isEqualTo(MAPPER.readTree(DataSetsUtilsTest.EXPECTED_GET_DATA_SET_LIST));
     }
 
     @Test
@@ -171,9 +173,6 @@ class DataSetsImplTest {
     }
 
     @ParameterizedTest(name = "{0}")
-    /*@CsvSource({
-            "subtitleLg1, subtitleLg2"
-    })*/
     @MethodSource(value = "argumentsProvider")
     void testPresenceVariablePuisAjoutTest_checkFieldIsAdded(String key1, String key2, Supplier<List<LangContent>> getListLangContent) throws RmesException, JsonProcessingException {
         var catalogue_result = new JSONObject(Map.of(key1, "l1", key2, "l2"));
@@ -440,6 +439,44 @@ class DataSetsImplTest {
         DataSetModelSwagger result = dataSetsImpl.findDataSetModelSwagger("jd1000");
 
         assertThat(result.getStructure()).isNotNull();
+    }
+
+    @Test
+    void getStatisticalUnit_shouldReturnIdLabelsForEachUri() throws Exception {
+        JSONObject response1 = new JSONObject();
+        response1.put("labelUriStatisticalLg1", "Ménages");
+        response1.put("labelUriStatisticalLg2", "Households");
+
+        JSONObject response2 = new JSONObject();
+        response2.put("labelUriStatisticalLg1", "Individus");
+        response2.put("labelUriStatisticalLg2", "Individuals");
+
+        when(repoGestion.getResponseAsObject(Mockito.anyString()))
+                .thenReturn(response1)
+                .thenReturn(response2);
+
+        Method method = DataSetsImpl.class.getDeclaredMethod("getStatisticalUnit", List.class, String.class);
+        method.setAccessible(true);
+
+        @SuppressWarnings("unchecked")
+        List<IdLabel> result = (List<IdLabel>) method.invoke(dataSetsImpl, List.of("http://uri1", "http://uri2"), "jd1000");
+
+        assertThat(result).hasSize(2);
+        assertThat(result.get(0).getId()).isEqualTo("http://uri1");
+        assertThat(result.get(0).getLabel()).isEqualTo(dataSetsImpl.constructLangContent("Ménages", "Households"));
+        assertThat(result.get(1).getId()).isEqualTo("http://uri2");
+        assertThat(result.get(1).getLabel()).isEqualTo(dataSetsImpl.constructLangContent("Individus", "Individuals"));
+    }
+
+    @Test
+    void getStatisticalUnit_shouldReturnEmptyList_whenNoUris() throws Exception {
+        Method method = DataSetsImpl.class.getDeclaredMethod("getStatisticalUnit", List.class, String.class);
+        method.setAccessible(true);
+
+        @SuppressWarnings("unchecked")
+        List<IdLabel> result = (List<IdLabel>) method.invoke(dataSetsImpl, List.of(), "jd1000");
+
+        assertThat(result).isEmpty();
     }
 
 }
