@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import fr.insee.rmes.dto.datasets.PatchDatasetDTO;
-import fr.insee.rmes.model.datasets.Theme;
+import fr.insee.rmes.model.datasets.*;
 import fr.insee.rmes.modelSwagger.dataset.*;
 import fr.insee.rmes.persistence.RepositoryGestion;
 import fr.insee.rmes.services.utils.DataSetsUtilsTest;
@@ -25,6 +25,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -48,7 +50,7 @@ class DataSetsImplTest {
     void getListDataSetsTest() throws RmesException, JsonProcessingException {
         JSONArray mockJSON = new JSONArray(DataSetsUtilsTest.DATA_SET_LIST);
         when(repoGestion.getResponseAsArray(Mockito.anyString())).thenReturn(mockJSON);
-        assertThat(MAPPER.readTree(dataSetsImpl.getListDataSets(""))).isEqualTo(MAPPER.readTree(DataSetsUtilsTest.EXPECTED_GET_DATA_SET_LIST.toString()));
+        assertThat(MAPPER.readTree(dataSetsImpl.getListDataSets(""))).isEqualTo(MAPPER.readTree(DataSetsUtilsTest.EXPECTED_GET_DATA_SET_LIST));
     }
 
     @Test
@@ -171,9 +173,6 @@ class DataSetsImplTest {
     }
 
     @ParameterizedTest(name = "{0}")
-    /*@CsvSource({
-            "subtitleLg1, subtitleLg2"
-    })*/
     @MethodSource(value = "argumentsProvider")
     void testPresenceVariablePuisAjoutTest_checkFieldIsAdded(String key1, String key2, Supplier<List<LangContent>> getListLangContent) throws RmesException, JsonProcessingException {
         var catalogue_result = new JSONObject(Map.of(key1, "l1", key2, "l2"));
@@ -220,6 +219,22 @@ class DataSetsImplTest {
                 .hasMessageContaining("Non existent dataset identifier");
     }
 
+    @Test
+    void getDataSetByIDSummary_shouldReturnIdUriAndModified_whenDataSetExists() throws RmesException, JsonProcessingException {
+        JSONObject mockJSON = new JSONObject();
+        mockJSON.put("id", "jd1000");
+        mockJSON.put("uri", "http://bauhaus/catalogues/jeuDeDonnees/jd1000");
+        mockJSON.put("dateMiseAJour", "2024-06-15T10:00:00");
+        when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
+
+        String result = dataSetsImpl.getDataSetByIDSummary("jd1000");
+
+        var resultNode = MAPPER.readTree(result);
+        assertThat(resultNode.get("id").asText()).isEqualTo("jd1000");
+        assertThat(resultNode.get("uri").asText()).isEqualTo("http://bauhaus/catalogues/jeuDeDonnees/jd1000");
+        assertThat(resultNode.get("modified").asText()).isEqualTo("2024-06-15T10:00:00");
+    }
+
 
     @Test
     void patchDataset_shouldReturn400() {
@@ -247,9 +262,221 @@ class DataSetsImplTest {
         String expected_2 = "[LangContent(lang=lg2, content=contentLg2)]";
         assertThat(actual_1).isEqualTo(expected_1);
         assertThat(actual_2).isEqualTo(expected_2);
-
-
     }
 
+    // /////////////////////////////////////
+    // Tests for findDataSetModelSwagger  //
+    // /////////////////////////////////////
+
+
+    private void mockSubQueries(JSONObject adms, JSONObject codes, JSONObject ontologies, JSONObject organisations, JSONObject structures) throws RmesException {
+        when(repoGestion.getResponseAsObject("getDataSetById_catalogueAdms.ftlh")).thenReturn(adms);
+        when(repoGestion.getResponseAsObject("getDataSetById_catalogueCodes.ftlh")).thenReturn(codes);
+        when(repoGestion.getResponseAsObject("getDataSetById_catalogueOntologies.ftlh")).thenReturn(ontologies);
+        when(repoGestion.getResponseAsObject("getDataSetById_catalogueOrganisations.ftlh")).thenReturn(organisations);
+        when(repoGestion.getResponseAsObject("getDataSetById_catalogueStructures.ftlh")).thenReturn(structures);
+    }
+
+    @Test
+    void findDataSetModelSwagger_shouldReturnMinimalDataSet_withoutDisseminationStatus() throws RmesException, JsonProcessingException {
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
+        JSONObject emptyJson = new JSONObject();
+
+        when(repoGestion.getResponseAsObject("getDataSetById_catalogue.ftlh")).thenReturn(catalogueResult);
+        mockSubQueries(emptyJson, emptyJson, emptyJson, emptyJson, emptyJson);
+
+        DataSetModelSwagger result = dataSetsImpl.findDataSetModelSwagger("jd1000");
+
+        assertThat(result.getId()).isEqualTo("jd1000");
+        assertThat(result.getUri()).isEqualTo("http://bauhaus/catalogues/jeuDeDonnees/jd1000");
+        assertThat(result.getValidationState()).isEqualTo("Modified");
+        assertThat(result.getTitle()).isEqualTo(dataSetsImpl.constructLangContent("Titre FR", "Title EN"));
+        assertThat(result.getCatalogRecordCreated()).isEqualTo(new CatalogRecordCreated("2024-01-01T00:00:00"));
+        assertThat(result.getCatalogRecordModified()).isEqualTo(new CatalogRecordModified("2024-01-02T00:00:00"));
+        assertThat(result.getCatalogRecordCreator()).isEqualTo(new CatalogRecordCreator("creator1"));
+        assertThat(result.getCatalogRecordContributor()).isEqualTo(new CatalogRecordContributor("contributor1"));
+        assertThat(result.getDisseminationStatus()).isNull();
+        assertThat(result.getKeyword()).isEmpty();
+    }
+
+    @Test
+    void findDataSetModelSwagger_shouldReturnDataSet_withDisseminationStatus() throws RmesException, JsonProcessingException {
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
+        JSONObject emptyJson = new JSONObject();
+        JSONObject ontologiesResult = new JSONObject();
+        ontologiesResult.put("labeldisseminationStatusLg1", "Public");
+
+        when(repoGestion.getResponseAsObject("getDataSetById_catalogue.ftlh")).thenReturn(catalogueResult);
+        mockSubQueries(emptyJson, emptyJson, ontologiesResult, emptyJson, emptyJson);
+
+        DataSetModelSwagger result = dataSetsImpl.findDataSetModelSwagger("jd1000");
+
+        assertThat(result.getId()).isEqualTo("jd1000");
+        assertThat(result.getDisseminationStatus()).isEqualTo("Public");
+        assertThat(result.getTitle()).isEqualTo(dataSetsImpl.constructLangContent("Titre FR", "Title EN"));
+    }
+
+    @Test
+    void findDataSetModelSwagger_shouldSetOptionalFields_whenPresentInCatalogue() throws RmesException, JsonProcessingException {
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
+        catalogueResult.put("dateModification", "2024-06-15T10:00:00");
+        catalogueResult.put("subtitleLg1", "Sous-titre FR");
+        catalogueResult.put("subtitleLg2", "Subtitle EN");
+        catalogueResult.put("abstractLg1", "Resume FR");
+        catalogueResult.put("abstractLg2", "Abstract EN");
+        catalogueResult.put("version", "1.0");
+        catalogueResult.put("dateEmission", "2024-01-15");
+
+        JSONObject emptyJson = new JSONObject();
+
+        when(repoGestion.getResponseAsObject("getDataSetById_catalogue.ftlh")).thenReturn(catalogueResult);
+        mockSubQueries(emptyJson, emptyJson, emptyJson, emptyJson, emptyJson);
+
+        DataSetModelSwagger result = dataSetsImpl.findDataSetModelSwagger("jd1000");
+
+        assertThat(result.getModified()).isEqualTo("2024-06-15T10:00:00");
+        assertThat(result.getSubtitle()).isEqualTo(dataSetsImpl.constructLangContent("Sous-titre FR", "Subtitle EN"));
+        assertThat(result.getAbstractDataset()).isEqualTo(dataSetsImpl.constructLangContent("Resume FR", "Abstract EN"));
+        assertThat(result.getVersion()).isEqualTo("1.0");
+        assertThat(result.getIssued()).isEqualTo("2024-01-15");
+    }
+
+    @Test
+    void findDataSetModelSwagger_shouldSetIdentifier_whenPresentInAdms() throws RmesException, JsonProcessingException {
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
+        JSONObject admsResult = new JSONObject();
+        admsResult.put("identifier", "INSEE-JD1000");
+        JSONObject emptyJson = new JSONObject();
+
+        when(repoGestion.getResponseAsObject("getDataSetById_catalogue.ftlh")).thenReturn(catalogueResult);
+        mockSubQueries(admsResult, emptyJson, emptyJson, emptyJson, emptyJson);
+
+        DataSetModelSwagger result = dataSetsImpl.findDataSetModelSwagger("jd1000");
+
+        assertThat(result.getIdentifier()).isEqualTo("INSEE-JD1000");
+    }
+
+    @Test
+    void findDataSetModelSwagger_shouldSetPublisher_whenPresentInOrganisations() throws RmesException, JsonProcessingException {
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
+        JSONObject organisationsResult = new JSONObject();
+        organisationsResult.put("idPublisher", "INSEE");
+        organisationsResult.put("labelPublisherLg1", "Institut national de la statistique");
+        organisationsResult.put("labelPublisherLg2", "National Institute of Statistics");
+        JSONObject emptyJson = new JSONObject();
+
+        when(repoGestion.getResponseAsObject("getDataSetById_catalogue.ftlh")).thenReturn(catalogueResult);
+        mockSubQueries(emptyJson, emptyJson, emptyJson, organisationsResult, emptyJson);
+
+        DataSetModelSwagger result = dataSetsImpl.findDataSetModelSwagger("jd1000");
+
+        assertThat(result.getPublisher()).isNotNull();
+        assertThat(result.getPublisher().getId()).isEqualTo("INSEE");
+    }
+
+    @Test
+    void findDataSetModelSwagger_shouldSetTypeAndAccessRights_whenPresentInCodes() throws RmesException, JsonProcessingException {
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
+        JSONObject codesResult = new JSONObject();
+        codesResult.put("labeltypeLg1", "Fichier detail");
+        codesResult.put("labeltypeLg2", "Detail file");
+        codesResult.put("labelaccessRightsLg1", "Acces libre");
+        codesResult.put("labelaccessRightsLg2", "Open access");
+        JSONObject emptyJson = new JSONObject();
+
+        when(repoGestion.getResponseAsObject("getDataSetById_catalogue.ftlh")).thenReturn(catalogueResult);
+        mockSubQueries(emptyJson, codesResult, emptyJson, emptyJson, emptyJson);
+
+        DataSetModelSwagger result = dataSetsImpl.findDataSetModelSwagger("jd1000");
+
+        assertThat(result.getType()).isEqualTo(dataSetsImpl.constructLangContent("Fichier detail", "Detail file"));
+        assertThat(result.getAccessRights()).isEqualTo(dataSetsImpl.constructLangContent("Acces libre", "Open access"));
+    }
+
+    @Test
+    void findDataSetModelSwagger_shouldSetTemporal_whenPresentInCatalogue() throws RmesException, JsonProcessingException {
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
+        catalogueResult.put("startPeriod", "2020-01-01");
+        catalogueResult.put("endPeriod", "2023-12-31");
+        JSONObject emptyJson = new JSONObject();
+
+        when(repoGestion.getResponseAsObject("getDataSetById_catalogue.ftlh")).thenReturn(catalogueResult);
+        mockSubQueries(emptyJson, emptyJson, emptyJson, emptyJson, emptyJson);
+
+        DataSetModelSwagger result = dataSetsImpl.findDataSetModelSwagger("jd1000");
+
+        assertThat(result.getTemporal()).isNotNull();
+    }
+
+    @Test
+    void findDataSetModelSwagger_shouldSetStructure_whenDsdPresentInStructures() throws RmesException, JsonProcessingException {
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
+        JSONObject structuresResult = new JSONObject();
+        structuresResult.put("uri", "http://structures/dsd1");
+        structuresResult.put("structureId", "dsd1");
+        structuresResult.put("dsd", "DSD_CHAMP");
+        structuresResult.put("DataStructureDefinition", "true");
+        JSONObject emptyJson = new JSONObject();
+
+        when(repoGestion.getResponseAsObject("getDataSetById_catalogue.ftlh")).thenReturn(catalogueResult);
+        mockSubQueries(emptyJson, emptyJson, emptyJson, emptyJson, structuresResult);
+
+        DataSetModelSwagger result = dataSetsImpl.findDataSetModelSwagger("jd1000");
+
+        assertThat(result.getStructure()).isNotNull();
+    }
+
+    @Test
+    void findDataSetModelSwagger_shouldSetStructureFromUri_whenNoDsd() throws RmesException, JsonProcessingException {
+        var catalogueResult = new JSONObject(DataSetsUtilsTest.CATALOGUE_RESULT_MINIMAL);
+        JSONObject structuresResult = new JSONObject();
+        structuresResult.put("uri", "http://structures/struct1");
+        JSONObject emptyJson = new JSONObject();
+
+        when(repoGestion.getResponseAsObject("getDataSetById_catalogue.ftlh")).thenReturn(catalogueResult);
+        mockSubQueries(emptyJson, emptyJson, emptyJson, emptyJson, structuresResult);
+
+        DataSetModelSwagger result = dataSetsImpl.findDataSetModelSwagger("jd1000");
+
+        assertThat(result.getStructure()).isNotNull();
+    }
+
+    @Test
+    void getStatisticalUnit_shouldReturnIdLabelsForEachUri() throws Exception {
+        JSONObject response1 = new JSONObject();
+        response1.put("labelUriStatisticalLg1", "Ménages");
+        response1.put("labelUriStatisticalLg2", "Households");
+
+        JSONObject response2 = new JSONObject();
+        response2.put("labelUriStatisticalLg1", "Individus");
+        response2.put("labelUriStatisticalLg2", "Individuals");
+
+        when(repoGestion.getResponseAsObject(Mockito.anyString()))
+                .thenReturn(response1)
+                .thenReturn(response2);
+
+        Method method = DataSetsImpl.class.getDeclaredMethod("getStatisticalUnit", List.class, String.class);
+        method.setAccessible(true);
+
+        @SuppressWarnings("unchecked")
+        List<IdLabel> result = (List<IdLabel>) method.invoke(dataSetsImpl, List.of("http://uri1", "http://uri2"), "jd1000");
+
+        assertThat(result).hasSize(2);
+        assertThat(result.get(0).getId()).isEqualTo("http://uri1");
+        assertThat(result.get(0).getLabel()).isEqualTo(dataSetsImpl.constructLangContent("Ménages", "Households"));
+        assertThat(result.get(1).getId()).isEqualTo("http://uri2");
+        assertThat(result.get(1).getLabel()).isEqualTo(dataSetsImpl.constructLangContent("Individus", "Individuals"));
+    }
+
+    @Test
+    void getStatisticalUnit_shouldReturnEmptyList_whenNoUris() throws Exception {
+        Method method = DataSetsImpl.class.getDeclaredMethod("getStatisticalUnit", List.class, String.class);
+        method.setAccessible(true);
+
+        @SuppressWarnings("unchecked")
+        List<IdLabel> result = (List<IdLabel>) method.invoke(dataSetsImpl, List.of(), "jd1000");
+
+        assertThat(result).isEmpty();
+    }
 
 }
