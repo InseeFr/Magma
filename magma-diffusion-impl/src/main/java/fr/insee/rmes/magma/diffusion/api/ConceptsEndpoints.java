@@ -62,10 +62,11 @@ public class ConceptsEndpoints implements ConceptsApi {
     }
 
     @Override
-    public ResponseEntity<List<ConceptForList>> getconceptsliste(String libelle, String collection) {
-        String label = StringUtils.isEmpty(libelle) ? "" : libelle;
+    public ResponseEntity<List<ConceptForList>> getconceptsliste(String label, String collect) {
+        String libelle = StringUtils.isEmpty(label) ? "" : label;
+        String collection = StringUtils.isEmpty(collect) ? "" : collect;
         List<ConceptDTO> listConceptDTOs = requestProcessor.queryToFindConcepts()
-                .with(new ConceptsRequestParametizer(label, collection))
+                .with(new ConceptsRequestParametizer(libelle, collection))
                 .executeQuery()
                 .listResult(ConceptDTO.class)
                 .result();
