@@ -220,6 +220,22 @@ class DataSetsImplTest {
                 .hasMessageContaining("Non existent dataset identifier");
     }
 
+    @Test
+    void getDataSetByIDSummary_shouldReturnIdUriAndModified_whenDataSetExists() throws RmesException, JsonProcessingException {
+        JSONObject mockJSON = new JSONObject();
+        mockJSON.put("id", "jd1000");
+        mockJSON.put("uri", "http://bauhaus/catalogues/jeuDeDonnees/jd1000");
+        mockJSON.put("dateMiseAJour", "2024-06-15T10:00:00");
+        when(repoGestion.getResponseAsObject(Mockito.anyString())).thenReturn(mockJSON);
+
+        String result = dataSetsImpl.getDataSetByIDSummary("jd1000");
+
+        var resultNode = MAPPER.readTree(result);
+        assertThat(resultNode.get("id").asText()).isEqualTo("jd1000");
+        assertThat(resultNode.get("uri").asText()).isEqualTo("http://bauhaus/catalogues/jeuDeDonnees/jd1000");
+        assertThat(resultNode.get("modified").asText()).isEqualTo("2024-06-15T10:00:00");
+    }
+
 
     @Test
     void patchDataset_shouldReturn400() {
@@ -249,7 +265,9 @@ class DataSetsImplTest {
         assertThat(actual_2).isEqualTo(expected_2);
     }
 
-    // --- Tests for findDataSetModelSwagger ---
+    // /////////////////////////////////////
+    // Tests for findDataSetModelSwagger  //
+    // /////////////////////////////////////
 
 
     private void mockSubQueries(JSONObject adms, JSONObject codes, JSONObject ontologies, JSONObject organisations, JSONObject structures) throws RmesException {
