@@ -165,6 +165,46 @@ public class ConceptsQueriesTest extends TestcontainerTest {
         );
     }
 
+    //    concepts/definitions?collection=appli-mobile
+    @Test
+    void should_return_4_concepts_when_ConceptsDefinitions_collectionAppliMobile() {
+        var response  = endpoints.getconceptsliste(null,"appli-mobile");
+        var result = response.getBody();
+        Assertions.assertNotNull(result);
+        var resultItem1= result.getFirst();
+        var resultItem2= result.get(1);
+        var resultItem3= result.get(2);
+        var resultItem4= result.get(3);
+        assertAll(
+                () -> assertEquals(4, result.size()),
+
+                () -> assertEquals("c1116", resultItem1.getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1116"), resultItem1.getUri()),
+                () -> assertEquals("Accidents corporels de la circulation", resultItem1.getIntitule()),
+
+                () -> assertEquals("c1236", resultItem2.getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1236"), resultItem2.getUri()),
+                () -> assertEquals("Indice de peuplement des logements", resultItem2.getIntitule()),
+                () -> assertEquals("c2335", resultItem2.getConceptsLies().getFirst().getId()),
+                () -> assertEquals("related", resultItem2.getConceptsLies().getFirst().getTypeOfLink()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2335"), resultItem2.getConceptsLies().getFirst().getUri()),
+                () -> assertEquals("c2336", resultItem2.getConceptsLies().get(1).getId()),
+                () -> assertEquals("related", resultItem2.getConceptsLies().get(2).getTypeOfLink()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2336"), resultItem2.getConceptsLies().get(1).getUri()),
+                () -> assertEquals("c2337", resultItem2.getConceptsLies().get(2).getId()),
+                () -> assertEquals("related", resultItem2.getConceptsLies().get(2).getTypeOfLink()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2337"), resultItem2.getConceptsLies().get(2).getUri()),
+                () -> assertEquals("c1702", resultItem2.getConceptsReferences().getFirst().getId()),
+                () -> assertEquals("references", resultItem2.getConceptsReferences().getFirst().getTypeOfLink()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1702"), resultItem2.getConceptsReferences().getFirst().getUri()),
+
+                () -> assertEquals("c1047", resultItem3.getId()),
+                () -> assertEquals("c1325", resultItem4.getId())
+
+        );
+    }
+
+
 
     //    concepts/definitions
     @Test
