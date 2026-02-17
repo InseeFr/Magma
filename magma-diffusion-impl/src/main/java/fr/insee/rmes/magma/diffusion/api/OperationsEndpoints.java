@@ -32,7 +32,7 @@ public class OperationsEndpoints implements OperationsApi {
                 .singleResult(RapportQualiteDTO.class)
                 .result();
 
-        if (rapportQualiteDTO.uri() != null) {
+        if (rapportQualiteDTO != null) {
             String LG1_CL = "http://id.insee.fr/codes/langue/fr";
             String LG2_CL = "http://id.insee.fr/codes/langue/en";
 
@@ -42,12 +42,15 @@ public class OperationsEndpoints implements OperationsApi {
                     .listResult(RubriqueDTO.class)
                     .result();
             rapportQualiteDTO = rapportQualiteDTO.withRubriqueDTOList(rubriqueList);
-        }
 
 
-        RapportQualite rapportQualite = rapportQualiteService.transformDTOenRapportQualite(rapportQualiteDTO, requestProcessor);
+            RapportQualite rapportQualite = rapportQualiteService.transformDTOenRapportQualite(rapportQualiteDTO, requestProcessor);
 
-        return EndpointsUtils.toResponseEntity(rapportQualite);
+            return EndpointsUtils.toResponseEntity(rapportQualite);
+        } else {
+        return ResponseEntity.notFound().build();
+
+    }
 
         }
 
