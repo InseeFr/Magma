@@ -16,7 +16,7 @@ import java.util.Map;
 public record QueryBuilder(Configuration freemarkerConfiguration) {
     public static final String ASCENDANTS_OR_DESCENDANTS = "geographie/getAscendantsOrDescendantsByCodeTypeDate.ftlh";
     public static final String CONCEPT = "concepts/getConceptByCode.ftlh";
-    public static final String CONCEPTS = "concepts/getConceptsByLabel.ftlh";
+    public static final String CONCEPTS = "concepts/getConceptsByLabelOrCollection.ftlh";
     public static final String NEARBY_CONCEPTS = "concepts/getLinkedConceptsQuery.ftlh";
     public static final String INTITULES_ALTERNATIFS = "concepts/getConceptIntitulesAlternatifs.ftlh";
     public static final String TERRITOIRE = "geographie/getTerritoireByCodeDateNomCommune.ftlh";
