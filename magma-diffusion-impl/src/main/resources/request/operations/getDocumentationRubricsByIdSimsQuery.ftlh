@@ -10,6 +10,7 @@ SELECT distinct ?uri ?id ?idParent ?titreLg1 ?titreLg2 ?type ?valeurSimple ?labe
 WHERE {
 ?report rdf:type sdmx-mm:MetadataReport .
 ?reporturi sdmx-mm:metadataReport ?report .
+?reporturi ?uri ?reportedValue .
 OPTIONAL {
 	?mas sdmx-mm:metadataAttributeProperty ?uri .
     ?mas sdmx-mm:parent ?uriParent .
