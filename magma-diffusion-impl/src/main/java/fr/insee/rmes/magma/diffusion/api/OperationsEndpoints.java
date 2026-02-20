@@ -45,7 +45,7 @@ public class OperationsEndpoints implements OperationsApi {
         }
 
 
-        RapportQualite rapportQualite = rapportQualiteService.transformDTOenRapportQualite(rapportQualiteDTO, requestProcessor);
+        RapportQualite rapportQualite = rapportQualiteService.transformDTOenRapportQualite(rapportQualiteDTO);
 
         return EndpointsUtils.toResponseEntity(rapportQualite);
 

@@ -30,7 +30,7 @@ public class RapportQualiteServiceImplTest {
         RapportQualiteDTO dto = new RapportQualiteDTO("rubrique-001","http://example.com/rubrique-001","Rapport qualité","Quality report", null,null,null,null,null);
 
         // When
-        RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
+        RapportQualite result = service.transformDTOenRapportQualite(dto);
 
         // Then
         assertThat(result.getId()).isEqualTo("rubrique-001");
@@ -51,7 +51,7 @@ public class RapportQualiteServiceImplTest {
         RapportQualiteDTO dto = new RapportQualiteDTO("rubrique-002","http://example.com/rubrique-002","Rapport qualité",null,null,null,null,null,null);
 
         // When
-        RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
+        RapportQualite result = service.transformDTOenRapportQualite(dto);
 
         // Then
         assertThat(result.getLabel()).hasSize(2);
@@ -66,7 +66,7 @@ public class RapportQualiteServiceImplTest {
         dto.withRubriqueDTOList(null);
 
         // When
-        RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
+        RapportQualite result = service.transformDTOenRapportQualite(dto);
 
         // Then
         assertThat(result.getId()).isEqualTo("rubrique-test");
@@ -84,7 +84,7 @@ public class RapportQualiteServiceImplTest {
         dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
-        RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
+        RapportQualite result = service.transformDTOenRapportQualite(dto);
 
         // Then
         assertThat(result.getRubriques()).hasSize(1);
@@ -107,7 +107,7 @@ public class RapportQualiteServiceImplTest {
         dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
-        RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
+        RapportQualite result = service.transformDTOenRapportQualite(dto);
 
         // Then
         assertThat(result.getRubriques()).hasSize(1);
@@ -130,7 +130,7 @@ public class RapportQualiteServiceImplTest {
         dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
-        RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
+        RapportQualite result = service.transformDTOenRapportQualite(dto);
 
         // Then
         assertThat(result.getRubriques()).hasSize(1);
@@ -156,7 +156,7 @@ public class RapportQualiteServiceImplTest {
         dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
-        RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
+        RapportQualite result = service.transformDTOenRapportQualite(dto);
 
         // Then
         Rubrique rubrique = result.getRubriques().getFirst();
@@ -178,7 +178,7 @@ public class RapportQualiteServiceImplTest {
         dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
-        RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
+        RapportQualite result = service.transformDTOenRapportQualite(dto);
 
         // Then
         assertThat(result.getRubriques()).hasSize(1);
@@ -203,7 +203,7 @@ public class RapportQualiteServiceImplTest {
         dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
-        RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
+        RapportQualite result = service.transformDTOenRapportQualite(dto);
 
         // Then
         assertThat(result.getRubriques()).hasSize(1);
@@ -243,7 +243,7 @@ public class RapportQualiteServiceImplTest {
         dto = dto.withRubriqueDTOList(List.of(rubrique1, rubrique2, rubrique3));
 
         // When
-        RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
+        RapportQualite result = service.transformDTOenRapportQualite(dto);
 
         // Then
         assertThat(result.getRubriques())
@@ -270,7 +270,7 @@ public class RapportQualiteServiceImplTest {
         dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
-        RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
+        RapportQualite result = service.transformDTOenRapportQualite(dto);
 
         // Then
         assertThat(result.getRubriques()).hasSize(1);
@@ -296,7 +296,7 @@ public class RapportQualiteServiceImplTest {
         dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
 
         // When
-        RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
+        RapportQualite result = service.transformDTOenRapportQualite(dto);
 
         // Then
         Rubrique rubrique = result.getRubriques().getFirst();
@@ -324,7 +324,7 @@ public class RapportQualiteServiceImplTest {
         dto = dto.withRubriqueDTOList(List.of(dateRubrique, textRubrique, geoRubrique));
 
         // When
-        RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
+        RapportQualite result = service.transformDTOenRapportQualite(dto);
 
         // Then
         assertThat(result.getRubriques()).hasSize(3);
@@ -343,7 +343,7 @@ public class RapportQualiteServiceImplTest {
         dto = dto.withRubriqueDTOList(List.of(rub1, rub2, rub3));
 
         // When
-        RapportQualite result = service.transformDTOenRapportQualite(dto, requestProcessor);
+        RapportQualite result = service.transformDTOenRapportQualite(dto);
 
         // Then
         assertThat(result.getRubriques())
