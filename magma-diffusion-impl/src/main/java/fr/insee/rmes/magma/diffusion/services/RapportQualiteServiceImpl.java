@@ -132,7 +132,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
         }
         contenuLg1.setLangue("fr");
         if (Boolean.TRUE.equals(rubriqueDTO.hasDocLg1())) {
-            contenuLg1.addDocumentsItem(findDocument(rapportQualite.getId(), rubriqueDTO.id(), "fr"));
+            findDocuments(rapportQualite.getId(), rubriqueDTO.id(), "fr").forEach(contenuLg1::addDocumentsItem);
         }
         rubrique.addContenusItem(contenuLg1);
 
@@ -146,34 +146,37 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
             }
             contenuLg2.setLangue("en");
             if (Boolean.TRUE.equals(rubriqueDTO.hasDocLg2())) {
-                contenuLg2.addDocumentsItem(findDocument(rapportQualite.getId(), rubriqueDTO.id(), "en"));
+                findDocuments(rapportQualite.getId(), rubriqueDTO.id(), "en").forEach(contenuLg2::addDocumentsItem);
             }
             rubrique.addContenusItem(contenuLg2);
         }
 
     }
 
-    private Document findDocument(String rapportQualiteId, String rubriqueDTOId, String lang) {
-        DocumentDTO documentDTO = this.requestProcessor.queryToFindDocuments()
+    private List<Document> findDocuments(String rapportQualiteId, String rubriqueDTOId, String lang) {
+        List<DocumentDTO> documentsDTO = this.requestProcessor.queryToFindDocuments()
                 .with(new OperationsDocumentsRequestParametizer(rapportQualiteId, rubriqueDTOId, lang))
                 .executeQuery()
-                .singleResult(DocumentDTO.class)
+                .listResult(DocumentDTO.class)
                 .result();
-        Document document = new Document();
-        if (documentDTO.labelLg1() != null && documentDTO.labelLg2() != null) {
-            List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.labelLg1(), "fr"), createLangueContenu(documentDTO.labelLg2(), "en"));
-            document.label(label);
+        List<Document> documents = new ArrayList<>();
+        for (DocumentDTO documentDTO : documentsDTO) {
+            Document document = new Document();
+            if (documentDTO.labelLg1() != null && documentDTO.labelLg2() != null) {
+                List<LocalisedLabel> label = createListLangueContenu(createLangueContenu(documentDTO.labelLg1(), "fr"), createLangueContenu(documentDTO.labelLg2(), "en"));
+                document.label(label);
+            }
+            if (documentDTO.labelLg1() != null && documentDTO.labelLg2() == null) {
+                LocalisedLabel labelsLg1 = createLangueContenu(documentDTO.labelLg1(), "fr");
+                List<LocalisedLabel> label = createListLangueContenu(labelsLg1, null);
+                document.label(label);
+            }
+            document.setDateMiseAJour(documentDTO.dateMiseAJour());
+            document.setLangue(documentDTO.langue());
+            document.setUrl(documentDTO.url());
+            documents.add(document);
         }
-        if (documentDTO.labelLg1() != null && documentDTO.labelLg2() == null) {
-            LocalisedLabel labelsLg1 = createLangueContenu(documentDTO.labelLg1(), "fr");
-            List<LocalisedLabel> label = createListLangueContenu(labelsLg1, null);
-            document.label(label);
-        }
-
-        document.setDateMiseAJour(documentDTO.dateMiseAJour());
-        document.setLangue(documentDTO.langue());
-        document.setUrl(documentDTO.url());
-        return document;
+        return documents;
     }
 
     private Rubrique addCodeList (RubriqueDTO rubriqueDTO, Rubrique rubrique, RapportQualite rapportQualite) {
@@ -194,11 +197,11 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
                     .anyMatch(r -> r.getId().equals(rubriqueDTO.id()));
 
             if (rubriqueDTO.maxOccurs() != null && rubricExist) {
-                Rubrique rubriqueExistante = rapportQualite.getRubriques().stream()
+                Rubrique existingRubric = rapportQualite.getRubriques().stream()
                         .filter(r -> r.getId().equals(rubriqueDTO.id()))
                         .findFirst()
                         .orElseThrow();
-                rubriqueExistante.addCodesItem(rubriqueCodeList);//add rubric in RapportQualite
+                existingRubric.addCodesItem(rubriqueCodeList);//add rubric in RapportQualite
                 return null;
             }
         }
