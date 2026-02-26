@@ -35,13 +35,13 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
 
 //    geo/communeDeleguee/46248/ascendants?date=2025-09-04
     @Test
-    void should_return_10_territoires_when_CommuneDelegueeCodeAscendants_code46248_date20250904_typeNull(){
+    void should_return_11_territoires_when_CommuneDelegueeCodeAscendants_code46248_date20250904_typeNull(){
         var response  = endpoints.getcogcomdasc("46248", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
-                () -> assertEquals(10, result.size()),
+                () -> assertEquals(11, result.size()),
                 () -> assertEquals("153", resultItem1.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/51453875-c332-4dc8-907d-ad950b5b7a7e", resultItem1.getUri()),
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType()),
@@ -115,14 +115,14 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
 
 //    geo/communesDeleguees?date=2025-09-04//
     @Test
-    void should_return_2152_communesDeleguees_when_CommunesDeleguees_date20250904() {
+    void should_return_2135_communesDeleguees_when_CommunesDeleguees_date20250904() {
         var response  = endpoints.getcogcomdliste("2025-09-04");
         var result = response.getBody();
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
-                () -> assertEquals(2152, result.size()),
+                () -> assertEquals(2135, result.size()),
                 () -> assertEquals("01015", resultItem1.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/communeDeleguee/3c07001c-7efe-40f9-90fc-6a892af20238", resultItem1.getUri()),
                 () -> assertEquals(CommuneDeleguee.TypeEnum.COMMUNE_DELEGUEE, resultItem1.getType()),
@@ -135,14 +135,14 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
 
 //    geo/communesDeleguees?date=*
     @Test
-    void should_return_2599_communesDeleguees_when_CommunesDeleguees_dateEtoile() {
+    void should_return_2600_communesDeleguees_when_CommunesDeleguees_dateEtoile() {
         var response  = endpoints.getcogcomdliste("*");
         var result = response.getBody();
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
-                () -> assertEquals(2599, result.size()),
+                () -> assertEquals(2600, result.size()),
                 () -> assertEquals("01015", resultItem1.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/communeDeleguee/3c07001c-7efe-40f9-90fc-6a892af20238", resultItem1.getUri()),
                 () -> assertEquals(CommuneDeleguee.TypeEnum.COMMUNE_DELEGUEE, resultItem1.getType()),

@@ -35,13 +35,13 @@ public class GeoCommuneAssocieeQueriesTest extends TestcontainerTest {
 
     //   geo/communeAssociee/59355/ascendants?date=2025-09-04 : renvoie 10 territoires
     @Test
-    void should_return_10_territoires_when_CommuneAssocieeCodeAscendants_code59355_date20250904_typeNull(){
+    void should_return_11_territoires_when_CommuneAssocieeCodeAscendants_code59355_date20250904_typeNull(){
         var response  = endpoints.getcogcomaasc("59355", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
-                () -> assertEquals(10, result.size()),
+                () -> assertEquals(11, result.size()),
                 () -> assertEquals("004", resultItem1.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/83109274-b915-41be-a7b6-0e09a0a625c1", resultItem1.getUri()),
                 () -> assertEquals(TerritoireTousAttributs.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType()),
