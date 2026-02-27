@@ -132,7 +132,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
         }
         contenuLg1.setLangue("fr");
         if (Boolean.TRUE.equals(rubriqueDTO.hasDocLg1())) {
-            findDocuments(rapportQualite.getId(), rubriqueDTO.id(), "fr").forEach(contenuLg1::addDocumentsItem);
+            contenuLg1.setDocuments(findDocuments(rapportQualite.getId(), rubriqueDTO.id(), "fr"));
         }
         rubrique.addContenusItem(contenuLg1);
 
@@ -146,7 +146,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
             }
             contenuLg2.setLangue("en");
             if (Boolean.TRUE.equals(rubriqueDTO.hasDocLg2())) {
-                findDocuments(rapportQualite.getId(), rubriqueDTO.id(), "en").forEach(contenuLg2::addDocumentsItem);
+                contenuLg2.setDocuments(findDocuments(rapportQualite.getId(), rubriqueDTO.id(), "en"));
             }
             rubrique.addContenusItem(contenuLg2);
         }
@@ -196,7 +196,8 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
                     .filter(Objects::nonNull) // We keep only not null rubrics, otherwise NullPointer Exception when r.getId()
                     .anyMatch(r -> r.getId().equals(rubriqueDTO.id()));
 
-            if (rubriqueDTO.maxOccurs() != null && rubricExist) {
+//            if (rubriqueDTO.maxOccurs() != null && rubricExist) {
+                if (rubricExist) {
                 Rubrique existingRubric = rapportQualite.getRubriques().stream()
                         .filter(r -> r.getId().equals(rubriqueDTO.id()))
                         .findFirst()
