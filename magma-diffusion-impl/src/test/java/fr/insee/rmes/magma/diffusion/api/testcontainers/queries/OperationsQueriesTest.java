@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Tag("integration")
 
-public class OperationsQueriesTest extends TestcontainerTest {
+class OperationsQueriesTest extends TestcontainerTest {
 
     @Autowired
     OperationsEndpoints endpoints;
