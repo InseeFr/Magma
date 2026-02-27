@@ -3,7 +3,9 @@ package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.diffusion.model.RapportQualite;
 import fr.insee.rmes.magma.diffusion.model.Rubrique;
+import fr.insee.rmes.magma.diffusion.queries.parameters.OperationsDocumentsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.services.RapportQualiteServiceImpl;
+import fr.insee.rmes.magma.diffusion.utils.DocumentDTO;
 import fr.insee.rmes.magma.diffusion.utils.RapportQualiteDTO;
 import fr.insee.rmes.magma.diffusion.utils.RubriqueDTO;
 import org.junit.jupiter.api.Assertions;
@@ -14,8 +16,10 @@ import java.net.URI;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-public class RapportQualiteServiceImplTest {
+class RapportQualiteServiceImplTest {
     private RapportQualiteServiceImpl service;
     private RequestProcessor requestProcessor;
 
@@ -282,6 +286,60 @@ public class RapportQualiteServiceImplTest {
         assertThat(rubrique.getContenus().get(0).getDocuments()).isNull();
         assertThat(rubrique.getContenus().get(1).getLangue()).isEqualTo("en");
         assertThat(rubrique.getContenus().get(1).getTexte()).isEqualTo("English rich text");
+    }
+
+    @Test
+    void transformRubrique_shouldTransformRichTextType_withMultipleDocuments() {
+        // Given
+        DocumentDTO doc1Fr = new DocumentDTO("http://doc1.fr", "Label doc 1 FR", "Label doc 1 EN", "2024-01-01", "fr");
+        DocumentDTO doc2Fr = new DocumentDTO("http://doc2.fr", "Label doc 2 FR", null, "2024-02-01", "fr");
+        DocumentDTO doc1En = new DocumentDTO("http://doc1.en", "Label doc 1 EN", "Label doc 1 EN", "2024-01-01", "en");
+
+        RequestProcessor mockProcessor = mock(RequestProcessor.class, RETURNS_DEEP_STUBS);
+        when(mockProcessor.queryToFindDocuments()
+                .with(any(OperationsDocumentsRequestParametizer.class))
+                .executeQuery()
+                .listResult(DocumentDTO.class)
+                .result())
+                .thenReturn(List.of(doc1Fr, doc2Fr))
+                .thenReturn(List.of(doc1En));
+        //Double thenReturn chaîné : le premier appel à findDocuments (pour "fr") retourne 2 documents, le second (pour "en") en retourne 1.
+
+        RapportQualiteServiceImpl serviceWithDocs = new RapportQualiteServiceImpl(mockProcessor);
+
+        RapportQualiteDTO dto = createBasicDTO();
+        RubriqueDTO rubriqueDTO = createRubriqueDTO("rubrique-rich", "RICH_TEXT");
+        rubriqueDTO = rubriqueDTO.withLabelLg1("Texte riche français");
+        rubriqueDTO = rubriqueDTO.withLabelLg2("English rich text");
+        rubriqueDTO = rubriqueDTO.withHasDocLg1(true);
+        rubriqueDTO = rubriqueDTO.withHasDocLg2(true);
+        dto = dto.withRubriqueDTOList(List.of(rubriqueDTO));
+
+        // When
+        RapportQualite result = serviceWithDocs.transformDTOenRapportQualite(dto);
+
+        // Then
+        assertThat(result.getRubriques()).hasSize(1);
+        Rubrique rubrique = result.getRubriques().getFirst();
+        assertThat(rubrique.getType()).isEqualTo("RICH_TEXT");
+        assertThat(rubrique.getContenus()).hasSize(2);
+
+        assertThat(rubrique.getContenus().get(0).getLangue()).isEqualTo("fr");
+        assertThat(rubrique.getContenus().get(0).getTexte()).isEqualTo("Texte riche français");
+        assertThat(rubrique.getContenus().get(0).getDocuments())
+                .hasSize(2)
+                .satisfies(docs -> {
+                    assertThat(docs.get(0).getUrl()).isEqualTo("http://doc1.fr");
+                    assertThat(docs.get(0).getDateMiseAJour()).isEqualTo("2024-01-01");
+                    assertThat(docs.get(1).getUrl()).isEqualTo("http://doc2.fr");
+                    assertThat(docs.get(1).getDateMiseAJour()).isEqualTo("2024-02-01");
+                });
+
+        assertThat(rubrique.getContenus().get(1).getLangue()).isEqualTo("en");
+        assertThat(rubrique.getContenus().get(1).getTexte()).isEqualTo("English rich text");
+        assertThat(rubrique.getContenus().get(1).getDocuments())
+                .hasSize(1)
+                .satisfies(docs -> assertThat(docs.get(0).getUrl()).isEqualTo("http://doc1.en"));
     }
 
     @Test
