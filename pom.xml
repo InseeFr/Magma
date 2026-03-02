@@ -28,6 +28,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <lombok.version>1.18.38</lombok.version>
         <springdoc.version>3.0.1</springdoc.version>
+        <!-- A supprimer quand Springboot version > 4.1.0-M2 -->
+        <jackson-2-bom.version>2.21.1</jackson-2-bom.version>
 
         <!-- Configuration Sonar -->
         <sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
