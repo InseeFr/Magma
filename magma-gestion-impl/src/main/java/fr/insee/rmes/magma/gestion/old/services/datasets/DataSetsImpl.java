@@ -1,7 +1,5 @@
 package fr.insee.rmes.magma.gestion.old.services.datasets;
 
-import tools.jackson.core.JacksonException;
-import tools.jackson.databind.JsonNode;
 import fr.insee.rmes.magma.gestion.old.datasets.PatchDatasetDTO;
 import fr.insee.rmes.magma.gestion.old.model.CodeList.Code;
 import fr.insee.rmes.magma.gestion.old.model.datasets.*;
@@ -12,8 +10,6 @@ import fr.insee.rmes.magma.gestion.old.services.codelists.CodeListsServices;
 import fr.insee.rmes.magma.gestion.old.utils.Constants;
 import fr.insee.rmes.magma.gestion.old.utils.config.Config;
 import fr.insee.rmes.magma.gestion.old.utils.exceptions.RmesException;
-import fr.insee.rmes.magma.gestion.old.model.datasets.*;
-import fr.insee.rmes.magma.gestion.old.modelSwagger.dataset.*;
 import fr.insee.rmes.magma.gestion.security.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +21,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.util.*;
