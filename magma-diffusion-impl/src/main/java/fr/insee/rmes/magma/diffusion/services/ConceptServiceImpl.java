@@ -100,24 +100,23 @@ public class ConceptServiceImpl implements ConceptService{
             concept.setConceptsReferences(null);
             if (conceptDTO.nearbyConcepts() != null) {
                 conceptDTO.nearbyConcepts().forEach(nearbyConcept -> {
-                    concept.setConceptsSuivants(addIfCorresponds(nearbyConcept, "isReplacedBy",   concept.getConceptsSuivants()));
-                    concept.setConceptsPrecedents(addIfCorresponds(nearbyConcept, "replaces",     concept.getConceptsPrecedents()));
-                    concept.setConceptsLies(addIfCorresponds(nearbyConcept, "related",            concept.getConceptsLies()));
-                    concept.setConceptsProches(addIfCorresponds(nearbyConcept, "closeMatch",      concept.getConceptsProches()));
-                    concept.setConceptsPlusGeneriques(addIfCorresponds(nearbyConcept, "broader",  concept.getConceptsPlusGeneriques()));
-                    concept.setConceptsPlusSpecifiques(addIfCorresponds(nearbyConcept, "narrower",concept.getConceptsPlusSpecifiques()));
-                    concept.setConceptsReferences(addIfCorresponds(nearbyConcept, "references",   concept.getConceptsReferences()));
+                    switch (nearbyConcept.getTypeOfLink()) {
+                        case "isReplacedBy" -> concept.setConceptsSuivants(addToList(nearbyConcept, concept.getConceptsSuivants()));
+                        case "replaces"     -> concept.setConceptsPrecedents(addToList(nearbyConcept, concept.getConceptsPrecedents()));
+                        case "related"      -> concept.setConceptsLies(addToList(nearbyConcept, concept.getConceptsLies()));
+                        case "closeMatch"   -> concept.setConceptsProches(addToList(nearbyConcept, concept.getConceptsProches()));
+                        case "broader"      -> concept.setConceptsPlusGeneriques(addToList(nearbyConcept, concept.getConceptsPlusGeneriques()));
+                        case "narrower"     -> concept.setConceptsPlusSpecifiques(addToList(nearbyConcept, concept.getConceptsPlusSpecifiques()));
+                        case "references"   -> concept.setConceptsReferences(addToList(nearbyConcept, concept.getConceptsReferences()));
+                    }
                 });
             }
         }
 
-        private List<NearbyConcept> addIfCorresponds(NearbyConcept nearbyConcept, String typeOfLink, List<NearbyConcept> conceptsList) {
-            if (typeOfLink.equals(nearbyConcept.getTypeOfLink())) {
-                ArrayList<NearbyConcept> collections  = conceptsList == null ? new ArrayList<>() : new ArrayList<>(conceptsList);
-                collections.add(nearbyConcept);
-                return collections ;
-            }
-            return conceptsList;
+        private List<NearbyConcept> addToList(NearbyConcept nearbyConcept, List<NearbyConcept> conceptsList) {
+            ArrayList<NearbyConcept> result = conceptsList == null ? new ArrayList<>() : new ArrayList<>(conceptsList);
+            result.add(nearbyConcept);
+            return result;
         }
 
         private void addNearByConcepts(ConceptDTO conceptDTO, ConceptForList concept) {
@@ -130,13 +129,15 @@ public class ConceptServiceImpl implements ConceptService{
             concept.setConceptsReferences(null);
             if (conceptDTO.nearbyConcepts() != null) {
                 conceptDTO.nearbyConcepts().forEach(nearbyConcept -> {
-                    concept.setConceptsSuivants(addIfCorresponds(nearbyConcept, "isReplacedBy",   concept.getConceptsSuivants()));
-                    concept.setConceptsPrecedents(addIfCorresponds(nearbyConcept, "replaces",     concept.getConceptsPrecedents()));
-                    concept.setConceptsLies(addIfCorresponds(nearbyConcept, "related",            concept.getConceptsLies()));
-                    concept.setConceptsProches(addIfCorresponds(nearbyConcept, "closeMatch",      concept.getConceptsProches()));
-                    concept.setConceptsPlusGeneriques(addIfCorresponds(nearbyConcept, "broader",  concept.getConceptsPlusGeneriques()));
-                    concept.setConceptsPlusSpecifiques(addIfCorresponds(nearbyConcept, "narrower",concept.getConceptsPlusSpecifiques()));
-                    concept.setConceptsReferences(addIfCorresponds(nearbyConcept, "references",   concept.getConceptsReferences()));
+                    switch (nearbyConcept.getTypeOfLink()) {
+                        case "isReplacedBy" -> concept.setConceptsSuivants(addToList(nearbyConcept, concept.getConceptsSuivants()));
+                        case "replaces"     -> concept.setConceptsPrecedents(addToList(nearbyConcept, concept.getConceptsPrecedents()));
+                        case "related"      -> concept.setConceptsLies(addToList(nearbyConcept, concept.getConceptsLies()));
+                        case "closeMatch"   -> concept.setConceptsProches(addToList(nearbyConcept, concept.getConceptsProches()));
+                        case "broader"      -> concept.setConceptsPlusGeneriques(addToList(nearbyConcept, concept.getConceptsPlusGeneriques()));
+                        case "narrower"     -> concept.setConceptsPlusSpecifiques(addToList(nearbyConcept, concept.getConceptsPlusSpecifiques()));
+                        case "references"   -> concept.setConceptsReferences(addToList(nearbyConcept, concept.getConceptsReferences()));
+                    }
                 });
             }
         }
