@@ -1,7 +1,5 @@
 package fr.insee.rmes.magma.gestion.old.services.datasets;
 
-import tools.jackson.core.JacksonException;
-import tools.jackson.databind.JsonNode;
 import fr.insee.rmes.magma.gestion.old.datasets.PatchDatasetDTO;
 import fr.insee.rmes.magma.gestion.old.model.CodeList.Code;
 import fr.insee.rmes.magma.gestion.old.model.datasets.*;
@@ -12,8 +10,6 @@ import fr.insee.rmes.magma.gestion.old.services.codelists.CodeListsServices;
 import fr.insee.rmes.magma.gestion.old.utils.Constants;
 import fr.insee.rmes.magma.gestion.old.utils.config.Config;
 import fr.insee.rmes.magma.gestion.old.utils.exceptions.RmesException;
-import fr.insee.rmes.magma.gestion.old.model.datasets.*;
-import fr.insee.rmes.magma.gestion.old.modelSwagger.dataset.*;
 import fr.insee.rmes.magma.gestion.security.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +21,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.util.*;
@@ -152,13 +150,22 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             List<LangContent> title = constructLangContent(catalogue_result.getString("titleLg1"), catalogue_result.getString("titleLg2"));
             Id id1=new Id(catalogue_result.getString("id"));
             Uri uri = new Uri(catalogue_result.getString("uri"));
-            DisseminationStatus disseminationStatus = new DisseminationStatus(ontologies_result.getString("labeldisseminationStatusLg1"));
+
             CatalogRecordCreated catalogRecordCreated = new CatalogRecordCreated(catalogue_result.getString("catalogRecordCreated"));
             CatalogRecordModified catalogRecordModified = new CatalogRecordModified(catalogue_result.getString("catalogRecordModified"));
             CatalogRecordCreator catalogRecordCreator = new CatalogRecordCreator(catalogue_result.getString("catalogRecordCreator"));
             CatalogRecordContributor catalogRecordContributor = new CatalogRecordContributor(catalogue_result.getString("catalogRecordContributor"));
             String validationState = catalogue_result.getString("statutValidation");
-            DataSetModelSwagger response = new DataSetModelSwagger(id1, title, uri, validationState, disseminationStatus, catalogRecordCreated,catalogRecordModified,catalogRecordCreator,catalogRecordContributor);
+
+            DisseminationStatus disseminationStatus = null;
+            DataSetModelSwagger response = null;
+            if (ontologies_result.has("labeldisseminationStatusLg1")){
+                disseminationStatus = new DisseminationStatus(ontologies_result.getString("labeldisseminationStatusLg1"));
+                response = new DataSetModelSwagger(id1, title, uri, validationState, disseminationStatus, catalogRecordCreated, catalogRecordModified, catalogRecordCreator, catalogRecordContributor);
+            } else {
+                response = new DataSetModelSwagger(id1, title, uri, validationState, catalogRecordCreated, catalogRecordModified, catalogRecordCreator, catalogRecordContributor);
+            }
+
             testPresenceVariablePuisAjout(response,catalogue_result,adms_result,codes_result,organisations_result,structures_result);
             return response;
         } else {
@@ -524,10 +531,14 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
             params.put("URI", s.replace(" ", ""));
 
             JSONObject wasGeneratedByQuery = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetByIdWasGeneratedBy.ftlh", params));
-            List<LangContent> wasGeneratedByTitles = constructLangContent(wasGeneratedByQuery.getString("labelwasGeneratedByLg1"),wasGeneratedByQuery.getString("labelwasGeneratedByLg2"));
-            IdLabel wasGeneratedByIdLabel = new IdLabel(wasGeneratedByQuery.getString("wasGeneratedById"),wasGeneratedByTitles);
-            wasGeneratedByIdLabel.setType(wasGeneratedByQuery.getString("typeWasGeneratedBy"));
-            wasGeneratedBy.add(wasGeneratedByIdLabel);
+            List<LangContent> wasGeneratedByTitles = null;
+            IdLabel wasGeneratedByIdLabel = null;
+            if (wasGeneratedByQuery.has("wasGeneratedById")) {
+                wasGeneratedByTitles = constructLangContent(wasGeneratedByQuery.getString("labelwasGeneratedByLg1"), wasGeneratedByQuery.getString("labelwasGeneratedByLg2"));
+                wasGeneratedByIdLabel = new IdLabel(wasGeneratedByQuery.getString("wasGeneratedById"), wasGeneratedByTitles);
+                wasGeneratedByIdLabel.setType(wasGeneratedByQuery.getString("typeWasGeneratedBy"));
+                wasGeneratedBy.add(wasGeneratedByIdLabel);
+            }
         }
         return wasGeneratedBy;
     }
