@@ -28,7 +28,11 @@ public class StructuresComposantsEndpoints implements StructuresComposantsApi {
 
     @Override
     public ResponseEntity<List<AllStructure>> getAllStructures(LocalDate dateMiseAJour) {
-        return StructuresComposantsApi.super.getAllStructures(dateMiseAJour);
+        return requestProcessor.queryForFindStructuresComponents()
+                .with(new StructureComponentsRequestParametizer(dateMiseAJour))
+                .executeQuery()
+                .listResult(AllStructure.class)
+                .toResponseEntity();
     }
 
     @Override
