@@ -52,7 +52,7 @@ public class ConceptServiceImpl implements ConceptService{
             else concept.setNoteEditoriale(null);
 
 
-            if (conceptDTO.hasIntitulesAlternatifs()) {
+            if (Boolean.TRUE.equals(conceptDTO.hasIntitulesAlternatifs())) {
                 addIntitulesAlternatifs(conceptDTO,concept);
             }
             else concept.setIntitulesAlternatifs(null);
@@ -108,6 +108,7 @@ public class ConceptServiceImpl implements ConceptService{
                         case "broader"      -> concept.setConceptsPlusGeneriques(addToList(nearbyConcept, concept.getConceptsPlusGeneriques()));
                         case "narrower"     -> concept.setConceptsPlusSpecifiques(addToList(nearbyConcept, concept.getConceptsPlusSpecifiques()));
                         case "references"   -> concept.setConceptsReferences(addToList(nearbyConcept, concept.getConceptsReferences()));
+                        case null, default  -> log.warn("typeOfLink unknown or null : {}", nearbyConcept.getTypeOfLink());
                     }
                 });
             }
@@ -137,6 +138,7 @@ public class ConceptServiceImpl implements ConceptService{
                         case "broader"      -> concept.setConceptsPlusGeneriques(addToList(nearbyConcept, concept.getConceptsPlusGeneriques()));
                         case "narrower"     -> concept.setConceptsPlusSpecifiques(addToList(nearbyConcept, concept.getConceptsPlusSpecifiques()));
                         case "references"   -> concept.setConceptsReferences(addToList(nearbyConcept, concept.getConceptsReferences()));
+                        case null, default  -> log.warn("typeOfLink unknown or null : {}", nearbyConcept.getTypeOfLink());
                     }
                 });
             }
