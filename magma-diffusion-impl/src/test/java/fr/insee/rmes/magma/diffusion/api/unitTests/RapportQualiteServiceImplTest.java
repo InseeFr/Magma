@@ -1,4 +1,4 @@
-package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
+package fr.insee.rmes.magma.diffusion.api.unitTests;
 
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.diffusion.model.RapportQualite;
