@@ -16,11 +16,6 @@ public class TestcontainerTest {
 
     }
 
-    @AfterAll
-    static void stopContainer(){
-        //container.stop();
-    }
-
 
     @DynamicPropertySource
     static void overrideSpringProperties(DynamicPropertyRegistry registry) {

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://magma.insee/contenus.schema.json",
+  "title": "Contenu",
+  "description": "Contenus d'une rubrique de type RICH_TEXT",
+  "type": "object",
+  "properties": {
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "array",
+            "items": {
+              "$ref": "langue-contenu.schema.json"
+            }
+          },
+          "dateMiseAJour": {
+            "type": "string"
+          },
+          "langue": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "texte": {
+      "type": "string"
+    },
+    "langue": {
+      "type": "string"
+    }
+  }
+}

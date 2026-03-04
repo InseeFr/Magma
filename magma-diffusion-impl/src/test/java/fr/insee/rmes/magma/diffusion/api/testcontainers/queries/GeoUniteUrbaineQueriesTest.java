@@ -7,7 +7,7 @@ import fr.insee.rmes.magma.diffusion.model.UniteUrbaine2020;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -128,13 +128,13 @@ public class GeoUniteUrbaineQueriesTest extends TestcontainerTest{
     }
     //  geo/unitesUrbaines2020?date=*
     @Test
-    void should_return_2496_unitesUrbaines_when_UnitesUrbaines2020_dateEtoile(){
+    void should_return_2498_unitesUrbaines_when_UnitesUrbaines2020_dateEtoile(){
         var response  = endpoints.getcoguuliste("*");
         var result = response.getBody();
         assertNotNull(result);
         var resultItem1= result.getFirst();
         assertAll(
-                () -> assertEquals(2496, result.size()),
+                () -> assertEquals(2498, result.size()),
                 () -> assertEquals("00151", resultItem1.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/uniteUrbaine2020/a7355a50-7516-4f7b-8919-a03bc28cd12b", resultItem1.getUri()),
                 () -> assertEquals(UniteUrbaine2020.TypeEnum.UNITE_URBAINE2020, resultItem1.getType()),

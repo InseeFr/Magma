@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.gestion.old.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.concept.AllConceptModelSwagger;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.concept.CollectionOfConceptsModelSwagger;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.concept.ConceptByIdModelSwagger;
@@ -40,7 +40,7 @@ public class ConceptsResources {
 	public ResponseEntity<String> getDetailedConcept(@Parameter(required = true, description = "Identifiant du concept (format : c[0-9]{4})", schema = @Schema(pattern = "c[0-9]{4}", type = "string"), example = "c2066")
 													 @PathVariable("id") String id,
 													 @RequestParam(name = "dateMiseAJour", defaultValue = "false") Boolean boolDateMiseAJour)
-			throws RmesException, JsonProcessingException {
+			throws RmesException, JacksonException {
 
 		if (!boolDateMiseAJour) {
 			String jsonResult = conceptsService.getDetailedConcept(id);
@@ -77,7 +77,7 @@ public class ConceptsResources {
 	@GetMapping(path = "/concepts/collection{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Operation(operationId = "getCollectionOfConcepts", summary = "List of collection's concepts", security = @SecurityRequirement(name = "bearerScheme"), responses = {@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = CollectionOfConceptsModelSwagger.class)))})
 	public ResponseEntity<String> getCollectionOfConcepts(@Parameter(required = true, description = "Identifiant interne de la collection ", schema = @Schema(type = "string"), example = "definitions-insee-fr")
-														  @PathVariable("id") String id) throws RmesException, JsonProcessingException {
+														  @PathVariable("id") String id) throws RmesException, JacksonException {
 		String jsonResult = conceptsService.getCollectionOfConcepts(id);
 		if (jsonResult.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
@@ -92,7 +92,7 @@ public class ConceptsResources {
 			@Parameter(required = true,
 					description = "Identifiant interne de la collection ",
 					schema = @Schema(type = "string"), example = "definitions-insee-fr") @PathVariable("id") String id
-	) throws RmesException, JsonProcessingException {
+	) throws RmesException, JacksonException {
 		String jsonResult = conceptsService.getSetOfConceptsInACollection(id);
 
 		if (jsonResult.isEmpty()) {

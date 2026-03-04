@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.gestion.old.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.codeList.AllListCodeModelSwagger;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.codeList.ListCodeByIdModelSwagger;
 import fr.insee.rmes.magma.gestion.old.services.codelists.CodeListsServices;
@@ -102,7 +102,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
     public ResponseEntity<String> getCodesListPage(
             @PathVariable(Constants.NOTATION) String notation,
             @RequestParam(name = "pageNumber") int pageNumber
-    ) throws RmesException, JsonProcessingException {
+    ) throws RmesException, JacksonException {
         if(pageNumber > codeListsServices.getMaxpage(notation)){
             return ResponseEntity.status(HttpStatus.SC_REQUESTED_RANGE_NOT_SATISFIABLE).body(ERROR_PAGINATION);
         }

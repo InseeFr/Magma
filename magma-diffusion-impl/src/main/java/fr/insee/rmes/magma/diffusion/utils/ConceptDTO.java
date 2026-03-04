@@ -1,9 +1,11 @@
 package fr.insee.rmes.magma.diffusion.utils;
 
-import fr.insee.rmes.magma.diffusion.model.*;
+import fr.insee.rmes.magma.diffusion.model.Concept;
+import fr.insee.rmes.magma.diffusion.model.ConceptForList;
+import fr.insee.rmes.magma.diffusion.model.LocalisedLabel;
+import fr.insee.rmes.magma.diffusion.model.NearbyConcept;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
 import java.time.Instant;
@@ -13,7 +15,9 @@ import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static fr.insee.rmes.magma.diffusion.utils.LocalisedLabelUtils.createLangueContenu;
+import static fr.insee.rmes.magma.diffusion.utils.LocalisedLabelUtils.createListLangueContenu;
 
 @Slf4j
 
@@ -39,7 +43,7 @@ public class ConceptDTO {
     private Boolean hasIntitulesAlternatifs;
     @Getter
     private List<NearbyConcept> nearbyConcepts;
-    private List<LangueContenu> intitulesAlternatifs;
+    private List<LocalisedLabel> intitulesAlternatifs;
 
 
     public Concept transformDTOenConcept() {
@@ -47,24 +51,24 @@ public class ConceptDTO {
         concept.setId(this.id);
         concept.setUri(URI.create(this.uri));
         if  (this.intituleFr != null || this.intituleEn != null) {
-            List<LangueContenu> intitules = createListLangueContenu(createLangueContenu(intituleFr,"fr"),createLangueContenu(intituleEn,"en"));
+            List<LocalisedLabel> intitules = createListLangueContenu(createLangueContenu(intituleFr,"fr"),createLangueContenu(intituleEn,"en"));
             concept.setIntitule(intitules);
         }
 
         if  (this.definitionFr != null || this.definitionEn != null) {
-            List<LangueContenu> definitions = createListLangueContenu(createLangueContenu(definitionFr,"fr"),createLangueContenu(definitionEn,"en"));
+            List<LocalisedLabel> definitions = createListLangueContenu(createLangueContenu(definitionFr,"fr"),createLangueContenu(definitionEn,"en"));
             concept.setDefinition(definitions);
         }
         else concept.setDefinition(null);
 
         if  (this.scopeNoteFr != null || this.scopeNoteEn != null) {
-            List<LangueContenu> definitionCourte = createListLangueContenu(createLangueContenu(scopeNoteFr,"fr"),createLangueContenu(scopeNoteEn,"en"));
+            List<LocalisedLabel> definitionCourte = createListLangueContenu(createLangueContenu(scopeNoteFr,"fr"),createLangueContenu(scopeNoteEn,"en"));
             concept.setDefinitionCourte(definitionCourte);
         }
         else concept.setDefinitionCourte(null);
 
         if  (this.noteEditorialeFr != null || this.noteEditorialeEn != null) {
-            List<LangueContenu> noteEditoriale = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
+            List<LocalisedLabel> noteEditoriale = createListLangueContenu(createLangueContenu(noteEditorialeFr,"fr"),createLangueContenu(noteEditorialeEn,"en"));
             concept.setNoteEditoriale(noteEditoriale);
         }
         else concept.setNoteEditoriale(null);
@@ -207,22 +211,11 @@ public class ConceptDTO {
         }
 
     }
-    private @NotNull List<NearbyConcept> getNearbyConceptList(String typeOfLink) {
-        return this.nearbyConcepts.stream()
-                .filter(cs -> typeOfLink.equals(cs.getTypeOfLink()))
-                .map(cs -> {
-                    NearbyConcept inner = new NearbyConcept();
-                    inner.setId(cs.getId());
-                    inner.setUri(cs.getUri());
-                    return inner;
-                })
-                .collect(Collectors.toList());
-    }
 
 
     private void addIntitulesAlternatifs(Concept concept) {
-         for (LangueContenu item : intitulesAlternatifs) {
-             LangueContenu newIntitule = createLangueContenu(item.getContenu(), item.getLangue());
+         for (LocalisedLabel item : intitulesAlternatifs) {
+             LocalisedLabel newIntitule = createLangueContenu(item.getContenu(), item.getLangue());
          concept.addIntitulesAlternatifsItem(newIntitule);
     }
 }
@@ -240,24 +233,7 @@ public class ConceptDTO {
     }
 
 
-    public List<LangueContenu> createListLangueContenu(LangueContenu conceptIntituleInner1, LangueContenu conceptIntituleInner2) {
-        List<LangueContenu> list = new ArrayList<>();
-        if (conceptIntituleInner1 != null) {
-            list.add(conceptIntituleInner1);
-        }
-        if (conceptIntituleInner2 != null) {
-            list.add(conceptIntituleInner2);
-        }
 
-        return list;
-    }
-
-    public LangueContenu createLangueContenu(String contenu, String langue) {
-        LangueContenu conceptIntituleInner = new LangueContenu();
-        conceptIntituleInner.setContenu(contenu);
-        conceptIntituleInner.setLangue(langue);
-        return conceptIntituleInner;
-    }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -302,7 +278,7 @@ public class ConceptDTO {
         this.hasIntitulesAlternatifs = hasIntitulesAlternatifs;
     }
 
-    public void setIntitulesAlternatifs(List<LangueContenu> intitulesAlternatifs) {
+    public void setIntitulesAlternatifs(List<LocalisedLabel> intitulesAlternatifs) {
         this.intitulesAlternatifs = intitulesAlternatifs;
     }
 

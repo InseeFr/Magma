@@ -7,7 +7,7 @@ import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -36,11 +36,11 @@ public class GeoArrondissementMunicipalQueriesTest extends TestcontainerTest {
 
 //    geo/arrondissementMunicipal/13202/ascendants renvoie 11 ascendants
     @Test
-    void should_return_11_territoires_when_ArrondissementMunicipalCodeAscendants_code13202_date20250904_typeNull(){
+    void should_return_12_territoires_when_ArrondissementMunicipalCodeAscendants_code13202_date20250904_typeNull(){
         var response  = endpoints.getcogarrmuasc("13202", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
         assertNotNull(result);
-        assertEquals(11, result.size());
+        assertEquals(12, result.size());
 
         // Vérifie le premier élément (AireDAttractionDesVilles2020)
         var resultItem1 = result.getFirst();

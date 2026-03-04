@@ -1,13 +1,10 @@
 package fr.insee.rmes.magma.diffusion.api.requestprocessor;
 
 import fr.insee.rmes.magma.diffusion.queries.parameters.*;
-import fr.insee.rmes.magma.diffusion.unmarshaller.JacksonUnmarshaller;
-import fr.insee.rmes.magma.queryexecutor.Csv;
-import fr.insee.rmes.magma.unmarshaller.Unmarshaller;
-import fr.insee.rmes.magma.utils.EndpointsUtils;
-import fr.insee.rmes.magma.queries.Query;
-import fr.insee.rmes.magma.queries.QueryBuilder;
-import fr.insee.rmes.magma.queryexecutor.QueryExecutor;
+import fr.insee.rmes.magma.diffusion.queryexecutor.Csv;
+import fr.insee.rmes.magma.diffusion.queryexecutor.QueryExecutor;
+import fr.insee.rmes.magma.diffusion.unmarshaller.Unmarshaller;
+import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +14,8 @@ import static fr.insee.rmes.magma.diffusion.queries.QueryPathListDiffusion.*;
 
 // TODO: Renommer la classe en RequestProcessorDiffusion pour coller au nomage de gestion
 @Component
-public record RequestProcessor(QueryBuilder queryBuilder, QueryExecutor queryExecutor,
-                               JacksonUnmarshaller unmarshaller) {
+public record RequestProcessor(fr.insee.rmes.magma.diffusion.queries.QueryBuilder queryBuilder, QueryExecutor queryExecutor,
+                               Unmarshaller unmarshaller) {
 
     // Peut-être renommer les query en queryToFind et non en forFind
 
@@ -98,6 +95,13 @@ public record RequestProcessor(QueryBuilder queryBuilder, QueryExecutor queryExe
 
     public ExecutableQueryBuilder queryToFindIntersections() {return new ExecutableQueryBuilder(TERRITOIRES_LIES, this);}
 
+    public QueryBuilder queryToFindRapportQualite (){return new QueryBuilder(RAPPORT_QUALITE,this);}
+
+    public QueryBuilder queryToFindRubriques(){return new QueryBuilder(RUBRIQUES,this);}
+
+    public QueryBuilder queryToFindDocuments(){return new QueryBuilder(DOCUMENTS,this);}
+
+    public record QueryBuilder(String queryPath, RequestProcessor requestProcessor) {
     public record ExecutableQueryBuilder(String queryPath, RequestProcessor requestProcessor) {
         public ExecutableQuery with(AscendantsDescendantsRequestParametizer ascendantsDescendantsRequestParametizer) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(ascendantsDescendantsRequestParametizer.toParameters(), queryPath), requestProcessor);
@@ -137,7 +141,20 @@ public record RequestProcessor(QueryBuilder queryBuilder, QueryExecutor queryExe
             );
         }
 
+        public ExecutableQuery with(OperationRequestParametizer operationRequestParametizer) {
+            return new ExecutableQuery(
+                    requestProcessor.queryBuilder().build(operationRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
 
+        public ExecutableQuery with(OperationRubriquesRequestParametizer operationRubriquesRequestParametizer) {
+            return new ExecutableQuery(
+                    requestProcessor.queryBuilder().build(operationRubriquesRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
+
+        public ExecutableQuery with(OperationsDocumentsRequestParametizer operationsDocumentsRequestParametizer) {
+            return new ExecutableQuery(
+                    requestProcessor.queryBuilder().build(operationsDocumentsRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
     }
 
     public record ExecutableQuery(Query query, RequestProcessor requestProcessor) {

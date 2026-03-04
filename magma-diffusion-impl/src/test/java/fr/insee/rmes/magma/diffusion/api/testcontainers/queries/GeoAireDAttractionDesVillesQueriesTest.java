@@ -1,15 +1,20 @@
 package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.GeoAireDAttractionDesVillesEndpoints;
-import fr.insee.rmes.magma.diffusion.model.*;
+import fr.insee.rmes.magma.diffusion.model.AireDAttractionDesVilles2020;
+import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
+import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsAireDAttractionDesVilles;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.time.LocalDate;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -66,12 +71,12 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
 
     //    geo/aireDAttractionDesVilles2020/062/descendants?date=2025-09-04
     @Test
-    void should_return_1064_territoires_when_aireDAttractionDesVilles2020CodeDescendants_code002_date20250904_typeNull(){
+    void should_return_1061_territoires_when_aireDAttractionDesVilles2020CodeDescendants_code002_date20250904_typeNull(){
         var response  = endpoints.getcogaavdesc("002", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
         assertNotNull(result);
         var resultItem1= result.getFirst();
-        assertEquals(1064, result.size());
+        assertEquals(1061, result.size());
         assertEquals("69381", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/arrondissementMunicipal/36940e94-b61c-4565-9ea1-ecbcd812bd7e", resultItem1.getUri());
         assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem1.getType());
@@ -105,12 +110,12 @@ class GeoAireDAttractionDesVillesQueriesTest extends TestcontainerTest{
 
     //    geo/aireDAttractionDesVilles2020?date=*
     @Test
-    void should_return_721_aireDAttractionDesVilles2020_when_aireDAttractionDesVilles2020_dateEtoile(){
+    void should_return_722_aireDAttractionDesVilles2020_when_aireDAttractionDesVilles2020_dateEtoile(){
         var response  = endpoints.getcogaavliste("*");
         var result = response.getBody();
         assertNotNull(result);
         var resultItem1= result.getFirst();
-        assertEquals(721, result.size());
+        assertEquals(722, result.size());
         assertEquals("001", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/3a65c4b6-8157-48be-bead-b74066f8456a", resultItem1.getUri());
         assertEquals(AireDAttractionDesVilles2020.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType());

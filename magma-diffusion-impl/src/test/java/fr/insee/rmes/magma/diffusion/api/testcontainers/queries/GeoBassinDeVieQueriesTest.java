@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -126,14 +126,14 @@ public class GeoBassinDeVieQueriesTest extends TestcontainerTest{
 
 //    geo/bassinsDeVie2022?date=*
     @Test
-    void should_return_1735_bassinDeVie2022_when_BassinsDeVie2022_date20250904_filtreNomNull() {
+    void should_return_1736_bassinDeVie2022_when_BassinsDeVie2022_date20250904_filtreNomNull() {
         var response = endpoints.getcogbassliste("*",null);
         var result = response.getBody();
         assertNotNull(result);
         var resultItem1 = result.getFirst();
 
         // Vérification du nombre total de bassins de vie
-        assertEquals(1735, result.size());
+        assertEquals(1736, result.size());
 
         assertEquals("01004", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/bassinDeVie2022/0e5bcc78-f043-404d-92af-d3d660772675", resultItem1.getUri());

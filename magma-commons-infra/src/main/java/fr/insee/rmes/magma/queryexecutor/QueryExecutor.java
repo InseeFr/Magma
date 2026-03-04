@@ -1,8 +1,8 @@
-package fr.insee.rmes.magma.queryexecutor;
+package fr.insee.rmes.magma.diffusion.queryexecutor;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.insee.rmes.magma.queries.Query;
+import fr.insee.rmes.magma.diffusion.queries.Query;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,7 +107,8 @@ public Boolean executeAskQuery(@NonNull Query query) {
         try {
             // Example of a Json response for an ASK request :
             // {"head":{},"boolean":true}
-            JsonNode rootNode = new ObjectMapper().readTree(jsonResponse);
+            JsonMapper mapper = JsonMapper.builder().build();
+            JsonNode rootNode = mapper.readTree(jsonResponse);
             return rootNode.path("boolean").asBoolean();
         } catch (Exception e) {
             log.error("Failed to parse SPARQL ASK response: {}", jsonResponse, e);

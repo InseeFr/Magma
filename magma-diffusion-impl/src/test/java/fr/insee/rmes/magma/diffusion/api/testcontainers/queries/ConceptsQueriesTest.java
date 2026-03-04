@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.net.URI;
@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Tag("integration")
+
 
 public class ConceptsQueriesTest extends TestcontainerTest {
 
@@ -132,7 +133,7 @@ public class ConceptsQueriesTest extends TestcontainerTest {
 //    concepts/definitions?libelle=elect
     @Test
     void should_return_16_concepts_when_ConceptsDefinitions_libelleElect() {
-        var response  = endpoints.getconceptsliste("Élect");
+        var response  = endpoints.getconceptsliste("Élect",null);
         var result = response.getBody();
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
@@ -164,17 +165,86 @@ public class ConceptsQueriesTest extends TestcontainerTest {
         );
     }
 
+    //    concepts/definitions?collection=appli-mobile
+    @Test
+    void should_return_4_concepts_when_ConceptsDefinitions_collectionAppliMobile() {
+        var response  = endpoints.getconceptsliste(null,"appli-mobile");
+        var result = response.getBody();
+        Assertions.assertNotNull(result);
+        var resultItem1= result.getFirst();
+        var resultItem2= result.get(1);
+        var resultItem3= result.get(2);
+        var resultItem4= result.get(3);
+        assertAll(
+                () -> assertEquals(4, result.size()),
+
+                () -> assertEquals("c1116", resultItem1.getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1116"), resultItem1.getUri()),
+                () -> assertEquals("Accidents corporels de la circulation", resultItem1.getIntitule()),
+
+                () -> assertEquals("c1236", resultItem2.getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1236"), resultItem2.getUri()),
+                () -> assertEquals("Indice de peuplement des logements", resultItem2.getIntitule()),
+                () -> assertEquals("c2335", resultItem2.getConceptsLies().getFirst().getId()),
+                () -> assertEquals("related", resultItem2.getConceptsLies().getFirst().getTypeOfLink()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2335"), resultItem2.getConceptsLies().getFirst().getUri()),
+                () -> assertEquals("c2336", resultItem2.getConceptsLies().get(1).getId()),
+                () -> assertEquals("related", resultItem2.getConceptsLies().get(2).getTypeOfLink()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2336"), resultItem2.getConceptsLies().get(1).getUri()),
+                () -> assertEquals("c2337", resultItem2.getConceptsLies().get(2).getId()),
+                () -> assertEquals("related", resultItem2.getConceptsLies().get(2).getTypeOfLink()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2337"), resultItem2.getConceptsLies().get(2).getUri()),
+                () -> assertEquals("c1702", resultItem2.getConceptsReferences().getFirst().getId()),
+                () -> assertEquals("references", resultItem2.getConceptsReferences().getFirst().getTypeOfLink()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1702"), resultItem2.getConceptsReferences().getFirst().getUri()),
+
+                () -> assertEquals("c1047", resultItem3.getId()),
+                () -> assertEquals("c1325", resultItem4.getId())
+
+        );
+    }
+
+
+    //    concepts/definitions?collection=appli-mobile&libelle=peuplement
+    @Test
+    void should_return_4_concepts_when_ConceptsDefinitions_libellePeuplementcollectionAppliMobile() {
+        var response  = endpoints.getconceptsliste("peuplement","appli-mobile");
+        var result = response.getBody();
+        Assertions.assertNotNull(result);
+        var resultItem= result.getFirst();
+
+        assertAll(
+                () -> assertEquals(1, result.size()),
+
+                () -> assertEquals("c1236", resultItem.getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1236"), resultItem.getUri()),
+                () -> assertEquals("Indice de peuplement des logements", resultItem.getIntitule()),
+                () -> assertEquals("c2335", resultItem.getConceptsLies().getFirst().getId()),
+                () -> assertEquals("related", resultItem.getConceptsLies().getFirst().getTypeOfLink()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2335"), resultItem.getConceptsLies().getFirst().getUri()),
+                () -> assertEquals("c2336", resultItem.getConceptsLies().get(1).getId()),
+                () -> assertEquals("related", resultItem.getConceptsLies().get(2).getTypeOfLink()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2336"), resultItem.getConceptsLies().get(1).getUri()),
+                () -> assertEquals("c2337", resultItem.getConceptsLies().get(2).getId()),
+                () -> assertEquals("related", resultItem.getConceptsLies().get(2).getTypeOfLink()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c2337"), resultItem.getConceptsLies().get(2).getUri()),
+                () -> assertEquals("c1702", resultItem.getConceptsReferences().getFirst().getId()),
+                () -> assertEquals("references", resultItem.getConceptsReferences().getFirst().getTypeOfLink()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1702"), resultItem.getConceptsReferences().getFirst().getUri())
+
+        );
+    }
 
     //    concepts/definitions
     @Test
-    void should_return_1232_concepts_when_ConceptsDefinitions_libelleNull() {
-        var response  = endpoints.getconceptsliste("");
+    void should_return_1233_concepts_when_ConceptsDefinitions_libelleNull() {
+        var response  = endpoints.getconceptsliste("",null);
         var result = response.getBody();
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
-                () -> assertEquals(1232, result.size()),
+                () -> assertEquals(1233, result.size()),
                 () -> assertEquals("c1601", resultItem1.getId()),
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1601"), resultItem1.getUri()),
                 () -> assertEquals("ADSL", resultItem1.getIntitule())

@@ -1,6 +1,5 @@
 package fr.insee.rmes.magma.gestion.old.services.pogues;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.rmes.magma.gestion.old.model.operation.OperationById;
 import fr.insee.rmes.magma.gestion.old.model.operation.OperationBySerieId;
 import fr.insee.rmes.magma.gestion.old.model.operation.SerieById;
@@ -18,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,10 +41,11 @@ public class PoguesImpl extends RdfService implements PoguesServices {
             seriesList = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getAllSeries.ftlh", params));
         }
 
-        ObjectMapper jsonResponse = new ObjectMapper();
+
+        JsonMapper jsonResponse = JsonMapper.builder().build();
         SerieModel[] listSeries = jsonResponse.readValue(seriesList.toString(), SerieModel[].class);
 
-        ObjectMapper mapper = new ObjectMapper();
+        JsonMapper mapper = JsonMapper.builder().build();
         List<SerieByIdModelSwagger> seriesListModelSwaggerS= new ArrayList<>();
 
         for (SerieModel bySerie : listSeries) {
@@ -159,10 +160,10 @@ public class PoguesImpl extends RdfService implements PoguesServices {
             }
         }
 
-        ObjectMapper jsonResponse =new ObjectMapper();
+        JsonMapper jsonResponse = JsonMapper.builder().build();
         SerieById serieById = jsonResponse.readValue(serieIdwithOneProprietaire.toString(),SerieById.class);
 
-        ObjectMapper mapper = new ObjectMapper();
+        JsonMapper mapper = JsonMapper.builder().build();
         AltLabel altLabelSerie1 = new AltLabel(Config.LG1,serieById.getSeriesAltLabelLg1());
         AltLabel altLabelSerie2 = new AltLabel(Config.LG2, serieById.getSeriesAltLabelLg2());
                  List<AltLabel> altLabelSerie = new ArrayList<>();
@@ -206,10 +207,10 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         Map<String, Object> params = initParams();
         params.put("ID", id);
         JSONArray operationsList = repoGestion.getResponseAsArray(buildRequest(Constants.POGUES_QUERIES_PATH, "getOperationsBySerie.ftlh", params));
-        ObjectMapper jsonResponse = new ObjectMapper();
+        JsonMapper jsonResponse = JsonMapper.builder().build();
         OperationBySerieId[] operationBySerieId = jsonResponse.readValue(operationsList.toString(), OperationBySerieId[].class);
 
-        ObjectMapper mapper = new ObjectMapper();
+        JsonMapper mapper = JsonMapper.builder().build();
         List<OperationBySerieIdModelSwagger> operationsBySerieIdModelSwaggerS = new ArrayList<>();
         for (OperationBySerieId bySerieId : operationBySerieId) {
             Label labelSerie1 = new Label(Config.LG1, bySerieId.getSeriesLabelLg1());
@@ -261,10 +262,10 @@ public class PoguesImpl extends RdfService implements PoguesServices {
         params.put("ID", id);
         JSONObject operationId = repoGestion.getResponseAsObject(buildRequest(Constants.POGUES_QUERIES_PATH, "getOperationByCode.ftlh", params));
         if (operationId.has("operationId")) {
-            ObjectMapper jsonResponse = new ObjectMapper();
+            JsonMapper jsonResponse = JsonMapper.builder().build();
             OperationById operationById = jsonResponse.readValue(operationId.toString(), OperationById.class);
 
-            ObjectMapper mapper = new ObjectMapper();
+            JsonMapper mapper = JsonMapper.builder().build();
             Label labelSerie1 = new Label(Config.LG1, operationById.getSeriesLabelLg1());
             Label labelSerie2 = new Label(Config.LG2, operationById.getSeriesLabelLg2());
             List<Label> label = new ArrayList<>();

@@ -11,7 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.util.Arrays;
@@ -54,15 +54,14 @@ public class SecurityConfigWithAccessControl {
                 .authorizeHttpRequests(authorize -> authorize.requestMatchers(
                                         Arrays.stream(whiteList)
                                                 .filter(not(String::isEmpty))
-                                                .map(AntPathRequestMatcher::antMatcher)
+                                                .map(pattern -> PathPatternRequestMatcher.withDefaults().matcher(pattern))
                                                 .toArray(RequestMatcher[]::new)
                                 ).permitAll()
-                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.PATCH, "/dataset/**")).hasAnyRole(administrateurRole, gestionnaireDataset)
+                                .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.PATCH, "/dataset/**")).hasAnyRole(administrateurRole, gestionnaireDataset)
                                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(withDefaults()));
         return http.build();
     }
-
 }

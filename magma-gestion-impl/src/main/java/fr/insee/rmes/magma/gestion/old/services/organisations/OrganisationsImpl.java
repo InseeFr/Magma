@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.gestion.old.services.organisations;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import fr.insee.rmes.magma.gestion.old.model.organisation.OrganisationModel;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.organisations.Label;
 import fr.insee.rmes.magma.gestion.old.modelSwagger.organisations.OrganisationsModelSwagger;
@@ -42,10 +42,10 @@ public class OrganisationsImpl extends RdfService implements OrganisationsServic
         organisationsList = repoGestion.getResponseAsArray(buildRequest(Constants.ORGANISATIONS_QUERIES_PATH, "getAllOrganisations.ftlh", params));
 
 
-        ObjectMapper jsonResponse = new ObjectMapper();
+        JsonMapper jsonResponse = JsonMapper.builder().build();
         OrganisationModel[] listOperations = jsonResponse.readValue(organisationsList.toString(), OrganisationModel[].class);
 
-        ObjectMapper mapper = new ObjectMapper();
+        JsonMapper mapper = JsonMapper.builder().build();
         List<OrganisationsModelSwagger> organisationsListModelSwaggerS = new ArrayList<>();
 
         for (OrganisationModel byOrganisations : listOperations) {
@@ -72,10 +72,10 @@ public class OrganisationsImpl extends RdfService implements OrganisationsServic
 
         JSONObject operationId = repoGestion.getResponseAsObject(buildRequest(Constants.ORGANISATIONS_QUERIES_PATH, "getOrganisationById.ftlh", params));
         if (operationId.has("Id")) {
-            ObjectMapper jsonResponse = new ObjectMapper();
+            JsonMapper jsonResponse = JsonMapper.builder().build();
             OrganisationModel operationById = jsonResponse.readValue(operationId.toString(), OrganisationModel.class);
 
-            ObjectMapper mapper = new ObjectMapper();
+            JsonMapper mapper = JsonMapper.builder().build();
             Label preflabel1 = new Label(Config.LG1, operationById.getPrefLabelLg1());
             Label preflabel2 = new Label(Config.LG2, operationById.getPrefLabelLg2());
             Label altlabel1 = new Label(Config.LG1, operationById.getAltLabelLg1());

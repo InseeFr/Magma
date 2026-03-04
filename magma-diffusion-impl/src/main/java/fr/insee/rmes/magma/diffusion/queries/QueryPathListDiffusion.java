@@ -3,7 +3,7 @@ package fr.insee.rmes.magma.diffusion.queries;
 public final class QueryPathListDiffusion {
     public static final String ASCENDANTS_OR_DESCENDANTS = "geographie/getAscendantsOrDescendantsByCodeTypeDate.ftlh";
     public static final String CONCEPT = "concepts/getConceptByCode.ftlh";
-    public static final String CONCEPTS = "concepts/getConceptsByLabel.ftlh";
+    public static final String CONCEPTS = "concepts/getConceptsByLabelOrCollection.ftlh";
     public static final String NEARBY_CONCEPTS = "concepts/getLinkedConceptsQuery.ftlh";
     public static final String INTITULES_ALTERNATIFS = "concepts/getConceptIntitulesAlternatifs.ftlh";
     public static final String TERRITOIRE = "geographie/getTerritoireByCodeDateNomCommune.ftlh";
@@ -20,6 +20,9 @@ public final class QueryPathListDiffusion {
     public static final String PAYS_PRECEDENTS = "geographie/getPaysPrecedents.ftlh";
     public static final String PAYS_SUIVANTS = "geographie/getPaysSuivants.ftlh";
     public static final String TERRITOIRES_LIES = "geographie/getTerritoiresLies.ftlh";
+    public static final String RAPPORT_QUALITE = "operations/getDocumentationTitleByIdSimsQuery.ftlh";
+    public static final String RUBRIQUES = "operations/getDocumentationRubricsByIdSimsQuery.ftlh";
+    public static final String DOCUMENTS = "operations/getDocumentsQueryByIdSimsIdRubric.ftlh";
     public static final String NOMENCLATURE = "classifications/getClassificationByCode.ftlh";
 
 
