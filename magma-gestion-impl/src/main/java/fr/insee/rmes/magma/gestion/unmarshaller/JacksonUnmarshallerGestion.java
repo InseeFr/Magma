@@ -1,22 +1,20 @@
 package fr.insee.rmes.magma.gestion.unmarshaller;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import fr.insee.rmes.magma.queryexecutor.Csv;
+import fr.insee.rmes.magma.unmarshaller.Unmarshaller;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.*;
+import tools.jackson.databind.module.SimpleModule;
+import tools.jackson.dataformat.csv.CsvMapper;
+import tools.jackson.dataformat.csv.CsvSchema;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import fr.insee.rmes.magma.unmarshaller.Unmarshaller;
 
 
 @Component
@@ -25,15 +23,14 @@ import fr.insee.rmes.magma.unmarshaller.Unmarshaller;
 public record JacksonUnmarshallerGestion(CsvMapper csvMapper) implements Unmarshaller {
 
     public JacksonUnmarshallerGestion() {
-        this(CsvMapper.csvBuilder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
-                .addModule(new JavaTimeModule())
+        this(CsvMapper.builder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .build());
     }
 
-    private static <E extends Enum<E>>  Module enumModule(Class<E> enumClass) {
+    private static <E extends Enum<E>> JacksonModule enumModule(Class<E> enumClass) {
         var module = new SimpleModule();
-        module.addDeserializer(enumClass, new JsonDeserializer<>()  {
+        module.addDeserializer(enumClass, new ValueDeserializer<>()  {
             @Override
             public E deserialize(JsonParser parser, DeserializationContext ctxt) {
                 try {
@@ -42,7 +39,7 @@ public record JacksonUnmarshallerGestion(CsvMapper csvMapper) implements Unmarsh
                     String enumName = value.matches("\\d+") ? "_" + value : value;
                     return Enum.valueOf(enumClass, enumName);
                 }
-                catch (IOException e) {
+                catch (JacksonException e) {
                     return null;
                 }
             }
@@ -76,7 +73,7 @@ public record JacksonUnmarshallerGestion(CsvMapper csvMapper) implements Unmarsh
         List<G> results;
         try (MappingIterator<G> mappingIterator = reader.readValues(csv)) {
             results = mappingIterator.readAll();
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             log.error("While reading \n{}\nMESSAGE : {}\n===> RETURN WILL BE EMPTY", csv, e.getMessage());
             return resultEmpty;
         }

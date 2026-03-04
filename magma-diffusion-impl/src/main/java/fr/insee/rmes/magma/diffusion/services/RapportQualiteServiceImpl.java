@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.diffusion.services;
 
-import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
 import fr.insee.rmes.magma.diffusion.model.*;
 import fr.insee.rmes.magma.diffusion.queries.parameters.OperationsDocumentsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.utils.DocumentDTO;
@@ -20,9 +20,9 @@ import static fr.insee.rmes.magma.diffusion.utils.LocalisedLabelUtils.createList
 @Service
 public class RapportQualiteServiceImpl implements RapportQualiteService {
 
-    private final RequestProcessor requestProcessor;
-    public RapportQualiteServiceImpl(RequestProcessor requestProcessor) {
-        this.requestProcessor = requestProcessor;
+    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    public RapportQualiteServiceImpl(RequestProcessorDiffusion requestProcessorDiffusion) {
+        this.requestProcessorDiffusion = requestProcessorDiffusion;
     }
 
     @Override
@@ -154,7 +154,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
     }
 
     private List<Document> findDocuments(String rapportQualiteId, String rubriqueDTOId, String lang) {
-        List<DocumentDTO> documentsDTO = this.requestProcessor.queryToFindDocuments()
+        List<DocumentDTO> documentsDTO = this.requestProcessorDiffusion.queryToFindDocuments()
                 .with(new OperationsDocumentsRequestParametizer(rapportQualiteId, rubriqueDTOId, lang))
                 .executeQuery()
                 .listResult(DocumentDTO.class)

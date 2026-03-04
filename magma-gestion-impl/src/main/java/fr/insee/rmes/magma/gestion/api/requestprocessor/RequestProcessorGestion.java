@@ -1,16 +1,14 @@
 package fr.insee.rmes.magma.gestion.api.requestprocessor;
 
+import fr.insee.rmes.magma.results.SingleResult;
 import fr.insee.rmes.magma.gestion.queries.parameters.StructureComponentsRequestParametizer;
 import fr.insee.rmes.magma.gestion.unmarshaller.JacksonUnmarshallerGestion;
+import fr.insee.rmes.magma.results.ListResult;
 import fr.insee.rmes.magma.queries.Query;
 import fr.insee.rmes.magma.queries.QueryBuilder;
 import fr.insee.rmes.magma.queryexecutor.Csv;
 import fr.insee.rmes.magma.queryexecutor.QueryExecutor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import fr.insee.rmes.magma.utils.EndpointsUtils;
-import fr.insee.rmes.magma.unmarshaller.Unmarshaller;
-import java.util.List;
 
 import static fr.insee.rmes.magma.gestion.queries.QueryPathListGestion.STRUCTURES_COMPONENTS;
 
@@ -26,40 +24,24 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
     }
 
     public record ExecutableQueryBuilder(String queryPath, RequestProcessorGestion requestProcessor) {
-        public ExecutableQuery with(StructureComponentsRequestParametizer structureComponentsRequestParametizer) {
-            return new ExecutableQuery(requestProcessor.queryBuilder().build(structureComponentsRequestParametizer.toParameters(), queryPath), requestProcessor);
+        public ExecutableQueryGestion with(StructureComponentsRequestParametizer structureComponentsRequestParametizer) {
+            return new ExecutableQueryGestion(requestProcessor.queryBuilder().build(structureComponentsRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
     }
 
-    public record ExecutableQuery(Query query, RequestProcessorGestion requestProcessor) {
-        public QueryResult executeQuery() {
-            return new QueryResult(requestProcessor.queryExecutor().execute(query), requestProcessor);
-        }
-
-        public Boolean executeAskQuery() {
-            return requestProcessor.queryExecutor().executeAskQuery(query);
+    public record ExecutableQueryGestion(Query query, RequestProcessorGestion requestProcessor) {
+        public QueryResultGestion executeQuery() {
+            return new QueryResultGestion(requestProcessor.queryExecutor().execute(query), requestProcessor);
         }
     }
 
-    public record QueryResult(Csv csv, RequestProcessorGestion requestProcessor) {
+    public record QueryResultGestion(Csv csv, RequestProcessorGestion requestProcessor) {
         public <E> ListResult<E> listResult(Class<E> clazz) {
             return new ListResult<>(requestProcessor.unmarshaller().unmarshalList(csv, clazz));
         }
 
         public <E> SingleResult<E> singleResult(Class<E> clazz) {
             return new SingleResult<>(requestProcessor.unmarshaller().unmarshalOrNull(csv, clazz));
-        }
-    }
-
-    public record ListResult<E>(List<E> result) {
-        public ResponseEntity<List<E>> toResponseEntity() {
-            return EndpointsUtils.toResponseEntity(result);
-        }
-    }
-
-    public record SingleResult<E>(E result) {
-        public ResponseEntity<E> toResponseEntity() {
-            return EndpointsUtils.toResponseEntity(result);
         }
     }
 

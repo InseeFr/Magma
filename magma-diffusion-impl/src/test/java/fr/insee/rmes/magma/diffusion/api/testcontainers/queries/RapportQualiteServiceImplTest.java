@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
-import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
 import fr.insee.rmes.magma.diffusion.model.RapportQualite;
 import fr.insee.rmes.magma.diffusion.model.Rubrique;
 import fr.insee.rmes.magma.diffusion.queries.parameters.OperationsDocumentsRequestParametizer;
@@ -21,11 +21,11 @@ import static org.mockito.Mockito.*;
 
 class RapportQualiteServiceImplTest {
     private RapportQualiteServiceImpl service;
-    private RequestProcessor requestProcessor;
+    private RequestProcessorDiffusion requestProcessorDiffusion;
 
     @BeforeEach
     void setUp() {
-        service = new RapportQualiteServiceImpl(requestProcessor);
+        service = new RapportQualiteServiceImpl(requestProcessorDiffusion);
     }
 
     @Test
@@ -295,7 +295,7 @@ class RapportQualiteServiceImplTest {
         DocumentDTO doc2Fr = new DocumentDTO("http://doc2.fr", "Label doc 2 FR", null, "2024-02-01", "fr");
         DocumentDTO doc1En = new DocumentDTO("http://doc1.en", "Label doc 1 EN", "Label doc 1 EN", "2024-01-01", "en");
 
-        RequestProcessor mockProcessor = mock(RequestProcessor.class, RETURNS_DEEP_STUBS);
+        RequestProcessorDiffusion mockProcessor = mock(RequestProcessorDiffusion.class, RETURNS_DEEP_STUBS);
         when(mockProcessor.queryToFindDocuments()
                 .with(any(OperationsDocumentsRequestParametizer.class))
                 .executeQuery()

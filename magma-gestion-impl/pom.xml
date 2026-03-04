@@ -34,9 +34,8 @@
             <groupId>fr.insee.rmes</groupId>
             <artifactId>magma-commons-infra</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <groupId>tools.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-csv</artifactId>
         </dependency>
 
