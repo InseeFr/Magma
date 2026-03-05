@@ -525,7 +525,7 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
                 creatorTitles = constructLangContent(creator_result.getString("labelCreatorLg1"), creator_result.getString("labelCreatorLg2"));
             }
             else {
-                creatorTitles = constructLangContent(creator_result.getString("labelCreatorLg1"), null);
+                creatorTitles = List.of(LangContent.lg1(creator_result.getString("labelCreatorLg1")));
             }
             IdLabel creatorIdLabel = new IdLabel(creator_result.getString("idCreator"), creatorTitles);
             creator.add(creatorIdLabel);
