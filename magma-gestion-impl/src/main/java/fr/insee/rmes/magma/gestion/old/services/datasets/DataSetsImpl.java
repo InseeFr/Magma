@@ -518,9 +518,15 @@ public class DataSetsImpl extends RdfService implements DataSetsServices {
 
             params.put("URI", s.replace(" ", ""));
 
-            JSONObject creator_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH+DATASET_BY_ID_PATH, "getDataSetByIdCreator.ftlh", params));
-            List<LangContent> creatorTitles = constructLangContent(creator_result.getString("labelCreatorLg1"),creator_result.getString("labelCreatorLg2"));
-            IdLabel creatorIdLabel = new IdLabel(creator_result.getString("idCreator"),creatorTitles);
+            JSONObject creator_result = repoGestion.getResponseAsObject(buildRequest(Constants.DATASETS_QUERIES_PATH + DATASET_BY_ID_PATH, "getDataSetByIdCreator.ftlh", params));
+            List<LangContent> creatorTitles = null;
+            if (creator_result.has("labelCreatorLg2")) {
+                creatorTitles = constructLangContent(creator_result.getString("labelCreatorLg1"), creator_result.getString("labelCreatorLg2"));
+            }
+            else {
+                creatorTitles = List.of(LangContent.lg1(creator_result.getString("labelCreatorLg1")));
+            }
+            IdLabel creatorIdLabel = new IdLabel(creator_result.getString("idCreator"), creatorTitles);
             creator.add(creatorIdLabel);
         }
         return creator;
