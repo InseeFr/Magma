@@ -110,7 +110,7 @@ class ConceptServiceImplTest {
         Concept result = service.transformDTOenConcept(dto);
 
         // Then — setIntitule n'est pas appelé, la liste reste vide (valeur par défaut du modèle)
-        assertThat(result.getIntitule()).isEmpty();
+        assertThat(result.getIntitule()).isNull();
     }
 
     // ////////////////////////////////////////////////////////////////////////

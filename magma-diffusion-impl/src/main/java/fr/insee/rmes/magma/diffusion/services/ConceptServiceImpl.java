@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static fr.insee.rmes.magma.diffusion.utils.LocalisedLabelUtils.createLangueContenu;
@@ -28,35 +29,17 @@ public class ConceptServiceImpl implements ConceptService{
             Concept concept = new Concept();
             concept.setId(conceptDTO.id());
             concept.setUri(URI.create(conceptDTO.uri()));
-            if  (conceptDTO.intituleFr() != null || conceptDTO.intituleEn() != null) {
-                List<LocalisedLabel> intitules = createListLangueContenu(createLangueContenu(conceptDTO.intituleFr(),"fr"),createLangueContenu(conceptDTO.intituleEn(),"en"));
-                concept.setIntitule(intitules);
-            }
 
-            if  (conceptDTO.definitionFr() != null || conceptDTO.definitionEn() != null) {
-                List<LocalisedLabel> definitions = createListLangueContenu(createLangueContenu(conceptDTO.definitionFr(),"fr"),createLangueContenu(conceptDTO.definitionEn(),"en"));
-                concept.setDefinition(definitions);
-            }
-            else concept.setDefinition(null);
-
-            if  (conceptDTO.scopeNoteFr() != null || conceptDTO.scopeNoteEn() != null) {
-                List<LocalisedLabel> definitionCourte = createListLangueContenu(createLangueContenu(conceptDTO.scopeNoteFr(),"fr"),createLangueContenu(conceptDTO.scopeNoteEn(),"en"));
-                concept.setDefinitionCourte(definitionCourte);
-            }
-            else concept.setDefinitionCourte(null);
-
-            if  (conceptDTO.noteEditorialeFr() != null || conceptDTO.noteEditorialeEn() != null) {
-                List<LocalisedLabel> noteEditoriale = createListLangueContenu(createLangueContenu(conceptDTO.noteEditorialeFr(),"fr"),createLangueContenu(conceptDTO.noteEditorialeEn(),"en"));
-                concept.setNoteEditoriale(noteEditoriale);
-            }
-            else concept.setNoteEditoriale(null);
+            concept.setIntitule(buildLocalisedLabels(conceptDTO.intituleFr(), conceptDTO.intituleEn()));
+            concept.setDefinition(buildLocalisedLabels(conceptDTO.definitionFr(), conceptDTO.definitionEn()));
+            concept.setDefinitionCourte(buildLocalisedLabels(conceptDTO.scopeNoteFr(), conceptDTO.scopeNoteEn()));
+            concept.setNoteEditoriale(buildLocalisedLabels(conceptDTO.noteEditorialeFr(), conceptDTO.noteEditorialeEn()));
 
 
             if (Boolean.TRUE.equals(conceptDTO.hasIntitulesAlternatifs())) {
                 addIntitulesAlternatifs(conceptDTO,concept);
             }
             else concept.setIntitulesAlternatifs(null);
-
 
             addNearByConcepts(conceptDTO,concept);
 
@@ -65,8 +48,13 @@ public class ConceptServiceImpl implements ConceptService{
             concept.setDateCreation(tryParseDateToLocalDate(conceptDTO.dateCreation()));
             concept.setDateFinDeValidite(tryParseDateToLocalDate(conceptDTO.dateFinDeValidite()));
 
-
             return concept;
+        }
+
+
+        private static List<LocalisedLabel> buildLocalisedLabels(String frField, String enField) {
+            if (frField == null && enField == null) return null;
+            return createListLangueContenu(createLangueContenu(frField, "fr"), createLangueContenu(enField, "en"));
         }
 
 
@@ -90,7 +78,8 @@ public class ConceptServiceImpl implements ConceptService{
             }
         }
 
-        private void addNearByConcepts(ConceptDTO conceptDTO, Concept concept) {
+
+    private void addNearByConcepts(ConceptDTO conceptDTO, Concept concept) {
             concept.setConceptsSuivants(null);
             concept.setConceptsPrecedents(null);
             concept.setConceptsLies(null);
