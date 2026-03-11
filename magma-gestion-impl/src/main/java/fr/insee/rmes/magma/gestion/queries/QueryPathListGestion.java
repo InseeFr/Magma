@@ -8,6 +8,14 @@ import org.springframework.stereotype.Component;
 public class QueryPathListGestion {
     public static final String STRUCTURES_COMPONENTS = "structures/getAllStructures.fthl";
     public static final String COMPONENT= "getComponent.ftlh";
+    public static final String COMPONENT_DATE_MAJ = "getComponentDateMAJ";
     public static final String STRUCTURES_SLICESKEYS = "getStructureSliceKeys.ftlh";
     public static final String STRUCTURE = "getStructure.ftlh";
+    public static final String STRUCTURE_DATE_MAJ = "getStructureDateMAJ.ftlh";
+
+    public static final String ALL_CODES_LISTS = "codeLists/getAllCodesLists.ftlh";
+    public static final String ALL_CODES_LISTS_BY_DATE = "codeLists/getAllCodesListsByDate.ftlh";
+    public static final String CODES_LIST = "codeLists/getCodesList.ftlh";
+    public static final String CODES_LIST_DATE_MAJ = "codeLists/getCodesListDateMAJ.ftlh";
+    public static final String CODES_LIST_PAGINATION = "codeLists/getCodesListPagination.ftlh";
 }

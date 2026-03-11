@@ -20,7 +20,8 @@ import java.util.Locale;
 public class MetadataConfig {
 
     @Bean
-    public Configuration freemarkerConfiguration(@Value("${fr.insee.rmes.magma.api.freemarker.locale-language}") String localLanguage) throws URISyntaxException, IOException {
+    public Configuration freemarkerConfiguration
+            (@Value("${fr.insee.rmes.magma.api.freemarker.locale-language}") String localLanguage) throws URISyntaxException, IOException {
         var configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         // Charge les templates depuis le classpath (dans src/main/resources/request)
         ClassTemplateLoader classTemplateLoader = new ClassTemplateLoader(MetadataConfig.class, "/request");

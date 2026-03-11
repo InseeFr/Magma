@@ -1,6 +1,7 @@
 package fr.insee.rmes.magma.gestion.api.requestprocessor;
 
 import fr.insee.rmes.magma.results.SingleResult;
+import fr.insee.rmes.magma.gestion.queries.parameters.CodesListRequestParametizer;
 import fr.insee.rmes.magma.gestion.queries.parameters.StructureComponentsRequestParametizer;
 import fr.insee.rmes.magma.gestion.unmarshaller.JacksonUnmarshallerGestion;
 import fr.insee.rmes.magma.results.ListResult;
@@ -28,6 +29,11 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
 
     }
 
+    public ExecutableQueryBuilder queryToFindComponentDateMAJ() {
+        return new ExecutableQueryBuilder(COMPONENT_DATE_MAJ, this);
+
+    }
+
     public ExecutableQueryBuilder queryToFindStructuresSlicesKeys() {
         return new ExecutableQueryBuilder(STRUCTURES_SLICESKEYS, this);
 
@@ -38,9 +44,37 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
 
     }
 
+    public ExecutableQueryBuilder queryToFindStructureDateMAJ() {
+        return new ExecutableQueryBuilder(STRUCTURE_DATE_MAJ, this);
+    }
+
+    public ExecutableQueryBuilder queryToFindAllCodesLists() {
+        return new ExecutableQueryBuilder(ALL_CODES_LISTS, this);
+    }
+
+    public ExecutableQueryBuilder queryToFindAllCodesListsByDate() {
+        return new ExecutableQueryBuilder(ALL_CODES_LISTS_BY_DATE, this);
+    }
+
+    public ExecutableQueryBuilder queryToFindCodesList() {
+        return new ExecutableQueryBuilder(CODES_LIST, this);
+    }
+
+    public ExecutableQueryBuilder queryToFindCodesListDateMAJ() {
+        return new ExecutableQueryBuilder(CODES_LIST_DATE_MAJ, this);
+    }
+
+    public ExecutableQueryBuilder queryToFindCodesListPagination() {
+        return new ExecutableQueryBuilder(CODES_LIST_PAGINATION, this);
+    }
+
     public record ExecutableQueryBuilder(String queryPath, RequestProcessorGestion requestProcessor) {
         public ExecutableQueryGestion with(StructureComponentsRequestParametizer structureComponentsRequestParametizer) {
             return new ExecutableQueryGestion(requestProcessor.queryBuilder().build(structureComponentsRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
+
+        public ExecutableQueryGestion with(CodesListRequestParametizer codesListRequestParametizer) {
+            return new ExecutableQueryGestion(requestProcessor.queryBuilder().build(codesListRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
     }
 
