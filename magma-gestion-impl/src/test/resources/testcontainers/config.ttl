@@ -2,11 +2,12 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<#data> a <http://www.openrdf.org/config/repository#Repository>, config:Repository;
-  <http://www.openrdf.org/config/repository#repositoryID> "gestion";
-  <http://www.openrdf.org/config/repository#repositoryImpl> [
-      <http://www.openrdf.org/config/repository#repositoryType> "graphdb:SailRepository";
-      <http://www.openrdf.org/config/repository/sail#sailImpl> [
+<#gestion> a config:Repository;
+  rdfs:label "";
+  config:rep.id "gestion";
+  config:rep.impl [
+      config:rep.type "graphdb:SailRepository";
+      config:sail.impl [
           <http://www.ontotext.com/config/graphdb#base-URL> "http://example.org/owlim#";
           <http://www.ontotext.com/config/graphdb#check-for-inconsistencies> "false";
           <http://www.ontotext.com/config/graphdb#defaultNS> "";
@@ -26,11 +27,10 @@
           <http://www.ontotext.com/config/graphdb#query-timeout> "0";
           <http://www.ontotext.com/config/graphdb#read-only> "false";
           <http://www.ontotext.com/config/graphdb#repository-type> "file-repository";
-          <http://www.ontotext.com/config/graphdb#ruleset> "rdfsplus-optimized";
+          <http://www.ontotext.com/config/graphdb#ruleset> "empty";
           <http://www.ontotext.com/config/graphdb#storage-folder> "storage";
           <http://www.ontotext.com/config/graphdb#throw-QueryEvaluationException-on-timeout>
             "false";
-          <http://www.openrdf.org/config/sail#sailType> "graphdb:Sail"
+          config:sail.type "graphdb:Sail"
         ]
-    ];
-  rdfs:label "" .
+    ] .
