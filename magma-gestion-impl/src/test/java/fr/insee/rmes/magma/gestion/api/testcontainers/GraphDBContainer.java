@@ -43,7 +43,7 @@ public class GraphDBContainer extends GenericContainer<GraphDBContainer> {
     public GraphDBContainer withTrigFiles(String file) {
         try {
             String path = copyFile(file);
-            execInContainer("curl", "-X", "POST", "-H", "Content-Type: application/x-trig", "--data-binary", "@" + path, "http://localhost:7200/repositories/data/statements");
+            execInContainer("curl", "-X", "POST", "-H", "Content-Type: application/x-trig", "--data-binary", "@" + path, "http://localhost:7200/repositories/gestion/statements");
         } catch (IOException | InterruptedException e) {
             throw new AssertionError("The Trig file was not loaded");
         }
