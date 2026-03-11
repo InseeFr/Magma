@@ -19,7 +19,7 @@ public class StructuresComposantsEndpoints implements StructuresComposantsApi {
 
 	@Override
     public ResponseEntity<List<AllComponent>> getAllComponents(LocalDate dateMiseAJour) {
-        return requestProcessor.queryForFindStructuresComponents()
+        return requestProcessor.queryToFindStructuresComponents()
                 .with(new StructureComponentsRequestParametizer(dateMiseAJour))
                 .executeQuery()
                 .listResult(AllComponent.class)
@@ -28,7 +28,7 @@ public class StructuresComposantsEndpoints implements StructuresComposantsApi {
 
     @Override
     public ResponseEntity<List<AllStructure>> getAllStructures(LocalDate dateMiseAJour) {
-        return requestProcessor.queryForFindStructuresComponents()
+        return requestProcessor.queryToFindStructuresComponents()
                 .with(new StructureComponentsRequestParametizer(dateMiseAJour))
                 .executeQuery()
                 .listResult(AllStructure.class)
@@ -37,16 +37,28 @@ public class StructuresComposantsEndpoints implements StructuresComposantsApi {
 
     @Override
     public ResponseEntity<ComponentById> getComponentById(String id, Boolean dateMiseAJour) {
-        return StructuresComposantsApi.super.getComponentById(id, dateMiseAJour);
+        return requestProcessor.queryToFindComponent()
+                .with(new StructureComponentsRequestParametizer(id, dateMiseAJour))
+                .executeQuery()
+                .singleResult(ComponentById.class)
+                .toResponseEntity();
     }
 
     @Override
     public ResponseEntity<List<StructureSliceKeys>> getSliceKeys(String id) {
-        return StructuresComposantsApi.super.getSliceKeys(id);
+        return requestProcessor.queryToFindStructuresSlicesKeys()
+                .with(new StructureComponentsRequestParametizer(id))
+                .executeQuery()
+                .listResult(StructureSliceKeys.class)
+                .toResponseEntity();
     }
 
     @Override
     public ResponseEntity<StructureById> getStructure(String id, Boolean dateMiseAJour) {
-        return StructuresComposantsApi.super.getStructure(id, dateMiseAJour);
+        return requestProcessor.queryToFindStructure()
+                .with(new StructureComponentsRequestParametizer(id, dateMiseAJour))
+                .executeQuery()
+                .singleResult(StructureById.class)
+                .toResponseEntity();
     }
 }

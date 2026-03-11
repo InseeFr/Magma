@@ -10,7 +10,7 @@ import fr.insee.rmes.magma.queryexecutor.Csv;
 import fr.insee.rmes.magma.queryexecutor.QueryExecutor;
 import org.springframework.stereotype.Component;
 
-import static fr.insee.rmes.magma.gestion.queries.QueryPathListGestion.STRUCTURES_COMPONENTS;
+import static fr.insee.rmes.magma.gestion.queries.QueryPathListGestion.*;
 
 @Component
 public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor queryExecutor,
@@ -18,8 +18,23 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
 
     // Peut-être renommer les query en queryToFind et non en forFind
 
-    public ExecutableQueryBuilder queryForFindStructuresComponents() {
+    public ExecutableQueryBuilder queryToFindStructuresComponents() {
         return new ExecutableQueryBuilder(STRUCTURES_COMPONENTS, this);
+
+    }
+
+    public ExecutableQueryBuilder queryToFindComponent() {
+        return new ExecutableQueryBuilder(COMPONENT, this);
+
+    }
+
+    public ExecutableQueryBuilder queryToFindStructuresSlicesKeys() {
+        return new ExecutableQueryBuilder(STRUCTURES_SLICESKEYS, this);
+
+    }
+
+    public ExecutableQueryBuilder queryToFindStructure() {
+        return new ExecutableQueryBuilder(STRUCTURE, this);
 
     }
 
