@@ -6848,6 +6848,7 @@ components:
         - QuartierPrioritaireDeLaPolitiqueDeLaVille2024
         - Territoire
         - CollectiviteTerritorialeAyantLesCompetencesDepartementales
+        - EtablissementPublicTerritorial
       example: 'Canton'
 
     TypeEnumDescendantsCollectiviteDOutreMer:
