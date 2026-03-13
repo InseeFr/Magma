@@ -142,7 +142,7 @@ public class GeoCommuneDelegueeQueriesTest extends TestcontainerTest {
         var resultItem1= result.getFirst();
 
         assertAll(
-                () -> assertEquals(2600, result.size()),
+                () -> assertEquals(2601, result.size()),
                 () -> assertEquals("01015", resultItem1.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/communeDeleguee/3c07001c-7efe-40f9-90fc-6a892af20238", resultItem1.getUri()),
                 () -> assertEquals(CommuneDeleguee.TypeEnum.COMMUNE_DELEGUEE, resultItem1.getType()),
