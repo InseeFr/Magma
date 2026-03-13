@@ -34,12 +34,12 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
 
 //    geo/commune/14475/ascendants?date=2025-09-04 renvoie 9 territoires
     @Test
-    void should_return_10_territoires_when_CommuneCodeAscendants_code14475_date20250904_typeNull(){
+    void should_return_9_territoires_when_CommuneCodeAscendants_code14475_date20250904_typeNull(){
         var response  = endpoints.getcogcomasc("14475", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
-        assertEquals(10, result.size());
+        assertEquals(9, result.size());
         assertEquals("024", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/9d05148e-a733-4bc4-9223-e8a27618c7c0", resultItem1.getUri());
         assertEquals(TerritoireTousAttributs.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType());
@@ -211,12 +211,12 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
 
 //    geo/communes?date=*
     @Test
-    void should_return_43924_communes_when_Communes_dateEtoile(){
+    void should_return_43925_communes_when_Communes_dateEtoile(){
         var response  = endpoints.getcogcomliste ("*", null,  null);
         var result = response.getBody();
         assertNotNull(result);
         var resultItem1= result.getFirst();
-        assertEquals(43924, result.size());
+        assertEquals(43925, result.size());
         assertAll(
                 () -> assertEquals("01001", resultItem1.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/commune/166857ef-114f-4067-9d3d-f712562850c5", resultItem1.getUri()),
