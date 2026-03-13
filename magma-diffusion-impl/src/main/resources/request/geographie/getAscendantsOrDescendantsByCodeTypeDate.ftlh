@@ -1,4 +1,4 @@
-SELECT DISTINCT ?uri ?code (STRAFTER(STR(?typeAvecIri), "#") AS ?type) ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu ?typeDIris
+SELECT DISTINCT ?uri ?code ?type ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu ?typeDIris
 FROM
 <http://rdf.insee.fr/graphes/geo/cog>
 WHERE {
@@ -16,6 +16,10 @@ a ?typeAvecIri ;
 igeo:codeArticle ?typeArticle ;
 igeo:nom ?intitule ;
 igeo:nomSansArticle ?intituleSansArticle .
+
+BIND(STRAFTER(STR(?typeAvecIri), "#") AS ?type)
+FILTER(?type IN (${listeTypesGeo}))
+
 Optional{
 ?uri    igeo:typeDIRIS ?uriTypeDIris ;
 BIND(SUBSTR(STR(?uriTypeDIris ), STRLEN(STR(?uriTypeDIris )), 1) AS ?typeDIris)
