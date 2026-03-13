@@ -31,9 +31,6 @@ public class StructuresComposantsEndpoints implements StructuresComposantsApi {
 
     @Override
     public ResponseEntity<List<AllStructure>> getAllStructures(LocalDate dateMiseAJour) {
-        if (dateMiseAJour == null){
-            dateMiseAJour = LocalDate.parse("");
-        }
         return requestProcessor.queryToFindStructuresComponents()
                 .with(new StructureComponentsRequestParametizer(dateMiseAJour))
                 .executeQuery()
