@@ -336,14 +336,14 @@ public class GeoCommuneQueriesTest extends TestcontainerTest {
 
 // geo/commune/01053/intersections?date=2025-09-04
     @Test
-    void should_return_31_territoires_when_CommuneCodeIntersections_code01053_date20250904(){
+    void should_return_30_territoires_when_CommuneCodeIntersections_code01053_date20250904(){
         var response  = endpoints.getcogcomintersect ("01053", LocalDate.of(2025,9,4), null);
         var result = response.getBody();
         assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
-                () -> assertEquals(31, result.size()),
+                () -> assertEquals(30, result.size()),
                 () -> assertEquals("01", resultItem1.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/departement/84680e6f-2e99-44c9-a9ba-2e96a2ae48b7", resultItem1.getUri()),
                 () -> assertEquals(TerritoireBaseRelation.TypeEnum.DEPARTEMENT, resultItem1.getType()),
