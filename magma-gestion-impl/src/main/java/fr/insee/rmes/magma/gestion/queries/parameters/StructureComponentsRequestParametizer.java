@@ -6,7 +6,12 @@ public record StructureComponentsRequestParametizer(String id,
                                                     LocalDate date,
                                                     Boolean dateMiseAJour) implements ParametersForQueryGestion<StructureComponentsRequestParametizer> {
 
-    //for getAllComponents and getAllStructures
+    //for getAllComponents and getAllStructures (no date filter)
+    public StructureComponentsRequestParametizer() {
+        this(null, null, null);
+    }
+
+    //for getAllComponents and getAllStructures (no date filter)
     public StructureComponentsRequestParametizer(LocalDate date) {
         this("none", date, null);
     }

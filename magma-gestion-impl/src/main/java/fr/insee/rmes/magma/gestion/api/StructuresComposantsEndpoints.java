@@ -2,6 +2,7 @@ package fr.insee.rmes.magma.gestion.api;
 
 import fr.insee.rmes.magma.gestion.api.requestprocessor.RequestProcessorGestion;
 import fr.insee.rmes.magma.gestion.model.*;
+import fr.insee.rmes.magma.gestion.queries.parameters.CodesListRequestParametizer;
 import fr.insee.rmes.magma.gestion.queries.parameters.StructureComponentsRequestParametizer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,10 +32,17 @@ public class StructuresComposantsEndpoints implements StructuresComposantsApi {
 
     @Override
     public ResponseEntity<List<AllStructure>> getAllStructures(LocalDate dateMiseAJour) {
-        return requestProcessor.queryToFindStructuresComponents()
-                .with(new StructureComponentsRequestParametizer(dateMiseAJour))
+        if (dateMiseAJour == null || dateMiseAJour.isBlank()) {
+            return requestProcessor.queryToFindStructuresComponents()
+                    .with(new StructureComponentsRequestParametizer())
+                    .executeQuery()
+                    .listResult(AllStructure.class)
+                    .toResponseEntity();
+        }
+        return requestProcessor.queryToFindAllStructuresByDate()
+                .with(new StructureComponentsRequestParametizer(null, dateMiseAJour, null, null))
                 .executeQuery()
-                .listResult(AllStructure.class)
+                .listResult(AllListCode.class)
                 .toResponseEntity();
     }
 
