@@ -11,7 +11,7 @@ public record StructureComponentsRequestParametizer(String id,
         this(null, null, null);
     }
 
-    //for getAllComponents and getAllStructures (no date filter)
+    //for getAllComponents and getAllStructures (with date filter)
     public StructureComponentsRequestParametizer(LocalDate date) {
         this("none", date, null);
     }
