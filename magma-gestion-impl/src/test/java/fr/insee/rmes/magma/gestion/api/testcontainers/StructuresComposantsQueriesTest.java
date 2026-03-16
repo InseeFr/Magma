@@ -15,10 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(properties = "security.disabled")
+@SpringBootTest(properties="--spring.profiles.active=security.disabled")
 @AutoConfigureMockMvc
 @Tag("integration")
-
 class StructuresComposantsQueriesTest  extends TestcontainerTest {
 
     @Autowired
@@ -28,7 +27,7 @@ class StructuresComposantsQueriesTest  extends TestcontainerTest {
 
 
     /////////////////////////////////////////////////////////
-    ///        /structures                                ///
+    ///        /structures           `                     ///
     /////////////////////////////////////////////////////////
 
     //    /structures
@@ -43,10 +42,10 @@ class StructuresComposantsQueriesTest  extends TestcontainerTest {
                 () -> assertEquals(2, result.size()),
                 () -> assertNotNull(result),
                 () -> assertEquals("2024-07-02T07:47:06.152282664", resultItem1.getDateMiseAJour()),
-                () -> assertEquals("\"Provisoire, jamais publiée\"", resultItem1.getStatutValidation()),
+                () -> assertEquals("Provisoire, jamais publiée", resultItem1.getStatutValidation()),
                 () -> assertEquals("dsd1000", resultItem1.getId()),
                 () -> assertEquals("2025-02-19T14:48:49.041372902", resultItem2.getDateMiseAJour()),
-                () -> assertEquals("\"Provisoire, jamais publiée\"", resultItem2.getStatutValidation()),
+                () -> assertEquals("Provisoire, jamais publiée", resultItem2.getStatutValidation()),
                 () -> assertEquals("dsd1001", resultItem2.getId())
         );
     }
