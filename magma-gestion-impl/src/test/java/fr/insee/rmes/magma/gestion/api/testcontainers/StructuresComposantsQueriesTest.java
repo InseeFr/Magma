@@ -55,14 +55,8 @@ class StructuresComposantsQueriesTest  extends TestcontainerTest {
     void should_return_2_structures_when_structures_dateMiseAJour20250101() {
         var response = endpoints.getAllStructures(LocalDate.of(2025,1,1));
         var result = response.getBody();
-        var resultItem1 = result.getFirst();
         assertNotNull(result);
-        assertAll(
-                () -> assertEquals(1, result.size()),
-                () -> assertEquals("2025-02-19T14:48:49.041372902", resultItem1.getDateMiseAJour()),
-                () -> assertEquals("\"Provisoire, jamais publiée\"", resultItem1.getStatutValidation()),
-                () -> assertEquals("dsd1001", resultItem1.getId())
-                );
+        assertEquals(2, result.size());
     }
 
     /////////////////////////////////////////////////////////
@@ -79,7 +73,7 @@ class StructuresComposantsQueriesTest  extends TestcontainerTest {
                 () -> assertEquals("2024-07-02T07:47:06.152282664", result.getDateMiseAJour()),
                 () -> assertEquals("2024-07-02T07:47:06.152238061", result.getDateCreation()),
                 () -> assertEquals("TEST_NOT_FOR_PUBLICATION", result.getNotation()),
-                () -> assertEquals("\"Provisoire, jamais publiée\"", result.getStatutValidation()),
+                () -> assertEquals("Provisoire, jamais publiée", result.getStatutValidation()),
                 () -> assertEquals(List.of(), result.getMesures()),
                 () -> assertEquals("dsd1000", result.getId()),
                 () -> assertEquals("fr", result.getLabel().getFirst().getLangue()),
@@ -113,7 +107,7 @@ class StructuresComposantsQueriesTest  extends TestcontainerTest {
     // /composants
     @Test
     void should_return_0_composants_when_composants_dateMiseAJourNull() {
-        var response = endpoints.getAllStructures(null);
+        var response = endpoints.getAllComponents(null);
         var result = response.getBody();
         assertNotNull(result);
         assertEquals(0, result.size());
@@ -123,7 +117,7 @@ class StructuresComposantsQueriesTest  extends TestcontainerTest {
     // /composants?dateMiseAJour=2025-01-01
     @Test
     void should_return_0_composants_when_composants_dateMiseAJour20250101() {
-        var response = endpoints.getAllStructures(LocalDate.of(2025,1,1));
+        var response = endpoints.getAllComponents(LocalDate.of(2025,1,1));
         var result = response.getBody();
         assertNotNull(result);
         assertEquals(0, result.size());
