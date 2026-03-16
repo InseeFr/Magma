@@ -1,0 +1,31 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix insee: <http://rdf.insee.fr/def/base#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://rdf.insee.fr/graphes/structures> {
+    <http://bauhaus/structuresDeDonnees/structure/dsd1000>
+        rdf:type qb:DataStructureDefinition ;
+        dcterms:identifier "dsd1000" ;
+        dcterms:created "2024-07-02T07:47:06.152238061"^^xsd:dateTime ;
+        dcterms:modified "2024-07-02T07:47:06.152282664"^^xsd:dateTime ;
+        skos:notation "TEST_NOT_FOR_PUBLICATION" ;
+        rdfs:label "Test (à ne pas publier)"@fr ;
+        rdfs:label "Test (not for publication)"@en ;
+        insee:validationState "Provisoire, jamais publiée" .
+
+    <http://bauhaus/structuresDeDonnees/structure/dsd1001>
+        rdf:type qb:DataStructureDefinition ;
+        dcterms:identifier "dsd1001" ;
+        dcterms:created "2025-02-19T14:48:49.041372902"^^xsd:dateTime ;
+        dcterms:modified "2025-02-19T14:48:49.041372902"^^xsd:dateTime ;
+        rdfs:label "Structure 1001"@fr ;
+        rdfs:label "Structure 1001"@en ;
+        insee:validationState "Provisoire, jamais publiée" .
+}
+
+<http://rdf.insee.fr/graphes/composants> {
+}
