@@ -32,7 +32,7 @@ public class StructuresComposantsEndpoints implements StructuresComposantsApi {
 
     @Override
     public ResponseEntity<List<AllStructure>> getAllStructures(LocalDate dateMiseAJour) {
-        if (dateMiseAJour == null || dateMiseAJour.isBlank()) {
+        if (dateMiseAJour == null) {
             return requestProcessor.queryToFindStructuresComponents()
                     .with(new StructureComponentsRequestParametizer())
                     .executeQuery()
@@ -40,9 +40,9 @@ public class StructuresComposantsEndpoints implements StructuresComposantsApi {
                     .toResponseEntity();
         }
         return requestProcessor.queryToFindAllStructuresByDate()
-                .with(new StructureComponentsRequestParametizer(null, dateMiseAJour, null, null))
+                .with(new StructureComponentsRequestParametizer(null, dateMiseAJour, null))
                 .executeQuery()
-                .listResult(AllListCode.class)
+                .listResult(AllStructure.class)
                 .toResponseEntity();
     }
 

@@ -24,6 +24,13 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
 
     }
 
+    public ExecutableQueryBuilder queryToFindAllStructuresByDate() {
+        return new ExecutableQueryBuilder(ALL_STRUCTURES_BY_DATE, this);
+
+    }
+
+
+
     public ExecutableQueryBuilder queryToFindComponent() {
         return new ExecutableQueryBuilder(COMPONENT, this);
 
