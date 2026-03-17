@@ -17,8 +17,6 @@ import static fr.insee.rmes.magma.gestion.queries.QueryPathListGestion.*;
 public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor queryExecutor,
                                       JacksonUnmarshallerGestion unmarshaller) {
 
-    // Peut-être renommer les query en queryToFind et non en forFind
-
     public ExecutableQueryBuilder queryToFindStructuresComponents() {
         return new ExecutableQueryBuilder(STRUCTURES_COMPONENTS, this);
 
@@ -28,8 +26,6 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
         return new ExecutableQueryBuilder(ALL_STRUCTURES_BY_DATE, this);
 
     }
-
-
 
     public ExecutableQueryBuilder queryToFindComponent() {
         return new ExecutableQueryBuilder(COMPONENT, this);
