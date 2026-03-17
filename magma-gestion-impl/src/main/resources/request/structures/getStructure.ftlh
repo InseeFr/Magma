@@ -2,8 +2,8 @@ SELECT ?uri ?id ?notation ?prefLabelLg1 ?prefLabelLg2 ?dateCreation ?dateMiseAJo
 FROM <${STRUCTURES_GRAPH}>
 WHERE {
     ?uri rdf:type qb:DataStructureDefinition .
-    ?uri dcterms:identifier "${STRUCTURE_ID}" .
-    BIND("${STRUCTURE_ID}" AS ?id) .
+    ?uri dcterms:identifier "${id}" .
+    BIND("${id}" AS ?id) .
     OPTIONAL { ?uri skos:notation ?notation . }
     ?uri rdfs:label ?prefLabelLg1 .
     FILTER (lang(?prefLabelLg1) = '${LG1}') .
