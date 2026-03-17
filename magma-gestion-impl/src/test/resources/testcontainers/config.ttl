@@ -1,36 +1,22 @@
-@prefix config: <tag:rdf4j.org,2023:config/> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rep: <http://www.openrdf.org/config/repository#>.
+@prefix sr: <http://www.openrdf.org/config/repository/sail#>.
+@prefix sail: <http://www.openrdf.org/config/sail#>.
+@prefix graphdb: <http://www.ontotext.com/config/graphdb#>.
 
-<#gestion> a config:Repository;
-  rdfs:label "";
-  config:rep.id "gestion";
-  config:rep.impl [
-      config:rep.type "graphdb:SailRepository";
-      config:sail.impl [
-          <http://www.ontotext.com/config/graphdb#base-URL> "http://example.org/owlim#";
-          <http://www.ontotext.com/config/graphdb#check-for-inconsistencies> "false";
-          <http://www.ontotext.com/config/graphdb#defaultNS> "";
-          <http://www.ontotext.com/config/graphdb#disable-sameAs> "true";
-          <http://www.ontotext.com/config/graphdb#enable-context-index> "false";
-          <http://www.ontotext.com/config/graphdb#enable-fts-index> "false";
-          <http://www.ontotext.com/config/graphdb#enable-literal-index> "true";
-          <http://www.ontotext.com/config/graphdb#enablePredicateList> "true";
-          <http://www.ontotext.com/config/graphdb#entity-id-size> "32";
-          <http://www.ontotext.com/config/graphdb#entity-index-size> "10000000";
-          <http://www.ontotext.com/config/graphdb#fts-indexes> ("default" "iri");
-          <http://www.ontotext.com/config/graphdb#fts-iris-index> "none";
-          <http://www.ontotext.com/config/graphdb#fts-string-literals-index> "default";
-          <http://www.ontotext.com/config/graphdb#imports> "";
-          <http://www.ontotext.com/config/graphdb#in-memory-literal-properties> "true";
-          <http://www.ontotext.com/config/graphdb#query-limit-results> "0";
-          <http://www.ontotext.com/config/graphdb#query-timeout> "0";
-          <http://www.ontotext.com/config/graphdb#read-only> "false";
-          <http://www.ontotext.com/config/graphdb#repository-type> "file-repository";
-          <http://www.ontotext.com/config/graphdb#ruleset> "empty";
-          <http://www.ontotext.com/config/graphdb#storage-folder> "storage";
-          <http://www.ontotext.com/config/graphdb#throw-QueryEvaluationException-on-timeout>
-            "false";
-          config:sail.type "graphdb:Sail"
-        ]
-    ] .
+[] a rep:Repository ;
+   rep:repositoryID "gestion" ;
+   rdfs:label "" ;
+   rep:repositoryImpl [
+      rep:repositoryType "graphdb:SailRepository" ;
+      sr:sailImpl [
+         sail:sailType "graphdb:Sail" ;
+         graphdb:ruleset "empty" ;
+         graphdb:storage-folder "storage" ;
+         graphdb:entity-id-size "32" ;
+         graphdb:entity-index-size "10000000" ;
+         graphdb:in-memory-literal-properties "true" ;
+         graphdb:enable-literal-index "true" ;
+         graphdb:disable-sameAs "true"
+      ]
+   ] .

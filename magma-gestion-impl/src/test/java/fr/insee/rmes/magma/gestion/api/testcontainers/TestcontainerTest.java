@@ -7,7 +7,7 @@ import org.springframework.test.context.DynamicPropertySource;
 
 @Slf4j
 public class TestcontainerTest {
-    static GraphDBContainer container = new GraphDBContainer("ontotext/graphdb:10.8.8").withReuse(true);
+    static GraphDBContainer container = new GraphDBContainer("ontotext/graphdb:10.8.8").withReuse(false);
 
     @BeforeAll
     static void startContainer(){
