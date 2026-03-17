@@ -56,7 +56,14 @@ class StructuresComposantsQueriesTest  extends TestcontainerTest {
         var response = endpoints.getAllStructures(LocalDate.of(2025,1,1));
         var result = response.getBody();
         assertNotNull(result);
-        assertEquals(2, result.size());
+        var resultItem1 = result.getFirst();
+        assertAll(
+                () -> assertEquals(1, result.size()),
+                () -> assertEquals("2025-02-19T14:48:49.041372902", resultItem1.getDateMiseAJour()),
+                () -> assertEquals("Provisoire, jamais publiée", resultItem1.getStatutValidation()),
+                () -> assertEquals("dsd1001", resultItem1.getId())
+        );
+
     }
 
     /////////////////////////////////////////////////////////
