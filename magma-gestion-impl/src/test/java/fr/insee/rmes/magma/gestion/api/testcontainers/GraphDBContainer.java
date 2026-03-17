@@ -15,7 +15,6 @@ public class GraphDBContainer extends GenericContainer<GraphDBContainer> {
     public GraphDBContainer(final String dockerImageName) {
         super(dockerImageName);
         withExposedPorts(7200);
-        waitingFor(Wait.forHttp("/rest/repositories").forPort(7200).forStatusCode(200));
     }
 
     @Override
