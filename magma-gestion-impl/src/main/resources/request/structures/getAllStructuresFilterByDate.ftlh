@@ -6,5 +6,5 @@ WHERE {
     ?structure dcterms:modified ?dateMiseAJour .
     ?structure insee:validationState ?statutValidation .
 
-    FILTER (?dateMiseAJour > "${DATE}"^^xsd:dateTime)
+    FILTER (?dateMiseAJour > "${date}"^^xsd:dateTime)
 }
