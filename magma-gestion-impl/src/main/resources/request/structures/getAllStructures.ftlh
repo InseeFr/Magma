@@ -1,15 +1,9 @@
 SELECT DISTINCT ?id ?dateMiseAJour ?statutValidation
-FROM <http://rdf.insee.fr/graphes/composants>
+FROM <${STRUCTURES_GRAPH}>
 WHERE {
-
-    { ?uriComposant rdf:type qb:DimensionProperty . }
-    UNION  { ?uriComposant rdf:type qb:MeasureProperty . }
-    UNION  { ?uriComposant rdf:type qb:AttributeProperty . }
-
+    ?structure rdf:type qb:DataStructureDefinition .
     ?structure dcterms:identifier ?id .
     ?structure dcterms:modified ?dateMiseAJour .
     ?structure insee:validationState ?statutValidation .
-    <#if DATE??>
-    	FILTER (?dateMiseAJour > "${DATE}"^^xsd:dateTime)
-    </#if>
 }
+
