@@ -130,6 +130,14 @@ void should_return_404_when_CantonOuVilleCode_code0100_date20250904() throws Exc
     }
 
     @Test
+    void should_return_1_iris_when_CantonOuVilleCodeDescendants_code0101_date20250904_typeIris(){
+        var response  = endpoints.getcogcanvildes("0101", LocalDate.of(2025, 9, 4), TypeEnumDescendantsCantonOuVille.IRIS,null);
+        var result = response.getBody();
+        assertNotNull(result);
+        assertEquals(4, result.size());
+    }
+
+    @Test
     void should_return_23_territoires_when_CantonOuVilleCodeDescendants_code0101_date20250904_typeNull_filtreNomNull(){
         var response  = endpoints.getcogcanvildes("0101", LocalDate.of(2025, 9, 4), null,null);
         var result = response.getBody();
