@@ -31,8 +31,13 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvilasc(String code, LocalDate date, TypeEnumAscendantsCantonOuVille type) {
+        String listeTypesGeo = (type == null)
+                ? Arrays.stream(typesAutorises.split(","))
+                        .map(t -> "\"" + t.trim() + "\"")
+                        .collect(Collectors.joining(", "))
+                : "\"" + type.getValue() + "\"";
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, type, CantonOuVille.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, CantonOuVille.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
@@ -56,7 +61,7 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
                         .collect(Collectors.joining(", "))
                 : "\"" + type.getValue() + "\"";
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, type, filtreNom, listeTypesGeo, CantonOuVille.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, listeTypesGeo, CantonOuVille.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

@@ -3,11 +3,14 @@ package fr.insee.rmes.magma.diffusion.api;
 import fr.insee.rmes.magma.diffusion.queries.parameters.*;
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.diffusion.model.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -15,14 +18,20 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
 
     private final RequestProcessor requestProcessor;
 
+    @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}")
+    private String typesAutorises;
+
     public GeoDepartementEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
     }
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepdesc(String code, LocalDate date, TypeEnumDescendantsDepartement type, String filtreNom) {
+        String listeTypesGeo = (type == null)
+                ? Arrays.stream(typesAutorises.split(",")).map(t -> "\"" + t.trim() + "\"").collect(Collectors.joining(", "))
+                : "\"" + type.getValue() + "\"";
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, type, filtreNom, Departement.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, listeTypesGeo, Departement.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
@@ -30,8 +39,11 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepasc(String code, LocalDate date, TypeEnumAscendantsDepartement type) {
+        String listeTypesGeo = (type == null)
+                ? Arrays.stream(typesAutorises.split(",")).map(t -> "\"" + t.trim() + "\"").collect(Collectors.joining(", "))
+                : "\"" + type.getValue() + "\"";
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, type, Departement.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, Departement.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

@@ -3,16 +3,22 @@ package fr.insee.rmes.magma.diffusion.api;
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.diffusion.queries.parameters.*;
 import fr.insee.rmes.magma.diffusion.model.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class GeoCommuneEndpoints implements GeoCommuneApi {
 
     private final RequestProcessor requestProcessor;
+
+    @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}")
+    private String typesAutorises;
 
     public GeoCommuneEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
@@ -53,8 +59,11 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcomdesc( String code, LocalDate date, TypeEnumDescendantsCommune type) {
+        String listeTypesGeo = (type == null)
+                ? Arrays.stream(typesAutorises.split(",")).map(t -> "\"" + t.trim() + "\"").collect(Collectors.joining(", "))
+                : "\"" + type.getValue() + "\"";
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, type, Commune.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, Commune.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
@@ -62,8 +71,11 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcomasc( String code, LocalDate date, TypeEnumAscendantsCommune type) {
+        String listeTypesGeo = (type == null)
+                ? Arrays.stream(typesAutorises.split(",")).map(t -> "\"" + t.trim() + "\"").collect(Collectors.joining(", "))
+                : "\"" + type.getValue() + "\"";
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, type, Commune.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, Commune.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

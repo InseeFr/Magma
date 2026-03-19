@@ -91,14 +91,13 @@ public record AscendantsDescendantsRequestParametizer(String code,
         this(code, date, null, null, null, null, null, null, typeEnumAscendantsCantonOuVille, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeOrigine, true);
     }
 
-    //for geo/cantonOuVille/{code}/descendants
+    //for descendants with filtreNom and listeTypesGeo
     public AscendantsDescendantsRequestParametizer(String code,
                                                    LocalDate date,
-                                                   TypeEnumDescendantsCantonOuVille typeEnumDescendantsCantonOuVille,
                                                    String filtreNom,
                                                    String listeTypesGeo,
                                                    Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, typeEnumDescendantsCantonOuVille, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, filtreNom, listeTypesGeo, typeOrigine, false);
+        this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, filtreNom, listeTypesGeo, typeOrigine, false);
     }
 
     //for geo/circonscriptionTerritoriale/{code}/ascendants
@@ -223,6 +222,15 @@ public record AscendantsDescendantsRequestParametizer(String code,
                                                    TypeEnumDescendantsZoneDEmploi typeEnumDescendantsZoneDEmploi,
                                                    Class<?> typeOrigine) {
         this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeEnumDescendantsZoneDEmploi, null, null, typeOrigine, false);
+    }
+
+    //for ascendants/descendants with listeTypesGeo (without filtreNom)
+    public AscendantsDescendantsRequestParametizer(String code,
+                                                   LocalDate date,
+                                                   String listeTypesGeo,
+                                                   Class<?> typeOrigine,
+                                                   boolean ascendant) {
+        this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, listeTypesGeo, typeOrigine, ascendant);
     }
 
     @Override

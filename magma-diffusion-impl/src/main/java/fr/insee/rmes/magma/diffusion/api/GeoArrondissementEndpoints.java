@@ -7,16 +7,22 @@ import fr.insee.rmes.magma.diffusion.model.Arrondissement;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsArrondissement;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsArrondissement;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class GeoArrondissementEndpoints implements GeoArrondissementApi {
 
     private final RequestProcessor requestProcessor;
+
+    @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}")
+    private String typesAutorises;
 
     public GeoArrondissementEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
@@ -24,8 +30,11 @@ public class GeoArrondissementEndpoints implements GeoArrondissementApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogarrasc(String code, LocalDate date, TypeEnumAscendantsArrondissement type) {
+        String listeTypesGeo = (type == null)
+                ? Arrays.stream(typesAutorises.split(",")).map(t -> "\"" + t.trim() + "\"").collect(Collectors.joining(", "))
+                : "\"" + type.getValue() + "\"";
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, type, Arrondissement.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, Arrondissement.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
@@ -41,8 +50,11 @@ public class GeoArrondissementEndpoints implements GeoArrondissementApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogarrdes(String code, LocalDate date, TypeEnumDescendantsArrondissement type) {
+        String listeTypesGeo = (type == null)
+                ? Arrays.stream(typesAutorises.split(",")).map(t -> "\"" + t.trim() + "\"").collect(Collectors.joining(", "))
+                : "\"" + type.getValue() + "\"";
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, type, Arrondissement.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, Arrondissement.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
