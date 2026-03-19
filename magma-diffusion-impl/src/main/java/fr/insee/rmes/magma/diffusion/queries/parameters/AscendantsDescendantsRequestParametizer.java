@@ -35,60 +35,12 @@ public record AscendantsDescendantsRequestParametizer(String code,
                                                       Class<?> typeOrigine,
                                                       boolean ascendant) implements ParametersForQuery<AscendantsDescendantsRequestParametizer> {
 
-    //for geo/aireDAttractionDesVilles/{code}/descendants
+    //for geo/pays/{code}/descendants
     public AscendantsDescendantsRequestParametizer(String code,
                                                    LocalDate date,
-                                                   TypeEnumDescendantsAireDAttractionDesVilles typeEnumDescendantsAireDAttractionDesVilles,
+                                                   TypeEnumDescendantsPays typeEnumDescendantsPays,
                                                    Class<?> typeOrigine) {
-        this(code, date, typeEnumDescendantsAireDAttractionDesVilles, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeOrigine, false);
-    }
-
-    //for geo/arrondissement/{code}/descendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumDescendantsArrondissement typeEnum,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, typeEnum, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeOrigine, false);
-    }
-
-    //for geo/arrondissement/{code}/ascendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumAscendantsArrondissement typeEnum,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, typeEnum, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeOrigine, true);
-    }
-
-    //for geo/arrondissementMunicipal/{code}/ascendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumAscendantsArrondissementMunicipal typeEnum,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, typeEnum, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeOrigine, true);
-    }
-
-    //for geo/bassinDeVie2022/{code}/descendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumDescendantsBassinDeVie typeEnumDescendantsBassinDeVie,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, typeEnumDescendantsBassinDeVie, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeOrigine, false);
-    }
-
-    //for geo/canton/{code}/ascendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumAscendantsCanton typeEnumAscendantsCanton,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, typeEnumAscendantsCanton, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeOrigine, true);
-    }
-
-    //for geo/cantonOuVille/{code}/ascendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumAscendantsCantonOuVille typeEnumAscendantsCantonOuVille,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, typeEnumAscendantsCantonOuVille, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeOrigine, true);
+        this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeEnumDescendantsPays, null, null, null, null, null, typeOrigine, false);
     }
 
     //for descendants with filtreNom and listeTypesGeo
@@ -100,131 +52,7 @@ public record AscendantsDescendantsRequestParametizer(String code,
         this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, filtreNom, listeTypesGeo, typeOrigine, false);
     }
 
-    //for geo/circonscriptionTerritoriale/{code}/ascendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumAscendantsCirconscriptionTerritoriale typeEnumAscendantsCirconscriptionTerritoriale,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, typeEnumAscendantsCirconscriptionTerritoriale, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeOrigine, true);
-    }
-
-    //for geo/collectiviteDOutreMer/{code}/descendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumDescendantsCollectiviteDOutreMer typeEnumDescendantsCollectiviteDOutreMer,
-                                                   String filtreNom,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, null, typeEnumDescendantsCollectiviteDOutreMer, null, null, null, null, null, null, null, null, null, null, null, null, null, filtreNom, null, typeOrigine, false);
-    }
-
-    //for geo/commune/{code}/ascendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumAscendantsCommune typeEnumAscendantsCommune,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, null, null, typeEnumAscendantsCommune, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeOrigine, true);
-    }
-
-    //for geo/commune/{code}/descendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumDescendantsCommune typeEnumDescendantsCommune,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, null, null, null, typeEnumDescendantsCommune, null, null, null, null, null, null, null, null, null, null, null, null, null, typeOrigine, false);
-    }
-
-    //for geo/communeAssociee/{code}/ascendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumAscendantsCommuneAssociee typeEnumAscendantsCommuneAssociee,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, typeEnumAscendantsCommuneAssociee, null, null, null, null, null, null, null, null, null, null, null, null, typeOrigine, true);
-    }
-
-    //for geo/communeDeleguee/{code}/ascendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumAscendantsCommuneDeleguee typeEnumAscendantsCommuneDeleguee,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, typeEnumAscendantsCommuneDeleguee, null, null, null, null, null, null, null, null, null, null, null, typeOrigine, true);
-    }
-
-    //for geo/departement/{code}/ascendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumAscendantsDepartement typeEnumAscendantsDepartement,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeEnumAscendantsDepartement, null, null, null, null, null, null, null, null, null, null, typeOrigine, true);
-    }
-
-    //for geo/departement/{code}/descendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumDescendantsDepartement typeEnumDescendantsDepartement,
-                                                   String filtreNom,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeEnumDescendantsDepartement, null, null, null, null, null, null, null, filtreNom, null, typeOrigine, false);
-    }
-
-
-    //for geo/district/{code}/descendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumAscendantsDistrict typeEnumAscendantsDistrict,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeEnumAscendantsDistrict, null, null, null, null, null, null, null, null, typeOrigine, true);
-    }
-
-    //for geo/intercommunalite/{code}/descendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumDescendantsIntercommunalite typeEnumDescendantsIntercommunalite,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeEnumDescendantsIntercommunalite, null, null, null, null, null, null, null, typeOrigine, false);
-    }
-
-    //for geo/iris/{code}/ascendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumAscendantsIris typeEnumAscendantsIris,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeEnumAscendantsIris, null, null, null, null, null, null, typeOrigine, true);
-    }
-
-    //for geo/pays/{code}/descendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumDescendantsPays typeEnumDescendantsPays,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeEnumDescendantsPays, null, null, null, null, null, typeOrigine, false);
-    }
-
-    //for geo/region/{code}/descendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumDescendantsRegion typeEnumDescendantsRegion,
-                                                   String filtreNom,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeEnumDescendantsRegion, null, null, filtreNom, null, typeOrigine, false);
-    }
-
-    //for geo/uniteUrbaine2020/{code}/descendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumDescendantsUniteUrbaine typeEnumDescendantsUniteUrbaine,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeEnumDescendantsUniteUrbaine, null, null, null, typeOrigine, false);
-    }
-
-    //for geo/zoneDEmploi2020/{code}/descendants
-    public AscendantsDescendantsRequestParametizer(String code,
-                                                   LocalDate date,
-                                                   TypeEnumDescendantsZoneDEmploi typeEnumDescendantsZoneDEmploi,
-                                                   Class<?> typeOrigine) {
-        this(code, date, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeEnumDescendantsZoneDEmploi, null, null, typeOrigine, false);
-    }
-
-    //for ascendants/descendants with listeTypesGeo (without filtreNom)
+     //for ascendants/descendants with listeTypesGeo (without filtreNom)
     public AscendantsDescendantsRequestParametizer(String code,
                                                    LocalDate date,
                                                    String listeTypesGeo,
