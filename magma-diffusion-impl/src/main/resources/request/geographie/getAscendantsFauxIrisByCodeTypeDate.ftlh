@@ -27,9 +27,6 @@ WHERE {
 			?enfant igeo:subdivisionDirecteDe* ?ressource .
 		}
 			?ressource a ?typeAvecIri;
-<#if typeEnumAscendantsIris != "none">
-			 a igeo:${typeEnumAscendantsIris} ;
-</#if>
 				igeo:codeINSEE ?code ;
 				igeo:codeArticle ?typeArticle ;
 				igeo:nom ?intitule ;
