@@ -28,7 +28,7 @@ WHERE {
 		FILTER(!BOUND(?dateSuppressionSource) || ?dateSuppressionSource > ?date)
 		FILTER(!BOUND(?dateCreation) || ?dateCreation <= ?date)
 		FILTER(!BOUND(?dateSuppression) || ?dateSuppression > ?date)
-
+        FILTER(?type IN (${listeTypesGeo}))
 	}
 }
 ORDER BY ?code

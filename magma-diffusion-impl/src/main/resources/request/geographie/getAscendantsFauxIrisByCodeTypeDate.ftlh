@@ -1,8 +1,8 @@
-SELECT ?uri  (STRAFTER(STR(?typeAvecIri), "#") AS ?type) ?code ?typeArticle ?intitule ?intituleSansArticle ?cheflieu ?dateCreation ?dateSuppression
+SELECT ?uri  ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?cheflieu ?dateCreation ?dateSuppression
 FROM <http://rdf.insee.fr/graphes/geo/cog>
 WHERE {
 	{
-		SELECT DISTINCT ?uri ?typeAvecIri ?code ?typeArticle ?intitule ?intituleSansArticle ?cheflieu ?dateCreation ?dateSuppression
+		SELECT DISTINCT ?uri ?type ?code ?typeArticle ?intitule ?intituleSansArticle ?cheflieu ?dateCreation ?dateSuppression
 		WHERE {
 		{
 			?enfant a igeo:Iris ;
@@ -26,15 +26,15 @@ WHERE {
 			FILTER(?codeIris = '${code}')
 			?enfant igeo:subdivisionDirecteDe* ?ressource .
 		}
-			?ressource a ?typeRDF;
-<#if typeEnumAscendantsIris != "none">
-			 a igeo:${typeEnumAscendantsIris} ;
-</#if>
+			?ressource a ?typeAvecIri;
 				igeo:codeINSEE ?code ;
 				igeo:codeArticle ?typeArticle ;
 				igeo:nom ?intitule ;
 				igeo:nomSansArticle ?intituleSansArticle .
-			BIND(STR(?typeRDF) AS ?typeAvecIri).
+			BIND(STRAFTER(STR(?typeAvecIri), "#") AS ?type).
+			FILTER(?type IN (${listeTypesGeo}))
+
+
 			BIND(STR(?ressource) AS ?uri).
 			OPTIONAL {?enfant (^igeo:creation/igeo:date) ?dateCreationEnfant.}
 			OPTIONAL {?enfant (^igeo:suppression/igeo:date) ?dateSuppressionEnfant.}
