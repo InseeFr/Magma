@@ -18,17 +18,19 @@ import java.util.List;
 public class GeoCommuneAssocieeEndpoints implements GeoCommuneAssocieeApi{
 
     private final RequestProcessor requestProcessor;
+    private final EndpointsUtils endpointsUtils;
 
-    public GeoCommuneAssocieeEndpoints(RequestProcessor requestProcessor) {
+    public GeoCommuneAssocieeEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
         this.requestProcessor = requestProcessor;
+        this.endpointsUtils = endpointsUtils;
     }
 
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogcomaasc (String code, LocalDate date, TypeEnumAscendantsCommuneAssociee type) {
-        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, CommuneAssociee.class, true))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, CommuneAssociee.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

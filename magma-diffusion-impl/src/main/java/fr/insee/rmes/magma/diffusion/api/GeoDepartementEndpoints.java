@@ -16,16 +16,18 @@ import java.util.List;
 public class GeoDepartementEndpoints implements GeoDepartementApi {
 
     private final RequestProcessor requestProcessor;
+    private final EndpointsUtils endpointsUtils;
 
-    public GeoDepartementEndpoints(RequestProcessor requestProcessor) {
+    public GeoDepartementEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
         this.requestProcessor = requestProcessor;
+        this.endpointsUtils = endpointsUtils;
     }
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepdesc(String code, LocalDate date, TypeEnumDescendantsDepartement type, String filtreNom) {
-        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, listeTypesGeo, Departement.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, territoriesFilter, Departement.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
@@ -33,9 +35,9 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepasc(String code, LocalDate date, TypeEnumAscendantsDepartement type) {
-        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, Departement.class, true))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Departement.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

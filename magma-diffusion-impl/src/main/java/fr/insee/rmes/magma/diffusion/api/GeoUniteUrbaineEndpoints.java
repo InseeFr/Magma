@@ -20,9 +20,11 @@ import java.util.List;
 public class GeoUniteUrbaineEndpoints implements GeoUniteUrbaineApi {
 
     private final RequestProcessor requestProcessor;
+    private final EndpointsUtils endpointsUtils;
 
-    public GeoUniteUrbaineEndpoints(RequestProcessor requestProcessor) {
+    public GeoUniteUrbaineEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
         this.requestProcessor = requestProcessor;
+        this.endpointsUtils = endpointsUtils;
     }
 
     @Override
@@ -35,9 +37,9 @@ public class GeoUniteUrbaineEndpoints implements GeoUniteUrbaineApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcoguudes (String code, LocalDate date, TypeEnumDescendantsUniteUrbaine type) {
-        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, UniteUrbaine2020.class, false))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, UniteUrbaine2020.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

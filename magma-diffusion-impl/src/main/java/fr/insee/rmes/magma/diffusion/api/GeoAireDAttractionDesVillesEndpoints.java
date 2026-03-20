@@ -20,9 +20,11 @@ import java.util.List;
 public class GeoAireDAttractionDesVillesEndpoints implements GeoAireDAttractionDesVillesApi {
 
     private final RequestProcessor requestProcessor;
+    private final EndpointsUtils endpointsUtils;
 
-    public GeoAireDAttractionDesVillesEndpoints(RequestProcessor requestProcessor) {
+    public GeoAireDAttractionDesVillesEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
         this.requestProcessor = requestProcessor;
+        this.endpointsUtils = endpointsUtils;
     }
 
     @Override
@@ -35,9 +37,9 @@ public class GeoAireDAttractionDesVillesEndpoints implements GeoAireDAttractionD
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogaavdesc (String code, LocalDate date, TypeEnumDescendantsAireDAttractionDesVilles type) {
-        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, AireDAttractionDesVilles2020.class, false))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, AireDAttractionDesVilles2020.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

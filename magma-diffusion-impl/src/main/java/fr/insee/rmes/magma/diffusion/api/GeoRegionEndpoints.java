@@ -17,9 +17,11 @@ import java.util.List;
 public class GeoRegionEndpoints implements GeoRegionApi {
 
     private final RequestProcessor requestProcessor;
+    private final EndpointsUtils endpointsUtils;
 
-    public GeoRegionEndpoints(RequestProcessor requestProcessor) {
+    public GeoRegionEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
         this.requestProcessor = requestProcessor;
+        this.endpointsUtils = endpointsUtils;
     }
 
 
@@ -33,9 +35,9 @@ public class GeoRegionEndpoints implements GeoRegionApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogregdes(String code, LocalDate date, TypeEnumDescendantsRegion type, String filtreNom) {
-        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, listeTypesGeo, Region.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, territoriesFilter, Region.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

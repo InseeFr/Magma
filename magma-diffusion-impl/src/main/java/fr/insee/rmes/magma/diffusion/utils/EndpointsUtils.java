@@ -11,11 +11,10 @@ import java.util.stream.Collectors;
 @Component
 public class EndpointsUtils {
 
-    private static String typesAutorises;
+    private final String typesAutorises;
 
-    @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}")
-    public void setTypesAutorises(String typesAutorises) {
-        EndpointsUtils.typesAutorises = typesAutorises;
+    public EndpointsUtils(@Value("${fr.insee.rmes.magma.api.geographie.types-autorises}") String typesAutorises) {
+        this.typesAutorises = typesAutorises;
     }
 
     public static <E> ResponseEntity<List<E>> toResponseEntity(List<E> result) {
@@ -27,9 +26,9 @@ public class EndpointsUtils {
                 .body(result);
     }
 
-    public static String defineTerritoriesFilter(String typeValue) {
+    public String defineTerritoriesFilter(String typeValue) {
         return typeValue == null
-                ? Arrays.stream(typesAutorises.split(","))
+                ? Arrays.stream(this.typesAutorises.split(","))
                         .map(t -> "\"" + t.trim() + "\"")
                         .collect(Collectors.joining(", "))
                 : "\"" + typeValue + "\"";

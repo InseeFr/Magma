@@ -19,16 +19,19 @@ import java.util.List;
 public class GeoArrondissementEndpoints implements GeoArrondissementApi {
 
     private final RequestProcessor requestProcessor;
+    private final EndpointsUtils endpointsUtils;
 
-    public GeoArrondissementEndpoints(RequestProcessor requestProcessor) {
+    public GeoArrondissementEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
         this.requestProcessor = requestProcessor;
+        this.endpointsUtils = endpointsUtils;
     }
+
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogarrasc(String code, LocalDate date, TypeEnumAscendantsArrondissement type) {
-        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, Arrondissement.class, true))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Arrondissement.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
@@ -44,9 +47,9 @@ public class GeoArrondissementEndpoints implements GeoArrondissementApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogarrdes(String code, LocalDate date, TypeEnumDescendantsArrondissement type) {
-        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, Arrondissement.class, false))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Arrondissement.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

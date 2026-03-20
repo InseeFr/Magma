@@ -9,7 +9,7 @@ public record AscendantsDescendantsRequestParametizer(String code,
                                                       LocalDate date,
                                                       TypeEnumDescendantsPays typeEnumDescendantsPays,
                                                       String filtreNom,
-                                                      String listeTypesGeo,
+                                                      String territoriesFilter,
                                                       Class<?> typeOrigine,
                                                       boolean ascendant) implements ParametersForQuery<AscendantsDescendantsRequestParametizer> {
 
@@ -25,18 +25,18 @@ public record AscendantsDescendantsRequestParametizer(String code,
     public AscendantsDescendantsRequestParametizer(String code,
                                                    LocalDate date,
                                                    String filtreNom,
-                                                   String listeTypesGeo,
+                                                   String territoriesFilter,
                                                    Class<?> typeOrigine) {
-        this(code, date, null, filtreNom, listeTypesGeo, typeOrigine, false);
+        this(code, date, null, filtreNom, territoriesFilter, typeOrigine, false);
     }
 
      //for ascendants/descendants with listeTypesGeo (without filtreNom)
     public AscendantsDescendantsRequestParametizer(String code,
                                                    LocalDate date,
-                                                   String listeTypesGeo,
+                                                   String territoriesFilter,
                                                    Class<?> typeOrigine,
                                                    boolean ascendant) {
-        this(code, date, null, null, listeTypesGeo, typeOrigine, ascendant);
+        this(code, date, null, null, territoriesFilter, typeOrigine, ascendant);
     }
 
     @Override

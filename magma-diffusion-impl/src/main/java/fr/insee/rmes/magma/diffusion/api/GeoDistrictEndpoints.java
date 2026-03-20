@@ -17,17 +17,19 @@ import java.util.List;
 public class GeoDistrictEndpoints implements GeoDistrictApi {
 
     private final RequestProcessor requestProcessor;
+    private final EndpointsUtils endpointsUtils;
 
-     public GeoDistrictEndpoints(RequestProcessor requestProcessor) {
+     public GeoDistrictEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
         this.requestProcessor = requestProcessor;
-    }
+         this.endpointsUtils = endpointsUtils;
+     }
 
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogdisasc (String code, LocalDate date, TypeEnumAscendantsDistrict type) {
-        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, District.class, true))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, District.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

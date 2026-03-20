@@ -20,9 +20,11 @@ import java.util.List;
 public class GeoCollectiviteDOutreMerEndpoints implements GeoCollectiviteDOutreMerApi {
 
     private final RequestProcessor requestProcessor;
+    private final EndpointsUtils endpointsUtils;
 
-    public GeoCollectiviteDOutreMerEndpoints(RequestProcessor requestProcessor) {
+    public GeoCollectiviteDOutreMerEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
         this.requestProcessor = requestProcessor;
+        this.endpointsUtils = endpointsUtils;
     }
 
     @Override
@@ -37,9 +39,9 @@ public class GeoCollectiviteDOutreMerEndpoints implements GeoCollectiviteDOutreM
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcolldes(String code, LocalDate date, TypeEnumDescendantsCollectiviteDOutreMer type, String filtreNom) {
-        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, listeTypesGeo, CollectiviteDOutreMer.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, territoriesFilter, CollectiviteDOutreMer.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

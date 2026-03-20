@@ -18,9 +18,11 @@ import java.util.List;
 public class GeoIntercommunaliteEndpoints implements GeoIntercommunaliteApi {
 
     private final RequestProcessor requestProcessor;
+    private final EndpointsUtils endpointsUtils;
 
-    public GeoIntercommunaliteEndpoints(RequestProcessor requestProcessor) {
+    public GeoIntercommunaliteEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
         this.requestProcessor = requestProcessor;
+        this.endpointsUtils = endpointsUtils;
     }
 
     @Override
@@ -34,9 +36,9 @@ public class GeoIntercommunaliteEndpoints implements GeoIntercommunaliteApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogintercodes(String code, LocalDate date, TypeEnumDescendantsIntercommunalite type) {
-        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, Intercommunalite.class, false))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Intercommunalite.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

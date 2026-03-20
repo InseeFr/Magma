@@ -15,9 +15,11 @@ import java.util.List;
 public class GeoCommuneEndpoints implements GeoCommuneApi {
 
     private final RequestProcessor requestProcessor;
+    private final EndpointsUtils endpointsUtils;
 
-    public GeoCommuneEndpoints(RequestProcessor requestProcessor) {
+    public GeoCommuneEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
         this.requestProcessor = requestProcessor;
+        this.endpointsUtils = endpointsUtils;
     }
 
 
@@ -55,9 +57,9 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcomdesc( String code, LocalDate date, TypeEnumDescendantsCommune type) {
-        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, Commune.class, false))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Commune.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
@@ -65,7 +67,7 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcomasc( String code, LocalDate date, TypeEnumAscendantsCommune type) {
-        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String listeTypesGeo = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, Commune.class, true))
                 .executeQuery()

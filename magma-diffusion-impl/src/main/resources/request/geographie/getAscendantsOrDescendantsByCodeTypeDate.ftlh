@@ -18,7 +18,7 @@ igeo:nom ?intitule ;
 igeo:nomSansArticle ?intituleSansArticle .
 
 BIND(STRAFTER(STR(?typeAvecIri), "#") AS ?type)
-FILTER(?type IN (${listeTypesGeo}))
+FILTER(?type IN (${territoriesFilter}))
 
 Optional{
 ?uri    igeo:typeDIRIS ?uriTypeDIris ;
