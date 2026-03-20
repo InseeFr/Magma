@@ -21,9 +21,6 @@ public class GeoBassinDeVieEndpoints implements GeoBassinDeVieApi {
 
     private final RequestProcessor requestProcessor;
 
-    @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}")
-    private String typesAutorises;
-
     public GeoBassinDeVieEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
     }

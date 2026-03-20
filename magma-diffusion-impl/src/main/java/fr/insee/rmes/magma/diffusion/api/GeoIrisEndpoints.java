@@ -20,9 +20,6 @@ public class GeoIrisEndpoints implements GeoIrisApi {
 
     private final RequestProcessor requestProcessor;
 
-    @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}")
-    private String typesAutorises;
-
     public GeoIrisEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
     }

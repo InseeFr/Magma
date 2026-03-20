@@ -17,9 +17,6 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
 
     private final RequestProcessor requestProcessor;
 
-    @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}")
-    private String typesAutorises;
-
     public GeoDepartementEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
     }

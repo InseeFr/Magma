@@ -19,9 +19,6 @@ public class GeoArrondissementMunipalEndpoints implements GeoArrondissementMunic
 
     private final RequestProcessor requestProcessor;
 
-    @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}")
-    private String typesAutorises;
-
     public GeoArrondissementMunipalEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
     }

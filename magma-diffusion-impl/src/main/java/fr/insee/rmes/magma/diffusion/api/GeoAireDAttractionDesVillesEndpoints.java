@@ -21,9 +21,6 @@ public class GeoAireDAttractionDesVillesEndpoints implements GeoAireDAttractionD
 
     private final RequestProcessor requestProcessor;
 
-    @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}")
-    private String typesAutorises;
-
     public GeoAireDAttractionDesVillesEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
     }

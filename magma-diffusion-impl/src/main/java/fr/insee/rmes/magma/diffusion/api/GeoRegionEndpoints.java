@@ -18,9 +18,6 @@ public class GeoRegionEndpoints implements GeoRegionApi {
 
     private final RequestProcessor requestProcessor;
 
-    @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}")
-    private String typesAutorises;
-
     public GeoRegionEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
     }

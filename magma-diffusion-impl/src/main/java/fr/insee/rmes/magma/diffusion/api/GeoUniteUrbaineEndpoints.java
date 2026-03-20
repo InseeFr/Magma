@@ -21,9 +21,6 @@ public class GeoUniteUrbaineEndpoints implements GeoUniteUrbaineApi {
 
     private final RequestProcessor requestProcessor;
 
-    @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}")
-    private String typesAutorises;
-
     public GeoUniteUrbaineEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
     }

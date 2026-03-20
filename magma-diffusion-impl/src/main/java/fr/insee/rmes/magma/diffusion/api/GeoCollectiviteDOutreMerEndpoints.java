@@ -21,9 +21,6 @@ public class GeoCollectiviteDOutreMerEndpoints implements GeoCollectiviteDOutreM
 
     private final RequestProcessor requestProcessor;
 
-    @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}")
-    private String typesAutorises;
-
     public GeoCollectiviteDOutreMerEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
     }

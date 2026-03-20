@@ -19,9 +19,6 @@ public class GeoCommuneDelegueeEndpoints implements GeoCommuneDelegueeApi{
 
     private final RequestProcessor requestProcessor;
 
-    @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}")
-    private String typesAutorises;
-
     public GeoCommuneDelegueeEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
     }
