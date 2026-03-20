@@ -7,14 +7,13 @@ import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsBassinDeVie;
 import fr.insee.rmes.magma.diffusion.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer;
+import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -39,9 +38,7 @@ public class GeoBassinDeVieEndpoints implements GeoBassinDeVieApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogbassdes (String code, LocalDate date, TypeEnumDescendantsBassinDeVie type) {
-        String listeTypesGeo = (type == null)
-                ? Arrays.stream(typesAutorises.split(",")).map(t -> "\"" + t.trim() + "\"").collect(Collectors.joining(", "))
-                : "\"" + type.getValue() + "\"";
+        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, BassinDeVie2022.class, false))
                 .executeQuery()

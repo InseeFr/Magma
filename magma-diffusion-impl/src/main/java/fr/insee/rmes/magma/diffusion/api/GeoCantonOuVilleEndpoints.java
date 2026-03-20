@@ -6,14 +6,12 @@ import fr.insee.rmes.magma.diffusion.model.CantonOuVille;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCantonOuVille;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCantonOuVille;
-import org.springframework.beans.factory.annotation.Value;
+import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -21,21 +19,13 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
     private final RequestProcessor requestProcessor;
 
-    @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}")
-    private String typesAutorises;
-
     public GeoCantonOuVilleEndpoints(RequestProcessor requestProcessor) {
         this.requestProcessor = requestProcessor;
     }
 
-
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvilasc(String code, LocalDate date, TypeEnumAscendantsCantonOuVille type) {
-        String listeTypesGeo = (type == null)
-                ? Arrays.stream(typesAutorises.split(","))
-                        .map(t -> "\"" + t.trim() + "\"")
-                        .collect(Collectors.joining(", "))
-                : "\"" + type.getValue() + "\"";
+        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, CantonOuVille.class, true))
                 .executeQuery()
@@ -55,11 +45,7 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvildes(String code, LocalDate date, TypeEnumDescendantsCantonOuVille type, String filtreNom) {
-        String listeTypesGeo = (type == null)
-                ? Arrays.stream(typesAutorises.split(","))
-                        .map(t -> "\"" + t.trim() + "\"")
-                        .collect(Collectors.joining(", "))
-                : "\"" + type.getValue() + "\"";
+        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, listeTypesGeo, CantonOuVille.class))
                 .executeQuery()

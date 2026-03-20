@@ -13,9 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class GeoIrisEndpoints implements GeoIrisApi {
@@ -31,9 +29,7 @@ public class GeoIrisEndpoints implements GeoIrisApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogirisasc (String code, LocalDate date, TypeEnumAscendantsIris type) {
-        String listeTypesGeo = (type == null)
-                ? Arrays.stream(typesAutorises.split(",")).map(t -> "\"" + t.trim() + "\"").collect(Collectors.joining(", "))
-                : "\"" + type.getValue() + "\"";
+        String listeTypesGeo = EndpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
         if (code.matches("^.{5}0000$")) {
             return requestProcessor.queryToFindAscendantsFauxIris()
                     .with(new AscendantsDescendantsRequestParametizer(code, date, listeTypesGeo, Iris.class, true))
