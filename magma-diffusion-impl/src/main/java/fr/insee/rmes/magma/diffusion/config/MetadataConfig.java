@@ -8,18 +8,14 @@ import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.TemplateModelException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.server.servlet.context.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 @org.springframework.context.annotation.Configuration
 @Slf4j
-@ServletComponentScan
 public class MetadataConfig {
 
     @Bean
