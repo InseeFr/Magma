@@ -44,9 +44,6 @@ public record AscendantsDescendantsRequestParametizer(String code,
         if ("filtreNom".equals(recordComponent.getName())) {
             return new ParameterValueDecoder.DelegaterDecoder<>(stringValue -> stringValue == null ? "*" : stringValue.toString());
         }
-        if ("listeTypesGeo".equals(recordComponent.getName())) {
-            return new ParameterValueDecoder.DelegaterDecoder<>(value -> (String) value);
-        }
         return ParametersForQuery.super.findParameterValueDecoder(recordComponent);
     }
 }
