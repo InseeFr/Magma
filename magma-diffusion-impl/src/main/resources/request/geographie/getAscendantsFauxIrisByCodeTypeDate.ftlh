@@ -32,7 +32,7 @@ WHERE {
 				igeo:nom ?intitule ;
 				igeo:nomSansArticle ?intituleSansArticle .
 			BIND(STRAFTER(STR(?typeAvecIri), "#") AS ?type).
-			FILTER(?type IN (${listeTypesGeo}))
+			FILTER(?type IN (${territoriesFilter}))
 
 
 			BIND(STR(?ressource) AS ?uri).
