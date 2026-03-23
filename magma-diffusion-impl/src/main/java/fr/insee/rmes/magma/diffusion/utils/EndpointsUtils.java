@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.diffusion.utils;
 
-import org.springframework.beans.factory.annotation.Value;
+import fr.insee.rmes.magma.diffusion.model.TerritoireBase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -10,12 +10,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class EndpointsUtils {
-
-    private final String typesAutorises;
-
-    public EndpointsUtils(@Value("${fr.insee.rmes.magma.api.geographie.types-autorises}") String typesAutorises) {
-        this.typesAutorises = typesAutorises;
-    }
 
     public static <E> ResponseEntity<List<E>> toResponseEntity(List<E> result) {
         if (result == null || result.isEmpty()) {
@@ -28,8 +22,8 @@ public class EndpointsUtils {
 
     public String defineTerritoriesFilter(String typeValue) {
         return typeValue == null
-                ? Arrays.stream(this.typesAutorises.split(","))
-                        .map(t -> "\"" + t.trim() + "\"")
+                ? Arrays.stream(TerritoireBase.TypeEnum.values())
+                        .map(t -> "\"" + t.getValue() + "\"")
                         .collect(Collectors.joining(", "))
                 : "\"" + typeValue + "\"";
     }
