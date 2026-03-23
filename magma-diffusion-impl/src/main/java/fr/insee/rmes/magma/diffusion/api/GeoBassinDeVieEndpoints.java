@@ -8,7 +8,6 @@ import fr.insee.rmes.magma.diffusion.queries.parameters.AscendantsDescendantsReq
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer;
 import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
