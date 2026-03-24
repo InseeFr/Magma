@@ -13,6 +13,7 @@ public class QueryPathListGestion {
     public static final String STRUCTURES_SLICESKEYS = "structures/getStructureSliceKeys.ftlh";
     public static final String STRUCTURE = "structures/getStructure.ftlh";
     public static final String STRUCTURE_DATE_MAJ = "structures/getStructureDateMAJ.ftlh";
+    public static final String STRUCTURE_COMPONENTS = "structures/getStructureComponents.ftlh";
 
     public static final String ALL_CODES_LISTS = "codeLists/getAllCodesLists.ftlh";
     public static final String ALL_CODES_LISTS_BY_DATE = "codeLists/getAllCodesListsByDate.ftlh";

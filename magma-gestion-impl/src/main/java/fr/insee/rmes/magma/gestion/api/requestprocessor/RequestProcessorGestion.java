@@ -47,6 +47,10 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
 
     }
 
+    public ExecutableQueryBuilder queryToFindStructureComponents(){
+        return new ExecutableQueryBuilder(STRUCTURE_COMPONENTS, this);
+    }
+
     public ExecutableQueryBuilder queryToFindStructureDateMAJ() {
         return new ExecutableQueryBuilder(STRUCTURE_DATE_MAJ, this);
     }

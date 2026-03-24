@@ -4,6 +4,11 @@ import fr.insee.rmes.magma.gestion.api.requestprocessor.RequestProcessorGestion;
 import fr.insee.rmes.magma.gestion.model.*;
 import fr.insee.rmes.magma.gestion.queries.parameters.CodesListRequestParametizer;
 import fr.insee.rmes.magma.gestion.queries.parameters.StructureComponentsRequestParametizer;
+import fr.insee.rmes.magma.gestion.services.StructuresComposantsService;
+import fr.insee.rmes.magma.gestion.utils.ComponentByIdDTO;
+import fr.insee.rmes.magma.gestion.utils.StructureComponentDTO;
+import fr.insee.rmes.magma.gestion.utils.StructureDTO;
+import fr.insee.rmes.magma.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,10 +18,12 @@ import java.util.List;
 @RestController
 public class StructuresComposantsEndpoints implements StructuresComposantsApi {
     private final RequestProcessorGestion requestProcessor;
+    private final StructuresComposantsService structuresComposantsService;
 
-	public StructuresComposantsEndpoints(RequestProcessorGestion requestProcessor) {
+	public StructuresComposantsEndpoints(RequestProcessorGestion requestProcessor, StructuresComposantsService structuresComposantsService) {
 		this.requestProcessor = requestProcessor;
-	}
+        this.structuresComposantsService = structuresComposantsService;
+    }
 
 	@Override
     public ResponseEntity<List<AllComponent>> getAllComponents(LocalDate dateMiseAJour) {
@@ -49,17 +56,27 @@ public class StructuresComposantsEndpoints implements StructuresComposantsApi {
     @Override
     public ResponseEntity<ComponentById> getComponentById(String id, Boolean dateMiseAJour) {
         if (Boolean.TRUE.equals(dateMiseAJour)) {
+            //voir si la requête ne retourne pas un objet de type ComponentByIdDTO plutôt
             return requestProcessor.queryToFindComponentDateMAJ()
                     .with(new StructureComponentsRequestParametizer(id, dateMiseAJour))
                     .executeQuery()
                     .singleResult(ComponentById.class)
                     .toResponseEntity();
         }
-        return requestProcessor.queryToFindComponent()
-                .with(new StructureComponentsRequestParametizer(id, dateMiseAJour))
+
+        ComponentByIdDTO componentByIdDTO = requestProcessor.queryToFindComponent()
+                .with(new StructureComponentsRequestParametizer(id))
                 .executeQuery()
-                .singleResult(ComponentById.class)
-                .toResponseEntity();
+                .singleResult(ComponentByIdDTO.class)
+                .result();
+        ComponentById componentById = structuresComposantsService.transformComponentDTOToComponentById(componentByIdDTO);
+        return EndpointsUtils.toResponseEntity(componentById);
+
+//        return requestProcessor.queryToFindComponent()
+//                .with(new StructureComponentsRequestParametizer(id))
+//                .executeQuery()
+//                .singleResult(ComponentById.class)
+//                .toResponseEntity();
     }
 
     @Override
@@ -81,11 +98,17 @@ public class StructuresComposantsEndpoints implements StructuresComposantsApi {
                     .toResponseEntity();
         }
 
-
-        return requestProcessor.queryToFindStructure()
+        StructureDTO structureDTO = requestProcessor.queryToFindStructure()
                 .with(new StructureComponentsRequestParametizer(id, dateMiseAJour))
                 .executeQuery()
-                .singleResult(StructureById.class)
-                .toResponseEntity();
+                .singleResult(StructureDTO.class)
+                .result();
+        List<StructureComponentDTO> componentDTOList = requestProcessor.queryToFindStructureComponents()
+                .with(new StructureComponentsRequestParametizer(id))
+                .executeQuery()
+                .listResult(StructureComponentDTO.class)
+                .result();
+        StructureById structureById = structuresComposantsService.transformStructureDTOToStructureById(structureDTO,componentDTOList);
+        return EndpointsUtils.toResponseEntity(structureById);
     }
 }
