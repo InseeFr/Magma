@@ -34,7 +34,7 @@ public class GeoRegionEndpoints implements GeoRegionApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogregdes(String code, LocalDate date, TypeEnumDescendantsRegion type, String filtreNom) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, territoriesFilter, Region.class))
                 .executeQuery()

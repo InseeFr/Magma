@@ -43,7 +43,7 @@ public class GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints implements Ge
 
     @Override
     public ResponseEntity<List<TerritoireBaseRelation>> getcogqpvintersect (String code, LocalDate date, TypeEnum type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessor.queryToFindIntersections()
                 .with(new TerritoiresLiesRequestParametizer(code, date, territoriesFilter, QuartierPrioritaireDeLaPolitiqueDeLaVille2024.class))
                 .executeQuery()

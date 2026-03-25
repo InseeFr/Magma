@@ -26,7 +26,7 @@ public class GeoArrondissementMunipalEndpoints implements GeoArrondissementMunic
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogarrmuasc(String code, LocalDate date, TypeEnumAscendantsArrondissementMunicipal type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, ArrondissementMunicipal.class, true))
                 .executeQuery()

@@ -36,7 +36,7 @@ public class GeoAireDAttractionDesVillesEndpoints implements GeoAireDAttractionD
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogaavdesc (String code, LocalDate date, TypeEnumDescendantsAireDAttractionDesVilles type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, AireDAttractionDesVilles2020.class, false))
                 .executeQuery()

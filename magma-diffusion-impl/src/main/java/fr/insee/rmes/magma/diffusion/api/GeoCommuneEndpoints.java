@@ -56,7 +56,7 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcomdesc( String code, LocalDate date, TypeEnumDescendantsCommune type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Commune.class, false))
                 .executeQuery()
@@ -66,7 +66,7 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcomasc( String code, LocalDate date, TypeEnumAscendantsCommune type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Commune.class, true))
                 .executeQuery()
@@ -110,7 +110,7 @@ public class GeoCommuneEndpoints implements GeoCommuneApi {
 
     @Override
     public ResponseEntity<List<TerritoireBaseRelation>>  getcogcomintersect (String code, LocalDate date, TypeEnum type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessor.queryToFindIntersections()
                 .with(new TerritoiresLiesRequestParametizer(code, date, territoriesFilter, Commune.class))
                 .executeQuery()

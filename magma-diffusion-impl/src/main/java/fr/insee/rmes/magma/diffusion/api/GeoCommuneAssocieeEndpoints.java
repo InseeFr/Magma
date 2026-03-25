@@ -29,7 +29,7 @@ public class GeoCommuneAssocieeEndpoints implements GeoCommuneAssocieeApi{
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogcomaasc (String code, LocalDate date, TypeEnumAscendantsCommuneAssociee type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, CommuneAssociee.class, true))
                 .executeQuery()

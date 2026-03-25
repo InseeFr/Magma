@@ -27,7 +27,7 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvilasc(String code, LocalDate date, TypeEnumAscendantsCantonOuVille type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, CantonOuVille.class, true))
                 .executeQuery()
@@ -47,7 +47,7 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvildes(String code, LocalDate date, TypeEnumDescendantsCantonOuVille type, String filtreNom) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, territoriesFilter, CantonOuVille.class))
                 .executeQuery()

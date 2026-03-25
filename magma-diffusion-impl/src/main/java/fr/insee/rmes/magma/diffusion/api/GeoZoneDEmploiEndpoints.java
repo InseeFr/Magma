@@ -39,7 +39,7 @@ public class GeoZoneDEmploiEndpoints implements GeoZoneDEmploiApi{
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogzedesc(String code, LocalDate date, TypeEnumDescendantsZoneDEmploi type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, ZoneDEmploi2020.class, false))
                 .executeQuery()

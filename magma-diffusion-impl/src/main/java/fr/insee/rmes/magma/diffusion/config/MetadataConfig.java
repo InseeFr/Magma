@@ -5,7 +5,6 @@ import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
-import freemarker.template.TemplateModelException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +17,9 @@ public class MetadataConfig {
 
     @Bean
     public Configuration freemarkerConfiguration(
-            @Value("${fr.insee.rmes.magma.api.freemarker.locale-language}") String localLanguage) {
+            @Value("${fr.insee.rmes.magma.api.freemarker.locale-language}") String localLanguage,
+            @Value("${fr.insee.rmes.magma.api.geographie.types-autorises}") String typesAutorises
+    ) {
 
         var configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         // Charge les templates depuis le classpath (dans src/main/resources/request)
@@ -37,6 +38,7 @@ public class MetadataConfig {
         configuration.setLogTemplateExceptions(false);
 
         configuration.setWrapUncheckedExceptions(true);
+
         return configuration;
     }
 }

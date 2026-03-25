@@ -24,7 +24,7 @@ public class GeoCantonEndpoints implements GeoCantonApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanasc(String code, LocalDate date, TypeEnumAscendantsCanton type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Canton.class, true))
                 .executeQuery()
@@ -97,7 +97,7 @@ public class GeoCantonEndpoints implements GeoCantonApi {
 
     @Override
     public ResponseEntity<List<TerritoireBaseRelation>> getcogcanintersect (String code, LocalDate date, TypeEnum type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type == null ? null : type.getValue());
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessor.queryToFindIntersections()
                 .with(new TerritoiresLiesRequestParametizer(code, date, territoriesFilter, Canton.class))
                 .executeQuery()
