@@ -40,31 +40,34 @@ public class StructuresComposantsServiceImpl implements StructuresComposantsServ
             structureById.setLabel(label);
         }
 
-        if (componentDTOList != null){
-            List<StructureByIdMesuresInner> mesures = new ArrayList<>();
-            List<StructureByIdAttributsInner> attributs = new ArrayList<>();
-            List<StructureByIdDimensionsInner> dimensions = new ArrayList<>();
-            for (StructureComponentDTO structureComponentDTO : componentDTOList) {
-                ComponentByIdDTO componentByIdDTO = requestProcessor.queryToFindComponent()
-                        .with(new StructureComponentsRequestParametizer(structureComponentDTO.id()))
-                        .executeQuery()
-                        .singleResult(ComponentByIdDTO.class)
-                        .result();
-                if (componentByIdDTO.id() != null){//à continuer
-                    List<StructureByIdMesuresInnerLabelInner> label = createListLangueContenu(createLangueContenu(componentByIdDTO.prefLabelLg1(),"fr"), createLangueContenu(componentByIdDTO.prefLabelLg2(),"en"));
-                }
+        //en attendant qu'il y ait des composants en base, on met certains champs à vide
+        structureById.setMesures(null);
+        structureById.setAttributs(null);
+        structureById.setDimensions(null);
+
+//        if (componentDTOList != null){
+//            List<StructureByIdMesuresInner> mesures = new ArrayList<>();
+//            List<StructureByIdAttributsInner> attributs = new ArrayList<>();
+//            List<StructureByIdDimensionsInner> dimensions = new ArrayList<>();
+//            for (StructureComponentDTO structureComponentDTO : componentDTOList) {
+//                ComponentByIdDTO componentByIdDTO = requestProcessor.queryToFindComponent()
+//                        .with(new StructureComponentsRequestParametizer(structureComponentDTO.id()))
+//                        .executeQuery()
+//                        .singleResult(ComponentByIdDTO.class)
+//                        .result();
+//                if (componentByIdDTO.id() != null){
+//                    List<StructureByIdMesuresInnerLabelInner> label = createListLangueContenu(createLangueContenu(componentByIdDTO.prefLabelLg1(),"fr"), createLangueContenu(componentByIdDTO.prefLabelLg2(),"en"));
+//                //à continuer
+//                }
+//
+//                if (structureComponentDTO.id().startsWith("m")){
+//                    StructureByIdMesuresInner structureByIdMesuresInner = new StructureByIdMesuresInner();
+//                          //etc
+//                }
+//            }
+//        }
 
 
-
-
-                if (structureComponentDTO.id().startsWith("m")){
-                    StructureByIdMesuresInner structureByIdMesuresInner = new StructureByIdMesuresInner();
-
-                }
-            }
-        }
-
-//        mesures    attributs        dimensions
 
         return structureById;
 
