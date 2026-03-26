@@ -103,16 +103,28 @@ public class StructuresComposantsEndpoints implements StructuresComposantsApi {
                 .executeQuery()
                 .singleResult(StructureDTO.class)
                 .result();
-        if (structureDTO != null) {
-            List<StructureComponentDTO> componentDTOList = requestProcessor.queryToFindStructureComponents()
-                    .with(new StructureComponentsRequestParametizer(id))
-                    .executeQuery()
-                    .listResult(StructureComponentDTO.class)
-                    .result();
-            StructureById structureById = structuresComposantsService.transformStructureDTOToStructureById(structureDTO, componentDTOList);
+        StructureById structureById = structuresComposantsService.transformStructureDTOToStructureById(structureDTO, null);
+        return EndpointsUtils.toResponseEntity(structureById);
 
-            return EndpointsUtils.toResponseEntity(structureById);
-        }
-        return ResponseEntity.status(HttpStatus.SC_NOT_FOUND);
+        //quand on traitera les composants :
+
+//        StructureDTO structureDTO = requestProcessor.queryToFindStructure()
+//                .with(new StructureComponentsRequestParametizer(id, dateMiseAJour))
+//                .executeQuery()
+//                .singleResult(StructureDTO.class)
+//                .result();
+//
+//        if (structureDTO != null) {
+//            List<StructureComponentDTO> componentDTOList = requestProcessor.queryToFindStructureComponents()
+//                    .with(new StructureComponentsRequestParametizer(id))
+//                    .executeQuery()
+//                    .listResult(StructureComponentDTO.class)
+//                    .result();
+//            StructureById structureById = structuresComposantsService.transformStructureDTOToStructureById(structureDTO, componentDTOList);
+//
+//            return EndpointsUtils.toResponseEntity(structureById);
+//        }
+//        return ResponseEntity.notFound().build();
+
     }
 }

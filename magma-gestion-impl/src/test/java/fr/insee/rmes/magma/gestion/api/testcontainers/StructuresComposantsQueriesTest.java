@@ -97,7 +97,7 @@ class StructuresComposantsQueriesTest  extends TestcontainerTest {
     // /structure/dsd1000?dateMiseAJour=true
     @Test
     void should_return_structuredsd1000_when_structure_dsd1000_dateMiseAJourTrue() {
-        var response = endpoints.getStructure("dsd1000", false);
+        var response = endpoints.getStructure("dsd1000", true);
         var result = response.getBody();
         assertNotNull(result);
         assertAll(

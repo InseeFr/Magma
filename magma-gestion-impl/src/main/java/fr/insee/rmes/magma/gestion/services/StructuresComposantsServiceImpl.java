@@ -41,9 +41,9 @@ public class StructuresComposantsServiceImpl implements StructuresComposantsServ
         }
 
         //en attendant qu'il y ait des composants en base, on met certains champs à vide
-        structureById.setMesures(null);
-        structureById.setAttributs(null);
-        structureById.setDimensions(null);
+//        structureById.setMesures(null);
+//        structureById.setAttributs(null);
+//        structureById.setDimensions(null);
 
 //        if (componentDTOList != null){
 //            List<StructureByIdMesuresInner> mesures = new ArrayList<>();

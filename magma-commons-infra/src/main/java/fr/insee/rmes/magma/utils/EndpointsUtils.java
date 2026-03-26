@@ -1,6 +1,5 @@
 package fr.insee.rmes.magma.utils;
 
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
