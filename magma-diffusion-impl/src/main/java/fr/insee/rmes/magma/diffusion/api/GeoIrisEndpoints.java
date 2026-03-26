@@ -18,23 +18,26 @@ import java.util.List;
 public class GeoIrisEndpoints implements GeoIrisApi {
 
     private final RequestProcessor requestProcessor;
+    private final EndpointsUtils endpointsUtils;
 
-    public GeoIrisEndpoints(RequestProcessor requestProcessor) {
+    public GeoIrisEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
         this.requestProcessor = requestProcessor;
+        this.endpointsUtils = endpointsUtils;
     }
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogirisasc (String code, LocalDate date, TypeEnumAscendantsIris type) {
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         if (code.matches("^.{5}0000$")) {
             return requestProcessor.queryToFindAscendantsFauxIris()
-                    .with(new AscendantsDescendantsRequestParametizer(code, date, type, Iris.class))
+                    .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Iris.class, true))
                     .executeQuery()
                     .listResult(TerritoireTousAttributs.class)
                     .toResponseEntity();
         }
         else {
             return requestProcessor.queryforFindAscendantsDescendants()
-                    .with(new AscendantsDescendantsRequestParametizer(code, date, type, Iris.class))
+                    .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Iris.class, true))
                     .executeQuery()
                     .listResult(TerritoireTousAttributs.class)
                     .toResponseEntity();

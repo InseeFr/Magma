@@ -7,6 +7,7 @@ import fr.insee.rmes.magma.diffusion.model.ZoneDEmploi2020;
 import fr.insee.rmes.magma.diffusion.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer;
+import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,9 +19,11 @@ import java.util.List;
 public class GeoZoneDEmploiEndpoints implements GeoZoneDEmploiApi{
 
     private final RequestProcessor requestProcessor;
+    private final EndpointsUtils endpointsUtils;
 
-    public GeoZoneDEmploiEndpoints(RequestProcessor requestProcessor) {
+    public GeoZoneDEmploiEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
         this.requestProcessor = requestProcessor;
+        this.endpointsUtils = endpointsUtils;
     }
 
     @Override
@@ -36,8 +39,9 @@ public class GeoZoneDEmploiEndpoints implements GeoZoneDEmploiApi{
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogzedesc(String code, LocalDate date, TypeEnumDescendantsZoneDEmploi type) {
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, type, ZoneDEmploi2020.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, ZoneDEmploi2020.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
