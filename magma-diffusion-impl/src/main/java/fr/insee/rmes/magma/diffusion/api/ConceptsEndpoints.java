@@ -12,6 +12,7 @@ import fr.insee.rmes.magma.diffusion.services.RapportQualiteService;
 import fr.insee.rmes.magma.diffusion.utils.ConceptDTO;
 import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import io.micrometer.common.util.StringUtils;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -78,12 +79,8 @@ public class ConceptsEndpoints implements ConceptsApi {
 
         List<ConceptDTO> listConceptDTOsWithLinks = listConceptDTOs.stream()
                 .map(conceptDto -> {
-                    if (Boolean.TRUE.equals(conceptDto.getHasLink())) {
-                        List<NearbyConcept> nearbyConceptList = requestProcessor.queryToFindNearbyConcepts()
-                                .with(ConceptsRequestParametizer.ofUri(conceptDto.uri()))
-                                .executeQuery()
-                                .listResult(NearbyConcept.class).result();
-                        return conceptDto.withNearbyConcepts(nearbyConceptList);
+                    if (Boolean.TRUE.equals(getHasLink(conceptDto))) {
+                        return getNearbyConcepts(conceptDto);
                     }
                     return conceptDto;
                 })
@@ -94,6 +91,18 @@ public class ConceptsEndpoints implements ConceptsApi {
 
         return EndpointsUtils.toResponseEntity(concepts);
 
+    }
+
+    private @NonNull ConceptDTO getNearbyConcepts(ConceptDTO conceptDto) {
+        List<NearbyConcept> nearbyConceptList = requestProcessor.queryToFindNearbyConcepts()
+                .with(ConceptsRequestParametizer.ofUri(conceptDto.uri()))
+                .executeQuery()
+                .listResult(NearbyConcept.class).result();
+        return conceptDto.withNearbyConcepts(nearbyConceptList);
+    }
+
+    private static Boolean getHasLink(ConceptDTO conceptDto) {
+        return conceptDto.getHasLink();
     }
 
 }
