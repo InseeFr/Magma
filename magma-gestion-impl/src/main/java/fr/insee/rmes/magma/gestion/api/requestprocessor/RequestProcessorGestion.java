@@ -2,6 +2,7 @@ package fr.insee.rmes.magma.gestion.api.requestprocessor;
 
 import fr.insee.rmes.magma.results.SingleResult;
 import fr.insee.rmes.magma.gestion.queries.parameters.CodesListRequestParametizer;
+import fr.insee.rmes.magma.gestion.queries.parameters.SeriesOperationsRequestParametizer;
 import fr.insee.rmes.magma.gestion.queries.parameters.StructureComponentsRequestParametizer;
 import fr.insee.rmes.magma.gestion.unmarshaller.JacksonUnmarshallerGestion;
 import fr.insee.rmes.magma.results.ListResult;
@@ -55,6 +56,10 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
         return new ExecutableQueryBuilder(STRUCTURE_DATE_MAJ, this);
     }
 
+    public ExecutableQueryBuilder queryToFindSerieById() {
+        return new ExecutableQueryBuilder(SERIE_BY_ID, this);
+    }
+
     public ExecutableQueryBuilder queryToFindAllCodesLists() {
         return new ExecutableQueryBuilder(ALL_CODES_LISTS, this);
     }
@@ -82,6 +87,10 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
 
         public ExecutableQueryGestion with(CodesListRequestParametizer codesListRequestParametizer) {
             return new ExecutableQueryGestion(requestProcessor.queryBuilder().build(codesListRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
+
+        public ExecutableQueryGestion with(SeriesOperationsRequestParametizer seriesOperationsRequestParametizer) {
+            return new ExecutableQueryGestion(requestProcessor.queryBuilder().build(seriesOperationsRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
     }
 

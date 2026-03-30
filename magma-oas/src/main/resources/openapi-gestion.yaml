@@ -938,30 +938,90 @@ components:
     SerieById:
       type: object
       properties:
+        seriesId:
+          type: string
+        uri:
+          type: string
+        label:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
         altLabel:
           type: array
           items:
             $ref: '#/components/schemas/Label'
-        label:
+        resume:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+        noteHistorique:
           type: array
           items:
             $ref: '#/components/schemas/Label'
         type:
           $ref: '#/components/schemas/TypeRef'
-        series:
+        frequenceCollecte:
+          $ref: '#/components/schemas/TypeRef'
+        rapportQualite:
+          $ref: '#/components/schemas/RapportQualite'
+        famille:
+          $ref: '#/components/schemas/Famille'
+        seriesPrecedentes:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeRef'
+        seriesSuivantes:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeRef'
+        seriesLiees:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeRef'
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeRef'
+        indicateurs:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeRef'
+        dateCreation:
           type: string
-        id:
+        dateMiseAJour:
+          type: string
+        proprietaires:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeRef'
+        organismesResponsables:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeRef'
+        partenaires:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeRef'
+        servicesCollecteurs:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeRef'
+        statutValidation:
+          type: string
+        series:
           type: string
         frequence:
           $ref: '#/components/schemas/Frequence'
         nbOperation:
           type: string
-        famille:
-          $ref: '#/components/schemas/Famille'
-        proprietaire:
-          type: array
-          items:
-            type: string
+
+    RapportQualite:
+      type: object
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
 
     TypeRef:
       type: object

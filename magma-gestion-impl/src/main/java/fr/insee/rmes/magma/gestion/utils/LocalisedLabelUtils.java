@@ -10,16 +10,14 @@ public class LocalisedLabelUtils {
         /* This utility class should not be instantiated */
     }
 
-
-    public static List<StructureByIdMesuresInnerLabelInner> createListLangueContenu(StructureByIdMesuresInnerLabelInner langueContenu1, StructureByIdMesuresInnerLabelInner langueContenu2) {
-        List<StructureByIdMesuresInnerLabelInner> list = new ArrayList<>();
+    public static <T> List<T> createListLangueContenu(T langueContenu1, T langueContenu2) {
+        List<T> list = new ArrayList<>();
         if (langueContenu1 != null) {
             list.add(langueContenu1);
         }
         if (langueContenu2 != null) {
             list.add(langueContenu2);
         }
-
         return list;
     }
 
