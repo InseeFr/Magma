@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -24,7 +27,7 @@ public record QueryExecutor(RestClient restClient, String urlTemplate) {
     public QueryExecutor(@Value("${fr.insee.rmes.magma.api.sparqlEndpoint}") String sparqlEndpoint) {
         this(RestClient.builder()
                 .defaultHeader(HttpHeaders.ACCEPT, "text/csv")
-                .build(),sparqlEndpoint + "?query={query}"
+                .build(), sparqlEndpoint
         );
     }
 
@@ -56,16 +59,19 @@ public record QueryExecutor(RestClient restClient, String urlTemplate) {
 
     public Csv execute(@NonNull Query query) {
         String prefixedQuery = PREFIXES + query.value();
-        return new Csv(restClient.get()
-                .uri(urlTemplate, prefixedQuery)
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        formData.add("query", prefixedQuery);
+        return new Csv(restClient.post()
+                .uri(urlTemplate)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .body(formData)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
                         (HttpRequest request, ClientHttpResponse response) -> {
                             log.error("""
-                                Encoded request in error : {}
                                 raw request in error : {}
-                                """, request.getURI(), prefixedQuery);
-                            throw new RuntimeException("Error "+response.getStatusText()+" with message "+new String(response.getBody().readAllBytes()));
+                                """, prefixedQuery);
+                            throw new RuntimeException("Error " + response.getStatusText() + " with message " + new String(response.getBody().readAllBytes()));
                         })
                 .body(String.class));
     }
@@ -74,10 +80,14 @@ public Boolean executeAskQuery(@NonNull Query query) {
     String prefixedQuery = PREFIXES + query.value();
     log.debug("Executing SPARQL ASK query: {}", prefixedQuery);
 
+    MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+    formData.add("query", prefixedQuery);
     try {
-        String response = restClient.get()
-                .uri(urlTemplate, prefixedQuery)
-                .header("Accept", "application/sparql-results+json") // Format standard pour les résultats SPARQL
+        String response = restClient.post()
+                .uri(urlTemplate)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .header("Accept", "application/sparql-results+json")
+                .body(formData)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (request, reponse) -> {
                     String errorMessage = "SPARQL ASK query failed: " + request.getURI();
