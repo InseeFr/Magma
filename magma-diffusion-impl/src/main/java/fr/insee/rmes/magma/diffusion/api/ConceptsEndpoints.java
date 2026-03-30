@@ -37,11 +37,11 @@ public class ConceptsEndpoints implements ConceptsApi {
                 .singleResult(ConceptDTO.class).result();
 
         if (conceptDTO != null) {
-            if (Boolean.TRUE.equals(getHasLink(conceptDTO))) {
+            if (getHasLink(conceptDTO)) {
                conceptDTO = getNearbyConcepts(conceptDTO);
             }
 
-            if (Boolean.TRUE.equals(getHasIntitulesAlternatifs(conceptDTO))) {
+            if (getHasIntitulesAlternatifs(conceptDTO)) {
                 List<LocalisedLabel> intitulesAlternatifs = requestProcessor.queryToFindConceptIntitulesAlternatifs()
                         .with(ConceptsRequestParametizer.ofUri(conceptDTO.uri()))
                         .executeQuery()
@@ -75,7 +75,7 @@ public class ConceptsEndpoints implements ConceptsApi {
 
         List<ConceptDTO> listConceptDTOsWithLinks = listConceptDTOs.stream()
                 .map(conceptDto -> {
-                    if (Boolean.TRUE.equals(getHasLink(conceptDto))) {
+                    if (getHasLink(conceptDto)) {
                         return getNearbyConcepts(conceptDto);
                     }
                     return conceptDto;
