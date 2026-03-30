@@ -211,9 +211,8 @@ public class GeoArrondissementQueriesTest extends TestcontainerTest{
 
     //    geo/arrondissement/674/precedents?date=1950-01-01
     @Test
-    //le département 21 n'a pas de départments précédents
     void should_return_404_when_ArrondissementCodePrecedents_code674_date19500101() throws Exception{
-        mockMvc.perform(get("/geo/departement/21/precedents")
+        mockMvc.perform(get("/geo/arrondissement/674/precedents")
                         .param("date", "1950-01-01"))
                 .andExpect(status().isNotFound());
     }
