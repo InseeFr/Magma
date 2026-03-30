@@ -93,6 +93,28 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("en", result.getFamille().getLabel().get(1).getLangue()),
                 () -> assertEquals("Test family", result.getFamille().getLabel().get(1).getContenu()),
 
+                // seriesPrecedentes
+                () -> assertEquals(1, result.getSeriesPrecedentes().size()),
+                () -> assertEquals("s1010", result.getSeriesPrecedentes().getFirst().getId()),
+                () -> assertEquals("http://id.insee.fr/operations/serie/s1010", result.getSeriesPrecedentes().getFirst().getUri()),
+                () -> assertEquals("fr", result.getSeriesPrecedentes().getFirst().getLabel().getFirst().getLangue()),
+                () -> assertEquals("Enquête sur les compétences pour innover", result.getSeriesPrecedentes().getFirst().getLabel().getFirst().getContenu()),
+                () -> assertEquals("en", result.getSeriesPrecedentes().getFirst().getLabel().get(1).getLangue()),
+                () -> assertEquals("Innovative skills survey", result.getSeriesPrecedentes().getFirst().getLabel().get(1).getContenu()),
+
+                // seriesSuivantes
+                () -> assertEquals(1, result.getSeriesSuivantes().size()),
+
+                // seriesLiees
+                () -> assertEquals(2, result.getSeriesLiees().size()),
+                () -> assertEquals("s1197", result.getSeriesLiees().getFirst().getId()),
+                () -> assertEquals("http://id.insee.fr/operations/serie/s1197", result.getSeriesLiees().getFirst().getUri()),
+                () -> assertEquals("fr", result.getSeriesLiees().getFirst().getLabel().getFirst().getLangue()),
+                () -> assertEquals("Système immatriculation au répertoire des unités statistiques", result.getSeriesLiees().getFirst().getLabel().getFirst().getContenu()),
+                () -> assertEquals("en", result.getSeriesLiees().getFirst().getLabel().get(1).getLangue()),
+                () -> assertEquals("Statistical business register", result.getSeriesLiees().getFirst().getLabel().get(1).getContenu()),
+                () -> assertEquals("s1198", result.getSeriesLiees().get(1).getId()),
+
                 // operations
                 () -> assertEquals(1, result.getOperations().size()),
                 () -> assertEquals("op2024", result.getOperations().getFirst().getId()),

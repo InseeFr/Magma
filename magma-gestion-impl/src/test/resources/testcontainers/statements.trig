@@ -53,6 +53,30 @@
         dcterms:publisher <http://id.insee.fr/organisations/drees> ;
         dcterms:contributor <http://id.insee.fr/organisations/dares> .
 
+    <http://id.insee.fr/operations/serie/s1010>
+        rdf:type insee:StatisticalOperationSeries ;
+        skos:prefLabel "Enquête sur les compétences pour innover"@fr ;
+        skos:prefLabel "Innovative skills survey"@en ;
+        dcterms:isReplacedBy <http://id.insee.fr/operations/serie/s1001> .
+
+    <http://id.insee.fr/operations/serie/s1002>
+        rdf:type insee:StatisticalOperationSeries ;
+        skos:prefLabel "Série suivante"@fr ;
+        skos:prefLabel "Next series"@en ;
+        dcterms:replaces <http://id.insee.fr/operations/serie/s1001> .
+
+    <http://id.insee.fr/operations/serie/s1197>
+        rdf:type insee:StatisticalOperationSeries ;
+        skos:prefLabel "Système immatriculation au répertoire des unités statistiques"@fr ;
+        skos:prefLabel "Statistical business register"@en ;
+        rdfs:seeAlso <http://id.insee.fr/operations/serie/s1001> .
+
+    <http://id.insee.fr/operations/serie/s1198>
+        rdf:type insee:StatisticalOperationSeries ;
+        skos:prefLabel "Série liée 2"@fr ;
+        skos:prefLabel "Related series 2"@en ;
+        rdfs:seeAlso <http://id.insee.fr/operations/serie/s1001> .
+
     <http://id.insee.fr/operations/famille/f1001>
         rdf:type insee:StatisticalOperationFamily ;
         dcterms:hasPart <http://id.insee.fr/operations/serie/s1001> ;
