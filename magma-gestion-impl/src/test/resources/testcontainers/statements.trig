@@ -1,10 +1,13 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix insee: <http://rdf.insee.fr/def/base#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 
 <http://rdf.insee.fr/graphes/structures> {
     <http://bauhaus/structuresDeDonnees/structure/dsd1000>
@@ -28,4 +31,65 @@
 }
 
 <http://rdf.insee.fr/graphes/composants> {
+}
+
+<http://rdf.insee.fr/graphes/operations> {
+    <http://id.insee.fr/operations/serie/s1001>
+        rdf:type insee:StatisticalOperationSeries ;
+        skos:prefLabel "Série de test"@fr ;
+        skos:prefLabel "Test series"@en ;
+        skos:altLabel "Série alt"@fr ;
+        skos:altLabel "Alt series"@en ;
+        dcterms:abstract "Résumé de la série"@fr ;
+        dcterms:abstract "Series abstract"@en ;
+        skos:historyNote "Note historique"@fr ;
+        skos:historyNote "Historical note"@en ;
+        dcterms:type <http://id.insee.fr/concepts/type/E> ;
+        dcterms:accrualPeriodicity <http://id.insee.fr/concepts/periodicity/A> ;
+        dcterms:created "2020-01-15" ;
+        dcterms:modified "2024-06-01" ;
+        insee:validationState "Publiée" ;
+        dc:creator <http://id.insee.fr/organisations/insee> ;
+        dcterms:publisher <http://id.insee.fr/organisations/drees> ;
+        dcterms:contributor <http://id.insee.fr/organisations/dares> .
+
+    <http://id.insee.fr/operations/famille/f1001>
+        rdf:type insee:StatisticalOperationFamily ;
+        dcterms:hasPart <http://id.insee.fr/operations/serie/s1001> ;
+        skos:prefLabel "Famille de test"@fr ;
+        skos:prefLabel "Test family"@en .
+
+    <http://id.insee.fr/operations/operation/op2024>
+        rdf:type insee:StatisticalOperation ;
+        dcterms:isPartOf <http://id.insee.fr/operations/serie/s1001> ;
+        skos:prefLabel "Opération 2024"@fr ;
+        skos:prefLabel "Operation 2024"@en .
+
+    <http://id.insee.fr/concepts/type/E>
+        skos:notation "E" ;
+        skos:prefLabel "Enquête"@fr ;
+        skos:prefLabel "Survey"@en .
+
+    <http://id.insee.fr/concepts/periodicity/A>
+        skos:notation "A" ;
+        skos:prefLabel "Annuelle"@fr ;
+        skos:prefLabel "Annual"@en .
+
+    <http://id.insee.fr/organisations/insee>
+        rdf:type org:Organization ;
+        dcterms:identifier "insee" ;
+        skos:prefLabel "Institut national de la statistique"@fr ;
+        skos:prefLabel "National Institute of Statistics"@en .
+
+    <http://id.insee.fr/organisations/drees>
+        rdf:type org:Organization ;
+        dcterms:identifier "drees" ;
+        skos:prefLabel "Direction de la recherche"@fr ;
+        skos:prefLabel "Research Directorate"@en .
+
+    <http://id.insee.fr/organisations/dares>
+        rdf:type org:Organization ;
+        dcterms:identifier "dares" ;
+        skos:prefLabel "Direction de l'animation de la recherche"@fr ;
+        skos:prefLabel "Labour Studies Directorate"@en .
 }
