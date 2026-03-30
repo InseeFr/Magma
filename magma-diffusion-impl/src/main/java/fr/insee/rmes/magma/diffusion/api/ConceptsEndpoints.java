@@ -38,14 +38,10 @@ public class ConceptsEndpoints implements ConceptsApi {
 
         if (conceptDTO != null) {
             if (Boolean.TRUE.equals(conceptDTO.getHasLink())) {
-                List<NearbyConcept> nearbyConceptList = requestProcessor.queryToFindNearbyConcepts()
-                        .with(ConceptsRequestParametizer.ofUri(conceptDTO.uri()))
-                        .executeQuery()
-                        .listResult(NearbyConcept.class).result();
-                conceptDTO = conceptDTO.withNearbyConcepts(nearbyConceptList);
+               conceptDTO = getNearbyConcepts(conceptDTO);
             }
 
-            if (Boolean.TRUE.equals(conceptDTO.getHasIntitulesAlternatifs())){
+            if (Boolean.TRUE.equals(conceptDTO.getHasIntitulesAlternatifs())) {
                 List<LocalisedLabel> intitulesAlternatifs = requestProcessor.queryToFindConceptIntitulesAlternatifs()
                         .with(ConceptsRequestParametizer.ofUri(conceptDTO.uri()))
                         .executeQuery()
@@ -93,11 +89,12 @@ public class ConceptsEndpoints implements ConceptsApi {
 
     }
 
-    private @NonNull ConceptDTO getNearbyConcepts(ConceptDTO conceptDto) {
+    private ConceptDTO getNearbyConcepts(ConceptDTO conceptDto) {
         List<NearbyConcept> nearbyConceptList = requestProcessor.queryToFindNearbyConcepts()
                 .with(ConceptsRequestParametizer.ofUri(conceptDto.uri()))
                 .executeQuery()
-                .listResult(NearbyConcept.class).result();
+                .listResult(NearbyConcept.class)
+                .result();
         return conceptDto.withNearbyConcepts(nearbyConceptList);
     }
 
