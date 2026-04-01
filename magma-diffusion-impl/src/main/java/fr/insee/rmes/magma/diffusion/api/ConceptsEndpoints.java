@@ -8,11 +8,9 @@ import fr.insee.rmes.magma.diffusion.model.LocalisedLabel;
 import fr.insee.rmes.magma.diffusion.model.NearbyConcept;
 import fr.insee.rmes.magma.diffusion.queries.parameters.ConceptsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.services.ConceptService;
-import fr.insee.rmes.magma.diffusion.services.RapportQualiteService;
 import fr.insee.rmes.magma.diffusion.utils.ConceptDTO;
 import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import io.micrometer.common.util.StringUtils;
-import org.jspecify.annotations.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,11 +35,11 @@ public class ConceptsEndpoints implements ConceptsApi {
                 .singleResult(ConceptDTO.class).result();
 
         if (conceptDTO != null) {
-            if (getHasLink(conceptDTO)) {
+            if (conceptDTO.hasLinkValue()) {
                conceptDTO = getNearbyConcepts(conceptDTO);
             }
 
-            if (getHasIntitulesAlternatifs(conceptDTO)) {
+            if (conceptDTO.hasIntitulesAlternatifsValue()) {
                 List<LocalisedLabel> intitulesAlternatifs = requestProcessor.queryToFindConceptIntitulesAlternatifs()
                         .with(ConceptsRequestParametizer.ofUri(conceptDTO.uri()))
                         .executeQuery()
@@ -75,7 +73,7 @@ public class ConceptsEndpoints implements ConceptsApi {
 
         List<ConceptDTO> listConceptDTOsWithLinks = listConceptDTOs.stream()
                 .map(conceptDto -> {
-                    if (getHasLink(conceptDto)) {
+                    if (conceptDto.hasLinkValue()) {
                         return getNearbyConcepts(conceptDto);
                     }
                     return conceptDto;
@@ -96,14 +94,6 @@ public class ConceptsEndpoints implements ConceptsApi {
                 .listResult(NearbyConcept.class)
                 .result();
         return conceptDto.withNearbyConcepts(nearbyConceptList);
-    }
-
-    private static Boolean getHasLink(ConceptDTO conceptDto) {
-        return conceptDto.getHasLink();
-    }
-
-    private static Boolean getHasIntitulesAlternatifs(ConceptDTO conceptDto) {
-        return conceptDto.getHasIntitulesAlternatifs();
     }
 
 }
