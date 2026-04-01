@@ -22,9 +22,6 @@ public record RubriqueDTO (
 ){
 
 
-        public boolean isDocLg2NotEmpty() {
-            return hasDocLg2() != null;
-        }
 
         public RubriqueDTO withLabelLg1(String labelLg1) {
             return new RubriqueDTO(id, uri, idParent, type, titreLg1, titreLg2, valeurSimple, labelLg1, labelLg2, codeUri, organisationUri,
