@@ -6,6 +6,7 @@ SELECT DISTINCT ?operationId ?operation
 ?simsId ?sims
 ?created ?modified
 ?validationState
+FROM <${OPERATIONS_SERIES_GRAPH}>
 WHERE {
 	BIND('${operationId}' AS ?operationId)
 	BIND('${LG1}' AS ?lg1)

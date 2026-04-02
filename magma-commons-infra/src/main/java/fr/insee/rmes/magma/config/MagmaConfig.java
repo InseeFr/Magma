@@ -27,6 +27,7 @@ public class MagmaConfig {
             @Value("${fr.insee.rmes.magma.codeLists.graph:codes}") String codeListsGraph,
             @Value("${fr.insee.rmes.magma.structures.graph:structures}") String structuresGraph,
             @Value("${fr.insee.rmes.magma.datasets.graph:datasets}") String datasetsGraph,
+            @Value("${fr.insee.rmes.magma.operations.graph}") String seriesOperationsGraph,
             @Value("${fr.insee.rmes.magma.lg1:fr}") String lg1,
             @Value("${fr.insee.rmes.magma.lg2:en}") String lg2) throws URISyntaxException, IOException, TemplateModelException {
         var configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
@@ -50,6 +51,7 @@ public class MagmaConfig {
         configuration.setSharedVariable("CODELIST_GRAPH", baseGraph + codeListsGraph);
         configuration.setSharedVariable("STRUCTURES_GRAPH", baseGraph + structuresGraph);
         configuration.setSharedVariable("DATASETS_GRAPH", baseGraph + datasetsGraph);
+        configuration.setSharedVariable("OPERATIONS_SERIES_GRAPH", baseGraph + seriesOperationsGraph);
         configuration.setSharedVariable("LG1", lg1);
         configuration.setSharedVariable("LG2", lg2);
 

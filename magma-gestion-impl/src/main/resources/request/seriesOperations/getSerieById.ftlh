@@ -10,6 +10,7 @@ SELECT ?seriesId  ?series
 ?created ?modified
 ?creators ?publishers ?contributors ?dataCollectors
 ?validationState
+FROM <${OPERATIONS_SERIES_GRAPH}>
 WHERE {
 	BIND('${idSeries}' AS ?seriesId)
 	# NB: pour l'instant, les variables de langue ne sont pas reportées dans les sous-requêtes
