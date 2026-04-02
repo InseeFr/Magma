@@ -18,5 +18,5 @@ WHERE {
     ?uriCatalogRecord dcterms:created ?dateCreation .
     ?uri insee:validationState ?statutValidation .
 
-    FILTER (?dateMiseAJour > "${DATE}"^^xsd:dateTime)
+    FILTER (?dateMiseAJour > "${date}"^^xsd:dateTime)
 }

@@ -18,6 +18,9 @@ public class QueryPathListGestion {
     public static final String SERIE_BY_ID = "seriesOperations/getSerieById.ftlh";
     public static final String OPERATION_BY_CODE = "seriesOperations/getOperationByCode.ftlh";
 
+    public static final String ALL_DATASETS = "datasets/getListDatasets.ftlh";
+    public static final String ALL_DATASETS_BY_DATE = "datasets/getListDatasetsFilterByDate.ftlh";
+
     public static final String ALL_CODES_LISTS = "codeLists/getAllCodesLists.ftlh";
     public static final String ALL_CODES_LISTS_BY_DATE = "codeLists/getAllCodesListsByDate.ftlh";
     public static final String CODES_LIST = "codeLists/getCodesList.ftlh";
