@@ -1,5 +1,7 @@
 package fr.insee.rmes.magma.gestion.utils;
 
+import java.time.LocalDate;
+
 public record SeriesDTO(
         String seriesId,
         String series,
@@ -27,8 +29,8 @@ public record SeriesDTO(
         String indicators,
         String sims,
         String simsId,
-        String created,
-        String modified,
+        LocalDate created,
+        LocalDate modified,
         String creators,
         String publishers,
         String contributors,

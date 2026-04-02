@@ -8,6 +8,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix org: <http://www.w3.org/ns/org#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sdmx-mm: <http://www.w3.org/ns/sdmx-mm#> .
 
 <http://rdf.insee.fr/graphes/structures> {
     <http://bauhaus/structuresDeDonnees/structure/dsd1000>
@@ -36,8 +37,8 @@
 <http://rdf.insee.fr/graphes/operations> {
     <http://id.insee.fr/operations/serie/s1001>
         rdf:type insee:StatisticalOperationSeries ;
-        skos:prefLabel "Série de test"@fr ;
-        skos:prefLabel "Test series"@en ;
+        skos:prefLabel "Enquête innovation"@fr ;
+        skos:prefLabel "Innovation survey"@en ;
         skos:altLabel "Série alt"@fr ;
         skos:altLabel "Alt series"@en ;
         dcterms:abstract "Résumé de la série"@fr ;
@@ -88,6 +89,21 @@
         dcterms:isPartOf <http://id.insee.fr/operations/serie/s1001> ;
         skos:prefLabel "Opération 2024"@fr ;
         skos:prefLabel "Operation 2024"@en .
+
+    <http://id.insee.fr/operations/operation/s2193>
+        rdf:type insee:StatisticalOperation ;
+        dcterms:isPartOf <http://id.insee.fr/operations/serie/s1001> ;
+        skos:prefLabel "Enquête capacité à innover et stratégie 2024"@fr ;
+        skos:prefLabel "Community Innovation Survey 2024"@en ;
+        skos:altLabel "CIS 2024"@fr ;
+        skos:altLabel "CIS 2024"@en ;
+        dcterms:temporal "2024" ;
+        dcterms:created "2025-01-22" ;
+        dcterms:modified "2025-04-02" .
+
+    <http://id.insee.fr/qualite/rapport/2203>
+        rdf:type sdmx-mm:MetadataReport ;
+        sdmx-mm:target <http://id.insee.fr/operations/operation/s2193> .
 
     <http://id.insee.fr/concepts/type/E>
         skos:notation "E" ;

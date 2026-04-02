@@ -1,8 +1,11 @@
 package fr.insee.rmes.magma.gestion.services;
 
+import fr.insee.rmes.magma.gestion.model.OperationById;
+import fr.insee.rmes.magma.gestion.model.OperationBySerieIdSerie;
 import fr.insee.rmes.magma.gestion.model.SerieById;
 import fr.insee.rmes.magma.gestion.model.SerieByIdType;
 import fr.insee.rmes.magma.gestion.model.StructureByIdAttributsInnerListCode;
+import fr.insee.rmes.magma.gestion.utils.OperationDTO;
 import fr.insee.rmes.magma.gestion.utils.SeriesDTO;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +24,8 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
 
         serieById.setSeriesId(dto.seriesId());
         serieById.setUri(dto.series());
-        serieById.setDateCreation(dto.created());
-        serieById.setDateMiseAJour(dto.modified());
+        serieById.setDateCreation(dto.created() != null ? dto.created() : null);
+        serieById.setDateMiseAJour(dto.modified() != null ? dto.modified() : null);
         serieById.setStatutValidation(dto.validationState());
 
         serieById.setLabel(createListLangueContenu(
@@ -83,6 +86,45 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
         serieById.setServicesCollecteurs(parseRefList(dto.dataCollectors()));
 
         return serieById;
+    }
+
+    @Override
+    public OperationById transformOperationDTOToOperationById(OperationDTO dto) {
+        OperationById operationById = new OperationById();
+
+        operationById.setId(dto.operationId());
+        operationById.setUri(dto.operation());
+        operationById.setMillesime(dto.temporal());
+        operationById.setDateCreation(dto.created() != null ? dto.created() : null);
+        operationById.setDateMiseAJour(dto.modified() != null ? dto.modified() : null);
+        operationById.setStatutValidation(dto.validationState());
+
+        operationById.setLabel(createListLangueContenu(
+                createLangueContenu(dto.operationLabelLg1(), "fr"),
+                createLangueContenu(dto.operationLabelLg2(), "en")));
+
+        operationById.setAltLabel(createListLangueContenu(
+                createLangueContenu(dto.operationAltLabelLg1(), "fr"),
+                createLangueContenu(dto.operationAltLabelLg2(), "en")));
+
+        if (dto.seriesId() != null && !dto.seriesId().isBlank()) {
+            OperationBySerieIdSerie serie = new OperationBySerieIdSerie();
+            serie.setId(dto.seriesId());
+            serie.setUri(dto.series());
+            serie.setLabel(createListLangueContenu(
+                    createLangueContenu(dto.seriesLabelLg1(), "fr"),
+                    createLangueContenu(dto.seriesLabelLg2(), "en")));
+            operationById.setSerie(serie);
+        }
+
+        if (dto.simsId() != null && !dto.simsId().isBlank()) {
+            StructureByIdAttributsInnerListCode rapportQualite = new StructureByIdAttributsInnerListCode();
+            rapportQualite.setId(dto.simsId());
+            rapportQualite.setUri(dto.sims());
+            operationById.setRapportQualite(rapportQualite);
+        }
+
+        return operationById;
     }
 
     private SerieByIdType parseFamille(String raw) {

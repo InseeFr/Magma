@@ -6,8 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -41,9 +42,9 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
                 // label
                 () -> assertEquals(2, result.getLabel().size()),
                 () -> assertEquals("fr", result.getLabel().getFirst().getLangue()),
-                () -> assertEquals("Série de test", result.getLabel().getFirst().getContenu()),
+                () -> assertEquals("Enquête innovation", result.getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getLabel().get(1).getLangue()),
-                () -> assertEquals("Test series", result.getLabel().get(1).getContenu()),
+                () -> assertEquals("Innovation survey", result.getLabel().get(1).getContenu()),
 
                 // altLabel
                 () -> assertEquals(2, result.getAltLabel().size()),
@@ -116,7 +117,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("s1198", result.getSeriesLiees().get(1).getId()),
 
                 // operations
-                () -> assertEquals(1, result.getOperations().size()),
+                () -> assertEquals(2, result.getOperations().size()),
                 () -> assertEquals("op2024", result.getOperations().getFirst().getId()),
                 () -> assertEquals("http://id.insee.fr/operations/operation/op2024", result.getOperations().getFirst().getUri()),
                 () -> assertEquals("Opération 2024", result.getOperations().getFirst().getLabel().getFirst().getContenu()),
@@ -148,5 +149,57 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
     void should_return_404_when_getSerieById_unknown_id() throws Exception{
         mockMvc.perform(get("/operations/serie/serieInconnue"))
                 .andExpect(status().isNotFound());
+    }
+
+    /////////////////////////////////////////////////////////
+    ///        /operations/operation/{id}                 ///
+    /////////////////////////////////////////////////////////
+
+    @Test
+    void should_return_operationById_s2193_when_getOperationByCode_s2193() {
+        var response = endpoints.getOperationByCode("s2193");
+        var result = response.getBody();
+
+        assertNotNull(result);
+        assertAll(
+                // identifiants
+                () -> assertEquals("s2193", result.getId()),
+                () -> assertEquals("http://id.insee.fr/operations/operation/s2193", result.getUri()),
+
+                // label
+                () -> assertEquals(2, result.getLabel().size()),
+                () -> assertEquals("fr", result.getLabel().getFirst().getLangue()),
+                () -> assertEquals("Enquête capacité à innover et stratégie 2024", result.getLabel().getFirst().getContenu()),
+                () -> assertEquals("en", result.getLabel().get(1).getLangue()),
+                () -> assertEquals("Community Innovation Survey 2024", result.getLabel().get(1).getContenu()),
+
+                // altLabel
+                () -> assertEquals(2, result.getAltLabel().size()),
+                () -> assertEquals("fr", result.getAltLabel().getFirst().getLangue()),
+                () -> assertEquals("CIS 2024", result.getAltLabel().getFirst().getContenu()),
+                () -> assertEquals("en", result.getAltLabel().get(1).getLangue()),
+                () -> assertEquals("CIS 2024", result.getAltLabel().get(1).getContenu()),
+
+                // millesime
+                () -> assertEquals("2024", result.getMillesime()),
+
+                // serie
+                () -> assertNotNull(result.getSerie()),
+                () -> assertEquals("s1001", result.getSerie().getId()),
+                () -> assertEquals("http://id.insee.fr/operations/serie/s1001", result.getSerie().getUri()),
+                () -> assertEquals("fr", result.getSerie().getLabel().getFirst().getLangue()),
+                () -> assertEquals("Enquête innovation", result.getSerie().getLabel().getFirst().getContenu()),
+                () -> assertEquals("en", result.getSerie().getLabel().get(1).getLangue()),
+                () -> assertEquals("Innovation survey", result.getSerie().getLabel().get(1).getContenu()),
+
+                // rapportQualite
+                () -> assertNotNull(result.getRapportQualite()),
+                () -> assertEquals("2203", result.getRapportQualite().getId()),
+                () -> assertEquals("http://id.insee.fr/qualite/rapport/2203", result.getRapportQualite().getUri()),
+
+                // dates
+                () -> assertEquals(LocalDate.of(2025,1,22), result.getDateCreation()),
+                () -> assertEquals(LocalDate.of(2025,4,2), result.getDateMiseAJour())
+        );
     }
 }

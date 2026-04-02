@@ -988,8 +988,10 @@ components:
             $ref: '#/components/schemas/TypeRef'
         dateCreation:
           type: string
+          format: date
         dateMiseAJour:
           type: string
+          format: date
         proprietaires:
           type: array
           items:
@@ -1096,19 +1098,31 @@ components:
     OperationById:
       type: object
       properties:
-        serie:
-          $ref: '#/components/schemas/SerieRef'
         id:
+          type: string
+        uri:
           type: string
         label:
           type: array
           items:
             $ref: '#/components/schemas/Label'
-        uri:
-          type: string
-        proprietaire:
-          type: string
+        altLabel:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
         millesime:
+          type: string
+        serie:
+          $ref: '#/components/schemas/SerieRef'
+        rapportQualite:
+          $ref: '#/components/schemas/RapportQualite'
+        dateCreation:
+          type: string
+          format: date
+        dateMiseAJour:
+          type: string
+          format: date
+        statutValidation:
           type: string
 
     # ============================================

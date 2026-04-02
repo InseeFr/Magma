@@ -60,6 +60,10 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
         return new ExecutableQueryBuilder(SERIE_BY_ID, this);
     }
 
+    public ExecutableQueryBuilder queryToFindOperationByCode() {
+        return new ExecutableQueryBuilder(OPERATION_BY_CODE, this);
+    }
+
     public ExecutableQueryBuilder queryToFindAllCodesLists() {
         return new ExecutableQueryBuilder(ALL_CODES_LISTS, this);
     }
