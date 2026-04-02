@@ -32,13 +32,7 @@ public class EndpointsUtils {
             return ResponseEntity.notFound().build();
         }
 
-//        MediaType contentType = MediaType.APPLICATION_JSON;
-//        if (isXmlRequest()) {
-//            contentType = MediaType.APPLICATION_XML;
-//        }
-
         return ResponseEntity.ok()
-//                .contentType(contentType)
                 .body(result);
     }
 
