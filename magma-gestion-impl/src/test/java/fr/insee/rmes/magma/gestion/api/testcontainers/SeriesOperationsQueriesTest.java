@@ -202,4 +202,11 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
                 () -> assertEquals(LocalDate.of(2025,4,2), result.getDateMiseAJour())
         );
     }
+
+    @Test
+    void should_return_404_when_getOperationById_unknown_id() throws Exception{
+        mockMvc.perform(get("/operations/operation/serieInconnue"))
+                .andExpect(status().isNotFound());
+    }
+
 }
