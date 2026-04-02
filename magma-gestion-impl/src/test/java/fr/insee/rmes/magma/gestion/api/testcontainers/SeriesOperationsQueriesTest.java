@@ -136,8 +136,8 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("dares", result.getPartenaires().getFirst().getId()),
 
                 // dates
-                () -> assertEquals("2020-01-15", result.getDateCreation()),
-                () -> assertEquals("2024-06-01", result.getDateMiseAJour()),
+                () -> assertEquals(LocalDate.of (2020,1,15), result.getDateCreation()),
+                () -> assertEquals(LocalDate.of(2024,6,1), result.getDateMiseAJour()),
 
                 // statut
                 () -> assertEquals("Publiée", result.getStatutValidation())
