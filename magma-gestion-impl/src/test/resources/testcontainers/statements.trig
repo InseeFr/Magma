@@ -9,6 +9,9 @@
 @prefix org: <http://www.w3.org/ns/org#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix sdmx-mm: <http://www.w3.org/ns/sdmx-mm#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 
 <http://rdf.insee.fr/graphes/structures> {
     <http://bauhaus/structuresDeDonnees/structure/dsd1000>
@@ -132,4 +135,29 @@
         dcterms:identifier "dares" ;
         skos:prefLabel "Direction de l'animation de la recherche"@fr ;
         skos:prefLabel "Labour Studies Directorate"@en .
+}
+
+<http://rdf.insee.fr/graphes/catalogue> {
+    <http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4>
+        rdf:type dcat:Dataset ;
+        dcterms:identifier "25baaf1f-61cf-4d50-9124-1477afca2aa4" ;
+        dcterms:title "Activité, emploi et chômage - séries longues"@fr ;
+        dcterms:title "Activité, emploi et chômage - séries longues"@en ;
+        dcterms:abstract "Séries longues sur la population active, l'emploi, le chômage et le halo autour du chômage."@fr ;
+        dcterms:description "Les données sont détaillées par sexe, âge, diplôme et catégorie socio-professionnelle (PCS). Pour l'emploi, les données sont détaillées par type de contrat, composante du sous-emploi, temps de travail (temps complet ou partiel). Plusieurs indicateurs en taux sont disponibles : taux d'activité, taux d'emploi ou taux de chômage.\n\nCe jeu de données regroupe notamment les données annuelles de forte valeur (High Value Dataset ou HVD statistiques) désignées par Eurostat sur les sujets suivants : l'emploi , le chômage et la main d'œuvre potentielle."@fr ;
+        skos:scopeNote "Des corrections sur les données concernant la population totale ainsi que sur l'emploi et la part dans l'emploi selon le plus haut diplôme obtenu, par sexe et âge regroupé, en moyenne annuelle ont été apportées en septembre 2024 afin de rectifier une erreur, portant sur les années 2018, 2019 et 2020 uniquement."@fr ;
+        insee:validationState "Unpublished" ;
+        prov:wasGeneratedBy <http://bauhaus/operations/serie/s1223> ;
+        adms:identifier <http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4/ident> .
+
+    <http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4/ident>
+        skos:notation "DD_EEC_SERIES" .
+
+    <http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4/record>
+        rdf:type dcat:CatalogRecord ;
+        foaf:primaryTopic <http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4> ;
+        dc:creator "DG75-L201" ;
+        dc:contributor "DG75-L201" ;
+        dcterms:created "2024-12-09T12:00:00.000"^^xsd:dateTime ;
+        dcterms:modified "2024-12-09T12:00:00.000"^^xsd:dateTime .
 }
