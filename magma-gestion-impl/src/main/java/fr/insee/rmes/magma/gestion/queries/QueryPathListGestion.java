@@ -20,6 +20,8 @@ public class QueryPathListGestion {
 
     public static final String ALL_DATASETS = "datasets/getListDatasets.ftlh";
     public static final String ALL_DATASETS_BY_DATE = "datasets/getListDatasetsFilterByDate.ftlh";
+    public static final String DATASET_BY_ID = "datasets/getDatasetById.ftlh";
+    public static final String DATASET_BY_ID_SUMMARY = "datasets/getDatasetByIdSummary.ftlh";
 
     public static final String ALL_CODES_LISTS = "codeLists/getAllCodesLists.ftlh";
     public static final String ALL_CODES_LISTS_BY_DATE = "codeLists/getAllCodesListsByDate.ftlh";

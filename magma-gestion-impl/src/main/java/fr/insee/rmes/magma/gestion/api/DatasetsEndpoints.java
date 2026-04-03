@@ -4,6 +4,8 @@ import fr.insee.rmes.magma.gestion.api.requestprocessor.RequestProcessorGestion;
 import fr.insee.rmes.magma.gestion.model.DataSet;
 import fr.insee.rmes.magma.gestion.queries.parameters.DatasetsRequestParametizer;
 import fr.insee.rmes.magma.gestion.services.DatasetsService;
+import fr.insee.rmes.magma.gestion.utils.DatasetByIdDTO;
+import fr.insee.rmes.magma.gestion.utils.DatasetByIdSummaryDTO;
 import fr.insee.rmes.magma.gestion.utils.DatasetDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -40,5 +42,30 @@ public class DatasetsEndpoints implements DatasetsApi {
         }
         List<DataSet> dataSets = datasetsService.transformDatasetDTOsToDataSets(dtos);
         return ResponseEntity.ok(dataSets);
+    }
+
+    @Override
+    public ResponseEntity<DataSet> getDataSetById(String id, Boolean dateMiseAJour) {
+        if (Boolean.TRUE.equals(dateMiseAJour)) {
+            DatasetByIdSummaryDTO summaryDTO = requestProcessor.queryToFindDatasetByIdSummary()
+                    .with(new DatasetsRequestParametizer(id, null))
+                    .executeQuery()
+                    .singleResult(DatasetByIdSummaryDTO.class)
+                    .result();
+            if (summaryDTO == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(datasetsService.transformDatasetByIdSummaryDTOToDataSet(summaryDTO));
+        } else {
+            DatasetByIdDTO dto = requestProcessor.queryToFindDatasetById()
+                    .with(new DatasetsRequestParametizer(id, null))
+                    .executeQuery()
+                    .singleResult(DatasetByIdDTO.class)
+                    .result();
+            if (dto == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(datasetsService.transformDatasetByIdDTOToDataSet(dto));
+        }
     }
 }
