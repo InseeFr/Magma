@@ -44,10 +44,10 @@ class DatasetsServiceImplTest {
                 () -> assertEquals("2024-01-10", result.get(0).getCatalogRecordModified()),
                 () -> assertEquals("2023-06-01", result.get(0).getCatalogRecordCreated()),
                 () -> assertEquals(2, result.get(0).getTitle().size()),
-                () -> assertEquals("fr", result.get(0).getTitle().getFirst().getLang()),
-                () -> assertEquals("Titre 1 FR", result.get(0).getTitle().getFirst().getContent()),
-                () -> assertEquals("en", result.get(0).getTitle().get(1).getLang()),
-                () -> assertEquals("Title 1 EN", result.get(0).getTitle().get(1).getContent()),
+                () -> assertEquals("fr", result.get(0).getTitle().getFirst().getLangue()),
+                () -> assertEquals("Titre 1 FR", result.get(0).getTitle().getFirst().getContenu()),
+                () -> assertEquals("en", result.get(0).getTitle().get(1).getLangue()),
+                () -> assertEquals("Title 1 EN", result.get(0).getTitle().get(1).getContenu()),
                 () -> assertEquals("id2", result.get(1).getId()),
                 () -> assertNull(result.get(1).getCatalogRecordModified()),
                 () -> assertNull(result.get(1).getCatalogRecordCreated())
@@ -83,22 +83,22 @@ class DatasetsServiceImplTest {
 
         assertAll(
                 () -> assertEquals(2, result.getTitle().size()),
-                () -> assertEquals("fr", result.getTitle().getFirst().getLang()),
-                () -> assertEquals("Titre FR", result.getTitle().getFirst().getContent()),
-                () -> assertEquals("en", result.getTitle().get(1).getLang()),
-                () -> assertEquals("Title EN", result.getTitle().get(1).getContent()),
+                () -> assertEquals("fr", result.getTitle().getFirst().getLangue()),
+                () -> assertEquals("Titre FR", result.getTitle().getFirst().getContenu()),
+                () -> assertEquals("en", result.getTitle().get(1).getLangue()),
+                () -> assertEquals("Title EN", result.getTitle().get(1).getContenu()),
 
-                () -> assertEquals("Sous-titre FR", result.getSubtitle().getFirst().getContent()),
-                () -> assertEquals("Subtitle EN", result.getSubtitle().get(1).getContent()),
+                () -> assertEquals("Sous-titre FR", result.getSubtitle().getFirst().getContenu()),
+                () -> assertEquals("Subtitle EN", result.getSubtitle().get(1).getContenu()),
 
-                () -> assertEquals("Résumé FR", result.getAbstract().getFirst().getContent()),
-                () -> assertEquals("Abstract EN", result.getAbstract().get(1).getContent()),
+                () -> assertEquals("Résumé FR", result.getAbstract().getFirst().getContenu()),
+                () -> assertEquals("Abstract EN", result.getAbstract().get(1).getContenu()),
 
-                () -> assertEquals("Description FR", result.getDescription().getFirst().getContent()),
-                () -> assertEquals("Description EN", result.getDescription().get(1).getContent()),
+                () -> assertEquals("Description FR", result.getDescription().getFirst().getContenu()),
+                () -> assertEquals("Description EN", result.getDescription().get(1).getContenu()),
 
-                () -> assertEquals("Note FR", result.getScopeNote().getFirst().getContent()),
-                () -> assertEquals("Note EN", result.getScopeNote().get(1).getContent())
+                () -> assertEquals("Note FR", result.getScopeNote().getFirst().getContenu()),
+                () -> assertEquals("Note EN", result.getScopeNote().get(1).getContenu())
         );
     }
 
@@ -129,8 +129,8 @@ class DatasetsServiceImplTest {
                 () -> assertNotNull(result.getPublisher()),
                 () -> assertEquals("DG75-F001", result.getPublisher().getId()),
                 () -> assertEquals(2, result.getPublisher().getLabel().size()),
-                () -> assertEquals("Éditeur FR", result.getPublisher().getLabel().getFirst().getContent()),
-                () -> assertEquals("Publisher EN", result.getPublisher().getLabel().get(1).getContent())
+                () -> assertEquals("Éditeur FR", result.getPublisher().getLabel().getFirst().getContenu()),
+                () -> assertEquals("Publisher EN", result.getPublisher().getLabel().get(1).getContenu())
         );
     }
 
@@ -146,8 +146,8 @@ class DatasetsServiceImplTest {
         assertAll(
                 () -> assertNotNull(result.getSpatial()),
                 () -> assertEquals("France", result.getSpatial().getId()),
-                () -> assertEquals("France métropolitaine", result.getSpatial().getLabel().getFirst().getContent()),
-                () -> assertEquals("Metropolitan France", result.getSpatial().getLabel().get(1).getContent())
+                () -> assertEquals("France métropolitaine", result.getSpatial().getLabel().getFirst().getContenu()),
+                () -> assertEquals("Metropolitan France", result.getSpatial().getLabel().get(1).getContenu())
         );
     }
 
@@ -214,10 +214,10 @@ class DatasetsServiceImplTest {
                 () -> assertEquals(1, result.getCreator().size()),
                 () -> assertEquals("DG75-E330", result.getCreator().getFirst().getId()),
                 () -> assertEquals(2, result.getCreator().getFirst().getLabel().size()),
-                () -> assertEquals("fr", result.getCreator().getFirst().getLabel().getFirst().getLang()),
-                () -> assertEquals("Division ESPRI", result.getCreator().getFirst().getLabel().getFirst().getContent()),
-                () -> assertEquals("en", result.getCreator().getFirst().getLabel().get(1).getLang()),
-                () -> assertEquals("ESPRI Division", result.getCreator().getFirst().getLabel().get(1).getContent())
+                () -> assertEquals("fr", result.getCreator().getFirst().getLabel().getFirst().getLangue()),
+                () -> assertEquals("Division ESPRI", result.getCreator().getFirst().getLabel().getFirst().getContenu()),
+                () -> assertEquals("en", result.getCreator().getFirst().getLabel().get(1).getLangue()),
+                () -> assertEquals("ESPRI Division", result.getCreator().getFirst().getLabel().get(1).getContenu())
         );
     }
 
@@ -229,10 +229,10 @@ class DatasetsServiceImplTest {
         assertAll(
                 () -> assertEquals(2, result.getCreator().size()),
                 () -> assertEquals("DG75-A", result.getCreator().get(0).getId()),
-                () -> assertEquals("Label A FR", result.getCreator().get(0).getLabel().getFirst().getContent()),
-                () -> assertEquals("Label A EN", result.getCreator().get(0).getLabel().get(1).getContent()),
+                () -> assertEquals("Label A FR", result.getCreator().get(0).getLabel().getFirst().getContenu()),
+                () -> assertEquals("Label A EN", result.getCreator().get(0).getLabel().get(1).getContenu()),
                 () -> assertEquals("DG75-B", result.getCreator().get(1).getId()),
-                () -> assertEquals("Label B FR", result.getCreator().get(1).getLabel().getFirst().getContent())
+                () -> assertEquals("Label B FR", result.getCreator().get(1).getLabel().getFirst().getContenu())
         );
     }
 
@@ -275,12 +275,12 @@ class DatasetsServiceImplTest {
 
         assertAll(
                 () -> assertEquals(3, result.getKeyword().size()),
-                () -> assertEquals("fr", result.getKeyword().get(0).getLang()),
-                () -> assertEquals("emploi", result.getKeyword().get(0).getContent()),
-                () -> assertEquals("fr", result.getKeyword().get(1).getLang()),
-                () -> assertEquals("chômage", result.getKeyword().get(1).getContent()),
-                () -> assertEquals("en", result.getKeyword().get(2).getLang()),
-                () -> assertEquals("employment", result.getKeyword().get(2).getContent())
+                () -> assertEquals("fr", result.getKeyword().get(0).getLangue()),
+                () -> assertEquals("emploi", result.getKeyword().get(0).getContenu()),
+                () -> assertEquals("fr", result.getKeyword().get(1).getLangue()),
+                () -> assertEquals("chômage", result.getKeyword().get(1).getContenu()),
+                () -> assertEquals("en", result.getKeyword().get(2).getLangue()),
+                () -> assertEquals("employment", result.getKeyword().get(2).getContenu())
         );
     }
 
@@ -314,8 +314,8 @@ class DatasetsServiceImplTest {
                 () -> assertEquals(1, result.getWasDerivedFrom().getDatasets().size()),
                 () -> assertEquals("ds-source-1", result.getWasDerivedFrom().getDatasets().getFirst()),
                 () -> assertNotNull(result.getWasDerivedFrom().getDescription()),
-                () -> assertEquals("Dérivé de FR", result.getWasDerivedFrom().getDescription().getFirst().getContent()),
-                () -> assertEquals("Derived from EN", result.getWasDerivedFrom().getDescription().get(1).getContent())
+                () -> assertEquals("Dérivé de FR", result.getWasDerivedFrom().getDescription().getFirst().getContenu()),
+                () -> assertEquals("Derived from EN", result.getWasDerivedFrom().getDescription().get(1).getContenu())
         );
     }
 

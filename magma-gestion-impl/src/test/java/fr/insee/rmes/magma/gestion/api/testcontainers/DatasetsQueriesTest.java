@@ -53,56 +53,51 @@ class DatasetsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("Provisoire, jamais publiée", result.getValidationState()),
 
                 // creator (vide : aucun dcterms:creator avec identifiant résolu)
-                () -> assertNotNull(result.getCreator()),
-                () -> assertTrue(result.getCreator().isEmpty()),
+                 () -> assertNull(result.getCreator()),
 
                 // title
                 () -> assertEquals(2, result.getTitle().size()),
-                () -> assertEquals("fr", result.getTitle().getFirst().getLang()),
-                () -> assertEquals("Activité, emploi et chômage - séries longues", result.getTitle().getFirst().getContent()),
-                () -> assertEquals("en", result.getTitle().get(1).getLang()),
-                () -> assertEquals("Activité, emploi et chômage - séries longues", result.getTitle().get(1).getContent()),
+                () -> assertEquals("fr", result.getTitle().getFirst().getLangue()),
+                () -> assertEquals("Activité, emploi et chômage - séries longues", result.getTitle().getFirst().getContenu()),
+                () -> assertEquals("en", result.getTitle().get(1).getLangue()),
+                () -> assertEquals("Activité, emploi et chômage - séries longues", result.getTitle().get(1).getContenu()),
 
-                // subtitle (non renseigné → contenu null)
-                () -> assertEquals(2, result.getSubtitle().size()),
-                () -> assertEquals("fr", result.getSubtitle().getFirst().getLang()),
-                () -> assertNull(result.getSubtitle().getFirst().getContent()),
-                () -> assertEquals("en", result.getSubtitle().get(1).getLang()),
-                () -> assertNull(result.getSubtitle().get(1).getContent()),
+                // subtitle
+                () -> assertNull(result.getSubtitle()),
 
                 // abstract
                 () -> assertEquals(2, result.getAbstract().size()),
-                () -> assertEquals("fr", result.getAbstract().getFirst().getLang()),
-                () -> assertEquals("Séries longues sur la population active, l'emploi, le chômage et le halo autour du chômage.", result.getAbstract().getFirst().getContent()),
-                () -> assertEquals("en", result.getAbstract().get(1).getLang()),
-                () -> assertNull(result.getAbstract().get(1).getContent()),
+                () -> assertEquals("fr", result.getAbstract().getFirst().getLangue()),
+                () -> assertEquals("Séries longues sur la population active, l'emploi, le chômage et le halo autour du chômage.", result.getAbstract().getFirst().getContenu()),
+                () -> assertEquals("en", result.getAbstract().get(1).getLangue()),
+                () -> assertNull(result.getAbstract().get(1).getContenu()),
 
                 // description
                 () -> assertEquals(2, result.getDescription().size()),
-                () -> assertEquals("fr", result.getDescription().getFirst().getLang()),
-                () -> assertTrue(result.getDescription().getFirst().getContent().startsWith("Les données sont détaillées par sexe")),
-                () -> assertEquals("en", result.getDescription().get(1).getLang()),
-                () -> assertNull(result.getDescription().get(1).getContent()),
+                () -> assertEquals("fr", result.getDescription().getFirst().getLangue()),
+                () -> assertTrue(result.getDescription().getFirst().getContenu().startsWith("Les données sont détaillées par sexe")),
+                () -> assertEquals("en", result.getDescription().get(1).getLangue()),
+                () -> assertNull(result.getDescription().get(1).getContenu()),
 
                 // scopeNote
                 () -> assertEquals(2, result.getScopeNote().size()),
-                () -> assertEquals("fr", result.getScopeNote().getFirst().getLang()),
-                () -> assertTrue(result.getScopeNote().getFirst().getContent().startsWith("Des corrections sur les données")),
-                () -> assertEquals("en", result.getScopeNote().get(1).getLang()),
-                () -> assertNull(result.getScopeNote().get(1).getContent()),
+                () -> assertEquals("fr", result.getScopeNote().getFirst().getLangue()),
+                () -> assertTrue(result.getScopeNote().getFirst().getContenu().startsWith("Des corrections sur les données")),
+                () -> assertEquals("en", result.getScopeNote().get(1).getLangue()),
+                () -> assertNull(result.getScopeNote().get(1).getContenu()),
 
                 // wasGeneratedBy
                 () -> assertEquals(1, result.getWasGeneratedBy().size()),
                 () -> assertEquals("http://bauhaus/operations/serie/s1223", result.getWasGeneratedBy().getFirst().getId()),
 
                 // listes vides
-                () -> assertTrue(result.getTheme().isEmpty()),
-                () -> assertTrue(result.getArchiveUnit().isEmpty()),
-                () -> assertTrue(result.getRelations().isEmpty()),
-                () -> assertTrue(result.getKeyword().isEmpty()),
-                () -> assertTrue(result.getLandingPage().isEmpty()),
-                () -> assertTrue(result.getTemporalResolution().isEmpty()),
-                () -> assertTrue(result.getSpatialResolution().isEmpty())
+                () -> assertNull(result.getTheme()),
+                () -> assertNull(result.getArchiveUnit()),
+                () -> assertNull(result.getRelations()),
+                () -> assertNull(result.getKeyword()),
+                () -> assertNull(result.getLandingPage()),
+                () -> assertNull(result.getTemporalResolution()),
+                () -> assertNull(result.getSpatialResolution())
         );
     }
 

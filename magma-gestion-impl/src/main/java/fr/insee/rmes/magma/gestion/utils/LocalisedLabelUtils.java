@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.gestion.utils;
 
-import fr.insee.rmes.magma.gestion.model.StructureByIdMesuresInnerLabelInner;
+import fr.insee.rmes.magma.gestion.model.LocalisedLabel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +21,8 @@ public class LocalisedLabelUtils {
         return list;
     }
 
-    public static StructureByIdMesuresInnerLabelInner createLangueContenu(String contenu, String langue) {
-        StructureByIdMesuresInnerLabelInner langueContenu = new StructureByIdMesuresInnerLabelInner();
+    public static LocalisedLabel createLangueContenu(String contenu, String langue) {
+        LocalisedLabel langueContenu = new LocalisedLabel();
         langueContenu.setContenu(contenu);
         langueContenu.setLangue(langue);
         return langueContenu;

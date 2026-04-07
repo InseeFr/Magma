@@ -702,14 +702,6 @@ components:
         contenu:
           type: string
 
-    LangContent:
-      type: object
-      properties:
-        lang:
-          type: string
-        content:
-          type: string
-
     IdLabel:
       type: object
       properties:
@@ -720,7 +712,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
 
     # ============================================
     # STRUCTURES / COMPOSANTS SCHEMAS
@@ -1213,23 +1205,23 @@ components:
         title:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
         subtitle:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
         abstract:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
         description:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
         scopeNote:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
         wasGeneratedBy:
           type: array
           items:
@@ -1237,7 +1229,7 @@ components:
         type:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
         archiveUnit:
           type: array
           items:
@@ -1245,11 +1237,11 @@ components:
         accessRights:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
         confidentialityStatus:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
         theme:
           type: array
           items:
@@ -1297,7 +1289,7 @@ components:
         keyword:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
 
     Theme:
       type: object
@@ -1307,7 +1299,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
         themeTaxonomy:
           type: string
 
@@ -1355,7 +1347,7 @@ components:
         description:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
 
     Distribution:
       type: object
@@ -1369,7 +1361,7 @@ components:
         description:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
         downloadURL:
           type: array
           items:
@@ -1381,7 +1373,7 @@ components:
         title:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
         uri:
           type: string
 
@@ -1453,7 +1445,7 @@ components:
         definitionCourte:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
 
     ConceptSDMX:
       type: object
@@ -1475,11 +1467,11 @@ components:
         intitule:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
         description:
           type: array
           items:
-            $ref: '#/components/schemas/LangContent'
+            $ref: './langue-contenu.schema.json'
 
     SetOfConcepts:
       type: object
