@@ -1,6 +1,7 @@
 package fr.insee.rmes.magma.gestion.api.testcontainers;
 
 import fr.insee.rmes.magma.gestion.api.DatasetsEndpoints;
+import fr.insee.rmes.magma.gestion.model.DataSet;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,6 +116,53 @@ class DatasetsQueriesTest extends TestcontainerTest {
                 () -> assertEquals(DATASET_ID, result.getId()),
                 () -> assertEquals(DATASET_URI, result.getUri()),
                 () -> assertEquals("2024-12-09T12:00:00.000", result.getCatalogRecordModified())
+        );
+    }
+
+    /////////////////////////////////////////////////////////
+    ///        /datasets/list                              ///
+    /////////////////////////////////////////////////////////
+
+    static final String DATASET_ID_2 = "a85dab6c-ef0f-4caa-9763-c7f8c840e216";
+    static final String DATASET_URI_2 = "http://bauhaus/catalogues/jeuDeDonnees/a85dab6c-ef0f-4caa-9763-c7f8c840e216";
+
+    @Test
+    void should_return_all_datasets() {
+        var response = endpoints.getListDatasets(null);
+        var result = response.getBody();
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+
+        var ids = result.stream().map(DataSet::getId).toList();
+        assertTrue(ids.contains(DATASET_ID));
+        assertTrue(ids.contains(DATASET_ID_2));
+    }
+
+    @Test
+    void should_return_dataset_list_with_correct_fields() {
+        var response = endpoints.getListDatasets(null);
+        var result = response.getBody();
+
+        assertNotNull(result);
+
+        var ds1 = result.stream().filter(d -> DATASET_ID.equals(d.getId())).findFirst().orElseThrow();
+        var ds2 = result.stream().filter(d -> DATASET_ID_2.equals(d.getId())).findFirst().orElseThrow();
+
+        assertAll(
+                // dataset 1
+                () -> assertEquals(DATASET_URI, ds1.getUri()),
+                () -> assertEquals("Unpublished", ds1.getValidationState()),
+                () -> assertEquals(2, ds1.getTitle().size()),
+                () -> assertEquals("fr", ds1.getTitle().getFirst().getLangue()),
+                () -> assertEquals("Activité, emploi et chômage - séries longues", ds1.getTitle().getFirst().getContenu()),
+
+                // dataset 2
+                () -> assertEquals(DATASET_URI_2, ds2.getUri()),
+                () -> assertEquals("Unpublished", ds2.getValidationState()),
+                () -> assertEquals(2, ds2.getTitle().size()),
+                () -> assertEquals("fr", ds2.getTitle().getFirst().getLangue()),
+                () -> assertEquals("Activité des branches de l'économie", ds2.getTitle().getFirst().getContenu())
         );
     }
 

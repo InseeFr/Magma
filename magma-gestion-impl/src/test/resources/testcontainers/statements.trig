@@ -160,4 +160,27 @@
         dc:contributor "DG75-L201" ;
         dcterms:created "2024-12-09T12:00:00.000"^^xsd:dateTime ;
         dcterms:modified "2024-12-09T12:00:00.000"^^xsd:dateTime .
+
+    <http://bauhaus/catalogues/jeuDeDonnees/a85dab6c-ef0f-4caa-9763-c7f8c840e216>
+        rdf:type dcat:Dataset ;
+        dcterms:identifier "a85dab6c-ef0f-4caa-9763-c7f8c840e216" ;
+        dcterms:title "Activité des branches de l'économie"@fr ;
+        dcterms:title "Activité des branches de l'économie"@en ;
+        dcterms:abstract "Données annuelles sur l'activité des branches au sein des comptes de production et d'exploitation, ainsi que d'emploi et de productivité apparente du travail."@fr ;
+        dcterms:description """Données annuelles sur l'activité des branches qui est retracée par les comptes de production et d'exploitation. Le compte de production décrit la relation entre la production et la consommation intermédiaire nécessaire à cette production. Il a pour solde la valeur ajoutée brute qui mesure la richesse créée lors du processus de production.\n\nLe compte d'exploitation décrit comment la valeur ajoutée brute couvre la rémunération versée aux salariés et les impôts sur la production. Il a pour solde l'excédent brut d'exploitation et le revenu mixte brut qui mesurent le profit d'exploitation des branches.\n\nLe rapprochement de la valeur ajoutée brute et des effectifs des branches permet de calculer la productivité apparente du travail. Celui des salaires et traitements et des effectifs (ou du nombre d'heures travaillées) permet de calculer le salaire moyen par tête (ou le salaire horaire moyen).\n\nL'emploi (STO=EMP) est mesuré en effectifs ( personnes physiques avec UNIT_MEASURE=PS ou en équivalent temps plein FT) ou en nombre d'heures travaillées (UNIT_MEASURE=HW).\n\nCe jeu de données donne le chiffre clé du Tableau de Bord de l'Économie Française sur la répartition de la valeur ajoutée par branche  https://www.insee.fr/fr/outil-interactif/5367857/details/10_ECC/11_ECO/11B_Figure2\n\nLes données annuelles sur l'activité des branches suivent les concepts et méthodes des comptes nationaux en base 2020 (première publication fin mai 2024) et sont inclues dans les jeux de données annuelles à forte valeur (HVD)."""@fr ;
+        skos:scopeNote "La version du dataset mise en ligne le 8 octobre intègre plusieurs corrections minimes du compte provisoire des données d'emploi."@fr ;
+        insee:validationState "Unpublished" ;
+        prov:wasGeneratedBy <http://bauhaus/operations/serie/s2144> ;
+        adms:identifier <http://bauhaus/catalogues/jeuDeDonnees/a85dab6c-ef0f-4caa-9763-c7f8c840e216/ident> .
+
+    <http://bauhaus/catalogues/jeuDeDonnees/a85dab6c-ef0f-4caa-9763-c7f8c840e216/ident>
+        skos:notation "DD_CNA_BRANCHES" .
+
+    <http://bauhaus/catalogues/jeuDeDonnees/a85dab6c-ef0f-4caa-9763-c7f8c840e216/record>
+        rdf:type dcat:CatalogRecord ;
+        foaf:primaryTopic <http://bauhaus/catalogues/jeuDeDonnees/a85dab6c-ef0f-4caa-9763-c7f8c840e216> ;
+        dc:creator "DG75-L201" ;
+        dc:contributor "DG75-L201" ;
+        dcterms:created "2024-12-09T12:00:00.000"^^xsd:dateTime ;
+        dcterms:modified "2024-12-09T12:00:00.000"^^xsd:dateTime .
 }
