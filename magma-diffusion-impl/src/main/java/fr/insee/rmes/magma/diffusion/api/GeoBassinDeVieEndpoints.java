@@ -1,13 +1,12 @@
 package fr.insee.rmes.magma.diffusion.api;
 
-import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
 import fr.insee.rmes.magma.diffusion.model.BassinDeVie2022;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsBassinDeVie;
 import fr.insee.rmes.magma.diffusion.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer;
-import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,17 +17,15 @@ import java.util.List;
 @RestController
 public class GeoBassinDeVieEndpoints implements GeoBassinDeVieApi {
 
-    private final RequestProcessor requestProcessor;
-    private final EndpointsUtils endpointsUtils;
+    private final RequestProcessorDiffusion requestProcessorDiffusion;
 
-    public GeoBassinDeVieEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
-        this.requestProcessor = requestProcessor;
-        this.endpointsUtils = endpointsUtils;
+    public GeoBassinDeVieEndpoints(RequestProcessorDiffusion requestProcessorDiffusion) {
+        this.requestProcessorDiffusion = requestProcessorDiffusion;
     }
 
     @Override
     public ResponseEntity<BassinDeVie2022> getcogbass(String code, LocalDate date) {
-        return requestProcessor.queryforFindTerritoire()
+        return requestProcessorDiffusion.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, BassinDeVie2022.class, "none"))
                 .executeQuery()
                 .singleResult(BassinDeVie2022.class).toResponseEntity();
@@ -36,9 +33,8 @@ public class GeoBassinDeVieEndpoints implements GeoBassinDeVieApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogbassdes (String code, LocalDate date, TypeEnumDescendantsBassinDeVie type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
-        return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, BassinDeVie2022.class, false))
+        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, BassinDeVie2022.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
@@ -50,7 +46,7 @@ public class GeoBassinDeVieEndpoints implements GeoBassinDeVieApi {
         if (date==null) {
             date = LocalDate.now().toString();
         }
-        return requestProcessor.queryforFindTerritoire()
+        return requestProcessorDiffusion.queryforFindTerritoire()
                 .with(new TerritoireEtoileRequestParametizer(date, BassinDeVie2022.class, finalFiltreNom,"none", true))
                 .executeQuery()
                 .listResult(BassinDeVie2022.class)

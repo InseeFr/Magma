@@ -5,24 +5,44 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>4.0.3</version>
+        <version>4.0.0</version>
     </parent>
     <groupId>fr.insee.rmes</groupId>
     <artifactId>magma-parent</artifactId>
     <packaging>pom</packaging>
     <name>Implementation of the RMéS metadata API</name>
+    <dependencies>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-web-server</artifactId>
+        </dependency>
+    </dependencies>
     <version>magma-refactored-1.0-rc0</version> <!-- Hérite de la propriété du parent -->
     <properties>
         <java.version>21</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <jersey.version>4.0.2</jersey.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
+        <jersey.version>4.0.0</jersey.version>
+        <jackson.version>2.17.2</jackson.version>
         <jakarta.version>6.1.0</jakarta.version>
         <log.version>2.18.0</log.version>
-        <swagger.version>2.2.43</swagger.version>
+        <swagger.version>2.2.41</swagger.version>
+        <mockito.version>5.12.0</mockito.version>
         <freemarker.version>2.3.34</freemarker.version>
+        <xmlunit.version>2.10.0</xmlunit.version>
         <openapitools-generator.version>7.17.0</openapitools-generator.version>
-        <jackson-databind-nullable.version>0.2.9</jackson-databind-nullable.version>
+        <jackson-databind-nullable.version>0.2.8</jackson-databind-nullable.version>
         <jakartaee-web-api.version>10.0.0</jakartaee-web-api.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -30,9 +50,8 @@
         <springdoc.version>3.0.1</springdoc.version>
         <!-- A supprimer quand Springboot version > 4.1.0-M2 -->
         <jackson-2-bom.version>2.21.1</jackson-2-bom.version>
-        <jackson-bom.version>3.1.0</jackson-bom.version>
-        <!-- fin suppression -->
-         <!-- Configuration Sonar -->
+
+        <!-- Configuration Sonar -->
         <sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
             src/main/java/fr/insee/rmes/modeles/**/*,
             src/main/java/fr/insee/rmes/utils/XmlUtils.java
@@ -43,7 +62,7 @@
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.language>java</sonar.language>
-        <version.maven-sonar>5.5.0.6356</version.maven-sonar>
+        <version.maven-sonar>3.9.0.2155</version.maven-sonar>
         <version.maven-jacoco>0.8.14</version.maven-jacoco>
         <argLine>-Xms256m -Xmx512m -ea -Dfile.encoding=UTF-8</argLine>
 
@@ -86,6 +105,11 @@
             <dependency>
                 <groupId>fr.insee.rmes</groupId>
                 <artifactId>magma-oas</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.insee.rmes</groupId>
+                <artifactId>magma-commons-infra</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -146,10 +170,11 @@
             </dependency>
             <!-- test -->
             <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                <scope>test</scope>
-            </dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-params</artifactId>
@@ -291,6 +316,16 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>19</source>
+                    <target>19</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
     <repositories>
         <repository>
@@ -306,5 +341,6 @@
         <module>magma-gestion-interface</module>
         <module>magma-gestion-impl</module>
         <module>magma-app</module>
+        <module>magma-commons-infra</module>
     </modules>
 </project>

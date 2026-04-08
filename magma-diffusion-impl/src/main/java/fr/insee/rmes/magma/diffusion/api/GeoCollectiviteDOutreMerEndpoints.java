@@ -1,13 +1,12 @@
 package fr.insee.rmes.magma.diffusion.api;
 
-import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
 import fr.insee.rmes.magma.diffusion.model.CollectiviteDOutreMer;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCollectiviteDOutreMer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer;
-import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,17 +17,15 @@ import java.util.List;
 @RestController
 public class GeoCollectiviteDOutreMerEndpoints implements GeoCollectiviteDOutreMerApi {
 
-    private final RequestProcessor requestProcessor;
-    private final EndpointsUtils endpointsUtils;
+    private final RequestProcessorDiffusion requestProcessorDiffusion;
 
-    public GeoCollectiviteDOutreMerEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
-        this.requestProcessor = requestProcessor;
-        this.endpointsUtils = endpointsUtils;
+    public GeoCollectiviteDOutreMerEndpoints(RequestProcessorDiffusion requestProcessorDiffusion) {
+        this.requestProcessorDiffusion = requestProcessorDiffusion;
     }
 
     @Override
     public ResponseEntity<CollectiviteDOutreMer> getcogcoll(String code, LocalDate date) {
-        return requestProcessor.queryforFindTerritoire()
+        return requestProcessorDiffusion.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, CollectiviteDOutreMer.class, "none"))
                 .executeQuery()
                 .singleResult(CollectiviteDOutreMer.class)
@@ -38,9 +35,8 @@ public class GeoCollectiviteDOutreMerEndpoints implements GeoCollectiviteDOutreM
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcolldes(String code, LocalDate date, TypeEnumDescendantsCollectiviteDOutreMer type, String filtreNom) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
-        return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, territoriesFilter, CollectiviteDOutreMer.class))
+        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, filtreNom, CollectiviteDOutreMer.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
@@ -52,7 +48,7 @@ public class GeoCollectiviteDOutreMerEndpoints implements GeoCollectiviteDOutreM
         if (date==null) {
             date = LocalDate.now().toString();
         }
-        return requestProcessor.queryforFindTerritoire()
+        return requestProcessorDiffusion.queryforFindTerritoire()
                 .with(new TerritoireEtoileRequestParametizer(date, CollectiviteDOutreMer.class, "none"))
                 .executeQuery()
                 .listResult(CollectiviteDOutreMer.class)

@@ -13,8 +13,7 @@ WHERE {
         		?creator dcterms:identifier ?idCreator .
         		?creator skos:prefLabel ?labelCreatorLg1 .
         		FILTER(lang(?labelCreatorLg1)= '${LG1}') .
-        		OPTIONAL {
-                    ?creator skos:prefLabel ?labelCreatorLg2 .
-                    FILTER(lang(?labelCreatorLg2)= '${LG2}') .}
-                }
+        OPTIONAL {?creator skos:prefLabel ?labelCreatorLg2 .
+                  FILTER(lang(?labelCreatorLg2)= '${LG2}') .}
+                  }
 }

@@ -1,12 +1,11 @@
 package fr.insee.rmes.magma.diffusion.api;
 
-import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
 import fr.insee.rmes.magma.diffusion.queries.parameters.*;
 import fr.insee.rmes.magma.diffusion.model.CantonOuVille;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCantonOuVille;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCantonOuVille;
-import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,19 +16,17 @@ import java.util.List;
 @RestController
 public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
-    private final RequestProcessor requestProcessor;
-    private final EndpointsUtils endpointsUtils;
+    private final RequestProcessorDiffusion requestProcessorDiffusion;
 
-    public GeoCantonOuVilleEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
-        this.requestProcessor = requestProcessor;
-        this.endpointsUtils = endpointsUtils;
+    public GeoCantonOuVilleEndpoints(RequestProcessorDiffusion requestProcessorDiffusion) {
+        this.requestProcessorDiffusion = requestProcessorDiffusion;
     }
+
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvilasc(String code, LocalDate date, TypeEnumAscendantsCantonOuVille type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
-        return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, CantonOuVille.class, true))
+        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, CantonOuVille.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
@@ -37,7 +34,7 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
     @Override
     public ResponseEntity<CantonOuVille> getcogcanvil(String code, LocalDate date) {
-        return requestProcessor.queryforFindTerritoire()
+        return requestProcessorDiffusion.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, CantonOuVille.class, "none"))
                 .executeQuery()
                 .singleResult(CantonOuVille.class)
@@ -47,9 +44,8 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvildes(String code, LocalDate date, TypeEnumDescendantsCantonOuVille type, String filtreNom) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
-        return requestProcessor.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, territoriesFilter, CantonOuVille.class))
+        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, type, filtreNom, CantonOuVille.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
@@ -60,7 +56,7 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
         if (date==null) {
             date = LocalDate.now().toString();
         }
-        return requestProcessor.queryforFindTerritoire()
+        return requestProcessorDiffusion.queryforFindTerritoire()
                 .with(new TerritoireEtoileRequestParametizer(date, CantonOuVille.class, "none"))
                 .executeQuery()
                 .listResult(CantonOuVille.class)
@@ -70,7 +66,7 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvilprec(String code, LocalDate date) {
-        return requestProcessor.queryforFindPrecedentsSuivants()
+        return requestProcessorDiffusion.queryforFindPrecedentsSuivants()
                 .with(new PrecedentsSuivantsRequestParametizer(code, date, CantonOuVille.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -86,7 +82,7 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
             date = LocalDate.now();
         }
         boolean previous = !dateProjection.isAfter(date);
-        return requestProcessor.queryforFindProjetes()
+        return requestProcessorDiffusion.queryforFindProjetes()
                 .with(new ProjetesRequestParametizer(code, dateProjection, date, CantonOuVille.class, previous))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -95,7 +91,7 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvilsuiv(String code, LocalDate date) {
-        return requestProcessor.queryforFindPrecedentsSuivants()
+        return requestProcessorDiffusion.queryforFindPrecedentsSuivants()
                 .with(new PrecedentsSuivantsRequestParametizer(code, date, CantonOuVille.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)

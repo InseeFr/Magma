@@ -1,6 +1,8 @@
 package fr.insee.rmes.magma.diffusion.queries.parameters;
 
 
+import fr.insee.rmes.magma.queries.parameters.ParameterValueDecoder;
+
 import java.lang.reflect.RecordComponent;
 
 public record TerritoireEtoileRequestParametizer(String code,
@@ -8,7 +10,7 @@ public record TerritoireEtoileRequestParametizer(String code,
                                                  Class<?> typeOrigine,
                                                  String filtreNom,
                                                  String chefLieu,
-                                                 boolean com) implements ParametersForQuery<TerritoireRequestParametizer> {
+                                                 boolean com) implements ParametersForQueryDiffusion<TerritoireRequestParametizer> {
 
     //for geo/departements, arrondissements, arrondissementsMunicipaux,
     public TerritoireEtoileRequestParametizer(String date,
@@ -37,7 +39,7 @@ public record TerritoireEtoileRequestParametizer(String code,
 
     @Override
     public ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent) {
-        return ParametersForQuery.super.findParameterValueDecoder(recordComponent);
+        return ParametersForQueryDiffusion.super.findParameterValueDecoder(recordComponent);
     }
 
 }

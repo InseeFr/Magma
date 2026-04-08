@@ -11,9 +11,10 @@
     <properties>
         <java.version>21</java.version>
         <json.version>20251224</json.version>
-        <rdf4j.version> 5.3.0-M2</rdf4j.version>
-        <springdoc.version>3.0.2</springdoc.version>
+        <rdf4j.version> 5.3.0-M1</rdf4j.version>
+        <springdoc.version>3.0.1</springdoc.version>
         <jacoco.version>0.8.13</jacoco.version>
+
         <sonar.organization>inseefr</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.projectKey>InseeFr_Magma</sonar.projectKey>
@@ -23,6 +24,21 @@
     <packaging>jar</packaging>
 
     <dependencies>
+
+        <dependency>
+            <groupId>fr.insee.rmes</groupId>
+            <artifactId>magma-gestion-interface</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>fr.insee.rmes</groupId>
+            <artifactId>magma-commons-infra</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>tools.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-csv</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
@@ -102,14 +118,33 @@
             <artifactId>commons-io</artifactId>
             <version>2.17.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>1.21.3</version>
+        </dependency>
         <dependency>
             <groupId>io.github.fbibonne</groupId>
             <artifactId>boot-properties-logger-starter</artifactId>
             <version>1.5.0</version>
         </dependency>
+        <dependency>
+            <groupId>fr.insee.rmes</groupId>
+            <artifactId>magma-gestion-interface</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>../impl/src/test/resources</directory>
+            </testResource>
+        </testResources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
