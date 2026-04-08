@@ -34,7 +34,7 @@ public class GeoDistrictQueriesTest extends TestcontainerTest {
 
 //    geo/district/98411/ascendants?date=2025-09-04
     @Test
-    void should_return_1_COM_when_districitCodeAscendants_code46248_date20250904(){
+    void should_return_1_COM_when_CommuneDelegueeCodeAscendants_code46248_date20250904(){
         var response  = endpoints.getcogdisasc("98411", LocalDate.of(2025, 9, 4), null);
         var result = response.getBody();
         assertNotNull(result);
@@ -53,7 +53,7 @@ public class GeoDistrictQueriesTest extends TestcontainerTest {
 
 //    geo/district/98411/ascendants?date=2025-09-04&type=CollectiviteDOutreMer
     @Test
-    void should_return_1_arrondissement_when_districtCodeAscendants_code46248_date20250904_typeCollectiviteDoutreMer(){
+    void should_return_1_arrondissement_when_CommuneDelegueeCodeAscendants_code46248_date20250904_typeCollectiviteDoutreMer(){
         var response  = endpoints.getcogdisasc("98411", LocalDate.of(2025, 9, 4), TypeEnumAscendantsDistrict.COLLECTIVITE_D_OUTRE_MER);
         var result = response.getBody();
         assertNotNull(result);

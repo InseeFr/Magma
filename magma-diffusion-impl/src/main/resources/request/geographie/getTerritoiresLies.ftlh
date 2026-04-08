@@ -12,6 +12,9 @@ WHERE {
 		igeo:nom ?intitule;
 		igeo:nomSansArticle ?intituleSansArticle.
         BIND(STRAFTER(STR(?typeRDF),"http://rdf.insee.fr/def/geo#") AS ?type).
+        <#if type != "none">
+            FILTER(?typeRDF = igeo:${type})
+        </#if>
 		{ ?source (igeo:subdivisionDirecteDe|^igeo:subdivisionDirecte) ?uri . BIND('inclus' AS ?relation) }
 		UNION
 		{ ?source (^igeo:subdivisionDirecteDe|igeo:subdivisionDirecte) ?uri . BIND('contient' AS ?relation)}
@@ -25,7 +28,7 @@ WHERE {
 		FILTER(!BOUND(?dateSuppressionSource) || ?dateSuppressionSource > ?date)
 		FILTER(!BOUND(?dateCreation) || ?dateCreation <= ?date)
 		FILTER(!BOUND(?dateSuppression) || ?dateSuppression > ?date)
-        FILTER(?type IN (${territoriesFilter}))
+
 	}
 }
 ORDER BY ?code

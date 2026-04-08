@@ -44,17 +44,6 @@ public class OperationsEndpoints implements OperationsApi {
             rapportQualiteDTO = rapportQualiteDTO.withRubriqueDTOList(rubriqueList);
         }
 
-        String LG1_CL = "http://id.insee.fr/codes/langue/fr";
-        String LG2_CL = "http://id.insee.fr/codes/langue/en";
-
-        List<RubriqueDTO> rubriqueList = requestProcessor.queryToFindRubriques()
-                .with(new OperationRubriquesRequestParametizer(rapportQualiteDTO.id(), LG1_CL, LG2_CL))
-                .executeQuery()
-                .listResult(RubriqueDTO.class)
-                .result();
-        rapportQualiteDTO = rapportQualiteDTO.withRubriqueDTOList(rubriqueList);
-
-
 
         RapportQualite rapportQualite = rapportQualiteService.transformDTOenRapportQualite(rapportQualiteDTO);
 

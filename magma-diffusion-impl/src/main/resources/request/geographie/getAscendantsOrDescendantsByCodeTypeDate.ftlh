@@ -1,4 +1,4 @@
-SELECT DISTINCT ?uri ?code ?type ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu ?typeDIris
+SELECT DISTINCT ?uri ?code (STRAFTER(STR(?typeAvecIri), "#") AS ?type) ?typeArticle ?intitule ?intituleSansArticle ?dateCreation ?dateSuppression ?chefLieu ?typeDIris
 FROM
 <http://rdf.insee.fr/graphes/geo/cog>
 WHERE {
@@ -16,14 +16,99 @@ a ?typeAvecIri ;
 igeo:codeArticle ?typeArticle ;
 igeo:nom ?intitule ;
 igeo:nomSansArticle ?intituleSansArticle .
-
-BIND(STRAFTER(STR(?typeAvecIri), "#") AS ?type)
-FILTER(?type IN (${territoriesFilter}))
-
 Optional{
 ?uri    igeo:typeDIRIS ?uriTypeDIris ;
 BIND(SUBSTR(STR(?uriTypeDIris ), STRLEN(STR(?uriTypeDIris )), 1) AS ?typeDIris)
 }
+
+<#if typeEnumDescendantsAireDAttractionDesVilles != "none">
+    ?uri a igeo:${typeEnumDescendantsAireDAttractionDesVilles} .
+</#if>
+
+<#if typeEnumDescendantsArrondissement != "none">
+    ?uri a igeo:${typeEnumDescendantsArrondissement} .
+</#if>
+
+<#if typeEnumAscendantsArrondissement != "none">
+    ?uri a igeo:${typeEnumAscendantsArrondissement} .
+</#if>
+
+<#if typeEnumAscendantsArrondissementMunicipal != "none">
+    ?uri a igeo:${typeEnumAscendantsArrondissementMunicipal} .
+</#if>
+
+<#if typeEnumDescendantsBassinDeVie != "none">
+    ?uri a igeo:${typeEnumDescendantsBassinDeVie} .
+</#if>
+
+<#if typeEnumAscendantsCanton != "none">
+    ?uri a igeo:${typeEnumAscendantsCanton} .
+</#if>
+
+<#if typeEnumAscendantsCantonOuVille != "none">
+    ?uri a igeo:${typeEnumAscendantsCantonOuVille} .
+</#if>
+
+<#if typeEnumDescendantsCantonOuVille != "none">
+    ?uri a igeo:${typeEnumDescendantsCantonOuVille} .
+</#if>
+
+<#if typeEnumAscendantsCirconscriptionTerritoriale != "none">
+    ?uri a igeo:${typeEnumAscendantsCirconscriptionTerritoriale} .
+</#if>
+
+<#if typeEnumDescendantsCollectiviteDOutreMer != "none">
+    ?uri a igeo:${typeEnumDescendantsCollectiviteDOutreMer} .
+</#if>
+
+
+<#if typeEnumAscendantsCommune != "none">
+    ?uri a igeo:${typeEnumAscendantsCommune} .
+</#if>
+
+<#if typeEnumDescendantsCommune != "none">
+    ?uri a igeo:${typeEnumDescendantsCommune} .
+</#if>
+
+<#if typeEnumAscendantsCommuneAssociee != "none">
+    ?uri a igeo:${typeEnumAscendantsCommuneAssociee} .
+</#if>
+
+<#if typeEnumAscendantsCommuneDeleguee != "none">
+    ?uri a igeo:${typeEnumAscendantsCommuneDeleguee} .
+</#if>
+
+<#if typeEnumAscendantsDepartement != "none">
+    ?uri a igeo:${typeEnumAscendantsDepartement} .
+</#if>
+
+<#if typeEnumDescendantsDepartement != "none">
+    ?uri a igeo:${typeEnumDescendantsDepartement} .
+</#if>
+
+<#if typeEnumAscendantsDistrict != "none">
+    ?uri a igeo:${typeEnumAscendantsDistrict} .
+</#if>
+
+<#if typeEnumDescendantsIntercommunalite != "none">
+    ?uri a igeo:${typeEnumDescendantsIntercommunalite} .
+</#if>
+
+<#if typeEnumAscendantsIris != "none">
+    ?uri a igeo:${typeEnumAscendantsIris} .
+</#if>
+
+<#if typeEnumDescendantsRegion != "none">
+    ?uri a igeo:${typeEnumDescendantsRegion} .
+</#if>
+
+<#if typeEnumDescendantsUniteUrbaine != "none">
+    ?uri a igeo:${typeEnumDescendantsUniteUrbaine} .
+</#if>
+
+<#if typeEnumDescendantsZoneDEmploi != "none">
+    ?uri a igeo:${typeEnumDescendantsZoneDEmploi} .
+</#if>
 
 OPTIONAL {
 ?uri (igeo:sousPrefecture|igeo:prefecture|igeo:prefectureDeRegion|igeo:bureauCentralisateur) ?chefLieuRDF .

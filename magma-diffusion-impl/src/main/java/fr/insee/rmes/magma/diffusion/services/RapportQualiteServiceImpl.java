@@ -136,7 +136,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
         }
         rubrique.addContenusItem(contenuLg1);
 
-        if (isConditionForContenuLg2(rubriqueDTO)){
+        if (rubriqueDTO.isDocLg2NotEmpty() && (StringUtils.isNotEmpty(rubriqueDTO.labelLg2())||rubriqueDTO.hasDocLg2())){
             Contenu contenuLg2 = new Contenu();
             contenuLg2.setDocuments(null);// will be valued only if a document exists
             if (StringUtils.isNotEmpty(rubriqueDTO.labelLg2())) {
@@ -151,10 +151,6 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
             rubrique.addContenusItem(contenuLg2);
         }
 
-    }
-
-    private static boolean isConditionForContenuLg2(RubriqueDTO rubriqueDTO) {
-        return rubriqueDTO.hasDocLg2() != null && (StringUtils.isNotEmpty(rubriqueDTO.labelLg2()) || rubriqueDTO.hasDocLg2());
     }
 
     private List<Document> findDocuments(String rapportQualiteId, String rubriqueDTOId, String lang) {

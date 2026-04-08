@@ -6,7 +6,6 @@ import fr.insee.rmes.magma.diffusion.model.CantonOuVille;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCantonOuVille;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCantonOuVille;
-import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +21,7 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
     public GeoCantonOuVilleEndpoints(RequestProcessorDiffusion requestProcessorDiffusion) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
     }
+
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvilasc(String code, LocalDate date, TypeEnumAscendantsCantonOuVille type) {

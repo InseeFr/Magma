@@ -105,7 +105,7 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
     ///        geo/departement/{code}/descendants         ///
     /////////////////////////////////////////////////////////
 
-    //    geo/departement/45/descendants?date=2025-09-04&type=Commune&filtreNom=Orleans
+    //    geo/departement/22/descendants?date=2025-09-04&type=Commune&filtreNom=Orleans
     @Test
     void should_return_1_commune_when_DepartementCodeDescendants_code45_date20250904_typeCommune_filtreNomOrleans(){
         var response  = endpoints.getcogdepdesc("45", LocalDate.of(2025, 9, 4), TypeEnumDescendantsDepartement.COMMUNE,"Orleans");
@@ -125,12 +125,12 @@ class GeoDepartementQueriesTest extends TestcontainerTest{
 
     //    geo/departement/22/descendants?date=2025-09-04
     @Test
-    void should_return_540_territoires_when_DepartementCodeDescendants_code45_date20250904_typeNull_filtreNomNull(){
+    void should_return_541_territoires_when_DepartementCodeDescendants_code45_date20250904_typeNull_filtreNomNull(){
         var response  = endpoints.getcogdepdesc("45", LocalDate.of(2025, 9, 4), null,null);
         var result = response.getBody();
         assertNotNull(result);
         var resultItem1= result.getFirst();
-        assertEquals(540, result.size());
+        assertEquals(541, result.size());
         assertEquals("451", resultItem1.getCode());
         assertEquals("http://id.insee.fr/geo/arrondissement/a9f9ff71-7658-4ef0-98b0-f048c8831be1", resultItem1.getUri());
         assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT, resultItem1.getType());

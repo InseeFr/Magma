@@ -6845,7 +6845,9 @@ components:
         - QuartierPrioritaireDeLaPolitiqueDeLaVille2024
         - ZoneDEmploi2020
         - UniteUrbaine2020
+        - QuartierPrioritaireDeLaPolitiqueDeLaVille2024
         - Territoire
+        - CollectiviteTerritorialeAyantLesCompetencesDepartementales
       example: 'Canton'
 
     TypeEnumDescendantsCollectiviteDOutreMer:
