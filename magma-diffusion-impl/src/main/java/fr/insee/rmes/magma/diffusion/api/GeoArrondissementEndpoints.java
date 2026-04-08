@@ -7,6 +7,8 @@ import fr.insee.rmes.magma.diffusion.model.Arrondissement;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsArrondissement;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsArrondissement;
+import fr.insee.rmes.magma.diffusion.queries.parameters.*;
+import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +23,7 @@ public class GeoArrondissementEndpoints implements GeoArrondissementApi {
     public GeoArrondissementEndpoints(RequestProcessorDiffusion requestProcessorDiffusion) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
     }
+
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogarrasc(String code, LocalDate date, TypeEnumAscendantsArrondissement type) {

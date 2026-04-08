@@ -25,6 +25,7 @@ public class GeoIrisEndpoints implements GeoIrisApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogirisasc (String code, LocalDate date, TypeEnumAscendantsIris type) {
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         if (code.matches("^.{5}0000$")) {
             return requestProcessorDiffusion.queryToFindAscendantsFauxIris()
                     .with(new AscendantsDescendantsRequestParametizer(code, date, type, Iris.class))

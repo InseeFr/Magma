@@ -6,6 +6,7 @@ import fr.insee.rmes.magma.diffusion.model.TerritoireBaseRelation;
 import fr.insee.rmes.magma.diffusion.model.TypeEnum;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoiresLiesRequestParametizer;
+import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

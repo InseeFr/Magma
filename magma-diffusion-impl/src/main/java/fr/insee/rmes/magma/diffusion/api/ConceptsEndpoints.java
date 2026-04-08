@@ -7,6 +7,7 @@ import fr.insee.rmes.magma.diffusion.model.ConceptForList;
 import fr.insee.rmes.magma.diffusion.model.LocalisedLabel;
 import fr.insee.rmes.magma.diffusion.model.NearbyConcept;
 import fr.insee.rmes.magma.diffusion.queries.parameters.ConceptsRequestParametizer;
+import fr.insee.rmes.magma.diffusion.services.ConceptService;
 import fr.insee.rmes.magma.diffusion.utils.ConceptDTO;
 import fr.insee.rmes.magma.utils.EndpointsUtils;
 import io.micrometer.common.util.StringUtils;
@@ -47,11 +48,11 @@ public class ConceptsEndpoints implements ConceptsApi {
                         .listResult(LocalisedLabel.class)
                         .result();
 
-                conceptDTO.setIntitulesAlternatifs(intitulesAlternatifs);
+                conceptDTO = conceptDTO.withIntitulesAlternatifs(intitulesAlternatifs);
 
             }
 
-            Concept concept = conceptDTO.transformDTOenConcept();
+            Concept concept = conceptService.transformDTOenConcept(conceptDTO);
 
             return EndpointsUtils.toResponseEntity(concept);
 
@@ -81,13 +82,29 @@ public class ConceptsEndpoints implements ConceptsApi {
             }
         });
 
-        List<ConceptForList> concepts = listConceptDTOs.stream()
-                .map(ConceptDTO::transformDTOenDefinition)
+        List<ConceptDTO> listConceptDTOsWithLinks = listConceptDTOs.stream()
+                .map(conceptDto -> {
+                    if (conceptDto.hasLinkValue()) {
+                        return getNearbyConcepts(conceptDto);
+                    }
+                    return conceptDto;
+                })
+                .toList();
+        List<ConceptForList> concepts = listConceptDTOsWithLinks.stream()
+                .map(conceptService::transformDTOenDefinition)
                 .toList();
 
         return EndpointsUtils.toResponseEntity(concepts);
 
     }
 
+    private ConceptDTO getNearbyConcepts(ConceptDTO conceptDto) {
+        List<NearbyConcept> nearbyConceptList = requestProcessor.queryToFindNearbyConcepts()
+                .with(ConceptsRequestParametizer.ofUri(conceptDto.uri()))
+                .executeQuery()
+                .listResult(NearbyConcept.class)
+                .result();
+        return conceptDto.withNearbyConcepts(nearbyConceptList);
+    }
 
 }

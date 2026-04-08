@@ -346,6 +346,12 @@ class OperationsQueriesTest extends TestcontainerTest {
                 .andExpect(jsonPath("$.rubriques[" + index_S_1_2 + "].organisme.label[0].langue").value("fr"));
     }
 
+    //    operations/rapportQualite/1111 does not exist
+    @Test
+    void should_return_404_when_OperationsRapportQualite_1911_endToEndTest() throws Exception{
+        mockMvc.perform(get("/operations/rapportQualite/1111"))
+                .andExpect(status().isNotFound());
+    }
 
 }
 
