@@ -5,6 +5,8 @@ import fr.insee.rmes.magma.diffusion.queries.parameters.*;
 import fr.insee.rmes.magma.diffusion.model.Intercommunalite;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsIntercommunalite;
+import fr.insee.rmes.magma.diffusion.queries.parameters.*;
+import fr.insee.rmes.magma.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,9 +18,10 @@ import java.util.List;
 public class GeoIntercommunaliteEndpoints implements GeoIntercommunaliteApi {
 
     private final RequestProcessorDiffusion requestProcessorDiffusion;
-
-    public GeoIntercommunaliteEndpoints(RequestProcessorDiffusion requestProcessorDiffusion) {
+    private final EndpointsUtils endpointsUtils;
+    public GeoIntercommunaliteEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
+        this.endpointsUtils = endpointsUtils;
     }
 
     @Override
@@ -32,8 +35,9 @@ public class GeoIntercommunaliteEndpoints implements GeoIntercommunaliteApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogintercodes(String code, LocalDate date, TypeEnumDescendantsIntercommunalite type) {
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessorDiffusion.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, type, Intercommunalite.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Intercommunalite.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

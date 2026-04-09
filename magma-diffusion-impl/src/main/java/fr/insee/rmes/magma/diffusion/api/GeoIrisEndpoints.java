@@ -17,24 +17,28 @@ import java.util.List;
 @RestController
 public class GeoIrisEndpoints implements GeoIrisApi {
 
-    private final RequestProcessorDiffusion requestProcessorDiffusion;
 
-    public GeoIrisEndpoints(RequestProcessorDiffusion requestProcessorDiffusion) {
+    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final EndpointsUtils endpointsUtils;
+
+    public GeoIrisEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
+        this.endpointsUtils = endpointsUtils;
     }
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogirisasc (String code, LocalDate date, TypeEnumAscendantsIris type) {
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         if (code.matches("^.{5}0000$")) {
             return requestProcessorDiffusion.queryToFindAscendantsFauxIris()
-                    .with(new AscendantsDescendantsRequestParametizer(code, date, type, Iris.class))
+                    .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Iris.class, true))
                     .executeQuery()
                     .listResult(TerritoireTousAttributs.class)
                     .toResponseEntity();
         }
         else {
             return requestProcessorDiffusion.queryforFindAscendantsDescendants()
-                    .with(new AscendantsDescendantsRequestParametizer(code, date, type, Iris.class))
+                    .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Iris.class, true))
                     .executeQuery()
                     .listResult(TerritoireTousAttributs.class)
                     .toResponseEntity();

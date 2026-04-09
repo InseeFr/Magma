@@ -8,5 +8,6 @@ public class MagmaGestion {
     public static void main(String[] args) {
 
         SpringApplication.run(MagmaGestion.class, args);
+
     }
 }

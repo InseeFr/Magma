@@ -36,14 +36,14 @@ public class GeoIrisQueriesTest extends TestcontainerTest {
 
 //    geo/iris/010040101/ascendants?date=2025-09-04 (real Iris)
     @Test
-    void should_return_12_territoires_when_IrisCodeAscendants_Code010040101_date20250904_typeNull(){
+    void should_return_11_territoires_when_IrisCodeAscendants_Code010040101_date20250904_typeNull(){
         var response  = endpoints.getcogirisasc ("010040101", LocalDate.of(2025,9,4), null);
         var result = response.getBody();
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
-                () -> Assertions.assertEquals(12, result.size()),
+                () -> Assertions.assertEquals(11, result.size()),
                 () -> Assertions.assertEquals("243", resultItem1.getCode()),
                 () -> Assertions.assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/4af81671-0c2f-4547-a213-dff3f13531e2", resultItem1.getUri()),
                 () -> Assertions.assertEquals(TerritoireTousAttributs.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType()),
@@ -79,14 +79,14 @@ public class GeoIrisQueriesTest extends TestcontainerTest {
 
     //    geo/iris/010050000/ascendants?date=2025-09-04 (= false-Iris = non irised commune)
     @Test
-    void should_return_11_territoires_when_IrisCodeAscendants_Code010050000_date20250904_typeNull(){
+    void should_return_10_territoires_when_IrisCodeAscendants_Code010050000_date20250904_typeNull(){
         var response  = endpoints.getcogirisasc ("010050000", LocalDate.of(2025,9,4), null);
         var result = response.getBody();
         Assertions.assertNotNull(result);
         var resultItem1= result.getFirst();
 
         assertAll(
-                () -> Assertions.assertEquals(11, result.size()),
+                () -> Assertions.assertEquals(10, result.size()),
                 () -> Assertions.assertEquals("002", resultItem1.getCode()),
                 () -> Assertions.assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/7f3934bb-4333-40bf-9753-875b0ecb8829", resultItem1.getUri()),
                 () -> Assertions.assertEquals(TerritoireTousAttributs.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType()),

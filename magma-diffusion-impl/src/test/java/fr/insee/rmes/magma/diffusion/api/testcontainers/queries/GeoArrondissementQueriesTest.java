@@ -211,6 +211,7 @@ public class GeoArrondissementQueriesTest extends TestcontainerTest{
 
     //    geo/arrondissement/674/precedents?date=1950-01-01
     @Test
+    //l'arrondissement 674 n'a pas d'arrondissements précédents
     void should_return_404_when_ArrondissementCodePrecedents_code674_date19500101() throws Exception{
         mockMvc.perform(get("/geo/arrondissement/674/precedents")
                         .param("date", "1950-01-01"))

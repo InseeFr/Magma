@@ -6,6 +6,7 @@ import fr.insee.rmes.magma.diffusion.model.CantonOuVille;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCantonOuVille;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCantonOuVille;
+import fr.insee.rmes.magma.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,16 +18,18 @@ import java.util.List;
 public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
     private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final EndpointsUtils endpointsUtils;
 
-    public GeoCantonOuVilleEndpoints(RequestProcessorDiffusion requestProcessorDiffusion) {
+    public GeoCantonOuVilleEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
+        this.endpointsUtils = endpointsUtils;
     }
-
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvilasc(String code, LocalDate date, TypeEnumAscendantsCantonOuVille type) {
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessorDiffusion.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, type, CantonOuVille.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, CantonOuVille.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();
@@ -44,8 +47,9 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanvildes(String code, LocalDate date, TypeEnumDescendantsCantonOuVille type, String filtreNom) {
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessorDiffusion.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, type, filtreNom, CantonOuVille.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, territoriesFilter, CantonOuVille.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

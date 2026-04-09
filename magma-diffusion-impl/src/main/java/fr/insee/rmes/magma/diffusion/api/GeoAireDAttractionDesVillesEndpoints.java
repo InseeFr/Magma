@@ -7,6 +7,7 @@ import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsAireDAttractionDes
 import fr.insee.rmes.magma.diffusion.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer;
+import fr.insee.rmes.magma.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,9 +19,11 @@ import java.util.List;
 public class GeoAireDAttractionDesVillesEndpoints implements GeoAireDAttractionDesVillesApi {
 
     private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final EndpointsUtils endpointsUtils;
 
-    public GeoAireDAttractionDesVillesEndpoints(RequestProcessorDiffusion requestProcessorDiffusion) {
+    public GeoAireDAttractionDesVillesEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
+        this.endpointsUtils = endpointsUtils;
     }
 
     @Override
@@ -33,8 +36,9 @@ public class GeoAireDAttractionDesVillesEndpoints implements GeoAireDAttractionD
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogaavdesc (String code, LocalDate date, TypeEnumDescendantsAireDAttractionDesVilles type) {
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
         return requestProcessorDiffusion.queryforFindAscendantsDescendants()
-                .with(new AscendantsDescendantsRequestParametizer(code, date, type, AireDAttractionDesVilles2020.class))
+                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, AireDAttractionDesVilles2020.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
                 .toResponseEntity();

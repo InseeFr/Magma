@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 public record TerritoiresLiesRequestParametizer(String code,
                                                 LocalDate date,
-                                                TypeEnum type,
+                                                String territoriesFilter,
                                                 Class<?> typeOrigine) implements ParametersForQueryDiffusion<TerritoiresLiesRequestParametizer> {
 
 
