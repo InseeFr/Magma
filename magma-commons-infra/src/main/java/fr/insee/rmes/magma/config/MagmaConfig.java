@@ -30,7 +30,7 @@ public class MagmaConfig {
             @Value("${fr.insee.rmes.magma.organisations.graph:organisations}") String organisationsGraph,
             @Value("${fr.insee.rmes.magma.adms.graph:adms}") String admsGraph,
             @Value("${fr.insee.rmes.magma.ontologies.baseURI:ontologies/insee/base}") String ontologiesGraph,
-            @Value("${fr.insee.rmes.magma.operations.graph}") String seriesOperationsGraph,
+            @Value("${fr.insee.rmes.magma.operations.graph:operations}") String seriesOperationsGraph,
             @Value("${fr.insee.rmes.magma.lg1:fr}") String lg1,
             @Value("${fr.insee.rmes.magma.lg2:en}") String lg2) throws URISyntaxException, IOException, TemplateModelException {
         var configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
