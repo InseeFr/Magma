@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.diffusion.api;
 
-import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
 import fr.insee.rmes.magma.diffusion.model.CollectiviteDOutreMer;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCollectiviteDOutreMer;
@@ -18,17 +18,17 @@ import java.util.List;
 @RestController
 public class GeoCollectiviteDOutreMerEndpoints implements GeoCollectiviteDOutreMerApi {
 
-    private final RequestProcessor requestProcessor;
+    private final RequestProcessorDiffusion requestProcessorDiffusion;
     private final EndpointsUtils endpointsUtils;
 
-    public GeoCollectiviteDOutreMerEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
-        this.requestProcessor = requestProcessor;
+    public GeoCollectiviteDOutreMerEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
+        this.requestProcessorDiffusion = requestProcessorDiffusion;
         this.endpointsUtils = endpointsUtils;
     }
 
     @Override
     public ResponseEntity<CollectiviteDOutreMer> getcogcoll(String code, LocalDate date) {
-        return requestProcessor.queryforFindTerritoire()
+        return requestProcessorDiffusion.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, CollectiviteDOutreMer.class, "none"))
                 .executeQuery()
                 .singleResult(CollectiviteDOutreMer.class)
@@ -39,7 +39,7 @@ public class GeoCollectiviteDOutreMerEndpoints implements GeoCollectiviteDOutreM
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcolldes(String code, LocalDate date, TypeEnumDescendantsCollectiviteDOutreMer type, String filtreNom) {
         String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
-        return requestProcessor.queryforFindAscendantsDescendants()
+        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, territoriesFilter, CollectiviteDOutreMer.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -52,7 +52,7 @@ public class GeoCollectiviteDOutreMerEndpoints implements GeoCollectiviteDOutreM
         if (date==null) {
             date = LocalDate.now().toString();
         }
-        return requestProcessor.queryforFindTerritoire()
+        return requestProcessorDiffusion.queryforFindTerritoire()
                 .with(new TerritoireEtoileRequestParametizer(date, CollectiviteDOutreMer.class, "none"))
                 .executeQuery()
                 .listResult(CollectiviteDOutreMer.class)

@@ -1,6 +1,7 @@
 package fr.insee.rmes.magma.diffusion.queries.parameters;
 
 import fr.insee.rmes.magma.diffusion.model.TypeEnum;
+import fr.insee.rmes.magma.queries.parameters.ParameterValueDecoder;
 
 import java.lang.reflect.RecordComponent;
 import java.time.LocalDate;
@@ -9,11 +10,11 @@ import java.time.LocalDate;
 public record TerritoiresLiesRequestParametizer(String code,
                                                 LocalDate date,
                                                 String territoriesFilter,
-                                                Class<?> typeOrigine) implements ParametersForQuery<TerritoiresLiesRequestParametizer> {
+                                                Class<?> typeOrigine) implements ParametersForQueryDiffusion<TerritoiresLiesRequestParametizer> {
 
 
     @Override
     public ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent) {
-        return ParametersForQuery.super.findParameterValueDecoder(recordComponent);
+        return ParametersForQueryDiffusion.super.findParameterValueDecoder(recordComponent);
     }
 }

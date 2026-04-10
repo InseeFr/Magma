@@ -23,6 +23,21 @@
     <packaging>jar</packaging>
 
     <dependencies>
+
+        <dependency>
+            <groupId>fr.insee.rmes</groupId>
+            <artifactId>magma-gestion-interface</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>fr.insee.rmes</groupId>
+            <artifactId>magma-commons-infra</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>tools.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-csv</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
@@ -107,9 +122,27 @@
             <artifactId>boot-properties-logger-starter</artifactId>
             <version>1.5.0</version>
         </dependency>
+        <dependency>
+            <groupId>fr.insee.rmes</groupId>
+            <artifactId>magma-gestion-interface</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>1.21.3</version>
+        </dependency>
     </dependencies>
 
     <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>../impl/src/test/resources</directory>
+            </testResource>
+        </testResources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

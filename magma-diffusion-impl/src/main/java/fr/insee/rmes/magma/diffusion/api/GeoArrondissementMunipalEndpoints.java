@@ -1,6 +1,8 @@
 package fr.insee.rmes.magma.diffusion.api;
 
-import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
+
+import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.diffusion.queries.parameters.*;
 import fr.insee.rmes.magma.diffusion.model.ArrondissementMunicipal;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsArrondissementMunicipal;
@@ -16,18 +18,18 @@ import java.util.List;
 @RestController
 public class GeoArrondissementMunipalEndpoints implements GeoArrondissementMunicipalApi {
 
-    private final RequestProcessor requestProcessor;
+    private final RequestProcessorDiffusion requestProcessorDiffusion;
     private final EndpointsUtils endpointsUtils;
 
-    public GeoArrondissementMunipalEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
-        this.requestProcessor = requestProcessor;
+    public GeoArrondissementMunipalEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
+        this.requestProcessorDiffusion = requestProcessorDiffusion;
         this.endpointsUtils = endpointsUtils;
     }
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogarrmuasc(String code, LocalDate date, TypeEnumAscendantsArrondissementMunicipal type) {
         String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
-        return requestProcessor.queryforFindAscendantsDescendants()
+        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, ArrondissementMunicipal.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -36,7 +38,7 @@ public class GeoArrondissementMunipalEndpoints implements GeoArrondissementMunic
 
     @Override
     public ResponseEntity<ArrondissementMunicipal> getcogarrmu(String code, LocalDate date) {
-        return requestProcessor.queryforFindTerritoire()
+        return requestProcessorDiffusion.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, ArrondissementMunicipal.class, "none"))
                 .executeQuery()
                 .singleResult(ArrondissementMunicipal.class).toResponseEntity();
@@ -47,7 +49,7 @@ public class GeoArrondissementMunipalEndpoints implements GeoArrondissementMunic
         if (date==null) {
             date = LocalDate.now().toString();
         }
-        return requestProcessor.queryforFindTerritoire()
+        return requestProcessorDiffusion.queryforFindTerritoire()
                 .with(new TerritoireEtoileRequestParametizer(date, ArrondissementMunicipal.class, "none"))
                 .executeQuery()
                 .listResult(ArrondissementMunicipal.class)
@@ -57,7 +59,7 @@ public class GeoArrondissementMunipalEndpoints implements GeoArrondissementMunic
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogarrmuprec(String code, LocalDate date) {
-        return requestProcessor.queryforFindPrecedentsSuivants()
+        return requestProcessorDiffusion.queryforFindPrecedentsSuivants()
                 .with(new PrecedentsSuivantsRequestParametizer(code, date, ArrondissementMunicipal.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -74,7 +76,7 @@ public class GeoArrondissementMunipalEndpoints implements GeoArrondissementMunic
             date = LocalDate.now();
         }
         boolean previous = !dateProjection.isAfter(date);
-        return requestProcessor.queryforFindProjetes()
+        return requestProcessorDiffusion.queryforFindProjetes()
                 .with(new ProjetesRequestParametizer(code, dateProjection, date, ArrondissementMunicipal.class, previous))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -83,7 +85,7 @@ public class GeoArrondissementMunipalEndpoints implements GeoArrondissementMunic
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogarrmusuiv(String code, LocalDate date) {
-        return requestProcessor.queryforFindPrecedentsSuivants()
+        return requestProcessorDiffusion.queryforFindPrecedentsSuivants()
                 .with(new PrecedentsSuivantsRequestParametizer(code, date, ArrondissementMunicipal.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)

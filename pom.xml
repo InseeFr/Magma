@@ -11,16 +11,39 @@
     <artifactId>magma-parent</artifactId>
     <packaging>pom</packaging>
     <name>Implementation of the RMéS metadata API</name>
+    <dependencies>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-web-server</artifactId>
+        </dependency>
+    </dependencies>
     <version>magma-refactored-1.0-rc0</version> <!-- Hérite de la propriété du parent -->
     <properties>
         <java.version>21</java.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <jackson.version>2.17.2</jackson.version>
+        <jakarta.version>6.1.0</jakarta.version>
+        <mockito.version>5.12.0</mockito.version>
+        <swagger.version>2.2.43</swagger.version>
         <jersey.version>4.0.2</jersey.version>
         <jakarta.version>6.1.0</jakarta.version>
         <log.version>2.18.0</log.version>
-        <swagger.version>2.2.43</swagger.version>
         <freemarker.version>2.3.34</freemarker.version>
+        <xmlunit.version>2.10.0</xmlunit.version>
         <openapitools-generator.version>7.17.0</openapitools-generator.version>
         <jackson-databind-nullable.version>0.2.9</jackson-databind-nullable.version>
         <jakartaee-web-api.version>10.0.0</jakartaee-web-api.version>
@@ -86,6 +109,11 @@
             <dependency>
                 <groupId>fr.insee.rmes</groupId>
                 <artifactId>magma-oas</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.insee.rmes</groupId>
+                <artifactId>magma-commons-infra</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -291,6 +319,16 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>19</source>
+                    <target>19</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
     <repositories>
         <repository>
@@ -306,5 +344,6 @@
         <module>magma-gestion-interface</module>
         <module>magma-gestion-impl</module>
         <module>magma-app</module>
+        <module>magma-commons-infra</module>
     </modules>
 </project>
