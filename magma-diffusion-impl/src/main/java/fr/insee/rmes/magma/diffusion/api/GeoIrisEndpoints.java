@@ -7,12 +7,14 @@ import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsIris;
 import fr.insee.rmes.magma.diffusion.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer;
-import fr.insee.rmes.magma.utils.EndpointsUtils;
+import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import static fr.insee.rmes.magma.utils.EndpointsUtils.toResponseEntity;
 
 @RestController
 public class GeoIrisEndpoints implements GeoIrisApi {
@@ -59,7 +61,7 @@ public class GeoIrisEndpoints implements GeoIrisApi {
                     .with(new TerritoireRequestParametizer(code, date))
                     .executeQuery()
                     .singleResult(Iris.class).result();
-            return EndpointsUtils.toResponseEntity(iris);
+            return toResponseEntity(iris);
             } else {
                 return ResponseEntity.notFound().build();
             }
@@ -74,7 +76,7 @@ public class GeoIrisEndpoints implements GeoIrisApi {
                         .executeQuery()
                         .singleResult(Iris.class).result();
                 iris.setCode(code); //modify code property to have in output the Iris code and not the commune code
-            return EndpointsUtils.toResponseEntity(iris);
+            return toResponseEntity(iris);
             }
         }
     }
