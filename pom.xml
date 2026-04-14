@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>4.0.3</version>
+        <version>4.0.5</version>
     </parent>
     <groupId>fr.insee.rmes</groupId>
     <artifactId>magma-parent</artifactId>
@@ -28,10 +28,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <lombok.version>1.18.38</lombok.version>
         <springdoc.version>3.0.1</springdoc.version>
-        <!-- A supprimer quand Springboot version > 4.1.0-M2 -->
-        <jackson-2-bom.version>2.21.1</jackson-2-bom.version>
-        <jackson-bom.version>3.1.0</jackson-bom.version>
-        <!-- fin suppression -->
+        <!-- dependances que l'on met a jour entre deux version de spring boot -->
+        <!-- fin dependances que l'on met a jour entre deux version de spring boot -->
          <!-- Configuration Sonar -->
         <sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
             src/main/java/fr/insee/rmes/modeles/**/*,
