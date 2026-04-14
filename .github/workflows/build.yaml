@@ -58,4 +58,4 @@ jobs:
           name: inseefr/magma-back-office
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          tags: "latest, ${{ needs.check-version.outputs.release-version }}"
+          tags: "latest, ${{ github.event.release.tag_name }}"
