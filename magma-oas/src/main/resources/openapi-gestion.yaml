@@ -7,9 +7,6 @@ info:
     url: https://www.insee.fr/fr/accueil
     email: dr59-sinl-equipe-maintenance-rmes@insee.fr
   version: 1.4.11
-servers:
-  - url: https://api-rmes-gestion.insee.fr
-    description: Production server
 tags:
   - name: Codes lists
     description: Consultation Gestion API - listes des codes
