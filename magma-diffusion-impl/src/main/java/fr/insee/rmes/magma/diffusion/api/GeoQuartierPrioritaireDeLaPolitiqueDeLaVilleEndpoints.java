@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.diffusion.api;
 
-import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
 import fr.insee.rmes.magma.diffusion.model.QuartierPrioritaireDeLaPolitiqueDeLaVille2024;
 import fr.insee.rmes.magma.diffusion.model.TerritoireBaseRelation;
 import fr.insee.rmes.magma.diffusion.model.TypeEnum;
@@ -16,17 +16,17 @@ import java.util.List;
 @RestController
 public class GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints implements GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleApi {
 
-    private final RequestProcessor requestProcessor;
+    private final RequestProcessorDiffusion requestProcessorDiffusion;
     private final EndpointsUtils endpointsUtils;
 
-    public GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
-        this.requestProcessor = requestProcessor;
+    public GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
+        this.requestProcessorDiffusion = requestProcessorDiffusion;
         this.endpointsUtils = endpointsUtils;
     }
 
     @Override
     public ResponseEntity<QuartierPrioritaireDeLaPolitiqueDeLaVille2024> getcogqpv (String code, LocalDate date) {
-        return requestProcessor.queryforFindTerritoire()
+        return requestProcessorDiffusion.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, QuartierPrioritaireDeLaPolitiqueDeLaVille2024.class, "none"))
                 .executeQuery()
                 .singleResult(QuartierPrioritaireDeLaPolitiqueDeLaVille2024.class).toResponseEntity();
@@ -34,7 +34,7 @@ public class GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints implements Ge
 
     @Override
     public ResponseEntity<List<QuartierPrioritaireDeLaPolitiqueDeLaVille2024>> getcogqpvliste (LocalDate date) {
-         return requestProcessor.queryforFindTerritoire()
+         return requestProcessorDiffusion.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(date, QuartierPrioritaireDeLaPolitiqueDeLaVille2024.class, "none"))
                 .executeQuery()
                 .listResult(QuartierPrioritaireDeLaPolitiqueDeLaVille2024.class)
@@ -44,7 +44,7 @@ public class GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints implements Ge
     @Override
     public ResponseEntity<List<TerritoireBaseRelation>> getcogqpvintersect (String code, LocalDate date, TypeEnum type) {
         String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
-        return requestProcessor.queryToFindIntersections()
+        return requestProcessorDiffusion.queryToFindIntersections()
                 .with(new TerritoiresLiesRequestParametizer(code, date, territoriesFilter, QuartierPrioritaireDeLaPolitiqueDeLaVille2024.class))
                 .executeQuery()
                 .listResult(TerritoireBaseRelation.class)

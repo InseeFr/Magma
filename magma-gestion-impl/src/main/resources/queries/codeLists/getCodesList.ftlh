@@ -3,8 +3,8 @@ FROM <${CODELIST_GRAPH}>
 WHERE {
     {
         ?uri rdf:type skos:ConceptScheme .
-        ?uri skos:notation "${NOTATION}" .
-        BIND("${NOTATION}" AS ?id) .
+        ?uri skos:notation "${notation}" .
+        BIND("${notation}" AS ?id) .
         ?uri skos:prefLabel ?prefLabelLg1 .
         FILTER (lang(?prefLabelLg1) = '${LG1}') .
         ?uri skos:prefLabel ?prefLabelLg2 .
@@ -18,8 +18,8 @@ WHERE {
     UNION
     {
         ?uri rdf:type skos:Collection .
-        ?uri skos:notation "${NOTATION}" .
-        BIND("${NOTATION}" AS ?id) .
+        ?uri skos:notation "${notation}" .
+        BIND("${notation}" AS ?id) .
         ?uri skos:prefLabel ?prefLabelLg1 .
         FILTER (lang(?prefLabelLg1) = '${LG1}') .
         ?uri skos:prefLabel ?prefLabelLg2 .

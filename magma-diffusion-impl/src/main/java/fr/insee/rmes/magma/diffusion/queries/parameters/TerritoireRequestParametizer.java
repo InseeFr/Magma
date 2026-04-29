@@ -1,6 +1,7 @@
 package fr.insee.rmes.magma.diffusion.queries.parameters;
 
 import fr.insee.rmes.magma.diffusion.model.Iris;
+import fr.insee.rmes.magma.queries.parameters.ParameterValueDecoder;
 
 import java.lang.reflect.RecordComponent;
 import java.time.LocalDate;
@@ -10,7 +11,7 @@ public record TerritoireRequestParametizer(String code,
                                            Class<?> typeOrigine,
                                            String filtreNom,
                                            String chefLieu,
-                                           boolean com) implements ParametersForQuery<TerritoireRequestParametizer> {
+                                           boolean com) implements ParametersForQueryDiffusion<TerritoireRequestParametizer> {
 
     //for geo/departement/{code} and geo/region/{code}
     public TerritoireRequestParametizer(String code,
@@ -55,7 +56,7 @@ public record TerritoireRequestParametizer(String code,
 
     @Override
     public ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent) {
-        return ParametersForQuery.super.findParameterValueDecoder(recordComponent);
+        return ParametersForQueryDiffusion.super.findParameterValueDecoder(recordComponent);
     }
 
 

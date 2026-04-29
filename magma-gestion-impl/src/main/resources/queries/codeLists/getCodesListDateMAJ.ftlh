@@ -3,15 +3,15 @@ FROM <${CODELIST_GRAPH}>
 WHERE {
     {
         ?uri rdf:type skos:ConceptScheme .
-        ?uri skos:notation "${NOTATION}" .
-        BIND("${NOTATION}" AS ?id) .
+        ?uri skos:notation "${notation}" .
+        BIND("${notation}" AS ?id) .
         OPTIONAL {?uri dcterms:modified ?dateMiseAJour . }
     }
     UNION
     {
         ?uri rdf:type skos:Collection .
-        ?uri skos:notation "${NOTATION}" .
-        BIND("${NOTATION}" AS ?id) .
+        ?uri skos:notation "${notation}" .
+        BIND("${notation}" AS ?id) .
         OPTIONAL {?uri dcterms:modified ?dateMiseAJour . }
     }
 }

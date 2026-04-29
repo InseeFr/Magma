@@ -1,6 +1,7 @@
 package fr.insee.rmes.magma.diffusion.queries.parameters;
 
 import fr.insee.rmes.magma.diffusion.model.*;
+import fr.insee.rmes.magma.queries.parameters.ParameterValueDecoder;
 
 import java.lang.reflect.RecordComponent;
 import java.time.LocalDate;
@@ -11,7 +12,7 @@ public record AscendantsDescendantsRequestParametizer(String code,
                                                       String filtreNom,
                                                       String territoriesFilter,
                                                       Class<?> typeOrigine,
-                                                      boolean ascendant) implements ParametersForQuery<AscendantsDescendantsRequestParametizer> {
+                                                      boolean ascendant) implements ParametersForQueryDiffusion<AscendantsDescendantsRequestParametizer> {
 
     //for geo/pays/{code}/descendants
     public AscendantsDescendantsRequestParametizer(String code,
@@ -40,10 +41,10 @@ public record AscendantsDescendantsRequestParametizer(String code,
     }
 
     @Override
-    public ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent) {
+    public ParameterValueDecoder findParameterValueDecoder(RecordComponent recordComponent) {
         if ("filtreNom".equals(recordComponent.getName())) {
             return new ParameterValueDecoder.DelegaterDecoder<>(stringValue -> stringValue == null ? "*" : stringValue.toString());
         }
-        return ParametersForQuery.super.findParameterValueDecoder(recordComponent);
+        return ParametersForQueryDiffusion.super.findParameterValueDecoder(recordComponent);
     }
 }

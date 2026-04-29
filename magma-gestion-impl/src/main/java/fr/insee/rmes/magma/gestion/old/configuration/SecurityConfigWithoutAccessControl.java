@@ -27,8 +27,8 @@ public class SecurityConfigWithoutAccessControl {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
+
         return http.build();
     }
 

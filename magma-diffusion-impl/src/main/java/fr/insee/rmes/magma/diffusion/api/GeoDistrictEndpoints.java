@@ -1,7 +1,8 @@
 package fr.insee.rmes.magma.diffusion.api;
 
 
-import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessor;
+import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.diffusion.model.*;
 import fr.insee.rmes.magma.diffusion.model.District;
 import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsDistrict;
@@ -17,11 +18,11 @@ import java.util.List;
 @RestController
 public class GeoDistrictEndpoints implements GeoDistrictApi {
 
-    private final RequestProcessor requestProcessor;
+    private final RequestProcessorDiffusion requestProcessorDiffusion;
     private final EndpointsUtils endpointsUtils;
 
-     public GeoDistrictEndpoints(RequestProcessor requestProcessor, EndpointsUtils endpointsUtils) {
-        this.requestProcessor = requestProcessor;
+     public GeoDistrictEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
+        this.requestProcessorDiffusion = requestProcessorDiffusion;
          this.endpointsUtils = endpointsUtils;
      }
 
@@ -29,7 +30,7 @@ public class GeoDistrictEndpoints implements GeoDistrictApi {
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogdisasc (String code, LocalDate date, TypeEnumAscendantsDistrict type) {
         String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
-        return requestProcessor.queryforFindAscendantsDescendants()
+        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, District.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -38,7 +39,7 @@ public class GeoDistrictEndpoints implements GeoDistrictApi {
 
     @Override
     public ResponseEntity<District> getcogdis(String code, LocalDate date) {
-        return requestProcessor.queryforFindTerritoire()
+        return requestProcessorDiffusion.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, District.class, "none"))
                 .executeQuery()
                 .singleResult(District.class).toResponseEntity();

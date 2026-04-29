@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.diffusion.unmarshaller;
 
 import fr.insee.rmes.magma.diffusion.model.*;
-import fr.insee.rmes.magma.diffusion.queryexecutor.Csv;
+import fr.insee.rmes.magma.queryexecutor.Csv;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -16,11 +16,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-
 @Component
 @Slf4j
 // TODO proposer une autre implémentation d'unmarshaller ?
-public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
+// TODO: renomer la classe en JacksonUnmarshallerDiffusion afin de suivre le nomage de JacksonUnmarshallerGestion
+public record JacksonUnmarshaller(CsvMapper csvMapper) implements fr.insee.rmes.magma.unmarshaller.Unmarshaller {
 
     public JacksonUnmarshaller() {
         this(CsvMapper.builder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)

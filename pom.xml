@@ -14,13 +14,17 @@
     <version>magma-refactored-1.0-rc0</version> <!-- Hérite de la propriété du parent -->
     <properties>
         <java.version>21</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
+        <jackson.version>2.17.2</jackson.version>
+        <jakarta.version>6.1.0</jakarta.version>
+        <mockito.version>5.12.0</mockito.version>
+        <swagger.version>2.2.43</swagger.version>
         <jersey.version>4.0.2</jersey.version>
         <jakarta.version>6.1.0</jakarta.version>
         <log.version>2.18.0</log.version>
-        <swagger.version>2.2.43</swagger.version>
         <freemarker.version>2.3.34</freemarker.version>
+        <xmlunit.version>2.10.0</xmlunit.version>
+        <testcontainers.version>1.21.4</testcontainers.version>
         <openapitools-generator.version>7.17.0</openapitools-generator.version>
         <jackson-databind-nullable.version>0.2.9</jackson-databind-nullable.version>
         <jakartaee-web-api.version>10.0.0</jakartaee-web-api.version>
@@ -28,6 +32,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <lombok.version>1.18.38</lombok.version>
         <springdoc.version>3.0.1</springdoc.version>
+        <boot-properties-logger-starter.version>2.3.0</boot-properties-logger-starter.version>
         <!-- dependances que l'on met a jour entre deux version de spring boot -->
         <jackson-bom.version>3.1.1</jackson-bom.version>
         <!-- fin dependances que l'on met a jour entre deux version de spring boot -->
@@ -87,8 +92,11 @@
                 <artifactId>magma-oas</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
-
+            <dependency>
+                <groupId>fr.insee.rmes</groupId>
+                <artifactId>magma-commons-infra</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
@@ -167,6 +175,12 @@
             <dependency>
                 <groupId>org.xmlunit</groupId>
                 <artifactId>xmlunit-core</artifactId>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers</artifactId>
+                <version>${testcontainers.version}</version>
                 <scope>test</scope>
             </dependency>
 
@@ -251,6 +265,12 @@
                 <version>${jackson-databind-nullable.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.github.fbibonne</groupId>
+                <artifactId>boot-properties-logger-starter</artifactId>
+                <version>${boot-properties-logger-starter.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -290,6 +310,8 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+        </plugins>
     </build>
     <repositories>
         <repository>
@@ -305,5 +327,6 @@
         <module>magma-gestion-interface</module>
         <module>magma-gestion-impl</module>
         <module>magma-app</module>
+        <module>magma-commons-infra</module>
     </modules>
 </project>
