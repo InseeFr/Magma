@@ -142,6 +142,11 @@
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.fbibonne</groupId>
+            <artifactId>boot-properties-logger-starter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

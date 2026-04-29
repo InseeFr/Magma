@@ -32,6 +32,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <lombok.version>1.18.38</lombok.version>
         <springdoc.version>3.0.1</springdoc.version>
+        <boot-properties-logger-starter.version>2.3.0</boot-properties-logger-starter.version>
         <!-- dependances que l'on met a jour entre deux version de spring boot -->
         <jackson-bom.version>3.1.1</jackson-bom.version>
         <!-- fin dependances que l'on met a jour entre deux version de spring boot -->
@@ -262,6 +263,12 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>jackson-databind-nullable</artifactId>
                 <version>${jackson-databind-nullable.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.fbibonne</groupId>
+                <artifactId>boot-properties-logger-starter</artifactId>
+                <version>${boot-properties-logger-starter.version}</version>
             </dependency>
 
         </dependencies>

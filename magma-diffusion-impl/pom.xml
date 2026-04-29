@@ -109,6 +109,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-web-server</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.fbibonne</groupId>
+            <artifactId>boot-properties-logger-starter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
