@@ -38,149 +38,185 @@
 }
 
 <http://rdf.insee.fr/graphes/operations> {
-    <http://id.insee.fr/operations/serie/s1001>
+
+   <http://bauhaus/operations/serie/idSeriePrincipaleTest>
         rdf:type insee:StatisticalOperationSeries ;
-        skos:prefLabel "Enquête innovation"@fr ;
-        skos:prefLabel "Innovation survey"@en ;
-        skos:altLabel "Série alt"@fr ;
-        skos:altLabel "Alt series"@en ;
-        dcterms:abstract "Résumé de la série"@fr ;
-        dcterms:abstract "Series abstract"@en ;
-        skos:historyNote "Note historique"@fr ;
-        skos:historyNote "Historical note"@en ;
-        dcterms:type <http://id.insee.fr/concepts/type/E> ;
-        dcterms:accrualPeriodicity <http://id.insee.fr/concepts/periodicity/A> ;
+        skos:prefLabel "Label Série fr"@fr ;
+        skos:prefLabel "Series Label en"@en ;
+        skos:altLabel "AltLabel Série fr"@fr ;
+        skos:altLabel "Series AltLabel en"@en ;
+        dcterms:abstract "Résumé de la série test"@fr ;
+        dcterms:abstract "Test series abstract"@en ;
+        skos:historyNote "Note historique test"@fr ;
+        skos:historyNote "Historical note test"@en ;
+        dcterms:type <http://bauhaus/concepts/type/E> ;
+        dcterms:accrualPeriodicity <http://bauhaus/concepts/periodicity/A> ;
         dcterms:created "2020-01-15" ;
         dcterms:modified "2024-06-01" ;
         insee:validationState "Publiée" ;
-        dc:creator <http://id.insee.fr/organisations/insee> ;
-        dcterms:publisher <http://id.insee.fr/organisations/drees> ;
-        dcterms:contributor <http://id.insee.fr/organisations/dares> .
+        dc:creator <http://bauhaus/organisations/idOrganisationProprietaireTest> ;
+        dcterms:publisher <http://bauhaus/organisations/idOrganisationResponsableTest> ;
+        dcterms:contributor <http://bauhaus/organisations/idOrganisationPartenaireTest> .
 
-    <http://id.insee.fr/operations/serie/s1010>
+
+
+
+    <http://bauhaus/operations/serie/idSeriePrecedenteTest>
         rdf:type insee:StatisticalOperationSeries ;
-        skos:prefLabel "Enquête sur les compétences pour innover"@fr ;
-        skos:prefLabel "Innovative skills survey"@en ;
-        dcterms:isReplacedBy <http://id.insee.fr/operations/serie/s1001> .
+        skos:prefLabel "Label Série Précédente fr"@fr ;
+        skos:prefLabel "Previous Series Label en"@en ;
+        dcterms:isReplacedBy <http://bauhaus/operations/serie/idSeriePrincipaleTest> .
 
-    <http://id.insee.fr/operations/serie/s1002>
+    <http://bauhaus/operations/serie/idSerieSuivanteTest>
         rdf:type insee:StatisticalOperationSeries ;
-        skos:prefLabel "Série suivante"@fr ;
-        skos:prefLabel "Next series"@en ;
-        dcterms:replaces <http://id.insee.fr/operations/serie/s1001> .
+        skos:prefLabel "Label Série Suivante fr"@fr ;
+        skos:prefLabel "Next Series Label en"@en ;
+        dcterms:replaces <http://bauhaus/operations/serie/idSeriePrincipaleTest> .
 
-    <http://id.insee.fr/operations/serie/s1197>
+    <http://bauhaus/operations/serie/idSerieLiee1Test>
         rdf:type insee:StatisticalOperationSeries ;
-        skos:prefLabel "Système immatriculation au répertoire des unités statistiques"@fr ;
-        skos:prefLabel "Statistical business register"@en ;
-        rdfs:seeAlso <http://id.insee.fr/operations/serie/s1001> .
+        skos:prefLabel "Label Série Liée 1 fr"@fr ;
+        skos:prefLabel "Related Series 1 Label en"@en ;
+        rdfs:seeAlso <http://bauhaus/operations/serie/idSeriePrincipaleTest> .
 
-    <http://id.insee.fr/operations/serie/s1198>
+    <http://bauhaus/operations/serie/idSerieLiee2Test>
         rdf:type insee:StatisticalOperationSeries ;
-        skos:prefLabel "Série liée 2"@fr ;
-        skos:prefLabel "Related series 2"@en ;
-        rdfs:seeAlso <http://id.insee.fr/operations/serie/s1001> .
+        skos:prefLabel "Label Série Liée 2 fr"@fr ;
+        skos:prefLabel "Related Series 2 Label en"@en ;
+        rdfs:seeAlso <http://bauhaus/operations/serie/idSeriePrincipaleTest> .
 
-    <http://id.insee.fr/operations/famille/f1001>
+    <http://bauhaus/operations/famille/idFamilleTest>
         rdf:type insee:StatisticalOperationFamily ;
-        dcterms:hasPart <http://id.insee.fr/operations/serie/s1001> ;
-        skos:prefLabel "Famille de test"@fr ;
-        skos:prefLabel "Test family"@en .
+        dcterms:hasPart <http://bauhaus/operations/serie/idSeriePrincipaleTest> ;
+        skos:prefLabel "Label Famille fr"@fr ;
+        skos:prefLabel "Family Label en"@en .
 
-    <http://id.insee.fr/operations/operation/op2024>
+    <http://bauhaus/operations/operation/idOperation1SeriePrincipaleTest>
         rdf:type insee:StatisticalOperation ;
-        dcterms:isPartOf <http://id.insee.fr/operations/serie/s1001> ;
-        skos:prefLabel "Opération 2024"@fr ;
-        skos:prefLabel "Operation 2024"@en .
+        dcterms:isPartOf <http://bauhaus/operations/serie/idSeriePrincipaleTest> ;
+        skos:prefLabel "Label Opération 1 fr"@fr ;
+        skos:prefLabel "Operation 1 Label en"@en .
 
-    <http://id.insee.fr/operations/operation/s2193>
+    <http://bauhaus/operations/operation/idOperation2SeriePrincipaleTest>
         rdf:type insee:StatisticalOperation ;
-        dcterms:isPartOf <http://id.insee.fr/operations/serie/s1001> ;
-        skos:prefLabel "Enquête capacité à innover et stratégie 2024"@fr ;
-        skos:prefLabel "Community Innovation Survey 2024"@en ;
-        skos:altLabel "CIS 2024"@fr ;
-        skos:altLabel "CIS 2024"@en ;
-        dcterms:temporal "2024" ;
+        dcterms:isPartOf <http://bauhaus/operations/serie/idSeriePrincipaleTest> ;
+        skos:prefLabel "Label Opération 2 fr"@fr ;
+        skos:prefLabel "Operation 2 Label en"@en .
+
+    <http://bauhaus/organisations/idOrganisationProprietaireTest>
+        rdf:type org:Organization ;
+        dcterms:identifier "idOrganisationProprietaireTest" ;
+        skos:prefLabel "Label Organisation Propriétaire fr"@fr ;
+        skos:prefLabel "Owner Organisation Label en"@en .
+
+    <http://bauhaus/organisations/idOrganisationResponsableTest>
+        rdf:type org:Organization ;
+        dcterms:identifier "idOrganisationResponsableTest" ;
+        skos:prefLabel "Label Organisation Responsable fr"@fr ;
+        skos:prefLabel "Responsible Organisation Label en"@en .
+
+    <http://bauhaus/organisations/idOrganisationPartenaireTest>
+        rdf:type org:Organization ;
+        dcterms:identifier "idOrganisationPartenaireTest" ;
+        skos:prefLabel "Label Organisation Partenaire fr"@fr ;
+        skos:prefLabel "Partner Organisation Label en"@en .
+
+    <http://bauhaus/operations/serie/idSerieTest>
+        rdf:type insee:StatisticalOperationSeries ;
+        skos:prefLabel "Label Serie fr"@fr ;
+        skos:prefLabel "Series Label en"@en .
+
+    <http://bauhaus/operations/operation/idOperationTest>
+        rdf:type insee:StatisticalOperation ;
+        dcterms:isPartOf <http://bauhaus/operations/serie/idSerieTest> ;
+        skos:prefLabel "Label Operation Test fr"@fr ;
+        skos:prefLabel "Test Operation Label en"@en ;
+        skos:altLabel "AltLabel Operation Test fr"@fr ;
+        skos:altLabel "Operation AltLabel en"@en ;
+        dcterms:temporal "2026" ;
         dcterms:created "2025-01-22" ;
-        dcterms:modified "2025-04-02" .
+        dcterms:modified "2025-04-02" ;
+        insee:validationState "Validated" .
 
-    <http://id.insee.fr/qualite/rapport/2203>
-        rdf:type sdmx-mm:MetadataReport ;
-        sdmx-mm:target <http://id.insee.fr/operations/operation/s2193> .
-
-    <http://id.insee.fr/concepts/type/E>
+    <http://bauhaus/concepts/type/E>
         skos:notation "E" ;
         skos:prefLabel "Enquête"@fr ;
         skos:prefLabel "Survey"@en .
 
-    <http://id.insee.fr/concepts/periodicity/A>
+    <http://bauhaus/concepts/periodicity/A>
         skos:notation "A" ;
         skos:prefLabel "Annuelle"@fr ;
         skos:prefLabel "Annual"@en .
 
-    <http://id.insee.fr/organisations/insee>
+    <http://bauhaus/organisations/insee>
         rdf:type org:Organization ;
         dcterms:identifier "insee" ;
         skos:prefLabel "Institut national de la statistique"@fr ;
         skos:prefLabel "National Institute of Statistics"@en .
 
-    <http://id.insee.fr/organisations/drees>
+    <http://bauhaus/organisations/drees>
         rdf:type org:Organization ;
         dcterms:identifier "drees" ;
         skos:prefLabel "Direction de la recherche"@fr ;
         skos:prefLabel "Research Directorate"@en .
 
-    <http://id.insee.fr/organisations/dares>
+    <http://bauhaus/organisations/dares>
         rdf:type org:Organization ;
         dcterms:identifier "dares" ;
         skos:prefLabel "Direction de l'animation de la recherche"@fr ;
         skos:prefLabel "Labour Studies Directorate"@en .
 }
 
+<http://rdf.insee.fr/graphes/qualite/rapport/idRapportQualiteTest> {
+    <http://bauhaus/qualite/rapport/idRapportQualiteTest>
+        rdf:type sdmx-mm:MetadataReport ;
+        sdmx-mm:target <http://bauhaus/operations/operation/idOperationTest> .
+}
+
 <http://rdf.insee.fr/graphes/catalogue> {
-    <http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4>
+    <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest>
         rdf:type dcat:Dataset ;
-        dcterms:identifier "25baaf1f-61cf-4d50-9124-1477afca2aa4" ;
-        dcterms:title "Activité, emploi et chômage - séries longues"@fr ;
-        dcterms:title "Activité, emploi et chômage - séries longues"@en ;
-        dcterms:abstract "Séries longues sur la population active, l'emploi, le chômage et le halo autour du chômage."@fr ;
-        dcterms:description "Les données sont détaillées par sexe, âge, diplôme et catégorie socio-professionnelle (PCS). Pour l'emploi, les données sont détaillées par type de contrat, composante du sous-emploi, temps de travail (temps complet ou partiel). Plusieurs indicateurs en taux sont disponibles : taux d'activité, taux d'emploi ou taux de chômage.\n\nCe jeu de données regroupe notamment les données annuelles de forte valeur (High Value Dataset ou HVD statistiques) désignées par Eurostat sur les sujets suivants : l'emploi , le chômage et la main d'œuvre potentielle."@fr ;
-        skos:scopeNote "Des corrections sur les données concernant la population totale ainsi que sur l'emploi et la part dans l'emploi selon le plus haut diplôme obtenu, par sexe et âge regroupé, en moyenne annuelle ont été apportées en septembre 2024 afin de rectifier une erreur, portant sur les années 2018, 2019 et 2020 uniquement."@fr ;
+        dcterms:identifier "idDatasetTest" ;
+        dcterms:title "Titre du dataset test"@fr ;
+        dcterms:title "Dataset Test Title"@en ;
+        dcterms:abstract "Résumé du dataset test"@fr ;
+        dcterms:description "Description du dataset test"@fr ;
+        skos:scopeNote "Note de portée du dataset test"@fr ;
         insee:validationState "Unpublished" ;
-        prov:wasGeneratedBy <http://bauhaus/operations/serie/s1223> ;
-        adms:identifier <http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4/ident> .
+        prov:wasGeneratedBy <http://bauhaus/operations/serie/idSerieGeneratrice> ;
+        adms:identifier <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest/ident> .
 
-    <http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4/ident>
-        skos:notation "DD_EEC_SERIES" .
+    <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest/ident>
+        skos:notation "DD_DATASET_TEST" .
 
-    <http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4/record>
+    <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest/record>
         rdf:type dcat:CatalogRecord ;
-        foaf:primaryTopic <http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4> ;
-        dc:creator "DG75-L201" ;
-        dc:contributor "DG75-L201" ;
+        foaf:primaryTopic <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest> ;
+        dc:creator "DG75-TEST" ;
+        dc:contributor "DG75-TEST" ;
         dcterms:created "2024-12-09T12:00:00.000"^^xsd:dateTime ;
         dcterms:modified "2024-12-09T12:00:00.000"^^xsd:dateTime .
 
-    <http://bauhaus/catalogues/jeuDeDonnees/a85dab6c-ef0f-4caa-9763-c7f8c840e216>
+    <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest2>
         rdf:type dcat:Dataset ;
-        dcterms:identifier "a85dab6c-ef0f-4caa-9763-c7f8c840e216" ;
-        dcterms:title "Activité des branches de l'économie"@fr ;
-        dcterms:title "Activité des branches de l'économie"@en ;
-        dcterms:abstract "Données annuelles sur l'activité des branches au sein des comptes de production et d'exploitation, ainsi que d'emploi et de productivité apparente du travail."@fr ;
-        dcterms:description """Données annuelles sur l'activité des branches qui est retracée par les comptes de production et d'exploitation. Le compte de production décrit la relation entre la production et la consommation intermédiaire nécessaire à cette production. Il a pour solde la valeur ajoutée brute qui mesure la richesse créée lors du processus de production.\n\nLe compte d'exploitation décrit comment la valeur ajoutée brute couvre la rémunération versée aux salariés et les impôts sur la production. Il a pour solde l'excédent brut d'exploitation et le revenu mixte brut qui mesurent le profit d'exploitation des branches.\n\nLe rapprochement de la valeur ajoutée brute et des effectifs des branches permet de calculer la productivité apparente du travail. Celui des salaires et traitements et des effectifs (ou du nombre d'heures travaillées) permet de calculer le salaire moyen par tête (ou le salaire horaire moyen).\n\nL'emploi (STO=EMP) est mesuré en effectifs ( personnes physiques avec UNIT_MEASURE=PS ou en équivalent temps plein FT) ou en nombre d'heures travaillées (UNIT_MEASURE=HW).\n\nCe jeu de données donne le chiffre clé du Tableau de Bord de l'Économie Française sur la répartition de la valeur ajoutée par branche  https://www.insee.fr/fr/outil-interactif/5367857/details/10_ECC/11_ECO/11B_Figure2\n\nLes données annuelles sur l'activité des branches suivent les concepts et méthodes des comptes nationaux en base 2020 (première publication fin mai 2024) et sont inclues dans les jeux de données annuelles à forte valeur (HVD)."""@fr ;
-        skos:scopeNote "La version du dataset mise en ligne le 8 octobre intègre plusieurs corrections minimes du compte provisoire des données d'emploi."@fr ;
+        dcterms:identifier "idDatasetTest2" ;
+        dcterms:title "Titre du dataset test 2"@fr ;
+        dcterms:title "Dataset test title 2"@en ;
+        dcterms:abstract "Abstract du dataset test 2"@fr ;
+        dcterms:description "Description du dataset test 2"@fr ;
+        skos:scopeNote "ScopeNote du dataset test 2"@fr ;
         insee:validationState "Unpublished" ;
-        prov:wasGeneratedBy <http://bauhaus/operations/serie/s2144> ;
-        adms:identifier <http://bauhaus/catalogues/jeuDeDonnees/a85dab6c-ef0f-4caa-9763-c7f8c840e216/ident> .
+        prov:wasGeneratedBy <http://bauhaus/operations/serie/idSerieGeneratriceTest2> ;
+        adms:identifier <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest2/ident> .
 
-    <http://bauhaus/catalogues/jeuDeDonnees/a85dab6c-ef0f-4caa-9763-c7f8c840e216/ident>
+    <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest2/ident>
         skos:notation "DD_CNA_BRANCHES" .
 
-    <http://bauhaus/catalogues/jeuDeDonnees/a85dab6c-ef0f-4caa-9763-c7f8c840e216/record>
+    <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest2/record>
         rdf:type dcat:CatalogRecord ;
-        foaf:primaryTopic <http://bauhaus/catalogues/jeuDeDonnees/a85dab6c-ef0f-4caa-9763-c7f8c840e216> ;
-        dc:creator "DG75-L201" ;
-        dc:contributor "DG75-L201" ;
+        foaf:primaryTopic <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest2> ;
+        dc:creator "DG75-TEST" ;
+        dc:contributor "DG75-TEST" ;
         dcterms:created "2024-12-09T12:00:00.000"^^xsd:dateTime ;
         dcterms:modified "2024-12-09T12:00:00.000"^^xsd:dateTime .
 }

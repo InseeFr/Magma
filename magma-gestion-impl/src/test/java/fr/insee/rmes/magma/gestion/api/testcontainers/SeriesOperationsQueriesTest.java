@@ -29,48 +29,48 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
     /////////////////////////////////////////////////////////
 
     @Test
-    void should_return_serieById_s1001_when_getSerieById_s1001() {
-        var response = endpoints.getSerieById("s1001");
+    void should_return_serieById_idSeriePrincipaleTest_when_getSerieById_idSeriePrincipaleTest() {
+        var response = endpoints.getSerieById("idSeriePrincipaleTest");
         var result = response.getBody();
 
         assertNotNull(result);
         assertAll(
                 // identifiants
-                () -> assertEquals("s1001", result.getSeriesId()),
-                () -> assertEquals("http://id.insee.fr/operations/serie/s1001", result.getUri()),
+                () -> assertEquals("idSeriePrincipaleTest", result.getSeriesId()),
+                () -> assertEquals("http://bauhaus/operations/serie/idSeriePrincipaleTest", result.getUri()),
 
                 // label
                 () -> assertEquals(2, result.getLabel().size()),
                 () -> assertEquals("fr", result.getLabel().getFirst().getLangue()),
-                () -> assertEquals("Enquête innovation", result.getLabel().getFirst().getContenu()),
+                () -> assertEquals("Label Série fr", result.getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getLabel().get(1).getLangue()),
-                () -> assertEquals("Innovation survey", result.getLabel().get(1).getContenu()),
+                () -> assertEquals("Series Label en", result.getLabel().get(1).getContenu()),
 
                 // altLabel
                 () -> assertEquals(2, result.getAltLabel().size()),
                 () -> assertEquals("fr", result.getAltLabel().getFirst().getLangue()),
-                () -> assertEquals("Série alt", result.getAltLabel().getFirst().getContenu()),
+                () -> assertEquals("AltLabel Série fr", result.getAltLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getAltLabel().get(1).getLangue()),
-                () -> assertEquals("Alt series", result.getAltLabel().get(1).getContenu()),
+                () -> assertEquals("Series AltLabel en", result.getAltLabel().get(1).getContenu()),
 
-                // resume (from dcterms:abstract)
+                // resume
                 () -> assertEquals(2, result.getResume().size()),
                 () -> assertEquals("fr", result.getResume().getFirst().getLangue()),
-                () -> assertEquals("Résumé de la série", result.getResume().getFirst().getContenu()),
+                () -> assertEquals("Résumé de la série test", result.getResume().getFirst().getContenu()),
                 () -> assertEquals("en", result.getResume().get(1).getLangue()),
-                () -> assertEquals("Series abstract", result.getResume().get(1).getContenu()),
+                () -> assertEquals("Test series abstract", result.getResume().get(1).getContenu()),
 
                 // noteHistorique
                 () -> assertEquals(2, result.getNoteHistorique().size()),
                 () -> assertEquals("fr", result.getNoteHistorique().getFirst().getLangue()),
-                () -> assertEquals("Note historique", result.getNoteHistorique().getFirst().getContenu()),
+                () -> assertEquals("Note historique test", result.getNoteHistorique().getFirst().getContenu()),
                 () -> assertEquals("en", result.getNoteHistorique().get(1).getLangue()),
-                () -> assertEquals("Historical note", result.getNoteHistorique().get(1).getContenu()),
+                () -> assertEquals("Historical note test", result.getNoteHistorique().get(1).getContenu()),
 
                 // type
                 () -> assertNotNull(result.getType()),
                 () -> assertEquals("E", result.getType().getId()),
-                () -> assertEquals("http://id.insee.fr/concepts/type/E", result.getType().getUri()),
+                () -> assertEquals("http://bauhaus/concepts/type/E", result.getType().getUri()),
                 () -> assertEquals("fr", result.getType().getLabel().getFirst().getLangue()),
                 () -> assertEquals("Enquête", result.getType().getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getType().getLabel().get(1).getLangue()),
@@ -79,7 +79,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
                 // frequenceCollecte
                 () -> assertNotNull(result.getFrequenceCollecte()),
                 () -> assertEquals("A", result.getFrequenceCollecte().getId()),
-                () -> assertEquals("http://id.insee.fr/concepts/periodicity/A", result.getFrequenceCollecte().getUri()),
+                () -> assertEquals("http://bauhaus/concepts/periodicity/A", result.getFrequenceCollecte().getUri()),
                 () -> assertEquals("fr", result.getFrequenceCollecte().getLabel().getFirst().getLangue()),
                 () -> assertEquals("Annuelle", result.getFrequenceCollecte().getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getFrequenceCollecte().getLabel().get(1).getLangue()),
@@ -87,57 +87,57 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
 
                 // famille
                 () -> assertNotNull(result.getFamille()),
-                () -> assertEquals("f1001", result.getFamille().getId()),
-                () -> assertEquals("http://id.insee.fr/operations/famille/f1001", result.getFamille().getUri()),
+                () -> assertEquals("idFamilleTest", result.getFamille().getId()),
+                () -> assertEquals("http://bauhaus/operations/famille/idFamilleTest", result.getFamille().getUri()),
                 () -> assertEquals("fr", result.getFamille().getLabel().getFirst().getLangue()),
-                () -> assertEquals("Famille de test", result.getFamille().getLabel().getFirst().getContenu()),
+                () -> assertEquals("Label Famille fr", result.getFamille().getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getFamille().getLabel().get(1).getLangue()),
-                () -> assertEquals("Test family", result.getFamille().getLabel().get(1).getContenu()),
+                () -> assertEquals("Family Label en", result.getFamille().getLabel().get(1).getContenu()),
 
                 // seriesPrecedentes
                 () -> assertEquals(1, result.getSeriesPrecedentes().size()),
-                () -> assertEquals("s1010", result.getSeriesPrecedentes().getFirst().getId()),
-                () -> assertEquals("http://id.insee.fr/operations/serie/s1010", result.getSeriesPrecedentes().getFirst().getUri()),
+                () -> assertEquals("idSeriePrecedenteTest", result.getSeriesPrecedentes().getFirst().getId()),
+                () -> assertEquals("http://bauhaus/operations/serie/idSeriePrecedenteTest", result.getSeriesPrecedentes().getFirst().getUri()),
                 () -> assertEquals("fr", result.getSeriesPrecedentes().getFirst().getLabel().getFirst().getLangue()),
-                () -> assertEquals("Enquête sur les compétences pour innover", result.getSeriesPrecedentes().getFirst().getLabel().getFirst().getContenu()),
+                () -> assertEquals("Label Série Précédente fr", result.getSeriesPrecedentes().getFirst().getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getSeriesPrecedentes().getFirst().getLabel().get(1).getLangue()),
-                () -> assertEquals("Innovative skills survey", result.getSeriesPrecedentes().getFirst().getLabel().get(1).getContenu()),
+                () -> assertEquals("Previous Series Label en", result.getSeriesPrecedentes().getFirst().getLabel().get(1).getContenu()),
 
                 // seriesSuivantes
                 () -> assertEquals(1, result.getSeriesSuivantes().size()),
 
                 // seriesLiees
                 () -> assertEquals(2, result.getSeriesLiees().size()),
-                () -> assertEquals("s1197", result.getSeriesLiees().getFirst().getId()),
-                () -> assertEquals("http://id.insee.fr/operations/serie/s1197", result.getSeriesLiees().getFirst().getUri()),
+                () -> assertEquals("idSerieLiee1Test", result.getSeriesLiees().getFirst().getId()),
+                () -> assertEquals("http://bauhaus/operations/serie/idSerieLiee1Test", result.getSeriesLiees().getFirst().getUri()),
                 () -> assertEquals("fr", result.getSeriesLiees().getFirst().getLabel().getFirst().getLangue()),
-                () -> assertEquals("Système immatriculation au répertoire des unités statistiques", result.getSeriesLiees().getFirst().getLabel().getFirst().getContenu()),
+                () -> assertEquals("Label Série Liée 1 fr", result.getSeriesLiees().getFirst().getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getSeriesLiees().getFirst().getLabel().get(1).getLangue()),
-                () -> assertEquals("Statistical business register", result.getSeriesLiees().getFirst().getLabel().get(1).getContenu()),
-                () -> assertEquals("s1198", result.getSeriesLiees().get(1).getId()),
+                () -> assertEquals("Related Series 1 Label en", result.getSeriesLiees().getFirst().getLabel().get(1).getContenu()),
+                () -> assertEquals("idSerieLiee2Test", result.getSeriesLiees().get(1).getId()),
 
                 // operations
                 () -> assertEquals(2, result.getOperations().size()),
-                () -> assertEquals("op2024", result.getOperations().getFirst().getId()),
-                () -> assertEquals("http://id.insee.fr/operations/operation/op2024", result.getOperations().getFirst().getUri()),
-                () -> assertEquals("Opération 2024", result.getOperations().getFirst().getLabel().getFirst().getContenu()),
+                () -> assertEquals("idOperation1SeriePrincipaleTest", result.getOperations().getFirst().getId()),
+                () -> assertEquals("http://bauhaus/operations/operation/idOperation1SeriePrincipaleTest", result.getOperations().getFirst().getUri()),
+                () -> assertEquals("Label Opération 1 fr", result.getOperations().getFirst().getLabel().getFirst().getContenu()),
 
-                // proprietaires (dc:creator)
+                // proprietaires
                 () -> assertEquals(1, result.getProprietaires().size()),
-                () -> assertEquals("insee", result.getProprietaires().getFirst().getId()),
-                () -> assertEquals("Institut national de la statistique", result.getProprietaires().getFirst().getLabel().getFirst().getContenu()),
+                () -> assertEquals("idOrganisationProprietaireTest", result.getProprietaires().getFirst().getId()),
+                () -> assertEquals("Label Organisation Propriétaire fr", result.getProprietaires().getFirst().getLabel().getFirst().getContenu()),
 
-                // organismesResponsables (dcterms:publisher)
+                // organismesResponsables
                 () -> assertEquals(1, result.getOrganismesResponsables().size()),
-                () -> assertEquals("drees", result.getOrganismesResponsables().getFirst().getId()),
+                () -> assertEquals("idOrganisationResponsableTest", result.getOrganismesResponsables().getFirst().getId()),
 
-                // partenaires (dcterms:contributor)
+                // partenaires
                 () -> assertEquals(1, result.getPartenaires().size()),
-                () -> assertEquals("dares", result.getPartenaires().getFirst().getId()),
+                () -> assertEquals("idOrganisationPartenaireTest", result.getPartenaires().getFirst().getId()),
 
                 // dates
-                () -> assertEquals(LocalDate.of (2020,1,15), result.getDateCreation()),
-                () -> assertEquals(LocalDate.of(2024,6,1), result.getDateMiseAJour()),
+                () -> assertEquals(LocalDate.of(2020, 1, 15), result.getDateCreation()),
+                () -> assertEquals(LocalDate.of(2024, 6, 1), result.getDateMiseAJour()),
 
                 // statut
                 () -> assertEquals("Publiée", result.getStatutValidation())
@@ -156,50 +156,45 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
     /////////////////////////////////////////////////////////
 
     @Test
-    void should_return_operationById_s2193_when_getOperationByCode_s2193() {
-        var response = endpoints.getOperationByCode("s2193");
+    void should_return_operationById_idOperationTest_when_getOperationByCode_idOperationTest() {
+        var response = endpoints.getOperationByCode("idOperationTest");
         var result = response.getBody();
 
         assertNotNull(result);
         assertAll(
-                // identifiants
-                () -> assertEquals("s2193", result.getId()),
-                () -> assertEquals("http://id.insee.fr/operations/operation/s2193", result.getUri()),
+                () -> assertEquals("idOperationTest", result.getId()),
+                () -> assertEquals("http://bauhaus/operations/operation/idOperationTest", result.getUri()),
 
-                // label
                 () -> assertEquals(2, result.getLabel().size()),
                 () -> assertEquals("fr", result.getLabel().getFirst().getLangue()),
-                () -> assertEquals("Enquête capacité à innover et stratégie 2024", result.getLabel().getFirst().getContenu()),
+                () -> assertEquals("Label Operation Test fr", result.getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getLabel().get(1).getLangue()),
-                () -> assertEquals("Community Innovation Survey 2024", result.getLabel().get(1).getContenu()),
+                () -> assertEquals("Test Operation Label en", result.getLabel().get(1).getContenu()),
 
-                // altLabel
                 () -> assertEquals(2, result.getAltLabel().size()),
                 () -> assertEquals("fr", result.getAltLabel().getFirst().getLangue()),
-                () -> assertEquals("CIS 2024", result.getAltLabel().getFirst().getContenu()),
+                () -> assertEquals("AltLabel Operation Test fr", result.getAltLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getAltLabel().get(1).getLangue()),
-                () -> assertEquals("CIS 2024", result.getAltLabel().get(1).getContenu()),
+                () -> assertEquals("Operation AltLabel en", result.getAltLabel().get(1).getContenu()),
 
-                // millesime
-                () -> assertEquals("2024", result.getMillesime()),
+                () -> assertEquals("2026", result.getMillesime()),
 
-                // serie
                 () -> assertNotNull(result.getSerie()),
-                () -> assertEquals("s1001", result.getSerie().getId()),
-                () -> assertEquals("http://id.insee.fr/operations/serie/s1001", result.getSerie().getUri()),
+                () -> assertEquals("idSerieTest", result.getSerie().getId()),
+                () -> assertEquals("http://bauhaus/operations/serie/idSerieTest", result.getSerie().getUri()),
                 () -> assertEquals("fr", result.getSerie().getLabel().getFirst().getLangue()),
-                () -> assertEquals("Enquête innovation", result.getSerie().getLabel().getFirst().getContenu()),
+                () -> assertEquals("Label Serie fr", result.getSerie().getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getSerie().getLabel().get(1).getLangue()),
-                () -> assertEquals("Innovation survey", result.getSerie().getLabel().get(1).getContenu()),
+                () -> assertEquals("Series Label en", result.getSerie().getLabel().get(1).getContenu()),
 
-                // rapportQualite
                 () -> assertNotNull(result.getRapportQualite()),
-                () -> assertEquals("2203", result.getRapportQualite().getId()),
-                () -> assertEquals("http://id.insee.fr/qualite/rapport/2203", result.getRapportQualite().getUri()),
+                () -> assertEquals("idRapportQualiteTest", result.getRapportQualite().getId()),
+                () -> assertEquals("http://bauhaus/qualite/rapport/idRapportQualiteTest", result.getRapportQualite().getUri()),
 
-                // dates
-                () -> assertEquals(LocalDate.of(2025,1,22), result.getDateCreation()),
-                () -> assertEquals(LocalDate.of(2025,4,2), result.getDateMiseAJour())
+                () -> assertEquals(LocalDate.of(2025, 1, 22), result.getDateCreation()),
+                () -> assertEquals(LocalDate.of(2025, 4, 2), result.getDateMiseAJour()),
+
+                () -> assertEquals("Validated", result.getStatutValidation())
         );
     }
 

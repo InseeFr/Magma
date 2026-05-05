@@ -18,8 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Tag("integration")
 class DatasetsQueriesTest extends TestcontainerTest {
 
-    static final String DATASET_ID = "25baaf1f-61cf-4d50-9124-1477afca2aa4";
-    static final String DATASET_URI = "http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4";
+    static final String DATASET_ID = "idDatasetTest";
+    static final String DATASET_URI = "http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest";
 
     @Autowired
     DatasetsEndpoints endpoints;
@@ -44,24 +44,24 @@ class DatasetsQueriesTest extends TestcontainerTest {
                 // catalogue record
                 () -> assertEquals("2024-12-09T12:00:00.000", result.getCatalogRecordCreated()),
                 () -> assertEquals("2024-12-09T12:00:00.000", result.getCatalogRecordModified()),
-                () -> assertEquals("DG75-L201", result.getCatalogRecordCreator()),
-                () -> assertEquals("DG75-L201", result.getCatalogRecordContributor()),
+                () -> assertEquals("DG75-TEST", result.getCatalogRecordCreator()),
+                () -> assertEquals("DG75-TEST", result.getCatalogRecordContributor()),
 
                 // identifier ADMS
-                () -> assertEquals("DD_EEC_SERIES", result.getIdentifier()),
+                () -> assertEquals("DD_DATASET_TEST", result.getIdentifier()),
 
                 // statut
                 () -> assertEquals("Provisoire, jamais publiée", result.getValidationState()),
 
                 // creator (vide : aucun dcterms:creator avec identifiant résolu)
-                 () -> assertNull(result.getCreator()),
+                () -> assertNull(result.getCreator()),
 
                 // title
                 () -> assertEquals(2, result.getTitle().size()),
                 () -> assertEquals("fr", result.getTitle().getFirst().getLangue()),
-                () -> assertEquals("Activité, emploi et chômage - séries longues", result.getTitle().getFirst().getContenu()),
+                () -> assertEquals("Titre du dataset test", result.getTitle().getFirst().getContenu()),
                 () -> assertEquals("en", result.getTitle().get(1).getLangue()),
-                () -> assertEquals("Activité, emploi et chômage - séries longues", result.getTitle().get(1).getContenu()),
+                () -> assertEquals("Dataset Test Title", result.getTitle().get(1).getContenu()),
 
                 // subtitle
                 () -> assertNull(result.getSubtitle()),
@@ -69,27 +69,27 @@ class DatasetsQueriesTest extends TestcontainerTest {
                 // abstract
                 () -> assertEquals(2, result.getAbstract().size()),
                 () -> assertEquals("fr", result.getAbstract().getFirst().getLangue()),
-                () -> assertEquals("Séries longues sur la population active, l'emploi, le chômage et le halo autour du chômage.", result.getAbstract().getFirst().getContenu()),
+                () -> assertEquals("Résumé du dataset test", result.getAbstract().getFirst().getContenu()),
                 () -> assertEquals("en", result.getAbstract().get(1).getLangue()),
                 () -> assertNull(result.getAbstract().get(1).getContenu()),
 
                 // description
                 () -> assertEquals(2, result.getDescription().size()),
                 () -> assertEquals("fr", result.getDescription().getFirst().getLangue()),
-                () -> assertTrue(result.getDescription().getFirst().getContenu().startsWith("Les données sont détaillées par sexe")),
+                () -> assertTrue(result.getDescription().getFirst().getContenu().startsWith("Description du dataset test")),
                 () -> assertEquals("en", result.getDescription().get(1).getLangue()),
                 () -> assertNull(result.getDescription().get(1).getContenu()),
 
                 // scopeNote
                 () -> assertEquals(2, result.getScopeNote().size()),
                 () -> assertEquals("fr", result.getScopeNote().getFirst().getLangue()),
-                () -> assertTrue(result.getScopeNote().getFirst().getContenu().startsWith("Des corrections sur les données")),
+                () -> assertTrue(result.getScopeNote().getFirst().getContenu().startsWith("Note de portée du dataset test")),
                 () -> assertEquals("en", result.getScopeNote().get(1).getLangue()),
                 () -> assertNull(result.getScopeNote().get(1).getContenu()),
 
                 // wasGeneratedBy
                 () -> assertEquals(1, result.getWasGeneratedBy().size()),
-                () -> assertEquals("http://bauhaus/operations/serie/s1223", result.getWasGeneratedBy().getFirst().getId()),
+                () -> assertEquals("http://bauhaus/operations/serie/idSerieGeneratrice", result.getWasGeneratedBy().getFirst().getId()),
 
                 // listes vides
                 () -> assertNull(result.getTheme()),
@@ -123,8 +123,8 @@ class DatasetsQueriesTest extends TestcontainerTest {
     ///        /datasets/list                              ///
     /////////////////////////////////////////////////////////
 
-    static final String DATASET_ID_2 = "a85dab6c-ef0f-4caa-9763-c7f8c840e216";
-    static final String DATASET_URI_2 = "http://bauhaus/catalogues/jeuDeDonnees/a85dab6c-ef0f-4caa-9763-c7f8c840e216";
+    static final String DATASET_ID_2 = "idDatasetTest2";
+    static final String DATASET_URI_2 = "http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest2";
 
     @Test
     void should_return_all_datasets() {
@@ -155,14 +155,14 @@ class DatasetsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("Unpublished", ds1.getValidationState()),
                 () -> assertEquals(2, ds1.getTitle().size()),
                 () -> assertEquals("fr", ds1.getTitle().getFirst().getLangue()),
-                () -> assertEquals("Activité, emploi et chômage - séries longues", ds1.getTitle().getFirst().getContenu()),
+                () -> assertEquals("Titre du dataset test", ds1.getTitle().getFirst().getContenu()),
 
                 // dataset 2
                 () -> assertEquals(DATASET_URI_2, ds2.getUri()),
                 () -> assertEquals("Unpublished", ds2.getValidationState()),
                 () -> assertEquals(2, ds2.getTitle().size()),
                 () -> assertEquals("fr", ds2.getTitle().getFirst().getLangue()),
-                () -> assertEquals("Activité des branches de l'économie", ds2.getTitle().getFirst().getContenu())
+                () -> assertEquals("Titre du dataset test 2", ds2.getTitle().getFirst().getContenu())
         );
     }
 
