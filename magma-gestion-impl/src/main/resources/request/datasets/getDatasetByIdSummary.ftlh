@@ -1,4 +1,4 @@
-SELECT DISTINCT (STR(?dataset) AS ?uri) ?id ?catalogRecordModified
+SELECT DISTINCT ?id ?catalogRecordModified
 FROM <${DATASETS_GRAPH}>
 WHERE {
     ?dataset a dcat:Dataset ;

@@ -241,6 +241,7 @@ public class DatasetsServiceImpl implements DatasetsService {
     @Override
     public DataSet transformDatasetByIdSummaryDTOToDataSet(DatasetByIdSummaryDTO dto) {
         DataSet dataSet = new DataSet();
+        dataSet.setUri(null);
         dataSet.setCreator(null);
         dataSet.setTitle(null);
         dataSet.setSubtitle(null);
@@ -261,7 +262,6 @@ public class DatasetsServiceImpl implements DatasetsService {
         dataSet.setAbstract(null);
 
         dataSet.setId(dto.id());
-        dataSet.setUri(dto.uri());
         dataSet.setCatalogRecordModified(dto.catalogRecordModified());
         return dataSet;
     }
