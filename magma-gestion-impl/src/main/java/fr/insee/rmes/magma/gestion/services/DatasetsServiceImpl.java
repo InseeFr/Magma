@@ -22,6 +22,44 @@ public class DatasetsServiceImpl implements DatasetsService {
 
     private DataSet transformDatasetDTOToDataSet(DatasetDTO dto) {
         DataSet dataSet = new DataSet();
+
+        dataSet.setLandingPage(null);
+        dataSet.setModified(null);
+        dataSet.setIssued(null);
+        dataSet.setVersion(null);
+        dataSet.setSpatialTemporal(null);
+        dataSet.setDisseminationStatus(null);
+        dataSet.setIdentifier(null);
+        dataSet.setCatalogRecordCreated(null);
+        dataSet.setCatalogRecordModified(null);
+        dataSet.setCatalogRecordCreator(null);
+        dataSet.setCatalogRecordContributor(null);
+        dataSet.setNumObservations(null);
+        dataSet.setNumSeries(null);
+        dataSet.setSubtitle(null);
+        dataSet.setAbstract(null);
+        dataSet.setDescription(null);
+        dataSet.setScopeNote(null);
+        dataSet.setPublisher(null);
+        dataSet.setKeyword(null);
+        dataSet.setType(null);
+        dataSet.setAccessRights(null);
+        dataSet.setConfidentialityStatus(null);
+        dataSet.setSpatial(null);
+        dataSet.setTemporal(null);
+        dataSet.setStructure(null);
+        dataSet.setCreator(null);
+        dataSet.setWasGeneratedBy(null);
+        dataSet.setTheme(null);
+        dataSet.setRelations(null);
+        dataSet.setArchiveUnit(null);
+        dataSet.setWasDerivedFrom(null);
+        dataSet.setProcessStep(null);
+        dataSet.setAccrualPeriodicity(null);
+        dataSet.setTemporalResolution(null);
+        dataSet.setSpatialResolution(null);
+        dataSet.setStatisticalUnit(null);
+
         dataSet.setId(dto.id());
         dataSet.setUri(dto.uri());
         dataSet.setValidationState(dto.statutValidation());
