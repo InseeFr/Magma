@@ -471,13 +471,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: dateMiseAJour
-          in: query
-          description: If true, returns only the update date summary
-          required: false
-          schema:
-            type: boolean
-            default: false
       responses:
         '200':
           description: Success
