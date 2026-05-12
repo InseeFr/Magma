@@ -64,7 +64,7 @@ public class DatasetsServiceImpl implements DatasetsService {
         dataSet.setUri(dto.uri());
         dataSet.setValidationState(dto.statutValidation());
         dataSet.setCatalogRecordCreated(dto.dateCreation() != null ? dto.dateCreation().toString() : null);
-        dataSet.setCatalogRecordModified(dto.dateMiseAJour() != null ? dto.dateMiseAJour().toString() : null);
+        dataSet.setCatalogRecordModified(dto.catalogRecordModified() != null ? dto.catalogRecordModified().toString() : null);
         dataSet.setTitle(createListLangueContenu(
                 createLangueContenu(dto.titreLg1(),"fr"),
                 createLangueContenu(dto.titreLg2(),"en")));
