@@ -276,34 +276,6 @@ public class DatasetsServiceImpl implements DatasetsService {
         return dataSet;
     }
 
-    @Override
-    public DataSet transformDatasetByIdSummaryDTOToDataSet(DatasetByIdSummaryDTO dto) {
-        DataSet dataSet = new DataSet();
-        dataSet.setUri(null);
-        dataSet.setCreator(null);
-        dataSet.setTitle(null);
-        dataSet.setSubtitle(null);
-        dataSet.setDescription(null);
-        dataSet.setScopeNote(null);
-        dataSet.setWasGeneratedBy(null);
-        dataSet.setType(null);
-        dataSet.setArchiveUnit(null);
-        dataSet.setAccessRights(null);
-        dataSet.setConfidentialityStatus(null);
-        dataSet.setTheme(null);
-        dataSet.setLandingPage(null);
-        dataSet.setTemporalResolution(null);
-        dataSet.setSpatialResolution(null);
-        dataSet.setStatisticalUnit(null);
-        dataSet.setRelations(null);
-        dataSet.setKeyword(null);
-        dataSet.setAbstract(null);
-
-        dataSet.setId(dto.id());
-        dataSet.setCatalogRecordModified(dto.catalogRecordModified());
-        return dataSet;
-    }
-
     private List<LocalisedLabel> buildKeywords(String kwLg1, String kwLg2) {
         List<LocalisedLabel> keywords = new java.util.ArrayList<>();
         if (kwLg1 != null && !kwLg1.isBlank()) {
