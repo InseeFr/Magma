@@ -26,20 +26,12 @@ public class DatasetsEndpoints implements DatasetsApi {
 
     @Override
     public ResponseEntity<List<DataSet>> getListDatasets(@Nullable String dateMiseAJour) {
-        List<DatasetDTO> dtos;
-        if (dateMiseAJour == null || dateMiseAJour.isBlank()) {
-            dtos = requestProcessor.queryToFindAllDatasets()
-                    .with(new DatasetsRequestParametizer(null))
-                    .executeQuery()
-                    .listResult(DatasetDTO.class)
-                    .result();
-        } else {
-            dtos = requestProcessor.queryToFindAllDatasetsByDate()
-                    .with(new DatasetsRequestParametizer(dateMiseAJour))
-                    .executeQuery()
-                    .listResult(DatasetDTO.class)
-                    .result();
-        }
+        List<DatasetDTO> dtos = requestProcessor.queryToFindAllDatasets()
+                .with(new DatasetsRequestParametizer(dateMiseAJour))
+                .executeQuery()
+                .listResult(DatasetDTO.class)
+                .result();
+
         List<DataSet> dataSets = datasetsService.transformDatasetDTOsToDataSets(dtos);
         return ResponseEntity.ok(dataSets);
     }
