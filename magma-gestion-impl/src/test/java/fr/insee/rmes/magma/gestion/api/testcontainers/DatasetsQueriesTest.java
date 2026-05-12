@@ -105,7 +105,7 @@ class DatasetsQueriesTest extends TestcontainerTest {
 
 
     /////////////////////////////////////////////////////////
-    ///        /datasets/list                              ///
+    ///        /datasets/list                             ///
     /////////////////////////////////////////////////////////
 
     static final String DATASET_ID_2 = "idDatasetTest2";
@@ -149,6 +149,28 @@ class DatasetsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("fr", ds2.getTitle().getFirst().getLangue()),
                 () -> assertEquals("Titre du dataset test 2", ds2.getTitle().getFirst().getContenu())
         );
+    }
+
+    @Test
+    void should_return_all_datasets_when_dateMiseAJour_is_before_modified_date() {
+        var response = endpoints.getListDatasets("2024-12-08T00:00:00.000");
+        var result = response.getBody();
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+
+        var ids = result.stream().map(DataSet::getId).toList();
+        assertTrue(ids.contains(DATASET_ID));
+        assertTrue(ids.contains(DATASET_ID_2));
+    }
+
+    @Test
+    void should_return_empty_list_when_dateMiseAJour_is_after_modified_date() {
+        var response = endpoints.getListDatasets("2024-12-10T00:00:00.000");
+        var result = response.getBody();
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 
     /////////////////////////////////////////////////////////
