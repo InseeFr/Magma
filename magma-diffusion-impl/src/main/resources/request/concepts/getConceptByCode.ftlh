@@ -10,11 +10,11 @@ WHERE {
 
             OPTIONAL {
 			    ?uri skos:prefLabel ?intituleFr .
-			    FILTER(lang(?intituleFr) = 'fr')
+			    FILTER(lang(?intituleFr) = '${LG1}')
             }
             OPTIONAL {
 			    ?uri skos:prefLabel ?intituleEn .
-			    FILTER(lang(?intituleEn) = 'en')
+			    FILTER(lang(?intituleEn) = '${LG2}')
 			}
 
 			BIND(EXISTS{?uri (skos:broader|skos:narrower|skos:related|dcterms:replaces|dcterms:isReplacedBy|skos:closeMatch|dcterms:references) ?repl } AS ?hasLink)
