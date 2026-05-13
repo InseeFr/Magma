@@ -8,10 +8,14 @@ WHERE {
 			FILTER(REGEX(STR(?uriScheme),'/concepts/definitions/scheme')) 
 			FILTER(REGEX(STR(?uri),'/concepts/definition/${id}')) .
 
-			?uri skos:prefLabel ?intituleFr . 
-			FILTER(lang(?intituleFr) = 'fr') 
-			?uri skos:prefLabel ?intituleEn . 
-			FILTER(lang(?intituleEn) = 'en')
+            OPTIONAL {
+			    ?uri skos:prefLabel ?intituleFr .
+			    FILTER(lang(?intituleFr) = '${LG1}')
+            }
+            OPTIONAL {
+			    ?uri skos:prefLabel ?intituleEn .
+			    FILTER(lang(?intituleEn) = '${LG2}')
+			}
 
 			BIND(EXISTS{?uri (skos:broader|skos:narrower|skos:related|dcterms:replaces|dcterms:isReplacedBy|skos:closeMatch|dcterms:references) ?repl } AS ?hasLink)
 			
