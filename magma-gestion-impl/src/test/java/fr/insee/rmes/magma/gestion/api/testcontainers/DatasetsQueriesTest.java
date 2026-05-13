@@ -27,12 +27,12 @@ class DatasetsQueriesTest extends TestcontainerTest {
     private MockMvc mockMvc;
 
     /////////////////////////////////////////////////////////
-    ///        /dataset/{id}?dateMiseAJour=false           ///
+    ///        /dataset/{id}                              ///
     /////////////////////////////////////////////////////////
 
     @Test
-    void should_return_full_dataset_when_getDataSetById_dateMiseAJour_false() {
-        var response = endpoints.getDataSetById(DATASET_ID, false);
+    void should_return_full_dataset_when_getDataSetById() {
+        var response = endpoints.getDataSetById(DATASET_ID);
         var result = response.getBody();
 
         assertNotNull(result);
@@ -102,25 +102,10 @@ class DatasetsQueriesTest extends TestcontainerTest {
         );
     }
 
-    /////////////////////////////////////////////////////////
-    ///        /dataset/{id}?dateMiseAJour=true            ///
-    /////////////////////////////////////////////////////////
 
-    @Test
-    void should_return_summary_dataset_when_getDataSetById_dateMiseAJour_true() {
-        var response = endpoints.getDataSetById(DATASET_ID, true);
-        var result = response.getBody();
-
-        assertNotNull(result);
-        assertAll(
-                () -> assertEquals(DATASET_ID, result.getId()),
-                () -> assertEquals(DATASET_URI, result.getUri()),
-                () -> assertEquals("2024-12-09T12:00:00.000", result.getCatalogRecordModified())
-        );
-    }
 
     /////////////////////////////////////////////////////////
-    ///        /datasets/list                              ///
+    ///        /datasets/list                             ///
     /////////////////////////////////////////////////////////
 
     static final String DATASET_ID_2 = "idDatasetTest2";
@@ -164,6 +149,28 @@ class DatasetsQueriesTest extends TestcontainerTest {
                 () -> assertEquals("fr", ds2.getTitle().getFirst().getLangue()),
                 () -> assertEquals("Titre du dataset test 2", ds2.getTitle().getFirst().getContenu())
         );
+    }
+
+    @Test
+    void should_return_all_datasets_when_dateMiseAJour_is_before_modified_date() {
+        var response = endpoints.getListDatasets("2024-12-08T00:00:00.000");
+        var result = response.getBody();
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+
+        var ids = result.stream().map(DataSet::getId).toList();
+        assertTrue(ids.contains(DATASET_ID));
+        assertTrue(ids.contains(DATASET_ID_2));
+    }
+
+    @Test
+    void should_return_empty_list_when_dateMiseAJour_is_after_modified_date() {
+        var response = endpoints.getListDatasets("2024-12-10T00:00:00.000");
+        var result = response.getBody();
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 
     /////////////////////////////////////////////////////////

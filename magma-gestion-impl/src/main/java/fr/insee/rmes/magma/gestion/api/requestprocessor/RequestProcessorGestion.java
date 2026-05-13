@@ -30,16 +30,8 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
         return new ExecutableQueryBuilder(ALL_DATASETS, this);
     }
 
-    public ExecutableQueryBuilder queryToFindAllDatasetsByDate() {
-        return new ExecutableQueryBuilder(ALL_DATASETS_BY_DATE, this);
-    }
-
     public ExecutableQueryBuilder queryToFindDatasetById() {
         return new ExecutableQueryBuilder(DATASET_BY_ID, this);
-    }
-
-    public ExecutableQueryBuilder queryToFindDatasetByIdSummary() {
-        return new ExecutableQueryBuilder(DATASET_BY_ID_SUMMARY, this);
     }
 
     public record ExecutableQueryBuilder(String queryPath, RequestProcessorGestion requestProcessor) {

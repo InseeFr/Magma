@@ -323,25 +323,6 @@ class DatasetsServiceImplTest {
         assertNull(service.transformDatasetByIdDTOToDataSet(minimalDatasetByIdDTO()).getWasDerivedFrom());
     }
 
-    // =========================================================
-    //   transformDatasetByIdSummaryDTOToDataSet
-    // =========================================================
-
-    @Test
-    void should_map_summary_fields() {
-        var dto = new DatasetByIdSummaryDTO(
-                "http://bauhaus/ds/25baaf1f",
-                "25baaf1f",
-                "2024-12-09T12:00:00"
-        );
-        var result = service.transformDatasetByIdSummaryDTOToDataSet(dto);
-
-        assertAll(
-                () -> assertEquals("25baaf1f", result.getId()),
-                () -> assertEquals("http://bauhaus/ds/25baaf1f", result.getUri()),
-                () -> assertEquals("2024-12-09T12:00:00", result.getCatalogRecordModified())
-        );
-    }
 
     // =========================================================
     //   Fixtures

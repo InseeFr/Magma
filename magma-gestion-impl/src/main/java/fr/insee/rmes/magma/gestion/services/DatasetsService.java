@@ -13,5 +13,4 @@ public interface DatasetsService {
 
     DataSet transformDatasetByIdDTOToDataSet(DatasetByIdDTO dto);
 
-    DataSet transformDatasetByIdSummaryDTOToDataSet(DatasetByIdSummaryDTO dto);
 }

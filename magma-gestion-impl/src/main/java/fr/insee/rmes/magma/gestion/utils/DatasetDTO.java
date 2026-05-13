@@ -7,7 +7,7 @@ public record DatasetDTO(
         String uri,
         String titreLg1,
         String titreLg2,
-        LocalDate dateMiseAJour,
+        LocalDate catalogRecordModified,
         String statutValidation,
         LocalDate dateCreation
 ) {

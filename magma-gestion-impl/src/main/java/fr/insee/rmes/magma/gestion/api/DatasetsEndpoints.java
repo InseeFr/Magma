@@ -26,46 +26,26 @@ public class DatasetsEndpoints implements DatasetsApi {
 
     @Override
     public ResponseEntity<List<DataSet>> getListDatasets(@Nullable String dateMiseAJour) {
-        List<DatasetDTO> dtos;
-        if (dateMiseAJour == null || dateMiseAJour.isBlank()) {
-            dtos = requestProcessor.queryToFindAllDatasets()
-                    .with(new DatasetsRequestParametizer(null))
-                    .executeQuery()
-                    .listResult(DatasetDTO.class)
-                    .result();
-        } else {
-            dtos = requestProcessor.queryToFindAllDatasetsByDate()
-                    .with(new DatasetsRequestParametizer(dateMiseAJour))
-                    .executeQuery()
-                    .listResult(DatasetDTO.class)
-                    .result();
-        }
+        List<DatasetDTO> dtos = requestProcessor.queryToFindAllDatasets()
+                .with(new DatasetsRequestParametizer(dateMiseAJour))
+                .executeQuery()
+                .listResult(DatasetDTO.class)
+                .result();
+
         List<DataSet> dataSets = datasetsService.transformDatasetDTOsToDataSets(dtos);
         return ResponseEntity.ok(dataSets);
     }
 
     @Override
-    public ResponseEntity<DataSet> getDataSetById(String id, Boolean dateMiseAJour) {
-        if (Boolean.TRUE.equals(dateMiseAJour)) {
-            DatasetByIdSummaryDTO summaryDTO = requestProcessor.queryToFindDatasetByIdSummary()
-                    .with(new DatasetsRequestParametizer(id, null))
-                    .executeQuery()
-                    .singleResult(DatasetByIdSummaryDTO.class)
-                    .result();
-            if (summaryDTO == null) {
-                return ResponseEntity.notFound().build();
-            }
-            return ResponseEntity.ok(datasetsService.transformDatasetByIdSummaryDTOToDataSet(summaryDTO));
-        } else {
-            DatasetByIdDTO dto = requestProcessor.queryToFindDatasetById()
-                    .with(new DatasetsRequestParametizer(id, null))
-                    .executeQuery()
-                    .singleResult(DatasetByIdDTO.class)
-                    .result();
-            if (dto == null) {
-                return ResponseEntity.notFound().build();
-            }
-            return ResponseEntity.ok(datasetsService.transformDatasetByIdDTOToDataSet(dto));
+    public ResponseEntity<DataSet> getDataSetById(String id) {
+        DatasetByIdDTO dto = requestProcessor.queryToFindDatasetById()
+                .with(new DatasetsRequestParametizer(id, null))
+                .executeQuery()
+                .singleResult(DatasetByIdDTO.class)
+                .result();
+        if (dto == null) {
+            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(datasetsService.transformDatasetByIdDTOToDataSet(dto));
     }
 }

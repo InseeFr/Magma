@@ -1,4 +1,4 @@
-SELECT ?id ?uri ?titreLg1 ?titreLg2 ?dateMiseAJour ?statutValidation ?dateCreation
+SELECT ?id ?uri ?titreLg1 ?titreLg2 ?catalogRecordModified ?statutValidation ?dateCreation
 FROM <${DATASETS_GRAPH}>
 WHERE {
     ?uriCatalogRecord rdf:type dcat:CatalogRecord .
@@ -7,9 +7,14 @@ WHERE {
     ?uri dcterms:identifier ?id .
     ?uri dcterms:title ?titreLg1 .
     FILTER (LANG(?titreLg1) = '${LG1}')
-    ?uri dcterms:title ?titreLg2 .
-    FILTER (LANG(?titreLg2) = '${LG2}')
-    ?uriCatalogRecord dcterms:modified ?dateMiseAJour .
+    OPTIONAL {
+        ?uri dcterms:title ?titreLg2 .
+        FILTER (LANG(?titreLg2) = '${LG2}')
+    }
+    ?uriCatalogRecord dcterms:modified ?catalogRecordModified .
     ?uriCatalogRecord dcterms:created ?dateCreation .
     ?uri insee:validationState ?statutValidation .
+<#if date?? && date?trim?has_content>
+    FILTER (?catalogRecordModified > "${date}"^^xsd:dateTime)
+</#if>
 }
