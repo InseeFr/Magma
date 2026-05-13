@@ -8,9 +8,11 @@ WHERE {
 			FILTER(REGEX(STR(?uriScheme),'/concepts/definitions/scheme')) 
 			FILTER(REGEX(STR(?uri),'/concepts/definition/${id}')) .
 
-			?uri skos:prefLabel ?intituleFr . 
-			FILTER(lang(?intituleFr) = 'fr')
-			OPTIONAL {
+            OPTIONAL {
+			    ?uri skos:prefLabel ?intituleFr .
+			    FILTER(lang(?intituleFr) = 'fr')
+            }
+            OPTIONAL {
 			    ?uri skos:prefLabel ?intituleEn .
 			    FILTER(lang(?intituleEn) = 'en')
 			}
