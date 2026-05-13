@@ -9,9 +9,11 @@ WHERE {
 			FILTER(REGEX(STR(?uri),'/concepts/definition/${id}')) .
 
 			?uri skos:prefLabel ?intituleFr . 
-			FILTER(lang(?intituleFr) = 'fr') 
-			?uri skos:prefLabel ?intituleEn . 
-			FILTER(lang(?intituleEn) = 'en')
+			FILTER(lang(?intituleFr) = 'fr')
+			OPTIONAL {
+			    ?uri skos:prefLabel ?intituleEn .
+			    FILTER(lang(?intituleEn) = 'en')
+			}
 
 			BIND(EXISTS{?uri (skos:broader|skos:narrower|skos:related|dcterms:replaces|dcterms:isReplacedBy|skos:closeMatch|dcterms:references) ?repl } AS ?hasLink)
 			
