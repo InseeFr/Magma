@@ -3,7 +3,7 @@ FROM <http://rdf.insee.fr/graphes/catalogue>
 
 where {
         ?uriDataset dcat:distribution ?uri .
-        ?uriDataset dcterms:identifier "${ID}" .
+        ?uriDataset dcterms:identifier "${id}" .
         ?uri dcterms:identifier ?identifier .
         OPTIONAL{ ?uri dcterms:description ?descriptionLg1 .
             FILTER(lang(?descriptionLg1) = '${LG1}')
