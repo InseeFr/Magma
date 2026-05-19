@@ -4,8 +4,10 @@ import fr.insee.rmes.magma.gestion.utils.OperationDTO;
 import fr.insee.rmes.magma.gestion.utils.SeriesDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,6 +18,8 @@ class SeriesOperationsServiceImplTest {
     @BeforeEach
     void setUp() {
         service = new SeriesOperationsServiceImpl();
+        ReflectionTestUtils.setField(service, "lg1", "fr");
+        ReflectionTestUtils.setField(service, "lg2", "en");
     }
 
     // =========================================================
@@ -199,6 +203,75 @@ class SeriesOperationsServiceImplTest {
                 () -> assertTrue(result.getOrganismesResponsables().isEmpty()),
                 () -> assertTrue(result.getPartenaires().isEmpty()),
                 () -> assertTrue(result.getServicesCollecteurs().isEmpty())
+        );
+    }
+
+    // =========================================================
+    //   transformSeriesDTOsToSeries
+    // =========================================================
+
+    @Test
+    void should_return_empty_list_when_input_is_empty() {
+        var result = service.transformSeriesDTOsToSeries(List.of());
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void should_map_seriesId_and_uri_for_each_dto() {
+        var dtos = List.of(
+                minimalSeriesDTO(),
+                new SeriesDTO(
+                        "s1002", "http://id.insee.fr/operations/serie/s1002",
+                        "Enquête 2 FR", "Survey 2 EN", null, null, null, null, null, null,
+                        null, null, null, null, null, null, null, null,
+                        null, null, null, null, null, null, null, null,
+                        null, null, null, null, null, null, null)
+        );
+
+        var result = service.transformSeriesDTOsToSeries(dtos);
+
+        assertAll(
+                () -> assertEquals(2, result.size()),
+                () -> assertEquals("s1001", result.getFirst().getSeriesId()),
+                () -> assertEquals("http://id.insee.fr/operations/serie/s1001", result.getFirst().getUri()),
+                () -> assertEquals("s1002", result.get(1).getSeriesId()),
+                () -> assertEquals("http://id.insee.fr/operations/serie/s1002", result.get(1).getUri())
+        );
+    }
+
+    @Test
+    void should_map_multilingual_labels_for_each_serie() {
+        var dtos = List.of(minimalSeriesDTO());
+
+        var result = service.transformSeriesDTOsToSeries(dtos);
+        var label = result.getFirst().getLabel();
+
+        assertAll(
+                () -> assertEquals(2, label.size()),
+                () -> assertEquals("fr", label.getFirst().getLangue()),
+                () -> assertEquals("Label FR", label.getFirst().getContenu()),
+                () -> assertEquals("en", label.get(1).getLangue()),
+                () -> assertEquals("Label EN", label.get(1).getContenu())
+        );
+    }
+
+    @Test
+    void should_only_populate_seriesId_uri_and_label_not_detail_fields() {
+        var result = service.transformSeriesDTOsToSeries(List.of(fullSeriesDTO()));
+        var serie = result.getFirst();
+
+        assertAll(
+                () -> assertNull(serie.getDateCreation()),
+                () -> assertNull(serie.getDateMiseAJour()),
+                () -> assertNull(serie.getStatutValidation()),
+                () -> assertNull(serie.getType()),
+                () -> assertNull(serie.getFrequenceCollecte()),
+                () -> assertNull(serie.getFamille()),
+                () -> assertNull(serie.getAltLabel()),
+                () -> assertNull(serie.getResume()),
+                () -> assertNull(serie.getNoteHistorique())
         );
     }
 
