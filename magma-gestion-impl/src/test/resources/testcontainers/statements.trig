@@ -51,8 +51,8 @@
         skos:historyNote "Historical note test"@en ;
         dcterms:type <http://bauhaus/concepts/type/E> ;
         dcterms:accrualPeriodicity <http://bauhaus/concepts/periodicity/A> ;
-        dcterms:created "2020-01-15" ;
-        dcterms:modified "2024-06-01" ;
+        dcterms:created "2020-01-15"^^xsd:date ;
+        dcterms:modified "2024-06-01"^^xsd:date ;
         insee:validationState "Publiée" ;
         dc:creator <http://bauhaus/organisations/idOrganisationProprietaireTest> ;
         dcterms:publisher <http://bauhaus/organisations/idOrganisationResponsableTest> ;
@@ -134,8 +134,8 @@
         skos:altLabel "AltLabel Operation Test fr"@fr ;
         skos:altLabel "Operation AltLabel en"@en ;
         dcterms:temporal "2026" ;
-        dcterms:created "2025-01-22" ;
-        dcterms:modified "2025-04-02" ;
+        dcterms:created "2025-01-22"^^xsd:date ;
+        dcterms:modified "2025-04-02"^^xsd:date ;
         insee:validationState "Validated" .
 
     <http://bauhaus/concepts/type/E>

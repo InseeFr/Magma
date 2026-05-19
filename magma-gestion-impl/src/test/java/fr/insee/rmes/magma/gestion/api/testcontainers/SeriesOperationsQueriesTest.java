@@ -232,6 +232,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
         );
     }
 
+//    Filtre date → 1 résultat (idSerieTest, dont l'opération a modified = 2025-04-02)
     @Test
     void should_return_filtered_series_when_getAllSeries_with_date_2025_01_01() {
         var response = endpoints.getAllSeries("2025-01-01");
@@ -245,6 +246,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
         );
     }
 
+//    Filtre date → 2 résultats (idSeriePrincipaleTest + idSerieTest)
     @Test
     void should_return_filtered_series_when_getAllSeries_with_date_2024_01_01() {
         var response = endpoints.getAllSeries("2024-01-01");
