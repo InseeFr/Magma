@@ -229,12 +229,12 @@ paths:
       summary: Get all series
       operationId: getAllSeries
       parameters:
-        - name: survey
+        - name: dateMiseAJour
           in: query
-          description: Filter for survey only
-          required: true
+          description: 'Date of last update. Example: 2023-01-31'
+          required: false
           schema:
-            type: boolean
+            type: string
       responses:
         '200':
           description: Success

@@ -5,7 +5,10 @@ import fr.insee.rmes.magma.gestion.model.SerieById;
 import fr.insee.rmes.magma.gestion.utils.OperationDTO;
 import fr.insee.rmes.magma.gestion.utils.SeriesDTO;
 
+import java.util.List;
+
 public interface SeriesOperationsService {
     SerieById transformSeriesDTOToSerieById(SeriesDTO seriesDTO);
     OperationById transformOperationDTOToOperationById(OperationDTO operationDTO);
+    List<SerieById> transformSeriesDTOsToSeries(List<SeriesDTO> dtos);
 }

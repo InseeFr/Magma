@@ -127,6 +127,34 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
         return operationById;
     }
 
+    @Override
+    public List<SerieById> transformSeriesDTOsToSeries(List<SeriesDTO> dtos) {
+        return dtos.stream().map(this::transformSeriesDTOToSeriesItem).toList();
+    }
+
+    private SerieById transformSeriesDTOToSeriesItem(SeriesDTO dto) {
+        SerieById serieById = new SerieById();
+        serieById.setOperations(null);
+        serieById.setAltLabel(null);
+        serieById.setDateCreation(null);
+        serieById.setResume(null);
+        serieById.setNoteHistorique(null);
+        serieById.setSeriesPrecedentes(null);
+        serieById.setSeriesSuivantes(null);
+        serieById.setSeriesLiees(null);
+        serieById.setIndicateurs(null);
+        serieById.setProprietaires(null);
+        serieById.setOrganismesResponsables(null);
+        serieById.setPartenaires(null);
+        serieById.setServicesCollecteurs(null);
+        serieById.setSeriesId(dto.seriesId());
+        serieById.setUri(dto.series());
+        serieById.setLabel(createListLangueContenu(
+                createLangueContenu(dto.seriesLabelLg1(), "fr"),
+                createLangueContenu(dto.seriesLabelLg2(), "en")));
+        return serieById;
+    }
+
     private SerieByIdType parseFamille(String raw) {
         if (raw == null || raw.isBlank()) {
             return null;
