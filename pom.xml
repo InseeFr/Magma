@@ -6,13 +6,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.13</version>
+        <version>3.5.14</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <packaging>jar</packaging>
     <groupId>fr.insee.rmes</groupId>
     <artifactId>magma</artifactId>
-    <version>1.4.18</version>
+    <version>1.4.18-rc1</version>
     <name>magma</name>
     <description>Metadata management API</description>
     <organization>
