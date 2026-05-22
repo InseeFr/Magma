@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.apache.http.HttpStatus;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -57,9 +57,9 @@ public class DataSetResources {
         }
         String jsonResult = dataSetsServices.getListDataSets(dateMiseAJour);
         if (jsonResult.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
-            return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+            return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
         }
     }
 
@@ -75,18 +75,18 @@ public class DataSetResources {
         if (!boolDateMiseAJour) {
             String jsonResult = dataSetsServices.getDataSetByID(id);
             if (jsonResult.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             } else {
-                return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+                return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
             }
         }
         // Sinon, on renvoie juste la date MiseAJour
         else {
             String jsonResult = dataSetsServices.getDataSetByIDSummary(id);
             if (jsonResult.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             } else {
-                return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+                return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
             }
         }
 
@@ -112,7 +112,7 @@ public class DataSetResources {
             @AuthenticationPrincipal Object principal
     ) throws RmesException, MalformedURLException {
         if (token == null){
-            return ResponseEntity.status(HttpStatus.SC_UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         return this.dataSetsServices.patchDataset(datasetId,stringPatchDataset,token, this.userDecoder.fromPrincipal(principal));
     }
