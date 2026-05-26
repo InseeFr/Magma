@@ -112,7 +112,7 @@ class DatasetsQueriesTest extends TestcontainerTest {
     static final String DATASET_URI_2 = "http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest2";
 
     @Test
-    void should_return_all_datasets() {
+    void should_return_all_datasets_when_getListDatasets() {
         var response = endpoints.getListDatasets(null);
         var result = response.getBody();
 
