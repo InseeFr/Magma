@@ -1,10 +1,9 @@
 package fr.insee.rmes.services.datasets;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.rmes.dto.datasets.PatchDatasetDTO;
 import fr.insee.rmes.model.datasets.Distributions;
-import fr.insee.security.User;
 import fr.insee.rmes.utils.exceptions.RmesException;
+import fr.insee.security.User;
 import org.springframework.http.ResponseEntity;
 import tools.jackson.core.JacksonException;
 

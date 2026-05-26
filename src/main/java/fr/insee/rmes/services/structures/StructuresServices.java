@@ -1,6 +1,5 @@
 package fr.insee.rmes.services.structures;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
