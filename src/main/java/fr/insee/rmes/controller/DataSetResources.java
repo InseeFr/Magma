@@ -1,6 +1,6 @@
 package fr.insee.rmes.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import fr.insee.security.UserDecoder;
 import fr.insee.rmes.dto.datasets.PatchDatasetDTO;
 import fr.insee.rmes.model.datasets.Distributions;
@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.apache.http.HttpStatus;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -51,15 +51,15 @@ public class DataSetResources {
     @GetMapping(path = "/datasets/list", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(operationId = "getListDatasets", summary = "Get list of datasets", security = @SecurityRequirement(name = "bearerScheme"),
             responses = {@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(type = "array", implementation = DataSetModelSwagger.class)))})
-    public ResponseEntity<String> getListDatasets(@RequestParam(required = false) @Parameter(description = "Date of last update. Example: 2023-01-31") String dateMiseAJour) throws RmesException, JsonProcessingException {
+    public ResponseEntity<String> getListDatasets(@RequestParam(required = false) @Parameter(description = "Date of last update. Example: 2023-01-31") String dateMiseAJour) throws RmesException, JacksonException  {
         if (dateMiseAJour == null){
             dateMiseAJour = "";
         }
         String jsonResult = dataSetsServices.getListDataSets(dateMiseAJour);
         if (jsonResult.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
-            return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+            return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
         }
     }
 
@@ -69,24 +69,24 @@ public class DataSetResources {
 
     public ResponseEntity<String> getDataSetByID(@PathVariable("id") String id,
                                                  @RequestParam(name = "dateMiseAJour", defaultValue = "false") boolean boolDateMiseAJour
-    ) throws RmesException, JsonProcessingException {
+    ) throws RmesException, JacksonException  {
 
         // par défaut ce booléen est faux et donc on renvoie tout les infos d'un dataset
         if (!boolDateMiseAJour) {
             String jsonResult = dataSetsServices.getDataSetByID(id);
             if (jsonResult.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             } else {
-                return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+                return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
             }
         }
         // Sinon, on renvoie juste la date MiseAJour
         else {
             String jsonResult = dataSetsServices.getDataSetByIDSummary(id);
             if (jsonResult.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             } else {
-                return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+                return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
             }
         }
 
@@ -95,7 +95,7 @@ public class DataSetResources {
 
 
     @GetMapping(path = "/dataset/{id}/distributions", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Distributions[]>  getDataSetDistributionsById(@PathVariable String id) throws RmesException, JsonProcessingException {
+    public ResponseEntity<Distributions[]>  getDataSetDistributionsById(@PathVariable String id) throws RmesException, JacksonException  {
 
         return ResponseEntity.ok(dataSetsServices.getDataSetDistributionsById(id));
     }
@@ -112,7 +112,7 @@ public class DataSetResources {
             @AuthenticationPrincipal Object principal
     ) throws RmesException, MalformedURLException {
         if (token == null){
-            return ResponseEntity.status(HttpStatus.SC_UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         return this.dataSetsServices.patchDataset(datasetId,stringPatchDataset,token, this.userDecoder.fromPrincipal(principal));
     }
