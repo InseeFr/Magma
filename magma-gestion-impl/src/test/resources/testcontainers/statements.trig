@@ -184,7 +184,21 @@
         skos:scopeNote "Note de portée du dataset test"@fr ;
         insee:validationState "Unpublished" ;
         prov:wasGeneratedBy <http://bauhaus/operations/serie/idSerieGeneratrice> ;
-        adms:identifier <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest/ident> .
+        adms:identifier <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest/ident> ;
+        dcat:distribution <http://bauhaus/catalogues/distribution/idDistributionTest> .
+
+    <http://bauhaus/catalogues/distribution/idDistributionTest>
+        rdf:type dcat:Distribution ;
+        dcterms:identifier "idDistributionTest" ;
+        dcterms:title "Titre de la distribution test"@fr ;
+        dcterms:title "Distribution Test Title"@en ;
+        dcterms:description "Description de la distribution test"@fr ;
+        dcterms:description "Distribution test description"@en ;
+        dcat:byteSize "1024" ;
+        dcterms:created "2024-12-09T12:00:00.000"^^xsd:dateTime ;
+        dcterms:modified "2024-12-09T12:00:00.000"^^xsd:dateTime ;
+        dcat:downloadURL <https://download.test/idDistributionTest.csv> ;
+        dcterms:format "text/csv" .
 
     <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest/ident>
         skos:notation "DD_DATASET_TEST" .

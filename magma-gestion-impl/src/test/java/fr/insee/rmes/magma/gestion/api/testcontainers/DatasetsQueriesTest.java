@@ -2,6 +2,7 @@ package fr.insee.rmes.magma.gestion.api.testcontainers;
 
 import fr.insee.rmes.magma.gestion.api.DatasetsEndpoints;
 import fr.insee.rmes.magma.gestion.model.DataSet;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -38,6 +39,7 @@ class DatasetsQueriesTest extends TestcontainerTest {
     /////////////////////////////////////////////////////////
 
     @Test
+    @DisplayName("When getDataSetById, returns full dataset")
     void should_return_full_dataset_when_getDataSetById() throws Exception {
         var response = endpoints.getDataSetById(DATASET_ID);
         var result = response.getBody();
@@ -53,6 +55,20 @@ class DatasetsQueriesTest extends TestcontainerTest {
         JSONAssert.assertEquals(expected, data, true);
     }
 
+    @Test
+    @DisplayName("When getDataSetById with unknown id, returns 404")
+    void should_return_404_when_getDataSetById_unknown_id_dateMiseAJour_false() throws Exception {
+        mockMvc.perform(get("/dataset/id-inconnu").param("dateMiseAJour", "false"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("When getDataSetById with unknown id and dateMiseAJour true, returns 404")
+    void should_return_404_when_getDataSetById_unknown_id_dateMiseAJour_true() throws Exception {
+        mockMvc.perform(get("/dataset/id-inconnu").param("dateMiseAJour", "true"))
+                .andExpect(status().isNotFound());
+    }
+
 
 
     /////////////////////////////////////////////////////////
@@ -63,6 +79,7 @@ class DatasetsQueriesTest extends TestcontainerTest {
     static final String DATASET_URI_2 = "http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest2";
 
     @Test
+    @DisplayName("When getListDatasets, returns all datasets")
     void should_return_all_datasets_when_getListDatasets() {
         var response = endpoints.getListDatasets(null);
         var result = response.getBody();
@@ -76,6 +93,7 @@ class DatasetsQueriesTest extends TestcontainerTest {
     }
 
     @Test
+    @DisplayName("When getListDatasets, returns datasets with correct fields")
     void should_return_dataset_list_with_correct_fields() throws Exception {
         var response = endpoints.getListDatasets(null);
         var result = response.getBody();
@@ -103,6 +121,7 @@ class DatasetsQueriesTest extends TestcontainerTest {
     }
 
     @Test
+    @DisplayName("When getListDatasets with dateMiseAJour before modified date, returns all datasets")
     void should_return_all_datasets_when_dateMiseAJour_is_before_modified_date() {
         var response = endpoints.getListDatasets("2024-12-08T00:00:00.000");
         var result = response.getBody();
@@ -116,6 +135,7 @@ class DatasetsQueriesTest extends TestcontainerTest {
     }
 
     @Test
+    @DisplayName("When getListDatasets with dateMiseAJour after modified date, returns empty list")
     void should_return_empty_list_when_dateMiseAJour_is_after_modified_date() {
         var response = endpoints.getListDatasets("2024-12-10T00:00:00.000");
         var result = response.getBody();
@@ -125,18 +145,35 @@ class DatasetsQueriesTest extends TestcontainerTest {
     }
 
     /////////////////////////////////////////////////////////
-    ///        404                                         ///
+    ///        /dataset/{id}/distributions               ///
     /////////////////////////////////////////////////////////
 
     @Test
-    void should_return_404_when_getDataSetById_unknown_id_dateMiseAJour_false() throws Exception {
-        mockMvc.perform(get("/dataset/id-inconnu").param("dateMiseAJour", "false"))
-                .andExpect(status().isNotFound());
+    @DisplayName("When getDataSetDistributionsById, returns distributions for the dataset")
+    void should_return_full_distributions_when_getDataSetDistributionsById() throws Exception {
+        var response = endpoints.getDataSetDistributionsById(DATASET_ID);
+        var result = response.getBody();
+
+        assertNotNull(result);
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/dataset-idDatasetTest-distributions-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        JSONAssert.assertEquals(expected, data, true);
     }
 
     @Test
-    void should_return_404_when_getDataSetById_unknown_id_dateMiseAJour_true() throws Exception {
-        mockMvc.perform(get("/dataset/id-inconnu").param("dateMiseAJour", "true"))
-                .andExpect(status().isNotFound());
+    @DisplayName("When getDataSetDistributionsById, returns empty list for dataset with no distributions")
+    void should_return_empty_list_when_getDataSetDistributionsById_dataset_without_distributions() {
+        var response = endpoints.getDataSetDistributionsById(DATASET_ID_2);
+        var result = response.getBody();
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
+
+
 }
