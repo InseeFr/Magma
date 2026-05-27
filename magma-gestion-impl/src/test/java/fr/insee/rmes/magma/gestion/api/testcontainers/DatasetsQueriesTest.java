@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -44,8 +45,8 @@ class DatasetsQueriesTest extends TestcontainerTest {
         assertNotNull(result);
         String data = objectMapper.writeValueAsString(result);
         String expected = new String(
-                getClass().getClassLoader()
-                        .getResourceAsStream("testcontainers/dataset-idDatasetTest-expected.json")
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/dataset-idDatasetTest-expected.json"))
                         .readAllBytes(),
                 StandardCharsets.UTF_8
         );
@@ -85,16 +86,16 @@ class DatasetsQueriesTest extends TestcontainerTest {
         var ds2 = result.stream().filter(d -> DATASET_ID_2.equals(d.getId())).findFirst().orElseThrow();
 
         String ds1Expected = new String(
-                getClass().getClassLoader()
-                        .getResourceAsStream("testcontainers/dataset-list-idDatasetTest-expected.json")
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/dataset-list-idDatasetTest-expected.json"))
                         .readAllBytes(),
                 StandardCharsets.UTF_8
         );
         JSONAssert.assertEquals(ds1Expected, objectMapper.writeValueAsString(ds1), false);
 
         String ds2Expected = new String(
-                getClass().getClassLoader()
-                        .getResourceAsStream("testcontainers/dataset-list-idDatasetTest2-expected.json")
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/dataset-list-idDatasetTest2-expected.json"))
                         .readAllBytes(),
                 StandardCharsets.UTF_8
         );
