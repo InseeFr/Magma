@@ -1,0 +1,9 @@
+{
+  "id": "idDatasetTest2",
+  "uri": "http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest2",
+  "validationState": "Unpublished",
+  "title": [
+    {"langue": "fr", "contenu": "Titre du dataset test 2"},
+    {"langue": "en", "contenu": "Dataset test title 2"}
+  ]
+}
