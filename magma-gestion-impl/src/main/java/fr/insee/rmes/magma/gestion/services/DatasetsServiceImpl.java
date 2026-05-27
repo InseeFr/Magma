@@ -4,10 +4,14 @@ import fr.insee.rmes.magma.gestion.model.*;
 import fr.insee.rmes.magma.gestion.utils.DatasetByIdDTO;
 import fr.insee.rmes.magma.gestion.utils.DatasetByIdSummaryDTO;
 import fr.insee.rmes.magma.gestion.utils.DatasetDTO;
+import fr.insee.rmes.magma.gestion.utils.DistributionDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static fr.insee.rmes.magma.gestion.utils.LocalisedLabelUtils.createLangueContenu;
 import static fr.insee.rmes.magma.gestion.utils.LocalisedLabelUtils.createListLangueContenu;
@@ -274,6 +278,40 @@ public class DatasetsServiceImpl implements DatasetsService {
         }
 
         return dataSet;
+    }
+
+    @Override
+    public List<Distribution> transformDistributionDTOsToDistributions(List<DistributionDTO> dtos) {
+        Map<String, List<DistributionDTO>> grouped = new LinkedHashMap<>();
+        for (DistributionDTO dto : dtos) {
+            grouped.computeIfAbsent(dto.identifier(), k -> new ArrayList<>()).add(dto);
+        }
+        return grouped.values().stream().map(rows -> {
+            DistributionDTO first = rows.get(0);
+            Distribution d = new Distribution();
+            d.setIdentifier(first.identifier());
+            d.setUri(first.uri());
+            d.setByteSize(first.byteSize());
+            d.setCreated(first.created());
+            d.setModified(first.modified());
+            d.setFormat(first.format());
+            d.setDownloadURL(rows.stream()
+                    .map(DistributionDTO::downloadURL)
+                    .filter(url -> url != null && !url.isBlank())
+                    .distinct()
+                    .toList());
+            if (first.titleLg1() != null && !first.titleLg1().isBlank()) {
+                d.setTitle(createListLangueContenu(
+                        createLangueContenu(first.titleLg1(), "fr"),
+                        createLangueContenu(first.titleLg2(), "en")));
+            }
+            if (first.descriptionLg1() != null && !first.descriptionLg1().isBlank()) {
+                d.setDescription(createListLangueContenu(
+                        createLangueContenu(first.descriptionLg1(), "fr"),
+                        createLangueContenu(first.descriptionLg2(), "en")));
+            }
+            return d;
+        }).toList();
     }
 
     private List<LocalisedLabel> buildKeywords(String kwLg1, String kwLg2) {

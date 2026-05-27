@@ -2,11 +2,13 @@ package fr.insee.rmes.magma.gestion.api;
 
 import fr.insee.rmes.magma.gestion.api.requestprocessor.RequestProcessorGestion;
 import fr.insee.rmes.magma.gestion.model.DataSet;
+import fr.insee.rmes.magma.gestion.model.Distribution;
 import fr.insee.rmes.magma.gestion.queries.parameters.DatasetsRequestParametizer;
 import fr.insee.rmes.magma.gestion.services.DatasetsService;
 import fr.insee.rmes.magma.gestion.utils.DatasetByIdDTO;
 import fr.insee.rmes.magma.gestion.utils.DatasetByIdSummaryDTO;
 import fr.insee.rmes.magma.gestion.utils.DatasetDTO;
+import fr.insee.rmes.magma.gestion.utils.DistributionDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,5 +49,15 @@ public class DatasetsEndpoints implements DatasetsApi {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(datasetsService.transformDatasetByIdDTOToDataSet(dto));
+    }
+
+    @Override
+    public ResponseEntity<List<Distribution>> getDataSetDistributionsById(String id) {
+        List<DistributionDTO> dtos = requestProcessor.queryToFindDistributionsByDatasetId()
+                .with(new DatasetsRequestParametizer(id, null))
+                .executeQuery()
+                .listResult(DistributionDTO.class)
+                .result();
+        return ResponseEntity.ok(datasetsService.transformDistributionDTOsToDistributions(dtos));
     }
 }

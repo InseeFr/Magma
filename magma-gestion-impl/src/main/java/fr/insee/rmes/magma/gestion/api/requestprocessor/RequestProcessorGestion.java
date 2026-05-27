@@ -34,6 +34,10 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
         return new ExecutableQueryBuilder(DATASET_BY_ID, this);
     }
 
+    public ExecutableQueryBuilder queryToFindDistributionsByDatasetId() {
+        return new ExecutableQueryBuilder(DISTRIBUTIONS_BY_DATASET_ID, this);
+    }
+
     public record ExecutableQueryBuilder(String queryPath, RequestProcessorGestion requestProcessor) {
 
         public ExecutableQueryGestion with(SeriesOperationsRequestParametizer seriesOperationsRequestParametizer) {
