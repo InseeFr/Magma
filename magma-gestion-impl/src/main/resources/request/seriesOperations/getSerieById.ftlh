@@ -10,7 +10,6 @@ SELECT ?seriesId  ?series
 ?created ?modified
 ?creators ?publishers ?contributors ?dataCollectors
 ?validationState
-FROM <${OPERATIONS_SERIES_GRAPH}>
 WHERE {
 	BIND('${idSeries}' AS ?seriesId)
 	# NB: pour l'instant, les variables de langue ne sont pas reportées dans les sous-requêtes
@@ -131,9 +130,9 @@ WHERE {
 	# Agents
 	# Creator
 	OPTIONAL {
-		SELECT ?series (GROUP_CONCAT(DISTINCT CONCAT(COALESCE(?creatorId, ''), '$', STR(?creator), '$', COALESCE(?creatorLabelLg1, ''), '$', COALESCE(?creatorLabelLg2, '')) ; SEPARATOR='|') AS ?creators)
+		SELECT ?series (GROUP_CONCAT(DISTINCT CONCAT(COALESCE(?creatorId, ''), STR(?creator), '$', COALESCE(?creatorLabelLg1, ''), '$', COALESCE(?creatorLabelLg2, '')) ; SEPARATOR='|') AS ?creators)
 		WHERE {
-			?creator a org:Organization ; ^dc:creator ?series .
+			?creator ^dc:creator ?series .
 			OPTIONAL{?creator dcterms:identifier ?creatorId}
 			OPTIONAL {?creator skos:prefLabel ?creatorLabelLg1 . FILTER (lang(?creatorLabelLg1) = '${LG1}')}
 			OPTIONAL {?creator skos:prefLabel ?creatorLabelLg2 . FILTER (lang(?creatorLabelLg2) = '${LG2}')}
