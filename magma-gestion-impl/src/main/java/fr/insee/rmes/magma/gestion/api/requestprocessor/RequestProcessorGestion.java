@@ -26,6 +26,10 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
         return new ExecutableQueryBuilder(OPERATION_BY_CODE, this);
     }
 
+    public ExecutableQueryBuilder queryToFindAllSeries() {
+        return new ExecutableQueryBuilder(ALL_SERIES, this);
+    }
+
     public ExecutableQueryBuilder queryToFindAllDatasets() {
         return new ExecutableQueryBuilder(ALL_DATASETS, this);
     }

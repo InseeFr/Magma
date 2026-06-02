@@ -1,6 +1,7 @@
 package fr.insee.rmes.magma.gestion.api;
 
 import fr.insee.rmes.magma.gestion.api.requestprocessor.RequestProcessorGestion;
+import fr.insee.rmes.magma.gestion.model.DataSet;
 import fr.insee.rmes.magma.gestion.model.OperationById;
 import fr.insee.rmes.magma.gestion.model.SerieById;
 import fr.insee.rmes.magma.gestion.queries.parameters.SeriesOperationsRequestParametizer;
@@ -11,6 +12,8 @@ import fr.insee.rmes.magma.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class SeriesOperationsEndpoints implements SeriesOperationsApi {
 
@@ -20,6 +23,18 @@ public class SeriesOperationsEndpoints implements SeriesOperationsApi {
     public SeriesOperationsEndpoints(RequestProcessorGestion requestProcessor, SeriesOperationsService seriesOperationsService) {
         this.requestProcessor = requestProcessor;
         this.seriesOperationsService = seriesOperationsService;
+    }
+
+    @Override
+    public ResponseEntity<List<SerieById>> getAllSeries(String dateMiseAJour) {
+        String date = dateMiseAJour != null ? dateMiseAJour : "none";
+        List<SeriesDTO> dtos = requestProcessor.queryToFindAllSeries()
+                .with(new SeriesOperationsRequestParametizer(null, null, date))
+                .executeQuery()
+                .listResult(SeriesDTO.class)
+                .result();
+        List<SerieById> series = seriesOperationsService.transformSeriesDTOsToSeries(dtos);
+        return ResponseEntity.ok(series);
     }
 
     @Override
