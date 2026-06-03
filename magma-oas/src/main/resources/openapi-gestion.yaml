@@ -273,32 +273,6 @@ paths:
         '500':
           description: Internal server error
 
-  /operations/serie/{id}/operations:
-    get:
-      tags:
-        - Series-Operations
-      summary: Get operations by serie
-      operationId: getOperationsBySerie
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OperationBySerieId'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
   /operations/operation/{id}:
     get:
       tags:
