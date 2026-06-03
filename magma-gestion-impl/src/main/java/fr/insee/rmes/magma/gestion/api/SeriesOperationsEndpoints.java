@@ -1,11 +1,13 @@
 package fr.insee.rmes.magma.gestion.api;
 
 import fr.insee.rmes.magma.gestion.api.requestprocessor.RequestProcessorGestion;
-import fr.insee.rmes.magma.gestion.model.DataSet;
+import fr.insee.rmes.magma.gestion.model.Indicateur;
 import fr.insee.rmes.magma.gestion.model.OperationById;
 import fr.insee.rmes.magma.gestion.model.SerieById;
+import fr.insee.rmes.magma.gestion.queries.parameters.IndicateurRequestParametizer;
 import fr.insee.rmes.magma.gestion.queries.parameters.SeriesOperationsRequestParametizer;
 import fr.insee.rmes.magma.gestion.services.SeriesOperationsService;
+import fr.insee.rmes.magma.gestion.utils.IndicateurDTO;
 import fr.insee.rmes.magma.gestion.utils.OperationDTO;
 import fr.insee.rmes.magma.gestion.utils.SeriesDTO;
 import fr.insee.rmes.magma.utils.EndpointsUtils;
@@ -64,4 +66,19 @@ public class SeriesOperationsEndpoints implements SeriesOperationsApi {
         OperationById operationById = seriesOperationsService.transformOperationDTOToOperationById(operationDTO);
         return EndpointsUtils.toResponseEntity(operationById);
     }
+
+    @Override
+    public ResponseEntity<Indicateur> getIndicatorById(String id) {
+        IndicateurDTO indicateurDTO = requestProcessor.queryToFindIndicatorById()
+                .with(new IndicateurRequestParametizer(id))
+                .executeQuery()
+                .singleResult(IndicateurDTO.class)
+                .result();
+        if (indicateurDTO == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Indicateur indicateur = seriesOperationsService.transformIndicateurDTOToIndicateurById(indicateurDTO);
+        return EndpointsUtils.toResponseEntity(indicateur);
+    }
+
 }

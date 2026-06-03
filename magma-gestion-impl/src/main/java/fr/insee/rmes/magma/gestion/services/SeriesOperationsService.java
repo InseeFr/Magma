@@ -1,7 +1,9 @@
 package fr.insee.rmes.magma.gestion.services;
 
+import fr.insee.rmes.magma.gestion.model.Indicateur;
 import fr.insee.rmes.magma.gestion.model.OperationById;
 import fr.insee.rmes.magma.gestion.model.SerieById;
+import fr.insee.rmes.magma.gestion.utils.IndicateurDTO;
 import fr.insee.rmes.magma.gestion.utils.OperationDTO;
 import fr.insee.rmes.magma.gestion.utils.SeriesDTO;
 
@@ -11,4 +13,5 @@ public interface SeriesOperationsService {
     SerieById transformSeriesDTOToSerieById(SeriesDTO seriesDTO);
     OperationById transformOperationDTOToOperationById(OperationDTO operationDTO);
     List<SerieById> transformSeriesDTOsToSeries(List<SeriesDTO> dtos);
+    Indicateur transformIndicateurDTOToIndicateurById(IndicateurDTO indicateurDTO);
 }

@@ -1,15 +1,13 @@
 package fr.insee.rmes.magma.gestion.services;
 
-import fr.insee.rmes.magma.gestion.model.OperationById;
-import fr.insee.rmes.magma.gestion.model.OperationBySerieIdSerie;
-import fr.insee.rmes.magma.gestion.model.SerieById;
-import fr.insee.rmes.magma.gestion.model.SerieByIdType;
-import fr.insee.rmes.magma.gestion.model.StructureByIdAttributsInnerListCode;
+import fr.insee.rmes.magma.gestion.model.*;
+import fr.insee.rmes.magma.gestion.utils.IndicateurDTO;
 import fr.insee.rmes.magma.gestion.utils.OperationDTO;
 import fr.insee.rmes.magma.gestion.utils.SeriesDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -202,5 +200,107 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
             }
         }
         return list;
+    }
+
+    @Override
+    public Indicateur transformIndicateurDTOToIndicateurById(IndicateurDTO dto) {
+        Indicateur indicateurById = new Indicateur();
+
+        indicateurById.setAltLabel(null);
+        indicateurById.setResume(null);
+        indicateurById.setNoteHistorique(null);
+        indicateurById.setFrequenceCollecte(null);
+        indicateurById.setRapportQualite(null);
+        indicateurById.setSeriesContributrices(null);
+        indicateurById.setSeriesLiees(null);
+        indicateurById.setIndicateursLies(null);
+        indicateurById.setDateCreation(null);
+        indicateurById.setDateMiseAJour(null);
+        indicateurById.setProprietaires(null);
+        indicateurById.setOrganismesResponsables(null);
+        indicateurById.setPartenaires(null);
+
+
+
+        indicateurById.setId(dto.indicatorId());
+        indicateurById.setUri(dto.indicator());
+        indicateurById.setDateCreation(dto.created() != null ? dto.created().toString() : null);
+        indicateurById.setDateMiseAJour(dto.modified() != null ? dto.modified().toString() : null);
+        indicateurById.setStatuValidation(dto.validationState());
+
+        indicateurById.setLabel(createListLangueContenu(
+                createLangueContenu(dto.indicatorLabelLg1(), lg1),
+                createLangueContenu(dto.indicatorLabelLg2(), lg2)));
+
+        indicateurById.setAltLabel(createListLangueContenu(
+                createLangueContenu(dto.indicatorAltLabelLg1(), lg1),
+                createLangueContenu(dto.indicatorAltLabelLg2(), lg2)));
+
+        indicateurById.setResume(createListLangueContenu(
+                createLangueContenu(dto.indicatorAbstractLg1(), lg1),
+                createLangueContenu(dto.indicatorAbstractLg2(), lg2)));
+
+        indicateurById.setNoteHistorique(createListLangueContenu(
+                createLangueContenu(dto.indicatorHistoryNoteLg1(), lg1),
+                createLangueContenu(dto.indicatorHistoryNoteLg2(), lg2)));
+
+        if (dto.periodicity() != null && !dto.periodicity().isBlank()) {
+            IdUriLabel frequence = new IdUriLabel(dto.periodicityId());
+            frequence.setUri(toUri(dto.periodicity()));
+            frequence.setLabel(createListLangueContenu(
+                    createLangueContenu(dto.periodicityLabelLg1(), lg1),
+                    createLangueContenu(dto.periodicityLabelLg2(), lg2)));
+            indicateurById.setFrequenceCollecte(frequence);
+        }
+
+        if (dto.simsId() != null && !dto.simsId().isBlank()) {
+            StructureByIdAttributsInnerListCode rapportQualite = new StructureByIdAttributsInnerListCode();
+            rapportQualite.setId(dto.simsId());
+            rapportQualite.setUri(dto.sims());
+            indicateurById.setRapportQualite(rapportQualite);
+        }
+
+        indicateurById.setSeriesContributrices(parseIdUriLabelList(dto.wasGeneratedBySeries()));
+        indicateurById.setSeriesLiees(parseIdUriLabelList(dto.seeAlsoSeries()));
+        indicateurById.setIndicateursLies(parseIdUriLabelList(dto.seeAlsoIndicators()));
+        indicateurById.setProprietaires(parseIdUriLabelList(dto.creators()));
+        indicateurById.setOrganismesResponsables(parseIdUriLabelList(dto.publishers()));
+        indicateurById.setPartenaires(parseIdUriLabelList(dto.contributors()));
+
+        return indicateurById;
+    }
+
+    private List<IdUriLabel> parseIdUriLabelList(String raw) {
+        List<IdUriLabel> list = new ArrayList<>();
+        if (raw == null || raw.isBlank()) {
+            return null;
+        }
+        for (String item : raw.split("\\|")) {
+            String[] parts = item.split("\\$", -1);
+            String id = parts.length > 0 ? parts[0] : null;
+            if (id == null || id.isBlank()) {
+                continue;
+            }
+            IdUriLabel ref = new IdUriLabel(id);
+            if (parts.length > 1 && !parts[1].isBlank()) {
+                ref.setUri(toUri(parts[1]));
+            }
+            ref.setLabel(createListLangueContenu(
+                    createLangueContenu(parts.length > 2 ? parts[2] : null, lg1),
+                    createLangueContenu(parts.length > 3 ? parts[3] : null, lg2)));
+            list.add(ref);
+        }
+        return list;
+    }
+
+    private URI toUri(String uriString) {
+        if (uriString == null || uriString.isBlank()) {
+            return null;
+        }
+        try {
+            return URI.create(uriString);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 }

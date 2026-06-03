@@ -2,6 +2,7 @@ package fr.insee.rmes.magma.gestion.api.requestprocessor;
 
 import fr.insee.rmes.magma.results.SingleResult;
 import fr.insee.rmes.magma.gestion.queries.parameters.DatasetsRequestParametizer;
+import fr.insee.rmes.magma.gestion.queries.parameters.IndicateurRequestParametizer;
 import fr.insee.rmes.magma.gestion.queries.parameters.SeriesOperationsRequestParametizer;
 import fr.insee.rmes.magma.gestion.unmarshaller.JacksonUnmarshallerGestion;
 import fr.insee.rmes.magma.results.ListResult;
@@ -30,6 +31,10 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
         return new ExecutableQueryBuilder(ALL_SERIES, this);
     }
 
+    public ExecutableQueryBuilder queryToFindIndicatorById() {
+        return new ExecutableQueryBuilder(INDICATOR_BY_ID, this);
+    }
+
     public ExecutableQueryBuilder queryToFindAllDatasets() {
         return new ExecutableQueryBuilder(ALL_DATASETS, this);
     }
@@ -50,6 +55,10 @@ public record RequestProcessorGestion(QueryBuilder queryBuilder, QueryExecutor q
 
         public ExecutableQueryGestion with(DatasetsRequestParametizer datasetsRequestParametizer) {
             return new ExecutableQueryGestion(requestProcessor.queryBuilder().build(datasetsRequestParametizer.toParameters(), queryPath), requestProcessor);
+        }
+
+        public ExecutableQueryGestion with(IndicateurRequestParametizer indicateurRequestParametizer) {
+            return new ExecutableQueryGestion(requestProcessor.queryBuilder().build(indicateurRequestParametizer.toParameters(), queryPath), requestProcessor);
         }
     }
 
