@@ -1,5 +1,5 @@
 select ?identifier ?uri ?descriptionLg2 ?descriptionLg1 ?titleLg1 ?titleLg2 ?byteSize ?created ?modified ?downloadURL ?format
-FROM <http://rdf.insee.fr/graphes/catalogue>
+FROM <${DATASETS_GRAPH}>
 
 where {
         ?uriDataset dcat:distribution ?uri .
