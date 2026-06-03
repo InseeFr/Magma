@@ -203,7 +203,7 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
     }
 
     @Override
-    public Indicateur transformIndicateurDTOToIndicateurById(IndicateurDTO dto) {
+    public Indicateur transformIndicateurDTOToIndicateur(IndicateurDTO dto) {
         Indicateur indicateurById = new Indicateur();
 
         indicateurById.setAltLabel(null);

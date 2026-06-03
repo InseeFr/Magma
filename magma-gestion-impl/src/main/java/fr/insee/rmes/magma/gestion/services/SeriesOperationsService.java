@@ -13,5 +13,5 @@ public interface SeriesOperationsService {
     SerieById transformSeriesDTOToSerieById(SeriesDTO seriesDTO);
     OperationById transformOperationDTOToOperationById(OperationDTO operationDTO);
     List<SerieById> transformSeriesDTOsToSeries(List<SeriesDTO> dtos);
-    Indicateur transformIndicateurDTOToIndicateurById(IndicateurDTO indicateurDTO);
+    Indicateur transformIndicateurDTOToIndicateur(IndicateurDTO indicateurDTO);
 }

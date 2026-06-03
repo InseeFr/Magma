@@ -77,7 +77,7 @@ public class SeriesOperationsEndpoints implements SeriesOperationsApi {
         if (indicateurDTO == null) {
             return ResponseEntity.notFound().build();
         }
-        Indicateur indicateur = seriesOperationsService.transformIndicateurDTOToIndicateurById(indicateurDTO);
+        Indicateur indicateur = seriesOperationsService.transformIndicateurDTOToIndicateur(indicateurDTO);
         return EndpointsUtils.toResponseEntity(indicateur);
     }
 
