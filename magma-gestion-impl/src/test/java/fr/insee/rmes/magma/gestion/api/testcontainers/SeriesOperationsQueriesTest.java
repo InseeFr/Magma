@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.net.URI;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -70,7 +71,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
                 // type
                 () -> assertNotNull(result.getType()),
                 () -> assertEquals("E", result.getType().getId()),
-                () -> assertEquals("http://bauhaus/concepts/type/E", result.getType().getUri()),
+                () -> assertEquals(URI.create("http://bauhaus/concepts/type/E"), result.getType().getUri()),
                 () -> assertEquals("fr", result.getType().getLabel().getFirst().getLangue()),
                 () -> assertEquals("Enquête", result.getType().getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getType().getLabel().get(1).getLangue()),
@@ -79,7 +80,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
                 // frequenceCollecte
                 () -> assertNotNull(result.getFrequenceCollecte()),
                 () -> assertEquals("A", result.getFrequenceCollecte().getId()),
-                () -> assertEquals("http://bauhaus/concepts/periodicity/A", result.getFrequenceCollecte().getUri()),
+                () -> assertEquals(URI.create("http://bauhaus/concepts/periodicity/A"), result.getFrequenceCollecte().getUri()),
                 () -> assertEquals("fr", result.getFrequenceCollecte().getLabel().getFirst().getLangue()),
                 () -> assertEquals("Annuelle", result.getFrequenceCollecte().getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getFrequenceCollecte().getLabel().get(1).getLangue()),
@@ -88,7 +89,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
                 // famille
                 () -> assertNotNull(result.getFamille()),
                 () -> assertEquals("idFamilleTest", result.getFamille().getId()),
-                () -> assertEquals("http://bauhaus/operations/famille/idFamilleTest", result.getFamille().getUri()),
+                () -> assertEquals(URI.create("http://bauhaus/operations/famille/idFamilleTest"), result.getFamille().getUri()),
                 () -> assertEquals("fr", result.getFamille().getLabel().getFirst().getLangue()),
                 () -> assertEquals("Label Famille fr", result.getFamille().getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getFamille().getLabel().get(1).getLangue()),
@@ -97,7 +98,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
                 // seriesPrecedentes
                 () -> assertEquals(1, result.getSeriesPrecedentes().size()),
                 () -> assertEquals("idSeriePrecedenteTest", result.getSeriesPrecedentes().getFirst().getId()),
-                () -> assertEquals("http://bauhaus/operations/serie/idSeriePrecedenteTest", result.getSeriesPrecedentes().getFirst().getUri()),
+                () -> assertEquals(URI.create("http://bauhaus/operations/serie/idSeriePrecedenteTest"), result.getSeriesPrecedentes().getFirst().getUri()),
                 () -> assertEquals("fr", result.getSeriesPrecedentes().getFirst().getLabel().getFirst().getLangue()),
                 () -> assertEquals("Label Série Précédente fr", result.getSeriesPrecedentes().getFirst().getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getSeriesPrecedentes().getFirst().getLabel().get(1).getLangue()),
@@ -109,7 +110,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
                 // seriesLiees
                 () -> assertEquals(2, result.getSeriesLiees().size()),
                 () -> assertEquals("idSerieLiee1Test", result.getSeriesLiees().getFirst().getId()),
-                () -> assertEquals("http://bauhaus/operations/serie/idSerieLiee1Test", result.getSeriesLiees().getFirst().getUri()),
+                () -> assertEquals(URI.create("http://bauhaus/operations/serie/idSerieLiee1Test"), result.getSeriesLiees().getFirst().getUri()),
                 () -> assertEquals("fr", result.getSeriesLiees().getFirst().getLabel().getFirst().getLangue()),
                 () -> assertEquals("Label Série Liée 1 fr", result.getSeriesLiees().getFirst().getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getSeriesLiees().getFirst().getLabel().get(1).getLangue()),
@@ -119,7 +120,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
                 // operations
                 () -> assertEquals(2, result.getOperations().size()),
                 () -> assertEquals("idOperation1SeriePrincipaleTest", result.getOperations().getFirst().getId()),
-                () -> assertEquals("http://bauhaus/operations/operation/idOperation1SeriePrincipaleTest", result.getOperations().getFirst().getUri()),
+                () -> assertEquals(URI.create("http://bauhaus/operations/operation/idOperation1SeriePrincipaleTest"), result.getOperations().getFirst().getUri()),
                 () -> assertEquals("Label Opération 1 fr", result.getOperations().getFirst().getLabel().getFirst().getContenu()),
 
                 // proprietaires
