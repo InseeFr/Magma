@@ -130,8 +130,7 @@ WHERE {
 	# Agents
 	# Creator
 	OPTIONAL {
-		SELECT ?series (GROUP_CONCAT(DISTINCT CONCAT(COALESCE(?creatorId, ''), STR(?creator), '$', COALESCE(?creatorLabelLg1, ''), '$', COALESCE(?creatorLabelLg2, '')) ; SEPARATOR='|') AS ?creators)
-		WHERE {
+		SELECT ?series (GROUP_CONCAT(DISTINCT CONCAT(COALESCE(?creatorId, ''), '$', STR(?creator), '$', COALESCE(?creatorLabelLg1, ''), '$', COALESCE(?creatorLabelLg2, '')) ; SEPARATOR='|') AS ?creators)		WHERE {
 			?creator ^dc:creator ?series .
 			OPTIONAL{?creator dcterms:identifier ?creatorId}
 			OPTIONAL {?creator skos:prefLabel ?creatorLabelLg1 . FILTER (lang(?creatorLabelLg1) = '${LG1}')}

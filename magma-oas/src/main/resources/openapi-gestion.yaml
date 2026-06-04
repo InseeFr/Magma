@@ -941,33 +941,33 @@ components:
           items:
             $ref: '#/components/schemas/Label'
         type:
-          $ref: '#/components/schemas/TypeRef'
+          $ref: 'id-uri-label.schema.json'
         frequenceCollecte:
-          $ref: '#/components/schemas/TypeRef'
+          $ref: 'id-uri-label.schema.json'
         rapportQualite:
           $ref: '#/components/schemas/RapportQualite'
         famille:
-          $ref: '#/components/schemas/Famille'
+          $ref: 'id-uri-label.schema.json'
         seriesPrecedentes:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         seriesSuivantes:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         seriesLiees:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         operations:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         indicateurs:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         dateCreation:
           type: string
           format: date
@@ -977,25 +977,25 @@ components:
         proprietaires:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         organismesResponsables:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         partenaires:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         servicesCollecteurs:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         statutValidation:
           type: string
         series:
           type: string
         frequence:
-          $ref: '#/components/schemas/Frequence'
+          $ref: 'id-uri-label.schema.json'
         nbOperation:
           type: string
 
