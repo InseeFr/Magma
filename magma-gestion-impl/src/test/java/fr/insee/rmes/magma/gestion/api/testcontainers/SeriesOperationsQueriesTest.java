@@ -38,7 +38,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
     // =========================================================
 
     @Test
-    @DisplayName("When getSerieById, returns full serie")
+    @DisplayName("When getSerieById (/operations/serie/{id} end-point), returns full serie")
     void should_return_serieById_idSeriePrincipaleTest_when_getSerieById_idSeriePrincipaleTest() throws Exception {
         var response = endpoints.getSerieById(SERIE_ID);
         var result = response.getBody();
@@ -55,7 +55,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
     }
 
     @Test
-    @DisplayName("When getSerieById with unknown id, returns 404")
+    @DisplayName("When getSerieById (/operations/serie/{id} end-point) with unknown id, returns 404")
     void should_return_404_when_getSerieById_unknown_id() throws Exception {
         mockMvc.perform(get("/operations/serie/serieInconnue"))
                 .andExpect(status().isNotFound());
@@ -66,7 +66,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
     // =========================================================
 
     @Test
-    @DisplayName("When getOperationByCode, returns full operation")
+    @DisplayName("When getOperationByCode (/operations/operation/{id} end-point), returns full operation")
     void should_return_operationById_idOperationTest_when_getOperationByCode_idOperationTest() throws Exception {
         var response = endpoints.getOperationByCode(OPERATION_ID);
         var result = response.getBody();
@@ -83,7 +83,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
     }
 
     @Test
-    @DisplayName("When getOperationByCode with unknown id, returns 404")
+    @DisplayName("When getOperationByCode (/operations/serie/{id} end-point) with unknown id, returns 404")
     void should_return_404_when_getOperationById_unknown_id() throws Exception {
         mockMvc.perform(get("/operations/operation/serieInconnue"))
                 .andExpect(status().isNotFound());
@@ -94,32 +94,24 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
     // =========================================================
 
     @Test
-    @DisplayName("When getAllSeries without date filter, returns all series")
-    void should_return_all_series_when_getAllSeries_without_dateFilter() {
+    @DisplayName("When getAllSeries (/operations/series end-point) without date filter, returns all series")
+    void should_return_all_series_when_getAllSeries_without_dateFilter() throws Exception {
         var response = endpoints.getAllSeries(null);
         var result = response.getBody();
 
         assertNotNull(result);
-        assertAll(
-                () -> assertEquals(6, result.size()),
-
-                // Première série par ordre alphabétique : idSerieLiee1Test
-                () -> assertEquals("idSerieLiee1Test", result.getFirst().getSeriesId()),
-                () -> assertEquals("http://bauhaus/operations/serie/idSerieLiee1Test", result.getFirst().getUri()),
-                () -> assertEquals(2, result.getFirst().getLabel().size()),
-                () -> assertEquals("fr", result.getFirst().getLabel().getFirst().getLangue()),
-                () -> assertEquals("Label Série Liée 1 fr", result.getFirst().getLabel().getFirst().getContenu()),
-                () -> assertEquals("en", result.getFirst().getLabel().get(1).getLangue()),
-                () -> assertEquals("Related Series 1 Label en", result.getFirst().getLabel().get(1).getContenu()),
-
-                // Dernière série par ordre alphabétique : idSerieTest
-                () -> assertEquals("idSerieTest", result.get(5).getSeriesId()),
-                () -> assertEquals("http://bauhaus/operations/serie/idSerieTest", result.get(5).getUri())
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/serie-list-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
         );
+        JSONAssert.assertEquals(expected, data, true);
     }
 
     @Test
-    @DisplayName("When getAllSeries with date 2025-01-01, returns 1 filtered serie")
+    @DisplayName("When getAllSeries (/operations/series end-point) with date 2025-01-01, returns 1 filtered serie")
     void should_return_filtered_series_when_getAllSeries_with_date_2025_01_01() {
         var response = endpoints.getAllSeries("2025-01-01");
         var result = response.getBody();
@@ -133,7 +125,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
     }
 
     @Test
-    @DisplayName("When getAllSeries with date 2024-01-01, returns 2 filtered series")
+    @DisplayName("When getAllSeries (/operations/series end-point) with date 2024-01-01, returns 2 filtered series")
     void should_return_filtered_series_when_getAllSeries_with_date_2024_01_01() {
         var response = endpoints.getAllSeries("2024-01-01");
         var result = response.getBody();
@@ -147,7 +139,7 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
     }
 
     @Test
-    @DisplayName("When getAllSeries, returns 200")
+    @DisplayName("When getAllSeries (/operations/series end-point), returns 200")
     void should_return_200_when_getAllSeries() throws Exception {
         mockMvc.perform(get("/operations/series"))
                 .andExpect(status().isOk());
