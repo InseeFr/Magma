@@ -1,14 +1,19 @@
 package fr.insee.rmes.magma.gestion.api.testcontainers;
 
 import fr.insee.rmes.magma.gestion.api.SeriesOperationsEndpoints;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.databind.ObjectMapper;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -23,6 +28,8 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
     SeriesOperationsEndpoints endpoints;
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     /////////////////////////////////////////////////////////
     ///        /operations/serie/{id}                     ///
@@ -264,6 +271,34 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
     void should_return_200_when_getAllSeries() throws Exception {
         mockMvc.perform(get("/operations/series"))
                 .andExpect(status().isOk());
+    }
+
+    /////////////////////////////////////////////////////////
+    ///        /operations/indicateur/{id}                ///
+    /////////////////////////////////////////////////////////
+
+    @Test
+    @DisplayName("When getIndicatorById, returns full indicator")
+    void should_return_full_indicateur_when_getIndicatorById_idIndicateurTest() throws Exception {
+        var response = endpoints.getIndicatorById("idIndicateurTest");
+        var result = response.getBody();
+
+        assertNotNull(result);
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/indicateur-idIndicateurTest-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        JSONAssert.assertEquals(expected, data, true);
+    }
+
+    @Test
+    @DisplayName("When getIndicatorById with unknown id, returns 404")
+    void should_return_404_when_getIndicatorById_unknown_id() throws Exception {
+        mockMvc.perform(get("/operations/indicateur/indicateurInconnu"))
+                .andExpect(status().isNotFound());
     }
 
 }

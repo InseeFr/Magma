@@ -273,32 +273,6 @@ paths:
         '500':
           description: Internal server error
 
-  /operations/serie/{id}/operations:
-    get:
-      tags:
-        - Series-Operations
-      summary: Get operations by serie
-      operationId: getOperationsBySerie
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OperationBySerieId'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
   /operations/operation/{id}:
     get:
       tags:
@@ -322,6 +296,31 @@ paths:
           description: Not found
         '500':
           description: Internal server error
+
+  /operations/indicateur/{id}:
+    get:
+      tags:
+        - Series-Operations
+      summary: Get one indicator
+      operationId: getIndicatorById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Indicateur'
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+
 
   # ============================================
   # CODES LISTS
@@ -1106,6 +1105,69 @@ components:
           format: date
         statutValidation:
           type: string
+
+    Indicateur:
+      type: object
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+        label:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        altLabel:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        resume:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        noteHistorique:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        frequenceCollecte:
+          $ref: './id-uri-label.schema.json'
+        rapportQualite:
+          $ref: '#/components/schemas/RapportQualite'
+        seriesContributrices:
+          type: array
+          items:
+            $ref: './id-uri-label.schema.json'
+        seriesLiees:
+          type: array
+          items:
+            $ref: './id-uri-label.schema.json'
+        indicateursLies:
+          type: array
+          items:
+            $ref: './id-uri-label.schema.json'
+        dateCreation:
+          type: string
+        dateMiseAJour:
+          type: string
+        proprietaires:
+          type: array
+          items:
+            $ref: './id-uri-label.schema.json'
+        organismesResponsables:
+          type: array
+          items:
+            $ref: './id-uri-label.schema.json'
+        partenaires:
+          type: array
+          items:
+            $ref: './id-uri-label.schema.json'
+        statuValidation:
+          type: string
+
+
+
+
+
 
     # ============================================
     # CODE LISTS SCHEMAS
