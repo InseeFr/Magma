@@ -683,13 +683,6 @@ components:
     # ============================================
     # COMMON / SHARED SCHEMAS
     # ============================================
-    Label:
-      type: object
-      properties:
-        langue:
-          type: string
-        contenu:
-          type: string
 
     IdLabel:
       type: object
@@ -736,7 +729,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         uri:
           type: string
         version:
@@ -760,7 +753,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         type:
           type: string
 
@@ -774,7 +767,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         uri:
           type: string
         representation:
@@ -796,7 +789,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         uri:
           type: string
         representation:
@@ -814,7 +807,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         uri:
           type: string
         representation:
@@ -852,7 +845,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         type:
           type: string
         uri:
@@ -901,7 +894,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         abreviation:
           type: string
         uniteDe:
@@ -911,7 +904,7 @@ components:
         altlabel:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
 
     # ============================================
     # SERIES / OPERATIONS SCHEMAS
@@ -926,47 +919,47 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         altLabel:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         resume:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         noteHistorique:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         type:
-          $ref: '#/components/schemas/TypeRef'
+          $ref: 'id-uri-label.schema.json'
         frequenceCollecte:
-          $ref: '#/components/schemas/TypeRef'
+          $ref: 'id-uri-label.schema.json'
         rapportQualite:
           $ref: '#/components/schemas/RapportQualite'
         famille:
-          $ref: '#/components/schemas/Famille'
+          $ref: 'id-uri-label.schema.json'
         seriesPrecedentes:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         seriesSuivantes:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         seriesLiees:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         operations:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         indicateurs:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         dateCreation:
           type: string
           format: date
@@ -976,25 +969,25 @@ components:
         proprietaires:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         organismesResponsables:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         partenaires:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         servicesCollecteurs:
           type: array
           items:
-            $ref: '#/components/schemas/TypeRef'
+            $ref: 'id-uri-label.schema.json'
         statutValidation:
           type: string
         series:
           type: string
         frequence:
-          $ref: '#/components/schemas/Frequence'
+          $ref: 'id-uri-label.schema.json'
         nbOperation:
           type: string
 
@@ -1006,18 +999,6 @@ components:
         uri:
           type: string
 
-    TypeRef:
-      type: object
-      properties:
-        id:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label'
-        uri:
-          type: string
-
     Frequence:
       type: object
       properties:
@@ -1026,7 +1007,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         uri:
           type: string
 
@@ -1038,7 +1019,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         uri:
           type: string
 
@@ -1048,11 +1029,11 @@ components:
         altLabel:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         uri:
           type: string
         serie:
@@ -1070,7 +1051,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         uri:
           type: string
         frequence:
@@ -1086,11 +1067,11 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         altLabel:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         millesime:
           type: string
         serie:
@@ -1198,7 +1179,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         uri:
           type: string
         version:
@@ -1214,7 +1195,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         uri:
           type: string
 
@@ -1305,13 +1286,13 @@ components:
         processStep:
           $ref: '#/components/schemas/ProcessStep'
         accrualPeriodicity:
-          $ref: '#/components/schemas/Label'
+          $ref: 'langue-contenu.schema.json'
         temporal:
           $ref: '#/components/schemas/Temporal'
         temporalResolution:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         spatial:
           $ref: '#/components/schemas/IdLabel'
         spatialResolution:
@@ -1369,7 +1350,7 @@ components:
         id:
           type: string
         label:
-          $ref: '#/components/schemas/Label'
+          $ref: 'langue-contenu.schema.json'
 
     Temporal:
       type: object
@@ -1481,7 +1462,7 @@ components:
         label:
           type: array
           items:
-            $ref: '#/components/schemas/Label'
+            $ref: 'langue-contenu.schema.json'
         dateFinValidite:
           type: string
         uri:

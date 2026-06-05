@@ -1,0 +1,144 @@
+{
+  "seriesId": "idSeriePrincipaleTest",
+  "uri": "http://bauhaus/operations/serie/idSeriePrincipaleTest",
+  "label": [
+    {"langue": "fr", "contenu": "Label Série fr"},
+    {"langue": "en", "contenu": "Series Label en"}
+  ],
+  "altLabel": [
+    {"langue": "fr", "contenu": "AltLabel Série fr"},
+    {"langue": "en", "contenu": "Series AltLabel en"}
+  ],
+  "resume": [
+    {"langue": "fr", "contenu": "Résumé de la série test"},
+    {"langue": "en", "contenu": "Test series abstract"}
+  ],
+  "noteHistorique": [
+    {"langue": "fr", "contenu": "Note historique test"},
+    {"langue": "en", "contenu": "Historical note test"}
+  ],
+  "type": {
+    "id": "E",
+    "uri": "http://bauhaus/concepts/type/E",
+    "label": [
+      {"langue": "fr", "contenu": "Enquête"},
+      {"langue": "en", "contenu": "Survey"}
+    ]
+  },
+  "frequenceCollecte": {
+    "id": "A",
+    "uri": "http://bauhaus/concepts/periodicity/A",
+    "label": [
+      {"langue": "fr", "contenu": "Annuelle"},
+      {"langue": "en", "contenu": "Annual"}
+    ]
+  },
+  "famille": {
+    "id": "idFamilleTest",
+    "uri": "http://bauhaus/operations/famille/idFamilleTest",
+    "label": [
+      {"langue": "fr", "contenu": "Label Famille fr"},
+      {"langue": "en", "contenu": "Family Label en"}
+    ]
+  },
+  "seriesPrecedentes": [
+    {
+      "id": "idSeriePrecedenteTest",
+      "uri": "http://bauhaus/operations/serie/idSeriePrecedenteTest",
+      "label": [
+        {"langue": "fr", "contenu": "Label Série Précédente fr"},
+        {"langue": "en", "contenu": "Previous Series Label en"}
+      ]
+    }
+  ],
+  "seriesSuivantes": [
+    {
+      "id": "idSerieSuivanteTest",
+      "uri": "http://bauhaus/operations/serie/idSerieSuivanteTest",
+      "label": [
+        {"langue": "fr", "contenu": "Label Série Suivante fr"},
+        {"langue": "en", "contenu": "Next Series Label en"}
+      ]
+    }
+  ],
+  "seriesLiees": [
+    {
+      "id": "idSerieLiee1Test",
+      "uri": "http://bauhaus/operations/serie/idSerieLiee1Test",
+      "label": [
+        {"langue": "fr", "contenu": "Label Série Liée 1 fr"},
+        {"langue": "en", "contenu": "Related Series 1 Label en"}
+      ]
+    },
+    {
+      "id": "idSerieLiee2Test",
+      "uri": "http://bauhaus/operations/serie/idSerieLiee2Test",
+      "label": [
+        {"langue": "fr", "contenu": "Label Série Liée 2 fr"},
+        {"langue": "en", "contenu": "Related Series 2 Label en"}
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "id": "idOperation1SeriePrincipaleTest",
+      "uri": "http://bauhaus/operations/operation/idOperation1SeriePrincipaleTest",
+      "label": [
+        {"langue": "fr", "contenu": "Label Opération 1 fr"},
+        {"langue": "en", "contenu": "Operation 1 Label en"}
+      ]
+    },
+    {
+      "id": "idOperation2SeriePrincipaleTest",
+      "uri": "http://bauhaus/operations/operation/idOperation2SeriePrincipaleTest",
+      "label": [
+        {"langue": "fr", "contenu": "Label Opération 2 fr"},
+        {"langue": "en", "contenu": "Operation 2 Label en"}
+      ]
+    }
+  ],
+  "indicateurs": [
+    {
+      "id": "idIndicateurTest",
+      "uri": "http://bauhaus/produits/indicateur/idIndicateurTest",
+      "label": [
+        {"langue": "fr", "contenu": "Label Indicateur fr"},
+        {"langue": "en", "contenu": "Indicator Label en"}
+      ]
+    }
+  ],
+  "dateCreation": "2020-01-15",
+  "dateMiseAJour": "2024-06-01",
+  "proprietaires": [
+    {
+      "id": "idOrganisationProprietaireTest",
+      "uri": "http://bauhaus/organisations/idOrganisationProprietaireTest",
+      "label": [
+        {"langue": "fr", "contenu": "Label Organisation Propriétaire fr"},
+        {"langue": "en", "contenu": "Owner Organisation Label en"}
+      ]
+    }
+  ],
+  "organismesResponsables": [
+    {
+      "id": "idOrganisationResponsableTest",
+      "uri": "http://bauhaus/organisations/idOrganisationResponsableTest",
+      "label": [
+        {"langue": "fr", "contenu": "Label Organisation Responsable fr"},
+        {"langue": "en", "contenu": "Responsible Organisation Label en"}
+      ]
+    }
+  ],
+  "partenaires": [
+    {
+      "id": "idOrganisationPartenaireTest",
+      "uri": "http://bauhaus/organisations/idOrganisationPartenaireTest",
+      "label": [
+        {"langue": "fr", "contenu": "Label Organisation Partenaire fr"},
+        {"langue": "en", "contenu": "Partner Organisation Label en"}
+      ]
+    }
+  ],
+  "servicesCollecteurs": [],
+  "statutValidation": "Publiée"
+}

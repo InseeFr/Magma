@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -77,8 +78,8 @@ class SeriesOperationsServiceImplTest {
         assertAll(
                 () -> assertNotNull(result.getType()),
                 () -> assertEquals("E", result.getType().getId()),
-                () -> assertEquals("http://id.insee.fr/concepts/type/E", result.getType().getUri()),
-                () -> assertEquals("Enquête", result.getType().getLabel().getFirst().getContenu()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/type/E"), result.getType().getUri()),
+                () -> assertEquals("Enquête", result.getType().getLabel().get(0).getContenu()),
                 () -> assertEquals("Survey", result.getType().getLabel().get(1).getContenu())
         );
     }
@@ -109,8 +110,8 @@ class SeriesOperationsServiceImplTest {
         assertAll(
                 () -> assertNotNull(result.getFrequenceCollecte()),
                 () -> assertEquals("A", result.getFrequenceCollecte().getId()),
-                () -> assertEquals("http://id.insee.fr/concepts/periodicity/A", result.getFrequenceCollecte().getUri()),
-                () -> assertEquals("Annuelle", result.getFrequenceCollecte().getLabel().getFirst().getContenu()),
+                () -> assertEquals(URI.create("http://id.insee.fr/concepts/periodicity/A"), result.getFrequenceCollecte().getUri()),
+                () -> assertEquals("Annuelle", result.getFrequenceCollecte().getLabel().get(0).getContenu()),
                 () -> assertEquals("Annual", result.getFrequenceCollecte().getLabel().get(1).getContenu())
         );
     }
@@ -127,8 +128,8 @@ class SeriesOperationsServiceImplTest {
         assertAll(
                 () -> assertNotNull(result.getFamille()),
                 () -> assertEquals("f1001", result.getFamille().getId()),
-                () -> assertEquals("http://id.insee.fr/operations/famille/f1001", result.getFamille().getUri()),
-                () -> assertEquals("Famille FR", result.getFamille().getLabel().getFirst().getContenu()),
+                () -> assertEquals(URI.create("http://id.insee.fr/operations/famille/f1001"), result.getFamille().getUri()),
+                () -> assertEquals("Famille FR", result.getFamille().getLabel().get(0).getContenu()),
                 () -> assertEquals("Family EN", result.getFamille().getLabel().get(1).getContenu())
         );
     }
@@ -160,10 +161,10 @@ class SeriesOperationsServiceImplTest {
 
         assertAll(
                 () -> assertEquals(1, result.getSeriesPrecedentes().size()),
-                () -> assertEquals("s1010", result.getSeriesPrecedentes().getFirst().getId()),
-                () -> assertEquals("http://id.insee.fr/operations/serie/s1010", result.getSeriesPrecedentes().getFirst().getUri()),
-                () -> assertEquals("Précédente FR", result.getSeriesPrecedentes().getFirst().getLabel().getFirst().getContenu()),
-                () -> assertEquals("Previous EN", result.getSeriesPrecedentes().getFirst().getLabel().get(1).getContenu())
+                () -> assertEquals("s1010", result.getSeriesPrecedentes().get(0).getId()),
+                () -> assertEquals(URI.create("http://id.insee.fr/operations/serie/s1010"), result.getSeriesPrecedentes().get(0).getUri()),
+                () -> assertEquals("Précédente FR", result.getSeriesPrecedentes().get(0).getLabel().get(0).getContenu()),
+                () -> assertEquals("Previous EN", result.getSeriesPrecedentes().get(0).getLabel().get(1).getContenu())
         );
     }
 

@@ -6,6 +6,7 @@ import fr.insee.rmes.magma.gestion.utils.OperationDTO;
 import fr.insee.rmes.magma.gestion.utils.SeriesDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -49,31 +50,31 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
                 createLangueContenu(dto.seriesHistoryNoteLg1(), lg1),
                 createLangueContenu(dto.seriesHistoryNoteLg2(), lg2)));
 
-        if (dto.type() != null && !dto.type().isBlank()) {
-            SerieByIdType type = new SerieByIdType();
+        if (StringUtils.hasText(dto.type()) ) {
+            IdUriLabel type = new IdUriLabel();
             type.setId(dto.typeID());
-            type.setUri(dto.type());
+            type.setUri(URI.create(dto.type()));
             type.setLabel(createListLangueContenu(
                     createLangueContenu(dto.typeLabelLg1(), lg1),
                     createLangueContenu(dto.typeLabelLg2(), lg2)));
             serieById.setType(type);
         }
 
-        if (dto.periodicity() != null && !dto.periodicity().isBlank()) {
-            SerieByIdType frequence = new SerieByIdType();
+        if (StringUtils.hasText(dto.periodicity()) ) {
+            IdUriLabel frequence = new IdUriLabel();
             frequence.setId(dto.periodicityId());
-            frequence.setUri(dto.periodicity());
+            frequence.setUri(URI.create(dto.periodicity()));
             frequence.setLabel(createListLangueContenu(
                     createLangueContenu(dto.periodicityLabelLg1(), lg1),
                     createLangueContenu(dto.periodicityLabelLg2(), lg2)));
             serieById.setFrequenceCollecte(frequence);
         }
 
-        if (dto.families() != null && !dto.families().isBlank()) {
+        if (StringUtils.hasText(dto.families()) ) {
             serieById.setFamille(parseFamille(dto.families()));
         }
 
-        if (dto.simsId() != null && !dto.simsId().isBlank()) {
+        if (StringUtils.hasText(dto.sims()) ) {
             StructureByIdAttributsInnerListCode rapportQualite = new StructureByIdAttributsInnerListCode();
             rapportQualite.setId(dto.simsId());
             rapportQualite.setUri(dto.sims());
@@ -112,7 +113,7 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
                 createLangueContenu(dto.operationAltLabelLg1(), lg1),
                 createLangueContenu(dto.operationAltLabelLg2(), lg2)));
 
-        if (dto.seriesId() != null && !dto.seriesId().isBlank()) {
+        if (StringUtils.hasText(dto.series()) ) {
             OperationBySerieIdSerie serie = new OperationBySerieIdSerie();
             serie.setId(dto.seriesId());
             serie.setUri(dto.series());
@@ -122,7 +123,7 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
             operationById.setSerie(serie);
         }
 
-        if (dto.simsId() != null && !dto.simsId().isBlank()) {
+        if (StringUtils.hasText(dto.simsId()) ) {
             StructureByIdAttributsInnerListCode rapportQualite = new StructureByIdAttributsInnerListCode();
             rapportQualite.setId(dto.simsId());
             rapportQualite.setUri(dto.sims());
@@ -160,41 +161,43 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
         return serieById;
     }
 
-    private SerieByIdType parseFamille(String raw) {
+    private IdUriLabel parseFamille(String raw) {
         if (raw == null || raw.isBlank()) {
             return null;
         }
         String[] parts = raw.split("\\$", -1);
-        SerieByIdType famille = new SerieByIdType();
+        IdUriLabel famille = new IdUriLabel();
         famille.setId(parts.length > 0 ? parts[0] : null);
-        famille.setUri(parts.length > 1 ? parts[1] : null);
+        String uriStr = parts.length > 1 ? parts[1] : null;
+        famille.setUri(StringUtils.hasText(uriStr) ? URI.create(uriStr) : null);
         famille.setLabel(createListLangueContenu(
                 createLangueContenu(parts.length > 2 ? parts[2] : null, lg1),
                 createLangueContenu(parts.length > 3 ? parts[3] : null, lg2)));
         return famille;
     }
 
-    private SerieByIdType parseSingleRef(String raw) {
+    private IdUriLabel parseSingleRef(String raw) {
         if (raw == null || raw.isBlank()) {
             return null;
         }
         String[] parts = raw.split("\\$", -1);
-        SerieByIdType ref = new SerieByIdType();
+        IdUriLabel ref = new IdUriLabel();
         ref.setId(parts.length > 0 ? parts[0] : null);
-        ref.setUri(parts.length > 1 ? parts[1] : null);
+        String uriStr = parts.length > 1 ? parts[1] : null;
+        ref.setUri(StringUtils.hasText(uriStr) ? URI.create(uriStr) : null);
         ref.setLabel(createListLangueContenu(
                 createLangueContenu(parts.length > 2 ? parts[2] : null, lg1),
                 createLangueContenu(parts.length > 3 ? parts[3] : null, lg2)));
         return ref;
     }
 
-    private List<SerieByIdType> parseRefList(String raw) {
-        List<SerieByIdType> list = new ArrayList<>();
+    private List<IdUriLabel> parseRefList(String raw) {
+        List<IdUriLabel> list = new ArrayList<>();
         if (raw == null || raw.isBlank()) {
             return list;
         }
         for (String item : raw.split("\\|")) {
-            SerieByIdType ref = parseSingleRef(item);
+            IdUriLabel ref = parseSingleRef(item);
             if (ref != null) {
                 list.add(ref);
             }
