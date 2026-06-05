@@ -10,6 +10,7 @@ import fr.insee.rmes.magma.gestion.utils.OperationDTO;
 import fr.insee.rmes.magma.gestion.utils.SeriesDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
                 createLangueContenu(dto.seriesHistoryNoteLg1(), lg1),
                 createLangueContenu(dto.seriesHistoryNoteLg2(), lg2)));
 
-        if (dto.type() != null && !dto.type().isBlank()) {
+        if (StringUtils.hasText(dto.type()) ) {
             IdUriLabel type = new IdUriLabel();
             type.setId(dto.typeID());
             type.setUri(URI.create(dto.type()));
@@ -62,7 +63,7 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
             serieById.setType(type);
         }
 
-        if (dto.periodicity() != null && !dto.periodicity().isBlank()) {
+        if (StringUtils.hasText(dto.periodicity()) ) {
             IdUriLabel frequence = new IdUriLabel();
             frequence.setId(dto.periodicityId());
             frequence.setUri(URI.create(dto.periodicity()));
@@ -72,11 +73,11 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
             serieById.setFrequenceCollecte(frequence);
         }
 
-        if (dto.families() != null && !dto.families().isBlank()) {
+        if (StringUtils.hasText(dto.families()) ) {
             serieById.setFamille(parseFamille(dto.families()));
         }
 
-        if (dto.simsId() != null && !dto.simsId().isBlank()) {
+        if (StringUtils.hasText(dto.sims()) ) {
             StructureByIdAttributsInnerListCode rapportQualite = new StructureByIdAttributsInnerListCode();
             rapportQualite.setId(dto.simsId());
             rapportQualite.setUri(dto.sims());
@@ -115,7 +116,7 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
                 createLangueContenu(dto.operationAltLabelLg1(), lg1),
                 createLangueContenu(dto.operationAltLabelLg2(), lg2)));
 
-        if (dto.seriesId() != null && !dto.seriesId().isBlank()) {
+        if (StringUtils.hasText(dto.series()) ) {
             OperationBySerieIdSerie serie = new OperationBySerieIdSerie();
             serie.setId(dto.seriesId());
             serie.setUri(dto.series());
@@ -125,7 +126,7 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
             operationById.setSerie(serie);
         }
 
-        if (dto.simsId() != null && !dto.simsId().isBlank()) {
+        if (StringUtils.hasText(dto.simsId()) ) {
             StructureByIdAttributsInnerListCode rapportQualite = new StructureByIdAttributsInnerListCode();
             rapportQualite.setId(dto.simsId());
             rapportQualite.setUri(dto.sims());
@@ -171,7 +172,7 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
         IdUriLabel famille = new IdUriLabel();
         famille.setId(parts.length > 0 ? parts[0] : null);
         String uriStr = parts.length > 1 ? parts[1] : null;
-        famille.setUri(uriStr != null && !uriStr.isBlank() ? URI.create(uriStr) : null);
+        famille.setUri(StringUtils.hasText(uriStr) ? URI.create(uriStr) : null);
         famille.setLabel(createListLangueContenu(
                 createLangueContenu(parts.length > 2 ? parts[2] : null, lg1),
                 createLangueContenu(parts.length > 3 ? parts[3] : null, lg2)));
@@ -186,7 +187,7 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
         IdUriLabel ref = new IdUriLabel();
         ref.setId(parts.length > 0 ? parts[0] : null);
         String uriStr = parts.length > 1 ? parts[1] : null;
-        ref.setUri(uriStr != null && !uriStr.isBlank() ? URI.create(uriStr) : null);
+        ref.setUri(StringUtils.hasText(uriStr) ? URI.create(uriStr) : null);
         ref.setLabel(createListLangueContenu(
                 createLangueContenu(parts.length > 2 ? parts[2] : null, lg1),
                 createLangueContenu(parts.length > 3 ? parts[3] : null, lg2)));

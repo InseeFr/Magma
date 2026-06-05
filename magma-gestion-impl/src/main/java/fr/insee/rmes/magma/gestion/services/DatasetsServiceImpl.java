@@ -6,6 +6,7 @@ import fr.insee.rmes.magma.gestion.utils.DatasetByIdSummaryDTO;
 import fr.insee.rmes.magma.gestion.utils.DatasetDTO;
 import fr.insee.rmes.magma.gestion.utils.DistributionDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -130,39 +131,39 @@ public class DatasetsServiceImpl implements DatasetsService {
         dataSet.setCatalogRecordCreator(dto.catalogRecordCreator());
         dataSet.setCatalogRecordContributor(dto.catalogRecordContributor());
 
-        if (dto.numObservations() != null && !dto.numObservations().isBlank()) {
+        if (StringUtils.hasText(dto.numObservations()) ) {
             dataSet.setNumObservations(Integer.parseInt(dto.numObservations()));
         }
-        if (dto.numSeries() != null && !dto.numSeries().isBlank()) {
+        if (StringUtils.hasText(dto.numSeries()) ) {
             dataSet.setNumSeries(Integer.parseInt(dto.numSeries()));
         }
 
-        if (dto.titleLg1() != null && !dto.titleLg1().isBlank()) {
+        if (StringUtils.hasText(dto.titleLg1()) ) {
             dataSet.setTitle(createListLangueContenu(
                     createLangueContenu(dto.titleLg1(), "fr"),
                     createLangueContenu(dto.titleLg2(), "en")));
         }
-        if (dto.subtitleLg1() != null && !dto.subtitleLg1().isBlank()) {
+        if (StringUtils.hasText(dto.subtitleLg1())) {
             dataSet.setSubtitle(createListLangueContenu(
                     createLangueContenu(dto.subtitleLg1(),"fr"),
                     createLangueContenu(dto.subtitleLg2(),"en")));
         }
-        if (dto.abstractLg1() != null && !dto.abstractLg1().isBlank()){
+        if (StringUtils.hasText(dto.abstractLg1())){
             dataSet.setAbstract(createListLangueContenu(
                     createLangueContenu(dto.abstractLg1(),"fr"),
                     createLangueContenu(dto.abstractLg2(),"en")));
         }
-        if (dto.descriptionLg1() != null && !dto.descriptionLg1().isBlank()){
+        if (StringUtils.hasText(dto.descriptionLg1())){
             dataSet.setDescription(createListLangueContenu(
                     createLangueContenu(dto.descriptionLg1(),"fr"),
                     createLangueContenu(dto.descriptionLg2(),"en")));
         }
-        if (dto.scopeNoteLg1() != null && !dto.scopeNoteLg1().isBlank()) {
+        if (StringUtils.hasText(dto.scopeNoteLg1())) {
             dataSet.setScopeNote(createListLangueContenu(
                     createLangueContenu(dto.scopeNoteLg1(), "fr"),
                     createLangueContenu(dto.scopeNoteLg2(), "en")));
         }
-        if (dto.landingPageLg1() != null && !dto.landingPageLg1().isBlank()) {
+        if (StringUtils.hasText(dto.landingPageLg1())) {
             dataSet.setLandingPage(createListLangueContenu(
                     new DataSetLandingPageInner().lang("fr").url(dto.landingPageLg1()),
                     new DataSetLandingPageInner().lang("en").url(dto.landingPageLg2())));
@@ -172,7 +173,7 @@ public class DatasetsServiceImpl implements DatasetsService {
             dataSet.setKeyword(buildKeywords(dto.keywordLg1(), dto.keywordLg2()));
         }
 
-        if (dto.idPublisher() != null && !dto.idPublisher().isBlank()) {
+        if (StringUtils.hasText(dto.idPublisher())) {
             dataSet.setPublisher(new DataSetCreatorInner()
                     .id(dto.idPublisher())
                     .label(createListLangueContenu(
@@ -180,24 +181,24 @@ public class DatasetsServiceImpl implements DatasetsService {
                             createLangueContenu(dto.labelPublisherLg2(),"en"))));
         }
 
-        if (dto.labeltypeLg1() != null && !dto.labeltypeLg1().isBlank()) {
+        if (StringUtils.hasText(dto.labeltypeLg1())) {
             dataSet.setType(createListLangueContenu(
                     createLangueContenu(dto.labeltypeLg1(),"fr"),
                     createLangueContenu(dto.labeltypeLg2(),"en")));
         }
-        if (dto.labelaccessRightsLg1() != null && !dto.labelaccessRightsLg1().isBlank()) {
+        if (StringUtils.hasText(dto.labelaccessRightsLg1())) {
             dataSet.setAccessRights(createListLangueContenu(
                     createLangueContenu(dto.labelaccessRightsLg1(),"fr"),
                     createLangueContenu(dto.labelaccessRightsLg2(),"en")));
         }
-        if (dto.labelconfidentialityStatusLg1() != null && !dto.labelconfidentialityStatusLg1().isBlank()) {
+        if (StringUtils.hasText(dto.labelconfidentialityStatusLg1())) {
             dataSet.setConfidentialityStatus(createListLangueContenu(
                     createLangueContenu(dto.labelconfidentialityStatusLg1(),"fr"),
                     createLangueContenu(dto.labelconfidentialityStatusLg2(),"en")));
         }
 
 
-        if (dto.spatialId() != null && !dto.spatialId().isBlank()) {
+        if (StringUtils.hasText(dto.spatialId())) {
             dataSet.setSpatial(new DataSetCreatorInner()
                     .id(dto.spatialId())
                     .label(createListLangueContenu(
@@ -205,20 +206,20 @@ public class DatasetsServiceImpl implements DatasetsService {
                             createLangueContenu(dto.labelspatialLg2(),"en"))));
         }
 
-        if (dto.startPeriod() != null && !dto.startPeriod().isBlank()) {
+        if (StringUtils.hasText(dto.startPeriod())) {
             dataSet.setTemporal(new DataSetTemporal()
                     .startPeriod(dto.startPeriod())
                     .endPeriod(dto.endPeriod()));
         }
 
-        if (dto.structureUri() != null && !dto.structureUri().isBlank()) {
+        if (StringUtils.hasText(dto.structureUri())) {
             dataSet.setStructure(new DataSetStructure()
                     .uri(dto.structureUri())
                     .id(dto.structureId())
                     .dsd(dto.dsd()));
         }
 
-        if (dto.creators() != null && !dto.creators().isBlank()) {
+        if (StringUtils.hasText(dto.creators())) {
             dataSet.setCreator(Arrays.stream(dto.creators().split("\\|"))
                     .filter(s -> !s.isBlank())
                     .map(raw -> {
@@ -232,39 +233,39 @@ public class DatasetsServiceImpl implements DatasetsService {
                     .toList());
         }
 
-        if (dto.operationStat() != null && !dto.operationStat().isBlank()) {
+        if (StringUtils.hasText(dto.operationStat())) {
             dataSet.setWasGeneratedBy(Arrays.stream(dto.operationStat().split(","))
                     .filter(s -> !s.isBlank())
                     .map(uri -> new DataSetCreatorInner().id(uri))
                     .toList());
         }
 
-        if (dto.names() != null && !dto.names().isBlank()) {
+        if (StringUtils.hasText(dto.names())) {
             dataSet.setTheme(Arrays.stream(dto.names().split(","))
                     .filter(s -> !s.isBlank())
                     .map(uri -> new DataSetThemeInner().uri(uri))
                     .toList());
         }
 
-        if (dto.relations() != null && !dto.relations().isBlank()) {
+        if (StringUtils.hasText(dto.relations())) {
             dataSet.setRelations(Arrays.stream(dto.relations().split(","))
                     .filter(s -> !s.isBlank())
                     .toList());
         }
 
-        if (dto.archiveUnits() != null && !dto.archiveUnits().isBlank()) {
+        if (StringUtils.hasText(dto.archiveUnits())) {
             dataSet.setArchiveUnit(Arrays.stream(dto.archiveUnits().split(","))
                     .filter(s -> !s.isBlank())
                     .map(uri -> new DataSetCreatorInner().id(uri))
                     .toList());
         }
 
-        if (dto.wasDerivedFromS() != null && !dto.wasDerivedFromS().isBlank()) {
+        if (StringUtils.hasText(dto.wasDerivedFromS())) {
             DataSetWasDerivedFrom wasDerivedFrom = new DataSetWasDerivedFrom()
                     .datasets(Arrays.stream(dto.wasDerivedFromS().split(","))
                             .filter(s -> !s.isBlank())
                             .toList());
-            if (dto.derivedDescriptionLg1() != null && !dto.derivedDescriptionLg1().isBlank()) {
+            if (StringUtils.hasText(dto.derivedDescriptionLg1())) {
                 wasDerivedFrom.setDescription(createListLangueContenu(
                         createLangueContenu(dto.derivedDescriptionLg1(),"fr"),
                         createLangueContenu(dto.derivedDescriptionLg2(), "en")));
@@ -297,15 +298,15 @@ public class DatasetsServiceImpl implements DatasetsService {
             d.setFormat(first.format());
             d.setDownloadURL(rows.stream()
                     .map(DistributionDTO::downloadURL)
-                    .filter(url -> url != null && !url.isBlank())
+                    .filter(StringUtils::hasText)
                     .distinct()
                     .toList());
-            if (first.titleLg1() != null && !first.titleLg1().isBlank()) {
+            if (StringUtils.hasText(first.titleLg1())) {
                 d.setTitle(createListLangueContenu(
                         createLangueContenu(first.titleLg1(), "fr"),
                         createLangueContenu(first.titleLg2(), "en")));
             }
-            if (first.descriptionLg1() != null && !first.descriptionLg1().isBlank()) {
+            if (StringUtils.hasText(first.descriptionLg1())) {
                 d.setDescription(createListLangueContenu(
                         createLangueContenu(first.descriptionLg1(), "fr"),
                         createLangueContenu(first.descriptionLg2(), "en")));
@@ -316,12 +317,12 @@ public class DatasetsServiceImpl implements DatasetsService {
 
     private List<LocalisedLabel> buildKeywords(String kwLg1, String kwLg2) {
         List<LocalisedLabel> keywords = new java.util.ArrayList<>();
-        if (kwLg1 != null && !kwLg1.isBlank()) {
+        if (StringUtils.hasText(kwLg1)) {
             Arrays.stream(kwLg1.split(","))
                     .filter(s -> !s.isBlank())
                     .forEach(kw -> keywords.add(new LocalisedLabel().langue("fr").contenu(kw.trim())));
         }
-        if (kwLg2 != null && !kwLg2.isBlank()) {
+        if (StringUtils.hasText(kwLg2)) {
             Arrays.stream(kwLg2.split(","))
                     .filter(s -> !s.isBlank())
                     .forEach(kw -> keywords.add(new LocalisedLabel().langue("en").contenu(kw.trim())));
