@@ -97,7 +97,16 @@
       ]
     }
   ],
-  "indicateurs": [],
+  "indicateurs": [
+    {
+      "id": "idIndicateurTest",
+      "uri": "http://bauhaus/produits/indicateur/idIndicateurTest",
+      "label": [
+        {"langue": "fr", "contenu": "Label Indicateur fr"},
+        {"langue": "en", "contenu": "Indicator Label en"}
+      ]
+    }
+  ],
   "dateCreation": "2020-01-15",
   "dateMiseAJour": "2024-06-01",
   "proprietaires": [
