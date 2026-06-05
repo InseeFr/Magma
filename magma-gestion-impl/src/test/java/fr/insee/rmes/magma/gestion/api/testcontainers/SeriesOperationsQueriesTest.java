@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -143,6 +144,34 @@ class SeriesOperationsQueriesTest extends TestcontainerTest {
     void should_return_200_when_getAllSeries() throws Exception {
         mockMvc.perform(get("/operations/series"))
                 .andExpect(status().isOk());
+    }
+
+    /////////////////////////////////////////////////////////
+    ///        /operations/indicateur/{id}                ///
+    /////////////////////////////////////////////////////////
+
+    @Test
+    @DisplayName("When getIndicatorById, returns full indicator")
+    void should_return_full_indicateur_when_getIndicatorById_idIndicateurTest() throws Exception {
+        var response = endpoints.getIndicatorById("idIndicateurTest");
+        var result = response.getBody();
+
+        assertNotNull(result);
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/indicateur-idIndicateurTest-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        JSONAssert.assertEquals(expected, data, true);
+    }
+
+    @Test
+    @DisplayName("When getIndicatorById with unknown id, returns 404")
+    void should_return_404_when_getIndicatorById_unknown_id() throws Exception {
+        mockMvc.perform(get("/operations/indicateur/indicateurInconnu"))
+                .andExpect(status().isNotFound());
     }
 
 }

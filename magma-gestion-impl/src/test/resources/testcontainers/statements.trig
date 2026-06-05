@@ -165,12 +165,44 @@
         dcterms:identifier "dares" ;
         skos:prefLabel "Direction de l'animation de la recherche"@fr ;
         skos:prefLabel "Labour Studies Directorate"@en .
+
+    <http://bauhaus/produits/indicateur/idIndicateurTest>
+        rdf:type insee:StatisticalIndicator ;
+        skos:prefLabel "Label Indicateur fr"@fr ;
+        skos:prefLabel "Indicator Label en"@en ;
+        skos:altLabel "AltLabel Indicateur fr"@fr ;
+        skos:altLabel "Indicator AltLabel en"@en ;
+        dcterms:abstract "Résumé de l'indicateur test"@fr ;
+        dcterms:abstract "Test indicator abstract"@en ;
+        skos:historyNote "Note historique indicateur test"@fr ;
+        skos:historyNote "Indicator historical note test"@en ;
+        dcterms:accrualPeriodicity <http://bauhaus/concepts/periodicity/A> ;
+        dcterms:created "2021-03-10"^^xsd:date ;
+        dcterms:modified "2023-11-20"^^xsd:date ;
+        insee:validationState "Publiée" ;
+        dc:creator <http://bauhaus/organisations/idOrganisationProprietaireTest> ;
+        dcterms:publisher <http://bauhaus/organisations/idOrganisationResponsableTest> ;
+        dcterms:contributor <http://bauhaus/organisations/idOrganisationPartenaireTest> ;
+        prov:wasGeneratedBy <http://bauhaus/operations/serie/idSeriePrincipaleTest> ;
+        rdfs:seeAlso <http://bauhaus/operations/serie/idSerieLiee1Test> ;
+        rdfs:seeAlso <http://bauhaus/produits/indicateur/idIndicateurLieTest> .
+
+    <http://bauhaus/produits/indicateur/idIndicateurLieTest>
+        rdf:type insee:StatisticalIndicator ;
+        skos:prefLabel "Label Indicateur Lié fr"@fr ;
+        skos:prefLabel "Related Indicator Label en"@en .
 }
 
 <http://rdf.insee.fr/graphes/qualite/rapport/idRapportQualiteTest> {
     <http://bauhaus/qualite/rapport/idRapportQualiteTest>
         rdf:type sdmx-mm:MetadataReport ;
         sdmx-mm:target <http://bauhaus/operations/operation/idOperationTest> .
+}
+
+<http://rdf.insee.fr/graphes/qualite/rapport/idRapportQualiteIndicateurTest> {
+    <http://bauhaus/qualite/rapport/idRapportQualiteIndicateurTest>
+        rdf:type sdmx-mm:MetadataReport ;
+        sdmx-mm:target <http://bauhaus/produits/indicateur/idIndicateurTest> .
 }
 
 <http://rdf.insee.fr/graphes/catalogue> {

@@ -1,5 +1,6 @@
 package fr.insee.rmes.magma.gestion.services;
 
+import fr.insee.rmes.magma.gestion.utils.IndicateurDTO;
 import fr.insee.rmes.magma.gestion.utils.OperationDTO;
 import fr.insee.rmes.magma.gestion.utils.SeriesDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,18 +55,18 @@ class SeriesOperationsServiceImplTest {
 
         assertAll(
                 () -> assertEquals(2, result.getLabel().size()),
-                () -> assertEquals("fr", result.getLabel().get(0).getLangue()),
-                () -> assertEquals("Enquête innovation", result.getLabel().get(0).getContenu()),
+                () -> assertEquals("fr", result.getLabel().getFirst().getLangue()),
+                () -> assertEquals("Enquête innovation", result.getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getLabel().get(1).getLangue()),
                 () -> assertEquals("Innovation survey", result.getLabel().get(1).getContenu()),
 
-                () -> assertEquals("Sigle FR", result.getAltLabel().get(0).getContenu()),
+                () -> assertEquals("Sigle FR", result.getAltLabel().getFirst().getContenu()),
                 () -> assertEquals("Sigle EN", result.getAltLabel().get(1).getContenu()),
 
-                () -> assertEquals("Résumé FR", result.getResume().get(0).getContenu()),
+                () -> assertEquals("Résumé FR", result.getResume().getFirst().getContenu()),
                 () -> assertEquals("Abstract EN", result.getResume().get(1).getContenu()),
 
-                () -> assertEquals("Note historique FR", result.getNoteHistorique().get(0).getContenu()),
+                () -> assertEquals("Note historique FR", result.getNoteHistorique().getFirst().getContenu()),
                 () -> assertEquals("History note EN", result.getNoteHistorique().get(1).getContenu())
         );
     }
@@ -173,7 +174,7 @@ class SeriesOperationsServiceImplTest {
 
         assertAll(
                 () -> assertEquals(2, result.getSeriesLiees().size()),
-                () -> assertEquals("s1197", result.getSeriesLiees().get(0).getId()),
+                () -> assertEquals("s1197", result.getSeriesLiees().getFirst().getId()),
                 () -> assertEquals("s1198", result.getSeriesLiees().get(1).getId())
         );
     }
@@ -184,7 +185,7 @@ class SeriesOperationsServiceImplTest {
 
         assertAll(
                 () -> assertEquals(2, result.getOperations().size()),
-                () -> assertEquals("op2024", result.getOperations().get(0).getId()),
+                () -> assertEquals("op2024", result.getOperations().getFirst().getId()),
                 () -> assertEquals("op2023", result.getOperations().get(1).getId())
         );
     }
@@ -300,12 +301,12 @@ class SeriesOperationsServiceImplTest {
 
         assertAll(
                 () -> assertEquals(2, result.getLabel().size()),
-                () -> assertEquals("fr", result.getLabel().get(0).getLangue()),
-                () -> assertEquals("Enquête innovation 2024", result.getLabel().get(0).getContenu()),
+                () -> assertEquals("fr", result.getLabel().getFirst().getLangue()),
+                () -> assertEquals("Enquête innovation 2024", result.getLabel().getFirst().getContenu()),
                 () -> assertEquals("en", result.getLabel().get(1).getLangue()),
                 () -> assertEquals("Innovation survey 2024", result.getLabel().get(1).getContenu()),
 
-                () -> assertEquals("CIS 2024", result.getAltLabel().get(0).getContenu()),
+                () -> assertEquals("CIS 2024", result.getAltLabel().getFirst().getContenu()),
                 () -> assertEquals("CIS 2024", result.getAltLabel().get(1).getContenu())
         );
     }
@@ -318,7 +319,7 @@ class SeriesOperationsServiceImplTest {
                 () -> assertNotNull(result.getSerie()),
                 () -> assertEquals("s1001", result.getSerie().getId()),
                 () -> assertEquals("http://id.insee.fr/operations/serie/s1001", result.getSerie().getUri()),
-                () -> assertEquals("Enquête innovation", result.getSerie().getLabel().get(0).getContenu()),
+                () -> assertEquals("Enquête innovation", result.getSerie().getLabel().getFirst().getContenu()),
                 () -> assertEquals("Innovation survey", result.getSerie().getLabel().get(1).getContenu())
         );
     }
@@ -385,6 +386,220 @@ class SeriesOperationsServiceImplTest {
     }
 
     // =========================================================
+    //   transformIndicateurDTOToIndicateurById
+    // =========================================================
+
+    @Test
+    void should_map_identifiers_and_dates_when_transformIndicateurDTO() {
+        var result = service.transformIndicateurDTOToIndicateur(fullIndicateurDTO());
+
+        assertAll(
+                () -> assertEquals("p1001", result.getId()),
+                () -> assertEquals("http://id.insee.fr/produits/indicateur/p1001", result.getUri()),
+                () -> assertEquals("2019-05-10", result.getDateCreation()),
+                () -> assertEquals("2023-03-15", result.getDateMiseAJour()),
+                () -> assertEquals("Publiée", result.getStatuValidation())
+        );
+    }
+
+    @Test
+    void should_map_null_dates_as_null_when_transformIndicateurDTO() {
+        var result = service.transformIndicateurDTOToIndicateur(minimalIndicateurDTO());
+
+        assertNull(result.getDateCreation());
+        assertNull(result.getDateMiseAJour());
+    }
+
+    @Test
+    void should_map_multilingual_labels_when_transformIndicateurDTO() {
+        var result = service.transformIndicateurDTOToIndicateur(fullIndicateurDTO());
+
+        assertAll(
+                () -> assertEquals(2, result.getLabel().size()),
+                () -> assertEquals("fr", result.getLabel().getFirst().getLangue()),
+                () -> assertEquals("Taux de chômage", result.getLabel().getFirst().getContenu()),
+                () -> assertEquals("en", result.getLabel().get(1).getLangue()),
+                () -> assertEquals("Unemployment rate", result.getLabel().get(1).getContenu()),
+
+                () -> assertEquals("TxChom", result.getAltLabel().getFirst().getContenu()),
+                () -> assertEquals("UnemployRate", result.getAltLabel().get(1).getContenu()),
+
+                () -> assertEquals("Résumé indicateur FR", result.getResume().getFirst().getContenu()),
+                () -> assertEquals("Indicator abstract EN", result.getResume().get(1).getContenu()),
+
+                () -> assertEquals("Note historique indicateur FR", result.getNoteHistorique().getFirst().getContenu()),
+                () -> assertEquals("Indicator history note EN", result.getNoteHistorique().get(1).getContenu())
+        );
+    }
+
+    @Test
+    void should_map_periodicity_indicateur_when_present() {
+        var result = service.transformIndicateurDTOToIndicateur(fullIndicateurDTO());
+
+        assertAll(
+                () -> assertNotNull(result.getFrequenceCollecte()),
+                () -> assertEquals("T", result.getFrequenceCollecte().getId()),
+                () -> assertEquals("http://id.insee.fr/concepts/periodicity/T", result.getFrequenceCollecte().getUri().toString()),
+                () -> assertEquals("Trimestrielle", result.getFrequenceCollecte().getLabel().getFirst().getContenu()),
+                () -> assertEquals("Quarterly", result.getFrequenceCollecte().getLabel().get(1).getContenu())
+        );
+    }
+
+    @Test
+    void should_not_set_periodicity_indicateur_when_null() {
+        assertNull(service.transformIndicateurDTOToIndicateur(minimalIndicateurDTO()).getFrequenceCollecte());
+    }
+
+    @Test
+    void should_not_set_periodicity_when_blank() {
+        var dto = new IndicateurDTO(
+                "p1001", "http://id.insee.fr/produits/indicateur/p1001",
+                "Label FR", "Label EN", null, null, null, null, null, null,
+                "   ", null, null, null,
+                null, null, null, null, null,
+                null, null, null, null, null, null
+        );
+        assertNull(service.transformIndicateurDTOToIndicateur(dto).getFrequenceCollecte());
+    }
+
+    @Test
+    void should_map_rapportQualite_indicateur_when_simsId_present() {
+        var result = service.transformIndicateurDTOToIndicateur(fullIndicateurDTO());
+
+        assertAll(
+                () -> assertNotNull(result.getRapportQualite()),
+                () -> assertEquals("3500", result.getRapportQualite().getId()),
+                () -> assertEquals("http://id.insee.fr/qualite/rapport/3500", result.getRapportQualite().getUri())
+        );
+    }
+
+    @Test
+    void should_not_set_rapportQualite_indicateur_when_simsId_is_null() {
+        assertNull(service.transformIndicateurDTOToIndicateur(minimalIndicateurDTO()).getRapportQualite());
+    }
+
+    @Test
+    void should_not_set_rapportQualite_when_simsId_is_blank() {
+        var dto = new IndicateurDTO(
+                "p1001", "http://id.insee.fr/produits/indicateur/p1001",
+                "Label FR", "Label EN", null, null, null, null, null, null,
+                null, null, null, null,
+                null, null, null,
+                "http://id.insee.fr/qualite/rapport/3500", "   ",
+                null, null, null, null, null, null
+        );
+        assertNull(service.transformIndicateurDTOToIndicateur(dto).getRapportQualite());
+    }
+
+    @Test
+    void should_parse_seriesContributrices_from_dollar_separated_string() {
+        var result = service.transformIndicateurDTOToIndicateur(fullIndicateurDTO());
+
+        assertAll(
+                () -> assertNotNull(result.getSeriesContributrices()),
+                () -> assertEquals(1, result.getSeriesContributrices().size()),
+                () -> assertEquals("s1001", result.getSeriesContributrices().getFirst().getId()),
+                () -> assertEquals("http://id.insee.fr/operations/serie/s1001", result.getSeriesContributrices().getFirst().getUri().toString()),
+                () -> assertEquals("Série contributrice FR", result.getSeriesContributrices().getFirst().getLabel().getFirst().getContenu()),
+                () -> assertEquals("Contributing series EN", result.getSeriesContributrices().getFirst().getLabel().get(1).getContenu())
+        );
+    }
+
+    @Test
+    void should_parse_seriesLiees_from_dollar_separated_string() {
+        var result = service.transformIndicateurDTOToIndicateur(fullIndicateurDTO());
+
+        assertAll(
+                () -> assertNotNull(result.getSeriesLiees()),
+                () -> assertEquals(1, result.getSeriesLiees().size()),
+                () -> assertEquals("s1197", result.getSeriesLiees().getFirst().getId()),
+                () -> assertEquals("Série liée FR", result.getSeriesLiees().getFirst().getLabel().getFirst().getContenu())
+        );
+    }
+
+    @Test
+    void should_parse_indicateursLies_from_dollar_separated_string() {
+        var result = service.transformIndicateurDTOToIndicateur(fullIndicateurDTO());
+
+        assertAll(
+                () -> assertNotNull(result.getIndicateursLies()),
+                () -> assertEquals(1, result.getIndicateursLies().size()),
+                () -> assertEquals("p1002", result.getIndicateursLies().getFirst().getId()),
+                () -> assertEquals("http://id.insee.fr/produits/indicateur/p1002", result.getIndicateursLies().getFirst().getUri().toString()),
+                () -> assertEquals("Indicateur lié FR", result.getIndicateursLies().getFirst().getLabel().getFirst().getContenu()),
+                () -> assertEquals("Related indicator EN", result.getIndicateursLies().getFirst().getLabel().get(1).getContenu())
+        );
+    }
+
+    @Test
+    void should_parse_multiple_items_separated_by_pipe() {
+        var dto = new IndicateurDTO(
+                "p1001", "http://id.insee.fr/produits/indicateur/p1001",
+                "Label FR", "Label EN", null, null, null, null, null, null,
+                null, null, null, null,
+                "s1001$http://id.insee.fr/operations/serie/s1001$Série 1 FR$Series 1 EN|s1002$http://id.insee.fr/operations/serie/s1002$Série 2 FR$Series 2 EN",
+                null, null, null, null,
+                null, null, null, null, null, null
+        );
+        var result = service.transformIndicateurDTOToIndicateur(dto);
+
+        assertAll(
+                () -> assertEquals(2, result.getSeriesContributrices().size()),
+                () -> assertEquals("s1001", result.getSeriesContributrices().getFirst().getId()),
+                () -> assertEquals("s1002", result.getSeriesContributrices().get(1).getId())
+        );
+    }
+
+    @Test
+    void should_map_proprietaires_organismesResponsables_partenaires() {
+        var result = service.transformIndicateurDTOToIndicateur(fullIndicateurDTO());
+
+        assertAll(
+                () -> assertEquals(1, result.getProprietaires().size()),
+                () -> assertEquals("insee", result.getProprietaires().getFirst().getId()),
+                () -> assertEquals("Institut national", result.getProprietaires().getFirst().getLabel().getFirst().getContenu()),
+
+                () -> assertEquals(1, result.getOrganismesResponsables().size()),
+                () -> assertEquals("drees", result.getOrganismesResponsables().getFirst().getId()),
+
+                () -> assertEquals(1, result.getPartenaires().size()),
+                () -> assertEquals("dares", result.getPartenaires().getFirst().getId())
+        );
+    }
+
+    @Test
+    void should_return_null_for_list_fields_when_raw_is_null() {
+        var result = service.transformIndicateurDTOToIndicateur(minimalIndicateurDTO());
+
+        assertAll(
+                () -> assertNull(result.getSeriesContributrices()),
+                () -> assertNull(result.getSeriesLiees()),
+                () -> assertNull(result.getIndicateursLies()),
+                () -> assertNull(result.getProprietaires()),
+                () -> assertNull(result.getOrganismesResponsables()),
+                () -> assertNull(result.getPartenaires())
+        );
+    }
+
+    @Test
+    void should_skip_item_when_id_part_is_blank() {
+        var dto = new IndicateurDTO(
+                "p1001", "http://id.insee.fr/produits/indicateur/p1001",
+                "Label FR", "Label EN", null, null, null, null, null, null,
+                null, null, null, null,
+                "$http://id.insee.fr/operations/serie/s1001$Label FR$Label EN|s1002$http://id.insee.fr/operations/serie/s1002$Série 2 FR$Series 2 EN",
+                null, null, null, null,
+                null, null, null, null, null, null
+        );
+        var result = service.transformIndicateurDTOToIndicateur(dto);
+
+        assertAll(
+                () -> assertEquals(1, result.getSeriesContributrices().size()),
+                () -> assertEquals("s1002", result.getSeriesContributrices().getFirst().getId())
+        );
+    }
+
+    // =========================================================
     //   Fixtures
     // =========================================================
 
@@ -424,6 +639,42 @@ class SeriesOperationsServiceImplTest {
                 null, null, null, null,
                 null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null
+        );
+    }
+
+    private IndicateurDTO fullIndicateurDTO() {
+        return new IndicateurDTO(
+                "p1001",
+                "http://id.insee.fr/produits/indicateur/p1001",
+                "Taux de chômage", "Unemployment rate",
+                "TxChom", "UnemployRate",
+                "Résumé indicateur FR", "Indicator abstract EN",
+                "Note historique indicateur FR", "Indicator history note EN",
+                "http://id.insee.fr/concepts/periodicity/T", "T", "Trimestrielle", "Quarterly",
+                "s1001$http://id.insee.fr/operations/serie/s1001$Série contributrice FR$Contributing series EN",
+                "s1197$http://id.insee.fr/operations/serie/s1197$Série liée FR$Related series EN",
+                "p1002$http://id.insee.fr/produits/indicateur/p1002$Indicateur lié FR$Related indicator EN",
+                "http://id.insee.fr/qualite/rapport/3500", "3500",
+                LocalDate.of(2019, 5, 10),
+                LocalDate.of(2023, 3, 15),
+                "insee$http://id.insee.fr/organisations/insee$Institut national$National institute",
+                "drees$http://id.insee.fr/organisations/drees$DREES$DREES",
+                "dares$http://id.insee.fr/organisations/dares$DARES$DARES",
+                "Publiée"
+        );
+    }
+
+    private IndicateurDTO minimalIndicateurDTO() {
+        return new IndicateurDTO(
+                "p1001", "http://id.insee.fr/produits/indicateur/p1001",
+                "Taux FR", "Rate EN",
+                null, null, null, null, null, null,
+                null, null, null, null,
+                null, null, null,
+                null, null,
+                null, null,
+                null, null, null,
+                null
         );
     }
 
