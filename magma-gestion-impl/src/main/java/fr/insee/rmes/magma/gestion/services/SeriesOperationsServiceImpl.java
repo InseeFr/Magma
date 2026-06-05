@@ -1,17 +1,13 @@
 package fr.insee.rmes.magma.gestion.services;
 
-import fr.insee.rmes.magma.gestion.model.OperationById;
-import fr.insee.rmes.magma.gestion.model.OperationBySerieIdSerie;
-import fr.insee.rmes.magma.gestion.model.IdUriLabel;
-import fr.insee.rmes.magma.gestion.model.SerieById;
-import fr.insee.rmes.magma.gestion.model.StructureByIdAttributsInnerListCode;
-import java.net.URI;
+import fr.insee.rmes.magma.gestion.model.*;
 import fr.insee.rmes.magma.gestion.utils.OperationDTO;
 import fr.insee.rmes.magma.gestion.utils.SeriesDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
