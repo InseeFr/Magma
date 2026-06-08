@@ -5,9 +5,9 @@ info:
   description: API sur les métadonnées de l'Insee
 externalDocs:
   description: This API is open source, the sources can be found here
-  url: https://github.com/InseeFr/Metadata-API
+  url: https://github.com/InseeFr/Magma
 servers:
-  - url: http://localhost:8080/metadata-api
+  - url: http://localhost:8080
 
 ### TAGS SPECIFICATION ###
 
