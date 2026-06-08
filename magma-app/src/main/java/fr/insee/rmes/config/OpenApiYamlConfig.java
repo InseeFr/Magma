@@ -1,4 +1,4 @@
-package fr.insee.rmes.magma.diffusion.config;
+package fr.insee.rmes.config;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
