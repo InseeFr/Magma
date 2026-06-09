@@ -20,6 +20,8 @@ tags:
     description: Consultation des Séries et Opérations de la base de gestion
   - name: Datasets
     description: Consultation Magma API - datasets
+servers:
+  - url: http://localhost:8080
 
 security:
   - bearerAuth: []
@@ -442,21 +444,15 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/DataSet'
+          $ref: '#/components/responses/DatasetsListe200'
         '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
 
   /dataset/{id}:
     get:
@@ -472,19 +468,15 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DataSet'
+          $ref: '#/components/responses/Dataset200'
         '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
     patch:
       tags:
         - Datasets
@@ -678,6 +670,52 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
+  responses:
+
+    IncorrectRequest:
+      description: 'La syntaxe de la requête est incorrecte'
+
+    NotFound:
+      description: 'Ressource non trouvée'
+
+    NotAcceptable:
+      description: 'L''en-tête HTTP ''Accept'' contient une valeur non acceptée'
+
+    ServerError:
+      description: 'Erreur interne du serveur'
+
+    Dataset200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Dataset'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Dataset'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Dataset'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Dataset'
+
+    DatasetsListe200:
+      description: 'Opération réussie pour les datasets'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeDatasets'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeDatasets'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeDatasets'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeDatasets'
 
   schemas:
     # ============================================
@@ -1202,127 +1240,7 @@ components:
     # ============================================
     # DATASETS SCHEMAS
     # ============================================
-    DataSet:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-        catalogRecordCreated:
-          type: string
-        catalogRecordModified:
-          type: string
-        catalogRecordCreator:
-          type: string
-        catalogRecordContributor:
-          type: string
-        identifier:
-          type: string
-        issued:
-          type: string
-        modified:
-          type: string
-        disseminationStatus:
-          type: string
-        validationState:
-          type: string
-        version:
-          type: string
-        creator:
-          type: array
-          items:
-            $ref: '#/components/schemas/IdLabel'
-        publisher:
-          $ref: '#/components/schemas/IdLabel'
-        title:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-        subtitle:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-        abstract:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-        description:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-        scopeNote:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-        wasGeneratedBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/IdLabel'
-        type:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-        archiveUnit:
-          type: array
-          items:
-            $ref: '#/components/schemas/IdLabel'
-        accessRights:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-        confidentialityStatus:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-        theme:
-          type: array
-          items:
-            $ref: '#/components/schemas/Theme'
-        landingPage:
-          type: array
-          items:
-            $ref: '#/components/schemas/LandingPage'
-        processStep:
-          $ref: '#/components/schemas/ProcessStep'
-        accrualPeriodicity:
-          $ref: 'langue-contenu.schema.json'
-        temporal:
-          $ref: '#/components/schemas/Temporal'
-        temporalResolution:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        spatial:
-          $ref: '#/components/schemas/IdLabel'
-        spatialResolution:
-          type: array
-          items:
-            $ref: '#/components/schemas/IdLabel'
-        spatialTemporal:
-          type: string
-        statisticalUnit:
-          type: array
-          items:
-            $ref: '#/components/schemas/IdLabel'
-        structure:
-          $ref: '#/components/schemas/Structure'
-        numObservations:
-          type: integer
-          format: int32
-        numSeries:
-          type: integer
-          format: int32
-        wasDerivedFrom:
-          $ref: '#/components/schemas/WasDerivedFrom'
-        relations:
-          type: array
-          items:
-            type: string
-        keyword:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
+
 
     Theme:
       type: object
@@ -1513,3 +1431,188 @@ components:
           type: string
         uri:
           type: string
+
+    Dataset:
+      type: object
+      properties:
+        id:
+          type: string
+        uri:
+          type: string
+        catalogRecordCreated:
+          type: string
+        catalogRecordModified:
+          type: string
+        catalogRecordCreator:
+          type: string
+        catalogRecordContributor:
+          type: string
+        identifier:
+          type: string
+        issued:
+          type: string
+        modified:
+          type: string
+        disseminationStatus:
+          type: string
+        validationState:
+          type: string
+        version:
+          type: string
+        creator:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdLabel'
+        publisher:
+          $ref: '#/components/schemas/IdLabel'
+        title:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        subtitle:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        abstract:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        description:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        scopeNote:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        wasGeneratedBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdLabel'
+        type:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        archiveUnit:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdLabel'
+        accessRights:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        confidentialityStatus:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        theme:
+          type: array
+          items:
+            $ref: '#/components/schemas/Theme'
+        landingPage:
+          type: array
+          items:
+            $ref: '#/components/schemas/LandingPage'
+        processStep:
+          $ref: '#/components/schemas/ProcessStep'
+        accrualPeriodicity:
+          $ref: 'langue-contenu.schema.json'
+        temporal:
+          $ref: '#/components/schemas/Temporal'
+        temporalResolution:
+          type: array
+          items:
+            $ref: 'langue-contenu.schema.json'
+        spatial:
+          $ref: '#/components/schemas/IdLabel'
+        spatialResolution:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdLabel'
+        spatialTemporal:
+          type: string
+        statisticalUnit:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdLabel'
+        structure:
+          $ref: '#/components/schemas/Structure'
+        numObservations:
+          type: integer
+          format: int32
+        numSeries:
+          type: integer
+          format: int32
+        wasDerivedFrom:
+          $ref: '#/components/schemas/WasDerivedFrom'
+        relations:
+          type: array
+          items:
+            type: string
+        keyword:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+
+    ListeDatasets:
+      description: 'Liste des datasets'
+      type: array
+      xml:
+        wrapped: true
+        name: Definition
+      items:
+        $ref: '#/components/schemas/Dataset'
+
+  examples:
+    Dataset:
+      value:
+        code: '25baaf1f-61cf-4d50-9124-1477afca2aa4'
+        uri: 'http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4'
+        catalogRecordCreated: '2024-12-09T12:00:00.000'
+        catalogRecordModified: '2024-12-09T12:00:00.000'
+        catalogRecordCreator: 'http://bauhaus/organisations/insee/HIE2004937'
+        identifier: 'DD_EEC_SERIES'
+        validationState: 'Provisoire, jamais publiée'
+        title:
+          - contenu: 'Activité, emploi et chômage - séries longues'
+            langue: 'fr'
+          - contenu : 'Activité, emploi et chômage - séries longues'
+            langue: 'en'
+        description:
+          - contenu: 'Les données sont détaillées par sexe, âge, diplôme et catégorie socio-professionnelle (PCS). Pour l’emploi, les données sont détaillées par type de contrat, composante du sous-emploi, temps de travail (temps complet ou partiel). Plusieurs indicateurs en taux sont disponibles : taux d''activité, taux d''emploi ou taux de chômage.\n\nCe jeu de données regroupe notamment les données annuelles de forte valeur (High Value Dataset ou HVD statistiques) désignées par Eurostat sur les sujets suivants : l''emploi , le chômage et la main d’œuvre potentielle.'
+            langue: 'fr'
+          - langue: 'en'
+        scopeNote:
+          - contenu: 'Des corrections sur les données concernant la population totale ainsi que sur l''emploi et la part dans l''emploi selon le plus haut diplôme obtenu, par sexe et âge regroupé, en moyenne annuelle ont été apportées en septembre 2024 afin de rectifier une erreur, portant sur les années 2018, 2019 et 2020 uniquement.'
+            langue: 'fr'
+          - langue: 'en'
+        wasGeneratedBy:
+          - contenu: 'http://bauhaus/operations/serie/s1223'
+            langue: 'fr'
+          - langue: 'en'
+
+    ListeDatasets:
+      value:
+        - id: '25baaf1f-61cf-4d50-9124-1477afca2aa4'
+          uri: 'http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4'
+          catalogRecordCreated: '2024-12-09T12:00:00.000'
+          catalogRecordModified: '2024-12-09T12:00:00.000'
+          catalogRecordCreator: 'http://bauhaus/organisations/insee/HIE2004937'
+          validationState: 'Provisoire, jamais publiée'
+          title:
+            - contenu: 'Activité, emploi et chômage - séries longues'
+              langue: 'fr'
+            - contenu: 'Activité, emploi et chômage - séries longues'
+              langue: 'en'
+        - id: 'a85dab6c-ef0f-4caa-9763-c7f8c840e216'
+          uri: 'http://bauhaus/catalogues/jeuDeDonnees/a85dab6c-ef0f-4caa-9763-c7f8c840e216'
+          catalogRecordCreated: '2024-12-09'
+          catalogRecordModified: '2024-12-09'
+          validationState: 'Unpublished'
+          title:
+            - contenu: 'Activité des branches de l''économie'
+              langue: 'fr'
+            - contenu: 'Activité des branches de l''économie'
+              langue: 'en'
+
+

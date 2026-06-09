@@ -5,6 +5,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,6 +23,17 @@ public class OpenApiYamlConfig {
         return ResponseEntity.ok()
                 .contentType(MediaType.TEXT_PLAIN)
                 .body(new ClassPathResource("openapi-gestion.yaml"));
+    }
+
+    @GetMapping(value = "/{schemaName}.schema.json", produces = "application/json;charset=UTF-8")
+    public ResponseEntity<Resource> openApiSchema(@PathVariable String schemaName) {
+        ClassPathResource resource = new ClassPathResource(schemaName + ".schema.json");
+        if (!resource.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(resource);
     }
 
 }
