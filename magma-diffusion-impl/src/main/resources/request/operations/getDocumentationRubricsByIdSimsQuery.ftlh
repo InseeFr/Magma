@@ -34,7 +34,8 @@ WHERE {
       {
         ?reporturi ?uri ?textLg1 .
         ?textLg1 rdf:type <http://purl.org/dc/dcmitype/Text> .
-        ?textLg1 dcterms:language <http://id.insee.fr/codes/langue/fr>
+        ?textLg1 dcterms:language ?langFr .
+        FILTER(STRENDS(STR(?langFr), "/codes/langue/fr"))
         OPTIONAL {
           ?textLg1 rdf:value ?labelLg1 .
         }
@@ -46,7 +47,8 @@ WHERE {
       OPTIONAL {
         ?reporturi ?uri ?textLg2 .
         ?textLg2 rdf:type <http://purl.org/dc/dcmitype/Text> .
-        ?textLg2 dcterms:language <http://id.insee.fr/codes/langue/en>
+        ?textLg1 dcterms:language ?langEn .
+        FILTER(STRENDS(STR(?langFr), "/codes/langue/en"))
         OPTIONAL {
           ?textLg2 rdf:value ?labelLg2 .
         }
