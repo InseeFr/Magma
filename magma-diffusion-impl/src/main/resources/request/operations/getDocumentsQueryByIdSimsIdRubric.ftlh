@@ -6,7 +6,7 @@ WHERE {
     BIND(IRI(CONCAT("http://id.insee.fr/codes/langue/", ?LANG)) AS ?langueURI)
     ?text rdf:type <http://purl.org/dc/dcmitype/Text> .
     ?text dcterms:language ?langueURI .
-    ?text insee:additionalMaterial ?document .
+    ?text insee:additionalMaterial/rdf:rest*/rdf:first? ?document .
     ?document rdf:type <http://xmlns.com/foaf/0.1/Document> .
     ?document <http://schema.org/url> ?url
             
