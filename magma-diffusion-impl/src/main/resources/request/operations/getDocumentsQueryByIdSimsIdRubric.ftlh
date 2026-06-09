@@ -11,10 +11,10 @@ WHERE {
         ?document <http://schema.org/url> ?url
             
     OPTIONAL{ ?document rdfs:label ?labelLg1 .
-    	FILTER(lang(?labelLg1) = 'fr')
+    	FILTER(lang(?labelLg1) = '${LG1}')
     }
     OPTIONAL{ ?document rdfs:label ?labelLg2 .
-    	FILTER(lang(?labelLg2) = 'en')
+    	FILTER(lang(?labelLg2) = '${LG2}')
     }
            	 
     OPTIONAL{ ?document pav:lastRefreshedOn ?dateMiseAJour . }

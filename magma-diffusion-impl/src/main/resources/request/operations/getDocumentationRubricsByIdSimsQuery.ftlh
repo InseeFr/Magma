@@ -20,8 +20,8 @@ WHERE {
   ?uri sdmx-mm:concept ?concept .
   ?concept skos:prefLabel ?titreLg1 ;
            skos:prefLabel ?titreLg2 ;
-  FILTER(lang(?titreLg1) = 'fr')
-  FILTER(lang(?titreLg2) = 'en')
+  FILTER(lang(?titreLg1) = '${LG1}')
+  FILTER(lang(?titreLg2) = '${LG2}')
   BIND(REPLACE( STR(?uri) , '(.*/)(\\w.*$)', '$2' ) AS ?id) .
   {
     {
@@ -62,10 +62,10 @@ WHERE {
 
     UNION {
       ?reporturi ?uri ?labelLg1 .
-      FILTER(lang(?labelLg1) = 'fr')
+      FILTER(lang(?labelLg1) = '${LG1}')
       OPTIONAL {
         ?reporturi ?uri ?labelLg2 .
-        FILTER(lang(?labelLg2) = 'en')
+        FILTER(lang(?labelLg2) = '${LG2}')
       }
       BIND('TEXT' AS ?type) .
     }
@@ -76,9 +76,9 @@ WHERE {
       ?codeUri skos:inScheme ?listUri .
       ?listUri skos:notation ?codeList .
       ?codeUri skos:prefLabel ?labelObjLg1 .
-      FILTER (lang(?labelObjLg1) = 'fr') .
+      FILTER (lang(?labelObjLg1) = '${LG1}') .
       ?codeUri skos:prefLabel ?labelObjLg2 .
-      FILTER (lang(?labelObjLg2) = 'en') .
+      FILTER (lang(?labelObjLg2) = '${LG2}') .
       BIND('CODE_LIST' AS ?type) .
       OPTIONAL {
         ?mas sdmx-mm:metadataAttributeProperty ?uri .
@@ -91,11 +91,11 @@ WHERE {
       ?organisationUri dcterms:identifier ?valeurSimple .
       OPTIONAL {
         ?organisationUri skos:prefLabel ?labelObjLg1 .
-        FILTER (lang(?labelObjLg1) = 'fr')
+        FILTER (lang(?labelObjLg1) = '${LG1}')
       }
       OPTIONAL {
         ?organisationUri skos:prefLabel ?labelObjLg2 .
-        FILTER (lang(?labelObjLg2) = 'en')
+        FILTER (lang(?labelObjLg2) = '${LG2}')
       }
       BIND('ORGANIZATION' AS ?type) .
     }
@@ -104,7 +104,7 @@ WHERE {
       ?reporturi ?uri ?geoUri .
       GRAPH ?g {
         ?geoUri skos:prefLabel|igeo:nom|rdfs:label ?labelObjLg1 .
-        FILTER (lang(?labelObjLg1) = 'fr' || (langmatches(lang(?labelObjLg1), '') ))
+        FILTER (lang(?labelObjLg1) = '${LG1}' || (langmatches(lang(?labelObjLg1), '') ))
       }
       BIND(REPLACE( STR(?geoUri) , '(.*/)(\\w.*$)', '$2' ) AS ?valeurSimple)
       BIND('GEOGRAPHY' AS ?type) .
