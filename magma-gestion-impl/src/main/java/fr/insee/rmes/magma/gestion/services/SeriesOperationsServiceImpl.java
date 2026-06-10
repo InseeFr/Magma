@@ -75,7 +75,7 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
         }
 
         if (StringUtils.hasText(dto.sims()) ) {
-            StructureByIdAttributsInnerListCode rapportQualite = new StructureByIdAttributsInnerListCode();
+            SerieByIdRapportQualite rapportQualite = new SerieByIdRapportQualite();
             rapportQualite.setId(dto.simsId());
             rapportQualite.setUri(dto.sims());
             serieById.setRapportQualite(rapportQualite);
@@ -114,7 +114,7 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
                 createLangueContenu(dto.operationAltLabelLg2(), lg2)));
 
         if (StringUtils.hasText(dto.series()) ) {
-            OperationBySerieIdSerie serie = new OperationBySerieIdSerie();
+            OperationByIdSerie serie = new OperationByIdSerie();
             serie.setId(dto.seriesId());
             serie.setUri(dto.series());
             serie.setLabel(createListLangueContenu(
@@ -124,7 +124,7 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
         }
 
         if (StringUtils.hasText(dto.simsId()) ) {
-            StructureByIdAttributsInnerListCode rapportQualite = new StructureByIdAttributsInnerListCode();
+            SerieByIdRapportQualite rapportQualite = new SerieByIdRapportQualite();
             rapportQualite.setId(dto.simsId());
             rapportQualite.setUri(dto.sims());
             operationById.setRapportQualite(rapportQualite);
@@ -257,7 +257,7 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
         }
 
         if (dto.simsId() != null && !dto.simsId().isBlank()) {
-            StructureByIdAttributsInnerListCode rapportQualite = new StructureByIdAttributsInnerListCode();
+            SerieByIdRapportQualite rapportQualite = new SerieByIdRapportQualite();
             rapportQualite.setId(dto.simsId());
             rapportQualite.setUri(dto.sims());
             indicateurById.setRapportQualite(rapportQualite);
