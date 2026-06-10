@@ -8,14 +8,6 @@ info:
     email: dr59-sinl-equipe-maintenance-rmes@insee.fr
   version: 1.4.11
 tags:
-  - name: Codes lists
-    description: Consultation Gestion API - listes des codes
-  - name: Organisations
-    description: Consultation des organisations de la base de gestion
-  - name: Structures/Composants
-    description: Consultation Magma API - Structures/Composants
-  - name: Concepts
-    description: Consultation Gestion API - Concepts
   - name: Series-Operations
     description: Consultation des Séries et Opérations de la base de gestion
   - name: Datasets
@@ -27,202 +19,9 @@ security:
   - bearerAuth: []
 
 paths:
-  # ============================================
-  # STRUCTURES / COMPOSANTS
-  # ============================================
-  /structures:
-    get:
-      tags:
-        - Structures/Composants
-      summary: Get all structures
-      operationId: getAllStructures
-      parameters:
-        - name: dateMiseAJour
-          in: query
-          description: 'Date of last update. Example: 2023-01-31'
-          required: false
-          schema:
-            type: string
-            format: date
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AllStructure'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /structure/{id}:
-    get:
-      tags:
-        - Structures/Composants
-      summary: Get a structure
-      operationId: getStructure
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: dateMiseAJour
-          in: query
-          description: If true, returns only the update date
-          required: false
-          schema:
-            type: boolean
-            default: false
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StructureById'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /structure/{id}/sliceKeys:
-    get:
-      tags:
-        - Structures/Composants
-      summary: Get slice keys
-      operationId: getSliceKeys
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/StructureSliceKeys'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /composants:
-    get:
-      tags:
-        - Structures/Composants
-      summary: Get all components
-      operationId: getAllComponents
-      parameters:
-        - name: dateMiseAJour
-          in: query
-          description: 'Date of last update. Example: 2023-01-31'
-          required: false
-          schema:
-            type: string
-            format: date
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AllComponent'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /composant/{id}:
-    get:
-      tags:
-        - Structures/Composants
-      summary: Get a component
-      operationId: getComponentById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: dateMiseAJour
-          in: query
-          description: If true, returns only the update date
-          required: false
-          schema:
-            type: boolean
-            default: false
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ComponentById'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
 
   # ============================================
-  # ORGANISATIONS
-  # ============================================
-  /organisations:
-    get:
-      tags:
-        - Organisations
-      summary: Get all organisations
-      operationId: getAllOrganisations
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Organisation'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /organisation/{id}/:
-    get:
-      tags:
-        - Organisations
-      summary: Get one organisation
-      operationId: getOrganisationById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Organisation'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  # ============================================
-  # SERIES / OPERATIONS (Pogues)
+  # SERIES / OPERATIONS
   # ============================================
   /operations/series:
     get:
@@ -325,134 +124,8 @@ paths:
 
 
   # ============================================
-  # CODES LISTS
-  # ============================================
-  /listesCodes:
-    get:
-      tags:
-        - Codes lists
-      summary: Get all codes lists
-      operationId: getAllCodesLists
-      parameters:
-        - name: dateMiseAJour
-          in: query
-          description: 'Date of last update. Example: 2023-01-31'
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AllListCode'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /listeCode/{id}:
-    get:
-      tags:
-        - Codes lists
-      summary: Get one codes list
-      operationId: getCodesList
-      parameters:
-        - name: id
-          in: path
-          description: Notation of the code list
-          required: true
-          schema:
-            type: string
-        - name: dateMiseAJour
-          in: query
-          description: If true, returns only the update date
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: withCodes
-          in: query
-          description: Include codes in the response
-          required: true
-          schema:
-            type: boolean
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListCodeById'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /listeCode/{id}/pagination:
-    get:
-      tags:
-        - Codes lists
-      summary: Get one codes list with 5 codes per page
-      operationId: getCodesListPagination
-      parameters:
-        - name: id
-          in: path
-          description: Notation of the code list
-          required: true
-          schema:
-            type: string
-        - name: pageNumber
-          in: query
-          description: Page number (starting from 0)
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListCodeById'
-        '404':
-          description: Not found
-        '416':
-          description: Requested Range Not Satisfiable - Page does not exist
-        '500':
-          description: Internal server error
-
-  # ============================================
   # DATASETS
   # ============================================
-  /datasets/list:
-    get:
-      tags:
-        - Datasets
-      summary: Get list of datasets
-      operationId: getListDatasets
-      parameters:
-        - name: dateMiseAJour
-          in: query
-          description: 'Date of last update. Example: 2023-01-31'
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          $ref: '#/components/responses/DatasetsListe200'
-        '400':
-          $ref: '#/components/responses/IncorrectRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '406':
-          $ref: '#/components/responses/NotAcceptable'
-        '500':
-          $ref: '#/components/responses/ServerError'
 
   /dataset/{id}:
     get:
@@ -508,13 +181,13 @@ paths:
         '200':
           description: Success
         '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
 
   /dataset/{id}/distributions:
     get:
@@ -530,31 +203,23 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Distribution'
+          $ref: '#/components/responses/DistributionsListe200'
         '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
 
-  # ============================================
-  # CONCEPTS
-  # ============================================
-  /concepts:
+
+  /datasets/list:
     get:
       tags:
-        - Concepts
-      summary: List of concepts
-      operationId: getAllConcepts
+        - Datasets
+      summary: Get list of datasets
+      operationId: getListDatasets
       parameters:
         - name: dateMiseAJour
           in: query
@@ -564,105 +229,15 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ConceptById'
+          $ref: '#/components/responses/DatasetsListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
-
-  /concept/{id}:
-    get:
-      tags:
-        - Concepts
-      summary: Get one concept
-      operationId: getDetailedConcept
-      parameters:
-        - name: id
-          in: path
-          description: 'Identifiant du concept (format : c[0-9]{4})'
-          required: true
-          schema:
-            type: string
-            pattern: 'c[0-9]{4}'
-          example: c2066
-        - name: dateMiseAJour
-          in: query
-          description: If true, returns only the update date
-          required: false
-          schema:
-            type: boolean
-            default: false
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AllConcept'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /concepts/collection/{id}:
-    get:
-      tags:
-        - Concepts
-      summary: List of collection's concepts
-      operationId: getCollectionOfConcepts
-      parameters:
-        - name: id
-          in: path
-          description: Identifiant interne de la collection
-          required: true
-          schema:
-            type: string
-          example: definitions-insee-fr
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CollectionOfConcepts'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /concepts/collection/{id}/concepts:
-    get:
-      tags:
-        - Concepts
-      summary: Set of concepts in a collection
-      operationId: getSetOfConceptsInACollection
-      parameters:
-        - name: id
-          in: path
-          description: Identifiant interne de la collection
-          required: true
-          schema:
-            type: string
-          example: definitions-insee-fr
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SetOfConcepts'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
 
 components:
   securitySchemes:
@@ -701,6 +276,22 @@ components:
             défaut:
               $ref: '#/components/examples/Dataset'
 
+    DistributionsListe200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeDistributions'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeDistributions'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeDistributions'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeDistributions'
+
     DatasetsListe200:
       description: 'Opération réussie pour les datasets'
       content:
@@ -734,215 +325,6 @@ components:
           items:
             $ref: './langue-contenu.schema.json'
 
-    # ============================================
-    # STRUCTURES / COMPOSANTS SCHEMAS
-    # ============================================
-    AllStructure:
-      type: object
-      properties:
-        dateMiseAJour:
-          type: string
-        statutValidation:
-          type: string
-        id:
-          type: string
-
-    StructureById:
-      type: object
-      properties:
-        dateMiseAJour:
-          type: string
-        dateCreation:
-          type: string
-        notation:
-          type: string
-        statutValidation:
-          type: string
-        mesures:
-          type: array
-          items:
-            $ref: '#/components/schemas/Mesure'
-        id:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-        version:
-          type: string
-        attributs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Attribut'
-        dimensions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dimension'
-
-    StructureSliceKeys:
-      type: object
-      properties:
-        composants:
-          type: array
-          items:
-            type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        type:
-          type: string
-
-    Mesure:
-      type: object
-      properties:
-        ordre:
-          type: string
-        notation:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-        representation:
-          type: string
-
-    Attribut:
-      type: object
-      properties:
-        ordre:
-          type: string
-        notation:
-          type: string
-        listCode:
-          $ref: '#/components/schemas/ListCodeRef'
-        attachement:
-          type: string
-        obligatoire:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-        representation:
-          type: string
-
-    Dimension:
-      type: object
-      properties:
-        ordre:
-          type: string
-        notation:
-          type: string
-        listCode:
-          $ref: '#/components/schemas/ListCodeRef'
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-        representation:
-          type: string
-
-    ListCodeRef:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-
-    AllComponent:
-      type: object
-      properties:
-        dateMiseAJour:
-          type: string
-        statutValidation:
-          type: string
-        id:
-          type: string
-
-    ComponentById:
-      type: object
-      properties:
-        dateMiseAJour:
-          type: string
-        dateCreation:
-          type: string
-        concept:
-          $ref: '#/components/schemas/ConceptRef'
-        statutValidation:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        type:
-          type: string
-        uri:
-          type: string
-        representation:
-          type: string
-        version:
-          type: string
-        notation:
-          type: string
-        id:
-          type: string
-        listeCode:
-          $ref: '#/components/schemas/ListeCodeWithCodes'
-
-    ConceptRef:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-
-    ListeCodeWithCodes:
-      type: object
-      properties:
-        codes:
-          type: array
-          items:
-            $ref: '#/components/schemas/Code'
-        id:
-          type: string
-        uri:
-          type: string
-
-    # ============================================
-    # ORGANISATIONS SCHEMAS
-    # ============================================
-    Organisation:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        abreviation:
-          type: string
-        uniteDe:
-          type: string
-        sousTelleDe:
-          type: string
-        altlabel:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
 
     # ============================================
     # SERIES / OPERATIONS SCHEMAS
@@ -1049,37 +431,6 @@ components:
         uri:
           type: string
 
-    Famille:
-      type: object
-      properties:
-        id:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-
-    OperationBySerieId:
-      type: object
-      properties:
-        altLabel:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-        serie:
-          $ref: '#/components/schemas/SerieRef'
-        id:
-          type: string
-        millesime:
-          type: string
 
     SerieRef:
       type: object
@@ -1183,64 +534,9 @@ components:
         statuValidation:
           type: string
 
-
-
-
-
-
-    # ============================================
-    # CODE LISTS SCHEMAS
-    # ============================================
-    AllListCode:
-      type: object
-      properties:
-        ordre:
-          type: string
-        id:
-          type: string
-        version:
-          type: string
-        statutValidation:
-          type: string
-        dateMiseAJour:
-          type: string
-
-    ListCodeById:
-      type: object
-      properties:
-        codes:
-          type: array
-          items:
-            $ref: '#/components/schemas/Code'
-        id:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-        version:
-          type: string
-        dateMiseAJour:
-          type: string
-
-    Code:
-      type: object
-      properties:
-        code:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-
     # ============================================
     # DATASETS SCHEMAS
     # ============================================
-
 
     Theme:
       type: object
@@ -1300,6 +596,16 @@ components:
           items:
             $ref: './langue-contenu.schema.json'
 
+
+    ListeDistributions:
+      description: 'Liste des distributions'
+      type: array
+      xml:
+        wrapped: true
+        name: Definition
+      items:
+        $ref: '#/components/schemas/Distribution'
+
     Distribution:
       type: object
       properties:
@@ -1352,85 +658,6 @@ components:
           format: int32
           description: Number of series
           example: 12
-
-    # ============================================
-    # CONCEPTS SCHEMAS
-    # ============================================
-    AllConcept:
-      type: object
-      properties:
-        dateMiseAJour:
-          type: string
-        statutValidation:
-          type: string
-        id:
-          type: string
-
-    ConceptById:
-      type: object
-      properties:
-        dateCreation:
-          type: string
-        dateMiseAJour:
-          type: string
-        statutValidation:
-          type: string
-        id:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        dateFinValidite:
-          type: string
-        uri:
-          type: string
-        version:
-          type: string
-        name:
-          type: string
-        conceptsSDMX:
-          type: array
-          items:
-            $ref: '#/components/schemas/ConceptSDMX'
-        definitionCourte:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-
-    ConceptSDMX:
-      type: object
-      properties:
-        agence:
-          type: string
-        id:
-          type: string
-
-    CollectionOfConcepts:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-        dateMiseAJour:
-          type: string
-        intitule:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-        description:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-
-    SetOfConcepts:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
 
     Dataset:
       type: object
@@ -1590,6 +817,24 @@ components:
           - contenu: 'http://bauhaus/operations/serie/s1223'
             langue: 'fr'
           - langue: 'en'
+
+    ListeDistributions:
+      value:
+        - identifier: '6d0d296b-9ec5-42fa-a3d5-62ffe7c74dea'
+          created: '2025-02-17T08:13:23.382171614'
+          description:
+            - contenu: 'fichier csv généré par l''API melodi'
+              langue: 'fr'
+            - langue: 'en'
+          downloadURL:
+          modified: '2025-02-17T08:13:23.382171614'
+          title:
+            - contenu: 'Capacités d''hébergements touristiques'
+              langue: 'fr'
+            - contenu: 'Tourism capacities'
+              langue: 'en'
+          uri: 'http://bauhaus/catalogues/distribution/6d0d296b-9ec5-42fa-a3d5-62ffe7c74dea'
+
 
     ListeDatasets:
       value:
