@@ -2,17 +2,12 @@ package fr.insee.rmes.magma.gestion.services;
 
 import fr.insee.rmes.magma.gestion.model.*;
 import fr.insee.rmes.magma.gestion.utils.DatasetByIdDTO;
-import fr.insee.rmes.magma.gestion.utils.DatasetByIdSummaryDTO;
 import fr.insee.rmes.magma.gestion.utils.DatasetDTO;
 import fr.insee.rmes.magma.gestion.utils.DistributionDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static fr.insee.rmes.magma.gestion.utils.LocalisedLabelUtils.createLangueContenu;
 import static fr.insee.rmes.magma.gestion.utils.LocalisedLabelUtils.createListLangueContenu;
@@ -21,12 +16,12 @@ import static fr.insee.rmes.magma.gestion.utils.LocalisedLabelUtils.createListLa
 public class DatasetsServiceImpl implements DatasetsService {
 
     @Override
-    public List<DataSet> transformDatasetDTOsToDataSets(List<DatasetDTO> dtos) {
+    public List<Dataset> transformDatasetDTOsToDataSets(List<DatasetDTO> dtos) {
         return dtos.stream().map(this::transformDatasetDTOToDataSet).toList();
     }
 
-    private DataSet transformDatasetDTOToDataSet(DatasetDTO dto) {
-        DataSet dataSet = new DataSet();
+    private Dataset transformDatasetDTOToDataSet(DatasetDTO dto) {
+        Dataset dataSet = new Dataset();
 
         dataSet.setLandingPage(null);
         dataSet.setModified(null);
@@ -77,8 +72,8 @@ public class DatasetsServiceImpl implements DatasetsService {
     }
 
     @Override
-    public DataSet transformDatasetByIdDTOToDataSet(DatasetByIdDTO dto) {
-        DataSet dataSet = new DataSet();
+    public Dataset transformDatasetByIdDTOToDataSet(DatasetByIdDTO dto) {
+        Dataset dataSet = new Dataset();
 
         dataSet.setLandingPage(null);
         dataSet.setModified(null);
@@ -165,8 +160,8 @@ public class DatasetsServiceImpl implements DatasetsService {
         }
         if (StringUtils.hasText(dto.landingPageLg1())) {
             dataSet.setLandingPage(createListLangueContenu(
-                    new DataSetLandingPageInner().lang("fr").url(dto.landingPageLg1()),
-                    new DataSetLandingPageInner().lang("en").url(dto.landingPageLg2())));
+                    new DatasetLandingPageInner().lang("fr").url(dto.landingPageLg1()),
+                    new DatasetLandingPageInner().lang("en").url(dto.landingPageLg2())));
         }
 
         if (dto.keywordLg1() != null && dto.keywordLg2() != null){
@@ -174,7 +169,7 @@ public class DatasetsServiceImpl implements DatasetsService {
         }
 
         if (StringUtils.hasText(dto.idPublisher())) {
-            dataSet.setPublisher(new DataSetCreatorInner()
+            dataSet.setPublisher(new DatasetCreatorInner()
                     .id(dto.idPublisher())
                     .label(createListLangueContenu(
                             createLangueContenu(dto.labelPublisherLg1(),"fr"),
@@ -199,7 +194,7 @@ public class DatasetsServiceImpl implements DatasetsService {
 
 
         if (StringUtils.hasText(dto.spatialId())) {
-            dataSet.setSpatial(new DataSetCreatorInner()
+            dataSet.setSpatial(new DatasetCreatorInner()
                     .id(dto.spatialId())
                     .label(createListLangueContenu(
                             createLangueContenu(dto.labelspatialLg1(),"fr"),
@@ -207,13 +202,13 @@ public class DatasetsServiceImpl implements DatasetsService {
         }
 
         if (StringUtils.hasText(dto.startPeriod())) {
-            dataSet.setTemporal(new DataSetTemporal()
+            dataSet.setTemporal(new PatchDatasetTemporal()
                     .startPeriod(dto.startPeriod())
                     .endPeriod(dto.endPeriod()));
         }
 
         if (StringUtils.hasText(dto.structureUri())) {
-            dataSet.setStructure(new DataSetStructure()
+            dataSet.setStructure(new DatasetStructure()
                     .uri(dto.structureUri())
                     .id(dto.structureId())
                     .dsd(dto.dsd()));
@@ -224,7 +219,7 @@ public class DatasetsServiceImpl implements DatasetsService {
                     .filter(s -> !s.isBlank())
                     .map(raw -> {
                         String[] parts = raw.split("\\$", -1);
-                        return new DataSetCreatorInner()
+                        return new DatasetCreatorInner()
                                 .id(parts.length > 0 ? parts[0] : null)
                                 .label(createListLangueContenu(
                                         createLangueContenu(parts.length > 1 ? parts[1] : null, "fr"),
@@ -236,14 +231,14 @@ public class DatasetsServiceImpl implements DatasetsService {
         if (StringUtils.hasText(dto.operationStat())) {
             dataSet.setWasGeneratedBy(Arrays.stream(dto.operationStat().split(","))
                     .filter(s -> !s.isBlank())
-                    .map(uri -> new DataSetCreatorInner().id(uri))
+                    .map(uri -> new DatasetCreatorInner().id(uri))
                     .toList());
         }
 
         if (StringUtils.hasText(dto.names())) {
             dataSet.setTheme(Arrays.stream(dto.names().split(","))
                     .filter(s -> !s.isBlank())
-                    .map(uri -> new DataSetThemeInner().uri(uri))
+                    .map(uri -> new DatasetThemeInner().uri(uri))
                     .toList());
         }
 
@@ -256,12 +251,12 @@ public class DatasetsServiceImpl implements DatasetsService {
         if (StringUtils.hasText(dto.archiveUnits())) {
             dataSet.setArchiveUnit(Arrays.stream(dto.archiveUnits().split(","))
                     .filter(s -> !s.isBlank())
-                    .map(uri -> new DataSetCreatorInner().id(uri))
+                    .map(uri -> new DatasetCreatorInner().id(uri))
                     .toList());
         }
 
         if (StringUtils.hasText(dto.wasDerivedFromS())) {
-            DataSetWasDerivedFrom wasDerivedFrom = new DataSetWasDerivedFrom()
+            DatasetWasDerivedFrom wasDerivedFrom = new DatasetWasDerivedFrom()
                     .datasets(Arrays.stream(dto.wasDerivedFromS().split(","))
                             .filter(s -> !s.isBlank())
                             .toList());
