@@ -113,15 +113,15 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Indicateur'
+          $ref: '#/components/responses/Indicateur200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
 
 
   # ============================================
@@ -310,6 +310,23 @@ components:
           examples:
             défaut:
               $ref: '#/components/examples/Operation'
+
+    Indicateur200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Indicateur'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Indicateur'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Indicateur'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Indicateur'
+
 
 
     Dataset200:
@@ -991,6 +1008,78 @@ components:
             uri: 'http://bauhaus/qualite/rapport/2203'
         dateCreation: '2025-01-22'
         dateMiseAJour: '2025-04-02'
+
+    Indicateur:
+      value:
+        code: 'p1631'
+        uri: 'http://bauhaus/operations/produits/indicateur/p1631'
+        label:
+          - contenu: 'Créations d''entreprises'
+            langue: 'fr'
+          - contenu: 'Business start-ups'
+            langue: 'en'
+        altLabel:
+          - langue: 'fr'
+          - langue: 'en'
+        resume:
+          - contenu: '<p>Les statistiques des créations d''entreprises permettent de suivre l''évolution des créations d''entreprises relevant des principaux secteurs d''activité (Industrie, Construction, Commerce, Services).</p>'
+            langue: 'fr'
+          - contenu: '<p>The statistics on business births track the change in business births in the main sectors of activity.</p>'
+            langue: 'en'
+        noteHistorique:
+          - contenu: '<p>Un suivi des créations d’entreprises est effectué par l’Insee depuis les années 1980, à l’aide du répertoire administratif Sirene...'
+            langue: 'fr'
+          - contenu: '<p>Business births have been monitored by Insee since the 1980s, using the administrative register Sirene...'
+            langue: 'en'
+        frequenceCollecte:
+          id: 'M'
+          uri: 'http://bauhaus/codes/frequence/M'
+          label:
+            - contenu: 'Mensuelle'
+              langue: 'fr'
+            - contenu: 'Monthly'
+              langue: 'en'
+        rapportQualite:
+          id: 's2120'
+          uri: 'http://bauhaus/operations/serie/s2120'
+          label:
+            - contenu: 'Système d''information sur la démographie d''entreprises'
+              langue: 'fr'
+            - contenu: 'Business Demography Information System'
+              langue: 'en'
+        seriesLiees:
+          id: 's1271'
+          uri: "http://id.insee.fr/operations/serie/s1271"
+          label:
+            - contenu: 'Système d''information sur les nouvelles entreprises'
+              langue: 'fr'
+            - contenu: 'New enterprises information system'
+              langue: 'en'
+        indicateursLies:
+          id: 'p1632'
+          uri: "http://id.insee.fr/produits/indicateur/p1632"
+          label:
+            - contenu: 'Défaillances d''entreprises'
+              langue: 'fr'
+            - contenu: 'Enterprise bankruptcy'
+              langue: 'en'
+        dateMiseAJour: '2025-12-16'
+        proprietaires:
+          - id: 'DG75-E220'
+            uri: 'http://bauhaus/organisations/insee/HIE2001134'
+            label:
+              - contenu: 'Division Infrastructures et répertoires statistiques'
+                langue: 'fr'
+              - contenu: ''
+                langue: 'en'
+        organismesResponsables:
+          - id: 'DG75-E001'
+            uri: 'http://bauhaus/organisations/insee/HIE2000005'
+            label:
+              - contenu: 'Direction des statistiques d''entreprises (DSE)'
+                langue: 'fr'
+              - contenu: ''
+                langue: 'en'
 
     Dataset:
       value:
