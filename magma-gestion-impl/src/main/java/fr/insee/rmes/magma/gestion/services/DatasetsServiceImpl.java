@@ -202,7 +202,7 @@ public class DatasetsServiceImpl implements DatasetsService {
         }
 
         if (StringUtils.hasText(dto.startPeriod())) {
-            dataSet.setTemporal(new PatchDatasetTemporal()
+            dataSet.setTemporal(new DatasetTemporal()
                     .startPeriod(dto.startPeriod())
                     .endPeriod(dto.endPeriod()));
         }

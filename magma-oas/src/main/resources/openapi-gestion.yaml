@@ -151,44 +151,6 @@ paths:
           $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
-    patch:
-      tags:
-        - Datasets
-      summary: Update some properties of a dataset
-      description: Update ObservationNumber, issued, modified, temporal, or numSeries of a dataset
-      operationId: patchDataSet
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: JSON with parameters you want to change
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchDataset'
-            example:
-              issued: "2022-11-11"
-              modified: "2023-12-31"
-              temporal:
-                startPeriod: "2020-01-01"
-                endPeriod: "2024-01-01"
-              numObservations: 150
-              numSeries: 12
-      responses:
-        '200':
-          description: Success
-        '400':
-          $ref: '#/components/responses/IncorrectRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '406':
-          $ref: '#/components/responses/NotAcceptable'
-        '500':
-          $ref: '#/components/responses/ServerError'
 
   /dataset/{id}/distributions:
     get:
@@ -705,31 +667,6 @@ components:
         uri:
           type: string
 
-    PatchDataset:
-      type: object
-      description: DTO for patching dataset properties
-      properties:
-        issued:
-          type: string
-          description: Issue date (format YYYY-MM-DD)
-          example: "2022-11-11"
-        modified:
-          type: string
-          description: Last modification date (format YYYY-MM-DD)
-          example: "2023-12-31"
-        temporal:
-          $ref: '#/components/schemas/Temporal'
-        numObservations:
-          type: integer
-          format: int32
-          description: Number of observations
-          example: 150
-        numSeries:
-          type: integer
-          format: int32
-          description: Number of series
-          example: 12
-
     Dataset:
       type: object
       properties:
@@ -1117,6 +1054,7 @@ components:
               langue: 'fr'
             - langue: 'en'
           downloadURL:
+            -
           modified: '2025-02-17T08:13:23.382171614'
           title:
             - contenu: 'Capacités d''hébergements touristiques'
