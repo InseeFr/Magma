@@ -25,15 +25,5 @@ public class OpenApiYamlConfig {
                 .body(new ClassPathResource("openapi-gestion.yaml"));
     }
 
-    @GetMapping(value = "/{schemaName}.schema.json", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<Resource> openApiSchema(@PathVariable String schemaName) {
-        ClassPathResource resource = new ClassPathResource(schemaName + ".schema.json");
-        if (!resource.exists()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(resource);
-    }
 
 }

@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: API RMéS
+  title: Magma Diffusion API
   version: 3.7.2
   description: API sur les métadonnées de l'Insee
 externalDocs:
