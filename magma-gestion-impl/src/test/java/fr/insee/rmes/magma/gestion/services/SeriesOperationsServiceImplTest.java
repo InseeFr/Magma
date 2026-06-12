@@ -146,7 +146,7 @@ class SeriesOperationsServiceImplTest {
         assertAll(
                 () -> assertNotNull(result.getRapportQualite()),
                 () -> assertEquals("1500", result.getRapportQualite().getId()),
-                () -> assertEquals("http://id.insee.fr/qualite/rapport/1500", result.getRapportQualite().getUri())
+                () -> assertEquals(URI.create("http://id.insee.fr/qualite/rapport/1500"), result.getRapportQualite().getUri())
         );
     }
 
@@ -355,7 +355,7 @@ class SeriesOperationsServiceImplTest {
         assertAll(
                 () -> assertNotNull(result.getRapportQualite()),
                 () -> assertEquals("2203", result.getRapportQualite().getId()),
-                () -> assertEquals("http://id.insee.fr/qualite/rapport/2203", result.getRapportQualite().getUri())
+                () -> assertEquals(URI.create("http://id.insee.fr/qualite/rapport/2203"), result.getRapportQualite().getUri())
         );
     }
 
@@ -469,7 +469,7 @@ class SeriesOperationsServiceImplTest {
         assertAll(
                 () -> assertNotNull(result.getRapportQualite()),
                 () -> assertEquals("3500", result.getRapportQualite().getId()),
-                () -> assertEquals("http://id.insee.fr/qualite/rapport/3500", result.getRapportQualite().getUri())
+                () -> assertEquals(URI.create("http://id.insee.fr/qualite/rapport/3500"), result.getRapportQualite().getUri())
         );
     }
 
