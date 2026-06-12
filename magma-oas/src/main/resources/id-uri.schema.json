@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://magma.insee/rubrique.schema.json",
+  "title": "IdUri",
+  "description": "Ensemble de propriétés communes à Territoire, CodeListe et Organisme",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "uri": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "required": ["id"],
+  "additionalProperties": false
+}

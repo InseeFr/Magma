@@ -85,7 +85,7 @@
                             <generateApis>true</generateApis>
                             <generateModels>true</generateModels>
                             <supportingFilesToGenerate></supportingFilesToGenerate>
-                            <inlineSchemaNameMappings>StructureById_mesures_inner_label_inner=LocalisedLabel,ListeDistributions_inner=Distribution</inlineSchemaNameMappings>
+                            <inlineSchemaNameMappings>StructureById_mesures_inner_label_inner=LocalisedLabel,ListeDistributions_inner=Distribution, ListeSeries_inner=Serie</inlineSchemaNameMappings>
                             <generateSupportingFiles>true</generateSupportingFiles>
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>

@@ -38,17 +38,18 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SerieById'
+          $ref: '#/components/responses/SeriesListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
+
+
+
 
   /operations/serie/{id}:
     get:
@@ -64,15 +65,15 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SerieById'
+          $ref: '#/components/responses/Serie200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
 
   /operations/operation/{id}:
     get:
@@ -88,15 +89,15 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OperationById'
+          $ref: '#/components/responses/Operation200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
 
   /operations/indicateur/{id}:
     get:
@@ -260,6 +261,57 @@ components:
     ServerError:
       description: 'Erreur interne du serveur'
 
+
+    Serie200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Serie'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Serie'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Serie'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Serie'
+
+
+    SeriesListe200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeSeries'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeSeries'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeSeries'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeSeries'
+
+    Operation200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Operation'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Operation'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Operation'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Operation'
+
+
     Dataset200:
       description: 'Opération réussie'
       content:
@@ -329,7 +381,17 @@ components:
     # ============================================
     # SERIES / OPERATIONS SCHEMAS
     # ============================================
-    SerieById:
+
+    ListeSeries:
+      description: 'Liste des séries'
+      type: array
+      xml:
+        wrapped: true
+        name: Definition
+      items:
+        $ref: '#/components/schemas/Serie'
+
+    Serie:
       type: object
       properties:
         seriesId:
@@ -357,7 +419,7 @@ components:
         frequenceCollecte:
           $ref: 'id-uri-label.schema.json'
         rapportQualite:
-          $ref: '#/components/schemas/RapportQualite'
+          $ref: 'id-uri.schema.json'
         famille:
           $ref: 'id-uri-label.schema.json'
         seriesPrecedentes:
@@ -411,14 +473,6 @@ components:
         nbOperation:
           type: string
 
-    RapportQualite:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-
     Frequence:
       type: object
       properties:
@@ -446,7 +500,7 @@ components:
         frequence:
           $ref: '#/components/schemas/Frequence'
 
-    OperationById:
+    Operation:
       type: object
       properties:
         id:
@@ -466,7 +520,7 @@ components:
         serie:
           $ref: '#/components/schemas/SerieRef'
         rapportQualite:
-          $ref: '#/components/schemas/RapportQualite'
+          $ref: './id-uri.schema.json'
         dateCreation:
           type: string
           format: date
@@ -502,7 +556,7 @@ components:
         frequenceCollecte:
           $ref: './id-uri-label.schema.json'
         rapportQualite:
-          $ref: '#/components/schemas/RapportQualite'
+          $ref: './id-uri.schema.json'
         seriesContributrices:
           type: array
           items:
@@ -781,6 +835,7 @@ components:
           items:
             $ref: './langue-contenu.schema.json'
 
+
     ListeDatasets:
       description: 'Liste des datasets'
       type: array
@@ -791,6 +846,152 @@ components:
         $ref: '#/components/schemas/Dataset'
 
   examples:
+
+    Serie:
+      value:
+        code: 's1001'
+        uri: 'http://bauhaus/operations/serie/s1001'
+        label:
+          - contenu: 'Enquête innovation'
+            langue: 'fr'
+          - contenu: 'Innovation survey'
+            langue: 'en'
+        altLabel:
+          - contenu: 'CIS'
+            langue: 'fr'
+          - contenu: 'CIS'
+            langue: 'en'
+        resume:
+          - contenu: '<p>L''enquête Capacité à innover et stratégie (CIS) permet d’une part, de mesurer le poids économique de ...'
+            langue: 'fr'
+          - contenu: '<p>The original objectives of the Community Innovation Survey (CIS) are to measure the economic weight of innovation in France...'
+            langue: 'en'
+        noteHistorique:
+          - contenu: '<p>La première édition de l''enquête a été menée en 1993. L''enquête a été réalisée tous les 4 ans jusqu''en 2005...'
+            langue: 'fr'
+          - contenu: '<p>The first edition of the survey took place in 1993. The survey was carried out every 4 years until 2005...'
+            langue: 'en'
+        type:
+          id: '5'
+          uri: 'http://bauhaus/codes/categorieSource/S'
+          label:
+            - contenu: 'Enquête'
+              langue: 'fr'
+            - contenu: 'Survey'
+              langue: 'en'
+        frequenceCollecte:
+          id: 'I'
+          uri: 'http://bauhaus/codes/frequence/I'
+          label:
+            - contenu: 'Bisannuelle'
+              langue: 'fr'
+            - contenu: 'Biennial'
+              langue: 'en'
+        famille:
+          id: 's15'
+          uri: 'http://bauhaus/operations/famille/s15'
+          label:
+            - contenu: 'Innovation'
+              langue: 'fr'
+            - contenu: 'Innovation'
+              langue: 'en'
+        seriesPrecedentes:
+          - id: 's1010'
+            uri: 'http://bauhaus/operations/serie/s1010'
+            label:
+              - contenu: 'Enquête sur les compétences pour innover'
+                langue: 'fr'
+              - contenu: 'Innovative skills survey'
+                langue: 'en'
+        seriesSuivantes:
+          -
+        seriesLiees:
+          -
+        operations:
+          - id: 's1477'
+            uri: 'http://bauhaus/operations/operation/s1477'
+            label:
+              - contenu: 'Enquête capacité à innover et stratégie 2018'
+                langue: 'fr'
+              - contenu: 'Community innovation survey 2018'
+                langue: 'en'
+        indicateurs:
+          -
+        dateMiseAJour: '2025-04-03'
+        proprietaires:
+          - id: 'DG75-E430'
+            uri: 'http://bauhaus/organisations/insee/HIE2000253'
+            label:
+              - contenu: 'Division Enquêtes thématiques et études transversales'
+                langue: 'fr'
+              - contenu: ''
+                langue: 'en'
+        organismesResponsables:
+          - id: 'DG75-E001'
+            uri: 'http://bauhaus/organisations/insee/HIE2000005'
+            label:
+              - contenu: 'Direction des statistiques d''entreprises (DSE)'
+                langue: 'fr'
+              - contenu: ''
+                langue: 'en'
+        partenaires:
+          -
+        servicesCollecteurs:
+          - id: 'DR31-DIR'
+            uri: 'http://bauhaus/organisations/insee/HIE2000054'
+            label:
+              - contenu: 'Direction régionale d''Occitanie - siège de Toulouse (DR31-ETB31)'
+                langue: 'fr'
+              - contenu: ''
+                langue: 'en'
+        statutValidation: 'Validated'
+
+    ListeSeries:
+      value:
+        - seriesId: 's1001'
+          uri: 'http://bauhaus/operations/serie/s1001'
+          label:
+            - contenu: 'Enquête innovation'
+              langue: 'fr'
+            - contenu: 'Innovation survey'
+              langue: 'en'
+        - seriesId: 's1002'
+          uri: 'http://bauhaus/operations/serie/s1002'
+          label:
+            - contenu: 'Enquête auprès des personnes fréquentant des services d''aide'
+              langue: 'fr'
+            - contenu: 'Survey among people who use care services'
+              langue: 'en'
+
+    Operation:
+      value:
+        code: 's2193'
+        uri: 'http://bauhaus/operations/operation/s2193'
+        label:
+          - contenu: 'Enquête capacité à innover et stratégie 2024'
+            langue: 'fr'
+          - contenu: 'Community Innovation Survey 2024'
+            langue: 'en'
+        altLabel:
+          - contenu: 'CIS 2024'
+            langue: 'fr'
+          - contenu: 'CIS 2024'
+            langue: 'en'
+        millesime: '2024'
+        serie:
+          - id: 's1001'
+            uri: 'http://bauhaus/operations/serie/s1001'
+            label:
+              - contenu: 'Enquête innovation'
+                langue: 'fr'
+              - contenu: 'Innovation survey'
+                langue: 'en'
+        rapportQualite:
+          - id: '2203'
+            uri: 'http://bauhaus/qualite/rapport/2203'
+        dateCreation: '2025-01-22'
+        dateMiseAJour: '2025-04-02'
+
     Dataset:
       value:
         code: '25baaf1f-61cf-4d50-9124-1477afca2aa4'

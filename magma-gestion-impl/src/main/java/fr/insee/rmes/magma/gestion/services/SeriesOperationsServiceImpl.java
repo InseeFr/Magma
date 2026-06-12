@@ -25,8 +25,8 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
     private String lg2;
 
     @Override
-    public SerieById transformSeriesDTOToSerieById(SeriesDTO dto) {
-        SerieById serieById = new SerieById();
+    public Serie transformSeriesDTOToSerieById(SeriesDTO dto) {
+        Serie serieById = new Serie();
 
         serieById.setSeriesId(dto.seriesId());
         serieById.setUri(dto.series());
@@ -75,9 +75,9 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
         }
 
         if (StringUtils.hasText(dto.sims()) ) {
-            SerieByIdRapportQualite rapportQualite = new SerieByIdRapportQualite();
+            IdUri rapportQualite = new IdUri();
             rapportQualite.setId(dto.simsId());
-            rapportQualite.setUri(dto.sims());
+            rapportQualite.setUri(URI.create(dto.sims()));
             serieById.setRapportQualite(rapportQualite);
         }
 
@@ -95,51 +95,51 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
     }
 
     @Override
-    public OperationById transformOperationDTOToOperationById(OperationDTO dto) {
-        OperationById operationById = new OperationById();
+    public Operation transformOperationDTOToOperation(OperationDTO dto) {
+        Operation operation = new Operation();
 
-        operationById.setId(dto.operationId());
-        operationById.setUri(dto.operation());
-        operationById.setMillesime(dto.temporal());
-        operationById.setDateCreation(dto.created() != null ? dto.created() : null);
-        operationById.setDateMiseAJour(dto.modified() != null ? dto.modified() : null);
-        operationById.setStatutValidation(dto.validationState());
+        operation.setId(dto.operationId());
+        operation.setUri(dto.operation());
+        operation.setMillesime(dto.temporal());
+        operation.setDateCreation(dto.created() != null ? dto.created() : null);
+        operation.setDateMiseAJour(dto.modified() != null ? dto.modified() : null);
+        operation.setStatutValidation(dto.validationState());
 
-        operationById.setLabel(createListLangueContenu(
+        operation.setLabel(createListLangueContenu(
                 createLangueContenu(dto.operationLabelLg1(), lg1),
                 createLangueContenu(dto.operationLabelLg2(), lg2)));
 
-        operationById.setAltLabel(createListLangueContenu(
+        operation.setAltLabel(createListLangueContenu(
                 createLangueContenu(dto.operationAltLabelLg1(), lg1),
                 createLangueContenu(dto.operationAltLabelLg2(), lg2)));
 
         if (StringUtils.hasText(dto.series()) ) {
-            OperationByIdSerie serie = new OperationByIdSerie();
+            OperationSerie serie = new OperationSerie();
             serie.setId(dto.seriesId());
             serie.setUri(dto.series());
             serie.setLabel(createListLangueContenu(
                     createLangueContenu(dto.seriesLabelLg1(), lg1),
                     createLangueContenu(dto.seriesLabelLg2(), lg2)));
-            operationById.setSerie(serie);
+            operation.setSerie(serie);
         }
 
         if (StringUtils.hasText(dto.simsId()) ) {
-            SerieByIdRapportQualite rapportQualite = new SerieByIdRapportQualite();
+            IdUri rapportQualite = new IdUri();
             rapportQualite.setId(dto.simsId());
-            rapportQualite.setUri(dto.sims());
-            operationById.setRapportQualite(rapportQualite);
+            rapportQualite.setUri(URI.create(dto.sims()));
+            operation.setRapportQualite(rapportQualite);
         }
 
-        return operationById;
+        return operation;
     }
 
     @Override
-    public List<SerieById> transformSeriesDTOsToSeries(List<SeriesDTO> dtos) {
+    public List<Serie> transformSeriesDTOsToSeries(List<SeriesDTO> dtos) {
         return dtos.stream().map(this::transformSeriesDTOToSeriesItem).toList();
     }
 
-    private SerieById transformSeriesDTOToSeriesItem(SeriesDTO dto) {
-        SerieById serieById = new SerieById();
+    private Serie transformSeriesDTOToSeriesItem(SeriesDTO dto) {
+        Serie serieById = new Serie();
         serieById.setOperations(null);
         serieById.setAltLabel(null);
         serieById.setDateCreation(null);
@@ -207,43 +207,43 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
 
     @Override
     public Indicateur transformIndicateurDTOToIndicateur(IndicateurDTO dto) {
-        Indicateur indicateurById = new Indicateur();
+        Indicateur indicateur = new Indicateur();
 
-        indicateurById.setAltLabel(null);
-        indicateurById.setResume(null);
-        indicateurById.setNoteHistorique(null);
-        indicateurById.setFrequenceCollecte(null);
-        indicateurById.setRapportQualite(null);
-        indicateurById.setSeriesContributrices(null);
-        indicateurById.setSeriesLiees(null);
-        indicateurById.setIndicateursLies(null);
-        indicateurById.setDateCreation(null);
-        indicateurById.setDateMiseAJour(null);
-        indicateurById.setProprietaires(null);
-        indicateurById.setOrganismesResponsables(null);
-        indicateurById.setPartenaires(null);
+        indicateur.setAltLabel(null);
+        indicateur.setResume(null);
+        indicateur.setNoteHistorique(null);
+        indicateur.setFrequenceCollecte(null);
+        indicateur.setRapportQualite(null);
+        indicateur.setSeriesContributrices(null);
+        indicateur.setSeriesLiees(null);
+        indicateur.setIndicateursLies(null);
+        indicateur.setDateCreation(null);
+        indicateur.setDateMiseAJour(null);
+        indicateur.setProprietaires(null);
+        indicateur.setOrganismesResponsables(null);
+        indicateur.setPartenaires(null);
 
 
 
-        indicateurById.setId(dto.indicatorId());
-        indicateurById.setUri(dto.indicator());
-        indicateurById.setDateCreation(dto.created() != null ? dto.created().toString() : null);
-        indicateurById.setDateMiseAJour(dto.modified() != null ? dto.modified().toString() : null);
-        indicateurById.setStatuValidation(dto.validationState());
+        indicateur.setId(dto.indicatorId());
+        indicateur.setUri(dto.indicator());
+        indicateur.setDateCreation(dto.created() != null ? dto.created().toString() : null);
+        indicateur.setDateMiseAJour(dto.modified() != null ? dto.modified().toString() : null);
+        indicateur.setStatuValidation(dto.validationState());
 
-        indicateurById.setLabel(createListLangueContenu(
+        indicateur.setLabel(createListLangueContenu(
                 createLangueContenu(dto.indicatorLabelLg1(), lg1),
                 createLangueContenu(dto.indicatorLabelLg2(), lg2)));
 
-        indicateurById.setAltLabel(createListLangueContenu(
+        indicateur.setAltLabel(createListLangueContenu(
                 createLangueContenu(dto.indicatorAltLabelLg1(), lg1),
                 createLangueContenu(dto.indicatorAltLabelLg2(), lg2)));
 
-        indicateurById.setResume(createListLangueContenu(
+        indicateur.setResume(createListLangueContenu(
                 createLangueContenu(dto.indicatorAbstractLg1(), lg1),
                 createLangueContenu(dto.indicatorAbstractLg2(), lg2)));
 
-        indicateurById.setNoteHistorique(createListLangueContenu(
+        indicateur.setNoteHistorique(createListLangueContenu(
                 createLangueContenu(dto.indicatorHistoryNoteLg1(), lg1),
                 createLangueContenu(dto.indicatorHistoryNoteLg2(), lg2)));
 
@@ -253,24 +253,24 @@ public class SeriesOperationsServiceImpl implements SeriesOperationsService {
             frequence.setLabel(createListLangueContenu(
                     createLangueContenu(dto.periodicityLabelLg1(), lg1),
                     createLangueContenu(dto.periodicityLabelLg2(), lg2)));
-            indicateurById.setFrequenceCollecte(frequence);
+            indicateur.setFrequenceCollecte(frequence);
         }
 
         if (dto.simsId() != null && !dto.simsId().isBlank()) {
-            SerieByIdRapportQualite rapportQualite = new SerieByIdRapportQualite();
+            IdUri rapportQualite = new IdUri();
             rapportQualite.setId(dto.simsId());
-            rapportQualite.setUri(dto.sims());
-            indicateurById.setRapportQualite(rapportQualite);
+            rapportQualite.setUri(URI.create(dto.sims()));
+            indicateur.setRapportQualite(rapportQualite);
         }
 
-        indicateurById.setSeriesContributrices(parseIdUriLabelList(dto.wasGeneratedBySeries()));
-        indicateurById.setSeriesLiees(parseIdUriLabelList(dto.seeAlsoSeries()));
-        indicateurById.setIndicateursLies(parseIdUriLabelList(dto.seeAlsoIndicators()));
-        indicateurById.setProprietaires(parseIdUriLabelList(dto.creators()));
-        indicateurById.setOrganismesResponsables(parseIdUriLabelList(dto.publishers()));
-        indicateurById.setPartenaires(parseIdUriLabelList(dto.contributors()));
+        indicateur.setSeriesContributrices(parseIdUriLabelList(dto.wasGeneratedBySeries()));
+        indicateur.setSeriesLiees(parseIdUriLabelList(dto.seeAlsoSeries()));
+        indicateur.setIndicateursLies(parseIdUriLabelList(dto.seeAlsoIndicators()));
+        indicateur.setProprietaires(parseIdUriLabelList(dto.creators()));
+        indicateur.setOrganismesResponsables(parseIdUriLabelList(dto.publishers()));
+        indicateur.setPartenaires(parseIdUriLabelList(dto.contributors()));
 
-        return indicateurById;
+        return indicateur;
     }
 
     private List<IdUriLabel> parseIdUriLabelList(String raw) {
