@@ -48,7 +48,7 @@ WHERE {
         ?reporturi ?uri ?textLg2 .
         ?textLg2 rdf:type <http://purl.org/dc/dcmitype/Text> .
         ?textLg2 dcterms:language ?langEn .
-        FILTER(STRENDS(STR(?langFr), "/codes/langue/en"))
+        FILTER(STRENDS(STR(?langEn), "/codes/langue/en"))
         OPTIONAL {
           ?textLg2 rdf:value ?labelLg2 .
         }
