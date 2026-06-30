@@ -82,6 +82,7 @@
         <dependency>
             <groupId>io.github.fbibonne</groupId>
             <artifactId>boot-properties-logger-starter</artifactId>
+            <version>${boot-properties-logger-starter.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
