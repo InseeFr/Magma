@@ -244,7 +244,7 @@ public class ConceptsQueriesTest extends TestcontainerTest {
         var resultItem1= result.getFirst();
 
         assertAll(
-                () -> assertEquals(1233, result.size()),
+                () -> assertEquals(1237, result.size()),
                 () -> assertEquals("c1601", resultItem1.getId()),
                 () -> assertEquals(URI.create("http://id.insee.fr/concepts/definition/c1601"), resultItem1.getUri()),
                 () -> assertEquals("ADSL", resultItem1.getIntitule())
