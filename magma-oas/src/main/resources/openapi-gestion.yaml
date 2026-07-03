@@ -6,7 +6,7 @@ info:
     name: dr59-sndil
     url: https://www.insee.fr/fr/accueil
     email: dr59-sinl-equipe-maintenance-rmes@insee.fr
-  version: 1.4.11
+  version: ${version}
 tags:
   - name: Series-Operations
     description: Consultation des Séries et Opérations de la base de gestion

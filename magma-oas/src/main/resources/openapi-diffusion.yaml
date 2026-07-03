@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Magma Diffusion API
-  version: 3.7.2
+  version: ${version}
   description: API sur les métadonnées de l'Insee
 externalDocs:
   description: This API is open source, the sources can be found here
