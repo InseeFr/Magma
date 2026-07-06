@@ -13,29 +13,26 @@
     <name>Implementation of the RMéS metadata API</name>
     <version>magma-refactored-1.0-rc0</version> <!-- Hérite de la propriété du parent -->
     <properties>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
         <maven.compiler.release>${java.version}</maven.compiler.release>
-        <jackson.version>2.17.2</jackson.version>
-        <jakarta.version>6.1.0</jakarta.version>
+        <jakarta.version>6.2.0-M2</jakarta.version>
         <mockito.version>5.12.0</mockito.version>
-        <swagger.version>2.2.43</swagger.version>
-        <jersey.version>4.0.2</jersey.version>
-        <jakarta.version>6.1.0</jakarta.version>
-        <log.version>2.18.0</log.version>
+        <swagger.version>2.2.52</swagger.version>
+        <jersey.version>5.0.0-M1</jersey.version>
+        <log.version>2.23.1</log.version>
         <freemarker.version>2.3.34</freemarker.version>
         <xmlunit.version>2.10.0</xmlunit.version>
-        <testcontainers.version>1.21.4</testcontainers.version>
+        <testcontainers.version>2.0.5</testcontainers.version>
         <openapitools-generator.version>7.17.0</openapitools-generator.version>
-        <jackson-databind-nullable.version>0.2.9</jackson-databind-nullable.version>
-        <jakartaee-web-api.version>10.0.0</jakartaee-web-api.version>
+        <jackson-databind-nullable.version>0.2.10</jackson-databind-nullable.version>
+        <jakartaee-web-api.version>11.0.0</jakartaee-web-api.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <lombok.version>1.18.38</lombok.version>
         <springdoc.version>3.0.1</springdoc.version>
         <boot-properties-logger-starter.version>2.3.0</boot-properties-logger-starter.version>
         <!-- dependances que l'on met a jour entre deux version de spring boot -->
-        <jackson-bom.version>3.1.1</jackson-bom.version>
-        <tomcat.version>11.0.22</tomcat.version>
+
         <!-- fin dependances que l'on met a jour entre deux version de spring boot -->
          <!-- Configuration Sonar -->
         <sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
@@ -48,8 +45,10 @@
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.language>java</sonar.language>
-        <version.maven-sonar>5.5.0.6356</version.maven-sonar>
-        <version.maven-jacoco>0.8.14</version.maven-jacoco>
+        <version.maven-sonar>5.7.0.6970</version.maven-sonar>
+        <version.maven.compiler-plugin>3.13.0</version.maven.compiler-plugin>
+        <version.maven-war-plugins>3.4.0</version.maven-war-plugins>
+        <version.maven-jacoco>0.8.15</version.maven-jacoco>
         <argLine>-Xms256m -Xmx512m -ea -Dfile.encoding=UTF-8</argLine>
 
     </properties>
@@ -149,7 +148,7 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-slf4j18-impl</artifactId>
+                <artifactId>log4j-slf4j2-impl</artifactId>
                 <version>${log.version}</version>
             </dependency>
             <!-- test -->
@@ -283,12 +282,17 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>3.3.2</version>
+                    <version>${version.maven-war-plugins}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
                     <version>${version.maven-sonar}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${version.maven.compiler-plugin}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
