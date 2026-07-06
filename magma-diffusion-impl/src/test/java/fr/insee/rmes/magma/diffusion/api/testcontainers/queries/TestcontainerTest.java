@@ -3,10 +3,12 @@ package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
 @Slf4j
+@ActiveProfiles("security.disabled")
 public class TestcontainerTest {
     static GraphDBContainer container = new GraphDBContainer("ontotext/graphdb:10.8.8").withReuse(true);
 
