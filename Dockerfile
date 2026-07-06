@@ -1,10 +1,10 @@
-FROM eclipse-temurin:21-jdk-jammy AS builder
+FROM eclipse-temurin:25-jdk-jammy AS builder
 WORKDIR /opt/app
 COPY . .
 RUN chmod +x mvnw
 RUN ./mvnw clean package -DskipTests=true
 
-FROM eclipse-temurin:21-jre-jammy
+FROM eclipse-temurin:25-jre-jammy
 
 RUN groupadd -g 10000 javagroup
 RUN useradd -u 10000 -g javagroup -s /usr/sbin/nologin javauser
