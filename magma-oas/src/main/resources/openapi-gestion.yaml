@@ -6,221 +6,22 @@ info:
     name: dr59-sndil
     url: https://www.insee.fr/fr/accueil
     email: dr59-sinl-equipe-maintenance-rmes@insee.fr
-  version: 1.4.11
+  version: ${version}
 tags:
-  - name: Codes lists
-    description: Consultation Gestion API - listes des codes
-  - name: Organisations
-    description: Consultation des organisations de la base de gestion
-  - name: Structures/Composants
-    description: Consultation Magma API - Structures/Composants
-  - name: Concepts
-    description: Consultation Gestion API - Concepts
   - name: Series-Operations
     description: Consultation des Séries et Opérations de la base de gestion
   - name: Datasets
     description: Consultation Magma API - datasets
+servers:
+  - url: http://localhost:8080
 
 security:
   - bearerAuth: []
 
 paths:
-  # ============================================
-  # STRUCTURES / COMPOSANTS
-  # ============================================
-  /structures:
-    get:
-      tags:
-        - Structures/Composants
-      summary: Get all structures
-      operationId: getAllStructures
-      parameters:
-        - name: dateMiseAJour
-          in: query
-          description: 'Date of last update. Example: 2023-01-31'
-          required: false
-          schema:
-            type: string
-            format: date
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AllStructure'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /structure/{id}:
-    get:
-      tags:
-        - Structures/Composants
-      summary: Get a structure
-      operationId: getStructure
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: dateMiseAJour
-          in: query
-          description: If true, returns only the update date
-          required: false
-          schema:
-            type: boolean
-            default: false
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StructureById'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /structure/{id}/sliceKeys:
-    get:
-      tags:
-        - Structures/Composants
-      summary: Get slice keys
-      operationId: getSliceKeys
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/StructureSliceKeys'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /composants:
-    get:
-      tags:
-        - Structures/Composants
-      summary: Get all components
-      operationId: getAllComponents
-      parameters:
-        - name: dateMiseAJour
-          in: query
-          description: 'Date of last update. Example: 2023-01-31'
-          required: false
-          schema:
-            type: string
-            format: date
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AllComponent'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /composant/{id}:
-    get:
-      tags:
-        - Structures/Composants
-      summary: Get a component
-      operationId: getComponentById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: dateMiseAJour
-          in: query
-          description: If true, returns only the update date
-          required: false
-          schema:
-            type: boolean
-            default: false
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ComponentById'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
 
   # ============================================
-  # ORGANISATIONS
-  # ============================================
-  /organisations:
-    get:
-      tags:
-        - Organisations
-      summary: Get all organisations
-      operationId: getAllOrganisations
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Organisation'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /organisation/{id}/:
-    get:
-      tags:
-        - Organisations
-      summary: Get one organisation
-      operationId: getOrganisationById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Organisation'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  # ============================================
-  # SERIES / OPERATIONS (Pogues)
+  # SERIES / OPERATIONS
   # ============================================
   /operations/series:
     get:
@@ -237,17 +38,18 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SerieById'
+          $ref: '#/components/responses/SeriesListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
+
+
+
 
   /operations/serie/{id}:
     get:
@@ -263,15 +65,15 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SerieById'
+          $ref: '#/components/responses/Serie200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
 
   /operations/operation/{id}:
     get:
@@ -287,15 +89,15 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OperationById'
+          $ref: '#/components/responses/Operation200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
 
   /operations/indicateur/{id}:
     get:
@@ -311,152 +113,20 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Indicateur'
+          $ref: '#/components/responses/Indicateur200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
 
-
-  # ============================================
-  # CODES LISTS
-  # ============================================
-  /listesCodes:
-    get:
-      tags:
-        - Codes lists
-      summary: Get all codes lists
-      operationId: getAllCodesLists
-      parameters:
-        - name: dateMiseAJour
-          in: query
-          description: 'Date of last update. Example: 2023-01-31'
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AllListCode'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /listeCode/{id}:
-    get:
-      tags:
-        - Codes lists
-      summary: Get one codes list
-      operationId: getCodesList
-      parameters:
-        - name: id
-          in: path
-          description: Notation of the code list
-          required: true
-          schema:
-            type: string
-        - name: dateMiseAJour
-          in: query
-          description: If true, returns only the update date
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: withCodes
-          in: query
-          description: Include codes in the response
-          required: true
-          schema:
-            type: boolean
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListCodeById'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /listeCode/{id}/pagination:
-    get:
-      tags:
-        - Codes lists
-      summary: Get one codes list with 5 codes per page
-      operationId: getCodesListPagination
-      parameters:
-        - name: id
-          in: path
-          description: Notation of the code list
-          required: true
-          schema:
-            type: string
-        - name: pageNumber
-          in: query
-          description: Page number (starting from 0)
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListCodeById'
-        '404':
-          description: Not found
-        '416':
-          description: Requested Range Not Satisfiable - Page does not exist
-        '500':
-          description: Internal server error
 
   # ============================================
   # DATASETS
   # ============================================
-  /datasets/list:
-    get:
-      tags:
-        - Datasets
-      summary: Get list of datasets
-      operationId: getListDatasets
-      parameters:
-        - name: dateMiseAJour
-          in: query
-          description: 'Date of last update. Example: 2023-01-31'
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/DataSet'
-        '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
 
   /dataset/{id}:
     get:
@@ -472,57 +142,15 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DataSet'
+          $ref: '#/components/responses/Dataset200'
         '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
-    patch:
-      tags:
-        - Datasets
-      summary: Update some properties of a dataset
-      description: Update ObservationNumber, issued, modified, temporal, or numSeries of a dataset
-      operationId: patchDataSet
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: JSON with parameters you want to change
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchDataset'
-            example:
-              issued: "2022-11-11"
-              modified: "2023-12-31"
-              temporal:
-                startPeriod: "2020-01-01"
-                endPeriod: "2024-01-01"
-              numObservations: 150
-              numSeries: 12
-      responses:
-        '200':
-          description: Success
-        '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
 
   /dataset/{id}/distributions:
     get:
@@ -538,31 +166,23 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Distribution'
+          $ref: '#/components/responses/DistributionsListe200'
         '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
 
-  # ============================================
-  # CONCEPTS
-  # ============================================
-  /concepts:
+
+  /datasets/list:
     get:
       tags:
-        - Concepts
-      summary: List of concepts
-      operationId: getAllConcepts
+        - Datasets
+      summary: Get list of datasets
+      operationId: getListDatasets
       parameters:
         - name: dateMiseAJour
           in: query
@@ -572,105 +192,15 @@ paths:
             type: string
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ConceptById'
+          $ref: '#/components/responses/DatasetsListe200'
+        '400':
+          $ref: '#/components/responses/IncorrectRequest'
         '404':
-          description: Not found
+          $ref: '#/components/responses/NotFound'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
-          description: Internal server error
-
-  /concept/{id}:
-    get:
-      tags:
-        - Concepts
-      summary: Get one concept
-      operationId: getDetailedConcept
-      parameters:
-        - name: id
-          in: path
-          description: 'Identifiant du concept (format : c[0-9]{4})'
-          required: true
-          schema:
-            type: string
-            pattern: 'c[0-9]{4}'
-          example: c2066
-        - name: dateMiseAJour
-          in: query
-          description: If true, returns only the update date
-          required: false
-          schema:
-            type: boolean
-            default: false
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AllConcept'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /concepts/collection{id}:
-    get:
-      tags:
-        - Concepts
-      summary: List of collection's concepts
-      operationId: getCollectionOfConcepts
-      parameters:
-        - name: id
-          in: path
-          description: Identifiant interne de la collection
-          required: true
-          schema:
-            type: string
-          example: definitions-insee-fr
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CollectionOfConcepts'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
-
-  /concepts/collection/{id}/concepts:
-    get:
-      tags:
-        - Concepts
-      summary: Set of concepts in a collection
-      operationId: getSetOfConceptsInACollection
-      parameters:
-        - name: id
-          in: path
-          description: Identifiant interne de la collection
-          required: true
-          schema:
-            type: string
-          example: definitions-insee-fr
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SetOfConcepts'
-        '404':
-          description: Not found
-        '500':
-          description: Internal server error
+          $ref: '#/components/responses/ServerError'
 
 components:
   securitySchemes:
@@ -678,6 +208,136 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
+  responses:
+
+    IncorrectRequest:
+      description: 'La syntaxe de la requête est incorrecte'
+
+    NotFound:
+      description: 'Ressource non trouvée'
+
+    NotAcceptable:
+      description: 'L''en-tête HTTP ''Accept'' contient une valeur non acceptée'
+
+    ServerError:
+      description: 'Erreur interne du serveur'
+
+
+    Serie200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Serie'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Serie'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Serie'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Serie'
+
+
+    SeriesListe200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeSeries'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeSeries'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeSeries'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeSeries'
+
+    Operation200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Operation'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Operation'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Operation'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Operation'
+
+    Indicateur200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Indicateur'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Indicateur'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Indicateur'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Indicateur'
+
+
+
+    Dataset200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Dataset'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Dataset'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Dataset'
+          examples:
+            défaut:
+              $ref: '#/components/examples/Dataset'
+
+    DistributionsListe200:
+      description: 'Opération réussie'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeDistributions'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeDistributions'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeDistributions'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeDistributions'
+
+    DatasetsListe200:
+      description: 'Opération réussie pour les datasets'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListeDatasets'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeDatasets'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ListeDatasets'
+          examples:
+            défaut:
+              $ref: '#/components/examples/ListeDatasets'
 
   schemas:
     # ============================================
@@ -696,220 +356,21 @@ components:
           items:
             $ref: './langue-contenu.schema.json'
 
-    # ============================================
-    # STRUCTURES / COMPOSANTS SCHEMAS
-    # ============================================
-    AllStructure:
-      type: object
-      properties:
-        dateMiseAJour:
-          type: string
-        statutValidation:
-          type: string
-        id:
-          type: string
-
-    StructureById:
-      type: object
-      properties:
-        dateMiseAJour:
-          type: string
-        dateCreation:
-          type: string
-        notation:
-          type: string
-        statutValidation:
-          type: string
-        mesures:
-          type: array
-          items:
-            $ref: '#/components/schemas/Mesure'
-        id:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-        version:
-          type: string
-        attributs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Attribut'
-        dimensions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dimension'
-
-    StructureSliceKeys:
-      type: object
-      properties:
-        composants:
-          type: array
-          items:
-            type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        type:
-          type: string
-
-    Mesure:
-      type: object
-      properties:
-        ordre:
-          type: string
-        notation:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-        representation:
-          type: string
-
-    Attribut:
-      type: object
-      properties:
-        ordre:
-          type: string
-        notation:
-          type: string
-        listCode:
-          $ref: '#/components/schemas/ListCodeRef'
-        attachement:
-          type: string
-        obligatoire:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-        representation:
-          type: string
-
-    Dimension:
-      type: object
-      properties:
-        ordre:
-          type: string
-        notation:
-          type: string
-        listCode:
-          $ref: '#/components/schemas/ListCodeRef'
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-        representation:
-          type: string
-
-    ListCodeRef:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-
-    AllComponent:
-      type: object
-      properties:
-        dateMiseAJour:
-          type: string
-        statutValidation:
-          type: string
-        id:
-          type: string
-
-    ComponentById:
-      type: object
-      properties:
-        dateMiseAJour:
-          type: string
-        dateCreation:
-          type: string
-        concept:
-          $ref: '#/components/schemas/ConceptRef'
-        statutValidation:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        type:
-          type: string
-        uri:
-          type: string
-        representation:
-          type: string
-        version:
-          type: string
-        notation:
-          type: string
-        id:
-          type: string
-        listeCode:
-          $ref: '#/components/schemas/ListeCodeWithCodes'
-
-    ConceptRef:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-
-    ListeCodeWithCodes:
-      type: object
-      properties:
-        codes:
-          type: array
-          items:
-            $ref: '#/components/schemas/Code'
-        id:
-          type: string
-        uri:
-          type: string
-
-    # ============================================
-    # ORGANISATIONS SCHEMAS
-    # ============================================
-    Organisation:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        abreviation:
-          type: string
-        uniteDe:
-          type: string
-        sousTelleDe:
-          type: string
-        altlabel:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
 
     # ============================================
     # SERIES / OPERATIONS SCHEMAS
     # ============================================
-    SerieById:
+
+    ListeSeries:
+      description: 'Liste des séries'
+      type: array
+      xml:
+        wrapped: true
+        name: Definition
+      items:
+        $ref: '#/components/schemas/Serie'
+
+    Serie:
       type: object
       properties:
         seriesId:
@@ -937,7 +398,7 @@ components:
         frequenceCollecte:
           $ref: 'id-uri-label.schema.json'
         rapportQualite:
-          $ref: '#/components/schemas/RapportQualite'
+          $ref: 'id-uri.schema.json'
         famille:
           $ref: 'id-uri-label.schema.json'
         seriesPrecedentes:
@@ -991,14 +452,6 @@ components:
         nbOperation:
           type: string
 
-    RapportQualite:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-
     Frequence:
       type: object
       properties:
@@ -1011,37 +464,6 @@ components:
         uri:
           type: string
 
-    Famille:
-      type: object
-      properties:
-        id:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-
-    OperationBySerieId:
-      type: object
-      properties:
-        altLabel:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-        serie:
-          $ref: '#/components/schemas/SerieRef'
-        id:
-          type: string
-        millesime:
-          type: string
 
     SerieRef:
       type: object
@@ -1057,7 +479,7 @@ components:
         frequence:
           $ref: '#/components/schemas/Frequence'
 
-    OperationById:
+    Operation:
       type: object
       properties:
         id:
@@ -1077,7 +499,7 @@ components:
         serie:
           $ref: '#/components/schemas/SerieRef'
         rapportQualite:
-          $ref: '#/components/schemas/RapportQualite'
+          $ref: './id-uri.schema.json'
         dateCreation:
           type: string
           format: date
@@ -1113,7 +535,7 @@ components:
         frequenceCollecte:
           $ref: './id-uri-label.schema.json'
         rapportQualite:
-          $ref: '#/components/schemas/RapportQualite'
+          $ref: './id-uri.schema.json'
         seriesContributrices:
           type: array
           items:
@@ -1145,64 +567,107 @@ components:
         statuValidation:
           type: string
 
-
-
-
-
-
-    # ============================================
-    # CODE LISTS SCHEMAS
-    # ============================================
-    AllListCode:
-      type: object
-      properties:
-        ordre:
-          type: string
-        id:
-          type: string
-        version:
-          type: string
-        statutValidation:
-          type: string
-        dateMiseAJour:
-          type: string
-
-    ListCodeById:
-      type: object
-      properties:
-        codes:
-          type: array
-          items:
-            $ref: '#/components/schemas/Code'
-        id:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-        version:
-          type: string
-        dateMiseAJour:
-          type: string
-
-    Code:
-      type: object
-      properties:
-        code:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        uri:
-          type: string
-
     # ============================================
     # DATASETS SCHEMAS
     # ============================================
-    DataSet:
+
+    Theme:
+      type: object
+      properties:
+        uri:
+          type: string
+        label:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        themeTaxonomy:
+          type: string
+
+    LandingPage:
+      type: object
+      properties:
+        lang:
+          type: string
+        url:
+          type: string
+
+    ProcessStep:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          $ref: 'langue-contenu.schema.json'
+
+    Temporal:
+      type: object
+      properties:
+        startPeriod:
+          type: string
+        endPeriod:
+          type: string
+
+    Structure:
+      type: object
+      properties:
+        uri:
+          type: string
+        id:
+          type: string
+        dsd:
+          type: string
+
+    WasDerivedFrom:
+      type: object
+      properties:
+        datasets:
+          type: array
+          items:
+            type: string
+        description:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+
+
+    ListeDistributions:
+      description: 'Liste des distributions'
+      type: array
+      xml:
+        wrapped: true
+        name: Definition
+      items:
+        $ref: '#/components/schemas/Distribution'
+
+    Distribution:
+      type: object
+      properties:
+        identifier:
+          type: string
+        byteSize:
+          type: string
+        created:
+          type: string
+        description:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        downloadURL:
+          type: array
+          items:
+            type: string
+        format:
+          type: string
+        modified:
+          type: string
+        title:
+          type: array
+          items:
+            $ref: './langue-contenu.schema.json'
+        uri:
+          type: string
+
+    Dataset:
       type: object
       properties:
         id:
@@ -1324,192 +789,303 @@ components:
           items:
             $ref: './langue-contenu.schema.json'
 
-    Theme:
-      type: object
-      properties:
-        uri:
-          type: string
+
+    ListeDatasets:
+      description: 'Liste des datasets'
+      type: array
+      xml:
+        wrapped: true
+        name: Definition
+      items:
+        $ref: '#/components/schemas/Dataset'
+
+  examples:
+
+    Serie:
+      value:
+        code: 's1001'
+        uri: 'http://bauhaus/operations/serie/s1001'
         label:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-        themeTaxonomy:
-          type: string
+          - contenu: 'Enquête innovation'
+            langue: 'fr'
+          - contenu: 'Innovation survey'
+            langue: 'en'
+        altLabel:
+          - contenu: 'CIS'
+            langue: 'fr'
+          - contenu: 'CIS'
+            langue: 'en'
+        resume:
+          - contenu: '<p>L''enquête Capacité à innover et stratégie (CIS) permet d’une part, de mesurer le poids économique de ...'
+            langue: 'fr'
+          - contenu: '<p>The original objectives of the Community Innovation Survey (CIS) are to measure the economic weight of innovation in France...'
+            langue: 'en'
+        noteHistorique:
+          - contenu: '<p>La première édition de l''enquête a été menée en 1993. L''enquête a été réalisée tous les 4 ans jusqu''en 2005...'
+            langue: 'fr'
+          - contenu: '<p>The first edition of the survey took place in 1993. The survey was carried out every 4 years until 2005...'
+            langue: 'en'
+        type:
+          id: '5'
+          uri: 'http://bauhaus/codes/categorieSource/S'
+          label:
+            - contenu: 'Enquête'
+              langue: 'fr'
+            - contenu: 'Survey'
+              langue: 'en'
+        frequenceCollecte:
+          id: 'I'
+          uri: 'http://bauhaus/codes/frequence/I'
+          label:
+            - contenu: 'Bisannuelle'
+              langue: 'fr'
+            - contenu: 'Biennial'
+              langue: 'en'
+        famille:
+          id: 's15'
+          uri: 'http://bauhaus/operations/famille/s15'
+          label:
+            - contenu: 'Innovation'
+              langue: 'fr'
+            - contenu: 'Innovation'
+              langue: 'en'
+        seriesPrecedentes:
+          - id: 's1010'
+            uri: 'http://bauhaus/operations/serie/s1010'
+            label:
+              - contenu: 'Enquête sur les compétences pour innover'
+                langue: 'fr'
+              - contenu: 'Innovative skills survey'
+                langue: 'en'
+        seriesSuivantes:
+          -
+        seriesLiees:
+          -
+        operations:
+          - id: 's1477'
+            uri: 'http://bauhaus/operations/operation/s1477'
+            label:
+              - contenu: 'Enquête capacité à innover et stratégie 2018'
+                langue: 'fr'
+              - contenu: 'Community innovation survey 2018'
+                langue: 'en'
+        indicateurs:
+          -
+        dateMiseAJour: '2025-04-03'
+        proprietaires:
+          - id: 'DG75-E430'
+            uri: 'http://bauhaus/organisations/insee/HIE2000253'
+            label:
+              - contenu: 'Division Enquêtes thématiques et études transversales'
+                langue: 'fr'
+              - contenu: ''
+                langue: 'en'
+        organismesResponsables:
+          - id: 'DG75-E001'
+            uri: 'http://bauhaus/organisations/insee/HIE2000005'
+            label:
+              - contenu: 'Direction des statistiques d''entreprises (DSE)'
+                langue: 'fr'
+              - contenu: ''
+                langue: 'en'
+        partenaires:
+          -
+        servicesCollecteurs:
+          - id: 'DR31-DIR'
+            uri: 'http://bauhaus/organisations/insee/HIE2000054'
+            label:
+              - contenu: 'Direction régionale d''Occitanie - siège de Toulouse (DR31-ETB31)'
+                langue: 'fr'
+              - contenu: ''
+                langue: 'en'
+        statutValidation: 'Validated'
 
-    LandingPage:
-      type: object
-      properties:
-        lang:
-          type: string
-        url:
-          type: string
+    ListeSeries:
+      value:
+        - seriesId: 's1001'
+          uri: 'http://bauhaus/operations/serie/s1001'
+          label:
+            - contenu: 'Enquête innovation'
+              langue: 'fr'
+            - contenu: 'Innovation survey'
+              langue: 'en'
+        - seriesId: 's1002'
+          uri: 'http://bauhaus/operations/serie/s1002'
+          label:
+            - contenu: 'Enquête auprès des personnes fréquentant des services d''aide'
+              langue: 'fr'
+            - contenu: 'Survey among people who use care services'
+              langue: 'en'
 
-    ProcessStep:
-      type: object
-      properties:
-        id:
-          type: string
+    Operation:
+      value:
+        code: 's2193'
+        uri: 'http://bauhaus/operations/operation/s2193'
         label:
-          $ref: 'langue-contenu.schema.json'
+          - contenu: 'Enquête capacité à innover et stratégie 2024'
+            langue: 'fr'
+          - contenu: 'Community Innovation Survey 2024'
+            langue: 'en'
+        altLabel:
+          - contenu: 'CIS 2024'
+            langue: 'fr'
+          - contenu: 'CIS 2024'
+            langue: 'en'
+        millesime: '2024'
+        serie:
+          - id: 's1001'
+            uri: 'http://bauhaus/operations/serie/s1001'
+            label:
+              - contenu: 'Enquête innovation'
+                langue: 'fr'
+              - contenu: 'Innovation survey'
+                langue: 'en'
+        rapportQualite:
+          - id: '2203'
+            uri: 'http://bauhaus/qualite/rapport/2203'
+        dateCreation: '2025-01-22'
+        dateMiseAJour: '2025-04-02'
 
-    Temporal:
-      type: object
-      properties:
-        startPeriod:
-          type: string
-        endPeriod:
-          type: string
+    Indicateur:
+      value:
+        code: 'p1631'
+        uri: 'http://bauhaus/operations/produits/indicateur/p1631'
+        label:
+          - contenu: 'Créations d''entreprises'
+            langue: 'fr'
+          - contenu: 'Business start-ups'
+            langue: 'en'
+        altLabel:
+          - langue: 'fr'
+          - langue: 'en'
+        resume:
+          - contenu: '<p>Les statistiques des créations d''entreprises permettent de suivre l''évolution des créations d''entreprises relevant des principaux secteurs d''activité (Industrie, Construction, Commerce, Services).</p>'
+            langue: 'fr'
+          - contenu: '<p>The statistics on business births track the change in business births in the main sectors of activity.</p>'
+            langue: 'en'
+        noteHistorique:
+          - contenu: '<p>Un suivi des créations d’entreprises est effectué par l’Insee depuis les années 1980, à l’aide du répertoire administratif Sirene...'
+            langue: 'fr'
+          - contenu: '<p>Business births have been monitored by Insee since the 1980s, using the administrative register Sirene...'
+            langue: 'en'
+        frequenceCollecte:
+          id: 'M'
+          uri: 'http://bauhaus/codes/frequence/M'
+          label:
+            - contenu: 'Mensuelle'
+              langue: 'fr'
+            - contenu: 'Monthly'
+              langue: 'en'
+        rapportQualite:
+          id: 's2120'
+          uri: 'http://bauhaus/operations/serie/s2120'
+          label:
+            - contenu: 'Système d''information sur la démographie d''entreprises'
+              langue: 'fr'
+            - contenu: 'Business Demography Information System'
+              langue: 'en'
+        seriesLiees:
+          id: 's1271'
+          uri: "http://id.insee.fr/operations/serie/s1271"
+          label:
+            - contenu: 'Système d''information sur les nouvelles entreprises'
+              langue: 'fr'
+            - contenu: 'New enterprises information system'
+              langue: 'en'
+        indicateursLies:
+          id: 'p1632'
+          uri: "http://id.insee.fr/produits/indicateur/p1632"
+          label:
+            - contenu: 'Défaillances d''entreprises'
+              langue: 'fr'
+            - contenu: 'Enterprise bankruptcy'
+              langue: 'en'
+        dateMiseAJour: '2025-12-16'
+        proprietaires:
+          - id: 'DG75-E220'
+            uri: 'http://bauhaus/organisations/insee/HIE2001134'
+            label:
+              - contenu: 'Division Infrastructures et répertoires statistiques'
+                langue: 'fr'
+              - contenu: ''
+                langue: 'en'
+        organismesResponsables:
+          - id: 'DG75-E001'
+            uri: 'http://bauhaus/organisations/insee/HIE2000005'
+            label:
+              - contenu: 'Direction des statistiques d''entreprises (DSE)'
+                langue: 'fr'
+              - contenu: ''
+                langue: 'en'
 
-    Structure:
-      type: object
-      properties:
-        uri:
-          type: string
-        id:
-          type: string
-        dsd:
-          type: string
-
-    WasDerivedFrom:
-      type: object
-      properties:
-        datasets:
-          type: array
-          items:
-            type: string
-        description:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-
-    Distribution:
-      type: object
-      properties:
-        identifier:
-          type: string
-        byteSize:
-          type: string
-        created:
-          type: string
-        description:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-        downloadURL:
-          type: array
-          items:
-            type: string
-        format:
-          type: string
-        modified:
-          type: string
+    Dataset:
+      value:
+        code: '25baaf1f-61cf-4d50-9124-1477afca2aa4'
+        uri: 'http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4'
+        catalogRecordCreated: '2024-12-09T12:00:00.000'
+        catalogRecordModified: '2024-12-09T12:00:00.000'
+        catalogRecordCreator: 'http://bauhaus/organisations/insee/HIE2004937'
+        identifier: 'DD_EEC_SERIES'
+        validationState: 'Provisoire, jamais publiée'
         title:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-        uri:
-          type: string
-
-    PatchDataset:
-      type: object
-      description: DTO for patching dataset properties
-      properties:
-        issued:
-          type: string
-          description: Issue date (format YYYY-MM-DD)
-          example: "2022-11-11"
-        modified:
-          type: string
-          description: Last modification date (format YYYY-MM-DD)
-          example: "2023-12-31"
-        temporal:
-          $ref: '#/components/schemas/Temporal'
-        numObservations:
-          type: integer
-          format: int32
-          description: Number of observations
-          example: 150
-        numSeries:
-          type: integer
-          format: int32
-          description: Number of series
-          example: 12
-
-    # ============================================
-    # CONCEPTS SCHEMAS
-    # ============================================
-    AllConcept:
-      type: object
-      properties:
-        dateMiseAJour:
-          type: string
-        statutValidation:
-          type: string
-        id:
-          type: string
-
-    ConceptById:
-      type: object
-      properties:
-        dateCreation:
-          type: string
-        dateMiseAJour:
-          type: string
-        statutValidation:
-          type: string
-        id:
-          type: string
-        label:
-          type: array
-          items:
-            $ref: 'langue-contenu.schema.json'
-        dateFinValidite:
-          type: string
-        uri:
-          type: string
-        version:
-          type: string
-        name:
-          type: string
-        conceptsSDMX:
-          type: array
-          items:
-            $ref: '#/components/schemas/ConceptSDMX'
-        definitionCourte:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
-
-    ConceptSDMX:
-      type: object
-      properties:
-        agence:
-          type: string
-        id:
-          type: string
-
-    CollectionOfConcepts:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
-        dateMiseAJour:
-          type: string
-        intitule:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
+          - contenu: 'Activité, emploi et chômage - séries longues'
+            langue: 'fr'
+          - contenu : 'Activité, emploi et chômage - séries longues'
+            langue: 'en'
         description:
-          type: array
-          items:
-            $ref: './langue-contenu.schema.json'
+          - contenu: 'Les données sont détaillées par sexe, âge, diplôme et catégorie socio-professionnelle (PCS). Pour l’emploi, les données sont détaillées par type de contrat, composante du sous-emploi, temps de travail (temps complet ou partiel). Plusieurs indicateurs en taux sont disponibles : taux d''activité, taux d''emploi ou taux de chômage.\n\nCe jeu de données regroupe notamment les données annuelles de forte valeur (High Value Dataset ou HVD statistiques) désignées par Eurostat sur les sujets suivants : l''emploi , le chômage et la main d’œuvre potentielle.'
+            langue: 'fr'
+          - langue: 'en'
+        scopeNote:
+          - contenu: 'Des corrections sur les données concernant la population totale ainsi que sur l''emploi et la part dans l''emploi selon le plus haut diplôme obtenu, par sexe et âge regroupé, en moyenne annuelle ont été apportées en septembre 2024 afin de rectifier une erreur, portant sur les années 2018, 2019 et 2020 uniquement.'
+            langue: 'fr'
+          - langue: 'en'
+        wasGeneratedBy:
+          - contenu: 'http://bauhaus/operations/serie/s1223'
+            langue: 'fr'
+          - langue: 'en'
 
-    SetOfConcepts:
-      type: object
-      properties:
-        id:
-          type: string
-        uri:
-          type: string
+    ListeDistributions:
+      value:
+        - identifier: '6d0d296b-9ec5-42fa-a3d5-62ffe7c74dea'
+          created: '2025-02-17T08:13:23.382171614'
+          description:
+            - contenu: 'fichier csv généré par l''API melodi'
+              langue: 'fr'
+            - langue: 'en'
+          downloadURL:
+            -
+          modified: '2025-02-17T08:13:23.382171614'
+          title:
+            - contenu: 'Capacités d''hébergements touristiques'
+              langue: 'fr'
+            - contenu: 'Tourism capacities'
+              langue: 'en'
+          uri: 'http://bauhaus/catalogues/distribution/6d0d296b-9ec5-42fa-a3d5-62ffe7c74dea'
+
+
+    ListeDatasets:
+      value:
+        - id: '25baaf1f-61cf-4d50-9124-1477afca2aa4'
+          uri: 'http://bauhaus/catalogues/jeuDeDonnees/25baaf1f-61cf-4d50-9124-1477afca2aa4'
+          catalogRecordCreated: '2024-12-09T12:00:00.000'
+          catalogRecordModified: '2024-12-09T12:00:00.000'
+          catalogRecordCreator: 'http://bauhaus/organisations/insee/HIE2004937'
+          validationState: 'Provisoire, jamais publiée'
+          title:
+            - contenu: 'Activité, emploi et chômage - séries longues'
+              langue: 'fr'
+            - contenu: 'Activité, emploi et chômage - séries longues'
+              langue: 'en'
+        - id: 'a85dab6c-ef0f-4caa-9763-c7f8c840e216'
+          uri: 'http://bauhaus/catalogues/jeuDeDonnees/a85dab6c-ef0f-4caa-9763-c7f8c840e216'
+          catalogRecordCreated: '2024-12-09'
+          catalogRecordModified: '2024-12-09'
+          validationState: 'Unpublished'
+          title:
+            - contenu: 'Activité des branches de l''économie'
+              langue: 'fr'
+            - contenu: 'Activité des branches de l''économie'
+              langue: 'en'
+
+

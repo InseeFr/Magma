@@ -1,12 +1,11 @@
 package fr.insee.rmes.magma.gestion.api;
 
 import fr.insee.rmes.magma.gestion.api.requestprocessor.RequestProcessorGestion;
-import fr.insee.rmes.magma.gestion.model.DataSet;
+import fr.insee.rmes.magma.gestion.model.Dataset;
 import fr.insee.rmes.magma.gestion.model.Distribution;
 import fr.insee.rmes.magma.gestion.queries.parameters.DatasetsRequestParametizer;
 import fr.insee.rmes.magma.gestion.services.DatasetsService;
 import fr.insee.rmes.magma.gestion.utils.DatasetByIdDTO;
-import fr.insee.rmes.magma.gestion.utils.DatasetByIdSummaryDTO;
 import fr.insee.rmes.magma.gestion.utils.DatasetDTO;
 import fr.insee.rmes.magma.gestion.utils.DistributionDTO;
 import org.springframework.http.ResponseEntity;
@@ -27,19 +26,19 @@ public class DatasetsEndpoints implements DatasetsApi {
     }
 
     @Override
-    public ResponseEntity<List<DataSet>> getListDatasets(@Nullable String dateMiseAJour) {
+    public ResponseEntity<List<Dataset>> getListDatasets(@Nullable String dateMiseAJour) {
         List<DatasetDTO> dtos = requestProcessor.queryToFindAllDatasets()
                 .with(new DatasetsRequestParametizer(dateMiseAJour))
                 .executeQuery()
                 .listResult(DatasetDTO.class)
                 .result();
 
-        List<DataSet> dataSets = datasetsService.transformDatasetDTOsToDataSets(dtos);
+        List<Dataset> dataSets = datasetsService.transformDatasetDTOsToDataSets(dtos);
         return ResponseEntity.ok(dataSets);
     }
 
     @Override
-    public ResponseEntity<DataSet> getDataSetById(String id) {
+    public ResponseEntity<Dataset> getDataSetById(String id) {
         DatasetByIdDTO dto = requestProcessor.queryToFindDatasetById()
                 .with(new DatasetsRequestParametizer(id, null))
                 .executeQuery()

@@ -146,7 +146,7 @@ class SeriesOperationsServiceImplTest {
         assertAll(
                 () -> assertNotNull(result.getRapportQualite()),
                 () -> assertEquals("1500", result.getRapportQualite().getId()),
-                () -> assertEquals("http://id.insee.fr/qualite/rapport/1500", result.getRapportQualite().getUri())
+                () -> assertEquals(URI.create("http://id.insee.fr/qualite/rapport/1500"), result.getRapportQualite().getUri())
         );
     }
 
@@ -283,7 +283,7 @@ class SeriesOperationsServiceImplTest {
 
     @Test
     void should_map_identifiers_when_transformOperationDTO() {
-        var result = service.transformOperationDTOToOperationById(fullOperationDTO());
+        var result = service.transformOperationDTOToOperation(fullOperationDTO());
 
         assertAll(
                 () -> assertEquals("s2193", result.getId()),
@@ -297,7 +297,7 @@ class SeriesOperationsServiceImplTest {
 
     @Test
     void should_map_multilingual_labels_when_transformOperationDTO() {
-        var result = service.transformOperationDTOToOperationById(fullOperationDTO());
+        var result = service.transformOperationDTOToOperation(fullOperationDTO());
 
         assertAll(
                 () -> assertEquals(2, result.getLabel().size()),
@@ -313,7 +313,7 @@ class SeriesOperationsServiceImplTest {
 
     @Test
     void should_map_serie_when_seriesId_is_present() {
-        var result = service.transformOperationDTOToOperationById(fullOperationDTO());
+        var result = service.transformOperationDTOToOperation(fullOperationDTO());
 
         assertAll(
                 () -> assertNotNull(result.getSerie()),
@@ -333,7 +333,7 @@ class SeriesOperationsServiceImplTest {
                 null, null, null, null,
                 null, null, null, null, null
         );
-        assertNull(service.transformOperationDTOToOperationById(dto).getSerie());
+        assertNull(service.transformOperationDTOToOperation(dto).getSerie());
     }
 
     @Test
@@ -345,17 +345,17 @@ class SeriesOperationsServiceImplTest {
                 "  ", null, null, null,
                 null, null, null, null, null
         );
-        assertNull(service.transformOperationDTOToOperationById(dto).getSerie());
+        assertNull(service.transformOperationDTOToOperation(dto).getSerie());
     }
 
     @Test
     void should_map_rapportQualite_when_simsId_present_for_operation() {
-        var result = service.transformOperationDTOToOperationById(fullOperationDTO());
+        var result = service.transformOperationDTOToOperation(fullOperationDTO());
 
         assertAll(
                 () -> assertNotNull(result.getRapportQualite()),
                 () -> assertEquals("2203", result.getRapportQualite().getId()),
-                () -> assertEquals("http://id.insee.fr/qualite/rapport/2203", result.getRapportQualite().getUri())
+                () -> assertEquals(URI.create("http://id.insee.fr/qualite/rapport/2203"), result.getRapportQualite().getUri())
         );
     }
 
@@ -368,7 +368,7 @@ class SeriesOperationsServiceImplTest {
                 "s1001", "http://id.insee.fr/operations/serie/s1001", null, null,
                 null, null, null, null, null
         );
-        assertNull(service.transformOperationDTOToOperationById(dto).getRapportQualite());
+        assertNull(service.transformOperationDTOToOperation(dto).getRapportQualite());
     }
 
     @Test
@@ -379,7 +379,7 @@ class SeriesOperationsServiceImplTest {
                 null, null, null, null, null,
                 null, null, null, null, null
         );
-        var result = service.transformOperationDTOToOperationById(dto);
+        var result = service.transformOperationDTOToOperation(dto);
 
         assertNull(result.getDateCreation());
         assertNull(result.getDateMiseAJour());
@@ -469,7 +469,7 @@ class SeriesOperationsServiceImplTest {
         assertAll(
                 () -> assertNotNull(result.getRapportQualite()),
                 () -> assertEquals("3500", result.getRapportQualite().getId()),
-                () -> assertEquals("http://id.insee.fr/qualite/rapport/3500", result.getRapportQualite().getUri())
+                () -> assertEquals(URI.create("http://id.insee.fr/qualite/rapport/3500"), result.getRapportQualite().getUri())
         );
     }
 

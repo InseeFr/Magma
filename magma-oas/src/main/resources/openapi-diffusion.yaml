@@ -1,13 +1,13 @@
 openapi: 3.1.0
 info:
-  title: API RMéS
-  version: 3.7.2
+  title: Magma Diffusion API
+  version: ${version}
   description: API sur les métadonnées de l'Insee
 externalDocs:
   description: This API is open source, the sources can be found here
-  url: https://github.com/InseeFr/Metadata-API
+  url: https://github.com/InseeFr/Magma
 servers:
-  - url: http://localhost:8080/metadata-api
+  - url: http://localhost:8080
 
 ### TAGS SPECIFICATION ###
 

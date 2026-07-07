@@ -2,8 +2,9 @@ package fr.insee.rmes.magma.gestion.api;
 
 import fr.insee.rmes.magma.gestion.api.requestprocessor.RequestProcessorGestion;
 import fr.insee.rmes.magma.gestion.model.Indicateur;
-import fr.insee.rmes.magma.gestion.model.OperationById;
-import fr.insee.rmes.magma.gestion.model.SerieById;
+import fr.insee.rmes.magma.gestion.model.Operation;
+import fr.insee.rmes.magma.gestion.model.Serie;
+import fr.insee.rmes.magma.gestion.old.model.operation.OperationById;
 import fr.insee.rmes.magma.gestion.queries.parameters.IndicateurRequestParametizer;
 import fr.insee.rmes.magma.gestion.queries.parameters.SeriesOperationsRequestParametizer;
 import fr.insee.rmes.magma.gestion.services.SeriesOperationsService;
@@ -28,19 +29,19 @@ public class SeriesOperationsEndpoints implements SeriesOperationsApi {
     }
 
     @Override
-    public ResponseEntity<List<SerieById>> getAllSeries(String dateMiseAJour) {
+    public ResponseEntity<List<Serie>> getAllSeries(String dateMiseAJour) {
         String date = dateMiseAJour != null ? dateMiseAJour : "none";
         List<SeriesDTO> dtos = requestProcessor.queryToFindAllSeries()
                 .with(new SeriesOperationsRequestParametizer(null, null, date))
                 .executeQuery()
                 .listResult(SeriesDTO.class)
                 .result();
-        List<SerieById> series = seriesOperationsService.transformSeriesDTOsToSeries(dtos);
+        List<Serie> series = seriesOperationsService.transformSeriesDTOsToSeries(dtos);
         return ResponseEntity.ok(series);
     }
 
     @Override
-    public ResponseEntity<SerieById> getSerieById(String id) {
+    public ResponseEntity<Serie> getSerieById(String id) {
         SeriesDTO seriesDTO = requestProcessor.queryToFindSerieById()
                 .with(new SeriesOperationsRequestParametizer(id, null))
                 .executeQuery()
@@ -49,12 +50,12 @@ public class SeriesOperationsEndpoints implements SeriesOperationsApi {
         if (seriesDTO == null) {
             return ResponseEntity.notFound().build();
         }
-        SerieById serieById = seriesOperationsService.transformSeriesDTOToSerieById(seriesDTO);
+        Serie serieById = seriesOperationsService.transformSeriesDTOToSerieById(seriesDTO);
         return EndpointsUtils.toResponseEntity(serieById);
     }
 
     @Override
-    public ResponseEntity<OperationById> getOperationByCode(String id) {
+    public ResponseEntity<Operation> getOperationByCode(String id) {
         OperationDTO operationDTO = requestProcessor.queryToFindOperationByCode()
                 .with(new SeriesOperationsRequestParametizer(null, id))
                 .executeQuery()
@@ -63,8 +64,8 @@ public class SeriesOperationsEndpoints implements SeriesOperationsApi {
         if (operationDTO == null) {
             return ResponseEntity.notFound().build();
         }
-        OperationById operationById = seriesOperationsService.transformOperationDTOToOperationById(operationDTO);
-        return EndpointsUtils.toResponseEntity(operationById);
+        Operation operation = seriesOperationsService.transformOperationDTOToOperation(operationDTO);
+        return EndpointsUtils.toResponseEntity(operation);
     }
 
     @Override

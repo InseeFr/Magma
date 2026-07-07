@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.gestion.api.testcontainers;
 
 import fr.insee.rmes.magma.gestion.api.DatasetsEndpoints;
-import fr.insee.rmes.magma.gestion.model.DataSet;
+import fr.insee.rmes.magma.gestion.model.Dataset;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -87,7 +87,7 @@ class DatasetsQueriesTest extends TestcontainerTest {
         assertNotNull(result);
         assertEquals(2, result.size());
 
-        var ids = result.stream().map(DataSet::getId).toList();
+        var ids = result.stream().map(Dataset::getId).toList();
         assertTrue(ids.contains(DATASET_ID));
         assertTrue(ids.contains(DATASET_ID_2));
     }
@@ -129,7 +129,7 @@ class DatasetsQueriesTest extends TestcontainerTest {
         assertNotNull(result);
         assertEquals(2, result.size());
 
-        var ids = result.stream().map(DataSet::getId).toList();
+        var ids = result.stream().map(Dataset::getId).toList();
         assertTrue(ids.contains(DATASET_ID));
         assertTrue(ids.contains(DATASET_ID_2));
     }
