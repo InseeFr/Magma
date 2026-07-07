@@ -19,8 +19,8 @@ import java.util.stream.Stream;
 @RestController
 public class OpenApiYamlConfig {
 
-    private static final String VERSION_GESTION = "1.4.11";
-    private static final String VERSION_DIFFUSION = "3.7.2";
+    private static final String VERSION_GESTION = "2.0.0";
+    private static final String VERSION_DIFFUSION = "2.0.0";
 
     @Value("${fr.insee.rmes.magma.display.geo:true}")
     private boolean displayGeo;
