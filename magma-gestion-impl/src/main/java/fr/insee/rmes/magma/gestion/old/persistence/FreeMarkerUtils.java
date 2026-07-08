@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.gestion.old.persistence;
 
 import fr.insee.rmes.magma.gestion.old.utils.config.freemarker.FreemarkerConfig;
-import fr.insee.rmes.magma.gestion.old.utils.exceptions.RmesException;
+import fr.insee.rmes.magma.utils.RmesException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.http.HttpStatus;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -23,7 +24,7 @@ public class FreeMarkerUtils {
     @Getter
 	private static final FreeMarkerUtils instance = new FreeMarkerUtils();
 
-    public String buildRequest(String root, String fileName, Map<String, Object> params) throws RmesException {
+    public String buildRequest(String root, String fileName, Map<String, Object> params) throws RmesException, JSONException {
         Template temp;
         Writer out = new StringWriter();
         try {

@@ -3,7 +3,7 @@ package fr.insee.rmes;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-import static fr.insee.rmes.magma.gestion.old.configuration.SecurityConfigWithAccessControl.STARTER_SECURITY_DISABLED;
+import static fr.insee.rmes.magma.security.configuration.SecurityConfigWithAccessControl.STARTER_SECURITY_DISABLED;
 
 @SpringBootApplication
 public class MagmaAppMain {
