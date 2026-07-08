@@ -69,12 +69,7 @@
             </dependency>
             <dependency>
                 <groupId>fr.insee.rmes</groupId>
-                <artifactId>magma-diffusion-interface</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>fr.insee.rmes</groupId>
-                <artifactId>magma-gestion-interface</artifactId>
+                <artifactId>magma-interface</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -327,9 +322,8 @@
     </repositories>
     <modules>
         <module>magma-oas</module>
-        <module>magma-diffusion-interface</module>
+        <module>magma-interface</module>
         <module>magma-diffusion-impl</module>
-        <module>magma-gestion-interface</module>
         <module>magma-gestion-impl</module>
         <module>magma-app</module>
         <module>magma-commons-infra</module>
