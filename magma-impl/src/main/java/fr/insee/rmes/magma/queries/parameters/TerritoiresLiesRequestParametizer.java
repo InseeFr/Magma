@@ -1,0 +1,20 @@
+package fr.insee.rmes.magma.queries.parameters;
+
+import fr.insee.rmes.magma.model.TypeEnum;
+import fr.insee.rmes.magma.queries.parameters.ParameterValueDecoder;
+
+import java.lang.reflect.RecordComponent;
+import java.time.LocalDate;
+
+
+public record TerritoiresLiesRequestParametizer(String code,
+                                                LocalDate date,
+                                                String territoriesFilter,
+                                                Class<?> typeOrigine) implements ParametersForQueryDiffusion<TerritoiresLiesRequestParametizer> {
+
+
+    @Override
+    public ParameterValueDecoder<?> findParameterValueDecoder(RecordComponent recordComponent) {
+        return ParametersForQueryDiffusion.super.findParameterValueDecoder(recordComponent);
+    }
+}

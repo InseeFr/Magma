@@ -1,0 +1,61 @@
+package fr.insee.rmes.magma.api;
+
+import fr.insee.rmes.magma.api.*;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.model.AireDAttractionDesVilles2020;
+import fr.insee.rmes.magma.model.TerritoireTousAttributs;
+import fr.insee.rmes.magma.model.TypeEnumDescendantsAireDAttractionDesVilles;
+import fr.insee.rmes.magma.queries.parameters.AscendantsDescendantsRequestParametizer;
+import fr.insee.rmes.magma.queries.parameters.TerritoireEtoileRequestParametizer;
+import fr.insee.rmes.magma.queries.parameters.TerritoireRequestParametizer;
+import fr.insee.rmes.magma.utils.EndpointsUtils;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDate;
+import java.util.List;
+
+
+@RestController
+public class GeoAireDAttractionDesVillesEndpoints implements GeoAireDAttractionDesVillesApi {
+
+    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final EndpointsUtils endpointsUtils;
+
+    public GeoAireDAttractionDesVillesEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
+        this.requestProcessorDiffusion = requestProcessorDiffusion;
+        this.endpointsUtils = endpointsUtils;
+    }
+
+    @Override
+    public ResponseEntity<AireDAttractionDesVilles2020> getcogaav (String code, LocalDate date) {
+        return requestProcessorDiffusion.queryforFindTerritoire()
+                .with(new TerritoireRequestParametizer(code, date, AireDAttractionDesVilles2020.class, "none"))
+                .executeQuery()
+                .singleResult(AireDAttractionDesVilles2020.class).toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<TerritoireTousAttributs>>  getcogaavdesc (String code, LocalDate date, TypeEnumDescendantsAireDAttractionDesVilles type) {
+        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
+        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+                .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, AireDAttractionDesVilles2020.class, false))
+                .executeQuery()
+                .listResult(TerritoireTousAttributs.class)
+                .toResponseEntity();
+    }
+
+    @Override
+    public ResponseEntity<List<AireDAttractionDesVilles2020>> getcogaavliste (String date) {
+        if (date==null) {
+            date = LocalDate.now().toString();
+        }
+        return requestProcessorDiffusion.queryforFindTerritoire()
+                .with(new TerritoireEtoileRequestParametizer(date, AireDAttractionDesVilles2020.class, "none"))
+                .executeQuery()
+                .listResult(AireDAttractionDesVilles2020.class)
+                .toResponseEntity();
+
+    }
+
+}

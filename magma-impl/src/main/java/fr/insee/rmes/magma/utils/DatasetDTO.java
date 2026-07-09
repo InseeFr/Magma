@@ -1,0 +1,14 @@
+package fr.insee.rmes.magma.utils;
+
+import java.time.LocalDate;
+
+public record DatasetDTO(
+        String id,
+        String uri,
+        String titreLg1,
+        String titreLg2,
+        LocalDate catalogRecordModified,
+        String statutValidation,
+        LocalDate dateCreation
+) {
+}
