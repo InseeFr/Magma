@@ -18,9 +18,7 @@ import java.util.function.Function;
 
 @Component
 @Slf4j
-// TODO proposer une autre implémentation d'unmarshaller ?
-// TODO: renomer la classe en JacksonUnmarshallerDiffusion afin de suivre le nomage de JacksonUnmarshallerGestion
-public record JacksonUnmarshaller(CsvMapper csvMapper) implements fr.insee.rmes.magma.unmarshaller.Unmarshaller {
+public record JacksonUnmarshaller(CsvMapper csvMapper) implements Unmarshaller {
 
     public JacksonUnmarshaller() {
         this(CsvMapper.builder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
@@ -50,16 +48,14 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements fr.insee.rmes.
 
     private static <E extends Enum<E>> JacksonModule enumModule(Class<E> enumClass) {
         var module = new SimpleModule();
-        module.addDeserializer(enumClass, new ValueDeserializer<>()  {
+        module.addDeserializer(enumClass, new ValueDeserializer<>() {
             @Override
             public E deserialize(JsonParser parser, DeserializationContext ctxt) {
                 try {
                     String value = parser.getValueAsString();
-                    // Transformation des valeurs numériques en noms d'enum valides
                     String enumName = value.matches("\\d+") ? "_" + value : value;
                     return Enum.valueOf(enumClass, enumName);
-                }
-                catch (JacksonException e) {
+                } catch (JacksonException e) {
                     return null;
                 }
             }
@@ -69,13 +65,12 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements fr.insee.rmes.
 
     @Override
     public <G> Optional<G> unmarshal(@NonNull Csv csv, @NonNull Class<G> targetClass) {
-        return unmarshallAll(csv.content(), targetClass, Optional.empty(), l-> l.isEmpty()?Optional.empty():Optional.of(l.getFirst()));
+        return unmarshallAll(csv.content(), targetClass, Optional.empty(), l -> l.isEmpty() ? Optional.empty() : Optional.of(l.getFirst()));
     }
 
     @Override
     public <G> G unmarshalOrNull(@NonNull Csv csv, @NonNull Class<G> targetClass) {
-        return unmarshallAll(csv.content(), targetClass, null,
-                l -> l.isEmpty() ? null : l.getFirst());
+        return unmarshallAll(csv.content(), targetClass, null, l -> l.isEmpty() ? null : l.getFirst());
     }
 
     @Override
@@ -83,17 +78,15 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements fr.insee.rmes.
         return unmarshallAll(csv.content(), targetClass, List.of(), Function.identity());
     }
 
-    private <R, G> R unmarshallAll(String csv, Class<G> targetClass, R resultEmpty, Function<List<G>, R> extractResults){
-        log.atDebug().log(() -> "Deserialize for "+findReturned(targetClass, resultEmpty)
-                        +". CSV header is "+ csv.lines().limit(1).findFirst().orElse(null));
-        CsvSchema schema = CsvSchema.emptySchema()
-                .withHeader()
-                .withNullValue("");
+    private <R, G> R unmarshallAll(String csv, Class<G> targetClass, R resultEmpty, Function<List<G>, R> extractResults) {
+        log.atDebug().log(() -> "Deserialize for " + findReturned(targetClass, resultEmpty)
+                + ". CSV header is " + csv.lines().limit(1).findFirst().orElse(null));
+        CsvSchema schema = CsvSchema.emptySchema().withHeader().withNullValue("");
         ObjectReader reader = csvMapper.readerFor(targetClass).with(schema);
         List<G> results;
         try (MappingIterator<G> mappingIterator = reader.readValues(csv)) {
             results = mappingIterator.readAll();
-        }  catch (JacksonException e) {
+        } catch (JacksonException e) {
             log.error("While reading \n{}\nMESSAGE : {}\n===> RETURN WILL BE EMPTY", csv, e.getMessage());
             return resultEmpty;
         }
@@ -101,10 +94,10 @@ public record JacksonUnmarshaller(CsvMapper csvMapper) implements fr.insee.rmes.
     }
 
     private <G, R> String findReturned(Class<G> targetClass, R resultEmpty) {
-        return switch (resultEmpty){
-            case List<?> ignored -> "List<"+targetClass.getName()+">";
+        return switch (resultEmpty) {
+            case List<?> ignored -> "List<" + targetClass.getName() + ">";
             case Optional<?> ignored -> targetClass.getName();
-            default -> "Unknown wrapper for "+targetClass.getName();
+            default -> "Unknown wrapper for " + targetClass.getName();
         };
     }
 }

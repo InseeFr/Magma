@@ -8,7 +8,6 @@ import fr.insee.rmes.magma.queryexecutor.QueryExecutor;
 import fr.insee.rmes.magma.results.ListResult;
 import fr.insee.rmes.magma.results.SingleResult;
 import fr.insee.rmes.magma.unmarshaller.JacksonUnmarshaller;
-import fr.insee.rmes.magma.unmarshaller.JacksonUnmarshallerGestion;
 import fr.insee.rmes.magma.unmarshaller.Unmarshaller;
 import org.springframework.stereotype.Component;
 
@@ -17,39 +16,38 @@ import static fr.insee.rmes.magma.queries.QueryPathListGestion.*;
 
 @Component
 public record RequestProcessor(QueryBuilder queryBuilder, QueryExecutor queryExecutor,
-                               JacksonUnmarshallerGestion gestionUnmarshaller,
-                               JacksonUnmarshaller diffusionUnmarshaller) {
+                               JacksonUnmarshaller unmarshaller) {
 
     // =========================================================
     // Gestion queries
     // =========================================================
 
     public ExecutableQueryBuilder queryToFindSerieById() {
-        return new ExecutableQueryBuilder(SERIE_BY_ID, this, gestionUnmarshaller);
+        return new ExecutableQueryBuilder(SERIE_BY_ID, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindOperationByCode() {
-        return new ExecutableQueryBuilder(OPERATION_BY_CODE, this, gestionUnmarshaller);
+        return new ExecutableQueryBuilder(OPERATION_BY_CODE, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindAllSeries() {
-        return new ExecutableQueryBuilder(ALL_SERIES, this, gestionUnmarshaller);
+        return new ExecutableQueryBuilder(ALL_SERIES, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindIndicatorById() {
-        return new ExecutableQueryBuilder(INDICATOR_BY_ID, this, gestionUnmarshaller);
+        return new ExecutableQueryBuilder(INDICATOR_BY_ID, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindAllDatasets() {
-        return new ExecutableQueryBuilder(ALL_DATASETS, this, gestionUnmarshaller);
+        return new ExecutableQueryBuilder(ALL_DATASETS, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindDatasetById() {
-        return new ExecutableQueryBuilder(DATASET_BY_ID, this, gestionUnmarshaller);
+        return new ExecutableQueryBuilder(DATASET_BY_ID, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindDistributionsByDatasetId() {
-        return new ExecutableQueryBuilder(DISTRIBUTIONS_BY_DATASET_ID, this, gestionUnmarshaller);
+        return new ExecutableQueryBuilder(DISTRIBUTIONS_BY_DATASET_ID, this, unmarshaller);
     }
 
     // =========================================================
@@ -57,95 +55,95 @@ public record RequestProcessor(QueryBuilder queryBuilder, QueryExecutor queryExe
     // =========================================================
 
     public ExecutableQueryBuilder queryToFindClassification() {
-        return new ExecutableQueryBuilder(NOMENCLATURE, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(NOMENCLATURE, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindConcept() {
-        return new ExecutableQueryBuilder(CONCEPT, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(CONCEPT, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindNearbyConcepts() {
-        return new ExecutableQueryBuilder(NEARBY_CONCEPTS, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(NEARBY_CONCEPTS, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindConceptIntitulesAlternatifs() {
-        return new ExecutableQueryBuilder(INTITULES_ALTERNATIFS, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(INTITULES_ALTERNATIFS, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindConcepts() {
-        return new ExecutableQueryBuilder(CONCEPTS, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(CONCEPTS, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryforFindAscendantsDescendants() {
-        return new ExecutableQueryBuilder(ASCENDANTS_OR_DESCENDANTS, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(ASCENDANTS_OR_DESCENDANTS, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryforFindPrecedentsSuivants() {
-        return new ExecutableQueryBuilder(PRECEDENTS, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(PRECEDENTS, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryforFindProjetes() {
-        return new ExecutableQueryBuilder(PROJETES, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(PROJETES, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryforFindTerritoire() {
-        return new ExecutableQueryBuilder(TERRITOIRE, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(TERRITOIRE, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindIrisAndFauxIris() {
-        return new ExecutableQueryBuilder(IRIS_FAUX_IRIS, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(IRIS_FAUX_IRIS, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindIrisList() {
-        return new ExecutableQueryBuilder(IRIS_LIST, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(IRIS_LIST, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindCantonsOfCommune() {
-        return new ExecutableQueryBuilder(COMMUNE_CANTONS, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(COMMUNE_CANTONS, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindCommunesOfCanton() {
-        return new ExecutableQueryBuilder(CANTON_COMMUNES, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(CANTON_COMMUNES, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindAscendantsFauxIris() {
-        return new ExecutableQueryBuilder(ASCENDANTS_FAUX_IRIS, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(ASCENDANTS_FAUX_IRIS, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindIrisDescendantsCommune() {
-        return new ExecutableQueryBuilder(LIEN_COMMUNE_IRIS, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(LIEN_COMMUNE_IRIS, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryforFindPays() {
-        return new ExecutableQueryBuilder(LIEN_PAYS, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(LIEN_PAYS, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryforFindDescendantsPays() {
-        return new ExecutableQueryBuilder(DESCENDANTS_PAYS, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(DESCENDANTS_PAYS, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryforFindPaysPrecedents() {
-        return new ExecutableQueryBuilder(PAYS_PRECEDENTS, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(PAYS_PRECEDENTS, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryforFindPaysSuivants() {
-        return new ExecutableQueryBuilder(PAYS_SUIVANTS, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(PAYS_SUIVANTS, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindIntersections() {
-        return new ExecutableQueryBuilder(TERRITOIRES_LIES, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(TERRITOIRES_LIES, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindRapportQualite() {
-        return new ExecutableQueryBuilder(RAPPORT_QUALITE, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(RAPPORT_QUALITE, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindRubriques() {
-        return new ExecutableQueryBuilder(RUBRIQUES, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(RUBRIQUES, this, unmarshaller);
     }
 
     public ExecutableQueryBuilder queryToFindDocuments() {
-        return new ExecutableQueryBuilder(DOCUMENTS, this, diffusionUnmarshaller);
+        return new ExecutableQueryBuilder(DOCUMENTS, this, unmarshaller);
     }
 
     // =========================================================
