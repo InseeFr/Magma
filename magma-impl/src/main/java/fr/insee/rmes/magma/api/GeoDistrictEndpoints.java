@@ -2,7 +2,7 @@ package fr.insee.rmes.magma.api;
 
 import fr.insee.rmes.magma.api.*;
 
-import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.*;
 import fr.insee.rmes.magma.model.District;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
@@ -19,11 +19,11 @@ import java.util.List;
 @RestController
 public class GeoDistrictEndpoints implements GeoDistrictApi {
 
-    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final RequestProcessor requestProcessor;
     private final TerritoriesFilterUtils territoriesFilterUtils;
 
-     public GeoDistrictEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
-        this.requestProcessorDiffusion = requestProcessorDiffusion;
+     public GeoDistrictEndpoints(RequestProcessor requestProcessor, TerritoriesFilterUtils territoriesFilterUtils) {
+        this.requestProcessor = requestProcessor;
          this.territoriesFilterUtils = territoriesFilterUtils;
      }
 
@@ -31,7 +31,7 @@ public class GeoDistrictEndpoints implements GeoDistrictApi {
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogdisasc (String code, LocalDate date, TypeEnumAscendantsDistrict type) {
         String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
-        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+        return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, District.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -40,7 +40,7 @@ public class GeoDistrictEndpoints implements GeoDistrictApi {
 
     @Override
     public ResponseEntity<District> getcogdis(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, District.class, "none"))
                 .executeQuery()
                 .singleResult(District.class).toResponseEntity();

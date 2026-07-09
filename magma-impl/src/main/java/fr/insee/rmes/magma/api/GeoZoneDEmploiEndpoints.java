@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api;
 
 import fr.insee.rmes.magma.api.*;
-import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumDescendantsZoneDEmploi;
 import fr.insee.rmes.magma.model.ZoneDEmploi2020;
@@ -19,17 +19,17 @@ import java.util.List;
 @RestController
 public class GeoZoneDEmploiEndpoints implements GeoZoneDEmploiApi{
 
-    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final RequestProcessor requestProcessor;
     private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoZoneDEmploiEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
-        this.requestProcessorDiffusion = requestProcessorDiffusion;
+    public GeoZoneDEmploiEndpoints(RequestProcessor requestProcessor, TerritoriesFilterUtils territoriesFilterUtils) {
+        this.requestProcessor = requestProcessor;
         this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
     @Override
     public ResponseEntity<ZoneDEmploi2020> getcogze(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, ZoneDEmploi2020.class, "none"))
                 .executeQuery()
                 .singleResult(ZoneDEmploi2020.class)
@@ -41,7 +41,7 @@ public class GeoZoneDEmploiEndpoints implements GeoZoneDEmploiApi{
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogzedesc(String code, LocalDate date, TypeEnumDescendantsZoneDEmploi type) {
         String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
-        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+        return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, ZoneDEmploi2020.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -53,7 +53,7 @@ public class GeoZoneDEmploiEndpoints implements GeoZoneDEmploiApi{
         if (date==null) {
             date = LocalDate.now().toString();
         }
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireEtoileRequestParametizer(date, ZoneDEmploi2020.class, "none"))
                 .executeQuery()
                 .listResult(ZoneDEmploi2020.class)

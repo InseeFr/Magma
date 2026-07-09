@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api;
 
 import fr.insee.rmes.magma.api.*;
-import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.AireDAttractionDesVilles2020;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumDescendantsAireDAttractionDesVilles;
@@ -19,17 +19,17 @@ import java.util.List;
 @RestController
 public class GeoAireDAttractionDesVillesEndpoints implements GeoAireDAttractionDesVillesApi {
 
-    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final RequestProcessor requestProcessor;
     private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoAireDAttractionDesVillesEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
-        this.requestProcessorDiffusion = requestProcessorDiffusion;
+    public GeoAireDAttractionDesVillesEndpoints(RequestProcessor requestProcessor, TerritoriesFilterUtils territoriesFilterUtils) {
+        this.requestProcessor = requestProcessor;
         this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
     @Override
     public ResponseEntity<AireDAttractionDesVilles2020> getcogaav (String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, AireDAttractionDesVilles2020.class, "none"))
                 .executeQuery()
                 .singleResult(AireDAttractionDesVilles2020.class).toResponseEntity();
@@ -38,7 +38,7 @@ public class GeoAireDAttractionDesVillesEndpoints implements GeoAireDAttractionD
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogaavdesc (String code, LocalDate date, TypeEnumDescendantsAireDAttractionDesVilles type) {
         String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
-        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+        return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, AireDAttractionDesVilles2020.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -50,7 +50,7 @@ public class GeoAireDAttractionDesVillesEndpoints implements GeoAireDAttractionD
         if (date==null) {
             date = LocalDate.now().toString();
         }
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireEtoileRequestParametizer(date, AireDAttractionDesVilles2020.class, "none"))
                 .executeQuery()
                 .listResult(AireDAttractionDesVilles2020.class)

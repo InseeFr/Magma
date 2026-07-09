@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api;
 
 import fr.insee.rmes.magma.api.*;
-import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.RapportQualite;
 import fr.insee.rmes.magma.queries.parameters.OperationRequestParametizer;
 import fr.insee.rmes.magma.queries.parameters.OperationRubriquesRequestParametizer;
@@ -16,18 +16,18 @@ import java.util.List;
 @RestController
 public class OperationsEndpoints implements OperationsApi {
 
-    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final RequestProcessor requestProcessor;
     private final RapportQualiteService rapportQualiteService;
 
-    public OperationsEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, RapportQualiteService rapportQualiteService) {
-        this.requestProcessorDiffusion = requestProcessorDiffusion;
+    public OperationsEndpoints(RequestProcessor requestProcessor, RapportQualiteService rapportQualiteService) {
+        this.requestProcessor = requestProcessor;
         this.rapportQualiteService = rapportQualiteService;
     }
 
 
     @Override
     public ResponseEntity<RapportQualite> getRapportQualiteByCode(String idSims) {
-        RapportQualiteDTO rapportQualiteDTO = requestProcessorDiffusion.queryToFindRapportQualite()
+        RapportQualiteDTO rapportQualiteDTO = requestProcessor.queryToFindRapportQualite()
                 .with(new OperationRequestParametizer(idSims))
                 .executeQuery()
                 .singleResult(RapportQualiteDTO.class)
@@ -40,7 +40,7 @@ public class OperationsEndpoints implements OperationsApi {
         String LG1_CL = "http://id.insee.fr/codes/langue/fr";
         String LG2_CL = "http://id.insee.fr/codes/langue/en";
 
-        List<RubriqueDTO> rubriqueList = requestProcessorDiffusion.queryToFindRubriques()
+        List<RubriqueDTO> rubriqueList = requestProcessor.queryToFindRubriques()
                 .with(new OperationRubriquesRequestParametizer(rapportQualiteDTO.id(), LG1_CL, LG2_CL))
                 .executeQuery()
                 .listResult(RubriqueDTO.class)

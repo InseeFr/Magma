@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api;
 
 import fr.insee.rmes.magma.api.*;
-import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.CirconscriptionTerritoriale;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumAscendantsCirconscriptionTerritoriale;
@@ -18,11 +18,11 @@ import java.util.List;
 @RestController
 public class GeoCirconscriptionTerritorialeEndpoints implements GeoCirconscriptionTerritorialeApi{
 
-    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final RequestProcessor requestProcessor;
     private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoCirconscriptionTerritorialeEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
-        this.requestProcessorDiffusion = requestProcessorDiffusion;
+    public GeoCirconscriptionTerritorialeEndpoints(RequestProcessor requestProcessor, TerritoriesFilterUtils territoriesFilterUtils) {
+        this.requestProcessor = requestProcessor;
         this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
@@ -30,7 +30,7 @@ public class GeoCirconscriptionTerritorialeEndpoints implements GeoCirconscripti
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogcirasc (String code, LocalDate date, TypeEnumAscendantsCirconscriptionTerritoriale type) {
         String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
-        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+        return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, CirconscriptionTerritoriale.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -39,7 +39,7 @@ public class GeoCirconscriptionTerritorialeEndpoints implements GeoCirconscripti
 
     @Override
     public ResponseEntity<CirconscriptionTerritoriale> getcogcir(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, CirconscriptionTerritoriale.class, "none"))
                 .executeQuery()
                 .singleResult(CirconscriptionTerritoriale.class)

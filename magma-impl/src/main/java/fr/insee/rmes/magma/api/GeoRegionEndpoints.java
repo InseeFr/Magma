@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api;
 
 import fr.insee.rmes.magma.api.*;
-import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.queries.parameters.*;
 import fr.insee.rmes.magma.model.Region;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
@@ -16,18 +16,18 @@ import java.util.List;
 @RestController
 public class GeoRegionEndpoints implements GeoRegionApi {
 
-    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final RequestProcessor requestProcessor;
     private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoRegionEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
-        this.requestProcessorDiffusion = requestProcessorDiffusion;
+    public GeoRegionEndpoints(RequestProcessor requestProcessor, TerritoriesFilterUtils territoriesFilterUtils) {
+        this.requestProcessor = requestProcessor;
         this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
 
     @Override
     public ResponseEntity<Region> getcogreg(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, Region.class, "prefectureDeRegion"))
                 .executeQuery()
                 .singleResult(Region.class).toResponseEntity();
@@ -36,7 +36,7 @@ public class GeoRegionEndpoints implements GeoRegionApi {
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogregdes(String code, LocalDate date, TypeEnumDescendantsRegion type, String filtreNom) {
         String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
-        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+        return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, territoriesFilter, Region.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -49,7 +49,7 @@ public class GeoRegionEndpoints implements GeoRegionApi {
         if (date==null) {
             date = LocalDate.now().toString();
         }
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireEtoileRequestParametizer(date, Region.class, "prefectureDeRegion"))
                 .executeQuery()
                 .listResult(Region.class)
@@ -59,7 +59,7 @@ public class GeoRegionEndpoints implements GeoRegionApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogregprec(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindPrecedentsSuivants()
+        return requestProcessor.queryforFindPrecedentsSuivants()
                 .with(new PrecedentsSuivantsRequestParametizer(code, date, Region.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -75,7 +75,7 @@ public class GeoRegionEndpoints implements GeoRegionApi {
             date = LocalDate.now();
         }
         boolean previous = !dateProjection.isAfter(date);
-        return requestProcessorDiffusion.queryforFindProjetes()
+        return requestProcessor.queryforFindProjetes()
                 .with(new ProjetesRequestParametizer(code, dateProjection, date, Region.class, previous))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -84,7 +84,7 @@ public class GeoRegionEndpoints implements GeoRegionApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogregsuiv(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindPrecedentsSuivants()
+        return requestProcessor.queryforFindPrecedentsSuivants()
                 .with(new PrecedentsSuivantsRequestParametizer(code, date, Region.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)

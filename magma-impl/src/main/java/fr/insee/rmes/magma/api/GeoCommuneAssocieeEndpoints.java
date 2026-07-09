@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api;
 
 import fr.insee.rmes.magma.api.*;
-import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.*;
 import fr.insee.rmes.magma.model.CommuneAssociee;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
@@ -20,11 +20,11 @@ import java.util.List;
 @RestController
 public class GeoCommuneAssocieeEndpoints implements GeoCommuneAssocieeApi{
 
-    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final RequestProcessor requestProcessor;
     private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoCommuneAssocieeEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
-        this.requestProcessorDiffusion = requestProcessorDiffusion;
+    public GeoCommuneAssocieeEndpoints(RequestProcessor requestProcessor, TerritoriesFilterUtils territoriesFilterUtils) {
+        this.requestProcessor = requestProcessor;
         this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
@@ -32,7 +32,7 @@ public class GeoCommuneAssocieeEndpoints implements GeoCommuneAssocieeApi{
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogcomaasc (String code, LocalDate date, TypeEnumAscendantsCommuneAssociee type) {
         String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
-        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+        return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, CommuneAssociee.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -41,7 +41,7 @@ public class GeoCommuneAssocieeEndpoints implements GeoCommuneAssocieeApi{
 
     @Override
     public ResponseEntity<CommuneAssociee> getcogcoma(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, CommuneAssociee.class, "none"))
                 .executeQuery()
                 .singleResult(CommuneAssociee.class)
@@ -54,7 +54,7 @@ public class GeoCommuneAssocieeEndpoints implements GeoCommuneAssocieeApi{
         if (date==null) {
             date = LocalDate.now().toString();
         }
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireEtoileRequestParametizer(date, CommuneAssociee.class, "none"))
                 .executeQuery()
                 .listResult(CommuneAssociee.class)

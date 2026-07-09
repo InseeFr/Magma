@@ -2,7 +2,7 @@ package fr.insee.rmes.magma.api;
 
 import fr.insee.rmes.magma.api.*;
 
-import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.Concept;
 import fr.insee.rmes.magma.model.ConceptForList;
 import fr.insee.rmes.magma.model.LocalisedLabel;
@@ -20,17 +20,17 @@ import java.util.List;
 @RestController
 public class ConceptsEndpoints implements ConceptsApi {
 
-    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final RequestProcessor requestProcessor;
     private final ConceptService conceptService;
 
-    public ConceptsEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, ConceptService conceptService) {
-        this.requestProcessorDiffusion = requestProcessorDiffusion;
+    public ConceptsEndpoints(RequestProcessor requestProcessor, ConceptService conceptService) {
+        this.requestProcessor = requestProcessor;
         this.conceptService = conceptService;
     }
 
     @Override
     public ResponseEntity<Concept> getconcept(String id) {
-        ConceptDTO conceptDTO = requestProcessorDiffusion.queryToFindConcept()
+        ConceptDTO conceptDTO = requestProcessor.queryToFindConcept()
                 .with(ConceptsRequestParametizer.ofId(id))
                 .executeQuery()
                 .singleResult(ConceptDTO.class).result();
@@ -41,7 +41,7 @@ public class ConceptsEndpoints implements ConceptsApi {
             }
 
             if (conceptDTO.hasIntitulesAlternatifsValue()) {
-                List<LocalisedLabel> intitulesAlternatifs = requestProcessorDiffusion.queryToFindConceptIntitulesAlternatifs()
+                List<LocalisedLabel> intitulesAlternatifs = requestProcessor.queryToFindConceptIntitulesAlternatifs()
                         .with(ConceptsRequestParametizer.ofUri(conceptDTO.uri()))
                         .executeQuery()
                         .listResult(LocalisedLabel.class)
@@ -65,7 +65,7 @@ public class ConceptsEndpoints implements ConceptsApi {
     public ResponseEntity<List<ConceptForList>> getconceptsliste(String label, String collect) {
         String libelle = StringUtils.isEmpty(label) ? "" : label;
         String collection = StringUtils.isEmpty(collect) ? "" : collect;
-        List<ConceptDTO> listConceptDTOs = requestProcessorDiffusion.queryToFindConcepts()
+        List<ConceptDTO> listConceptDTOs = requestProcessor.queryToFindConcepts()
                 .with(new ConceptsRequestParametizer(libelle, collection))
                 .executeQuery()
                 .listResult(ConceptDTO.class)
@@ -88,7 +88,7 @@ public class ConceptsEndpoints implements ConceptsApi {
     }
 
     private ConceptDTO getNearbyConcepts(ConceptDTO conceptDto) {
-        List<NearbyConcept> nearbyConceptList = requestProcessorDiffusion.queryToFindNearbyConcepts()
+        List<NearbyConcept> nearbyConceptList = requestProcessor.queryToFindNearbyConcepts()
                 .with(ConceptsRequestParametizer.ofUri(conceptDto.uri()))
                 .executeQuery()
                 .listResult(NearbyConcept.class)

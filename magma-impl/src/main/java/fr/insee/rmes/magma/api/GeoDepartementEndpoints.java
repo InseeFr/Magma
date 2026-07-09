@@ -2,7 +2,7 @@ package fr.insee.rmes.magma.api;
 
 import fr.insee.rmes.magma.api.*;
 import fr.insee.rmes.magma.queries.parameters.*;
-import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.*;
 import fr.insee.rmes.magma.utils.TerritoriesFilterUtils;
 import org.springframework.http.ResponseEntity;
@@ -16,18 +16,18 @@ import java.util.List;
 public class GeoDepartementEndpoints implements GeoDepartementApi {
 
 
-    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final RequestProcessor requestProcessor;
     private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoDepartementEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
-        this.requestProcessorDiffusion = requestProcessorDiffusion;
+    public GeoDepartementEndpoints(RequestProcessor requestProcessor, TerritoriesFilterUtils territoriesFilterUtils) {
+        this.requestProcessor = requestProcessor;
         this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepdesc(String code, LocalDate date, TypeEnumDescendantsDepartement type, String filtreNom) {
         String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
-        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+        return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, territoriesFilter, Departement.class))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -37,7 +37,7 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepasc(String code, LocalDate date, TypeEnumAscendantsDepartement type) {
         String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
-        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+        return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Departement.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -46,7 +46,7 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
 
     @Override
     public ResponseEntity<List<TerritoireBaseChefLieu>>  getcogdepprec(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindPrecedentsSuivants()
+        return requestProcessor.queryforFindPrecedentsSuivants()
                 .with(new PrecedentsSuivantsRequestParametizer(code, date, Departement.class, true))
                 .executeQuery()
                 .listResult(TerritoireBaseChefLieu.class)
@@ -64,7 +64,7 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
             date = LocalDate.now();
         }
         boolean previous = !dateProjection.isAfter(date);
-        return requestProcessorDiffusion.queryforFindProjetes()
+        return requestProcessor.queryforFindProjetes()
                 .with(new ProjetesRequestParametizer(code, dateProjection, date, Departement.class, previous))
                 .executeQuery()
                 .listResult(TerritoireBaseChefLieu.class)
@@ -73,7 +73,7 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
 
     @Override
     public ResponseEntity<List<TerritoireBaseChefLieu>>  getcogdepsuiv(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindPrecedentsSuivants()
+        return requestProcessor.queryforFindPrecedentsSuivants()
                 .with(new PrecedentsSuivantsRequestParametizer(code, date, Departement.class, false))
                 .executeQuery()
                 .listResult(TerritoireBaseChefLieu.class)
@@ -82,7 +82,7 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
 
     @Override
     public ResponseEntity<Departement> getcogdep(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, Departement.class,"prefecture"))
                 .executeQuery()
                 .singleResult(Departement.class).toResponseEntity();
@@ -93,7 +93,7 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
         if (date==null) {
             date = LocalDate.now().toString();
         }
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireEtoileRequestParametizer(date, Departement.class, "prefecture", true))
                 .executeQuery()
                 .listResult(TerritoireBaseChefLieu.class)

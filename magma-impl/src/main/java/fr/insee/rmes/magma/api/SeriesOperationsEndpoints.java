@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api;
 
 import fr.insee.rmes.magma.api.SeriesOperationsApi;
-import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorGestion;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.Indicateur;
 import fr.insee.rmes.magma.model.Operation;
 import fr.insee.rmes.magma.model.Serie;
@@ -20,10 +20,10 @@ import java.util.List;
 @RestController
 public class SeriesOperationsEndpoints implements SeriesOperationsApi {
 
-    private final RequestProcessorGestion requestProcessor;
+    private final RequestProcessor requestProcessor;
     private final SeriesOperationsService seriesOperationsService;
 
-    public SeriesOperationsEndpoints(RequestProcessorGestion requestProcessor, SeriesOperationsService seriesOperationsService) {
+    public SeriesOperationsEndpoints(RequestProcessor requestProcessor, SeriesOperationsService seriesOperationsService) {
         this.requestProcessor = requestProcessor;
         this.seriesOperationsService = seriesOperationsService;
     }

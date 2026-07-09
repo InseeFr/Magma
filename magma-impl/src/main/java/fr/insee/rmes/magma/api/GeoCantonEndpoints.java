@@ -2,7 +2,7 @@ package fr.insee.rmes.magma.api;
 
 import fr.insee.rmes.magma.api.*;
 
-import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.*;
 import fr.insee.rmes.magma.queries.parameters.*;
 import fr.insee.rmes.magma.utils.TerritoriesFilterUtils;
@@ -15,11 +15,11 @@ import java.util.List;
 @RestController
 public class GeoCantonEndpoints implements GeoCantonApi {
 
-    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final RequestProcessor requestProcessor;
     private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoCantonEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
-        this.requestProcessorDiffusion = requestProcessorDiffusion;
+    public GeoCantonEndpoints(RequestProcessor requestProcessor, TerritoriesFilterUtils territoriesFilterUtils) {
+        this.requestProcessor = requestProcessor;
         this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
@@ -27,7 +27,7 @@ public class GeoCantonEndpoints implements GeoCantonApi {
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanasc(String code, LocalDate date, TypeEnumAscendantsCanton type) {
         String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
-        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+        return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Canton.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -36,7 +36,7 @@ public class GeoCantonEndpoints implements GeoCantonApi {
 
     @Override
     public ResponseEntity<Canton> getcogcan(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, Canton.class, "bureauCentralisateur"))
                 .executeQuery()
                 .singleResult(Canton.class).toResponseEntity();
@@ -44,7 +44,7 @@ public class GeoCantonEndpoints implements GeoCantonApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcancom(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryToFindCommunesOfCanton()
+        return requestProcessor.queryToFindCommunesOfCanton()
                 .with(new TerritoireRequestParametizer(code, date, TerritoireTousAttributs.class, "*"))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -56,7 +56,7 @@ public class GeoCantonEndpoints implements GeoCantonApi {
         if (date==null) {
             date = LocalDate.now().toString();
         }
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireEtoileRequestParametizer(date, Canton.class, "bureauCentralisateur"))
                 .executeQuery()
                 .listResult(Canton.class)
@@ -65,7 +65,7 @@ public class GeoCantonEndpoints implements GeoCantonApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanprec(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindPrecedentsSuivants()
+        return requestProcessor.queryforFindPrecedentsSuivants()
                 .with(new PrecedentsSuivantsRequestParametizer(code, date, Canton.class, true))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -81,7 +81,7 @@ public class GeoCantonEndpoints implements GeoCantonApi {
             date = LocalDate.now();
         }
         boolean previous = !dateProjection.isAfter(date);
-        return requestProcessorDiffusion.queryforFindProjetes()
+        return requestProcessor.queryforFindProjetes()
                 .with(new ProjetesRequestParametizer(code, dateProjection, date, Canton.class, previous))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -90,7 +90,7 @@ public class GeoCantonEndpoints implements GeoCantonApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcansuiv(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindPrecedentsSuivants()
+        return requestProcessor.queryforFindPrecedentsSuivants()
                 .with(new PrecedentsSuivantsRequestParametizer(code, date, Canton.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -100,7 +100,7 @@ public class GeoCantonEndpoints implements GeoCantonApi {
     @Override
     public ResponseEntity<List<TerritoireBaseRelation>> getcogcanintersect (String code, LocalDate date, TypeEnum type) {
         String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
-        return requestProcessorDiffusion.queryToFindIntersections()
+        return requestProcessor.queryToFindIntersections()
                 .with(new TerritoiresLiesRequestParametizer(code, date, territoriesFilter, Canton.class))
                 .executeQuery()
                 .listResult(TerritoireBaseRelation.class)

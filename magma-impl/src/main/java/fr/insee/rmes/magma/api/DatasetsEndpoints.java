@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api;
 
 import fr.insee.rmes.magma.api.DatasetsApi;
-import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorGestion;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.Dataset;
 import fr.insee.rmes.magma.model.Distribution;
 import fr.insee.rmes.magma.queries.parameters.DatasetsRequestParametizer;
@@ -18,10 +18,10 @@ import java.util.List;
 @RestController
 public class DatasetsEndpoints implements DatasetsApi {
 
-    private final RequestProcessorGestion requestProcessor;
+    private final RequestProcessor requestProcessor;
     private final DatasetsService datasetsService;
 
-    public DatasetsEndpoints(RequestProcessorGestion requestProcessor, DatasetsService datasetsService) {
+    public DatasetsEndpoints(RequestProcessor requestProcessor, DatasetsService datasetsService) {
         this.requestProcessor = requestProcessor;
         this.datasetsService = datasetsService;
     }

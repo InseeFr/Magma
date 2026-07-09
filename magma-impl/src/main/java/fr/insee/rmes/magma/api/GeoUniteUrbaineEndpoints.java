@@ -2,7 +2,7 @@ package fr.insee.rmes.magma.api;
 
 import fr.insee.rmes.magma.api.*;
 
-import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumDescendantsUniteUrbaine;
 import fr.insee.rmes.magma.model.UniteUrbaine2020;
@@ -19,17 +19,17 @@ import java.util.List;
 @RestController
 public class GeoUniteUrbaineEndpoints implements GeoUniteUrbaineApi {
 
-    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final RequestProcessor requestProcessor;
     private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoUniteUrbaineEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
-        this.requestProcessorDiffusion = requestProcessorDiffusion;
+    public GeoUniteUrbaineEndpoints(RequestProcessor requestProcessor, TerritoriesFilterUtils territoriesFilterUtils) {
+        this.requestProcessor = requestProcessor;
         this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
     @Override
     public ResponseEntity<UniteUrbaine2020> getcoguu(String code, LocalDate date) {
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireRequestParametizer(code, date, UniteUrbaine2020.class, "none"))
                 .executeQuery()
                 .singleResult(UniteUrbaine2020.class).toResponseEntity();
@@ -38,7 +38,7 @@ public class GeoUniteUrbaineEndpoints implements GeoUniteUrbaineApi {
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcoguudes (String code, LocalDate date, TypeEnumDescendantsUniteUrbaine type) {
         String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
-        return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+        return requestProcessor.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, UniteUrbaine2020.class, false))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
@@ -50,7 +50,7 @@ public class GeoUniteUrbaineEndpoints implements GeoUniteUrbaineApi {
         if (date==null) {
             date = LocalDate.now().toString();
         }
-        return requestProcessorDiffusion.queryforFindTerritoire()
+        return requestProcessor.queryforFindTerritoire()
                 .with(new TerritoireEtoileRequestParametizer(date, UniteUrbaine2020.class, "none"))
                 .executeQuery()
                 .listResult(UniteUrbaine2020.class)
