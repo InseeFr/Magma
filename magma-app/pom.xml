@@ -13,11 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>fr.insee.rmes</groupId>
-            <artifactId>magma-diffusion-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>fr.insee.rmes</groupId>
-            <artifactId>magma-gestion-impl</artifactId>
+            <artifactId>magma-impl</artifactId>
         </dependency>
     </dependencies>
     <build>

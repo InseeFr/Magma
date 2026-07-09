@@ -8,7 +8,7 @@ import fr.insee.rmes.magma.model.Arrondissement;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumAscendantsArrondissement;
 import fr.insee.rmes.magma.model.TypeEnumDescendantsArrondissement;
-import fr.insee.rmes.magma.utils.EndpointsUtils;
+import fr.insee.rmes.magma.utils.TerritoriesFilterUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,17 +19,17 @@ import java.util.List;
 public class GeoArrondissementEndpoints implements GeoArrondissementApi {
 
     private final RequestProcessorDiffusion requestProcessorDiffusion;
-    private final EndpointsUtils endpointsUtils;
+    private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoArrondissementEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
+    public GeoArrondissementEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-        this.endpointsUtils = endpointsUtils;
+        this.territoriesFilterUtils = endpointsUtils;
     }
 
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogarrasc(String code, LocalDate date, TypeEnumAscendantsArrondissement type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
+        String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
         return requestProcessorDiffusion.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Arrondissement.class, true))
                 .executeQuery()
@@ -47,7 +47,7 @@ public class GeoArrondissementEndpoints implements GeoArrondissementApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogarrdes(String code, LocalDate date, TypeEnumDescendantsArrondissement type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
+        String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
         return requestProcessorDiffusion.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Arrondissement.class, false))
                 .executeQuery()

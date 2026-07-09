@@ -8,7 +8,7 @@ import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumAscendantsIris;
 import fr.insee.rmes.magma.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.magma.queries.parameters.TerritoireRequestParametizer;
-import fr.insee.rmes.magma.utils.EndpointsUtils;
+import fr.insee.rmes.magma.utils.TerritoriesFilterUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,16 +22,16 @@ public class GeoIrisEndpoints implements GeoIrisApi {
 
 
     private final RequestProcessorDiffusion requestProcessorDiffusion;
-    private final EndpointsUtils endpointsUtils;
+    private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoIrisEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
+    public GeoIrisEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-        this.endpointsUtils = endpointsUtils;
+        this.territoriesFilterUtils = endpointsUtils;
     }
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogirisasc (String code, LocalDate date, TypeEnumAscendantsIris type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
+        String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
         if (code.matches("^.{5}0000$")) {
             return requestProcessorDiffusion.queryToFindAscendantsFauxIris()
                     .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Iris.class, true))

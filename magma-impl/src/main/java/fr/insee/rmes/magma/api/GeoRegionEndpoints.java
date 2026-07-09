@@ -6,7 +6,7 @@ import fr.insee.rmes.magma.queries.parameters.*;
 import fr.insee.rmes.magma.model.Region;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumDescendantsRegion;
-import fr.insee.rmes.magma.utils.EndpointsUtils;
+import fr.insee.rmes.magma.utils.TerritoriesFilterUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,11 +17,11 @@ import java.util.List;
 public class GeoRegionEndpoints implements GeoRegionApi {
 
     private final RequestProcessorDiffusion requestProcessorDiffusion;
-    private final EndpointsUtils endpointsUtils;
+    private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoRegionEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
+    public GeoRegionEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-        this.endpointsUtils = endpointsUtils;
+        this.territoriesFilterUtils = endpointsUtils;
     }
 
 
@@ -35,7 +35,7 @@ public class GeoRegionEndpoints implements GeoRegionApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogregdes(String code, LocalDate date, TypeEnumDescendantsRegion type, String filtreNom) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
+        String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
         return requestProcessorDiffusion.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, territoriesFilter, Region.class))
                 .executeQuery()

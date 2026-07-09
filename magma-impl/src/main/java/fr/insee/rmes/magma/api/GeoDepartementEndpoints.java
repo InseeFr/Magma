@@ -4,7 +4,7 @@ import fr.insee.rmes.magma.api.*;
 import fr.insee.rmes.magma.queries.parameters.*;
 import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
 import fr.insee.rmes.magma.model.*;
-import fr.insee.rmes.magma.utils.EndpointsUtils;
+import fr.insee.rmes.magma.utils.TerritoriesFilterUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,16 +17,16 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
 
 
     private final RequestProcessorDiffusion requestProcessorDiffusion;
-    private final EndpointsUtils endpointsUtils;
+    private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoDepartementEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
+    public GeoDepartementEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-        this.endpointsUtils = endpointsUtils;
+        this.territoriesFilterUtils = endpointsUtils;
     }
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepdesc(String code, LocalDate date, TypeEnumDescendantsDepartement type, String filtreNom) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
+        String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
         return requestProcessorDiffusion.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, filtreNom, territoriesFilter, Departement.class))
                 .executeQuery()
@@ -36,7 +36,7 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogdepasc(String code, LocalDate date, TypeEnumAscendantsDepartement type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
+        String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
         return requestProcessorDiffusion.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Departement.class, true))
                 .executeQuery()

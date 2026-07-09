@@ -5,7 +5,7 @@ import fr.insee.rmes.magma.api.*;
 import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
 import fr.insee.rmes.magma.model.*;
 import fr.insee.rmes.magma.queries.parameters.*;
-import fr.insee.rmes.magma.utils.EndpointsUtils;
+import fr.insee.rmes.magma.utils.TerritoriesFilterUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,17 +16,17 @@ import java.util.List;
 public class GeoCantonEndpoints implements GeoCantonApi {
 
     private final RequestProcessorDiffusion requestProcessorDiffusion;
-    private final EndpointsUtils endpointsUtils;
+    private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoCantonEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
+    public GeoCantonEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-        this.endpointsUtils = endpointsUtils;
+        this.territoriesFilterUtils = endpointsUtils;
     }
 
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogcanasc(String code, LocalDate date, TypeEnumAscendantsCanton type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
+        String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
         return requestProcessorDiffusion.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Canton.class, true))
                 .executeQuery()
@@ -99,7 +99,7 @@ public class GeoCantonEndpoints implements GeoCantonApi {
 
     @Override
     public ResponseEntity<List<TerritoireBaseRelation>> getcogcanintersect (String code, LocalDate date, TypeEnum type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
+        String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
         return requestProcessorDiffusion.queryToFindIntersections()
                 .with(new TerritoiresLiesRequestParametizer(code, date, territoriesFilter, Canton.class))
                 .executeQuery()

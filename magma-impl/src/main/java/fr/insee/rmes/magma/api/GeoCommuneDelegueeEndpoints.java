@@ -10,7 +10,7 @@ import fr.insee.rmes.magma.model.TypeEnumAscendantsCommuneDeleguee;
 import fr.insee.rmes.magma.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.magma.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.magma.queries.parameters.TerritoireRequestParametizer;
-import fr.insee.rmes.magma.utils.EndpointsUtils;
+import fr.insee.rmes.magma.utils.TerritoriesFilterUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,17 +21,17 @@ import java.util.List;
 public class GeoCommuneDelegueeEndpoints implements GeoCommuneDelegueeApi{
 
     private final RequestProcessorDiffusion requestProcessorDiffusion;
-    private final EndpointsUtils endpointsUtils;
+    private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoCommuneDelegueeEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
+    public GeoCommuneDelegueeEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-        this.endpointsUtils = endpointsUtils;
+        this.territoriesFilterUtils = endpointsUtils;
     }
 
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogcomdasc (String code, LocalDate date, TypeEnumAscendantsCommuneDeleguee type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
+        String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
         return requestProcessorDiffusion.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, CommuneDeleguee.class, true))
                 .executeQuery()

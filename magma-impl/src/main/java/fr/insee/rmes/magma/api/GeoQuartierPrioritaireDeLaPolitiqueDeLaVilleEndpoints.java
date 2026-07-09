@@ -7,7 +7,7 @@ import fr.insee.rmes.magma.model.TerritoireBaseRelation;
 import fr.insee.rmes.magma.model.TypeEnum;
 import fr.insee.rmes.magma.queries.parameters.TerritoireRequestParametizer;
 import fr.insee.rmes.magma.queries.parameters.TerritoiresLiesRequestParametizer;
-import fr.insee.rmes.magma.utils.EndpointsUtils;
+import fr.insee.rmes.magma.utils.TerritoriesFilterUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,11 +18,11 @@ import java.util.List;
 public class GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints implements GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleApi {
 
     private final RequestProcessorDiffusion requestProcessorDiffusion;
-    private final EndpointsUtils endpointsUtils;
+    private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
+    public GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-        this.endpointsUtils = endpointsUtils;
+        this.territoriesFilterUtils = endpointsUtils;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints implements Ge
 
     @Override
     public ResponseEntity<List<TerritoireBaseRelation>> getcogqpvintersect (String code, LocalDate date, TypeEnum type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
+        String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
         return requestProcessorDiffusion.queryToFindIntersections()
                 .with(new TerritoiresLiesRequestParametizer(code, date, territoriesFilter, QuartierPrioritaireDeLaPolitiqueDeLaVille2024.class))
                 .executeQuery()

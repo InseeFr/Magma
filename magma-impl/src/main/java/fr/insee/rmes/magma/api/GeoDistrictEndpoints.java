@@ -9,7 +9,7 @@ import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumAscendantsDistrict;
 import fr.insee.rmes.magma.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.magma.queries.parameters.TerritoireRequestParametizer;
-import fr.insee.rmes.magma.utils.EndpointsUtils;
+import fr.insee.rmes.magma.utils.TerritoriesFilterUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,17 +20,17 @@ import java.util.List;
 public class GeoDistrictEndpoints implements GeoDistrictApi {
 
     private final RequestProcessorDiffusion requestProcessorDiffusion;
-    private final EndpointsUtils endpointsUtils;
+    private final TerritoriesFilterUtils territoriesFilterUtils;
 
-     public GeoDistrictEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, EndpointsUtils endpointsUtils) {
+     public GeoDistrictEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-         this.endpointsUtils = endpointsUtils;
+         this.territoriesFilterUtils = endpointsUtils;
      }
 
 
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>>  getcogdisasc (String code, LocalDate date, TypeEnumAscendantsDistrict type) {
-        String territoriesFilter = this.endpointsUtils.defineTerritoriesFilter(type);
+        String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
         return requestProcessorDiffusion.queryforFindAscendantsDescendants()
                 .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, District.class, true))
                 .executeQuery()
