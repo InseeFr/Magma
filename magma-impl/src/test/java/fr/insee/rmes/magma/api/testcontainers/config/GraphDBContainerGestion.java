@@ -18,6 +18,7 @@ public class GraphDBContainerGestion extends GenericContainer<GraphDBContainerGe
 
     @Override
     public void start() {
+        if (isRunning()) return;
         super.start();
         withInitFolder("/testcontainers").withExposedPorts(7200);
 
