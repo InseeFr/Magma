@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.NomenclaturesEndpoints;
-import fr.insee.rmes.magma.api.testcontainers.TestcontainerTestDiffusion;
+import fr.insee.rmes.magma.api.testcontainers.config.TestcontainerTestDiffusion;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

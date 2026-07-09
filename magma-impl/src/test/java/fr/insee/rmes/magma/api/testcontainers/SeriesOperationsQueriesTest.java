@@ -1,6 +1,7 @@
 package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.SeriesOperationsEndpoints;
+import fr.insee.rmes.magma.api.testcontainers.config.TestcontainerTestGestion;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

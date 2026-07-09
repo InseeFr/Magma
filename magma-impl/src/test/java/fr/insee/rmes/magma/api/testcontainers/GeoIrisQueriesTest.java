@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.GeoIrisEndpoints;
-import fr.insee.rmes.magma.api.testcontainers.TestcontainerTestDiffusion;
+import fr.insee.rmes.magma.api.testcontainers.config.TestcontainerTestDiffusion;
 import fr.insee.rmes.magma.model.Iris;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumAscendantsIris;

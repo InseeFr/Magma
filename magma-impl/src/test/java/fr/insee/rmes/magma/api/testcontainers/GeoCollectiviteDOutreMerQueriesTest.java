@@ -2,7 +2,7 @@ package fr.insee.rmes.magma.api.testcontainers;
 
 
 import fr.insee.rmes.magma.api.GeoCollectiviteDOutreMerEndpoints;
-import fr.insee.rmes.magma.api.testcontainers.TestcontainerTestDiffusion;
+import fr.insee.rmes.magma.api.testcontainers.config.TestcontainerTestDiffusion;
 import fr.insee.rmes.magma.model.*;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

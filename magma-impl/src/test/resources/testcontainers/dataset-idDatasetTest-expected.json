@@ -1,0 +1,29 @@
+{
+  "id": "idDatasetTest",
+  "uri": "http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest",
+  "catalogRecordCreated": "2024-12-09T12:00:00.000",
+  "catalogRecordModified": "2024-12-09T12:00:00.000",
+  "catalogRecordCreator": "DG75-TEST",
+  "catalogRecordContributor": "DG75-TEST",
+  "identifier": "DD_DATASET_TEST",
+  "validationState": "Provisoire, jamais publiée",
+  "title": [
+    {"langue": "fr", "contenu": "Titre du dataset test"},
+    {"langue": "en", "contenu": "Dataset Test Title"}
+  ],
+  "abstract": [
+    {"langue": "fr", "contenu": "Résumé du dataset test"},
+    {"langue": "en"}
+  ],
+  "description": [
+    {"langue": "fr", "contenu": "Description du dataset test"},
+    {"langue": "en"}
+  ],
+  "scopeNote": [
+    {"langue": "fr", "contenu": "Note de portée du dataset test"},
+    {"langue": "en"}
+  ],
+  "wasGeneratedBy": [
+    {"id": "http://bauhaus/operations/serie/idSerieGeneratrice", "label": []}
+  ]
+}

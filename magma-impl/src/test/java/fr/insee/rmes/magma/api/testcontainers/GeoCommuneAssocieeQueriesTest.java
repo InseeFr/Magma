@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.GeoCommuneAssocieeEndpoints;
-import fr.insee.rmes.magma.api.testcontainers.TestcontainerTestDiffusion;
+import fr.insee.rmes.magma.api.testcontainers.config.TestcontainerTestDiffusion;
 import fr.insee.rmes.magma.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;

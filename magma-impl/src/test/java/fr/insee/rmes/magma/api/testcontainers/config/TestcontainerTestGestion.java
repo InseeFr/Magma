@@ -1,13 +1,15 @@
-package fr.insee.rmes.magma.api.testcontainers;
+package fr.insee.rmes.magma.api.testcontainers.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 
 @Slf4j
+@TestPropertySource(properties = "spring.profiles.active=security.disabled")
 public class TestcontainerTestGestion {
-    static GraphDBContainer container = new GraphDBContainer("ontotext/graphdb:10.8.8").withReuse(false);
+    static GraphDBContainerGestion container = new GraphDBContainerGestion("ontotext/graphdb:10.8.8").withReuse(false);
 
     @BeforeAll
     static void startContainer(){

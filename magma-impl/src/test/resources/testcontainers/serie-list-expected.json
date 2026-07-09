@@ -1,0 +1,50 @@
+[
+  {
+    "seriesId": "idSerieLiee1Test",
+    "uri": "http://bauhaus/operations/serie/idSerieLiee1Test",
+    "label": [
+      {"langue": "fr", "contenu": "Label Série Liée 1 fr"},
+      {"langue": "en", "contenu": "Related Series 1 Label en"}
+    ]
+  },
+  {
+    "seriesId": "idSerieLiee2Test",
+    "uri": "http://bauhaus/operations/serie/idSerieLiee2Test",
+    "label": [
+      {"langue": "fr", "contenu": "Label Série Liée 2 fr"},
+      {"langue": "en", "contenu": "Related Series 2 Label en"}
+    ]
+  },
+  {
+    "seriesId": "idSeriePrecedenteTest",
+    "uri": "http://bauhaus/operations/serie/idSeriePrecedenteTest",
+    "label": [
+      {"langue": "fr", "contenu": "Label Série Précédente fr"},
+      {"langue": "en", "contenu": "Previous Series Label en"}
+    ]
+  },
+  {
+    "seriesId": "idSeriePrincipaleTest",
+    "uri": "http://bauhaus/operations/serie/idSeriePrincipaleTest",
+    "label": [
+      {"langue": "fr", "contenu": "Label Série fr"},
+      {"langue": "en", "contenu": "Series Label en"}
+    ]
+  },
+  {
+    "seriesId": "idSerieSuivanteTest",
+    "uri": "http://bauhaus/operations/serie/idSerieSuivanteTest",
+    "label": [
+      {"langue": "fr", "contenu": "Label Série Suivante fr"},
+      {"langue": "en", "contenu": "Next Series Label en"}
+    ]
+  },
+  {
+    "seriesId": "idSerieTest",
+    "uri": "http://bauhaus/operations/serie/idSerieTest",
+    "label": [
+      {"langue": "fr", "contenu": "Label Serie fr"},
+      {"langue": "en", "contenu": "Series Label en"}
+    ]
+  }
+]

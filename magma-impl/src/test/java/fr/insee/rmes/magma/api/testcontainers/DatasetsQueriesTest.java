@@ -1,6 +1,7 @@
 package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.DatasetsEndpoints;
+import fr.insee.rmes.magma.api.testcontainers.config.TestcontainerTestGestion;
 import fr.insee.rmes.magma.model.Dataset;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(properties = "--spring.profiles.active=security.disabled")
+@SpringBootTest
 @AutoConfigureMockMvc
 @Tag("integration")
 class DatasetsQueriesTest extends TestcontainerTestGestion {

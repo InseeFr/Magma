@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints;
-import fr.insee.rmes.magma.api.testcontainers.TestcontainerTestDiffusion;
+import fr.insee.rmes.magma.api.testcontainers.config.TestcontainerTestDiffusion;
 import fr.insee.rmes.magma.model.QuartierPrioritaireDeLaPolitiqueDeLaVille2024;
 import fr.insee.rmes.magma.model.TerritoireBaseRelation;
 import fr.insee.rmes.magma.model.TypeEnum;
