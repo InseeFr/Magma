@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints;
-import fr.insee.rmes.magma.api.testcontainers.queries.TestcontainerTest;
+import fr.insee.rmes.magma.api.testcontainers.TestcontainerTestDiffusion;
 import fr.insee.rmes.magma.model.QuartierPrioritaireDeLaPolitiqueDeLaVille2024;
 import fr.insee.rmes.magma.model.TerritoireBaseRelation;
 import fr.insee.rmes.magma.model.TypeEnum;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Tag("integration")
 
 
-class GeoQuartiersPrioritairesDeLaPolitiqueDeLaVilleTest extends TestcontainerTest {
+class GeoQuartiersPrioritairesDeLaPolitiqueDeLaVilleTest extends TestcontainerTestDiffusion {
 
     @Autowired
     GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints endpoints;

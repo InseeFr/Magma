@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.GeoIntercommunaliteEndpoints;
-import fr.insee.rmes.magma.api.testcontainers.queries.TestcontainerTest;
+import fr.insee.rmes.magma.api.testcontainers.TestcontainerTestDiffusion;
 import fr.insee.rmes.magma.model.Intercommunalite;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumDescendantsIntercommunalite;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Tag("integration")
 
-public class GeoIntercommunaliteQueriesTest extends TestcontainerTest {
+public class GeoIntercommunaliteQueriesTest extends TestcontainerTestDiffusion {
 
     @Autowired
     GeoIntercommunaliteEndpoints endpoints;

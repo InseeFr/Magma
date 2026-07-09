@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.GeoIrisEndpoints;
-import fr.insee.rmes.magma.api.testcontainers.queries.TestcontainerTest;
+import fr.insee.rmes.magma.api.testcontainers.TestcontainerTestDiffusion;
 import fr.insee.rmes.magma.model.Iris;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumAscendantsIris;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Tag("integration")
 
-public class GeoIrisQueriesTest extends TestcontainerTest {
+public class GeoIrisQueriesTest extends TestcontainerTestDiffusion {
 
     @Autowired
     GeoIrisEndpoints endpoints;

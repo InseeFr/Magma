@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(properties = "--spring.profiles.active=security.disabled")
 @AutoConfigureMockMvc
 @Tag("integration")
-class DatasetsQueriesTest extends TestcontainerTest {
+class DatasetsQueriesTest extends TestcontainerTestGestion {
 
     static final String DATASET_ID = "idDatasetTest";
     static final String DATASET_URI = "http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest";

@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.GeoZoneDEmploiEndpoints;
-import fr.insee.rmes.magma.api.testcontainers.queries.TestcontainerTest;
+import fr.insee.rmes.magma.api.testcontainers.TestcontainerTestDiffusion;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumDescendantsZoneDEmploi;
 import fr.insee.rmes.magma.model.ZoneDEmploi2020;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Tag("integration")
 
-public class GeoZoneDEmploiQueriesTest extends TestcontainerTest {
+public class GeoZoneDEmploiQueriesTest extends TestcontainerTestDiffusion {
 
     @Autowired
     GeoZoneDEmploiEndpoints endpoints;

@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.GeoPaysEndpoints;
-import fr.insee.rmes.magma.api.testcontainers.queries.TestcontainerTest;
+import fr.insee.rmes.magma.api.testcontainers.TestcontainerTestDiffusion;
 import fr.insee.rmes.magma.model.Pays;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import org.junit.jupiter.api.Tag;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Tag("integration")
 
-public class GeoPaysQueriesTest extends TestcontainerTest {
+public class GeoPaysQueriesTest extends TestcontainerTestDiffusion {
 
     @Autowired
     GeoPaysEndpoints endpoints;
