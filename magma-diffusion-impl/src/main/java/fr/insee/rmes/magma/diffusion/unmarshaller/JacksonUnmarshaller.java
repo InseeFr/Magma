@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.diffusion.unmarshaller;
 
-import fr.insee.rmes.magma.diffusion.model.*;
+import fr.insee.rmes.magma.model.*;
 import fr.insee.rmes.magma.queryexecutor.Csv;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
