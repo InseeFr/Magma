@@ -1,7 +1,6 @@
 package fr.insee.rmes.magma.api;
 
-import fr.insee.rmes.magma.api.*;
-import fr.insee.rmes.magma.api.requestprocessor.RequestProcessorDiffusion;
+import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.Commune;
 import fr.insee.rmes.magma.model.Iris;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
@@ -21,11 +20,11 @@ import static fr.insee.rmes.magma.utils.EndpointsUtils.toResponseEntity;
 public class GeoIrisEndpoints implements GeoIrisApi {
 
 
-    private final RequestProcessorDiffusion requestProcessorDiffusion;
+    private final RequestProcessor requestProcessor;
     private final TerritoriesFilterUtils territoriesFilterUtils;
 
-    public GeoIrisEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
-        this.requestProcessorDiffusion = requestProcessorDiffusion;
+    public GeoIrisEndpoints(RequestProcessor requestProcessor, TerritoriesFilterUtils territoriesFilterUtils) {
+        this.requestProcessor = requestProcessor;
         this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
@@ -33,14 +32,14 @@ public class GeoIrisEndpoints implements GeoIrisApi {
     public ResponseEntity<List<TerritoireTousAttributs>> getcogirisasc (String code, LocalDate date, TypeEnumAscendantsIris type) {
         String territoriesFilter = this.territoriesFilterUtils.defineTerritoriesFilter(type);
         if (code.matches("^.{5}0000$")) {
-            return requestProcessorDiffusion.queryToFindAscendantsFauxIris()
+            return requestProcessor.queryToFindAscendantsFauxIris()
                     .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Iris.class, true))
                     .executeQuery()
                     .listResult(TerritoireTousAttributs.class)
                     .toResponseEntity();
         }
         else {
-            return requestProcessorDiffusion.queryforFindAscendantsDescendants()
+            return requestProcessor.queryforFindAscendantsDescendants()
                     .with(new AscendantsDescendantsRequestParametizer(code, date, territoriesFilter, Iris.class, true))
                     .executeQuery()
                     .listResult(TerritoireTousAttributs.class)
@@ -51,14 +50,14 @@ public class GeoIrisEndpoints implements GeoIrisApi {
     @Override
     public ResponseEntity<Iris> getcogiris(String code, LocalDate date) {
         String codeCommune = code.substring(0, 5);
-        boolean comHasIrisDescendant = requestProcessorDiffusion.queryToFindIrisDescendantsCommune()
+        boolean comHasIrisDescendant = requestProcessor.queryToFindIrisDescendantsCommune()
                 .with(new TerritoireRequestParametizer(codeCommune, date))
                 .executeAskQuery();
 
         if (comHasIrisDescendant){
 
             if (!code.endsWith("0000")) {
-            Iris iris = requestProcessorDiffusion.queryToFindIrisAndFauxIris()
+            Iris iris = requestProcessor.queryToFindIrisAndFauxIris()
                     .with(new TerritoireRequestParametizer(code, date))
                     .executeQuery()
                     .singleResult(Iris.class).result();
@@ -72,7 +71,7 @@ public class GeoIrisEndpoints implements GeoIrisApi {
                 return ResponseEntity.notFound().build();
             }
             else {//return the COMMUNE
-                Iris iris = requestProcessorDiffusion.queryforFindTerritoire()
+                Iris iris = requestProcessor.queryforFindTerritoire()
                         .with(new TerritoireRequestParametizer(codeCommune, date, Commune.class, "none"))
                         .executeQuery()
                         .singleResult(Iris.class).result();
@@ -86,7 +85,7 @@ public class GeoIrisEndpoints implements GeoIrisApi {
     @Override
     public ResponseEntity<List<TerritoireTousAttributs>> getcogirislist (LocalDate date, Boolean com) {
         boolean finalcom = (com != null) && com;
-        return requestProcessorDiffusion.queryToFindIrisList()
+        return requestProcessor.queryToFindIrisList()
                 .with(new TerritoireRequestParametizer(date, finalcom))
                 .executeQuery()
                 .listResult(TerritoireTousAttributs.class)
