@@ -7,11 +7,11 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 @Component
-public class EndpointsUtils {
+public class TerritoriesFilterUtils {
 
     private final String typesAutorises;
 
-    public EndpointsUtils(@Value("${fr.insee.rmes.magma.api.geographie.types-autorises}") String typesAutorises) {
+    public TerritoriesFilterUtils(@Value("${fr.insee.rmes.magma.api.geographie.types-autorises}") String typesAutorises) {
         this.typesAutorises = typesAutorises;
     }
 
