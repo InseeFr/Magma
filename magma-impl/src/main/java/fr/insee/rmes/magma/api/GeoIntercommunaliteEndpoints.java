@@ -21,7 +21,7 @@ public class GeoIntercommunaliteEndpoints implements GeoIntercommunaliteApi {
     private final TerritoriesFilterUtils territoriesFilterUtils;
     public GeoIntercommunaliteEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-        this.territoriesFilterUtils = endpointsUtils;
+        this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
     @Override

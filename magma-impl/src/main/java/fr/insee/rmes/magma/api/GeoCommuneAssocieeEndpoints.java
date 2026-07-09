@@ -25,7 +25,7 @@ public class GeoCommuneAssocieeEndpoints implements GeoCommuneAssocieeApi{
 
     public GeoCommuneAssocieeEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-        this.territoriesFilterUtils = endpointsUtils;
+        this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
 

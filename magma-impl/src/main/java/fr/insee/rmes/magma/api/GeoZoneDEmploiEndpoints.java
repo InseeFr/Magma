@@ -24,7 +24,7 @@ public class GeoZoneDEmploiEndpoints implements GeoZoneDEmploiApi{
 
     public GeoZoneDEmploiEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-        this.territoriesFilterUtils = endpointsUtils;
+        this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
     @Override

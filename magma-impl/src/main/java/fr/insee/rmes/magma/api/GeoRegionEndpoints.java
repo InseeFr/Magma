@@ -21,7 +21,7 @@ public class GeoRegionEndpoints implements GeoRegionApi {
 
     public GeoRegionEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-        this.territoriesFilterUtils = endpointsUtils;
+        this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
 

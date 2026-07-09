@@ -21,7 +21,7 @@ public class GeoDepartementEndpoints implements GeoDepartementApi {
 
     public GeoDepartementEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-        this.territoriesFilterUtils = endpointsUtils;
+        this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
     @Override

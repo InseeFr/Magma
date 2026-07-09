@@ -24,7 +24,7 @@ public class GeoDistrictEndpoints implements GeoDistrictApi {
 
      public GeoDistrictEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-         this.territoriesFilterUtils = endpointsUtils;
+         this.territoriesFilterUtils = territoriesFilterUtils;
      }
 
 

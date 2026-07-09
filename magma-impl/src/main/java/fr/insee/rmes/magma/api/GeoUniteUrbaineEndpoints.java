@@ -24,7 +24,7 @@ public class GeoUniteUrbaineEndpoints implements GeoUniteUrbaineApi {
 
     public GeoUniteUrbaineEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-        this.territoriesFilterUtils = endpointsUtils;
+        this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
     @Override

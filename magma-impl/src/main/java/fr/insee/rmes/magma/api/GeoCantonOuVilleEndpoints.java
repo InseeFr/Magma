@@ -23,7 +23,7 @@ public class GeoCantonOuVilleEndpoints implements GeoCantonEtVilleApi {
 
     public GeoCantonOuVilleEndpoints(RequestProcessorDiffusion requestProcessorDiffusion, TerritoriesFilterUtils territoriesFilterUtils) {
         this.requestProcessorDiffusion = requestProcessorDiffusion;
-        this.territoriesFilterUtils = endpointsUtils;
+        this.territoriesFilterUtils = territoriesFilterUtils;
     }
 
     @Override
