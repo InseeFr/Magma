@@ -12,8 +12,6 @@ tags:
     description: Consultation des Séries et Opérations de la base de gestion
   - name: Datasets
     description: Consultation Magma API - datasets
-servers:
-  - url: http://localhost:8080
 
 security:
   - bearerAuth: []
