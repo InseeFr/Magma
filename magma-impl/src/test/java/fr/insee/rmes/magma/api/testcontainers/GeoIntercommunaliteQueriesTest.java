@@ -1,6 +1,7 @@
-package fr.insee.rmes.magma.api.testcontainers.queries;
+package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.GeoIntercommunaliteEndpoints;
+import fr.insee.rmes.magma.api.testcontainers.queries.TestcontainerTest;
 import fr.insee.rmes.magma.model.Intercommunalite;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumDescendantsIntercommunalite;

@@ -1,6 +1,7 @@
-package fr.insee.rmes.magma.api.testcontainers.queries;
+package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.GeoDistrictEndpoints;
+import fr.insee.rmes.magma.api.testcontainers.queries.TestcontainerTest;
 import fr.insee.rmes.magma.model.District;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumAscendantsDistrict;

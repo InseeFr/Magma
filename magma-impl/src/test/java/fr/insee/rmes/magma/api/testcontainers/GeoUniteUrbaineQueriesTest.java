@@ -1,6 +1,7 @@
-package fr.insee.rmes.magma.api.testcontainers.queries;
+package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.GeoUniteUrbaineEndpoints;
+import fr.insee.rmes.magma.api.testcontainers.queries.TestcontainerTest;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import fr.insee.rmes.magma.model.TypeEnumDescendantsUniteUrbaine;
 import fr.insee.rmes.magma.model.UniteUrbaine2020;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Tag("integration")
 
-public class GeoUniteUrbaineQueriesTest extends TestcontainerTest{
+public class GeoUniteUrbaineQueriesTest extends TestcontainerTest {
 
     @Autowired
     GeoUniteUrbaineEndpoints endpoints;

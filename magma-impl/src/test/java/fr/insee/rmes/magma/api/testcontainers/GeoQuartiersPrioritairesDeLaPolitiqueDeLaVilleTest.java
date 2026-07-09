@@ -1,10 +1,10 @@
-package fr.insee.rmes.magma.api.testcontainers.queries;
+package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.GeoQuartierPrioritaireDeLaPolitiqueDeLaVilleEndpoints;
+import fr.insee.rmes.magma.api.testcontainers.queries.TestcontainerTest;
 import fr.insee.rmes.magma.model.QuartierPrioritaireDeLaPolitiqueDeLaVille2024;
 import fr.insee.rmes.magma.model.TerritoireBaseRelation;
 import fr.insee.rmes.magma.model.TypeEnum;
-import fr.insee.rmes.magma.model.TypeEnumAscendantsCommune;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

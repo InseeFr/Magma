@@ -1,7 +1,8 @@
-package fr.insee.rmes.magma.api.testcontainers.queries;
+package fr.insee.rmes.magma.api.testcontainers;
 
 
 import fr.insee.rmes.magma.api.GeoArrondissementMunipalEndpoints;
+import fr.insee.rmes.magma.api.testcontainers.queries.TestcontainerTest;
 import fr.insee.rmes.magma.model.ArrondissementMunicipal;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import org.junit.jupiter.api.Tag;

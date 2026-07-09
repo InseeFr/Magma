@@ -1,6 +1,7 @@
-package fr.insee.rmes.magma.api.testcontainers.queries;
+package fr.insee.rmes.magma.api.testcontainers;
 
 import fr.insee.rmes.magma.api.GeoCirconscriptionTerritorialeEndpoints;
+import fr.insee.rmes.magma.api.testcontainers.queries.TestcontainerTest;
 import fr.insee.rmes.magma.model.CirconscriptionTerritoriale;
 import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import org.junit.jupiter.api.Assertions;
