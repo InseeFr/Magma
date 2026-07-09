@@ -1,10 +1,10 @@
 package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.GeoArrondissementEndpoints;
-import fr.insee.rmes.magma.diffusion.model.Arrondissement;
-import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
-import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsArrondissement;
-import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsArrondissement;
+import fr.insee.rmes.magma.model.Arrondissement;
+import fr.insee.rmes.magma.model.TerritoireTousAttributs;
+import fr.insee.rmes.magma.model.TypeEnumAscendantsArrondissement;
+import fr.insee.rmes.magma.model.TypeEnumDescendantsArrondissement;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

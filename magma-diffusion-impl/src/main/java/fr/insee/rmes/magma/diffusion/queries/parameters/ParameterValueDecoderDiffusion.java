@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.diffusion.queries.parameters;
 
-import fr.insee.rmes.magma.diffusion.model.*;
+import fr.insee.rmes.magma.model.*;
 import fr.insee.rmes.magma.queries.parameters.ParameterValueDecoder;
 
 import java.time.LocalDate;
@@ -12,30 +12,30 @@ interface ParameterValueDecoderDiffusion<T> extends ParameterValueDecoder<T> {
     String BOOLEAN_CLASS = "boolean";
     String CLASS_CLASS = "java.lang.Class";
     String LOCALE_DATE_CLASS = "java.time.LocalDate";
-    String ENUM_DESCENDANTS_AIREDATTRACTIONDESVILLES_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsAireDAttractionDesVilles";
-    String ENUM_DESCENDANTS_ARRONDISSEMENT_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsArrondissement";
-    String ENUM_ASCENDANTS_ARRONDISSEMENT_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsArrondissement";
-    String ENUM_ASCENDANTS_ARRONDISSEMENTMUNICIPAL_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsArrondissementMunicipal";
-    String ENUM_DESCENDANTS_BASSINDEVIE_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsBassinDeVie";
-    String ENUM_ASCENDANTS_CANTON_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCanton";
-    String ENUM_ASCENDANTS_CANTONOUVILLE_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCantonOuVille";
-    String ENUM_DESCENDANTS_CANTONOUVILLE_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCantonOuVille";
-    String ENUM_ASCENDANTS_CIRCONSCRIPTIONTERRITORIALE_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCirconscriptionTerritoriale";
-    String ENUM_DESCENDANTS_COLLECTIVITEDOUTREMER_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCollectiviteDOutreMer";
-    String ENUM_ASCENDANTS_COMMUNEASSOCIEE_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCommuneAssociee";
-    String ENUM_ASCENDANTS_COMMUNEDELEGUEE_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCommuneDeleguee";
-    String ENUM_ASCENDANTS_DISTRICT_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsDistrict";
-    String ENUM_DESCENDANTS_DEPARTEMENT_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsDepartement";
-    String ENUM_ASCENDANTS_DEPARTEMENT_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsDepartement";
-    String ENUM_DESCENDANTS_COMMUNE_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCommune";
-    String ENUM_ASCENDANTS_COMMUNE_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCommune";
-    String ENUM_DESCENDANTS_INTERCOMMUNALITE_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsIntercommunalite";
-    String ENUM_ASCENDANTS_IRIS_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsIris";
-    String ENUM_DESCENDANTS_PAYS_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsPays";
-    String ENUM_DESCENDANTS_REGION_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsRegion";
-    String ENUM_DESCENDANTS_UNITEURBAINE_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsUniteUrbaine";
-    String ENUM_DESCENDANTS_ZONEDEMPLOI_CLASS = "fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsZoneDEmploi";
-    String ENUM_TERRITOIRE_LIE = "fr.insee.rmes.magma.diffusion.model.TypeEnum";
+    String ENUM_DESCENDANTS_AIREDATTRACTIONDESVILLES_CLASS = "fr.insee.rmes.magma.model.TypeEnumDescendantsAireDAttractionDesVilles";
+    String ENUM_DESCENDANTS_ARRONDISSEMENT_CLASS = "fr.insee.rmes.magma.model.TypeEnumDescendantsArrondissement";
+    String ENUM_ASCENDANTS_ARRONDISSEMENT_CLASS = "fr.insee.rmes.magma.model.TypeEnumAscendantsArrondissement";
+    String ENUM_ASCENDANTS_ARRONDISSEMENTMUNICIPAL_CLASS = "fr.insee.rmes.magma.model.TypeEnumAscendantsArrondissementMunicipal";
+    String ENUM_DESCENDANTS_BASSINDEVIE_CLASS = "fr.insee.rmes.magma.model.TypeEnumDescendantsBassinDeVie";
+    String ENUM_ASCENDANTS_CANTON_CLASS = "fr.insee.rmes.magma.model.TypeEnumAscendantsCanton";
+    String ENUM_ASCENDANTS_CANTONOUVILLE_CLASS = "fr.insee.rmes.magma.model.TypeEnumAscendantsCantonOuVille";
+    String ENUM_DESCENDANTS_CANTONOUVILLE_CLASS = "fr.insee.rmes.magma.model.TypeEnumDescendantsCantonOuVille";
+    String ENUM_ASCENDANTS_CIRCONSCRIPTIONTERRITORIALE_CLASS = "fr.insee.rmes.magma.model.TypeEnumAscendantsCirconscriptionTerritoriale";
+    String ENUM_DESCENDANTS_COLLECTIVITEDOUTREMER_CLASS = "fr.insee.rmes.magma.model.TypeEnumDescendantsCollectiviteDOutreMer";
+    String ENUM_ASCENDANTS_COMMUNEASSOCIEE_CLASS = "fr.insee.rmes.magma.model.TypeEnumAscendantsCommuneAssociee";
+    String ENUM_ASCENDANTS_COMMUNEDELEGUEE_CLASS = "fr.insee.rmes.magma.model.TypeEnumAscendantsCommuneDeleguee";
+    String ENUM_ASCENDANTS_DISTRICT_CLASS = "fr.insee.rmes.magma.model.TypeEnumAscendantsDistrict";
+    String ENUM_DESCENDANTS_DEPARTEMENT_CLASS = "fr.insee.rmes.magma.model.TypeEnumDescendantsDepartement";
+    String ENUM_ASCENDANTS_DEPARTEMENT_CLASS = "fr.insee.rmes.magma.model.TypeEnumAscendantsDepartement";
+    String ENUM_DESCENDANTS_COMMUNE_CLASS = "fr.insee.rmes.magma.model.TypeEnumDescendantsCommune";
+    String ENUM_ASCENDANTS_COMMUNE_CLASS = "fr.insee.rmes.magma.model.TypeEnumAscendantsCommune";
+    String ENUM_DESCENDANTS_INTERCOMMUNALITE_CLASS = "fr.insee.rmes.magma.model.TypeEnumDescendantsIntercommunalite";
+    String ENUM_ASCENDANTS_IRIS_CLASS = "fr.insee.rmes.magma.model.TypeEnumAscendantsIris";
+    String ENUM_DESCENDANTS_PAYS_CLASS = "fr.insee.rmes.magma.model.TypeEnumDescendantsPays";
+    String ENUM_DESCENDANTS_REGION_CLASS = "fr.insee.rmes.magma.model.TypeEnumDescendantsRegion";
+    String ENUM_DESCENDANTS_UNITEURBAINE_CLASS = "fr.insee.rmes.magma.model.TypeEnumDescendantsUniteUrbaine";
+    String ENUM_DESCENDANTS_ZONEDEMPLOI_CLASS = "fr.insee.rmes.magma.model.TypeEnumDescendantsZoneDEmploi";
+    String ENUM_TERRITOIRE_LIE = "fr.insee.rmes.magma.model.TypeEnum";
 
     static <U> ParameterValueDecoderDiffusion<U> of(Class<U> type) {
         return switch (type.getName()) {

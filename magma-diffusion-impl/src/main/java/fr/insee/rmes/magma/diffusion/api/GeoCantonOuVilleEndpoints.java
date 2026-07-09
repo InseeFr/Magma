@@ -1,11 +1,12 @@
 package fr.insee.rmes.magma.diffusion.api;
 
+import fr.insee.rmes.magma.api.*;
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
 import fr.insee.rmes.magma.diffusion.queries.parameters.*;
-import fr.insee.rmes.magma.diffusion.model.CantonOuVille;
-import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
-import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCantonOuVille;
-import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCantonOuVille;
+import fr.insee.rmes.magma.model.CantonOuVille;
+import fr.insee.rmes.magma.model.TerritoireTousAttributs;
+import fr.insee.rmes.magma.model.TypeEnumAscendantsCantonOuVille;
+import fr.insee.rmes.magma.model.TypeEnumDescendantsCantonOuVille;
 import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,9 +1,10 @@
 package fr.insee.rmes.magma.diffusion.api;
 
+import fr.insee.rmes.magma.api.*;
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
-import fr.insee.rmes.magma.diffusion.model.BassinDeVie2022;
-import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
-import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsBassinDeVie;
+import fr.insee.rmes.magma.model.BassinDeVie2022;
+import fr.insee.rmes.magma.model.TerritoireTousAttributs;
+import fr.insee.rmes.magma.model.TypeEnumDescendantsBassinDeVie;
 import fr.insee.rmes.magma.diffusion.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireEtoileRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer;

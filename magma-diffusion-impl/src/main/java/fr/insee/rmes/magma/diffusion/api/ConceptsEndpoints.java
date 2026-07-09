@@ -1,11 +1,12 @@
 package fr.insee.rmes.magma.diffusion.api;
 
+import fr.insee.rmes.magma.api.*;
 
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
-import fr.insee.rmes.magma.diffusion.model.Concept;
-import fr.insee.rmes.magma.diffusion.model.ConceptForList;
-import fr.insee.rmes.magma.diffusion.model.LocalisedLabel;
-import fr.insee.rmes.magma.diffusion.model.NearbyConcept;
+import fr.insee.rmes.magma.model.Concept;
+import fr.insee.rmes.magma.model.ConceptForList;
+import fr.insee.rmes.magma.model.LocalisedLabel;
+import fr.insee.rmes.magma.model.NearbyConcept;
 import fr.insee.rmes.magma.diffusion.queries.parameters.ConceptsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.services.ConceptService;
 import fr.insee.rmes.magma.diffusion.utils.ConceptDTO;

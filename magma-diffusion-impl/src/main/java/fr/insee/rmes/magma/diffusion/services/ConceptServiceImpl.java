@@ -1,9 +1,9 @@
 package fr.insee.rmes.magma.diffusion.services;
 
-import fr.insee.rmes.magma.diffusion.model.Concept;
-import fr.insee.rmes.magma.diffusion.model.ConceptForList;
-import fr.insee.rmes.magma.diffusion.model.LocalisedLabel;
-import fr.insee.rmes.magma.diffusion.model.NearbyConcept;
+import fr.insee.rmes.magma.model.Concept;
+import fr.insee.rmes.magma.model.ConceptForList;
+import fr.insee.rmes.magma.model.LocalisedLabel;
+import fr.insee.rmes.magma.model.NearbyConcept;
 import fr.insee.rmes.magma.diffusion.utils.ConceptDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

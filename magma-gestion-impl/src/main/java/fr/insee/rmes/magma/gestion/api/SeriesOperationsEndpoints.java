@@ -1,9 +1,10 @@
 package fr.insee.rmes.magma.gestion.api;
 
+import fr.insee.rmes.magma.api.SeriesOperationsApi;
 import fr.insee.rmes.magma.gestion.api.requestprocessor.RequestProcessorGestion;
-import fr.insee.rmes.magma.gestion.model.Indicateur;
-import fr.insee.rmes.magma.gestion.model.Operation;
-import fr.insee.rmes.magma.gestion.model.Serie;
+import fr.insee.rmes.magma.model.Indicateur;
+import fr.insee.rmes.magma.model.Operation;
+import fr.insee.rmes.magma.model.Serie;
 import fr.insee.rmes.magma.gestion.queries.parameters.IndicateurRequestParametizer;
 import fr.insee.rmes.magma.gestion.queries.parameters.SeriesOperationsRequestParametizer;
 import fr.insee.rmes.magma.gestion.services.SeriesOperationsService;

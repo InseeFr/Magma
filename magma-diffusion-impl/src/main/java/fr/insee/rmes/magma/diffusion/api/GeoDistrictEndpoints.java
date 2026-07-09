@@ -1,11 +1,12 @@
 package fr.insee.rmes.magma.diffusion.api;
 
+import fr.insee.rmes.magma.api.*;
 
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
-import fr.insee.rmes.magma.diffusion.model.*;
-import fr.insee.rmes.magma.diffusion.model.District;
-import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
-import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsDistrict;
+import fr.insee.rmes.magma.model.*;
+import fr.insee.rmes.magma.model.District;
+import fr.insee.rmes.magma.model.TerritoireTousAttributs;
+import fr.insee.rmes.magma.model.TypeEnumAscendantsDistrict;
 import fr.insee.rmes.magma.diffusion.queries.parameters.AscendantsDescendantsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer;
 import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;

@@ -1,8 +1,8 @@
 package fr.insee.rmes.magma.diffusion.services;
 
-import fr.insee.rmes.magma.diffusion.model.Concept;
-import fr.insee.rmes.magma.diffusion.model.LocalisedLabel;
-import fr.insee.rmes.magma.diffusion.model.NearbyConcept;
+import fr.insee.rmes.magma.model.Concept;
+import fr.insee.rmes.magma.model.LocalisedLabel;
+import fr.insee.rmes.magma.model.NearbyConcept;
 import fr.insee.rmes.magma.diffusion.utils.ConceptDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,8 +1,9 @@
 package fr.insee.rmes.magma.gestion.api;
 
+import fr.insee.rmes.magma.api.DatasetsApi;
 import fr.insee.rmes.magma.gestion.api.requestprocessor.RequestProcessorGestion;
-import fr.insee.rmes.magma.gestion.model.Dataset;
-import fr.insee.rmes.magma.gestion.model.Distribution;
+import fr.insee.rmes.magma.model.Dataset;
+import fr.insee.rmes.magma.model.Distribution;
 import fr.insee.rmes.magma.gestion.queries.parameters.DatasetsRequestParametizer;
 import fr.insee.rmes.magma.gestion.services.DatasetsService;
 import fr.insee.rmes.magma.gestion.utils.DatasetByIdDTO;

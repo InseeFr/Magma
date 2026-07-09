@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.diffusion.utils;
 
-import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsZoneDEmploi;
+import fr.insee.rmes.magma.model.TypeEnumDescendantsZoneDEmploi;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

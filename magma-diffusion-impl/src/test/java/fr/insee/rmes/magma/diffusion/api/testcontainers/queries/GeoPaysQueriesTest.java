@@ -1,8 +1,8 @@
 package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.GeoPaysEndpoints;
-import fr.insee.rmes.magma.diffusion.model.Pays;
-import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
+import fr.insee.rmes.magma.model.Pays;
+import fr.insee.rmes.magma.model.TerritoireTousAttributs;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

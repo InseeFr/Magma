@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.gestion.services;
 
-import fr.insee.rmes.magma.gestion.model.*;
+import fr.insee.rmes.magma.model.*;
 import fr.insee.rmes.magma.gestion.utils.IndicateurDTO;
 import fr.insee.rmes.magma.gestion.utils.OperationDTO;
 import fr.insee.rmes.magma.gestion.utils.SeriesDTO;

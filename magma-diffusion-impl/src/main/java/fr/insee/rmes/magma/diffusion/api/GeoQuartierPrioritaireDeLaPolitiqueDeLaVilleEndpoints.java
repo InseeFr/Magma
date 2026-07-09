@@ -1,9 +1,10 @@
 package fr.insee.rmes.magma.diffusion.api;
 
+import fr.insee.rmes.magma.api.*;
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
-import fr.insee.rmes.magma.diffusion.model.QuartierPrioritaireDeLaPolitiqueDeLaVille2024;
-import fr.insee.rmes.magma.diffusion.model.TerritoireBaseRelation;
-import fr.insee.rmes.magma.diffusion.model.TypeEnum;
+import fr.insee.rmes.magma.model.QuartierPrioritaireDeLaPolitiqueDeLaVille2024;
+import fr.insee.rmes.magma.model.TerritoireBaseRelation;
+import fr.insee.rmes.magma.model.TypeEnum;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoireRequestParametizer;
 import fr.insee.rmes.magma.diffusion.queries.parameters.TerritoiresLiesRequestParametizer;
 import fr.insee.rmes.magma.diffusion.utils.EndpointsUtils;

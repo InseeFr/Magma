@@ -2,8 +2,8 @@ package fr.insee.rmes.magma.diffusion.services;
 
 
 import fr.insee.rmes.magma.diffusion.api.requestprocessor.RequestProcessorDiffusion;
-import fr.insee.rmes.magma.diffusion.model.RapportQualite;
-import fr.insee.rmes.magma.diffusion.model.Rubrique;
+import fr.insee.rmes.magma.model.RapportQualite;
+import fr.insee.rmes.magma.model.Rubrique;
 import fr.insee.rmes.magma.diffusion.queries.parameters.OperationsDocumentsRequestParametizer;
 import fr.insee.rmes.magma.diffusion.utils.DocumentDTO;
 import fr.insee.rmes.magma.diffusion.utils.RapportQualiteDTO;

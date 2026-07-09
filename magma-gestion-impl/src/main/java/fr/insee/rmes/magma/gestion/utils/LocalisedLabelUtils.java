@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.gestion.utils;
 
-import fr.insee.rmes.magma.gestion.model.LocalisedLabel;
+import fr.insee.rmes.magma.model.LocalisedLabel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.diffusion.utils;
 
-import fr.insee.rmes.magma.diffusion.model.LocalisedLabel;
+import fr.insee.rmes.magma.model.LocalisedLabel;
 
 import java.util.ArrayList;
 import java.util.List;

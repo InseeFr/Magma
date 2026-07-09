@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.gestion.services;
 
-import fr.insee.rmes.magma.gestion.model.*;
+import fr.insee.rmes.magma.model.*;
 import fr.insee.rmes.magma.gestion.utils.DatasetByIdDTO;
 import fr.insee.rmes.magma.gestion.utils.DatasetDTO;
 import fr.insee.rmes.magma.gestion.utils.DistributionDTO;

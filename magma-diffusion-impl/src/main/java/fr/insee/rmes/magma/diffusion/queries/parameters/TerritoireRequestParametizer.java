@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.diffusion.queries.parameters;
 
-import fr.insee.rmes.magma.diffusion.model.Iris;
+import fr.insee.rmes.magma.model.Iris;
 import fr.insee.rmes.magma.queries.parameters.ParameterValueDecoder;
 
 import java.lang.reflect.RecordComponent;

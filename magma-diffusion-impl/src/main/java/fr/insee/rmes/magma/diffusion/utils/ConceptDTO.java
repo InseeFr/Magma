@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.diffusion.utils;
 
-import fr.insee.rmes.magma.diffusion.model.LocalisedLabel;
-import fr.insee.rmes.magma.diffusion.model.NearbyConcept;
+import fr.insee.rmes.magma.model.LocalisedLabel;
+import fr.insee.rmes.magma.model.NearbyConcept;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 

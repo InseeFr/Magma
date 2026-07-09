@@ -1,9 +1,9 @@
 package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.GeoIntercommunaliteEndpoints;
-import fr.insee.rmes.magma.diffusion.model.Intercommunalite;
-import fr.insee.rmes.magma.diffusion.model.TerritoireTousAttributs;
-import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsIntercommunalite;
+import fr.insee.rmes.magma.model.Intercommunalite;
+import fr.insee.rmes.magma.model.TerritoireTousAttributs;
+import fr.insee.rmes.magma.model.TypeEnumDescendantsIntercommunalite;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

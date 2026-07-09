@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.gestion.api.testcontainers;
 
 import fr.insee.rmes.magma.gestion.api.DatasetsEndpoints;
-import fr.insee.rmes.magma.gestion.model.Dataset;
+import fr.insee.rmes.magma.model.Dataset;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

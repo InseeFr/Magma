@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.GeoCantonOuVilleEndpoints;
-import fr.insee.rmes.magma.diffusion.model.*;
+import fr.insee.rmes.magma.model.*;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
