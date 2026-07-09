@@ -5,7 +5,7 @@ import fr.insee.rmes.magma.api.*;
 import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.Concept;
 import fr.insee.rmes.magma.model.ConceptForList;
-import fr.insee.rmes.magma.model.LocalisedLabel;
+import fr.insee.rmes.magma.model.LocalisedContenu;
 import fr.insee.rmes.magma.model.NearbyConcept;
 import fr.insee.rmes.magma.queries.parameters.ConceptsRequestParametizer;
 import fr.insee.rmes.magma.services.ConceptService;
@@ -41,10 +41,10 @@ public class ConceptsEndpoints implements ConceptsApi {
             }
 
             if (conceptDTO.hasIntitulesAlternatifsValue()) {
-                List<LocalisedLabel> intitulesAlternatifs = requestProcessor.queryToFindConceptIntitulesAlternatifs()
+                List<LocalisedContenu> intitulesAlternatifs = requestProcessor.queryToFindConceptIntitulesAlternatifs()
                         .with(ConceptsRequestParametizer.ofUri(conceptDTO.uri()))
                         .executeQuery()
-                        .listResult(LocalisedLabel.class)
+                        .listResult(LocalisedContenu.class)
                         .result();
 
                 conceptDTO = conceptDTO.withIntitulesAlternatifs(intitulesAlternatifs);

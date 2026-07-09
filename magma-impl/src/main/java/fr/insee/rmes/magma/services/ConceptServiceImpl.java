@@ -2,7 +2,7 @@ package fr.insee.rmes.magma.services;
 
 import fr.insee.rmes.magma.model.Concept;
 import fr.insee.rmes.magma.model.ConceptForList;
-import fr.insee.rmes.magma.model.LocalisedLabel;
+import fr.insee.rmes.magma.model.LocalisedContenu;
 import fr.insee.rmes.magma.model.NearbyConcept;
 import fr.insee.rmes.magma.utils.ConceptDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static fr.insee.rmes.magma.utils.LocalisedLabelUtils.createLangueContenu;
@@ -52,7 +51,7 @@ public class ConceptServiceImpl implements ConceptService{
         }
 
 
-        private static List<LocalisedLabel> buildLocalisedLabels(String frField, String enField) {
+        private static List<LocalisedContenu> buildLocalisedLabels(String frField, String enField) {
             if (frField == null && enField == null) return null;
             return createListLangueContenu(createLangueContenu(frField, "fr"), createLangueContenu(enField, "en"));
         }
@@ -135,8 +134,8 @@ public class ConceptServiceImpl implements ConceptService{
 
 
         private void addIntitulesAlternatifs(ConceptDTO conceptDTO, Concept concept) {
-            for (LocalisedLabel item : conceptDTO.intitulesAlternatifs()) {
-                LocalisedLabel newIntitule = createLangueContenu(item.getContenu(), item.getLangue());
+            for (LocalisedContenu item : conceptDTO.intitulesAlternatifs()) {
+                LocalisedContenu newIntitule = createLangueContenu(item.getContenu(), item.getLangue());
                 concept.addIntitulesAlternatifsItem(newIntitule);
             }
         }

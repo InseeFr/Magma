@@ -89,7 +89,7 @@
                             <generateApis>true</generateApis>
                             <generateModels>true</generateModels>
                             <supportingFilesToGenerate></supportingFilesToGenerate>
-                            <inlineSchemaNameMappings>StructureById_mesures_inner_label_inner=LocalisedLabel,ListeDistributions_inner=Distribution,ListeSeries_inner=Serie,DepartementListeDescendants_inner=Territoire_TousAttributs,DepartementListeAscendants_inner=Territoire_TousAttributs,CommunesListe_inner=TerritoireBase,CommuneListeAscendants_inner=Territoire_TousAttributs,DepartementListeProjetesAvecChefLieu_inner=TerritoireBase_ChefLieu,Concept_conceptsSuivants_inner=NearbyConcept,ListeConcepts_inner=ConceptForList,RapportQualite_rubriques_inner=Rubrique,Contenu_documents_inner=Document</inlineSchemaNameMappings>
+                            <inlineSchemaNameMappings>StructureById_mesures_inner_label_inner=LocalisedContenu,Dataset_landingPage_inner=LocalisedUrl,ListeDistributions_inner=Distribution,ListeSeries_inner=Serie,DepartementListeDescendants_inner=Territoire_TousAttributs,DepartementListeAscendants_inner=Territoire_TousAttributs,CommunesListe_inner=TerritoireBase,CommuneListeAscendants_inner=Territoire_TousAttributs,DepartementListeProjetesAvecChefLieu_inner=TerritoireBase_ChefLieu,Concept_conceptsSuivants_inner=NearbyConcept,ListeConcepts_inner=ConceptForList,RapportQualite_rubriques_inner=Rubrique,Contenu_documents_inner=Document</inlineSchemaNameMappings>
                             <generateSupportingFiles>true</generateSupportingFiles>
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>

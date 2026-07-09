@@ -1,6 +1,6 @@
 package fr.insee.rmes.magma.utils;
 
-import fr.insee.rmes.magma.model.LocalisedLabel;
+import fr.insee.rmes.magma.model.LocalisedContenu;
 import fr.insee.rmes.magma.model.NearbyConcept;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public record ConceptDTO(
     Boolean hasIntitulesAlternatifs,
     @Getter
     List<NearbyConcept> nearbyConcepts,
-    List<LocalisedLabel> intitulesAlternatifs
+    List<LocalisedContenu> intitulesAlternatifs
 )
 {
 
@@ -43,7 +43,7 @@ public record ConceptDTO(
         return new ConceptDTO(id, uri, intituleFr, intituleEn, definitionFr, definitionEn, scopeNoteFr, scopeNoteEn, noteEditorialeFr, noteEditorialeEn, dateMiseAJour, dateCreation, dateFinDeValidite, hasLink, hasIntitulesAlternatifs, nearbyConcepts, intitulesAlternatifs);
     }
 
-    public ConceptDTO withIntitulesAlternatifs(List<LocalisedLabel> intitulesAlternatifs) {
+    public ConceptDTO withIntitulesAlternatifs(List<LocalisedContenu> intitulesAlternatifs) {
         return new ConceptDTO(id, uri, intituleFr, intituleEn, definitionFr, definitionEn, scopeNoteFr, scopeNoteEn, noteEditorialeFr, noteEditorialeEn, dateMiseAJour, dateCreation, dateFinDeValidite, hasLink, hasIntitulesAlternatifs, nearbyConcepts, intitulesAlternatifs);
     }
 

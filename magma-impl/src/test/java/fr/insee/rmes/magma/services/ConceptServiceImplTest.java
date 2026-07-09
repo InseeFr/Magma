@@ -1,7 +1,7 @@
 package fr.insee.rmes.magma.services;
 
 import fr.insee.rmes.magma.model.Concept;
-import fr.insee.rmes.magma.model.LocalisedLabel;
+import fr.insee.rmes.magma.model.LocalisedContenu;
 import fr.insee.rmes.magma.model.NearbyConcept;
 import fr.insee.rmes.magma.utils.ConceptDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -423,8 +423,8 @@ class ConceptServiceImplTest {
     @Test
     void transformDTOenConcept_shouldMapIntitulesAlternatifs() {
         // Given
-        LocalisedLabel labelFr = new LocalisedLabel().contenu("Pop.").langue("fr");
-        LocalisedLabel labelEn = new LocalisedLabel().contenu("Pop.").langue("en");
+        LocalisedContenu labelFr = new LocalisedContenu().contenu("Pop.").langue("fr");
+        LocalisedContenu labelEn = new LocalisedContenu().contenu("Pop.").langue("en");
 
         ConceptDTO dto = new ConceptDTO(
                 "c001", "http://id.insee.fr/concepts/c001",

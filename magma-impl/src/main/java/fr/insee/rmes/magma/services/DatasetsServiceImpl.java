@@ -9,8 +9,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.*;
 
-import static fr.insee.rmes.magma.utils.LocalisedLabelUtils.createLangueContenu;
-import static fr.insee.rmes.magma.utils.LocalisedLabelUtils.createListLangueContenu;
+import static fr.insee.rmes.magma.utils.LocalisedLabelUtils.*;
 
 @Service
 public class DatasetsServiceImpl implements DatasetsService {
@@ -159,9 +158,9 @@ public class DatasetsServiceImpl implements DatasetsService {
                     createLangueContenu(dto.scopeNoteLg2(), "en")));
         }
         if (StringUtils.hasText(dto.landingPageLg1())) {
-            dataSet.setLandingPage(createListLangueContenu(
-                    new DatasetLandingPageInner().lang("fr").url(dto.landingPageLg1()),
-                    new DatasetLandingPageInner().lang("en").url(dto.landingPageLg2())));
+            dataSet.setLandingPage(createListLangueUrl(
+                    new LocalisedUrl().lang("fr").url(dto.landingPageLg1()),
+                    new LocalisedUrl().lang("en").url(dto.landingPageLg2())));
         }
 
         if (dto.keywordLg1() != null && dto.keywordLg2() != null){
@@ -310,17 +309,17 @@ public class DatasetsServiceImpl implements DatasetsService {
         }).toList();
     }
 
-    private List<LocalisedLabel> buildKeywords(String kwLg1, String kwLg2) {
-        List<LocalisedLabel> keywords = new java.util.ArrayList<>();
+    private List<LocalisedContenu> buildKeywords(String kwLg1, String kwLg2) {
+        List<LocalisedContenu> keywords = new java.util.ArrayList<>();
         if (StringUtils.hasText(kwLg1)) {
             Arrays.stream(kwLg1.split(","))
                     .filter(s -> !s.isBlank())
-                    .forEach(kw -> keywords.add(new LocalisedLabel().langue("fr").contenu(kw.trim())));
+                    .forEach(kw -> keywords.add(new LocalisedContenu().langue("fr").contenu(kw.trim())));
         }
         if (StringUtils.hasText(kwLg2)) {
             Arrays.stream(kwLg2.split(","))
                     .filter(s -> !s.isBlank())
-                    .forEach(kw -> keywords.add(new LocalisedLabel().langue("en").contenu(kw.trim())));
+                    .forEach(kw -> keywords.add(new LocalisedContenu().langue("en").contenu(kw.trim())));
         }
         return keywords;
     }
