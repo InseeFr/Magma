@@ -52,7 +52,7 @@ public class OpenApiYamlConfig {
         List<Map<String, Object>> tags = (List<Map<String, Object>>) openApi.get("tags");
         if (tags != null) {
             openApi.put("tags", tags.stream()
-                    .filter(tag -> !((String) tag.get("name")).startsWith("geo"))
+                    .filter(tag -> !Boolean.TRUE.equals(tag.get("x-geo")))
                     .collect(Collectors.toList()));
         }
         Map<String, Object> paths = (Map<String, Object>) openApi.get("paths");

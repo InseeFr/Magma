@@ -24,47 +24,68 @@ tags:
   # -- Géographie
 
   - name: geo
+    x-geo: true
     description: 'API géographie : Générique'
 
   - name: geoAireDAttractionDesVilles
+    x-geo: true
     description: 'API géographie : aire d''attraction des villes 2020'
   - name: geoArrondissement
+    x-geo: true
     description: 'API géographie : Arrondissement'
   - name: geoArrondissementMunicipal
+    x-geo: true
     description: 'API géographie : Arrondissement municipal'
   - name: geoBassinDeVie
+    x-geo: true
     description: 'API géographie : Bassin de vie 2022'
   - name: geoCanton
+    x-geo: true
     description: 'API géographie : Canton'
   - name: geoCantonEtVille
+    x-geo: true
     description: 'API géographie : Canton ou ville'
   - name: geoCirconscriptionTerritoriale
+    x-geo: true
     description: 'API géographie : CirconscriptionTerritoriale'
   - name: geoCollectiviteDOutreMer
+    x-geo: true
     description: 'API géographie : Collectivité d''outre-mer'
   - name: geoCommune
+    x-geo: true
     description: 'API géographie : Commune'
   - name: geoCommuneAssociee
+    x-geo: true
     description: 'API géographie : Commune associée'
   - name: geoCommuneDeleguee
+    x-geo: true
     description: 'API géographie : Commune déléguée'
   - name: geoDepartement
+    x-geo: true
     description: 'API géographie : Département'
   - name: geoDistrict
+    x-geo: true
     description: 'API géographie : District'
   - name: geoIntercommunalite
+    x-geo: true
     description: 'API géographie : Intercommunalité'
   - name: geoIris
+    x-geo: true
     description: 'API géographie : Iris'
   - name: geoPays
+    x-geo: true
     description: 'API géographie : Pays'
-  - name : geoQuartierPrioritaireDeLaPolitiqueDeLaVille
+  - name: geoQuartierPrioritaireDeLaPolitiqueDeLaVille
+    x-geo: true
     description: 'API géographie : Quartier Prioritaire de la politique de la ville 2024'
   - name: geoRegion
+    x-geo: true
     description: 'API géographie : Région'
   - name: geoUniteUrbaine
+    x-geo: true
     description: 'API géographie : Unité urbaine 2020'
   - name: geoZoneDEmploi
+    x-geo: true
     description: 'API géographie : Zone d''emploi'
 
   # -- Nomenclatures
