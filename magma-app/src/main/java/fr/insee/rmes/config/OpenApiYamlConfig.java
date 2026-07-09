@@ -12,27 +12,30 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 public class OpenApiYamlConfig {
 
-    private static final String VERSION_GESTION = "2.0.0";
-    private static final String VERSION_DIFFUSION = "2.0.0";
+    private static final String VERSION = "2.0.0";
 
     @Value("${fr.insee.rmes.magma.display.geo:true}")
     private boolean displayGeo;
 
     @GetMapping(value = "/openapi.yaml", produces = "text/plain;charset=UTF-8")
     public ResponseEntity<String> openApiYaml() throws IOException {
-        String gestionContent = loadYamlWithVersion("openapi-gestion.yaml", VERSION_GESTION);
-        String diffusionContent = loadYamlWithVersion("openapi-diffusion.yaml", VERSION_DIFFUSION);
+        String content = StreamUtils.copyToString(
+                new ClassPathResource("openapi.yaml").getInputStream(), StandardCharsets.UTF_8);
+        content = content.replace("${version}", VERSION);
 
         Yaml yaml = new Yaml();
-        Map<String, Object> gestion = yaml.load(gestionContent);
-        Map<String, Object> diffusion = yaml.load(diffusionContent);
+        Map<String, Object> openApi = yaml.load(content);
+
+        if (!displayGeo) {
+            filterGeo(openApi);
+        }
 
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
@@ -41,78 +44,21 @@ public class OpenApiYamlConfig {
 
         return ResponseEntity.ok()
                 .contentType(MediaType.TEXT_PLAIN)
-                .body(dumper.dump(buildMergedYaml(gestion, diffusion)));
-    }
-
-    private String loadYamlWithVersion(String fileName, String version) throws IOException {
-        String content = StreamUtils.copyToString(new ClassPathResource(fileName).getInputStream(), StandardCharsets.UTF_8);
-        return content.replace("${version}", version);
+                .body(dumper.dump(openApi));
     }
 
     @SuppressWarnings("unchecked")
-    private Map<String, Object> buildMergedYaml(Map<String, Object> gestion, Map<String, Object> diffusion) {
-        Map<String, Object> merged = new LinkedHashMap<>();
-        merged.put("openapi", "3.1.0");
-        merged.put("info", buildInfo(gestion));
-        if (diffusion.containsKey("externalDocs")) {
-            merged.put("externalDocs", diffusion.get("externalDocs"));
+    private void filterGeo(Map<String, Object> openApi) {
+        List<Map<String, Object>> tags = (List<Map<String, Object>>) openApi.get("tags");
+        if (tags != null) {
+            openApi.put("tags", tags.stream()
+                    .filter(tag -> !((String) tag.get("name")).startsWith("geo"))
+                    .collect(Collectors.toList()));
         }
-        merged.put("servers", gestion.get("servers"));
-        merged.put("security", gestion.get("security"));
-        merged.put("tags", mergeTags(gestion, diffusion));
-        merged.put("paths", mergePaths(gestion, diffusion));
-        merged.put("components", mergeComponents(
-                (Map<String, Object>) gestion.getOrDefault("components", Collections.emptyMap()),
-                (Map<String, Object>) diffusion.getOrDefault("components", Collections.emptyMap())));
-        return merged;
-    }
-
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> buildInfo(Map<String, Object> gestion) {
-        Map<String, Object> info = new LinkedHashMap<>((Map<String, Object>) gestion.get("info"));
-        info.put("title", "Magma API");
-        info.put("description", "API Gestion et Diffusion des métadonnées de l'Insee");
-        info.put("version", "Gestion " + VERSION_GESTION + " / Diffusion " + VERSION_DIFFUSION);
-        return info;
-    }
-
-    @SuppressWarnings("unchecked")
-    private List<Map<String, Object>> mergeTags(Map<String, Object> gestion, Map<String, Object> diffusion) {
-        List<Map<String, Object>> gestionTags = (List<Map<String, Object>>) gestion.getOrDefault("tags", Collections.emptyList());
-        List<Map<String, Object>> diffusionTags = (List<Map<String, Object>>) diffusion.getOrDefault("tags", Collections.emptyList());
-        return Stream.concat(gestionTags.stream(), diffusionTags.stream())
-                .filter(tag -> displayGeo || !((String) tag.get("name")).startsWith("geo"))
-                .collect(Collectors.toList());
-    }
-
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> mergePaths(Map<String, Object> gestion, Map<String, Object> diffusion) {
-        Map<String, Object> mergedPaths = new LinkedHashMap<>();
-        mergedPaths.putAll((Map<String, Object>) gestion.getOrDefault("paths", Collections.emptyMap()));
-        ((Map<String, Object>) diffusion.getOrDefault("paths", Collections.emptyMap())).forEach((path, value) -> {
-            if (displayGeo || !path.startsWith("/geo")) {
-                mergedPaths.put(path, value);
-            }
-        });
-        return mergedPaths;
-    }
-
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> mergeComponents(Map<String, Object> gestion, Map<String, Object> diffusion) {
-        Map<String, Object> result = new LinkedHashMap<>();
-        Set<String> allKeys = new LinkedHashSet<>(gestion.keySet());
-        allKeys.addAll(diffusion.keySet());
-        for (String key : allKeys) {
-            if (gestion.containsKey(key) && diffusion.containsKey(key)) {
-                Map<String, Object> mergedSection = new LinkedHashMap<>();
-                mergedSection.putAll((Map<String, Object>) gestion.get(key));
-                mergedSection.putAll((Map<String, Object>) diffusion.get(key));
-                result.put(key, mergedSection);
-            } else {
-                result.put(key, gestion.getOrDefault(key, diffusion.get(key)));
-            }
+        Map<String, Object> paths = (Map<String, Object>) openApi.get("paths");
+        if (paths != null) {
+            paths.entrySet().removeIf(entry -> entry.getKey().startsWith("/geo"));
         }
-        return result;
     }
 
 }
