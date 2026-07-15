@@ -28,10 +28,7 @@
             <groupId>fr.insee.rmes</groupId>
             <artifactId>magma-interface</artifactId>
         </dependency>
-        <dependency>
-            <groupId>fr.insee.rmes</groupId>
-            <artifactId>magma-commons-infra</artifactId>
-        </dependency>
+
 
         <!-- Spring Web -->
         <dependency>

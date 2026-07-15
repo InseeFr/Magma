@@ -82,11 +82,7 @@
                 <artifactId>magma-oas</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>fr.insee.rmes</groupId>
-                <artifactId>magma-commons-infra</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
@@ -320,6 +316,6 @@
         <module>magma-interface</module>
         <module>magma-impl</module>
         <module>magma-app</module>
-        <module>magma-commons-infra</module>
+
     </modules>
 </project>
