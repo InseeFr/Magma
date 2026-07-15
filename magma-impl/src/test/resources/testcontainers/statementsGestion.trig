@@ -1,0 +1,268 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix insee: <http://rdf.insee.fr/def/base#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sdmx-mm: <http://www.w3.org/ns/sdmx-mm#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<http://rdf.insee.fr/graphes/structures> {
+    <http://bauhaus/structuresDeDonnees/structure/dsd1000>
+        rdf:type qb:DataStructureDefinition ;
+        dcterms:identifier "dsd1000" ;
+        dcterms:created "2024-07-02T07:47:06.152238061"^^xsd:dateTime ;
+        dcterms:modified "2024-07-02T07:47:06.152282664"^^xsd:dateTime ;
+        skos:notation "TEST_NOT_FOR_PUBLICATION" ;
+        rdfs:label "Test (à ne pas publier)"@fr ;
+        rdfs:label "Test (not for publication)"@en ;
+        insee:validationState "Provisoire, jamais publiée" .
+
+    <http://bauhaus/structuresDeDonnees/structure/dsd1001>
+        rdf:type qb:DataStructureDefinition ;
+        dcterms:identifier "dsd1001" ;
+        dcterms:created "2025-02-19T14:48:49.041372902"^^xsd:dateTime ;
+        dcterms:modified "2025-02-19T14:48:49.041372902"^^xsd:dateTime ;
+        rdfs:label "Structure 1001"@fr ;
+        rdfs:label "Structure 1001"@en ;
+        insee:validationState "Provisoire, jamais publiée" .
+}
+
+<http://rdf.insee.fr/graphes/composants> {
+}
+
+<http://rdf.insee.fr/graphes/operations> {
+
+   <http://bauhaus/operations/serie/idSeriePrincipaleTest>
+        rdf:type insee:StatisticalOperationSeries ;
+        skos:prefLabel "Label Série fr"@fr ;
+        skos:prefLabel "Series Label en"@en ;
+        skos:altLabel "AltLabel Série fr"@fr ;
+        skos:altLabel "Series AltLabel en"@en ;
+        dcterms:abstract "Résumé de la série test"@fr ;
+        dcterms:abstract "Test series abstract"@en ;
+        skos:historyNote "Note historique test"@fr ;
+        skos:historyNote "Historical note test"@en ;
+        dcterms:type <http://bauhaus/concepts/type/E> ;
+        dcterms:accrualPeriodicity <http://bauhaus/concepts/periodicity/A> ;
+        dcterms:created "2020-01-15"^^xsd:date ;
+        dcterms:modified "2024-06-01"^^xsd:date ;
+        insee:validationState "Publiée" ;
+        dc:creator <http://bauhaus/organisations/idOrganisationProprietaireTest> ;
+        dcterms:publisher <http://bauhaus/organisations/idOrganisationResponsableTest> ;
+        dcterms:contributor <http://bauhaus/organisations/idOrganisationPartenaireTest> .
+
+
+
+
+    <http://bauhaus/operations/serie/idSeriePrecedenteTest>
+        rdf:type insee:StatisticalOperationSeries ;
+        skos:prefLabel "Label Série Précédente fr"@fr ;
+        skos:prefLabel "Previous Series Label en"@en ;
+        dcterms:isReplacedBy <http://bauhaus/operations/serie/idSeriePrincipaleTest> .
+
+    <http://bauhaus/operations/serie/idSerieSuivanteTest>
+        rdf:type insee:StatisticalOperationSeries ;
+        skos:prefLabel "Label Série Suivante fr"@fr ;
+        skos:prefLabel "Next Series Label en"@en ;
+        dcterms:replaces <http://bauhaus/operations/serie/idSeriePrincipaleTest> .
+
+    <http://bauhaus/operations/serie/idSerieLiee1Test>
+        rdf:type insee:StatisticalOperationSeries ;
+        skos:prefLabel "Label Série Liée 1 fr"@fr ;
+        skos:prefLabel "Related Series 1 Label en"@en ;
+        rdfs:seeAlso <http://bauhaus/operations/serie/idSeriePrincipaleTest> .
+
+    <http://bauhaus/operations/serie/idSerieLiee2Test>
+        rdf:type insee:StatisticalOperationSeries ;
+        skos:prefLabel "Label Série Liée 2 fr"@fr ;
+        skos:prefLabel "Related Series 2 Label en"@en ;
+        rdfs:seeAlso <http://bauhaus/operations/serie/idSeriePrincipaleTest> .
+
+    <http://bauhaus/operations/famille/idFamilleTest>
+        rdf:type insee:StatisticalOperationFamily ;
+        dcterms:hasPart <http://bauhaus/operations/serie/idSeriePrincipaleTest> ;
+        skos:prefLabel "Label Famille fr"@fr ;
+        skos:prefLabel "Family Label en"@en .
+
+    <http://bauhaus/operations/operation/idOperation1SeriePrincipaleTest>
+        rdf:type insee:StatisticalOperation ;
+        dcterms:isPartOf <http://bauhaus/operations/serie/idSeriePrincipaleTest> ;
+        skos:prefLabel "Label Opération 1 fr"@fr ;
+        skos:prefLabel "Operation 1 Label en"@en .
+
+    <http://bauhaus/operations/operation/idOperation2SeriePrincipaleTest>
+        rdf:type insee:StatisticalOperation ;
+        dcterms:isPartOf <http://bauhaus/operations/serie/idSeriePrincipaleTest> ;
+        skos:prefLabel "Label Opération 2 fr"@fr ;
+        skos:prefLabel "Operation 2 Label en"@en .
+
+    <http://bauhaus/organisations/idOrganisationProprietaireTest>
+        rdf:type org:Organization ;
+        dcterms:identifier "idOrganisationProprietaireTest" ;
+        skos:prefLabel "Label Organisation Propriétaire fr"@fr ;
+        skos:prefLabel "Owner Organisation Label en"@en .
+
+    <http://bauhaus/organisations/idOrganisationResponsableTest>
+        rdf:type org:Organization ;
+        dcterms:identifier "idOrganisationResponsableTest" ;
+        skos:prefLabel "Label Organisation Responsable fr"@fr ;
+        skos:prefLabel "Responsible Organisation Label en"@en .
+
+    <http://bauhaus/organisations/idOrganisationPartenaireTest>
+        rdf:type org:Organization ;
+        dcterms:identifier "idOrganisationPartenaireTest" ;
+        skos:prefLabel "Label Organisation Partenaire fr"@fr ;
+        skos:prefLabel "Partner Organisation Label en"@en .
+
+    <http://bauhaus/operations/serie/idSerieTest>
+        rdf:type insee:StatisticalOperationSeries ;
+        skos:prefLabel "Label Serie fr"@fr ;
+        skos:prefLabel "Series Label en"@en .
+
+    <http://bauhaus/operations/operation/idOperationTest>
+        rdf:type insee:StatisticalOperation ;
+        dcterms:isPartOf <http://bauhaus/operations/serie/idSerieTest> ;
+        skos:prefLabel "Label Operation Test fr"@fr ;
+        skos:prefLabel "Test Operation Label en"@en ;
+        skos:altLabel "AltLabel Operation Test fr"@fr ;
+        skos:altLabel "Operation AltLabel en"@en ;
+        dcterms:temporal "2026" ;
+        dcterms:created "2025-01-22"^^xsd:date ;
+        dcterms:modified "2025-04-02"^^xsd:date ;
+        insee:validationState "Validated" .
+
+    <http://bauhaus/concepts/type/E>
+        skos:notation "E" ;
+        skos:prefLabel "Enquête"@fr ;
+        skos:prefLabel "Survey"@en .
+
+    <http://bauhaus/concepts/periodicity/A>
+        skos:notation "A" ;
+        skos:prefLabel "Annuelle"@fr ;
+        skos:prefLabel "Annual"@en .
+
+    <http://bauhaus/organisations/insee>
+        rdf:type org:Organization ;
+        dcterms:identifier "insee" ;
+        skos:prefLabel "Institut national de la statistique"@fr ;
+        skos:prefLabel "National Institute of Statistics"@en .
+
+    <http://bauhaus/organisations/drees>
+        rdf:type org:Organization ;
+        dcterms:identifier "drees" ;
+        skos:prefLabel "Direction de la recherche"@fr ;
+        skos:prefLabel "Research Directorate"@en .
+
+    <http://bauhaus/organisations/dares>
+        rdf:type org:Organization ;
+        dcterms:identifier "dares" ;
+        skos:prefLabel "Direction de l'animation de la recherche"@fr ;
+        skos:prefLabel "Labour Studies Directorate"@en .
+
+    <http://bauhaus/produits/indicateur/idIndicateurTest>
+        rdf:type insee:StatisticalIndicator ;
+        skos:prefLabel "Label Indicateur fr"@fr ;
+        skos:prefLabel "Indicator Label en"@en ;
+        skos:altLabel "AltLabel Indicateur fr"@fr ;
+        skos:altLabel "Indicator AltLabel en"@en ;
+        dcterms:abstract "Résumé de l'indicateur test"@fr ;
+        dcterms:abstract "Test indicator abstract"@en ;
+        skos:historyNote "Note historique indicateur test"@fr ;
+        skos:historyNote "Indicator historical note test"@en ;
+        dcterms:accrualPeriodicity <http://bauhaus/concepts/periodicity/A> ;
+        dcterms:created "2021-03-10"^^xsd:date ;
+        dcterms:modified "2023-11-20"^^xsd:date ;
+        insee:validationState "Publiée" ;
+        dc:creator <http://bauhaus/organisations/idOrganisationProprietaireTest> ;
+        dcterms:publisher <http://bauhaus/organisations/idOrganisationResponsableTest> ;
+        dcterms:contributor <http://bauhaus/organisations/idOrganisationPartenaireTest> ;
+        prov:wasGeneratedBy <http://bauhaus/operations/serie/idSeriePrincipaleTest> ;
+        rdfs:seeAlso <http://bauhaus/operations/serie/idSerieLiee1Test> ;
+        rdfs:seeAlso <http://bauhaus/produits/indicateur/idIndicateurLieTest> .
+
+    <http://bauhaus/produits/indicateur/idIndicateurLieTest>
+        rdf:type insee:StatisticalIndicator ;
+        skos:prefLabel "Label Indicateur Lié fr"@fr ;
+        skos:prefLabel "Related Indicator Label en"@en .
+}
+
+<http://rdf.insee.fr/graphes/qualite/rapport/idRapportQualiteTest> {
+    <http://bauhaus/qualite/rapport/idRapportQualiteTest>
+        rdf:type sdmx-mm:MetadataReport ;
+        sdmx-mm:target <http://bauhaus/operations/operation/idOperationTest> .
+}
+
+<http://rdf.insee.fr/graphes/qualite/rapport/idRapportQualiteIndicateurTest> {
+    <http://bauhaus/qualite/rapport/idRapportQualiteIndicateurTest>
+        rdf:type sdmx-mm:MetadataReport ;
+        sdmx-mm:target <http://bauhaus/produits/indicateur/idIndicateurTest> .
+}
+
+<http://rdf.insee.fr/graphes/catalogue> {
+    <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest>
+        rdf:type dcat:Dataset ;
+        dcterms:identifier "idDatasetTest" ;
+        dcterms:title "Titre du dataset test"@fr ;
+        dcterms:title "Dataset Test Title"@en ;
+        dcterms:abstract "Résumé du dataset test"@fr ;
+        dcterms:description "Description du dataset test"@fr ;
+        skos:scopeNote "Note de portée du dataset test"@fr ;
+        insee:validationState "Unpublished" ;
+        prov:wasGeneratedBy <http://bauhaus/operations/serie/idSerieGeneratrice> ;
+        adms:identifier <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest/ident> ;
+        dcat:distribution <http://bauhaus/catalogues/distribution/idDistributionTest> .
+
+    <http://bauhaus/catalogues/distribution/idDistributionTest>
+        rdf:type dcat:Distribution ;
+        dcterms:identifier "idDistributionTest" ;
+        dcterms:title "Titre de la distribution test"@fr ;
+        dcterms:title "Distribution Test Title"@en ;
+        dcterms:description "Description de la distribution test"@fr ;
+        dcterms:description "Distribution test description"@en ;
+        dcat:byteSize "1024" ;
+        dcterms:created "2024-12-09T12:00:00.000"^^xsd:dateTime ;
+        dcterms:modified "2024-12-09T12:00:00.000"^^xsd:dateTime ;
+        dcat:downloadURL <https://download.test/idDistributionTest.csv> ;
+        dcterms:format "text/csv" .
+
+    <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest/ident>
+        skos:notation "DD_DATASET_TEST" .
+
+    <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest/record>
+        rdf:type dcat:CatalogRecord ;
+        foaf:primaryTopic <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest> ;
+        dc:creator "DG75-TEST" ;
+        dc:contributor "DG75-TEST" ;
+        dcterms:created "2024-12-09T12:00:00.000"^^xsd:dateTime ;
+        dcterms:modified "2024-12-09T12:00:00.000"^^xsd:dateTime .
+
+    <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest2>
+        rdf:type dcat:Dataset ;
+        dcterms:identifier "idDatasetTest2" ;
+        dcterms:title "Titre du dataset test 2"@fr ;
+        dcterms:title "Dataset test title 2"@en ;
+        dcterms:abstract "Abstract du dataset test 2"@fr ;
+        dcterms:description "Description du dataset test 2"@fr ;
+        skos:scopeNote "ScopeNote du dataset test 2"@fr ;
+        insee:validationState "Unpublished" ;
+        prov:wasGeneratedBy <http://bauhaus/operations/serie/idSerieGeneratriceTest2> ;
+        adms:identifier <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest2/ident> .
+
+    <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest2/ident>
+        skos:notation "DD_CNA_BRANCHES" .
+
+    <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest2/record>
+        rdf:type dcat:CatalogRecord ;
+        foaf:primaryTopic <http://bauhaus/catalogues/jeuDeDonnees/idDatasetTest2> ;
+        dc:creator "DG75-TEST" ;
+        dc:contributor "DG75-TEST" ;
+        dcterms:created "2024-12-09T12:00:00.000"^^xsd:dateTime ;
+        dcterms:modified "2024-12-09T12:00:00.000"^^xsd:dateTime .
+}

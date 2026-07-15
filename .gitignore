@@ -35,7 +35,7 @@ out/
 .vscode/
 /.smarttomcat/
 *.trig
-!magma-gestion-impl/src/test/resources/testcontainers/statements.trig
+!magma-impl/src/test/resources/testcontainers/statementsGestion.trig
 
 ### environement variables ##
 *.env
