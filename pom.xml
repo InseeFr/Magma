@@ -67,16 +67,7 @@
                 <artifactId>magma-interface</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>fr.insee.rmes</groupId>
-                <artifactId>magma-commons-impl</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>fr.insee.rmes</groupId>
-                <artifactId>magma-commons-interface</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>fr.insee.rmes</groupId>
                 <artifactId>magma-oas</artifactId>
