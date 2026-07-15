@@ -40,5 +40,6 @@ out/
 ### environement variables ##
 *.env
 
+.claude/
 CLAUDE.md
 SKILL.md
