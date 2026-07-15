@@ -29,7 +29,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <lombok.version>1.18.38</lombok.version>
-        <springdoc.version>3.0.1</springdoc.version>
+        <springdoc.version>3.0.3</springdoc.version>
         <boot-properties-logger-starter.version>2.3.0</boot-properties-logger-starter.version>
         <!-- dependances que l'on met a jour entre deux version de spring boot -->
 
