@@ -217,7 +217,7 @@ public class GeoCommuneQueriesTest extends TestcontainerTestDiffusion {
         var result = response.getBody();
         assertNotNull(result);
         var resultItem1= result.getFirst();
-        assertEquals(43928, result.size());
+        assertEquals(43938, result.size());
         assertAll(
                 () -> assertEquals("01001", resultItem1.getCode()),
                 () -> assertEquals("http://id.insee.fr/geo/commune/166857ef-114f-4067-9d3d-f712562850c5", resultItem1.getUri()),
