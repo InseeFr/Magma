@@ -32,7 +32,7 @@
         <boot-properties-logger-starter.version>2.3.0</boot-properties-logger-starter.version>
         <rdf4j.version>5.3.0-M2</rdf4j.version>
         <json.version>20260522</json.version>
-        <commons-io.version>2.17.0</commons-io.version>
+        <commons-io.version>2.22.0</commons-io.version>
          <!-- Configuration Sonar -->
         <sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
             src/main/java/fr/insee/rmes/modeles/**/*,
@@ -48,7 +48,7 @@
         <sonar.language>java</sonar.language>
         <version.maven-sonar>5.7.0.6970</version.maven-sonar>
         <version.maven.compiler-plugin>3.13.0</version.maven.compiler-plugin>
-        <version.maven-war-plugins>3.4.0</version.maven-war-plugins>
+        <version.maven-war-plugins>3.5.1</version.maven-war-plugins>
         <version.maven-jacoco>0.8.15</version.maven-jacoco>
         <argLine>-Xms256m -Xmx512m -ea -Dfile.encoding=UTF-8</argLine>
 
@@ -85,7 +85,7 @@
             <dependency>
                 <groupId>jakarta.ws.rs</groupId>
                 <artifactId>jakarta.ws.rs-api</artifactId>
-                <version>3.1.0</version>
+                <version>${jakarta-ws-rs.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
