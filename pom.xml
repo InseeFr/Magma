@@ -22,6 +22,7 @@
         <log.version>2.23.1</log.version>
         <freemarker.version>2.3.34</freemarker.version>
         <xmlunit.version>2.10.0</xmlunit.version>
+        <testcontainers.version>2.0.5</testcontainers.version>
         <openapitools-generator.version>7.17.0</openapitools-generator.version>
         <jackson-databind-nullable.version>0.2.10</jackson-databind-nullable.version>
         <jakartaee-web-api.version>11.0.0</jakartaee-web-api.version>
