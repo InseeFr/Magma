@@ -23,6 +23,7 @@ public class GraphDBContainer extends GenericContainer<GraphDBContainer> {
 
         withRepository("config.ttl");
         withTrigFiles("statements.trig");
+        withTrigFiles("statementsConceptsTest.trig");
     }
 
     public GraphDBContainer withInitFolder(String folder){

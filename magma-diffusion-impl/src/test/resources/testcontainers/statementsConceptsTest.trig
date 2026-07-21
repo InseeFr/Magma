@@ -1,0 +1,198 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix evoc: <http://eurovoc.europa.eu/schema#> .
+@prefix xkos: <http://rdf-vocabulary.ddialliance.org/xkos#> .
+@prefix idef: <http://id.insee.fr/concepts/definition/> .
+
+<http://rdf.insee.fr/graphes/concepts/definitions> {
+
+  # =========================================================
+  #   Scheme
+  # =========================================================
+
+  <http://id.insee.fr/concepts/definitions/scheme> a skos:ConceptScheme .
+
+  # =========================================================
+  #   Concept principal 1 : avec conceptsSuivants
+  # =========================================================
+
+  idef:c0001 a skos:Concept ;
+    skos:inScheme <http://id.insee.fr/concepts/definitions/scheme> ;
+    skos:notation "c0001" ;
+    skos:prefLabel "Titre du concept test 1"@fr, "Test concept title 1"@en ;
+    dcterms:created "2020-01-10T00:00:00.000"^^xsd:dateTime ;
+    dcterms:modified "2024-06-15T00:00:00.000"^^xsd:dateTime ;
+    dcterms:valid "2023-12-31T00:00:00.000"^^xsd:dateTime ;
+    dcterms:isReplacedBy idef:c0004 ;
+    skos:definition
+      <http://id.insee.fr/concepts/definition/c0001/definition/v1/fr>,
+      <http://id.insee.fr/concepts/definition/c0001/definition/v1/en> ;
+    skos:editorialNote
+      <http://id.insee.fr/concepts/definition/c0001/noteEditoriale/v1/fr>,
+      <http://id.insee.fr/concepts/definition/c0001/noteEditoriale/v1/en> .
+
+  <http://id.insee.fr/concepts/definition/c0001/definition/v1/fr>
+    a xkos:ExplanatoryNote ;
+    dcterms:language "fr"^^xsd:language ;
+    evoc:noteLiteral "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Definition du concept test 1</p></div>" ;
+    pav:version 1 .
+
+  <http://id.insee.fr/concepts/definition/c0001/definition/v1/en>
+    a xkos:ExplanatoryNote ;
+    dcterms:language "en"^^xsd:language ;
+    evoc:noteLiteral "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Test concept 1 definition</p></div>" ;
+    pav:version 1 .
+
+  <http://id.insee.fr/concepts/definition/c0001/noteEditoriale/v1/fr>
+    a xkos:ExplanatoryNote ;
+    dcterms:language "fr"^^xsd:language ;
+    evoc:noteLiteral "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Note editoriale du concept test 1</p></div>" ;
+    pav:version 1 .
+
+  <http://id.insee.fr/concepts/definition/c0001/noteEditoriale/v1/en>
+    a xkos:ExplanatoryNote ;
+    dcterms:language "en"^^xsd:language ;
+    evoc:noteLiteral "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Test concept 1 editorial note</p></div>" ;
+    pav:version 1 .
+
+  # =========================================================
+  #   Concept principal 2 : avec conceptsPrecedents et conceptsReferences
+  # =========================================================
+
+  idef:c0002 a skos:Concept ;
+    skos:inScheme <http://id.insee.fr/concepts/definitions/scheme> ;
+    skos:notation "c0002" ;
+    skos:prefLabel "Titre du concept test 2"@fr, "Test concept title 2"@en ;
+    dcterms:created "2021-03-15T00:00:00.000"^^xsd:dateTime ;
+    dcterms:modified "2025-01-20T00:00:00.000"^^xsd:dateTime ;
+    dcterms:replaces idef:c0005, idef:c0006, idef:c0007 ;
+    dcterms:references idef:c0008, idef:c0009, idef:c0010 ;
+    skos:definition
+      <http://id.insee.fr/concepts/definition/c0002/definition/v1/fr>,
+      <http://id.insee.fr/concepts/definition/c0002/definition/v1/en> ;
+    skos:scopeNote
+      <http://id.insee.fr/concepts/definition/c0002/scopeNote/v1/fr>,
+      <http://id.insee.fr/concepts/definition/c0002/scopeNote/v1/en> ;
+    skos:editorialNote
+      <http://id.insee.fr/concepts/definition/c0002/noteEditoriale/v1/fr>,
+      <http://id.insee.fr/concepts/definition/c0002/noteEditoriale/v1/en> .
+
+  <http://id.insee.fr/concepts/definition/c0002/definition/v1/fr>
+    a xkos:ExplanatoryNote ;
+    dcterms:language "fr"^^xsd:language ;
+    evoc:noteLiteral "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Definition du concept test 2</p></div>" ;
+    pav:version 1 .
+
+  <http://id.insee.fr/concepts/definition/c0002/definition/v1/en>
+    a xkos:ExplanatoryNote ;
+    dcterms:language "en"^^xsd:language ;
+    evoc:noteLiteral "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Test concept 2 definition</p></div>" ;
+    pav:version 1 .
+
+  <http://id.insee.fr/concepts/definition/c0002/scopeNote/v1/fr>
+    a xkos:ExplanatoryNote ;
+    dcterms:language "fr"^^xsd:language ;
+    evoc:noteLiteral "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Definition courte du concept test 2</p></div>" ;
+    pav:version 1 .
+
+  <http://id.insee.fr/concepts/definition/c0002/scopeNote/v1/en>
+    a xkos:ExplanatoryNote ;
+    dcterms:language "en"^^xsd:language ;
+    evoc:noteLiteral "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Test concept 2 short definition</p></div>" ;
+    pav:version 1 .
+
+  <http://id.insee.fr/concepts/definition/c0002/noteEditoriale/v1/fr>
+    a xkos:ExplanatoryNote ;
+    dcterms:language "fr"^^xsd:language ;
+    evoc:noteLiteral "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Note editoriale du concept test 2</p></div>" ;
+    pav:version 1 .
+
+  <http://id.insee.fr/concepts/definition/c0002/noteEditoriale/v1/en>
+    a xkos:ExplanatoryNote ;
+    dcterms:language "en"^^xsd:language ;
+    evoc:noteLiteral "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Test concept 2 editorial note</p></div>" ;
+    pav:version 1 .
+
+  # =========================================================
+  #   Concept principal 3 : avec intitulesAlternatifs
+  # =========================================================
+
+  idef:c0003 a skos:Concept ;
+    skos:inScheme <http://id.insee.fr/concepts/definitions/scheme> ;
+    skos:notation "c0003" ;
+    skos:prefLabel "Titre du concept test 3"@fr, "Test concept title 3"@en ;
+    dcterms:created "2019-07-01T00:00:00.000"^^xsd:dateTime ;
+    dcterms:modified "2023-11-10T00:00:00.000"^^xsd:dateTime ;
+    skos:altLabel "Intitule alternatif test 1"@fr, "Intitule alternatif test 2"@fr, "Intitule alternatif test 3"@fr .
+
+  # =========================================================
+  #   Concepts lies (minimaux)
+  # =========================================================
+
+  idef:c0004 a skos:Concept ;
+    skos:inScheme <http://id.insee.fr/concepts/definitions/scheme> ;
+    skos:notation "c0004" ;
+    skos:prefLabel "Concept suivant"@fr, "Next concept"@en .
+
+  idef:c0005 a skos:Concept ;
+    skos:inScheme <http://id.insee.fr/concepts/definitions/scheme> ;
+    skos:notation "c0005" ;
+    skos:prefLabel "Concept precedent 1"@fr, "Previous concept 1"@en .
+
+  idef:c0006 a skos:Concept ;
+    skos:inScheme <http://id.insee.fr/concepts/definitions/scheme> ;
+    skos:notation "c0006" ;
+    skos:prefLabel "Concept precedent 2"@fr, "Previous concept 2"@en .
+
+  idef:c0007 a skos:Concept ;
+    skos:inScheme <http://id.insee.fr/concepts/definitions/scheme> ;
+    skos:notation "c0007" ;
+    skos:prefLabel "Concept precedent 3"@fr, "Previous concept 3"@en .
+
+  idef:c0008 a skos:Concept ;
+    skos:inScheme <http://id.insee.fr/concepts/definitions/scheme> ;
+    skos:notation "c0008" ;
+    skos:prefLabel "Concept reference 1"@fr, "Reference concept 1"@en .
+
+  idef:c0009 a skos:Concept ;
+    skos:inScheme <http://id.insee.fr/concepts/definitions/scheme> ;
+    skos:notation "c0009" ;
+    skos:prefLabel "Concept reference 2"@fr, "Reference concept 2"@en .
+
+  idef:c0010 a skos:Concept ;
+    skos:inScheme <http://id.insee.fr/concepts/definitions/scheme> ;
+    skos:notation "c0010" ;
+    skos:prefLabel "Concept reference 3"@fr, "Reference concept 3"@en .
+
+  # =========================================================
+  #   Concepts pour les tests de liste
+  # =========================================================
+
+  idef:c0011 a skos:Concept ;
+    skos:inScheme <http://id.insee.fr/concepts/definitions/scheme> ;
+    skos:notation "c0011" ;
+    skos:prefLabel "Titre du concept test liste 1"@fr, "Test list concept title 1"@en .
+
+  idef:c0012 a skos:Concept ;
+    skos:inScheme <http://id.insee.fr/concepts/definitions/scheme> ;
+    skos:notation "c0012" ;
+    skos:prefLabel "Titre du concept test peuplement liste 2"@fr, "Test list settlement concept title 2"@en ;
+    skos:related idef:c0008, idef:c0009 ;
+    dcterms:references idef:c0010 .
+
+  idef:c0013 a skos:Concept ;
+    skos:inScheme <http://id.insee.fr/concepts/definitions/scheme> ;
+    skos:notation "c0013" ;
+    skos:prefLabel "Titre du concept test liste 3"@fr, "Test list concept title 3"@en ;
+    skos:narrower idef:c0004, idef:c0005 .
+
+  # =========================================================
+  #   Collection
+  # =========================================================
+
+  <http://id.insee.fr/concepts/definitions/idCollectionTest> a skos:Collection ;
+    skos:member idef:c0011, idef:c0012, idef:c0013 .
+}

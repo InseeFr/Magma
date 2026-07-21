@@ -1,0 +1,32 @@
+{
+  "id": "c0002",
+  "uri": "http://id.insee.fr/concepts/definition/c0002",
+  "intitule": [
+    {"langue": "fr", "contenu": "Titre du concept test 2"},
+    {"langue": "en", "contenu": "Test concept title 2"}
+  ],
+  "definition": [
+    {"langue": "fr", "contenu": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Definition du concept test 2</p></div>"},
+    {"langue": "en", "contenu": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Test concept 2 definition</p></div>"}
+  ],
+  "definitionCourte": [
+    {"langue": "fr", "contenu": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Definition courte du concept test 2</p></div>"},
+    {"langue": "en", "contenu": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Test concept 2 short definition</p></div>"}
+  ],
+  "noteEditoriale": [
+    {"langue": "fr", "contenu": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Note editoriale du concept test 2</p></div>"},
+    {"langue": "en", "contenu": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Test concept 2 editorial note</p></div>"}
+  ],
+  "dateCreation": "2021-03-15",
+  "dateMiseAJour": "2025-01-20",
+  "conceptsPrecedents": [
+    {"id": "c0005", "uri": "http://id.insee.fr/concepts/definition/c0005", "typeOfLink": "replaces"},
+    {"id": "c0006", "uri": "http://id.insee.fr/concepts/definition/c0006", "typeOfLink": "replaces"},
+    {"id": "c0007", "uri": "http://id.insee.fr/concepts/definition/c0007", "typeOfLink": "replaces"}
+  ],
+  "conceptsReferences": [
+    {"id": "c0008", "uri": "http://id.insee.fr/concepts/definition/c0008", "typeOfLink": "references"},
+    {"id": "c0009", "uri": "http://id.insee.fr/concepts/definition/c0009", "typeOfLink": "references"},
+    {"id": "c0010", "uri": "http://id.insee.fr/concepts/definition/c0010", "typeOfLink": "references"}
+  ]
+}

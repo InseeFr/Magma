@@ -1,0 +1,22 @@
+{
+  "id": "c0001",
+  "uri": "http://id.insee.fr/concepts/definition/c0001",
+  "intitule": [
+    {"langue": "fr", "contenu": "Titre du concept test 1"},
+    {"langue": "en", "contenu": "Test concept title 1"}
+  ],
+  "definition": [
+    {"langue": "fr", "contenu": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Definition du concept test 1</p></div>"},
+    {"langue": "en", "contenu": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Test concept 1 definition</p></div>"}
+  ],
+  "noteEditoriale": [
+    {"langue": "fr", "contenu": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Note editoriale du concept test 1</p></div>"},
+    {"langue": "en", "contenu": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Test concept 1 editorial note</p></div>"}
+  ],
+  "dateCreation": "2020-01-10",
+  "dateMiseAJour": "2024-06-15",
+  "dateFinDeValidite": "2023-12-31",
+  "conceptsSuivants": [
+    {"id": "c0004", "uri": "http://id.insee.fr/concepts/definition/c0004", "typeOfLink": "isReplacedBy"}
+  ]
+}

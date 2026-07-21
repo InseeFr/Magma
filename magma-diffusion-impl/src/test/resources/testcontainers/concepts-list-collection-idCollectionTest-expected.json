@@ -1,0 +1,28 @@
+[
+  {
+    "id": "c0011",
+    "uri": "http://id.insee.fr/concepts/definition/c0011",
+    "intitule": "Titre du concept test liste 1"
+  },
+  {
+    "id": "c0012",
+    "uri": "http://id.insee.fr/concepts/definition/c0012",
+    "intitule": "Titre du concept test peuplement liste 2",
+    "conceptsLies": [
+      {"id": "c0008", "uri": "http://id.insee.fr/concepts/definition/c0008", "typeOfLink": "related"},
+      {"id": "c0009", "uri": "http://id.insee.fr/concepts/definition/c0009", "typeOfLink": "related"}
+    ],
+    "conceptsReferences": [
+      {"id": "c0010", "uri": "http://id.insee.fr/concepts/definition/c0010", "typeOfLink": "references"}
+    ]
+  },
+  {
+    "id": "c0013",
+    "uri": "http://id.insee.fr/concepts/definition/c0013",
+    "intitule": "Titre du concept test liste 3",
+    "conceptsPlusSpecifiques": [
+      {"id": "c0004", "uri": "http://id.insee.fr/concepts/definition/c0004", "typeOfLink": "narrower"},
+      {"id": "c0005", "uri": "http://id.insee.fr/concepts/definition/c0005", "typeOfLink": "narrower"}
+    ]
+  }
+]

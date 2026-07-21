@@ -1,0 +1,56 @@
+[
+  {
+    "id": "c0001",
+    "uri": "http://id.insee.fr/concepts/definition/c0001",
+    "intitule": "Titre du concept test 1",
+    "conceptsSuivants": [
+      {"id": "c0004", "uri": "http://id.insee.fr/concepts/definition/c0004", "typeOfLink": "isReplacedBy"}
+    ]
+  },
+  {
+    "id": "c0002",
+    "uri": "http://id.insee.fr/concepts/definition/c0002",
+    "intitule": "Titre du concept test 2",
+    "conceptsPrecedents": [
+      {"id": "c0005", "uri": "http://id.insee.fr/concepts/definition/c0005", "typeOfLink": "replaces"},
+      {"id": "c0006", "uri": "http://id.insee.fr/concepts/definition/c0006", "typeOfLink": "replaces"},
+      {"id": "c0007", "uri": "http://id.insee.fr/concepts/definition/c0007", "typeOfLink": "replaces"}
+    ],
+    "conceptsReferences": [
+      {"id": "c0008", "uri": "http://id.insee.fr/concepts/definition/c0008", "typeOfLink": "references"},
+      {"id": "c0009", "uri": "http://id.insee.fr/concepts/definition/c0009", "typeOfLink": "references"},
+      {"id": "c0010", "uri": "http://id.insee.fr/concepts/definition/c0010", "typeOfLink": "references"}
+    ]
+  },
+  {
+    "id": "c0003",
+    "uri": "http://id.insee.fr/concepts/definition/c0003",
+    "intitule": "Titre du concept test 3"
+  },
+  {
+    "id": "c0011",
+    "uri": "http://id.insee.fr/concepts/definition/c0011",
+    "intitule": "Titre du concept test liste 1"
+  },
+  {
+    "id": "c0012",
+    "uri": "http://id.insee.fr/concepts/definition/c0012",
+    "intitule": "Titre du concept test peuplement liste 2",
+    "conceptsLies": [
+      {"id": "c0008", "uri": "http://id.insee.fr/concepts/definition/c0008", "typeOfLink": "related"},
+      {"id": "c0009", "uri": "http://id.insee.fr/concepts/definition/c0009", "typeOfLink": "related"}
+    ],
+    "conceptsReferences": [
+      {"id": "c0010", "uri": "http://id.insee.fr/concepts/definition/c0010", "typeOfLink": "references"}
+    ]
+  },
+  {
+    "id": "c0013",
+    "uri": "http://id.insee.fr/concepts/definition/c0013",
+    "intitule": "Titre du concept test liste 3",
+    "conceptsPlusSpecifiques": [
+      {"id": "c0004", "uri": "http://id.insee.fr/concepts/definition/c0004", "typeOfLink": "narrower"},
+      {"id": "c0005", "uri": "http://id.insee.fr/concepts/definition/c0005", "typeOfLink": "narrower"}
+    ]
+  }
+]

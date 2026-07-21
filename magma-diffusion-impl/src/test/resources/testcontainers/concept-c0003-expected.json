@@ -1,0 +1,15 @@
+{
+  "id": "c0003",
+  "uri": "http://id.insee.fr/concepts/definition/c0003",
+  "intitule": [
+    {"langue": "fr", "contenu": "Titre du concept test 3"},
+    {"langue": "en", "contenu": "Test concept title 3"}
+  ],
+  "dateCreation": "2019-07-01",
+  "dateMiseAJour": "2023-11-10",
+  "intitulesAlternatifs": [
+    {"langue": "fr", "contenu": "Intitule alternatif test 1"},
+    {"langue": "fr", "contenu": "Intitule alternatif test 2"},
+    {"langue": "fr", "contenu": "Intitule alternatif test 3"}
+  ]
+}
