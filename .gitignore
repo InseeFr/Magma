@@ -35,6 +35,7 @@ out/
 .vscode/
 /.smarttomcat/
 *.trig
+!magma-diffusion-impl/src/test/resources/testcontainers/statementsArrondissementTest.trig
 !magma-diffusion-impl/src/test/resources/testcontainers/statementsConceptsTest.trig
 !magma-gestion-impl/src/test/resources/testcontainers/statements.trig
 
