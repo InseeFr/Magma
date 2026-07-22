@@ -1,0 +1,12 @@
+[
+  {
+    "code": "99",
+    "uri": "http://id.insee.fr/geo/region/test-reg-99",
+    "type": "Region",
+    "dateCreation": "2000-01-01",
+    "intituleSansArticle": "Region test",
+    "typeArticle": "0",
+    "intitule": "Region test",
+    "chefLieu": "99001"
+  }
+]

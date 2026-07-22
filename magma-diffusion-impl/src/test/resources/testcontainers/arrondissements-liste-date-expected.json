@@ -1,0 +1,32 @@
+[
+  {
+    "code": "991",
+    "uri": "http://id.insee.fr/geo/arrondissement/test-arr-991",
+    "type": "Arrondissement",
+    "dateCreation": "2020-01-01",
+    "intituleSansArticle": "Arrondissement test 1",
+    "typeArticle": "0",
+    "intitule": "Arrondissement test 1",
+    "chefLieu": "99001"
+  },
+  {
+    "code": "992",
+    "uri": "http://id.insee.fr/geo/arrondissement/test-arr-992",
+    "type": "Arrondissement",
+    "dateCreation": "2020-01-01",
+    "intituleSansArticle": "Arrondissement test 2",
+    "typeArticle": "0",
+    "intitule": "Arrondissement test 2",
+    "chefLieu": "99002"
+  },
+  {
+    "code": "993",
+    "uri": "http://id.insee.fr/geo/arrondissement/test-arr-993",
+    "type": "Arrondissement",
+    "dateCreation": "2020-01-01",
+    "intituleSansArticle": "Arrondissement test 3",
+    "typeArticle": "0",
+    "intitule": "Arrondissement test 3",
+    "chefLieu": "99001"
+  }
+]

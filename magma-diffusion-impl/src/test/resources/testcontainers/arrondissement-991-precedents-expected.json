@@ -1,0 +1,24 @@
+[
+  {
+    "code": "994",
+    "uri": "http://id.insee.fr/geo/arrondissement/test-arr-994",
+    "type": "Arrondissement",
+    "dateCreation": "2010-01-01",
+    "dateSuppression": "2020-01-01",
+    "intituleSansArticle": "Arrondissement ancien 1",
+    "typeArticle": "0",
+    "intitule": "Arrondissement ancien 1",
+    "chefLieu": "99001"
+  },
+  {
+    "code": "995",
+    "uri": "http://id.insee.fr/geo/arrondissement/test-arr-995",
+    "type": "Arrondissement",
+    "dateCreation": "2010-01-01",
+    "dateSuppression": "2020-01-01",
+    "intituleSansArticle": "Arrondissement ancien 2",
+    "typeArticle": "0",
+    "intitule": "Arrondissement ancien 2",
+    "chefLieu": "99002"
+  }
+]

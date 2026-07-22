@@ -1,0 +1,13 @@
+[
+  {
+    "code": "996",
+    "uri": "http://id.insee.fr/geo/arrondissement/test-arr-996",
+    "type": "Arrondissement",
+    "dateCreation": "2000-01-01",
+    "dateSuppression": "2010-01-01",
+    "intituleSansArticle": "Arrondissement remplace",
+    "typeArticle": "0",
+    "intitule": "Arrondissement remplace",
+    "chefLieu": "99001"
+  }
+]

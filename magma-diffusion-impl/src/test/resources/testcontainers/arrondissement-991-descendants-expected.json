@@ -1,0 +1,38 @@
+[
+  {
+    "code": "99001",
+    "uri": "http://id.insee.fr/geo/commune/test-com-99001",
+    "type": "Commune",
+    "dateCreation": "2000-01-01",
+    "intituleSansArticle": "Commune test 1",
+    "typeArticle": "0",
+    "intitule": "Commune test 1"
+  },
+  {
+    "code": "99002",
+    "uri": "http://id.insee.fr/geo/commune/test-com-99002",
+    "type": "Commune",
+    "dateCreation": "2000-01-01",
+    "intituleSansArticle": "Commune test 2",
+    "typeArticle": "0",
+    "intitule": "Commune test 2"
+  },
+  {
+    "code": "99901",
+    "uri": "http://id.insee.fr/geo/communeDeleguee/test-comdel-99901",
+    "type": "CommuneDeleguee",
+    "dateCreation": "2015-01-01",
+    "intituleSansArticle": "Commune deleguee test 1",
+    "typeArticle": "0",
+    "intitule": "Commune deleguee test 1"
+  },
+  {
+    "code": "99902",
+    "uri": "http://id.insee.fr/geo/communeDeleguee/test-comdel-99902",
+    "type": "CommuneDeleguee",
+    "dateCreation": "2015-01-01",
+    "intituleSansArticle": "Commune deleguee test 2",
+    "typeArticle": "0",
+    "intitule": "Commune deleguee test 2"
+  }
+]

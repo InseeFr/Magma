@@ -14,7 +14,8 @@ import tools.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -110,7 +111,7 @@ class ConceptsQueriesTest extends TestcontainerTest {
                         .readAllBytes(),
                 StandardCharsets.UTF_8
         );
-        JSONAssert.assertEquals(expected, data, false);
+        JSONAssert.assertEquals(expected, data, true);
     }
 
     @Test
@@ -127,7 +128,7 @@ class ConceptsQueriesTest extends TestcontainerTest {
                         .readAllBytes(),
                 StandardCharsets.UTF_8
         );
-        JSONAssert.assertEquals(expected, data, false);
+        JSONAssert.assertEquals(expected, data, true);
     }
 
     @Test
@@ -138,25 +139,22 @@ class ConceptsQueriesTest extends TestcontainerTest {
 
         assertNotNull(result);
         String data = objectMapper.writeValueAsString(result);
-        System.out.println("DEBUG DATA: " + data);
         String expected = new String(
                 Objects.requireNonNull(getClass().getClassLoader()
                                 .getResourceAsStream("testcontainers/concepts-list-peuplement-collection-idCollectionTest-expected.json"))
                         .readAllBytes(),
                 StandardCharsets.UTF_8
         );
-
-
-        JSONAssert.assertEquals(expected, data, false);
+        JSONAssert.assertEquals(expected, data, true);
     }
 
     @Test
-    @DisplayName("When getConceptsList with no filter, returns all concepts")
+    @DisplayName("When getConceptsList with no filter, returns 13 concepts")
     void should_return_all_concepts_when_getConceptsList_no_filter() {
         var response = endpoints.getconceptsliste("", null);
         var result = response.getBody();
 
         assertNotNull(result);
-        assertTrue(result.size() >= 13, "Should contain at least the 13 test concepts, got " + result.size());
+        assertEquals(13, result.size(), "Should contain exactly 13 test concepts, got " + result.size());
     }
 }
