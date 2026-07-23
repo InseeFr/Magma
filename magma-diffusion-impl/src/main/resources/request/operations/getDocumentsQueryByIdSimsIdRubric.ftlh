@@ -1,5 +1,5 @@
 SELECT DISTINCT ?url ?labelLg1 ?labelLg2 ?dateMiseAJour ?langue
-FROM <http://rdf.insee.fr/graphes/qualite/rapport/2292>
+FROM <http://rdf.insee.fr/graphes/qualite/rapport/${idSims}>
 FROM <http://rdf.insee.fr/graphes/qualite/documents>
 WHERE {
     BIND('${LANG}' AS ?LANG)
