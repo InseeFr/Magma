@@ -8,6 +8,7 @@ import fr.insee.rmes.magma.diffusion.services.RapportQualiteService;
 import fr.insee.rmes.magma.diffusion.utils.RapportQualiteDTO;
 import fr.insee.rmes.magma.diffusion.utils.RubriqueDTO;
 import fr.insee.rmes.magma.utils.EndpointsUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +24,19 @@ public class OperationsEndpoints implements OperationsApi {
         this.rapportQualiteService = rapportQualiteService;
     }
 
+    @Value("${fr.insee.rmes.magma.uri}")
+    private String magmaUri;
+    @Value("${fr.insee.rmes.magma.lg1}")
+    private String magmaLg1;
+    @Value("${fr.insee.rmes.magma.lg2}")
+    private String magmaLg2;
 
+    private String getLg1Cl() {
+        return "http://" + magmaUri + "/codes/langue/" + magmaLg1 ;
+    }
+    private String getLg2Cl() {
+        return "http://" + magmaUri + "/codes/langue/" + magmaLg2;
+    }
     @Override
     public ResponseEntity<RapportQualite> getRapportQualiteByCode(String idSims) {
         RapportQualiteDTO rapportQualiteDTO = requestProcessorDiffusion.queryToFindRapportQualite()
@@ -36,11 +49,8 @@ public class OperationsEndpoints implements OperationsApi {
             return ResponseEntity.notFound().build();
         }
 
-        String LG1_CL = "http://id.insee.fr/codes/langue/fr";
-        String LG2_CL = "http://id.insee.fr/codes/langue/en";
-
         List<RubriqueDTO> rubriqueList = requestProcessorDiffusion.queryToFindRubriques()
-                .with(new OperationRubriquesRequestParametizer(rapportQualiteDTO.id(), LG1_CL, LG2_CL))
+                .with(new OperationRubriquesRequestParametizer(rapportQualiteDTO.id(), getLg1Cl(), getLg2Cl()))
                 .executeQuery()
                 .listResult(RubriqueDTO.class)
                 .result();
