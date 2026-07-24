@@ -1,0 +1,12 @@
+[
+  {
+    "code": "99",
+    "uri": "http://id.insee.fr/geo/departement/test-dep-99",
+    "type": "Departement",
+    "dateCreation": "2000-01-01",
+    "intituleSansArticle": "Departement test",
+    "typeArticle": "0",
+    "intitule": "Departement test",
+    "chefLieu": "99001"
+  }
+]

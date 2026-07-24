@@ -1,0 +1,22 @@
+[
+  {
+    "code": "99004",
+    "uri": "http://id.insee.fr/geo/commune/test-com-99004",
+    "type": "Commune",
+    "dateCreation": "2005-01-01",
+    "dateSuppression": "2018-01-01",
+    "intituleSansArticle": "Commune ancienne 1",
+    "typeArticle": "0",
+    "intitule": "Commune ancienne 1"
+  },
+  {
+    "code": "99005",
+    "uri": "http://id.insee.fr/geo/commune/test-com-99005",
+    "type": "Commune",
+    "dateCreation": "2005-01-01",
+    "dateSuppression": "2018-01-01",
+    "intituleSansArticle": "Commune ancienne 2",
+    "typeArticle": "0",
+    "intitule": "Commune ancienne 2"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "code": "9901",
+    "uri": "http://id.insee.fr/geo/canton/test-can-9901",
+    "type": "Canton",
+    "dateCreation": "2000-01-01",
+    "intituleSansArticle": "Canton test 1",
+    "typeArticle": "0",
+    "intitule": "Canton test 1",
+    "relation": "intersecte"
+  },
+  {
+    "code": "9902",
+    "uri": "http://id.insee.fr/geo/canton/test-can-9902",
+    "type": "Canton",
+    "dateCreation": "2000-01-01",
+    "intituleSansArticle": "Canton test 2",
+    "typeArticle": "0",
+    "intitule": "Canton test 2",
+    "relation": "intersecte"
+  }
+]

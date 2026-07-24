@@ -1,391 +1,335 @@
 package fr.insee.rmes.magma.diffusion.api.testcontainers.queries;
 
 import fr.insee.rmes.magma.diffusion.api.GeoCommuneEndpoints;
-import fr.insee.rmes.magma.diffusion.model.*;
-import org.junit.jupiter.api.Assertions;
+import fr.insee.rmes.magma.diffusion.model.TypeEnum;
+import fr.insee.rmes.magma.diffusion.model.TypeEnumAscendantsCommune;
+import fr.insee.rmes.magma.diffusion.model.TypeEnumDescendantsCommune;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.databind.ObjectMapper;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Tag("integration")
-
-
-public class GeoCommuneQueriesTest extends TestcontainerTest {
+class GeoCommuneQueriesTest extends TestcontainerTest {
 
     @Autowired
     GeoCommuneEndpoints endpoints;
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    /////////////////////////////////////////////////////////////////////
-    ///                geo/commune/{code}/ascendants                  ///
-    /////////////////////////////////////////////////////////////////////
+    // =========================================================
+    //   geo/commune/{code}/ascendants
+    // =========================================================
 
-//    geo/commune/14475/ascendants?date=2025-09-04 renvoie 9 territoires
     @Test
-    void should_return_9_territoires_when_CommuneCodeAscendants_code14475_date20250904_typeNull(){
-        var response  = endpoints.getcogcomasc("14475", LocalDate.of(2025, 9, 4), null);
+    @DisplayName("When getcogcomasc 99001 type null, returns 3 ascendants (arr, dept, region)")
+    void should_return_3_ascendants_when_getcogcomasc_99001_type_null() throws Exception {
+        var response = endpoints.getcogcomasc("99001", LocalDate.of(2025, 1, 1), null);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
-        var resultItem1= result.getFirst();
-        assertEquals(9, result.size());
-        assertEquals("024", resultItem1.getCode());
-        assertEquals("http://id.insee.fr/geo/aireDAttractionDesVilles2020/9d05148e-a733-4bc4-9223-e8a27618c7c0", resultItem1.getUri());
-        assertEquals(TerritoireTousAttributs.TypeEnum.AIRE_D_ATTRACTION_DES_VILLES2020, resultItem1.getType());
-        assertEquals(LocalDate.of(2020,1,1), resultItem1.getDateCreation());
-        assertEquals("Caen", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle());
-        assertEquals("Caen", resultItem1.getIntitule());
+
+        assertNotNull(result);
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/commune-99001-ascendants-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        JSONAssert.assertEquals(expected, data, true);
     }
 
-
-//    geo/commune/14475/ascendants?date=1950-01-01&type=departement renvoie le département 14 avec 9 champs
     @Test
-    void should_return_1_departement_when_CommuneCodeAscendants_code14475_date20250904_typeDepartement(){
-        var response  = endpoints.getcogcomasc("14475", LocalDate.of(2025, 9, 4), TypeEnumAscendantsCommune.DEPARTEMENT);
+    @DisplayName("When getcogcomasc 99001 type Departement, returns 1 ascendant (dept)")
+    void should_return_1_departement_when_getcogcomasc_99001_type_departement() throws Exception {
+        var response = endpoints.getcogcomasc("99001", LocalDate.of(2025, 1, 1), TypeEnumAscendantsCommune.DEPARTEMENT);
         var result = response.getBody();
-        Assertions.assertNotNull(result);
-        var resultItem1= result.getFirst();
-        assertEquals(1, result.size());
-        assertEquals("14", resultItem1.getCode());
-        assertEquals("http://id.insee.fr/geo/departement/b01dce92-b91f-4648-80e7-536bd1823c2c", resultItem1.getUri());
-        assertEquals(TerritoireTousAttributs.TypeEnum.DEPARTEMENT, resultItem1.getType());
-        assertEquals(LocalDate.of(2018,1,1), resultItem1.getDateCreation());
-        assertEquals("Calvados", resultItem1.getIntituleSansArticle());
-        assertEquals(TerritoireTousAttributs.TypeArticleEnum._2, resultItem1.getTypeArticle());
-        assertEquals("14118", resultItem1.getChefLieu());
-        assertEquals("Calvados", resultItem1.getIntitule());
+
+        assertNotNull(result);
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/commune-99001-ascendants-departement-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        JSONAssert.assertEquals(expected, data, true);
     }
 
-
-//    geo/commune/14475/ascendants?date=1950-01-01&type=Arrondissement renvoie 404
     @Test
-    void should_return_404_when_CommuneCodeAscendants_code14475_date20250904_typeArrondissement() throws Exception{
-        mockMvc.perform(get("/geo/commune/14475/ascendants")
-                        .param("date", "1950-01-01")
+    @DisplayName("When getcogcomasc 99001 type Arrondissement before creation, returns 404")
+    void should_return_404_when_getcogcomasc_99001_type_arrondissement_before_creation() throws Exception {
+        mockMvc.perform(get("/geo/commune/99001/ascendants")
+                        .param("date", "2005-01-01")
                         .param("type", String.valueOf(TypeEnumAscendantsCommune.ARRONDISSEMENT)))
                 .andExpect(status().isNotFound());
     }
 
+    // =========================================================
+    //   geo/commune/{code}
+    // =========================================================
 
-
-    /////////////////////////////////////////////////////////////////////
-    ///                geo/commune/{code}                             ///
-    /////////////////////////////////////////////////////////////////////
-
-//    geo/commune/69385?date=2025-09-04
     @Test
-    void should_return_communeCode_14475_when_code14475_date20250904() {
-        var response  = endpoints.getcogcom("14475", LocalDate.of(2025, 9, 4));
+    @DisplayName("When getcogcom 99001, returns commune 99001")
+    void should_return_commune_99001_when_getcogcom_99001() throws Exception {
+        var response = endpoints.getcogcom("99001", LocalDate.of(2025, 1, 1));
         var result = response.getBody();
+
         assertNotNull(result);
-        assertAll(
-                () -> assertEquals("14475", result.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/commune/4b88116a-9ede-42f5-aef5-a70304de593b", result.getUri()),
-                () -> assertEquals(Commune.TypeEnum.COMMUNE, result.getType()),
-                () -> assertEquals(LocalDate.of(2017,1,1), result.getDateCreation()),
-                () -> assertEquals("Val d'Arry", result.getIntituleSansArticle()),
-                () -> assertEquals(Commune.TypeArticleEnum._0, result.getTypeArticle()),
-                () -> assertEquals("Val d'Arry", result.getIntitule())
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/commune-99001-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
         );
+        JSONAssert.assertEquals(expected, data, true);
     }
 
-    //    geo/commune/69392?date=2025-09-04 renvoie 404
     @Test
-    void should_return_404_when_CommuneCode_code69392_date20250904() throws Exception{
-        mockMvc.perform(get("/geo/commune/69392")
-                        .param("date", "2025-09-01"))
+    @DisplayName("When getcogcom 99999 (inexistant), returns 404")
+    void should_return_404_when_getcogcom_99999() throws Exception {
+        mockMvc.perform(get("/geo/commune/99999")
+                        .param("date", "2025-01-01"))
                 .andExpect(status().isNotFound());
     }
 
+    // =========================================================
+    //   geo/commune/{code}/cantons
+    // =========================================================
 
-    /////////////////////////////////////////////////////////////////////
-    ///                geo/commune/{code}/cantons                     ///
-    /////////////////////////////////////////////////////////////////////
-
-//    geo/commune/14475/cantons?date=2025-09-04
     @Test
-    void should_return_1_canton_when_CommuneCodeCantons_code14475_date20250904() {
-        var response  = endpoints.getcogcomcan("14475", LocalDate.of(2025, 9, 4));
+    @DisplayName("When getcogcomcan 99001, returns 2 cantons (9901, 9902)")
+    void should_return_2_cantons_when_getcogcomcan_99001() throws Exception {
+        var response = endpoints.getcogcomcan("99001", LocalDate.of(2025, 1, 1));
         var result = response.getBody();
-        assertNotNull(result);
-        var resultItem1= result.getFirst();
-        assertEquals(1, result.size());
-        assertAll(
-                () -> assertEquals("1401", resultItem1.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/canton/25982682-5635-40ad-8040-09110edb43e1", resultItem1.getUri()),
-                () -> assertEquals(Canton.TypeEnum.CANTON, resultItem1.getType()),
-                () -> assertEquals(LocalDate.of(2021,2,26), resultItem1.getDateCreation()),
-                () -> assertEquals("Monts d’Aunay", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(Canton.TypeArticleEnum._4, resultItem1.getTypeArticle()),
-                () -> assertEquals("14027", resultItem1.getChefLieu()),
-                () -> assertEquals("Les Monts d’Aunay", resultItem1.getIntitule())
-        );
 
+        assertNotNull(result);
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/commune-99001-cantons-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        JSONAssert.assertEquals(expected, data, true);
     }
 
-    ////////////////////////////////////////////////////////////////////
-    ///                  geo/communes/descendants                    ///
-    ////////////////////////////////////////////////////////////////////
+    // =========================================================
+    //   geo/commune/{code}/descendants
+    // =========================================================
 
-//    geo/commune/14475/descendants?date=2025-09-04 renvoie 4 communes déléguées
     @Test
-    void should_return_4_communesDeleguees_when_CommuneCodeDescendants_code14475_date20250904_typeNull() {
-        var response  = endpoints.getcogcomdesc("14475", LocalDate.of(2025, 9, 4), null);
+    @DisplayName("When getcogcomdesc 99001 type null, returns 2 communes deleguees")
+    void should_return_2_communeDeleguee_when_getcogcomdesc_99001_type_null() throws Exception {
+        var response = endpoints.getcogcomdesc("99001", LocalDate.of(2025, 1, 1), null);
         var result = response.getBody();
-        assertNotNull(result);
-        var resultItem1= result.getFirst();
-        assertEquals(4, result.size());
-        assertAll(
-                () -> assertEquals("14373", resultItem1.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/communeDeleguee/33afe07c-f132-4cdd-a188-4500c6928e62", resultItem1.getUri()),
-                () -> assertEquals(TerritoireTousAttributs.TypeEnum.COMMUNE_DELEGUEE, resultItem1.getType()),
-                () -> assertEquals(LocalDate.of(2017,1,1), resultItem1.getDateCreation()),
-                () -> assertEquals("Locheur", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._2, resultItem1.getTypeArticle()),
-                () -> assertEquals("Le Locheur", resultItem1.getIntitule())
-        );
 
+        assertNotNull(result);
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/commune-99001-descendants-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        JSONAssert.assertEquals(expected, data, true);
     }
 
     @Test
-    void should_return_16_arrondissementsMunicipaux_when_CommuneCodeDescendants_code13055_date20250904_typeArrondissementMunicipal() {
-        var response  = endpoints.getcogcomdesc("13055", LocalDate.of(2025, 9, 4), TypeEnumDescendantsCommune.ARRONDISSEMENT_MUNICIPAL);
-        var result = response.getBody();
-        assertNotNull(result);
-        var resultItem1= result.getFirst();
-        assertEquals(16, result.size());
-        assertAll(
-                () -> assertEquals("13201", resultItem1.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/arrondissementMunicipal/d2ae811d-f0b8-4bac-972d-01dabe292665", resultItem1.getUri()),
-                () -> assertEquals(TerritoireTousAttributs.TypeEnum.ARRONDISSEMENT_MUNICIPAL, resultItem1.getType()),
-                () -> assertEquals(LocalDate.of(1946,10,18), resultItem1.getDateCreation()),
-                () -> assertEquals("Marseille 1er Arrondissement", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireTousAttributs.TypeArticleEnum._0, resultItem1.getTypeArticle()),
-                () -> assertEquals("Marseille 1er Arrondissement", resultItem1.getIntitule())
-        );
-    }
-
-//    geo/commune/14475/descendants?date=2025-09-04&type=iris renvoie 404
-    @Test
-    void should_return_404_when_CommuneCodeDescendants_code14475_date20250904_typeIris() throws Exception{
-        mockMvc.perform(get("/geo/commune/14475/descendants")
-                        .param("date", "2025-09-01")
+    @DisplayName("When getcogcomdesc 99001 type Iris, returns 404")
+    void should_return_404_when_getcogcomdesc_99001_type_iris() throws Exception {
+        mockMvc.perform(get("/geo/commune/99001/descendants")
+                        .param("date", "2025-01-01")
                         .param("type", String.valueOf(TypeEnumDescendantsCommune.IRIS)))
                 .andExpect(status().isNotFound());
     }
 
-    ////////////////////////////////////////////////////////////////////
-    ///                  geo/communes                                ///
-    ////////////////////////////////////////////////////////////////////
+    // =========================================================
+    //   geo/communes
+    // =========================================================
 
-//    geo/communes?date=2025-09-04&filtreNom=Bonnay&com=false//
     @Test
-    void should_return_3_communes_when_Communes_date20250904_filtreNomBonnay_comFalse() {
-        var response  = endpoints.getcogcomliste("2025-09-04", "Bonnay", false);
+    @DisplayName("When getcogcomliste filtreNom='Commune test', returns 3 communes actives")
+    void should_return_3_communes_when_getcogcomliste_filtreNom() throws Exception {
+        var response = endpoints.getcogcomliste("2025-01-01", "Commune test", false);
         var result = response.getBody();
+
         assertNotNull(result);
-        var resultItem1= result.getFirst();
-        assertEquals(3, result.size());
-        assertAll(
-                () -> assertEquals("25073", resultItem1.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/commune/2ac33139-2a97-4b09-87b3-263cbf14c0b6", resultItem1.getUri()),
-                () -> assertEquals(TerritoireBase.TypeEnum.COMMUNE, resultItem1.getType()),
-                () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
-                () -> assertEquals("Bonnay", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireBase.TypeArticleEnum._0, resultItem1.getTypeArticle()),
-                () -> assertEquals("Bonnay", resultItem1.getIntitule())
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/communes-liste-filtreNom-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
         );
+        JSONAssert.assertEquals(expected, data, true);
     }
 
-//    geo/communes?date=*
     @Test
-    void should_return_43925_communes_when_Communes_dateEtoile(){
-        var response  = endpoints.getcogcomliste ("*", null,  null);
+    @DisplayName("When getcogcomliste date=*, returns 5 communes (actives + supprimees)")
+    void should_return_5_communes_when_getcogcomliste_etoile() throws Exception {
+        var response = endpoints.getcogcomliste("*", null, null);
         var result = response.getBody();
+
         assertNotNull(result);
-        var resultItem1= result.getFirst();
-        assertEquals(43928, result.size());
-        assertAll(
-                () -> assertEquals("01001", resultItem1.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/commune/166857ef-114f-4067-9d3d-f712562850c5", resultItem1.getUri()),
-                () -> assertEquals(TerritoireBase.TypeEnum.COMMUNE, resultItem1.getType()),
-                () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
-                () -> assertEquals("Abergement-Clémenciat", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireBase.TypeArticleEnum._5, resultItem1.getTypeArticle()),
-                () -> assertEquals("L'Abergement-Clémenciat", resultItem1.getIntitule())
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/communes-liste-etoile-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
         );
+        JSONAssert.assertEquals(expected, data, true);
     }
 
+    // =========================================================
+    //   geo/commune/{code}/precedents
+    // =========================================================
 
-    ////////////////////////////////////////////////////////////////////
-    ///                geo/commune/{code}/precedents                 ///
-    ////////////////////////////////////////////////////////////////////
-
-//    geo/commune/14475/precedents?date=2025-09-04
     @Test
-    void should_return_3_communes_when_CommunesCodePrecedents_date20250904(){
-        var response  = endpoints.getcogcomprec ("14475", LocalDate.of(2025,9,4));
+    @DisplayName("When getcogcomprec 99003, returns 2 precedents (99004, 99005)")
+    void should_return_2_precedents_when_getcogcomprec_99003() throws Exception {
+        var response = endpoints.getcogcomprec("99003", LocalDate.of(2025, 1, 1));
         var result = response.getBody();
-        assertNotNull(result);
-        var resultItem1= result.getFirst();
 
-        assertAll(
-                () -> assertEquals(3, result.size()),
-                () -> assertEquals("14373", resultItem1.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/commune/9b9298ba-d31f-4570-82f1-ad821704a413", resultItem1.getUri()),
-                () -> assertEquals(TerritoireBase.TypeEnum.COMMUNE, resultItem1.getType()),
-                () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
-                () -> assertEquals(LocalDate.of(2017,1,1), resultItem1.getDateSuppression()),
-                () -> assertEquals("Locheur", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireBase.TypeArticleEnum._2, resultItem1.getTypeArticle()),
-                () -> assertEquals("Le Locheur", resultItem1.getIntitule())
+        assertNotNull(result);
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/commune-99003-precedents-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
         );
+        JSONAssert.assertEquals(expected, data, true);
     }
 
-//    geo/commune/14475/precedents?date=1945-01-01  renvoie 404
     @Test
-    void should_return_404_when_communeCodePrecedents_code14475_date19450101() throws Exception{
-        mockMvc.perform(get("/geo/commune/14475/precedents")
-                        .param("date", "1945-01-01"))
+    @DisplayName("When getcogcomprec 99001 (no precedents), returns 404")
+    void should_return_404_when_getcogcomprec_99001_no_precedents() throws Exception {
+        mockMvc.perform(get("/geo/commune/99001/precedents")
+                        .param("date", "2025-01-01"))
                 .andExpect(status().isNotFound());
     }
 
-    ////////////////////////////////////////////////////////////////////
-    ///                  geo/commune/{code}/projetes                 ///
-    ////////////////////////////////////////////////////////////////////
+    // =========================================================
+    //   geo/commune/{code}/projetes
+    // =========================================================
 
-//    geo/commune/14475/projetes?date=2025-09-04&dateProjection=1945-06-26
     @Test
-    void should_return_4_communes_when_CommunesCodeProjetes_date20250904_datePorjection19450626(){
-        var response  = endpoints.getcogcomproj ("14475", LocalDate.of(1945,6,26), LocalDate.of(2025,9,4));
+    @DisplayName("When getcogcomproj 99003 dateProjection=2010-01-01, returns 2 projetes (99004, 99005)")
+    void should_return_2_projetes_when_getcogcomproj_99003() throws Exception {
+        var response = endpoints.getcogcomproj("99003", LocalDate.of(2010, 1, 1), LocalDate.of(2025, 1, 1));
         var result = response.getBody();
-        assertNotNull(result);
-        var resultItem1= result.getFirst();
 
-        assertAll(
-                () -> assertEquals(4, result.size()),
-                () -> assertEquals("14373", resultItem1.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/commune/9b9298ba-d31f-4570-82f1-ad821704a413", resultItem1.getUri()),
-                () -> assertEquals(TerritoireBase.TypeEnum.COMMUNE, resultItem1.getType()),
-                () -> assertEquals(LocalDate.of(1943,1,1), resultItem1.getDateCreation()),
-                () -> assertEquals(LocalDate.of(2017,1,1), resultItem1.getDateSuppression()),
-                () -> assertEquals("Locheur", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireBase.TypeArticleEnum._2, resultItem1.getTypeArticle()),
-                () -> assertEquals("Le Locheur", resultItem1.getIntitule())
+        assertNotNull(result);
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/commune-99003-projetes-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
         );
+        JSONAssert.assertEquals(expected, data, true);
     }
 
-//    geo/commune/14475/projetes?date=2025-09-01
     @Test
-    void should_return_400_when_CommuneCodeProjetes_dateProjectionNull() throws Exception{
-        mockMvc.perform(get("/geo/commune/14475/projetes")
-                        .param("date", "2025-09-01"))
+    @DisplayName("When getcogcomproj dateProjection null, returns 400")
+    void should_return_400_when_getcogcomproj_dateProjection_null() throws Exception {
+        mockMvc.perform(get("/geo/commune/99001/projetes")
+                        .param("date", "2025-01-01"))
                 .andExpect(status().isBadRequest());
     }
 
-//    geo/commune/14475/projetes?date=2025-09-01&dateProjection=
     @Test
-    public void should_return_400_when_CommuneCodeProjetes_dateProjectionEmpty() throws Exception {
-        mockMvc.perform(get("/geo/commune/14475/projetes")
-                        .param("dateProjection", "")  // Valeur vide
-                        .param("date", "2025-09-01"))
+    @DisplayName("When getcogcomproj dateProjection empty, returns 400")
+    void should_return_400_when_getcogcomproj_dateProjection_empty() throws Exception {
+        mockMvc.perform(get("/geo/commune/99001/projetes")
+                        .param("dateProjection", "")
+                        .param("date", "2025-01-01"))
                 .andExpect(status().isBadRequest());
     }
 
-    ////////////////////////////////////////////////////////////////////
-    ///                  geo/commune/{code}/suivants                 ///
-    ////////////////////////////////////////////////////////////////////
-
-//    geo/commune/14475/suivants?date=1945-06-26 renvoie 1 commune
-    @Test
-    void should_return_1_commune_when_CommunesCodeSuivants_date19450626(){
-        var response  = endpoints.getcogcomsuiv ("14475", LocalDate.of(1945,6,26));
-        var result = response.getBody();
-        assertNotNull(result);
-        var resultItem1= result.getFirst();
-
-        assertAll(
-                () -> assertEquals(1, result.size()),
-                () -> assertEquals("14475", resultItem1.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/commune/c2e2d19d-1ace-4cdc-b80d-c37a1aa59d1e", resultItem1.getUri()),
-                () -> assertEquals(TerritoireBase.TypeEnum.COMMUNE, resultItem1.getType()),
-                () -> assertEquals(LocalDate.of(1958,10,13), resultItem1.getDateCreation()),
-                () -> assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateSuppression()),
-                () -> assertEquals("Noyers-Bocage", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireBase.TypeArticleEnum._0, resultItem1.getTypeArticle()),
-                () -> assertEquals("Noyers-Bocage", resultItem1.getIntitule())
-        );
-    }
-
-
-    ////////////////////////////////////////////////////////////////////
-    ///                  geo/commune/{code}/intersections            ///
-    ////////////////////////////////////////////////////////////////////
-
-// geo/commune/01053/intersections?date=2025-09-04
-    @Test
-    void should_return_30_territoires_when_CommuneCodeIntersections_code01053_date20250904(){
-        var response  = endpoints.getcogcomintersect ("01053", LocalDate.of(2025,9,4), null);
-        var result = response.getBody();
-        assertNotNull(result);
-        var resultItem1= result.getFirst();
-
-        assertAll(
-                () -> assertEquals(30, result.size()),
-                () -> assertEquals("01", resultItem1.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/departement/84680e6f-2e99-44c9-a9ba-2e96a2ae48b7", resultItem1.getUri()),
-                () -> assertEquals(TerritoireBaseRelation.TypeEnum.DEPARTEMENT, resultItem1.getType()),
-                () -> assertEquals(LocalDate.of(1967,12,31), resultItem1.getDateCreation()),
-                () -> assertEquals("Ain", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireBaseRelation.TypeArticleEnum._5, resultItem1.getTypeArticle()),
-                () -> assertEquals("Ain", resultItem1.getIntitule()),
-                () -> assertEquals("inclus", resultItem1.getRelation())
-        );
-    }
-
-
+    // =========================================================
+    //   geo/commune/{code}/suivants
+    // =========================================================
 
     @Test
-    void should_return_2_cantons_when_CommuneCodeIntersections_code01053_date20250904_typeCanton(){
-        var response  = endpoints.getcogcomintersect ("01053", LocalDate.of(2025,9,4), TypeEnum.CANTON);
+    @DisplayName("When getcogcomsuiv 99004, returns 1 suivant (99003)")
+    void should_return_1_suivant_when_getcogcomsuiv_99004() throws Exception {
+        var response = endpoints.getcogcomsuiv("99004", LocalDate.of(2010, 1, 1));
         var result = response.getBody();
+
         assertNotNull(result);
-        var resultItem1= result.getFirst();
-        var resultItem2= result.get(1);
-
-        assertAll(
-                () -> assertEquals(2, result.size()),
-
-                () -> assertEquals("0105", resultItem1.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/canton/622ce50c-2ff4-470d-a0f3-f85baa8813a7", resultItem1.getUri()),
-                () -> assertEquals(TerritoireBaseRelation.TypeEnum.CANTON, resultItem1.getType()),
-                () -> assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation()),
-                () -> assertEquals("Bourg-en-Bresse-1", resultItem1.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireBaseRelation.TypeArticleEnum._0, resultItem1.getTypeArticle()),
-                () -> assertEquals("Bourg-en-Bresse-1", resultItem1.getIntitule()),
-                () -> assertEquals("intersecte", resultItem1.getRelation()),
-
-                () -> assertEquals("0106", resultItem2.getCode()),
-                () -> assertEquals("http://id.insee.fr/geo/canton/888731da-1820-4662-9cc1-17be3544a01c", resultItem2.getUri()),
-                () -> assertEquals(TerritoireBaseRelation.TypeEnum.CANTON, resultItem2.getType()),
-                () -> assertEquals(LocalDate.of(2016,1,1), resultItem1.getDateCreation()),
-                () -> assertEquals("Bourg-en-Bresse-2", resultItem2.getIntituleSansArticle()),
-                () -> assertEquals(TerritoireBaseRelation.TypeArticleEnum._0, resultItem2.getTypeArticle()),
-                () -> assertEquals("Bourg-en-Bresse-2", resultItem2.getIntitule()),
-                () -> assertEquals("intersecte", resultItem2.getRelation())
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/commune-99004-suivants-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
         );
+        JSONAssert.assertEquals(expected, data, true);
     }
 
+    @Test
+    @DisplayName("When getcogcomsuiv 99001 (active, no suivants), returns 404")
+    void should_return_404_when_getcogcomsuiv_99001_no_suivants() throws Exception {
+        mockMvc.perform(get("/geo/commune/99001/suivants")
+                        .param("date", "2025-01-01"))
+                .andExpect(status().isNotFound());
+    }
+
+    // =========================================================
+    //   geo/commune/{code}/intersections
+    // =========================================================
+
+    @Test
+    @DisplayName("When getcogcomintersect 99001 type null, returns 5 intersections")
+    void should_return_5_intersections_when_getcogcomintersect_99001_type_null() throws Exception {
+        var response = endpoints.getcogcomintersect("99001", LocalDate.of(2025, 1, 1), null);
+        var result = response.getBody();
+
+        assertNotNull(result);
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/commune-99001-intersections-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        JSONAssert.assertEquals(expected, data, true);
+    }
+
+    @Test
+    @DisplayName("When getcogcomintersect 99001 type Canton, returns 2 cantons")
+    void should_return_2_cantons_when_getcogcomintersect_99001_type_canton() throws Exception {
+        var response = endpoints.getcogcomintersect("99001", LocalDate.of(2025, 1, 1), TypeEnum.CANTON);
+        var result = response.getBody();
+
+        assertNotNull(result);
+        String data = objectMapper.writeValueAsString(result);
+        String expected = new String(
+                Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("testcontainers/commune-99001-intersections-canton-expected.json"))
+                        .readAllBytes(),
+                StandardCharsets.UTF_8
+        );
+        JSONAssert.assertEquals(expected, data, true);
+    }
 }

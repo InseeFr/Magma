@@ -1,0 +1,11 @@
+[
+  {
+    "code": "99003",
+    "uri": "http://id.insee.fr/geo/commune/test-com-99003",
+    "type": "Commune",
+    "dateCreation": "2018-01-01",
+    "intituleSansArticle": "Commune test 3",
+    "typeArticle": "0",
+    "intitule": "Commune test 3"
+  }
+]

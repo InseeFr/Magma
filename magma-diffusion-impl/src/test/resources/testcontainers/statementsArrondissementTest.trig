@@ -243,4 +243,96 @@
   <http://id.insee.fr/geo/evenementGeographique/test-evt-009> a igeo:EvenementGeographique ;
     igeo:date "2020-01-01"^^xsd:date ;
     igeo:suppression <http://id.insee.fr/geo/arrondissement/test-arr-997> .
+
+  # =========================================================
+  #   Communes test pour succession (descendants de arr 992)
+  # =========================================================
+
+  # Commune active 99003 (a 2 predecesseurs : 99004, 99005)
+  <http://id.insee.fr/geo/commune/test-com-99003> a igeo:Commune ;
+    igeo:codeINSEE "99003" ;
+    igeo:nom "Commune test 3" ;
+    igeo:nomSansArticle "Commune test 3" ;
+    igeo:codeArticle "0" ;
+    igeo:subdivisionDirecteDe <http://id.insee.fr/geo/arrondissement/test-arr-992> .
+
+  <http://id.insee.fr/geo/commune/test-com-99003> owl:sameAs <http://id.insee.fr/geo/commune/99003> .
+  <http://id.insee.fr/geo/commune/99003> owl:sameAs <http://id.insee.fr/geo/commune/test-com-99003> .
+
+  # Commune supprimee 99004 (predecesseur de 99003)
+  <http://id.insee.fr/geo/commune/test-com-99004> a igeo:Commune ;
+    igeo:codeINSEE "99004" ;
+    igeo:nom "Commune ancienne 1" ;
+    igeo:nomSansArticle "Commune ancienne 1" ;
+    igeo:codeArticle "0" ;
+    igeo:subdivisionDirecteDe <http://id.insee.fr/geo/arrondissement/test-arr-992> .
+
+  <http://id.insee.fr/geo/commune/test-com-99004> owl:sameAs <http://id.insee.fr/geo/commune/99004> .
+  <http://id.insee.fr/geo/commune/99004> owl:sameAs <http://id.insee.fr/geo/commune/test-com-99004> .
+
+  # Commune supprimee 99005 (predecesseur de 99003)
+  <http://id.insee.fr/geo/commune/test-com-99005> a igeo:Commune ;
+    igeo:codeINSEE "99005" ;
+    igeo:nom "Commune ancienne 2" ;
+    igeo:nomSansArticle "Commune ancienne 2" ;
+    igeo:codeArticle "0" ;
+    igeo:subdivisionDirecteDe <http://id.insee.fr/geo/arrondissement/test-arr-992> .
+
+  <http://id.insee.fr/geo/commune/test-com-99005> owl:sameAs <http://id.insee.fr/geo/commune/99005> .
+  <http://id.insee.fr/geo/commune/99005> owl:sameAs <http://id.insee.fr/geo/commune/test-com-99005> .
+
+  # =========================================================
+  #   Cantons test (intersections avec commune 99001)
+  # =========================================================
+
+  <http://id.insee.fr/geo/canton/test-can-9901> a igeo:Canton ;
+    igeo:codeINSEE "9901" ;
+    igeo:nom "Canton test 1" ;
+    igeo:nomSansArticle "Canton test 1" ;
+    igeo:codeArticle "0" ;
+    igeo:bureauCentralisateur <http://id.insee.fr/geo/commune/test-com-99001> .
+
+  <http://id.insee.fr/geo/canton/test-can-9901> owl:sameAs <http://id.insee.fr/geo/canton/9901> .
+  <http://id.insee.fr/geo/canton/9901> owl:sameAs <http://id.insee.fr/geo/canton/test-can-9901> .
+
+  <http://id.insee.fr/geo/canton/test-can-9902> a igeo:Canton ;
+    igeo:codeINSEE "9902" ;
+    igeo:nom "Canton test 2" ;
+    igeo:nomSansArticle "Canton test 2" ;
+    igeo:codeArticle "0" ;
+    igeo:bureauCentralisateur <http://id.insee.fr/geo/commune/test-com-99002> .
+
+  <http://id.insee.fr/geo/canton/test-can-9902> owl:sameAs <http://id.insee.fr/geo/canton/9902> .
+  <http://id.insee.fr/geo/canton/9902> owl:sameAs <http://id.insee.fr/geo/canton/test-can-9902> .
+
+  # =========================================================
+  #   Relations canton-commune (intersection)
+  # =========================================================
+
+  <http://id.insee.fr/geo/commune/test-com-99001> igeo:territoireCommunAvec
+    <http://id.insee.fr/geo/canton/test-can-9901>,
+    <http://id.insee.fr/geo/canton/test-can-9902> .
+
+  # =========================================================
+  #   Evenements geographiques (communes et cantons)
+  # =========================================================
+
+  # Evenement 10 : creation des communes 99004, 99005 (2005-01-01)
+  <http://id.insee.fr/geo/evenementGeographique/test-evt-010> a igeo:EvenementGeographique ;
+    igeo:date "2005-01-01"^^xsd:date ;
+    igeo:creation <http://id.insee.fr/geo/commune/test-com-99004>,
+      <http://id.insee.fr/geo/commune/test-com-99005> .
+
+  # Evenement 11 : suppression de 99004, 99005, creation de 99003 (2018-01-01)
+  <http://id.insee.fr/geo/evenementGeographique/test-evt-011> a igeo:EvenementGeographique ;
+    igeo:date "2018-01-01"^^xsd:date ;
+    igeo:suppression <http://id.insee.fr/geo/commune/test-com-99004>,
+      <http://id.insee.fr/geo/commune/test-com-99005> ;
+    igeo:creation <http://id.insee.fr/geo/commune/test-com-99003> .
+
+  # Evenement 12 : creation des cantons test (2000-01-01)
+  <http://id.insee.fr/geo/evenementGeographique/test-evt-012> a igeo:EvenementGeographique ;
+    igeo:date "2000-01-01"^^xsd:date ;
+    igeo:creation <http://id.insee.fr/geo/canton/test-can-9901>,
+      <http://id.insee.fr/geo/canton/test-can-9902> .
 }
