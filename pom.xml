@@ -39,7 +39,9 @@
             src/main/java/fr/insee/rmes/modeles/**/*,
             src/main/java/fr/insee/rmes/utils/XmlUtils.java
         </sonar.exclusions>
-        <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
+        <sonar.organization>inseefr</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.projectKey>InseeFr_Magma-Fusion</sonar.projectKey>
         <sonar.projectName>Metadata-API</sonar.projectName>
         <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
