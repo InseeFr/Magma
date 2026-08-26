@@ -1,5 +1,5 @@
 SELECT DISTINCT ?url ?labelLg1 ?labelLg2 ?dateMiseAJour ?langue
-FROM <http://rdf.insee.fr/graphes/qualite/rapport/2292>
+FROM <http://rdf.insee.fr/graphes/qualite/rapport/${idSims}>
 FROM <http://rdf.insee.fr/graphes/qualite/documents>
 WHERE {
     BIND('${LANG}' AS ?LANG)
@@ -22,7 +22,7 @@ WHERE {
     }
 
     ?document rdf:type foaf:Document .
-    ?document <http://schema.org/url> ?url .
+    ?document schema:url ?url .
 
     OPTIONAL { ?document rdfs:label ?labelLg1 . FILTER(lang(?labelLg1) = '${LG1}') }
     OPTIONAL { ?document rdfs:label ?labelLg2 . FILTER(lang(?labelLg2) = '${LG2}') }

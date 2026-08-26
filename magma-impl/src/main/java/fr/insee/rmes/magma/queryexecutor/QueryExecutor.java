@@ -55,6 +55,7 @@ public record QueryExecutor(RestClient restClient, String urlTemplate) {
             PREFIX adms:<http://www.w3.org/ns/adms#>
             PREFIX stat-dcat-ap:<http://data.europa.eu/m8g/>
             PREFIX dcat:<http://www.w3.org/ns/dcat#>
+            PREFIX schema:<http://schema.org/>
             """;
 
     public Csv execute(@NonNull Query query) {
