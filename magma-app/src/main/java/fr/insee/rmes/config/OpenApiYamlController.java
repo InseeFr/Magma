@@ -16,8 +16,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Contrôleur exposant la spécification OpenAPI au format YAML.
+ *
+ * <p>Charge le fichier {@code openapi.yaml} depuis le classpath, y injecte le numéro de version,
+ * et filtre optionnellement les endpoints géographiques selon la propriété
+ * {@code fr.insee.rmes.magma.display.geo}.</p>
+ */
 @RestController
-public class OpenApiYamlConfig {
+public class OpenApiYamlController {
 
     private static final String VERSION = "3.0.0";
 
