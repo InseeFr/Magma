@@ -18,9 +18,6 @@ import static fr.insee.rmes.magma.queries.QueryPathListGestion.*;
 public record RequestProcessor(QueryBuilder queryBuilder, QueryExecutor queryExecutor,
                                JacksonUnmarshaller unmarshaller) {
 
-    // =========================================================
-    // Gestion queries
-    // =========================================================
 
     public ExecutableQueryBuilder queryToFindSerieById() {
         return new ExecutableQueryBuilder(SERIE_BY_ID, this, unmarshaller);
@@ -49,10 +46,6 @@ public record RequestProcessor(QueryBuilder queryBuilder, QueryExecutor queryExe
     public ExecutableQueryBuilder queryToFindDistributionsByDatasetId() {
         return new ExecutableQueryBuilder(DISTRIBUTIONS_BY_DATASET_ID, this, unmarshaller);
     }
-
-    // =========================================================
-    // Diffusion queries
-    // =========================================================
 
     public ExecutableQueryBuilder queryToFindClassification() {
         return new ExecutableQueryBuilder(NOMENCLATURE, this, unmarshaller);
@@ -152,7 +145,6 @@ public record RequestProcessor(QueryBuilder queryBuilder, QueryExecutor queryExe
 
     public record ExecutableQueryBuilder(String queryPath, RequestProcessor requestProcessor, Unmarshaller unmarshaller) {
 
-        // Gestion parametizers
         public ExecutableQuery with(SeriesOperationsRequestParametizer p) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(p.toParameters(), queryPath), requestProcessor, unmarshaller);
         }
@@ -165,7 +157,6 @@ public record RequestProcessor(QueryBuilder queryBuilder, QueryExecutor queryExe
             return new ExecutableQuery(requestProcessor.queryBuilder().build(p.toParameters(), queryPath), requestProcessor, unmarshaller);
         }
 
-        // Diffusion parametizers
         public ExecutableQuery with(AscendantsDescendantsRequestParametizer p) {
             return new ExecutableQuery(requestProcessor.queryBuilder().build(p.toParameters(), queryPath), requestProcessor, unmarshaller);
         }
