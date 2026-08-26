@@ -23,7 +23,7 @@ public class GeoDistrictEndpoints implements GeoDistrictApi {
     private final TerritoriesFilterUtils territoriesFilterUtils;
 
      public GeoDistrictEndpoints(RequestProcessor requestProcessor, TerritoriesFilterUtils territoriesFilterUtils) {
-        this.requestProcessor = requestProcessor;
+         this.requestProcessor = requestProcessor;
          this.territoriesFilterUtils = territoriesFilterUtils;
      }
 

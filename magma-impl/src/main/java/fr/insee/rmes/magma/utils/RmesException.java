@@ -1,10 +1,12 @@
 package fr.insee.rmes.magma.utils;
 
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class RmesException extends Exception {
 
@@ -16,63 +18,32 @@ public class RmesException extends Exception {
 
 	private static final long serialVersionUID = -7959158367542389147L;
 
+	private static final ObjectMapper MAPPER = new ObjectMapper();
+
 	private final int status;
 	private final String details;
 	private String message;
 
-	/**
-	 *
-	 * @param status
-	 * @param message
-	 * @param details
-	 */
-	public RmesException(int status, String message, String details) throws JSONException {
+	public RmesException(int status, String message, String details) {
 		super();
 		this.status = status;
-		this.details = createDetails(null, message, details);		
+		this.details = createDetails(null, message, details);
 	}
 
-	public RmesException(int status, String message, JSONArray details) throws JSONException {
-		super();
-		this.status = status;
-		this.details = createDetails(null, message, details.toString());
-	}
-
-	public RmesException(int status, int errorCode, String message, String details) throws JSONException {
+	public RmesException(int status, int errorCode, String message, String details) {
 		super();
 		this.status = status;
 		this.details = createDetails(errorCode, message, details);
 	}
 
-	public RmesException(int status, int errorCode, String details) throws JSONException {
+	public RmesException(int status, int errorCode, String details) {
 		super();
 		this.status = status;
-		this.details =  createDetails(errorCode, null, details);
-	}
-		
-	public RmesException(int status, int errorCode, JSONArray details) throws JSONException {
-		super();
-		this.status = status;
-		this.details =  createDetails(errorCode, null, details.toString());
-	}
-
-	public RmesException(int status, int errorCode, String message, JSONArray details) throws JSONException {
-		super();
-		this.status = status;
-		this.details =  createDetails(errorCode, message, details.toString());
-	}
-	
-	public RmesException(int status, int errorCode, String message, JSONObject details) throws JSONException {
-		super();
-		this.status = status;
-		JSONObject det = details;
-		det.put(CODE, errorCode);
-		det.put(MESSAGE, message);
-		this.details=det.toString();
+		this.details = createDetails(errorCode, null, details);
 	}
 
 	public RmesException(HttpStatus status, String message, String details) {
-		this.message= message;
+		this.message = message;
 		this.status = status.value();
 		this.details = details;
 	}
@@ -95,15 +66,17 @@ public class RmesException extends Exception {
 	public String getMessageAndDetails2() {
 		return getMessage() + " " + details;
 	}
-	
-	private String createDetails(Integer errorCode, String message, String detailsParam) throws JSONException {
-		JSONObject det = new JSONObject();
+
+	private String createDetails(Integer errorCode, String message, String detailsParam) {
+		Map<String, Object> det = new LinkedHashMap<>();
 		if (errorCode != null) det.put(CODE, errorCode);
 		if (message != null) det.put(MESSAGE, message);
-		if (details != null) det.put(DETAILS_STRING, detailsParam);
-		return det.toString();
-		
+		if (detailsParam != null) det.put(DETAILS_STRING, detailsParam);
+		try {
+			return MAPPER.writeValueAsString(det);
+		} catch (JsonProcessingException e) {
+			return detailsParam;
+		}
 	}
-	
+
 }
-	
