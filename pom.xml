@@ -33,7 +33,6 @@
         <springdoc.version>3.0.3</springdoc.version>
         <boot-properties-logger-starter.version>2.3.0</boot-properties-logger-starter.version>
         <rdf4j.version>5.3.0-M2</rdf4j.version>
-        <commons-io.version>2.17.0</commons-io.version>
          <!-- Configuration Sonar -->
         <sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
             src/main/java/fr/insee/rmes/modeles/**/*,
@@ -227,11 +226,6 @@
                 <groupId>org.eclipse.rdf4j</groupId>
                 <artifactId>rdf4j-queryresultio-sparqljson</artifactId>
                 <version>${rdf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
