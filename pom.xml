@@ -11,8 +11,9 @@
     <artifactId>magma-parent</artifactId>
     <packaging>pom</packaging>
     <name>Implementation of the RMéS metadata API</name>
-    <version>2.0.0-SNAPSHOT</version> <!-- Hérite de la propriété du parent -->
+    <version>${revision}</version>
     <properties>
+        <revision>2.0.0-SNAPSHOT</revision>
         <java.version>25</java.version>
         <maven.compiler.release>${java.version}</maven.compiler.release>
         <jakarta.version>6.2.0-M2</jakarta.version>
@@ -61,18 +62,18 @@
             <dependency>
                 <groupId>fr.insee.rmes</groupId>
                 <artifactId>magma-impl</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>fr.insee.rmes</groupId>
                 <artifactId>magma-interface</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>fr.insee.rmes</groupId>
                 <artifactId>magma-oas</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
@@ -314,6 +315,30 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <flattenMode>bom</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <repositories>
