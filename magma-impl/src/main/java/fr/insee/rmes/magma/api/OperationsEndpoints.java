@@ -1,6 +1,5 @@
 package fr.insee.rmes.magma.api;
 
-import fr.insee.rmes.magma.api.*;
 import fr.insee.rmes.magma.api.requestprocessor.RequestProcessor;
 import fr.insee.rmes.magma.model.RapportQualite;
 import fr.insee.rmes.magma.queries.parameters.OperationRequestParametizer;
@@ -49,7 +48,7 @@ public class OperationsEndpoints implements OperationsApi {
 
 
 
-        RapportQualite rapportQualite = rapportQualiteService.transformDTOenRapportQualite(rapportQualiteDTO);
+        RapportQualite rapportQualite = rapportQualiteService.transformDTOintoRapportQualite(rapportQualiteDTO);
 
         return EndpointsUtils.toResponseEntity(rapportQualite);
 

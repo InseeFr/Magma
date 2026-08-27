@@ -26,7 +26,7 @@ public class RapportQualiteServiceImpl implements RapportQualiteService {
     }
 
     @Override
-    public RapportQualite transformDTOenRapportQualite(RapportQualiteDTO rapportQualiteDTO) {
+    public RapportQualite transformDTOintoRapportQualite(RapportQualiteDTO rapportQualiteDTO) {
         RapportQualite rapportQualite = new RapportQualite();
         rapportQualite.setId(rapportQualiteDTO.id());
         rapportQualite.setUri(URI.create(rapportQualiteDTO.uri()));
