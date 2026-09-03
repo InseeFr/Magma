@@ -19,16 +19,15 @@ import java.util.stream.Stream;
 @RestController
 public class OpenApiYamlConfig {
 
-    private static final String VERSION_GESTION = "2.0.1";
-    private static final String VERSION_DIFFUSION = "2.0.1";
+    private static final String VERSION = "2.0.1";
 
     @Value("${fr.insee.rmes.magma.display.geo:true}")
     private boolean displayGeo;
 
     @GetMapping(value = "/openapi.yaml", produces = "text/plain;charset=UTF-8")
     public ResponseEntity<String> openApiYaml() throws IOException {
-        String gestionContent = loadYamlWithVersion("openapi-gestion.yaml", VERSION_GESTION);
-        String diffusionContent = loadYamlWithVersion("openapi-diffusion.yaml", VERSION_DIFFUSION);
+        String gestionContent = loadYamlWithVersion("openapi-gestion.yaml", VERSION);
+        String diffusionContent = loadYamlWithVersion("openapi-diffusion.yaml", VERSION);
 
         Yaml yaml = new Yaml();
         Map<String, Object> gestion = yaml.load(gestionContent);
@@ -72,7 +71,7 @@ public class OpenApiYamlConfig {
         Map<String, Object> info = new LinkedHashMap<>((Map<String, Object>) gestion.get("info"));
         info.put("title", "Magma API");
         info.put("description", "API Gestion et Diffusion des métadonnées de l'Insee");
-        info.put("version", "Gestion " + VERSION_GESTION + " / Diffusion " + VERSION_DIFFUSION);
+        info.put("version", VERSION);
         return info;
     }
 
