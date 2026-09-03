@@ -32,7 +32,7 @@
         <springdoc.version>3.0.1</springdoc.version>
         <boot-properties-logger-starter.version>2.3.0</boot-properties-logger-starter.version>
         <!-- dependances que l'on met a jour entre deux version de spring boot -->
-
+        <tomcat.version>11.0.22</tomcat.version>
         <!-- fin dependances que l'on met a jour entre deux version de spring boot -->
          <!-- Configuration Sonar -->
         <sonar.exclusions>src/main/java/fr/insee/rmes/queries/**/*,
