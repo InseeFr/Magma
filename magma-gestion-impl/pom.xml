@@ -136,6 +136,11 @@
             <artifactId>boot-properties-logger-starter</artifactId>
             <version>${boot-properties-logger-starter.version}</version>
         </dependency>
+        <dependency>
+            <groupId>fr.insee.rmes</groupId>
+            <artifactId>magma-gestion-interface</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
