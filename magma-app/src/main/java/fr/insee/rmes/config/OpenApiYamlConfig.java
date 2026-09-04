@@ -69,7 +69,7 @@ public class OpenApiYamlConfig {
     @SuppressWarnings("unchecked")
     private Map<String, Object> buildInfo(Map<String, Object> gestion) {
         Map<String, Object> info = new LinkedHashMap<>((Map<String, Object>) gestion.get("info"));
-        info.put("title", "Magma API");
+        info.put("title", "Magma Fusion API");
         info.put("description", "API Gestion et Diffusion des métadonnées de l'Insee");
         info.put("version", VERSION);
         return info;
