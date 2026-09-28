@@ -8,7 +8,7 @@ import freemarker.template.TemplateException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.http.HttpStatus;
+import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -30,7 +30,7 @@ public class FreeMarkerUtils {
             temp = freemarkerConfiguration.getTemplate(root + fileName);
             temp.process(params, out);
         } catch (IOException | TemplateException e) {
-            throw new RmesException(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage(),
+            throw new RmesException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(),
                     "Can't read query " + fileName);
         }
         return out.toString();

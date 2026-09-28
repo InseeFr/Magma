@@ -5,7 +5,6 @@ import fr.insee.rmes.persistence.ontologies.INSEE;
 import fr.insee.rmes.persistence.ontologies.QB;
 import fr.insee.rmes.utils.exceptions.RmesException;
 import jakarta.annotation.PostConstruct;
-import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.rdf4j.model.IRI;
@@ -23,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -197,7 +197,7 @@ public class RepositoryGestion extends RepositoryUtils {
 		} catch (RepositoryException e) {
 			logger.error(FAILURE_LOAD_OBJECT , object);
 			logger.error(e.getMessage());
-			throw new RmesException(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage(), FAILURE_LOAD_OBJECT + object);
+			throw new RmesException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), FAILURE_LOAD_OBJECT + object);
 
 		}
 	}
@@ -212,7 +212,7 @@ public class RepositoryGestion extends RepositoryUtils {
 		} catch (RepositoryException e) {
 			logger.error(FAILURE_DELETE_OBJECT , object);
 			logger.error(e.getMessage());
-			throw new RmesException(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage(), FAILURE_DELETE_OBJECT + object);
+			throw new RmesException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), FAILURE_DELETE_OBJECT + object);
 
 		}
 	}
@@ -234,7 +234,7 @@ public class RepositoryGestion extends RepositoryUtils {
 		} catch (RepositoryException e) {
 			logger.error(FAILURE_REPLACE_GRAPH, graph);
 			logger.error(e.getMessage());
-			throw new RmesException(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage(), FAILURE_REPLACE_GRAPH + graph);
+			throw new RmesException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), FAILURE_REPLACE_GRAPH + graph);
 
 		}
 	}
@@ -373,7 +373,7 @@ public class RepositoryGestion extends RepositoryUtils {
 	private static void throwsRmesException(Exception e, String details) throws RmesException {
 		logger.error(details);
 		logger.error(e.getMessage());
-		throw new RmesException(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage(), details);
+		throw new RmesException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), details);
 	}
 
 	public void loadSimpleObject(IRI geoIRI, Model model) throws RmesException {

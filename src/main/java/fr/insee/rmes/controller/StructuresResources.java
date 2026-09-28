@@ -1,5 +1,6 @@
 package fr.insee.rmes.controller;
 
+import org.springframework.http.HttpStatus;
 import tools.jackson.core.JacksonException;
 import fr.insee.rmes.modelSwagger.component.AllComponentModelSwagger;
 import fr.insee.rmes.modelSwagger.component.ComponentByIdModelSwagger;
@@ -17,7 +18,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -45,9 +45,9 @@ public class StructuresResources {
 		}
 		String jsonResult = structuresServices.getAllStructures(dateMiseAJour);
 		if(jsonResult.isEmpty()){
-			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body(NO_RESULT_FOUND);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(NO_RESULT_FOUND);
 		}else {
-			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+			return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
 		}
 	}
 
@@ -61,17 +61,17 @@ public class StructuresResources {
 		if (!boolDateMiseAJour){
 			String jsonResult = structuresServices.getStructure(id);
 			if(jsonResult.isEmpty()){
-				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body(NO_RESULT_FOUND);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(NO_RESULT_FOUND);
 			}else {
-				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+				return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
 			}
 		}
 		else {
 			String jsonResult = structuresServices.getStructureDateMAJ(id);
 			if(jsonResult.isEmpty()){
-				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body(NO_RESULT_FOUND);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(NO_RESULT_FOUND);
 			}else {
-				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+				return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
 			}
 		}
 
@@ -86,9 +86,9 @@ public class StructuresResources {
 		}
 		String jsonResult = structuresServices.getAllComponents(dateMiseAJour);
 		if(jsonResult.isEmpty()){
-			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}else{
-			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+			return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
 		}
 
 	}
@@ -102,20 +102,20 @@ public class StructuresResources {
 		if (!boolDateMiseAJour){
 			String jsonResultat = structuresServices.getComponent(id).toString();
 			if(jsonResultat.isEmpty()){
-				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body(NO_RESULT_FOUND);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(NO_RESULT_FOUND);
 
 			}else {
-				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResultat);
+				return ResponseEntity.status(HttpStatus.OK).body(jsonResultat);
 			}
 		}
 
 		else{
 			String jsonResultat = structuresServices.getComponentDateMAJ(id).toString();
 			if(jsonResultat.isEmpty()){
-				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body(NO_RESULT_FOUND);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(NO_RESULT_FOUND);
 
 			}else {
-				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResultat);
+				return ResponseEntity.status(HttpStatus.OK).body(jsonResultat);
 			}
 		}
 
@@ -128,9 +128,9 @@ public class StructuresResources {
 	public ResponseEntity <String> getSlice(@PathVariable(Constants.ID) String id) throws RmesException, JacksonException  {
 		String jsonResult = structuresServices.getSlice(id);
 		if(jsonResult.isEmpty()){
-			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}else{
-			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+			return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
 		}
 
 	}

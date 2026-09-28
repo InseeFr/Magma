@@ -7,8 +7,8 @@ import fr.insee.rmes.modelSwagger.concept.ConceptByIdModelSwagger;
 import fr.insee.rmes.modelSwagger.concept.SetOfConceptsModelSwagger;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,16 +45,16 @@ public class ConceptsResources {
 		if (!boolDateMiseAJour) {
 			String jsonResult = conceptsService.getDetailedConcept(id);
 			if (jsonResult.isEmpty()) {
-				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			} else {
-				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+				return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
 			}
 		} else {
 			String jsonResult = conceptsService.getDetailedConceptDateMAJ(id);
 			if (jsonResult.isEmpty()) {
-				return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			} else {
-				return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+				return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
 			}
 		}
 
@@ -68,9 +68,9 @@ public class ConceptsResources {
 		}
 		String jsonResult = conceptsService.getAllConcepts(dateMiseAJour);
 		if (jsonResult.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("No result found");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No result found");
 		} else {
-			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+			return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
 		}
 	}
 
@@ -80,9 +80,9 @@ public class ConceptsResources {
 														  @PathVariable("id") String id) throws RmesException, JsonProcessingException {
 		String jsonResult = conceptsService.getCollectionOfConcepts(id);
 		if (jsonResult.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		} else {
-			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+			return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
 		}
 	}
 
@@ -96,9 +96,9 @@ public class ConceptsResources {
 		String jsonResult = conceptsService.getSetOfConceptsInACollection(id);
 
 		if (jsonResult.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		} else {
-			return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+			return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
 		}
 	}
 	}

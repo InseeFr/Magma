@@ -1,5 +1,6 @@
 package fr.insee.rmes.controller;
 
+import org.springframework.http.HttpStatus;
 import tools.jackson.core.JacksonException;
 import fr.insee.rmes.modelSwagger.codeList.AllListCodeModelSwagger;
 import fr.insee.rmes.modelSwagger.codeList.ListCodeByIdModelSwagger;
@@ -15,7 +16,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -49,9 +49,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         }
         String jsonResult = codeListsServices.getAllCodesLists(dateMiseAJour);
         if (jsonResult.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
-            return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+            return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
         }
 
     }
@@ -68,17 +68,17 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
         if (!boolDateMiseAJour) {
             String jsonResult = codeListsServices.getCodesList(notation);
             if (Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)) {
-                return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             } else {
-                return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+                return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
             }
         }
         else {
             String jsonResult = codeListsServices.getCodesListDateMiseAJour(notation);
             if (Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)) {
-                return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             } else {
-                return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+                return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
             }
         }
     }
@@ -91,9 +91,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
             @RequestParam(name = "withCodes") Boolean boolWithCodes) throws RmesException {
         String jsonResult = codeListsServices.getCodesListWithoutCodes(notation);
         if (Objects.isNull(jsonResult) || StringUtils.isEmpty(jsonResult)) {
-            return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
-            return ResponseEntity.status(HttpStatus.SC_OK).body(jsonResult);
+            return ResponseEntity.status(HttpStatus.OK).body(jsonResult);
         }
     }
 
@@ -105,11 +105,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
             @RequestParam(name = "pageNumber") int pageNumber
     ) throws RmesException, JacksonException  {
         if(pageNumber > codeListsServices.getMaxpage(notation)){
-            return ResponseEntity.status(HttpStatus.SC_REQUESTED_RANGE_NOT_SATISFIABLE).body(ERROR_PAGINATION);
+            return ResponseEntity.status(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE).body(ERROR_PAGINATION);
         }
         else {
             String response = codeListsServices.getCodesListPagination(notation, pageNumber);
-            return ResponseEntity.status(HttpStatus.SC_OK).body(response);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         }
 
     }
