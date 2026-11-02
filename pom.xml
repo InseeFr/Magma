@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
     <groupId>fr.insee.rmes</groupId>
     <artifactId>magma</artifactId>
-    <version>1.4.24-rc0</version>
+    <version>1.4.25-rc0</version>
     <name>magma</name>
     <description>Metadata management API</description>
     <organization>
@@ -34,6 +34,9 @@
         <jackson-2-bom.version>2.22.3</jackson-2-bom.version>
         <jackson-bom.version>3.2.3</jackson-bom.version>
 <!--        fin "à voir" -->
+        <!-- Surcharge guava qui dépend de rdf4j (la dernière version 6.2.0-jakarta-Shacl-Improvements-TR2 ne suffit pas -->
+        <guava.version>33.7.2-jre</guava.version>
+        <!--        fin surcharge-->
     </properties>
 
     <dependencies>
