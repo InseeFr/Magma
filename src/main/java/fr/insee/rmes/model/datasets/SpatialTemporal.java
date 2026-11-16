@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @ToString
 @EqualsAndHashCode
-@AllArgsConstructor(onConstructor_={@JsonCreator})
+@AllArgsConstructor(onConstructor = @__(@JsonCreator))
 public class SpatialTemporal {
     @JsonValue
     private final String spatialTemporal;
