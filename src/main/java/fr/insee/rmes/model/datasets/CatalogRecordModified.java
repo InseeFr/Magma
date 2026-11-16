@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @ToString
 @EqualsAndHashCode
-@AllArgsConstructor(onConstructor_ = {@JsonCreator})
+@AllArgsConstructor(onConstructor = @__(@JsonCreator))
 public class CatalogRecordModified {
     @JsonValue
     private final String value;
